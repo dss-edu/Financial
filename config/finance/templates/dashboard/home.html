@@ -31,25 +31,30 @@
       </style>
 </head>
 {% block body %}
+
  <div id="content-wrapper">
   
 
-    <table class="table table-hover">
+    <table id="data-table" class="table table-hover">
         <thead>
         <tr>
           <script>
-            for (var i = 0; i <= 15; i++) {
-                if(i==5){
-                  document.write(`<th><button id="toggle-button" class="expand-button" onclick="toggleColumns()">+</button></th>`);
-                }
-                else{
-                  document.write(`<td ></td>`);
-                }
+            for (var i = 0; i <= 10; i++){
+              if (i === 5 ) {
+                document.write(`<th><button id="toggle-button" class="expand-button" onclick="toggleColumns()" >+</button></th>`);
+              }
+              else if(i>=6 && i<=16){
+                document.write(`<td  class="collapsed"></td>`);
+              }
+              else{
+                document.write(`<td  ></td>`);
+              }
             }
+            
           </script>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="data-table-body">
         <tr>
             <th></th>
             <th></th>
@@ -72,12 +77,19 @@
             <th>Variances</th>
             <th>Var.(42%)</th>
         </tr>
-
+        
+        
         <!-- LOCAL REVENUE COLUMN START-->
       {% for row in data %}
         {% if row.category == 'Local Revenue' %}
             <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
-                <td></td>
+              {% if forloop.counter == 1 %}
+              <td>
+                  <button id="add-row-button" onclick="addNewRow()">Add</button>
+              </td>
+          {% else %}
+              <td></td>
+          {% endif %}
                 <td>{{ row.fund }}</td>
                 <td>{{ row.obj }} - {{ row.description }}</td>
                 <td {% if row.value == 0.0 %}contenteditable{% endif %}>
@@ -89,9 +101,6 @@
                 </td>
                 
                 <td id="convertLR{{ forloop.counter }}"></td>
-               
-                
-            
                 <td class="collapsed">{{ row.total_real9|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real10|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real11|floatformat:0 }}</td>
@@ -104,22 +113,60 @@
                 <td class="collapsed">{{ row.total_real6|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real7|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real8|floatformat:0 }}</td>
-                <td contenteditable></td>
-                <td contenteditable></td>
-                <td contenteditable></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
             </tr>
             <script>
-                var rowValue = parseFloat("{{ row.value }}");
-                if (rowValue !== 0.0) {
-                    var convertedBudget = (rowValue * 0.4166667).toFixed(0);
-                    document.getElementById("convertLR{{ forloop.counter }}").innerHTML = convertedBudget;
+              function convertValue1(rowNumber, value) {
+                var convertedBudget1 = (value * 0.4166667).toFixed(0);
+                document.getElementById("convertLR" + rowNumber).innerHTML = convertedBudget1;
+            }
+            
+            var rowValue = parseFloat("{{ row.value }}");
+            if (rowValue !== 0.0) {
+                convertValue1({{ forloop.counter }}, rowValue);
+            }
+            
+            // Add an event listener to trigger the conversion when the value changes
+            document.getElementById("row1-{{ forloop.counter }}").addEventListener("input", function(e) {
+                var newValue = parseFloat(e.target.innerText);
+                if (!isNaN(newValue)) {
+                    convertValue1({{ forloop.counter }}, newValue);
                 }
+            });
             </script>
         {% endif %}
-      {% endfor %}          
+      {% endfor %}
+
+      
+        
+      
+      {% comment %} <form class="form-horizontal" id="insert-row-form" data-url="{% url 'insert-row' %}" method="POST">
+        <!-- Existing table rows... -->
+      
+        <tr id="new-row-template" style="display: none;">
+          <td>
+            <button class="insert-button">Insert</button>
+          </td>
+          <td><input type="text" class="new-row-input" name="fund" placeholder="fund"></td>
+          <td>
+            <input type="text" class="new-row-input" name="obj" placeholder="obj">
+            <input type="text" class="new-row-input" name="Description" placeholder="Description">
+          </td>
+          <td><input type="text" class="new-row-input" name="Value" placeholder="Value"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <!-- Add more cells if needed -->
+        </tr>
+      </form> {% endcomment %}
+      
+    
+                
         
         <tr id="ttl-row">
-            <td><button id="row1" class="expand-button" onclick="toggleRow(1)">-</button></td>
+            <td><button id="row1" class="expand-button" onclick="toggleRow(1)">+</button></td>
             <td></td>
             <td  ><strong>Local Revenue</strong></td>
             <script>
@@ -161,21 +208,35 @@
                 <td class="collapsed">{{ row.total_real6|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real7|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real8|floatformat:0 }}</td>
-                <td contenteditable></td>
-                <td contenteditable></td>
-                <td contenteditable></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
         </tr>
         <script>
+          function convertValue2(rowNumber, value) {
+              var convertedBudget2 = (value * 0.4166667).toFixed(0);
+              document.getElementById("convertSPR" + rowNumber).innerHTML = convertedBudget2;
+          }
+
           var rowValue = parseFloat("{{ row.value }}");
           if (rowValue !== 0.0) {
-              var convertedBudget = (rowValue * 0.4167).toFixed(0);
-              document.getElementById("convertSPR{{ forloop.counter }}").innerHTML = convertedBudget;
+              convertValue2({{ forloop.counter }}, rowValue);
           }
+
+          // Add an event listener to trigger the conversion when the value changes
+          document.getElementById("row2-{{ forloop.counter }}").addEventListener("input", function(e) {
+              var newValue = parseFloat(e.target.innerText);
+              if (!isNaN(newValue)) {
+                  convertValue2({{ forloop.counter }}, newValue);
+              }
+          });
       </script>
         {% endif %}
         {% endfor %}
+
+
         <tr id="ttl-row" >
-          <td><button id="row2" class="expand-button" onclick="toggleRow(2)">-</button></td>
+          <td><button id="row2" class="expand-button" onclick="toggleRow(2)">+</button></td>
           <td></td>
           <td  ><strong>State Program Revenue</strong></td>
           <script>
@@ -218,22 +279,34 @@
                 <td class="collapsed">{{ row.total_real6|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real7|floatformat:0 }}</td>
                 <td class="collapsed">{{ row.total_real8|floatformat:0 }}</td>
-                <td contenteditable></td>
-                <td contenteditable></td>
-                <td contenteditable></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
             </tr>
             <script>
-                var rowValue = parseFloat("{{ row.value }}");
-                if (rowValue !== 0.0) {
-                    var convertedBudget = (rowValue * 0.4167).toFixed(0);
-                    document.getElementById("convertFPR{{ forloop.counter }}").innerHTML = convertedBudget;
-                }
-            </script>
+              function convertValue(rowNumber, value) {
+                  var convertedBudget = (value * 0.4166667).toFixed(0);
+                  document.getElementById("convertFPR" + rowNumber).innerHTML = convertedBudget;
+              }
+  
+              var rowValue = parseFloat("{{ row.value }}");
+              if (rowValue !== 0.0) {
+                  convertValue({{ forloop.counter }}, rowValue);
+              }
+  
+              // Add an event listener to trigger the conversion when the value changes
+              document.getElementById("row3-{{ forloop.counter }}").addEventListener("input", function(e) {
+                  var newValue = parseFloat(e.target.innerText);
+                  if (!isNaN(newValue)) {
+                      convertValue({{ forloop.counter }}, newValue);
+                  }
+              });
+          </script>
      
       {% endif %}
       {% endfor %}
       <tr id="ttl-row">
-        <td><button id="row3" class="expand-button" onclick="toggleRow(3)">-</button></td>
+        <td><button id="row3" class="expand-button" onclick="toggleRow(3)">+</button></td>
         <td></td>
         <td  ><strong>Federal Program Revenue</strong></td>
         <script>
@@ -290,9 +363,9 @@
           <td class="collapsed">{{ row.total_func6|floatformat:0 }}</td>
           <td class="collapsed">{{ row.total_func7|floatformat:0 }}</td>
           <td class="collapsed">{{ row.total_func8|floatformat:0 }}</td>
-          <td contenteditable></td>
-          <td contenteditable></td>
-          <td contenteditable></td>
+          <td ></td>
+          <td ></td>
+          <td ></td>
       </tr>
       <script>
           var rowValue = parseFloat("{{ row.budget }}");
@@ -324,10 +397,13 @@
 
  
  </div>
- 
+
+
+
+
 
 <script>
-    
+
 function toggleRow(rowId) {
   for (var i = 0; i <= 50; i++) {
     var row = document.getElementById("row" + rowId + "-" + i);
@@ -356,7 +432,31 @@ function toggleColumns() {
     }
   }
 
+  function hideRowsByClass(className) {
+    const rows = document.querySelectorAll(className);
+    rows.forEach(row => {
+      row.style.display = 'none';
+    });
+  }
+  
+  function hideRowsOnLoad() {
+    const collapsedRows = document.querySelectorAll('.collapsed');
+    collapsedRows.forEach(row => {
+      row.style.display = 'none';
+    });
+
+    // Hide local revenue rows
+    hideRowsByClass('.local-revenue-row');
+    // Hide state program revenue rows
+    hideRowsByClass('.spr-row');
+    // Hide federal program revenue rows
+    hideRowsByClass('.fpr-row');
+  }
+
+ 
+
 window.addEventListener('DOMContentLoaded', () => {
+  hideRowsOnLoad();
 
 /* --------------revenue function ------------------*/
 function calculateLocalRevenueTotal() {
@@ -587,10 +687,8 @@ function calculateColumnTotals() {
 });
 
 
-</script> 
 
-
-
+</script>
 
 
 {% endblock %}
