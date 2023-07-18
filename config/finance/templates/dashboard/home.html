@@ -4,35 +4,57 @@
 <head>
     
    
-    <style>
-        
-        
-          table {
-            border-collapse: collapse;
-            width: 100%;
-          }
-      
-          th,
-          td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-          }
-      
-          .expand-button {
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-          }
-      
-          .collapsed {
-            display: none;
-          }
-      </style>
+  <style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .expand-button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .collapsed {
+        display: none;
+    }
+  
+</style>
+
 </head>
 {% block body %}
 
  <div id="content-wrapper">
+  
+  <nav class="navbar navbar-expand navbar-dark bg-dark ">
+
+    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      
+    </form>
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
+    <!-- Navbar -->
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+      <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/links/RDBb_hkIC7?ctid=088fd6f9-1d62-44b5-87b9-64b9699ac96a&pbi_source=linkShare" ><i class="fas fa-table"  ></i></a>
+      
+      
+  
+
+</nav>
   
 
     <table id="data-table" class="table table-hover">
@@ -128,7 +150,7 @@
                 convertValue1({{ forloop.counter }}, rowValue);
             }
             
-            // Add an event listener to trigger the conversion when the value changes
+            
             document.getElementById("row1-{{ forloop.counter }}").addEventListener("input", function(e) {
                 var newValue = parseFloat(e.target.innerText);
                 if (!isNaN(newValue)) {
@@ -142,25 +164,22 @@
       
         
       
-      {% comment %} <form class="form-horizontal" id="insert-row-form" data-url="{% url 'insert-row' %}" method="POST">
-        <!-- Existing table rows... -->
-      
+      <form class="form-horizontal" id="insert-row-form" >
+        {% csrf_token %}
         <tr id="new-row-template" style="display: none;">
-          <td>
-            <button class="insert-button">Insert</button>
-          </td>
-          <td><input type="text" class="new-row-input" name="fund" placeholder="fund"></td>
-          <td>
-            <input type="text" class="new-row-input" name="obj" placeholder="obj">
-            <input type="text" class="new-row-input" name="Description" placeholder="Description">
-          </td>
-          <td><input type="text" class="new-row-input" name="Value" placeholder="Value"></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <!-- Add more cells if needed -->
+            <td>
+                <button class="insert-button">Insert</button>
+            </td>
+            <td><input type="text" class="new-row-input" name="fund" placeholder="fund"></td>
+            <td>
+                <input type="text" class="new-row-input" name="obj" placeholder="obj">
+                <input type="text" class="new-row-input" name="Description" placeholder="Description">
+            </td>
+            <td><input type="text" class="new-row-input" name="budget" placeholder="Budget"></td>
+            <td></td>
+            
         </tr>
-      </form> {% endcomment %}
+    </form>
       
     
                 
@@ -223,7 +242,7 @@
               convertValue2({{ forloop.counter }}, rowValue);
           }
 
-          // Add an event listener to trigger the conversion when the value changes
+          
           document.getElementById("row2-{{ forloop.counter }}").addEventListener("input", function(e) {
               var newValue = parseFloat(e.target.innerText);
               if (!isNaN(newValue)) {
@@ -294,7 +313,7 @@
                   convertValue({{ forloop.counter }}, rowValue);
               }
   
-              // Add an event listener to trigger the conversion when the value changes
+              
               document.getElementById("row3-{{ forloop.counter }}").addEventListener("input", function(e) {
                   var newValue = parseFloat(e.target.innerText);
                   if (!isNaN(newValue)) {
@@ -451,6 +470,41 @@ function toggleColumns() {
     hideRowsByClass('.spr-row');
     // Hide federal program revenue rows
     hideRowsByClass('.fpr-row');
+  }
+
+
+  function addNewRow() {
+    const newRowTemplate = document.getElementById('new-row-template');
+    const newRow = newRowTemplate.cloneNode(true);
+    newRow.removeAttribute('style');
+    newRow.id = ''; 
+  
+    const insertButton = newRow.querySelector('.insert-button');
+    insertButton.addEventListener('click', () => {
+      const form = document.getElementById('insert-row-form');
+  const endpoint = form.getAttribute('action'); // Get the URL from the form action attribute
+  const formData = new FormData(form);
+  formData.append('Category', 'Local Revenue');
+
+  fetch(endpoint, {
+    method: 'POST',
+    body: formData,
+    headers: {
+      'X-CSRFToken': '{{ csrf_token }}',
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+    });
+  
+    const localRevenueRows = document.querySelectorAll('.local-revenue-row');
+    const lastLocalRevenueRow = localRevenueRows[localRevenueRows.length - 1];
+    lastLocalRevenueRow.insertAdjacentElement('afterend', newRow);
   }
 
  
