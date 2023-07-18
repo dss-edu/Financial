@@ -1,6 +1,6 @@
-asgiref=3.7.2
-beautifulsoup4=4.12.2
-config=0.5.1
+asgiref==3.7.2
+beautifulsoup4
+config
 django-bootstrap4
 et-xmlfile
 greenlet
