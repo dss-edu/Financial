@@ -65,10 +65,10 @@ def loginView(request):
         if user is not None and user.is_active:
             if user.is_admin or user.is_superuser:
                 auth.login(request, user)
-                return redirect('dashboard')
+                return redirect('pl_advantage')
             elif user is not None and user.is_employee:
                 auth.login(request, user)
-                return redirect('dashboard')
+                return redirect('pl_advantage')
             
             else:
                 return redirect('login_form')
