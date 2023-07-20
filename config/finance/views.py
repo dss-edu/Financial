@@ -16,6 +16,10 @@ from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 import datetime
 import locale
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
 
 def connect():
     server = 'aca-mysqlserver1.database.windows.net'
@@ -24,38 +28,10 @@ def connect():
     password = 'Pokemon!123'
     port = '1433'
     
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
-
-def upload_view(request):
-    if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            xlsb_file = request.FILES['xlsb_file']
-            # Process the XLSB file
-            with io.BytesIO(xlsb_file.read()) as f:
-                excel_data = pd.ExcelFile(f, engine='pyxlsb')
-                sheet_names = excel_data.sheet_names
-
-                sheet_data = {}  # Dictionary to store sheet data
-                for sheet_name in sheet_names:
-                    df = excel_data.parse(sheet_name)
-                    rows = df.values.tolist()
-                    sheet_data[sheet_name] = rows
-
-                # Create context data to pass to the template
-                context = {
-                    'sheet_names': sheet_names,
-                    'sheet_data': sheet_data,
-                }
-                return render(request, 'your_template.html', context)
-    else:
-        form = UploadForm()
-    return render(request, 'your_upload_form.html', {'form': form})
-
-
 
 def loginView(request):
     if request.method == 'POST':
@@ -199,11 +175,16 @@ def pl_advantage(request):
             if row[key] > 0:
                 row[key] = row[key]
             else:
-                row[key] = ''            
+                row[key] = ''
 
-      
+                
 
-    context = { 'data': data, 'data2':data2 , 'data3': data3}
+    lr_funds = list(set(row['fund'] for row in data if 'fund' in row))
+    lr_obj = list(set(row['obj'] for row in data if 'obj' in row))
+    
+            
+
+    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds, 'lr_obj':lr_obj }
     return render(request,'dashboard/pl_advantage.html', context)
 
 def pl_cumberland(request):
@@ -320,52 +301,67 @@ def pl_cumberland(request):
             if row[key] > 0:
                 row[key] = row[key]
             else:
-                row[key] = ''            
+                row[key] = ''
+
+
 
       
+    lr_funds = list(set(row['fund'] for row in data if 'fund' in row))
+    lr_obj = list(set(row['obj'] for row in data if 'obj' in row))
+    
+            
 
-    context = { 'data': data, 'data2':data2 , 'data3': data3}
+    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds, 'lr_obj':lr_obj }
     return render(request,'dashboard/pl_cumberland.html', context)
 
 
 
+
+    
+
 def insert_row(request):
     if request.method == 'POST':
+        print(request.POST)
         try:
-            budget = request.POST.get('budget')
-            fund = request.POST.get('fund')
-            obj = request.POST.get('obj')
-            description = request.POST.get('Description')
-            category = 'Local' 
-            
+            funds = request.POST.getlist('fund[]')
+            objs = request.POST.getlist('obj[]')
+            descriptions = request.POST.getlist('Description[]')
+            budgets = request.POST.getlist('budget[]')
 
-            if fund is None or fund == '':
-                return JsonResponse({'status': 'error', 'message': 'fund value is missing'})
-            if obj is None or obj =='':
-                return JsonResponse({'status': 'error', 'message': 'obj value is missing'})
-            if description is None  or description=='':
-                return JsonResponse({'status': 'error', 'message': 'description value is missing'})
-            if category is None   or category=='':
-                return JsonResponse({'status': 'error', 'message': 'category value is missing'})
-            if budget is None  or budget=='':
-                return JsonResponse({'status': 'error', 'message': 'Budget value is missing'})
+            data_list = []
+            for fund, obj, description, budget in zip(funds, objs, descriptions, budgets):
+                if fund.strip() and obj.strip() and description.strip() and budget.strip():
+                    data_list.append({
+                        'fund': fund,
+                        'obj': obj,
+                        'description': description,
+                        'budget': budget,
+                        'category': 'Local Revenue',
+                    })
 
-
-            
-
-
+            # Establish a connection to the database
             cnxn = connect()
             cursor = cnxn.cursor()
-            query = "INSERT INTO [dbo].[AscenderData_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
-            cursor.execute(query, (budget, fund, obj, description, category))
-            cnxn.commit()
 
-            return JsonResponse({'message': 'Data inserted successfully'})
+            # Execute the INSERT query for each item in data_list
+            for data in data_list:
+                fund = data['fund']
+                obj = data['obj']
+                description = data['description']
+                budget = data['budget']
+                category = data['category']
+
+                query = "INSERT INTO [dbo].[AscenderData_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+                cursor.execute(query, (budget, fund, obj, description, category))
+                cnxn.commit()
+
+            # Close the cursor and connection
+            cursor.close()
+            cnxn.close()
+
+            return redirect('pl_advantage')
 
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-
-    
-
