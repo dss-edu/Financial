@@ -43,45 +43,33 @@
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
       
     </form>
-    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
-    <!-- Navbar -->
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/links/RDBb_hkIC7?ctid=088fd6f9-1d62-44b5-87b9-64b9699ac96a&pbi_source=linkShare" ><i class="fas fa-file-powerpoint"></i></a><!-- Navbar -->
     &nbsp;
     &nbsp;
     &nbsp;
     &nbsp;
-      <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/links/RDBb_hkIC7?ctid=088fd6f9-1d62-44b5-87b9-64b9699ac96a&pbi_source=linkShare" ><i class="fas fa-table"  ></i></a>
-      
       
   
 
 </nav>
   
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 mb-3">
-    <div class="col-12 mb-3">
+
       
-          <div id="content-wrapper">
-  <div class="container-fluid">
       
-      <div class="card mb-3">
-          <div class="card-header">
-              
-              
-              
-              <a  class="btn btn-sm btn-success" href="#" style="padding: 8px; float: right;  color: white;">Save</a>
-          </div>
-          <div class="card-body">
-              
-                 
-    <div class="table-responsive">
+
+<div id="json-response"></div>
+<form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
+  <div >
+    <button id="save-button"  class="btn btn-sm btn-success" style="padding: 8px; float: right; color: white;">Save</button>
+  </div>
+  {% csrf_token %}
     <table id="data-table" class="table table-hover">
         <thead>
         <tr>
           <script>
             for (var i = 0; i <= 18; i++){
               if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" class="expand-button" onclick="toggleColumns()" >+</button></th>`);
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns()" >+</button></th>`);
               }
               else if(i>=6 && i<=16){
                 document.write(`<td  class="collapsed"></td>`);
@@ -125,7 +113,7 @@
             <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
               {% if forloop.counter == 1 %}
               <td>
-                  <button id="add-row-button" onclick="addNewRow()">Add</button>
+                  <button id="add-row-button" type="button" onclick="addNewRow()">Add</button>
               </td>
           {% else %}
               <td></td>
@@ -182,28 +170,39 @@
       
         
       
-      <form class="form-horizontal" id="insert-row-form" >
-        {% csrf_token %}
-        <tr id="new-row-template" style="display: none;">
-            <td>
-                
-            </td>
-            <td class="new-row-input" name="fund" placeholder="fund" contenteditable></td>
-            <td class="new-row-input" name="obj" placeholder="obj" contenteditable>
-              
-                
-            <td class="new-row-input" name="Description" placeholder="Description" contenteditable></td>
-            <td class="new-row-input" name="budget" placeholder="budget" contenteditable></td>
-            <td></td>
+      <tr id="new-row-template" style="display: none;">
+        <td></td>
+        <td style="width: 150px;">
+          <select class="form-control" name="fund[]">
+            {% for fund in lr_funds %}
+                <option value="{{ fund }}">{{fund }}</option>
+            {% endfor %}    
+          </select>
+        </td>
+        <td>
+          <select class="form-control" name="obj[]">
+            {% for obj in lr_obj %}
+            <option value="{{ obj }}">{{ obj }}</option>
+            {% endfor %} 
             
-        </tr>
-    </form>
+          </select>
+        </td>
+        <td><input type="text" class="form-control" name="Description[]" placeholder="Description"></td>
+        <td><input type="text" class="form-control" name="budget[]" placeholder="budget"></td>
+      </tr>
+      
+    
+
+  
+    
+ 
+    
       
     
                 
         
-        <tr id="ttl-row">
-            <td><button id="row1" class="expand-button" onclick="toggleRow(1)">+</button></td>
+        <tr id="ttl-row" class="ttl-lr-row">
+            <td><button id="row1" class="expand-button"  type="button" onclick="toggleRow(1)">+</button></td>
             <td></td>
             <td  ><strong>Local Revenue</strong></td>
             <script>
@@ -272,8 +271,8 @@
         {% endfor %}
 
 
-        <tr id="ttl-row" >
-          <td><button id="row2" class="expand-button" onclick="toggleRow(2)">+</button></td>
+        <tr id="ttl-row" class="ttl-spr-row">
+          <td><button id="row2" class="expand-button" type="button" onclick="toggleRow(2)">+</button></td>
           <td></td>
           <td  ><strong>State Program Revenue</strong></td>
           <script>
@@ -342,8 +341,8 @@
      
       {% endif %}
       {% endfor %}
-      <tr id="ttl-row">
-        <td><button id="row3" class="expand-button" onclick="toggleRow(3)">+</button></td>
+      <tr id="ttl-row" class="ttl-fpr-row">
+        <td><button id="row3" class="expand-button" type="button" onclick="toggleRow(3)">+</button></td>
         <td></td>
         <td  ><strong>Federal Program Revenue</strong></td>
         <script>
@@ -357,7 +356,7 @@
         </script>
       </tr>
 
-      <tr id="total-row">
+      <tr id="total-row" class="ttl-0-row">
         <td></td>
         <td></td>
         <td  ><strong>Total</strong></td>
@@ -414,7 +413,7 @@
       
     {% endfor %}
 
-      <tr id="total-row1" >
+      <tr id="total-row1" class="ttl-1-row">
         <td></td>
         <td></td>
         <td  ><strong>Total</strong></td>
@@ -428,21 +427,12 @@
           }
         </script>
       </tr>
-    </div>
-  </div>
-</div>
-</div>
-</div>
+  
 
 
 </tbody>
 </table>
-
-
-</div>
-</div>
-</div>
-</div>
+</form>
 
 <script>
 
@@ -496,35 +486,18 @@ function toggleColumns() {
   }
 
 
+
+
+  
+
   function addNewRow() {
     const newRowTemplate = document.getElementById('new-row-template');
     const newRow = newRowTemplate.cloneNode(true);
     newRow.removeAttribute('style');
-    newRow.id = ''; 
-  
-    const insertButton = newRow.querySelector('.insert-button');
-    insertButton.addEventListener('click', () => {
-      const form = document.getElementById('insert-row-form');
-  const endpoint = form.getAttribute('action'); // Get the URL from the form action attribute
-  const formData = new FormData(form);
-  formData.append('Category', 'Local Revenue');
 
-  fetch(endpoint, {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRFToken': '{{ csrf_token }}',
-    },
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-    });
-  
+    // Generate a unique index for the new row
+    
+
     const localRevenueRows = document.querySelectorAll('.local-revenue-row');
     const lastLocalRevenueRow = localRevenueRows[localRevenueRows.length - 1];
     lastLocalRevenueRow.insertAdjacentElement('afterend', newRow);
@@ -534,6 +507,9 @@ function toggleColumns() {
 
 window.addEventListener('DOMContentLoaded', () => {
   hideRowsOnLoad();
+
+
+  
 
 /* --------------revenue function ------------------*/
 function calculateLocalRevenueTotal() {
@@ -698,9 +674,8 @@ function calculaterow1Total() {
     totalCell.textContent = columnTotal !== 0 ? '$' + columnTotal.toLocaleString() : '';
   }
 }
-
-
-function calculateColumnTotals() {
+/*----------- calculate the local, state program and federal program revenue ----*/
+function calculateLSFTotals() {
   const rows = document.querySelectorAll('.fpr-row, .spr-row, .local-revenue-row');
   const totalCells = [];
 
@@ -738,24 +713,195 @@ function calculateColumnTotals() {
   }
 }
 
+
+
+/*---- year to date totals ------------*/
+function calculateYTD() {
+  const rows = document.querySelectorAll('.local-revenue-row, .spr-row, .fpr-row, .total-row1, .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-1-row, .ttl-0-row');
+
+  rows.forEach(row => {
+    const cells = row.cells;
+    let rowTotal = 0;
+    for (let i = 5; i <= 18; i++) {
+      const cellValue = parseFloat(cells[i].textContent.trim().replace('$', '').replace(/,/g, ''));
+      if (!isNaN(cellValue)) {
+        rowTotal += cellValue;
+      }
+    }
+
+    
+    if (row.classList.contains('ttl-lr-row') || row.classList.contains('ttl-fpr-row') || row.classList.contains('ttl-spr-row') || row.classList.contains('ttl-1-row') || row.classList.contains('ttl-0-row')) {
+      cells[17].textContent = rowTotal !== 0 ? '$' + rowTotal.toLocaleString() : '';
+    } else {
+      cells[17].textContent = rowTotal !== 0 ? rowTotal.toLocaleString() : '';
+    }
+  });
+}
+
+
+
+/*----- Calculate Variances for spr  to 1st total------------ */
+function CalculateVariances1() {
+  const rows = document.querySelectorAll(' .spr-row, .fpr-row,  .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-0-row');
+
+  rows.forEach(row => {
+    const cells = row.cells;
+    let ytdCell = cells[17];
+    let budgetCell = cells[4];
+    
+    
+    let ytdValue = parseFloat(ytdCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+    let budgetValue = parseFloat(budgetCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+
+    if(isNaN(ytdValue)){
+      ytdValue=0;
+
+    }
+    if(isNaN(budgetValue)){
+      budgetValue=0;
+
+    }
+    
+    
+    const difference = ytdValue - budgetValue ;
+
+   
+    let formattedDifference = '';
+    if (!isNaN(difference)) {
+      if (difference < 0) {
+        formattedDifference = `(${Math.abs(difference).toLocaleString()})`;
+      } else {
+        formattedDifference = `${difference.toLocaleString()}`;
+      }
+    }
+    
+    
+    if (row.classList.contains('ttl-lr-row') || row.classList.contains('ttl-fpr-row') || row.classList.contains('ttl-spr-row') || row.classList.contains('ttl-1-row') || row.classList.contains('ttl-0-row')) {
+      formattedDifference = `$${formattedDifference}`;
+    }
+    
+    
+    cells[18].textContent = difference !== 0 ? formattedDifference : '';
+  });
+}
+
+/*----- Calculate Variances for total row 1 ex. data 2 from fund------------ */
+function CalculateVariances2() {
+  const rows = document.querySelectorAll('.total-row1, .ttl-1-row');
+
+  rows.forEach(row => {
+    const cells = row.cells;
+    let ytdCell = cells[17];
+    let budgetCell = cells[4];
+    
+    
+    let ytdValue = parseFloat(ytdCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+    let budgetValue = parseFloat(budgetCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+
+    if(isNaN(ytdValue)){
+      ytdValue=0;
+
+    }
+    if(isNaN(budgetValue)){
+      budgetValue=0;
+
+    }
+    
+    
+    const difference = budgetValue- ytdValue ;
+
+    
+    let formattedDifference = '';
+    if (!isNaN(difference)) {
+      if (difference < 0) {
+        formattedDifference = `(${Math.abs(difference).toLocaleString()})`;
+      } else {
+        formattedDifference = `${difference.toLocaleString()}`;
+      }
+    }
+    
+  
+    if (row.classList.contains('ttl-lr-row') || row.classList.contains('ttl-fpr-row') || row.classList.contains('ttl-spr-row') || row.classList.contains('ttl-1-row') || row.classList.contains('ttl-0-row')) {
+      formattedDifference = `$${formattedDifference}`;
+    }
+    
+   
+    cells[18].textContent = difference !== 0 ? formattedDifference : '';
+  });
+}
+
+
+/*----- Calculate Variances for total row 1 ex. data 2 from fund------------ */
+function CalculateVar42() {
+  const rows = document.querySelectorAll('.total-row1, .ttl-1-row,  .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-0-row');
+
+  rows.forEach(row => {
+    const cells = row.cells;
+    let ytdCell = cells[17];
+    let ammendedCell = cells[3];
+
+    // Parse the values from the cells and remove any non-numeric characters
+    let ytdValue = parseFloat(ytdCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+    let ammendedValue = parseFloat(ammendedCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+
+    if (isNaN(ytdValue)) {
+      ytdValue = 0;
+    }
+    if (isNaN(ammendedValue)) {
+      ammendedValue = 1; // To avoid division by zero
+    }
+
+    // Calculate the percentage
+    const percentage = (ytdValue / ammendedValue) * 100;
+
+    // Format the percentage with parentheses for negative values and append '%'
+    let formattedPercentage = '';
+    if (!isNaN(percentage)) {
+      if (percentage < 0) {
+        formattedPercentage = `(${Math.abs(percentage.toFixed(0))}%)`;
+      } else {
+        formattedPercentage = `${percentage.toFixed(0)}%`;
+      }
+    }
+
+   
+
+    // Display the result in cell[19]
+    cells[19].textContent = percentage !== 0 ? formattedPercentage : '';
+  });
+}
+
  
     const editableCells = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable], .total-row1 td[contenteditable]');
     editableCells.forEach(cell => {
       cell.addEventListener('input', () => {
+        
         calculateLocalRevenueTotal();
         calculateSPRTotal();
         calculateFPRTotal();
         calculaterow1Total();
-        calculateColumnTotals();
+        calculateLSFTotals();
+        calculateYTD();
+        CalculateVariances1();
+        CalculateVariances2();
+        CalculateVar42();
+        
+        
         
       });
     });
-
+    
     calculateLocalRevenueTotal();
     calculateSPRTotal();
     calculateFPRTotal();
     calculaterow1Total();
-    calculateColumnTotals();
+    calculateLSFTotals();
+    calculateYTD();
+    CalculateVariances1();
+    CalculateVariances2();
+    CalculateVar42();
+    
+    
 });
 
 
