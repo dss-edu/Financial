@@ -74,8 +74,8 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2" id="searchInput" list="suggestions">
         <datalist id="suggestions">
-          <option value="Advantage School" ></option>
-          <option value="Cumberland School" ></option>
+          <option value="Advantage Academy" ></option>
+          <option value="Cumberland Academy" ></option>
           
       </datalist>
         <div class="input-group-append">
@@ -91,9 +91,9 @@
     const selectedValue = inputField.value;
     let redirectUrl = '';
 
-    if (selectedValue === 'Advantage School') {
+    if (selectedValue === 'Advantage Academy') {
         redirectUrl = "{% url 'pl_advantage' %}";
-    } else if (selectedValue === 'Cumberland School') {
+    } else if (selectedValue === 'Cumberland Academy') {
         redirectUrl = "{% url 'pl_cumberland' %}";
     }
 
