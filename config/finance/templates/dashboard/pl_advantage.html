@@ -175,6 +175,8 @@
         <td></td>
         <td style="width: 150px;">
           <select class="form-control" name="fund[]">
+            
+                <option value=""></option>
             {% for fund in lr_funds %}
                 <option value="{{ fund }}">{{fund }}</option>
             {% endfor %}    
@@ -182,6 +184,7 @@
         </td>
         <td>
           <select class="form-control" name="obj[]">
+            <option value=""></option>
             {% for obj in lr_obj %}
             <option value="{{ obj }}">{{ obj }}</option>
             {% endfor %} 
