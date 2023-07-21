@@ -365,3 +365,24 @@ def insert_row(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+def delete(request, fund, obj):
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "DELETE FROM [dbo].[AscenderData_Definition_obj] WHERE fund = ? AND obj = ?"
+        cursor.execute(query, (fund, obj))
+        cnxn.commit()
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return redirect('pl_advantage')
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
