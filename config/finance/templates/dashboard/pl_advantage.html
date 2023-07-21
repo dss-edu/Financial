@@ -126,7 +126,7 @@
           {% endif %}
                 <td>{{ row.fund }}</td>
                 <td>{{ row.obj }} - {{ row.description }}</td>
-                <td>
+                <td contenteditable>
                     {% if row.value == 0.0 %}
                         <!-- empty -->
                     {% else %}
@@ -906,7 +906,7 @@ function CalculateVar42() {
         calculateFPRTotal();
         calculaterow1Total();
         calculateLSFTotals();
-        calculateYTD();
+        
         CalculateVariances1();
         CalculateVariances2();
         CalculateVar42();
