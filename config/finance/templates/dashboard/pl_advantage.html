@@ -115,10 +115,14 @@
               {% if forloop.counter == 1 %}
               <td>
                   <button id="add-row-button" class="btn btn-success" type="button" onclick="addNewRow()">Add</button>
-                  <a href=" {% url 'delete' row.fund row.obj  %}"><button type="button" class="btn btn-danger"  > Delete</button></a>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  <a href=" {% url 'delete' row.fund row.obj  %}"><i class="fas fa-times"></i></a>
               </td>
           {% else %}
-              <td><a href=" {% url 'delete' row.fund row.obj  %}"><button type="button" class="btn btn-danger"  > Delete</button></a></td>
+              <td><a href=" {% url 'delete' row.fund row.obj  %}"><i class="fas fa-times"></i></a></td>
           {% endif %}
                 <td>{{ row.fund }}</td>
                 <td>{{ row.obj }} - {{ row.description }}</td>
