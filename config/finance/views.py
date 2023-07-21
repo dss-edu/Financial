@@ -179,12 +179,14 @@ def pl_advantage(request):
 
                 
 
-    lr_funds = list(set(row['fund'] for row in data if 'fund' in row))
-    lr_obj = list(set(row['obj'] for row in data if 'obj' in row))
+    lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+    lr_funds_sorted = sorted(lr_funds)
+    lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+    lr_obj_sorted = sorted(lr_obj)
     
             
 
-    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds, 'lr_obj':lr_obj }
+    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds_sorted, 'lr_obj':lr_obj_sorted }
     return render(request,'dashboard/pl_advantage.html', context)
 
 def pl_cumberland(request):
@@ -306,12 +308,14 @@ def pl_cumberland(request):
 
 
       
-    lr_funds = list(set(row['fund'] for row in data if 'fund' in row))
-    lr_obj = list(set(row['obj'] for row in data if 'obj' in row))
+    lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+    lr_funds_sorted = sorted(lr_funds)
+    lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+    lr_obj_sorted = sorted(lr_obj)
     
             
 
-    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds, 'lr_obj':lr_obj }
+    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds_sorted, 'lr_obj':lr_obj_sorted }
     return render(request,'dashboard/pl_cumberland.html', context)
 
 
