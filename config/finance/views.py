@@ -28,7 +28,7 @@ def connect():
     password = 'Pokemon!123'
     port = '1433'
     
-    driver = '{SQL Server}'
+    driver = '{/usr/lib/libmsodbcsql-17.so}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
