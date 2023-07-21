@@ -113,14 +113,15 @@
             <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
               {% if forloop.counter == 1 %}
               <td>
-                  <button id="add-row-button" type="button" onclick="addNewRow()">Add</button>
+                  <button id="add-row-button" class="btn btn-success" type="button" onclick="addNewRow()">Add</button>
+                  <a href=" {% url 'delete' row.fund row.obj  %}"><button type="button" class="btn btn-danger"  > Delete</button></a>
               </td>
           {% else %}
-              <td></td>
+              <td><a href=" {% url 'delete' row.fund row.obj  %}"><button type="button" class="btn btn-danger"  > Delete</button></a></td>
           {% endif %}
                 <td>{{ row.fund }}</td>
                 <td>{{ row.obj }} - {{ row.description }}</td>
-                <td {% if row.value == 0.0 %}contenteditable{% endif %}>
+                <td>
                     {% if row.value == 0.0 %}
                         <!-- empty -->
                     {% else %}
@@ -170,7 +171,7 @@
       
         
       
-     <tr id="new-row-template" style="display: none;">
+      <tr id="new-row-template" style="display: none;">
         <td></td>
         <td style="width: 150px;">
           <select class="form-control" name="fund[]">
@@ -191,8 +192,24 @@
           </select>
         </td>
         <td><input type="text" class="form-control" name="Description[]" placeholder="Description"></td>
-        <td><input type="text" class="form-control" name="budget[]" placeholder="budget"></td>
+        <td><input type="text" class="form-control" name="budget[]" placeholder="budget" oninput="validateBudgetInput(event)"></td>
       </tr>
+      
+      <script>
+        function validateBudgetInput(event) {
+            const input = event.target;
+            const value = input.value;
+        
+            // Regular expression to match only numbers and the dot (.)
+            const regex = /^[0-9.]*$/;
+        
+            // Check if the input value matches the regex
+            if (!regex.test(value)) {
+                // Remove the invalid characters from the input value
+                input.value = value.replace(/[^0-9.]/g, '');
+            }
+        }
+        </script>
       
     
 
