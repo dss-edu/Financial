@@ -9,5 +9,8 @@ urlpatterns = [
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
     path('insert_row/', views.insert_row, name='insert-row'),
     path('delete/<str:fund>/<str:obj>/', views.delete, name='delete'),
+    path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
+    path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
+    path('delete_func/<str:func>/', views.delete_func, name='delete_func'),
     
 ]
