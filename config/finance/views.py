@@ -370,7 +370,7 @@ def insert_row(request):
 
 
 
-            #<--------------UPDATE FOR LOCAL REVENUE ----------
+            #<--------------UPDATE FOR LOCAL REVENUE,SPR,FPR----------
             updatefunds = request.POST.getlist('updatefund[]')  
             updatevalues = request.POST.getlist('updatevalue[]')
             updateobjs = request.POST.getlist('updateobj[]')
@@ -516,6 +516,41 @@ def insert_row(request):
                 query = "INSERT INTO [dbo].[AscenderData_Definition_func] (budget, func, Description) VALUES (?, ?, ?)"
                 cursor.execute(query, (budget, func, description))
                 cnxn.commit()
+            
+            updatefunds = request.POST.getlist('updatefund[]')  
+            updatevalues = request.POST.getlist('updatevalue[]')
+            updateobjs = request.POST.getlist('updateobj[]')
+            
+
+            #<------------------ update for func func ---------------
+            updatefuncfuncs = request.POST.getlist('updatefuncfunc[]')  
+            updatefuncbudgets = request.POST.getlist('updatefuncbudget[]')
+            
+
+
+            updatedata_list_func = []
+
+            for updatefunc,updatebudget in zip(updatefuncfuncs, updatefuncbudgets):
+                if updatefunc.strip() and updatebudget.strip() and updatebudget.strip() != " ":
+                    updatedata_list_func.append({
+                        'updatefunc': updatefunc,
+                        'updatebudget':updatebudget,
+                        
+                        
+                    })
+            for data in updatedata_list_func:
+                updatefunc= data['updatefunc']
+                updatebudget=data['updatebudget']
+                
+                
+
+                try:
+                    query = "UPDATE [dbo].[AscenderData_Definition_func] SET budget = ? WHERE func = ? "
+                    cursor.execute(query, (updatebudget, updatefunc))
+                    cnxn.commit()
+                    print(f"Rows affected for fund={updatefunc}: {cursor.rowcount}")
+                except Exception as e:
+                    print(f"Error updating fund={updatefunc}: {str(e)}")
 
                 
 
