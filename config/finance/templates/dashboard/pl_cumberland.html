@@ -261,7 +261,7 @@
           </select>
         </td>
         <td><input type="text" class="form-control" name="Description[]" placeholder="Description"></td>
-        <td><input type="text" class="form-control" name="budget[]" placeholder="budget" oninput="validateBudgetInput(event)"></td>
+        <td><input type="text" class="form-control" name="budget[]" placeholder="Budget" oninput="validateBudgetInput(event)"></td>
       </tr>
       
         <tr id="ttl-row" class="ttl-lr-row">
@@ -365,7 +365,7 @@
             </select>
           </td>
           <td><input type="text" class="form-control" name="DescriptionSPR[]" placeholder="Description"></td>
-          <td><input type="text" class="form-control" name="budgetSPR[]" placeholder="budget" oninput="validateBudgetInput(event)"></td>
+          <td><input type="text" class="form-control" name="budgetSPR[]" placeholder="Budget" oninput="validateBudgetInput(event)"></td>
         </tr>
         
 
@@ -466,7 +466,7 @@
           </select>
         </td>
         <td><input type="text" class="form-control" name="DescriptionFPR[]" placeholder="Description"></td>
-        <td><input type="text" class="form-control" name="budgetFPR[]" placeholder="budget" oninput="validateBudgetInput(event)"></td>
+        <td><input type="text" class="form-control" name="budgetFPR[]" placeholder="Budget" oninput="validateBudgetInput(event)"></td>
       </tr>
 
       <tr id="ttl-row" class="ttl-fpr-row">
@@ -507,17 +507,17 @@
       <tr id="row4-{{ forloop.counter }}" class="total-row1">
           <td></td>
           <td><a href=" {% url 'delete_func' row.func_func%}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a></td>
-          <td>{{ row.func_func }}-{{ row.desc }}</td>
-          <td {% if row.budget == 0 %}contenteditable{% endif %}>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">{{ row.func_func }}-{{ row.desc }}</td>
+          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" >
             {% if row.budget == 0.0 %}
-              <!-- empty -->
+            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
             {% else %}
-              {{ row.budget }}
+            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{ row.budget }}
             {% endif %} 
           </td>
           
+          
           <td id="convertFunc{{ forloop.counter }}"></td>
-        
           <td class="collapsed">{{ row.total_func9|floatformat:0 }}</td>
           <td class="collapsed">{{ row.total_func10|floatformat:0 }}</td>
           <td class="collapsed">{{ row.total_func11|floatformat:0 }}</td>
@@ -1076,7 +1076,7 @@ function CalculateVar42() {
   });
 }
 
-
+// ---------------- update for local revenue, spr , fpr ------------------
 function updateLR(event) {
   var tdElement = event.target;
   var rowNumber = tdElement.id.split("-")[2];
@@ -1090,21 +1090,24 @@ function updateLR(event) {
   }
 }
 
-// Attach event listener using event delegation on the common parent element
-var tbodyElement = document.querySelector('tbody');
-tbodyElement.addEventListener("input", updateLR);
 
-// Call the handleInputEvent initially to capture the existing data
-var tdElements = document.querySelectorAll('td[contenteditable="true"]');
+var tbodyElements = document.querySelectorAll('.local-revenue-row, .spr-row, .fpr-row ');
+tbodyElements.forEach(function(tbodyElement) {
+  tbodyElement.addEventListener("input", updateLR);
+});
+
+var tdElements = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable]');
 tdElements.forEach(function(tdElement) {
   var rowNumber = tdElement.id.split("-")[2];
   updateLR({ target: tdElement });
 });
 
+
+//------------- update for func -----------
 function updateFUNC(event) {
   var tdElement = event.target;
   var rowNumber = tdElement.id.split("-")[2];
-  var updateValueInput = document.getElementById("updatevalue-" + rowNumber);
+  var updateValueInput = document.getElementById("updatevalue-func-" + rowNumber);
 
   var value = parseFloat(tdElement.innerText.trim());
   if (!isNaN(value) || value === 0) {
@@ -1113,18 +1116,16 @@ function updateFUNC(event) {
     updateValueInput.value = "";
   }
 }
-
-// Attach event listener using event delegation on the common parent element
-var tbodyElement = document.querySelector('tbody');
-tbodyElement.addEventListener("input", updateFUNC);
-
-// Call the handleInputEvent initially to capture the existing data
-var tdElements = document.querySelectorAll('td[contenteditable="true"]');
-tdElements.forEach(function(tdElement) {
-  var rowNumber = tdElement.id.split("-")[2];
-  updateFUNC({ target: tdElement });
+var totalRow1Elements = document.querySelectorAll('.total-row1');
+totalRow1Elements.forEach(function(totalRow1Element) {
+  totalRow1Element.addEventListener("input", updateFUNC);
 });
 
+var funcElements = document.querySelectorAll('.total-row1 td[contenteditable]');
+funcElements.forEach(function(tdElement) {
+  var rowNumber = tdElement.id.split("-")[1];
+  updateFUNC({ target: tdElement });
+});
 
  
     const editableCells = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable], .total-row1 td[contenteditable]');
