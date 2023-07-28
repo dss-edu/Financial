@@ -719,3 +719,58 @@ def gl_advantage(request):
          }
     return render(request,'dashboard/gl_advantage.html', context)
 
+def bs_advantage(request):
+    
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+    rows = cursor.fetchall()
+    
+    data_balancesheet=[]
+    
+    
+    for row in rows:
+
+        row_dict = {
+            'Activity':row[0],
+            'Description':row[1],
+            'Category':row[2],
+            'Subcategory':row[3],
+            'FYE':row[4],
+            
+            }
+        
+        data_balancesheet.append(row_dict)
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+    rows = cursor.fetchall()
+    
+    data_activitybs=[]
+    
+    
+    for row in rows:
+
+        row_dict = {
+            'Activity':row[0],
+            'obj':row[1],
+            'Description2':row[2],
+            
+            
+            }
+        
+        data_activitybs.append(row_dict)
+    
+    
+
+            
+
+    context = { 
+        
+        'data_balancesheet': data_balancesheet ,
+        'data_activitybs': data_activitybs,
+         }
+
+    return render(request,'dashboard/bs_advantage.html', context)
+
+
