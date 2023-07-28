@@ -65,7 +65,7 @@ def pl_advantage(request):
     
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Definition_obj];") 
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
     rows = cursor.fetchall()
 
     
@@ -82,7 +82,7 @@ def pl_advantage(request):
         }
         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Definition_func];") 
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
     rows = cursor.fetchall()
 
 
@@ -91,7 +91,7 @@ def pl_advantage(request):
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
-            'budget': int(row[2]),
+            'budget': (row[3]),
             
         }
         data2.append(row_dict)
@@ -196,7 +196,7 @@ def pl_cumberland(request):
     
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Definition_obj];") 
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_obj];") 
     rows = cursor.fetchall()
 
     
@@ -213,7 +213,7 @@ def pl_cumberland(request):
         }
         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Definition_func];") 
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_func];") 
     rows = cursor.fetchall()
 
 
@@ -222,7 +222,7 @@ def pl_cumberland(request):
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
-            'budget': int(row[2]),
+            'budget': (row[2]),
             
         }
         data2.append(row_dict)
@@ -362,7 +362,7 @@ def insert_row(request):
                 budget = data['budget']
                 category = data['category']
 
-                query = "INSERT INTO [dbo].[AscenderData_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(query, (budget, fund, obj, description, category))
                 cnxn.commit()
 
@@ -375,12 +375,12 @@ def insert_row(request):
             updatevalues = request.POST.getlist('updatevalue[]')
             updateobjs = request.POST.getlist('updateobj[]')
             
-
+            
 
             updatedata_list = []
 
             for updatefund,updatevalue,updateobj in zip(updatefunds, updatevalues,updateobjs):
-                if updatefund.strip() and updatevalue.strip() and updatevalue.strip() != " ":
+                if updatefund.strip() and updatevalue.strip() :
                     updatedata_list.append({
                         'updatefund': updatefund,
                         'updateobj':updateobj,
@@ -395,7 +395,7 @@ def insert_row(request):
                 updatevalue = data['updatevalue']
 
                 try:
-                    query = "UPDATE [dbo].[AscenderData_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
+                    query = "UPDATE [dbo].[AscenderData_Advantage_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
                     cursor.execute(query, (updatevalue, updatefund,updateobj))
                     cnxn.commit()
                     print(f"Rows affected for fund={updatefund}: {cursor.rowcount}")
@@ -427,7 +427,7 @@ def insert_row(request):
                 budget = data['budget']
                 category = data['category']
 
-                query = "INSERT INTO [dbo].[AscenderData_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(query, (budget, fund, obj, description, category))
                 cnxn.commit()
 
@@ -487,7 +487,7 @@ def insert_row(request):
                 budget = data['budget']
                 category = data['category']
 
-                query = "INSERT INTO [dbo].[AscenderData_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(query, (budget, fund, obj, description, category))
                 cnxn.commit()
             
@@ -513,7 +513,7 @@ def insert_row(request):
                 budget = data['budget']
                 
 
-                query = "INSERT INTO [dbo].[AscenderData_Definition_func] (budget, func, Description) VALUES (?, ?, ?)"
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_func] (budget, func, Description) VALUES (?, ?, ?)"
                 cursor.execute(query, (budget, func, description))
                 cnxn.commit()
             
@@ -545,7 +545,7 @@ def insert_row(request):
                 
 
                 try:
-                    query = "UPDATE [dbo].[AscenderData_Definition_func] SET budget = ? WHERE func = ? "
+                    query = "UPDATE [dbo].[AscenderData_Advantage_Definition_func] SET budget = ? WHERE func = ? "
                     cursor.execute(query, (updatebudget, updatefunc))
                     cnxn.commit()
                     print(f"Rows affected for fund={updatefunc}: {cursor.rowcount}")
@@ -612,4 +612,110 @@ def pl_advantagechart(request):
 
 def pl_cumberlandchart(request):
     return render(request,'dashboard/pl_cumberlandchart.html')
+
+def viewgl(request,fund,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE fund = ? and obj = ? and AcctPer = ?"
+        cursor.execute(query, (fund,obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        gl_data=[]
+    
+    
+        for row in rows:
+
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':row[11],
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':row[17],
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            gl_data.append(row_dict)
+        
+        context = { 'gl_data':gl_data}
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def gl_advantage(request):
+    
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    
+    cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Advantage]") 
+    rows = cursor.fetchall()
+    
+    data3=[]
+    
+    
+    for row in rows:
+
+        row_dict = {
+            'fund':row[0],
+            'func':row[1],
+            'obj':row[2],
+            'sobj':row[3],
+            'org':row[4],
+            'fscl_yr':row[5],
+            'pgm':row[6],
+            'edSpan':row[7],
+            'projDtl':row[8],
+            'AcctDescr':row[9],
+            'Number':row[10],
+            'Date':row[11],
+            'AcctPer':row[12],
+            'Est':row[13],
+            'Real':row[14],
+            'Appr':row[15],
+            'Encum':row[16],
+            'Expend':row[17],
+            'Bal':row[18],
+            'WorkDescr':row[19],
+            'Type':row[20],
+            'Contr':row[21]
+            }
+        
+        data3.append(row_dict)
+    
+    
+
+            
+
+    context = { 
+        
+        'data3': data3 , 
+         }
+    return render(request,'dashboard/gl_advantage.html', context)
 
