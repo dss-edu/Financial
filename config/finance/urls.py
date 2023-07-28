@@ -17,6 +17,7 @@ urlpatterns = [
     
     path('delete_func/<str:func>/', views.delete_func, name='delete_func'),
     path('viewgl/<str:fund>/<str:obj>/<str:yr>/', views.viewgl, name='viewgl'),
+    path('viewglfunc/<str:func>/<str:yr>/', views.viewglfunc, name='viewglfunc'),
 
     
     path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
