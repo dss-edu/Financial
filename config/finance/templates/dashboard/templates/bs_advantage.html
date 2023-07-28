@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+{% extends 'dashboard/base.html' %}
+{% load static %}
+<head>
+    
+   
+  
+
+</head>
+{% block body %}
+
+ <div id="content-wrapper">
+  
+  <nav class="navbar navbar-expand navbar-dark bg-dark ">
+
+    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      
+    </form>
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
+    <!-- Navbar -->
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a class="navbar-brand mr-1 text-primary " href="{% url 'pl_advantagechart' %}" ><i class="fas fa-chart-bar"></i></a>
+    
+      
+  
+
+</nav>
+
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+    <div class="modal-content" style="height: 80%;">
+      <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
+        <!-- Modify the table to display the data from the viewgl function -->
+        <table class="table table-hover">
+          <thead>
+            <tr>
+            <th>fund</th>
+            <th>func</th>
+            <th>obj</th>
+            <th>org</th>
+            <th>fscl_yr</th>
+            <th>pgm</th>
+            <th>edSpan</th>
+            <th>projDtl</th>
+            <th>AcctDescr</th>
+            <th>Number</th>
+            <th>Date</th>
+            <th>AcctPer</th>
+            <th>Est</th>
+            <th>Real</th>
+            <th>Appr</th>
+            <th>Encum</th>
+            <th>Expend</th>
+            <th>Bal</th>
+            <th>WorkDescr</th>
+            <th>Type</th>
+            <th>Contr</th>
+            </tr>
+          </thead>
+          <tbody id="modal-table-body">
+            <!-- The data from the viewgl function will be populated here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+      
+      
+
+<div id="json-response"></div>
+<form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
+  <div id="edit-container">
+    <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
+</div>
+
+<div id="cancel-container" style="display: none;">
+  <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
+</div>
+
+<div id="save-container" style="display: none;">
+    <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
+</div>
+
+<script>
+    document.getElementById("edit-button").addEventListener("click", function() {
+        // Hide the "Edit" container
+        document.getElementById("edit-container").style.display = "none";
+
+        // Show the "Save" container
+        document.getElementById("save-container").style.display = "block";
+        document.getElementById("cancel-container").style.display = "block";
+        
+        
+        
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {
+            cell.contentEditable = "true";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "block";
+        });
+        document.getElementById("add-row-button").style.display = "block";
+        document.getElementById("add-row-spr-button").style.display = "block";
+        document.getElementById("add-row-fpr-button").style.display = "block";
+        document.getElementById("add-row-func-button").style.display = "block";
+        
+        
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", function() {
+        // Hide the "Save" container
+        document.getElementById("save-container").style.display = "none";
+        document.getElementById("cancel-container").style.display = "none";
+        
+    
+        
+
+        // Show the "Edit" container
+        document.getElementById("edit-container").style.display = "block";
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {
+            cell.contentEditable = "false";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "none";
+        });
+        document.getElementById("add-row-button").style.display = "none";
+        document.getElementById("add-row-spr-button").style.display = "none";
+        document.getElementById("add-row-fpr-button").style.display = "none";
+        document.getElementById("add-row-func-button").style.display = "none";
+       
+        
+    });
+</script>
+
+  {% csrf_token %}
+    <table id="data-table" class="table table-hover">
+        <thead>
+        <tr>
+          <script>
+            for (var i = 0; i <= 19; i++){
+              if (i === 4 ) {
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns()" >+</button></th>`);
+              }
+              else if(i>=6 && i<=16){
+                document.write(`<td  class="collapsed"></td>`);
+              }
+              else{
+                document.write(`<td  ></td>`);
+              }
+            }
+            
+          </script>
+        </tr>
+    </thead>
+    <tbody id="data-table-body">
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>FYE 2022</th>
+            <th class="collapsed" >September</th>
+            <th class="collapsed" >October</th>
+            <th class="collapsed" >November</th>
+            <th class="collapsed" >December</th>
+            <th class="collapsed" >January</th>
+            <th class="collapsed">February</th>
+            <th class="collapsed">March</th>
+            <th class="collapsed">April</th>
+            <th class="collapsed">May</th>
+            <th class="collapsed">June</th>
+            <th class="collapsed">July</th>
+            <th class="collapsed">August</th>
+            <th>FYTD Activity</th>
+            <th>As of January</th>
+            <th></th>
+        </tr>
+        <tr id="ttl-row" class="ttl-lr-row">
+          <td>
+             </td>
+             <td  ><strong>Assets</strong></td>
+          <td></td>
+          
+          <script>
+            for (var i = 3; i <= 19; i++) {
+              if (i >= 5 && i <= 16) {
+                document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+              } else {
+                document.write(`<td id="local-revenue-total-${i}" ></td>`);
+              }
+            }
+          </script>
+      </tr>
+        <tr>
+          <td></td>
+       
+          <td></td>
+          <td><strong>Current Assets</td>
+          <td></td>
+          <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+        </tr>
+        <!-- LOCAL REVENUE COLUMN START-->
+      {% for row in data_balancesheet %}
+        {% if row.Category == 'Assets' %}
+        {% if row.Subcategory == 'Current Assets' %}
+            {% if row.Activity == 'Cash' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'Restr' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'DFS+F' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'OTHR' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'Inventory' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'PPD' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}     
+          
+            
+            {% endif %}   
+        {% endif %}
+      {% endfor %}
+      <tr id="ttl-row" class="ttl-lr-row">
+        <td>
+          
+        </td>
+        <td></td>
+        <td  ><strong>Total Current Assets</strong></td>
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+      
+
+
+      <tr>
+        <td></td>
+        
+        <td></td>
+        <td><strong>Capital Assets , Net</strong></td>
+        <td></td>
+        <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+      </tr>
+
+      {% for row in data_balancesheet %}
+        {% if row.Category == 'Assets' %}
+        {% if row.Subcategory == 'Capital Assets, Net' %}
+            {% if row.Activity == 'FA-L' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'FA-BFE' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'FA-AD' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+              
+          
+            
+            {% endif %}   
+        {% endif %}
+      {% endfor %}
+
+      
+        
+   
+      
+        <tr id="ttl-row" class="ttl-lr-row">
+            <td>
+               </td>
+            <td></td>
+            <td  ><strong>Total Capital Assets</strong></td>
+            <script>
+              for (var i = 3; i <= 19; i++) {
+                if (i >= 5 && i <= 16) {
+                  document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+                } else {
+                  document.write(`<td id="local-revenue-total-${i}" ></td>`);
+                }
+              }
+            </script>
+        </tr>
+
+        <tr id="ttl-row" class="ttl-lr-row">
+          <td>
+             </td>
+             
+          <td></td>
+          <td  ><strong>Total  Assets</strong></td>
+          <td></td>
+          
+          <script>
+            for (var i = 3; i <= 19; i++) {
+              if (i >= 5 && i <= 16) {
+                document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+              } else {
+                document.write(`<td id="local-revenue-total-${i}" ></td>`);
+              }
+            }
+          </script>
+      </tr>
+
+      <tr id="ttl-row" class="ttl-lr-row">
+        <td>
+           </td>
+           <td  ><strong>Liabilities and Net Assets</strong></td>
+        <td></td>
+        <td></td>
+        
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+    <tr id="ttl-row" class="ttl-lr-row">
+     
+      <td>
+         </td>
+         <td></td>
+         <td  ><strong>Current Liabilities</strong></td>
+      <td></td>
+      
+      <script>
+        for (var i = 3; i <= 19; i++) {
+          if (i >= 5 && i <= 16) {
+            document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+          } else {
+            document.write(`<td id="local-revenue-total-${i}" ></td>`);
+          }
+        }
+      </script>
+  </tr>
+
+  {% for row in data_balancesheet %}
+        {% if row.Category == 'Liabilities and Net Assets' %}
+        {% if row.Subcategory == 'Current Liabilities' %}
+            {% if row.Activity == 'AP' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            {% if row.Activity == 'Acc-Exp' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+            
+            {% if row.Activity == 'Debt-C' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              
+              
+              
+            </tr>
+            {% endif %}
+              
+          
+            
+            {% endif %}   
+        {% endif %}
+      {% endfor %}
+
+      <tr id="ttl-row" class="ttl-lr-row">
+     
+        <td>
+           </td>
+           <td></td>
+           <td  ><strong>Total Current Liabilities</strong></td>
+        <td></td>
+        
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+    <tr id="ttl-row" class="ttl-lr-row">
+     
+        <td>
+           </td>
+           <td  ><strong>Long Term Debt</strong></td>
+           <td></td>
+           
+        <td></td>
+        
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+
+    {% for row in data_balancesheet %}
+        {% if row.Category == 'Debt' %}
+        {% if row.Subcategory == 'Long Term Debt' %}
+            {% if row.Activity == 'LTD' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td>{{row.Description}}</td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            
+              
+          
+            
+            {% endif %}   
+        {% endif %}
+      {% endfor %}
+        
+      <tr id="ttl-row" class="ttl-lr-row">
+     
+        <td>
+           </td>
+           
+           <td></td>
+           <td  ><strong>Total Liabilities</strong></td>
+           
+        <td></td>
+        
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+
+    {% for row in data_balancesheet %}
+        {% if row.Category == 'Net Assets' %}
+       
+            {% if row.Activity == 'Equity' %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td><strong> Net Assets</strong></td>
+              <td>{{row.FYE}}</td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"></td>
+              <td class="collapsed"> </td>
+              <td class="collapsed"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            
+              
+          
+            
+            {% endif %}   
+       
+      {% endfor %}
+      
+      <tr id="ttl-row" class="ttl-lr-row">
+     
+        <td>
+           </td>
+           
+           <td></td>
+           <td  ><strong>Total Liabilities and Net Assets</strong></td>
+           
+        <td></td>
+        
+        <script>
+          for (var i = 3; i <= 19; i++) {
+            if (i >= 5 && i <= 16) {
+              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            } else {
+              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            }
+          }
+        </script>
+    </tr>
+  
+
+    <tr id="ttl-row" class="ttl-lr-row">
+     
+      <td>
+        <strong>Balance Sheet Activity</strong>
+         </td>
+         
+         <td></td>
+         <td  ></td>
+         
+      <td></td>
+      
+      <script>
+        for (var i = 3; i <= 19; i++) {
+          if (i >= 5 && i <= 16) {
+            document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+          } else {
+            document.write(`<td id="local-revenue-total-${i}" ></td>`);
+          }
+        }
+      </script>
+  </tr>
+  <tr id="ttl-row" class="ttl-lr-row">
+     
+    <td>
+     
+       </td>
+       
+       <td></td>
+       <td  ></td>
+       
+    <td></td>
+    
+    <script>
+      for (var i = 3; i <= 19; i++) {
+        if (i >= 5 && i <= 16) {
+          document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+        } else {
+          document.write(`<td id="local-revenue-total-${i}" ></td>`);
+        }
+      }
+    </script>
+</tr>
+
+
+{% for row in data_activitybs %}
+
+    <tr>
+      <td></td>
+      <td>{{row.obj}}</td>
+      <td>{{row.Description}}</td>
+      <td></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"> </td>
+      <td class="collapsed"></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+      
+
+{% endfor %}
+
+</tbody>
+</table>
+
+
+
+</form>
+
+<script>
+  function toggleColumns() {
+    var toggleButton = document.getElementById("toggle-button");
+    var collapsedColumns = document.getElementsByClassName("collapsed");
+    for (var i = 0; i < collapsedColumns.length; i++) {
+      if (collapsedColumns[i].style.display === "none") {
+        collapsedColumns[i].style.display = "table-cell";
+        toggleButton.innerHTML = "-";
+      } else {
+        collapsedColumns[i].style.display = "none";
+        toggleButton.innerHTML = "+";
+      }
+    }
+  }
+
+
+</script>
+
+
+{% endblock %}
+
+
