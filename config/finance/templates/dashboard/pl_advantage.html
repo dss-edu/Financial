@@ -76,6 +76,49 @@
     </div>
   </div>
 </div>
+
+     <div class="modal" id="myModal2">
+  <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+    <div class="modal-content" style="height: 80%;">
+      <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
+        <!-- Modify the table to display the data from the viewgl function -->
+        <table class="table table-hover">
+          <thead>
+            <tr>
+            <th>fund</th>
+            <th>func</th>
+            <th>obj</th>
+            <th>org</th>
+            <th>fscl_yr</th>
+            <th>pgm</th>
+            <th>edSpan</th>
+            <th>projDtl</th>
+            <th>AcctDescr</th>
+            <th>Number</th>
+            <th>Date</th>
+            <th>AcctPer</th>
+            <th>Est</th>
+            <th>Real</th>
+            <th>Appr</th>
+            <th>Encum</th>
+            <th>Expend</th>
+            <th>Bal</th>
+            <th>WorkDescr</th>
+            <th>Type</th>
+            <th>Contr</th>
+            </tr>
+          </thead>
+          <tbody id="modal2-table-body">
+            <!-- The data from the viewgl function will be populated here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal2-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
   
 
       
@@ -702,6 +745,92 @@
 
     // Close the modal when the close button is clicked
     var closeButton = modal.querySelector(".modal-footer button");
+    closeButton.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+  });
+</script>
+     <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    console.log("DOMContentLoaded event fired!");
+    // Get the modal element
+    var modal = document.getElementById("myModal2");
+
+      // Get the <tbody> element inside the modal to populate the data
+      var modalTableBody = document.getElementById("modal2-table-body");
+
+      // Function to populate the modal with data
+      function populateModal(data) {
+        // Clear any existing rows in the table
+        modalTableBody.innerHTML = "";
+      
+        // Loop through the data.gl_data array and create new rows
+        data.glfunc_data.forEach(function (row) {
+          var newRow = document.createElement("tr");
+          newRow.innerHTML = `
+            <td>${row.fund}</td>
+            <td>${row.func}</td>
+            <td>${row.obj}</td>
+            <td>${row.org}</td>
+            <td>${row.fscl_yr}</td>
+            <td>${row.pgm}</td>
+            <td>${row.edSpan}</td>
+            <td>${row.projDtl}</td>
+            <td>${row.AcctDescr}</td>
+            <td>${row.Number}</td>
+            <td>${row.Date}</td>
+            <td>${row.AcctPer}</td>
+            <td>${row.Est}</td>
+            <td>${row.Real}</td>
+            <td>${row.Appr}</td>
+            <td>${row.Encum}</td>
+            <td>${row.Expend}</td>
+            <td>${row.Bal}</td>
+            <td>${row.WorkDescr}</td>
+            <td>${row.Type}</td>
+            <td>${row.Contr}</td>
+          `;
+          modalTableBody.appendChild(newRow);
+        });
+      }
+
+    // Function to fetch the data from the server when modal is shown
+    function fetchDataAndPopulateModal(func, yr) {
+      fetch(`/viewglfunc/${func}/${yr}/`)
+        .then(function (response) {
+          
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+          if (data.status === "success") {
+            // Populate the modal with the fetched data
+            populateModal(data.data);
+            // Show the modal
+            modal.style.display = "block";
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+        });
+    }
+
+    // Add click event listeners to all "a" elements inside the table
+    var viewGLLinks = document.querySelectorAll(".viewglfunc-link");
+    viewGLLinks.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        var func = link.dataset.func;
+    
+        var yr = link.dataset.yr;
+        fetchDataAndPopulateModal(func, yr);
+      });
+    });
+
+    // Close the modal when the close button is clicked
+    var closeButton = modal.querySelector(".modal2-footer button");
     closeButton.addEventListener("click", function () {
       modal.style.display = "none";
     });
