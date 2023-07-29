@@ -73,12 +73,13 @@ def pl_advantage(request):
     for row in rows:
         if row[4] is None:
             row[4] = ''
+        valueformat = "{:,.0f}".format(int(row[4])) if row[4] else ""
         row_dict = {
             'fund': row[0],
             'obj': row[1],
             'description': row[2],
             'category': row[3],
-            'value': int(row[4]) if row[4] else 0  # Convert to int if not None, else set as 0
+            'value': valueformat  
         }
         data.append(row_dict)
 
@@ -88,10 +89,11 @@ def pl_advantage(request):
 
     data2=[]
     for row in rows:
+        budgetformat = "{:,.0f}".format(int(row[3])) if row[3] else ""
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
-            'budget': (row[3]),
+            'budget': budgetformat,
             
         }
         data2.append(row_dict)
@@ -147,13 +149,22 @@ def pl_advantage(request):
             )
 
     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
-
+ 
     for row in data:
         for key in keys_to_check:
             if row[key] < 0:
                 row[key] = -row[key]
+                
+                
             else:
-                row[key] = '' 
+                row[key] = ''
+
+    for row in data:
+        for key in keys_to_check:
+            if row[key] != "":
+                row[key] = "{:,.0f}".format(row[key])
+                
+    
 
 
 
@@ -176,6 +187,10 @@ def pl_advantage(request):
                 row[key] = row[key]
             else:
                 row[key] = ''
+    for row in data2:
+        for key in keys_to_check2:
+            if row[key] != "":
+                row[key] = "{:,.0f}".format(row[key])
 
                 
 
@@ -204,12 +219,14 @@ def pl_cumberland(request):
     for row in rows:
         if row[4] is None:
             row[4] = ''
+        valueformat = "{:,.0f}".format(int(row[4])) if row[4] else ""
+            
         row_dict = {
             'fund': row[0],
             'obj': row[1],
             'description': row[2],
             'category': row[3],
-            'value': int(row[4]) if row[4] else 0  # Convert to int if not None, else set as 0
+            'value':  valueformat
         }
         data.append(row_dict)
 
@@ -219,10 +236,11 @@ def pl_cumberland(request):
 
     data2=[]
     for row in rows:
+        budgetformat = "{:,.0f}".format(int(row[3])) if row[3] else ""
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
-            'budget': (row[2]),
+            'budget': budgetformat,
             
         }
         data2.append(row_dict)
@@ -278,13 +296,18 @@ def pl_cumberland(request):
             )
 
     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
-
+    
     for row in data:
         for key in keys_to_check:
             if row[key] < 0:
                 row[key] = -row[key]
+                
             else:
-                row[key] = '' 
+                row[key] = ''
+    for row in data:
+        for key in keys_to_check:
+            if row[key] != "":
+                row[key] = "{:,.0f}".format(row[key]) 
 
 
 
@@ -307,6 +330,10 @@ def pl_cumberland(request):
                 row[key] = row[key]
             else:
                 row[key] = ''
+    for row in data2:
+        for key in keys_to_check2:
+            if row[key] != "":
+                row[key] = "{:,.0f}".format(row[key])
 
 
 
