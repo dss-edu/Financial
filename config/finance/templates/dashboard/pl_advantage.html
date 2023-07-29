@@ -20,7 +20,7 @@
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
       
     </form>
-    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" target="_blank"><i class="fas fa-file-powerpoint"></i></a>
     <!-- Navbar -->
     &nbsp;
     &nbsp;
@@ -77,7 +77,7 @@
   </div>
 </div>
 
-     <div class="modal" id="myModal2">
+<div class="modal" id="myModal2">
   <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
     <div class="modal-content" style="height: 80%;">
       <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
@@ -259,33 +259,39 @@
                       <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}">{{ row.value }}
                   {% endif %}
               </td>
-                
+           
                 <td id="convertLR{{ forloop.counter }}"></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8|floatformat:0 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10}}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5}}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
                 <td ></td>
                 <td ></td>
                 <td ></td>
             </tr>
             <script>
               function convertValue1(rowNumber, value) {
-                var convertedBudget1 = (value * 0.8333).toFixed(0);
-                document.getElementById("convertLR" + rowNumber).innerHTML = convertedBudget1;
+                if (isNaN(value)) {
+                  document.getElementById("convertLR" + rowNumber).innerHTML = '';
+                  return;
+                }
+                var convertedBudget1 = (value * 0.833).toFixed(0);
+                var formattedBudget1 = Number(convertedBudget1).toLocaleString();
+                document.getElementById("convertLR" + rowNumber).innerHTML = formattedBudget1;
             }
             
-            var rowValue = parseFloat("{{ row.value }}");
-            if (rowValue !== 0.0) {
-                convertValue1({{ forloop.counter }}, rowValue);
+            var rowValue = "{{ row.value }}";
+            var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
+            if (formatrowValue !== 0.0) {
+                convertValue1({{ forloop.counter }}, formatrowValue);
             }
             
             
@@ -298,9 +304,10 @@
             </script>
             
             
+            
         {% endif %}
       {% endfor %}
-
+      
       
         
       
@@ -370,31 +377,37 @@
     </td>
         
                 <td id="convertSPR{{ forloop.counter }}"></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8|floatformat:0 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7}}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
                 <td ></td>
                 <td ></td>
                 <td ></td>
         </tr>
         <script>
           function convertValue2(rowNumber, value) {
-              var convertedBudget2 = (value * 0.8333).toFixed(0);
-              document.getElementById("convertSPR" + rowNumber).innerHTML = convertedBudget2;
+            if (isNaN(value)) {
+              document.getElementById("convertSPR" + rowNumber).innerHTML = '';
+              return;
+            }
+            var convertedBudget2 = (value * 0.833).toFixed(0);
+            var formattedBudget2 = Number(convertedBudget2).toLocaleString();
+            document.getElementById("convertSPR" + rowNumber).innerHTML = formattedBudget2;
           }
 
-          var rowValue = parseFloat("{{ row.value }}");
-          if (rowValue !== 0.0) {
-              convertValue2({{ forloop.counter }}, rowValue);
+          var rowValue = "{{ row.value }}";
+          var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
+          if (formatrowValue !== 0.0) {
+              convertValue2({{ forloop.counter }}, formatrowValue);
           }
 
           
@@ -405,6 +418,7 @@
               }
           });
       </script>
+      
         {% endif %}
         {% endfor %}
 
@@ -469,31 +483,37 @@
           
                 <td id="convertFPR{{ forloop.counter }}"></td>
                 
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8|floatformat:0 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12">{{ row.total_real12 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01">{{ row.total_real1 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02">{{ row.total_real2 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03">{{ row.total_real3 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04">{{ row.total_real4 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05">{{ row.total_real5 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
                 <td ></td>
                 <td ></td>
                 <td ></td>
             </tr>
             <script>
               function convertValue(rowNumber, value) {
-                  var convertedBudget = (value * 0.8333).toFixed(0);
-                  document.getElementById("convertFPR" + rowNumber).innerHTML = convertedBudget;
+                if (isNaN(value)) {
+                  document.getElementById("convertFPR" + rowNumber).innerHTML = '';
+                  return;
+                }
+                  var convertedBudget = (value * 0.833).toFixed(0);
+                  var formattedbudget = Number(convertedBudget).toLocaleString();
+                  document.getElementById("convertFPR" + rowNumber).innerHTML = formattedbudget;
               }
   
-              var rowValue = parseFloat("{{ row.value }}");
-              if (rowValue !== 0.0) {
-                  convertValue({{ forloop.counter }}, rowValue);
+              var rowValue = "{{ row.value }}";
+              var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
+              if (formatrowValue !== 0.0) {
+                  convertValue({{ forloop.counter }}, formatrowValue);
               }
   
               
@@ -504,7 +524,7 @@
                   }
               });
           </script>
-     
+          
       {% endif %}
       {% endfor %}
 
@@ -582,18 +602,19 @@
           
           
           <td id="convertFunc{{ forloop.counter }}"></td>
-          <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="09">{{ row.total_func9|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="10">{{ row.total_func10|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="11">{{ row.total_func11|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="12">{{ row.total_func12|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="01">{{ row.total_func1|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="02">{{ row.total_func2|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="03">{{ row.total_func3|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="04">{{ row.total_func4|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="05">{{ row.total_func5|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="06">{{ row.total_func6|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="07">{{ row.total_func7|floatformat:0 }}</a></td>
-                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="08">{{ row.total_func8|floatformat:0 }}</a></td>
+          <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="09">{{ row.total_func9 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="10">{{ row.total_func10 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="11">{{ row.total_func11 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="12">{{ row.total_func12 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="01">{{ row.total_func1 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="02">{{ row.total_func2 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="03">{{ row.total_func3}}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="04">{{ row.total_func4}}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="05">{{ row.total_func5}}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="06">{{ row.total_func6 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="07">{{ row.total_func7 }}</a></td>
+                <td class="collapsed"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="08">{{ row.total_func8}}</a></td>
+          <td ></td>
           <td ></td>
           <td ></td>
       </tr>
@@ -601,18 +622,25 @@
 
       <script>
         function convertValue(rowNumber, value) {
+            if (isNaN(value)) {
+                document.getElementById("convertFunc" + rowNumber).innerHTML = '';
+                return;
+            }
+    
             var convertedBudget = (value * 0.8333).toFixed(0);
-            document.getElementById("convertFunc" + rowNumber).innerHTML = convertedBudget;
+            var formattedBudget = Number(convertedBudget).toLocaleString();
+            document.getElementById("convertFunc" + rowNumber).innerHTML = formattedBudget;
         }
-
-        var rowValue = parseFloat("{{ row.budget }}");
-        if (rowValue !== 0.0) {
+    
+        var rowBudget = "{{ row.budget }}";
+        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
+        
+        if (!isNaN(rowValue)) {
             convertValue({{ forloop.counter }}, rowValue);
         }
-
-        
+    
         document.getElementById("row4-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText);
+            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
             if (!isNaN(newValue)) {
                 convertValue({{ forloop.counter }}, newValue);
             }
@@ -661,6 +689,13 @@
 </tbody>
 </table>
 </form>
+
+</script>
+
+<script>
+  function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 </script>
 
@@ -750,7 +785,9 @@
     });
   });
 </script>
-     <script>
+
+
+<script>
   document.addEventListener("DOMContentLoaded", function () {
     console.log("DOMContentLoaded event fired!");
     // Get the modal element
@@ -990,7 +1027,7 @@ function calculateLocalRevenueTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.trim());
+      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1034,7 +1071,7 @@ function calculateSPRTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.trim());
+      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1075,7 +1112,7 @@ function calculateSPRTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.trim());
+      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1115,7 +1152,7 @@ function calculaterow1Total() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.trim());
+      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1153,7 +1190,7 @@ function calculateLSFTotals() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.trim());
+      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
