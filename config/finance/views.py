@@ -758,13 +758,17 @@ def bs_advantage(request):
     
     
     for row in rows:
-
+        fye = int(row[4]) if row[4] else 0
+        if fye == 0:
+            fyeformat = ""
+        else:
+            fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
         row_dict = {
             'Activity':row[0],
             'Description':row[1],
             'Category':row[2],
             'Subcategory':row[3],
-            'FYE':row[4],
+            'FYE':fyeformat,
             
             }
         
@@ -787,18 +791,199 @@ def bs_advantage(request):
             }
         
         data_activitybs.append(row_dict)
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage]") 
+    rows = cursor.fetchall()
     
+    data3=[]
+    
+    
+    for row in rows:
+
+        row_dict = {
+            'fund':row[0],
+            'func':row[1],
+            'obj':row[2],
+            'sobj':row[3],
+            'org':row[4],
+            'fscl_yr':row[5],
+            'pgm':row[6],
+            'edSpan':row[7],
+            'projDtl':row[8],
+            'AcctDescr':row[9],
+            'Number':row[10],
+            'Date':row[11],
+            'AcctPer':row[12],
+            'Est':row[13],
+            'Real':row[14],
+            'Appr':row[15],
+            'Encum':row[16],
+            'Expend':row[17],
+            'Bal':row[18],
+            'WorkDescr':row[19],
+            'Type':row[20],
+            'Contr':row[21]
+            }
+        
+        data3.append(row_dict)
+
+    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+
+    for item in data_activitybs:
+        
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_bal{i}'] = sum(
+                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+
+    keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+    
+    
+                
+    for row in data_activitybs:
+        for key in keys_to_check:
+            value = int(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+            elif value != "":
+                row[key] = "{:,.0f}".format(float(row[key]))
+                
+
+
+    activity_sum_dict = {} 
+    for item in data_activitybs:
+        Activity = item['Activity']
+        for i in range(1, 13):
+            total_sum_i = sum(
+                int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+                for entry in data_activitybs
+            )
+            activity_sum_dict[(Activity, i)] = total_sum_i
+
+ 
+    for row in data_balancesheet:
+        
+        activity = row['Activity']
+        for i in range(1, 13):
+            key = (activity, i)
+            row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
+            
+
+    def format_with_parentheses(value):
+        if value == 0:
+            return ""
+        formatted_value = "{:,.0f}".format(abs(value))
+        return "({})".format(formatted_value) if value < 0 else formatted_value
+    
+    for row in data_balancesheet:
+    
+        FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
+        total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
+        total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
+        total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
+        total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
+        total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
+        total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
+        total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
+        total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
+        total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
+        total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
+        total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
+        total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
+
+        # Calculate the differences and store them in the row dictionary
+        row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
+        row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
+        row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+        row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+        row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+        row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+        row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+        row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+        row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+        row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+        row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+        row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+
     
 
+
+    
+            
+
+    
+    
             
 
     context = { 
         
         'data_balancesheet': data_balancesheet ,
         'data_activitybs': data_activitybs,
+        'data3': data3,
          }
 
     return render(request,'dashboard/bs_advantage.html', context)
+
+def viewgl_activitybs(request,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE obj = ? and AcctPer = ?"
+        cursor.execute(query, (obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        glbs_data=[]
+    
+    
+        for row in rows:
+
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':row[11],
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':row[17],
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            glbs_data.append(row_dict)
+        
+        context = { 'glbs_data':glbs_data}
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewglfunc(request,func,yr):
     print(request)
