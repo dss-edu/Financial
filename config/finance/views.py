@@ -657,6 +657,9 @@ def viewgl(request,fund,obj,yr):
     
     
         for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
 
             row_dict = {
                 'fund':row[0],
@@ -670,7 +673,7 @@ def viewgl(request,fund,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':row[11],
+                'Date':date_without_time,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -714,7 +717,9 @@ def gl_advantage(request):
     
     
     for row in rows:
-
+        date_str=row[11]
+        
+        date_without_time = date_str.strftime('%b. %d, %Y')
         row_dict = {
             'fund':row[0],
             'func':row[1],
@@ -727,7 +732,7 @@ def gl_advantage(request):
             'projDtl':row[8],
             'AcctDescr':row[9],
             'Number':row[10],
-            'Date':row[11],
+            'Date':date_without_time,
             'AcctPer':row[12],
             'Est':row[13],
             'Real':row[14],
@@ -950,6 +955,10 @@ def viewgl_activitybs(request,obj,yr):
     
     
         for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
+            
 
             row_dict = {
                 'fund':row[0],
@@ -963,7 +972,7 @@ def viewgl_activitybs(request,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':row[11],
+                'Date':date_without_time,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -1015,6 +1024,9 @@ def viewglfunc(request,func,yr):
     
     
         for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
 
             row_dict = {
                 'fund':row[0],
@@ -1028,7 +1040,7 @@ def viewglfunc(request,func,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':row[11],
+                'Date':date_without_time,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
