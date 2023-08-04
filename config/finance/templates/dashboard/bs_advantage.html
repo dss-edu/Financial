@@ -273,6 +273,21 @@
             <th>As of June</th>
             
         </tr>
+        <script>
+          function toggleRow(rowId) {
+            for (var i = 0; i <= 50; i++) {
+              var row = document.getElementById("row" + rowId + "-" + i);
+              if (row) {
+                row.style.display = row.style.display === "none" ? "table-row" : "none";
+              }
+            }
+            
+            var rowElement = document.getElementById("row" + rowId);
+            if (rowElement) {
+              rowElement.innerHTML = rowElement.innerHTML === "-" ? "+" : "-";
+            }
+          }
+        </script>
         <tr id="ttl-row" class="ttl-lr-row">
           <td></td>
           <td><strong>Assets</strong></td>
@@ -288,8 +303,8 @@
             }
           </script>
       </tr>
-        <tr>
-          <td></td>
+        <tr >
+          <td><button id="row1" class="expand-button"  type="button" onclick="toggleRow(1)" style=" float: left;">-</button></td>
        
           <td></td>
           <td><strong>Current Assets</td>
@@ -316,7 +331,7 @@
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Current Assets' %}
             {% if row.Activity == 'Cash' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -339,7 +354,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'Restr' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -365,7 +380,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'DFS+F' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td >{{row.Description}}</td>
@@ -391,7 +406,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'OTHR' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -416,7 +431,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'Inventory' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -442,7 +457,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'PPD' %}
-            <tr class="current-assets-row">
+            <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -491,8 +506,8 @@
       
 
 
-      <tr>
-        <td></td>
+      <tr >
+        <td><button id="row2" class="expand-button"  type="button" onclick="toggleRow(2)" style=" float: left;">-</button></td>
         
         <td></td>
         <td><strong>Capital Assets , Net</strong></td>
@@ -517,7 +532,7 @@
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Capital Assets, Net' %}
             {% if row.Activity == 'FA-L' %}
-            <tr class="capital-assets-row">
+            <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -540,7 +555,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'FA-BFE' %}
-            <tr class="capital-assets-row">
+            <tr  id="row2-{{ forloop.counter }}"  class="capital-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -566,7 +581,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'FA-AD' %}
-            <tr class="capital-assets-row">
+            <tr id="row2-{{ forloop.counter }}"  class="capital-assets-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -651,7 +666,7 @@
     </tr>
     <tr id="ttl-row" class="ttl-lr-row">
      
-      <td></td>
+      <td><button id="row3" class="expand-button"  type="button" onclick="toggleRow(3)" style=" float: left;">-</button></td>
       <td></td>
       <td><strong>Current Liabilities</strong></td>
       
@@ -671,7 +686,7 @@
         {% if row.Category == 'Liabilities and Net Assets' %}
         {% if row.Subcategory == 'Current Liabilities' %}
             {% if row.Activity == 'AP' %}
-            <tr class="current-liabilities-row">
+            <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -694,7 +709,7 @@
             </tr>
             {% endif %}
             {% if row.Activity == 'Acc-Exp' %}
-            <tr class="current-liabilities-row">
+            <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
@@ -721,7 +736,7 @@
             {% endif %}
             
             {% if row.Activity == 'Debt-C' %}
-            <tr class="current-liabilities-row">
+            <tr id="row3-{{ forloop.counter }}"  class="current-liabilities-row">
               <td></td>
               <td></td>
               <td>{{row.Description}}</td>
