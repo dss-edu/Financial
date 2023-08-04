@@ -2,7 +2,41 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
 <head>
-    
+    {% block stylesheet %}
+  <style>
+      
+   
+   
+    .right-align-td {
+      text-align: right;
+    padding-right: 250px;
+     
+    }
+    .collapsed {
+      display: none;
+  }
+  
+  .modal-body {
+    max-height: 2000px;
+    max-width: 2000px;
+    overflow-y: auto;
+  }
+  
+  .modal-body thead {
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    z-index: 1;
+  }
+  
+
+  .modal-footer {
+    z-index: 2;
+  }
+
+  
+</style>
+  {% endblock %}
 
 </head>
 {% block body %}
