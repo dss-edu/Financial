@@ -684,8 +684,14 @@ def viewgl(request,fund,obj,yr):
             }
 
             gl_data.append(row_dict)
+
+        total_bal = sum(row['Real'] for row in gl_data)
+        total_bal = "{:,}".format(total_bal)
         
-        context = { 'gl_data':gl_data}
+        context = { 
+            'gl_data':gl_data,
+            'total_bal':total_bal
+        }
 
         
         cursor.close()
@@ -909,12 +915,10 @@ def bs_advantage(request):
         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
-
+        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
     
 
 
-    
-            
 
     
     
@@ -974,7 +978,16 @@ def viewgl_activitybs(request,obj,yr):
 
             glbs_data.append(row_dict)
         
-        context = { 'glbs_data':glbs_data}
+        
+
+        total_bal = sum(row['Bal'] for row in glbs_data)
+        total_bal = "{:,}".format(total_bal)
+        
+        context = { 
+            'glbs_data':glbs_data,
+            'total_bal':total_bal,
+
+            }
 
         
         cursor.close()
@@ -1029,8 +1042,15 @@ def viewglfunc(request,func,yr):
             }
 
             glfunc_data.append(row_dict)
+
+        total_bal = sum(row['Expend'] for row in glfunc_data)
+        total_bal = "{:,}".format(total_bal)
         
-        context = { 'glfunc_data':glfunc_data}
+        
+        context = { 
+            'glfunc_data':glfunc_data,
+            'total_bal':total_bal
+            }
 
         
         cursor.close()
@@ -1040,4 +1060,8 @@ def viewglfunc(request,func,yr):
 
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
+
+
+def cashflow_advantage(request):
+    return render(request,'dashboard/cashflow_advantage.html')
 
