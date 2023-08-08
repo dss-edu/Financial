@@ -99,6 +99,7 @@ def pl_advantage(request):
         data2.append(row_dict)
 
 
+
     #
     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
     rows = cursor.fetchall()
@@ -107,6 +108,7 @@ def pl_advantage(request):
     
     
     for row in rows:
+        expend = float(row[17])
 
         row_dict = {
             'fund':row[0],
@@ -126,7 +128,7 @@ def pl_advantage(request):
             'Real':row[14],
             'Appr':row[15],
             'Encum':row[16],
-            'Expend':row[17],
+            'Expend':expend,
             'Bal':row[18],
             'WorkDescr':row[19],
             'Type':row[20],
@@ -254,6 +256,8 @@ def pl_cumberland(request):
     
     
     for row in rows:
+
+        
 
         row_dict = {
             'fund':row[0],
@@ -647,6 +651,8 @@ def viewgl(request,fund,obj,yr):
         cnxn = connect()
         cursor = cnxn.cursor()
 
+
+        
         
         query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE fund = ? and obj = ? and AcctPer = ?"
         cursor.execute(query, (fund,obj,yr))
@@ -658,9 +664,17 @@ def viewgl(request,fund,obj,yr):
     
         for row in rows:
             date_str=row[11]
-        
+
             date_without_time = date_str.strftime('%b. %d, %Y')
 
+
+            real = float(row[14]) if row[14] else 0
+            if real == 0:
+                realformat = ""
+            else:
+                realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
+
+            
             row_dict = {
                 'fund':row[0],
                 'func':row[1],
@@ -676,7 +690,7 @@ def viewgl(request,fund,obj,yr):
                 'Date':date_without_time,
                 'AcctPer':row[12],
                 'Est':row[13],
-                'Real':row[14],
+                'Real':realformat,
                 'Appr':row[15],
                 'Encum':row[16],
                 'Expend':row[17],
@@ -687,9 +701,10 @@ def viewgl(request,fund,obj,yr):
             }
 
             gl_data.append(row_dict)
-
-        total_bal = sum(row['Real'] for row in gl_data)
-        total_bal = "{:,}".format(total_bal)
+        
+        total_bal = sum(float(row['Real'].replace(',', '').replace('(', '-').replace(')', '')) for row in gl_data)
+        total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
+        
         
         context = { 
             'gl_data':gl_data,
@@ -927,16 +942,164 @@ def bs_advantage(request):
 
     
     
-            
+    bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
+    bs_activity_list_sorted = sorted(bs_activity_list)
+    # lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+    # lr_obj_sorted = sorted(lr_obj)
+
+    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+    # func_choice_sorted = sorted(func_choice)        
 
     context = { 
         
         'data_balancesheet': data_balancesheet ,
         'data_activitybs': data_activitybs,
         'data3': data3,
+        'bs_activity_list': bs_activity_list_sorted,
+        
          }
 
     return render(request,'dashboard/bs_advantage.html', context)
+
+
+def insert_bs_advantage(request):
+    if request.method == 'POST':
+        print(request.POST)
+        try:
+            #<<<------------------ CURRENT ASSETS INSERT FUNCTION ---------------------->>>
+            Descriptions = request.POST.getlist('Description[]')
+            fyes = request.POST.getlist('fye[]')
+            Activitys = request.POST.getlist('Activity[]')
+           
+
+            data_list_current_assets = []
+            for Description, fye , Activity in zip(Descriptions, fyes,Activitys):
+                if Description.strip() and fye.strip() and Activity.strip():
+                    data_list_current_assets.append({
+                        'Description': Description,
+                        'FYE': fye,
+                        'Subcategory': 'Current Assets',
+                        'Category': 'Assets',
+                        'Activity': Activity,
+                    })
+
+          
+            cnxn = connect()
+            cursor = cnxn.cursor()
+
+
+            for data in data_list_current_assets:
+                Description = data['Description']
+                FYE = data['FYE']
+                Subcategory = data['Subcategory']
+                Category = data['Category']
+                Activity = data['Activity']
+
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Balancesheet] (Description, FYE, Subcategory, Category, Activity) VALUES (?, ?, ?, ?, ?)"
+                cursor.execute(query, (Description, FYE, Subcategory, Category, Activity))
+                cnxn.commit()
+
+            
+            #<<<------------------ Capital  ASSETS INSERT FUNCTION ---------------------->>>
+            Descriptions_Capital_Assets = request.POST.getlist('Description_Capital_Assets[]')
+            fyes_Capital_Assets = request.POST.getlist('fye_Capital_Assets[]')
+            Activitys_Capital_Assets = request.POST.getlist('Activity_Capital_Assets[]')
+           
+
+            data_list_capital_assets = []
+            for Description, fye , Activity in zip(Descriptions_Capital_Assets, fyes_Capital_Assets,Activitys_Capital_Assets):
+                if Description.strip() and fye.strip() and Activity.strip():
+                    data_list_capital_assets.append({
+                        'Description': Description,
+                        'FYE': fye,
+                        'Subcategory': 'Capital Assets, Net',
+                        'Category': 'Assets',
+                        'Activity': Activity,
+                    })
+
+          
+     
+
+          
+            for data in data_list_capital_assets:
+                Description = data['Description']
+                FYE = data['FYE']
+                Subcategory = data['Subcategory']
+                Category = data['Category']
+                Activity = data['Activity']
+
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Balancesheet] (Description, FYE, Subcategory, Category, Activity) VALUES (?, ?, ?, ?, ?)"
+                cursor.execute(query, (Description, FYE, Subcategory, Category, Activity))
+                cnxn.commit()
+
+             
+            #<<<------------------ CURRENT LIABILITIES INSERT FUNCTION ---------------------->>>
+            Descriptions_CLs = request.POST.getlist('Description_CL[]')
+            fyes_CLs = request.POST.getlist('fye_CL[]')
+            Activitys_CLs = request.POST.getlist('Activity_CL[]')
+           
+
+            data_list_CL = []
+            for Description, fye , Activity in zip(Descriptions_CLs, fyes_CLs, Activitys_CLs):
+                if Description.strip() and fye.strip() and Activity.strip():
+                    data_list_CL.append({
+                        'Description': Description,
+                        'FYE': fye,
+                        'Subcategory': 'Current Liabilities',
+                        'Category': 'Liabilities and Net Assets',
+                        'Activity': Activity,
+                    })
+
+            for data in data_list_CL:
+                Description = data['Description']
+                FYE = data['FYE']
+                Subcategory = data['Subcategory']
+                Category = data['Category']
+                Activity = data['Activity']
+
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Balancesheet] (Description, FYE, Subcategory, Category, Activity) VALUES (?, ?, ?, ?, ?)"
+                cursor.execute(query, (Description, FYE, Subcategory, Category, Activity))
+                cnxn.commit()
+
+
+            #<<<------------------ LONG TERM DEBT INSERT FUNCTION ---------------------->>>
+            Descriptions_LTDs = request.POST.getlist('Description_LTD[]')
+            fyes_LTDs = request.POST.getlist('fye_LTD[]')
+            Activitys_LTDs = request.POST.getlist('Activity_LTD[]')
+           
+
+            data_list_LTD = []
+            for Description, fye , Activity in zip(Descriptions_LTDs, fyes_LTDs, Activitys_LTDs):
+                if Description.strip() and fye.strip() and Activity.strip():
+                    data_list_LTD.append({
+                        'Description': Description,
+                        'FYE': fye,
+                        'Subcategory': 'Long Term Debt',
+                        'Category': 'Debt',
+                        'Activity': Activity,
+                    })
+
+            for data in data_list_LTD:
+                Description = data['Description']
+                FYE = data['FYE']
+                Subcategory = data['Subcategory']
+                Category = data['Category']
+                Activity = data['Activity']
+
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_Balancesheet] (Description, FYE, Subcategory, Category, Activity) VALUES (?, ?, ?, ?, ?)"
+                cursor.execute(query, (Description, FYE, Subcategory, Category, Activity))
+                cnxn.commit()
+            
+
+
+            return redirect('bs_advantage')
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
 
 def viewgl_activitybs(request,obj,yr):
     print(request)
@@ -958,7 +1121,13 @@ def viewgl_activitybs(request,obj,yr):
             date_str=row[11]
         
             date_without_time = date_str.strftime('%b. %d, %Y')
-            
+
+            bal = float(row[18]) if row[18] else 0
+            if bal == 0:
+                balformat = ""
+            else:
+                balformat = "{:,.0f}".format(abs(bal)) if bal >= 0 else "({:,.0f})".format(abs(bal))
+
 
             row_dict = {
                 'fund':row[0],
@@ -979,18 +1148,29 @@ def viewgl_activitybs(request,obj,yr):
                 'Appr':row[15],
                 'Encum':row[16],
                 'Expend':row[17],
-                'Bal':row[18],
+                'Bal':balformat,
                 'WorkDescr':row[19],
                 'Type':row[20],
                 'Contr':row[21]
             }
 
             glbs_data.append(row_dict)
+
+        total_expend = 0 
+        for row in glbs_data:
+            expend_str = row['Bal'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
         
         
 
-        total_bal = sum(row['Bal'] for row in glbs_data)
-        total_bal = "{:,}".format(total_bal)
+        # total_bal = sum(row['Bal'] for row in glbs_data)
+        total_bal = "{:,}".format(total_expend)
         
         context = { 
             'glbs_data':glbs_data,
@@ -1027,7 +1207,14 @@ def viewglfunc(request,func,yr):
             date_str=row[11]
         
             date_without_time = date_str.strftime('%b. %d, %Y')
+            expend = float(row[17]) if row[17] else 0
+            if expend == 0:
+                expendformat = ""
+            else:
+                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
 
+            
+            
             row_dict = {
                 'fund':row[0],
                 'func':row[1],
@@ -1046,7 +1233,7 @@ def viewglfunc(request,func,yr):
                 'Real':row[14],
                 'Appr':row[15],
                 'Encum':row[16],
-                'Expend':row[17],
+                'Expend':expendformat,
                 'Bal':row[18],
                 'WorkDescr':row[19],
                 'Type':row[20],
@@ -1055,10 +1242,24 @@ def viewglfunc(request,func,yr):
 
             glfunc_data.append(row_dict)
 
-        total_bal = sum(row['Expend'] for row in glfunc_data)
-        total_bal = "{:,}".format(total_bal)
+
+
+        total_expend = 0 
+        for row in glfunc_data:
+            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
         
         
+        # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
+        total_bal = "{:,}".format(total_expend)
+        
+       
         context = { 
             'glfunc_data':glfunc_data,
             'total_bal':total_bal
