@@ -638,6 +638,49 @@ def delete_func(request, func):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 
+def delete_bs(request, description, subcategory):
+    try:
+        print(request)
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "DELETE FROM [dbo].[AscenderData_Advantage_Balancesheet] WHERE Description = ? and Subcategory = ?"
+        cursor.execute(query, (description,subcategory))
+        cnxn.commit()
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return redirect('bs_advantage')
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def delete_bsa(request, obj, Activity):
+    try:
+     
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "DELETE FROM [dbo].[AscenderData_Advantage_ActivityBS] WHERE obj = ? and Activity = ?"
+        cursor.execute(query, (obj,Activity))
+        cnxn.commit()
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return redirect('bs_advantage')
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+
+
 def pl_advantagechart(request):
     return render(request,'dashboard/pl_advantagechart.html')
 
@@ -944,8 +987,8 @@ def bs_advantage(request):
     
     bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
     bs_activity_list_sorted = sorted(bs_activity_list)
-    # lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    # lr_obj_sorted = sorted(lr_obj)
+    gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+    gl_obj_sorted = sorted(gl_obj)
 
     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
     # func_choice_sorted = sorted(func_choice)        
@@ -956,6 +999,7 @@ def bs_advantage(request):
         'data_activitybs': data_activitybs,
         'data3': data3,
         'bs_activity_list': bs_activity_list_sorted,
+        'gl_obj':gl_obj_sorted,
         
          }
 
@@ -1089,6 +1133,66 @@ def insert_bs_advantage(request):
                 query = "INSERT INTO [dbo].[AscenderData_Advantage_Balancesheet] (Description, FYE, Subcategory, Category, Activity) VALUES (?, ?, ?, ?, ?)"
                 cursor.execute(query, (Description, FYE, Subcategory, Category, Activity))
                 cnxn.commit()
+
+            
+            #<<<------------------ BALANCE SHEET ACTIVITY INSERT FUNCTION ---------------------->>>
+            Description_BSAs = request.POST.getlist('Description_BSA[]')
+            obj_BSAs = request.POST.getlist('obj_BSA[]')
+            Activity_BSAs = request.POST.getlist('Activity_BSA[]')
+           
+
+            data_list_BSA = []
+            for Description, obj , Activity in zip(Description_BSAs, obj_BSAs, Activity_BSAs):
+                if Description.strip() and obj.strip() and Activity.strip():
+                    data_list_BSA.append({
+                        'Description': Description,
+                        'obj': obj,
+                        'Activity': Activity,
+                    })
+
+            for data in data_list_BSA:
+                Description = data['Description']
+                obj = data['obj']
+                Activity = data['Activity']
+
+                query = "INSERT INTO [dbo].[AscenderData_Advantage_ActivityBS] (Description, obj, Activity) VALUES (?, ?, ?)"
+                cursor.execute(query, (Description, obj, Activity))
+                cnxn.commit()
+            
+
+            
+            #<--------------UPDATE FOR LOCAL REVENUE,SPR,FPR----------
+            updatesubs = request.POST.getlist('updatesub[]')  
+            updatedescs = request.POST.getlist('updatedesc[]')
+            updatefyes = request.POST.getlist('updatefye[]')
+            
+            
+
+            updatedata_bs = []
+
+            for updatesub,updatedesc,updatefye in zip(updatesubs, updatedescs,updatefyes):
+                if updatesub.strip() and updatedesc.strip()  and updatefye.strip():
+                    updatedata_bs.append({
+                        'updatesub': updatesub,
+                        'updatedesc':updatedesc,
+                        
+                        'updatefye': updatefye,
+                        
+                    })
+            for data in updatedata_bs:
+                updatesub= data['updatesub']
+                updatedesc=data['updatedesc']
+                
+                updatefye = data['updatefye']
+
+                try:
+                    query = "UPDATE [dbo].[AscenderData_Advantage_Balancesheet] SET FYE = ? WHERE Description = ? and Subcategory = ? "
+                    cursor.execute(query, (updatefye, updatedesc,updatesub))
+                    cnxn.commit()
+                    print(f"Rows affected for fund={updatefye}: {cursor.rowcount}")
+                except Exception as e:
+                    print(f"Error updating fund={updatefye}: {str(e)}")
+            
             
 
 
@@ -1277,4 +1381,3 @@ def viewglfunc(request,func,yr):
 
 def cashflow_advantage(request):
     return render(request,'dashboard/cashflow_advantage.html')
-
