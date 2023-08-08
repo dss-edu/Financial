@@ -15,8 +15,8 @@ urlpatterns = [
     
     path('insert_row/', views.insert_row, name='insert-row'),
     path('delete/<str:fund>/<str:obj>/', views.delete, name='delete'),
-    
-    
+    path('insert_bs_advantage/', views.insert_bs_advantage, name='insert_bs_advantage'),
+  
     path('delete_func/<str:func>/', views.delete_func, name='delete_func'),
     path('viewgl/<str:fund>/<str:obj>/<str:yr>/', views.viewgl, name='viewgl'),
     path('viewglfunc/<str:func>/<str:yr>/', views.viewglfunc, name='viewglfunc'),
@@ -25,5 +25,4 @@ urlpatterns = [
     
     path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
-
 ]
