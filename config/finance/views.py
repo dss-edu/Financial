@@ -73,7 +73,7 @@ def pl_advantage(request):
     for row in rows:
         if row[4] is None:
             row[4] = ''
-        valueformat = "{:,.0f}".format(int(row[4])) if row[4] else ""
+        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
         row_dict = {
             'fund': row[0],
             'obj': row[1],
@@ -89,7 +89,7 @@ def pl_advantage(request):
 
     data2=[]
     for row in rows:
-        budgetformat = "{:,.0f}".format(int(row[3])) if row[3] else ""
+        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
@@ -136,9 +136,106 @@ def pl_advantage(request):
             }
         
         data3.append(row_dict)
+
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+    rows = cursor.fetchall()
     
+    data_expensebyobject=[]
+    
+    
+    for row in rows:
+        
+        budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+        row_dict = {
+            'obj':row[0],
+            'Description':row[1],
+            'budget':budgetformat,
+            
+            }
+        
+        data_expensebyobject.append(row_dict)
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+    rows = cursor.fetchall()
+    
+    data_activities=[]
+    
+    
+    for row in rows:
+        
+      
+        row_dict = {
+            'obj':row[0],
+            'Description':row[1],
+            'Category':row[2],
+            
+            }
+        
+        data_activities.append(row_dict)
     
 
+    #---------- FOR EXPENSE TOTAL -------
+    acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    for item in data_activities:
+        
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values_expense, start=1):
+            item[f'total_activities{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+    keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+    keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+
+
+
+    for item in data_expensebyobject:
+        obj = item['obj']
+        if obj == '6100':
+            category = 'Payroll Costs'
+        elif obj == '6200':
+            category = 'Professional and Cont Svcs'
+        elif obj == '6300':
+            category = 'Supplies and Materials'
+        elif obj == '6400':
+            category = 'Other Operating Expenses'
+        else:
+            category = 'Total Expense'
+
+        for i, acct_per in enumerate(acct_per_values_expense, start=1):
+            item[f'total_expense{i}'] = sum(
+                entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+            )
+   
+    for row in data_activities:
+        for key in keys_to_check_expense:
+            value = float(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+            elif value != "":
+                row[key] = "{:,.0f}".format(float(row[key]))
+
+    for row in data_expensebyobject:
+        for key in keys_to_check_expense2:
+            value = float(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+            elif value != "":
+                row[key] = "{:,.0f}".format(float(row[key]))
+        
+    
+   
+    
+
+    
+
+
+    #---- for data ------
     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
     for item in data:
@@ -156,8 +253,6 @@ def pl_advantage(request):
         for key in keys_to_check:
             if row[key] < 0:
                 row[key] = -row[key]
-                
-                
             else:
                 row[key] = ''
 
@@ -179,22 +274,45 @@ def pl_advantage(request):
         for i, acct_per in enumerate(acct_per_values2, start=1):
             item[f'total_func{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-            ) 
+            )
 
-    keys_to_check2 = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+    for item in data2:
+        func = item['func_func']
+        
+
+        for i, acct_per in enumerate(acct_per_values2, start=1):
+            item[f'total_func2_{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+            )  
+
+    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
     for row in data2:
-        for key in keys_to_check2:
+        for key in keys_to_check_func:
             if row[key] > 0:
                 row[key] = row[key]
             else:
                 row[key] = ''
     for row in data2:
-        for key in keys_to_check2:
+        for key in keys_to_check_func:
             if row[key] != "":
                 row[key] = "{:,.0f}".format(row[key])
 
+    for row in data2:
+        for key in keys_to_check_func_2:
+            if row[key] > 0:
+                row[key] = row[key]
+            else:
+                row[key] = ''
+    for row in data2:
+        for key in keys_to_check_func_2:
+            if row[key] != "":
+                row[key] = "{:,.0f}".format(row[key])
                 
+                
+
+
 
     lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
     lr_funds_sorted = sorted(lr_funds)
@@ -206,7 +324,17 @@ def pl_advantage(request):
     
             
 
-    context = { 'data': data, 'data2':data2 , 'data3': data3 , 'lr_funds':lr_funds_sorted, 'lr_obj':lr_obj_sorted, 'func_choice':func_choice_sorted }
+    context = {
+         'data': data, 
+         'data2':data2 , 
+         'data3': data3 ,
+          'lr_funds':lr_funds_sorted, 
+          'lr_obj':lr_obj_sorted, 
+          'func_choice':func_choice_sorted ,
+          'data_expensebyobject': data_expensebyobject,
+          'data_activities': data_activities,
+
+          }
     return render(request,'dashboard/pl_advantage.html', context)
 
 def pl_cumberland(request):
@@ -221,7 +349,7 @@ def pl_cumberland(request):
     for row in rows:
         if row[4] is None:
             row[4] = ''
-        valueformat = "{:,.0f}".format(int(row[4])) if row[4] else ""
+        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
             
         row_dict = {
             'fund': row[0],
@@ -238,7 +366,7 @@ def pl_cumberland(request):
 
     data2=[]
     for row in rows:
-        budgetformat = "{:,.0f}".format(int(row[3])) if row[3] else ""
+        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
