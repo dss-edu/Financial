@@ -23,6 +23,9 @@ urlpatterns = [
     path('viewgl/<str:fund>/<str:obj>/<str:yr>/', views.viewgl, name='viewgl'),
     path('viewglfunc/<str:func>/<str:yr>/', views.viewglfunc, name='viewglfunc'),
     path('viewgl_activitybs/<str:obj>/<str:yr>/', views.viewgl_activitybs, name='viewgl_activitybs'),
+    path('viewglexpense/<str:obj>/<str:yr>/', views.viewglexpense, name='viewglexpense'),
+
+    
 
     
     path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
