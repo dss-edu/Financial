@@ -2875,7 +2875,7 @@ function totalEOC() {
   for (let i = 0; i < totalCells.length; i++) {
     const totalCell = totalCells[i];
     const columnTotal = parseInt(columnTotals[i]);
-    totalCell.textContent = columnTotal !== 0 ?  columnTotal.toLocaleString() : '';
+    totalCell.textContent = columnTotal !== 0 ?  '$' + columnTotal.toLocaleString() : '';
   }
 }
 
