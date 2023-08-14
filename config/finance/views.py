@@ -967,6 +967,7 @@ def bs_advantage(request):
             'Subcategory':row[3],
             'FYE':fyeformat,
             
+            
             }
         
         data_balancesheet.append(row_dict)
@@ -1121,6 +1122,8 @@ def bs_advantage(request):
     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
     # func_choice_sorted = sorted(func_choice)        
 
+    button_rendered = 0
+    
     context = { 
         
         'data_balancesheet': data_balancesheet ,
@@ -1128,6 +1131,7 @@ def bs_advantage(request):
         'data3': data3,
         'bs_activity_list': bs_activity_list_sorted,
         'gl_obj':gl_obj_sorted,
+        'button_rendered': button_rendered,
         
          }
 
@@ -1506,6 +1510,134 @@ def viewglfunc(request,func,yr):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
+def viewglexpense(request,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        
 
+        cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+        rows = cursor.fetchall()
+
+        data_expensebyobject=[]
+
+
+        for row in rows:
+
+            budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+            row_dict = {
+                'obj':row[0],
+                'Description':row[1],
+                'budget':budgetformat,
+
+                }
+
+            data_expensebyobject.append(row_dict)
+
+        cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+        rows = cursor.fetchall()
+
+        data_activities=[]
+
+
+        for row in rows:
+
+        
+            row_dict = {
+                'obj':row[0],
+                'Description':row[1],
+                'Category':row[2],
+
+                }
+
+            data_activities.append(row_dict)
+        
+
+
+            
+        
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE obj = ? and AcctPer = ? "
+        cursor.execute(query, (obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        glfunc_data=[]
+    
+    
+        for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
+            expend = float(row[17]) if row[17] else 0
+            if expend == 0:
+                expendformat = ""
+            else:
+                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
+
+            
+            
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':date_without_time,
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':expendformat,
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            glfunc_data.append(row_dict)
+
+
+
+        total_expend = 0 
+        for row in glfunc_data:
+            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
+        
+        
+        # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
+        total_bal = "{:,}".format(total_expend)
+        
+       
+        context = { 
+            'glfunc_data':glfunc_data,
+            'total_bal':total_bal
+            }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+        
 def cashflow_advantage(request):
     return render(request,'dashboard/cashflow_advantage.html')
