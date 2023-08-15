@@ -27,8 +27,10 @@ urlpatterns = [
 
     
 
-    
+    path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
     path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
+    path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
+    path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
 
 ]
