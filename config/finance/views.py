@@ -35,6 +35,34 @@ def connect():
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
 
+def loginView(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None and user.is_active:
+            if user.is_admin or user.is_superuser:
+                auth.login(request, user)
+                return redirect('pl_advantage')
+            elif user is not None and user.is_employee:
+                auth.login(request, user)
+                return redirect('pl_advantage')
+            
+            else:
+                return redirect('login_form')
+        else:
+            
+            return redirect('login_form')
+
+def login_form(request):
+    return render(request,'login.html')
+
+
+
+def logoutView(request):
+	logout(request)
+	return redirect('login_form')
+
 def pl_advantage(request):
     
     cnxn = connect()
@@ -329,7 +357,46 @@ def pl_advantage(request):
     return render(request,'dashboard/advantage/pl_advantage.html', context)
 
 def first_advantage(request):
-    return render(request,'dashboard/advantage/first_advantage.html')
+    current_date = datetime.today().date()
+    current_year = current_date.year
+    last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4 
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    print(last_month)
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+    context = {
+        'last_month':last_month,
+        'last_month_number':last_month_number,
+        'format_ytd_budget': formatted_ytd_budget,
+        'ytd_budget':ytd_budget,
+    }
+    return render(request,'dashboard/advantage/first_advantage.html', context)
+
+def first_cumberland(request):
+    current_date = datetime.today().date()
+    current_year = current_date.year
+    last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4 
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    print(last_month)
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+    context = {
+        'last_month':last_month,
+        'last_month_number':last_month_number,
+        'format_ytd_budget': formatted_ytd_budget,
+        'ytd_budget':ytd_budget,
+    }
+    return render(request,'dashboard/cumberland/first_cumberland.html', context)
 
 def pl_cumberland(request):
     
@@ -485,6 +552,8 @@ def pl_cumberland(request):
         obj = item['obj']
 
         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+            test = entry['Date'] 
+
             item[f'total_activities{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
@@ -1081,8 +1150,7 @@ def viewgl_cumberland(request,fund,obj,yr):
         for row in rows:
             date_str=row[11]
 
-            date_without_time = date_str.strftime('%b. %d, %Y')
-
+          
 
             real = float(row[14]) if row[14] else 0
             if real == 0:
@@ -1103,7 +1171,7 @@ def viewgl_cumberland(request,fund,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':realformat,
@@ -1887,8 +1955,7 @@ def viewgl_activitybs(request,obj,yr):
         for row in rows:
             date_str=row[11]
         
-            date_without_time = date_str.strftime('%b. %d, %Y')
-
+           
             bal = float(row[18]) if row[18] else 0
             if bal == 0:
                 balformat = ""
@@ -1908,7 +1975,7 @@ def viewgl_activitybs(request,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -1973,7 +2040,7 @@ def viewgl_activitybs_cumberland(request,obj,yr):
         for row in rows:
             date_str=row[11]
         
-            date_without_time = date_str.strftime('%b. %d, %Y')
+            
 
             bal = float(row[18]) if row[18] else 0
             if bal == 0:
@@ -1994,7 +2061,7 @@ def viewgl_activitybs_cumberland(request,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -2146,7 +2213,7 @@ def viewglfunc_cumberland(request,func,yr):
         for row in rows:
             date_str=row[11]
         
-            date_without_time = date_str.strftime('%b. %d, %Y')
+            
             expend = float(row[17]) if row[17] else 0
             if expend == 0:
                 expendformat = ""
@@ -2167,7 +2234,7 @@ def viewglfunc_cumberland(request,func,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -2274,7 +2341,7 @@ def viewglexpense(request,obj,yr):
         for row in rows:
             date_str=row[11]
         
-            date_without_time = date_str.strftime('%b. %d, %Y')
+            
             expend = float(row[17]) if row[17] else 0
             if expend == 0:
                 expendformat = ""
@@ -2295,7 +2362,7 @@ def viewglexpense(request,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
@@ -2402,7 +2469,7 @@ def viewglexpense_cumberland(request,obj,yr):
         for row in rows:
             date_str=row[11]
         
-            date_without_time = date_str.strftime('%b. %d, %Y')
+           
             expend = float(row[17]) if row[17] else 0
             if expend == 0:
                 expendformat = ""
@@ -2423,7 +2490,7 @@ def viewglexpense_cumberland(request,obj,yr):
                 'projDtl':row[8],
                 'AcctDescr':row[9],
                 'Number':row[10],
-                'Date':date_without_time,
+                'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
                 'Real':row[14],
