@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     
+   
     path('login/',views.loginView,name = 'login'),
     path('login_form/',views.login_form,name = 'login_form'),
     path('logout/', views.logoutView, name='logout'),
@@ -11,6 +12,7 @@ urlpatterns = [
     path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
     path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
+    path('first_advantage/', views.first_advantage, name='first_advantage'),
 
     
     path('insert_row/', views.insert_row, name='insert-row'),
@@ -32,5 +34,11 @@ urlpatterns = [
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
     path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
     path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
+
+    path('viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/', views.viewgl_cumberland, name='viewgl_cumberland'),
+    path('viewglfunc_cumberland/<str:func>/<str:yr>/', views.viewglfunc_cumberland, name='viewglfunc_cumberland'),
+    path('viewgl_activitybs_cumberland/<str:obj>/<str:yr>/', views.viewgl_activitybs_cumberland, name='viewgl_activitybs_cumberland'),
+    path('viewglexpense_cumberland/<str:obj>/<str:yr>/', views.viewglexpense_cumberland, name='viewglexpense_cumberland'),
+
 
 ]
