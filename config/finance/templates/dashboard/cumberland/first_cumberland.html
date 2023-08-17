@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+{% extends 'dashboard/cumberland/base.html' %}
+{% load static %}
+<head>
+  {% block stylesheet %}
+  <style>
+
+
+    .right-align-td {
+      text-align: right;
+    padding-right: 250px;
+     
+    }
+    .collapsed {
+      display: none;
+ 
+  }
+  
+  table {
+    border-collapse: collapse; /* Collapse cell borders */
+    width: 100%; /* Adjust table width as needed */
+    border: 1px solid black; /* Outer border of the table */
+  }
+
+  /* Style for table header row */
+  th {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  /* Style for table data cells */
+  td {
+    border: 1px solid black;
+    padding: 8px;
+  }
+  .green-header {
+    background-color: green;
+
+  }
+
+ 
+  
+
+  
+</style>
+  {% endblock %}
+
+</head>
+{% block body %}
+
+ <div id="content-wrapper">
+  
+  <nav class="navbar navbar-expand navbar-dark bg-dark ">
+
+    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      
+    </form>
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
+    
+  
+
+</nav>
+
+  
+
+
+
+<div class="table-container"  >
+<form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
+ 
+  <div id="edit-container" >
+    <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
+</div>
+
+<div id="cancel-container" style="display: none;"> 
+  <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
+</div>
+
+<div id="save-container" style="display: none; ">
+    <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
+</div>
+
+
+<script>
+    document.getElementById("edit-button").addEventListener("click", function() {
+        // Hide the "Edit" container
+        document.getElementById("edit-container").style.display = "none";
+
+        // Show the "Save" container
+        document.getElementById("save-container").style.display = "block";
+        document.getElementById("cancel-container").style.display = "block";
+        
+        
+        
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {
+            cell.contentEditable = "true";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "block";
+        });
+        document.getElementById("add-row-button").style.display = "block";
+        document.getElementById("add-row-spr-button").style.display = "block";
+        document.getElementById("add-row-fpr-button").style.display = "block";
+        document.getElementById("add-row-func-button").style.display = "block";
+        
+        
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", function() {
+        // Hide the "Save" container
+        document.getElementById("save-container").style.display = "none";
+        document.getElementById("cancel-container").style.display = "none";
+       
+        document.getElementsByClassName("new-row-template").style.display = "none";
+        document.getElementById("new-row-template-spr").style.display = "none";
+        document.getElementById("new-row-template-fpr").style.display = "none";
+        document.getElementById("new-row-template-func").style.display = "none";
+        
+
+        // Show the "Edit" container
+        document.getElementById("edit-container").style.display = "block";
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {zz
+            cell.contentEditable = "false";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "none";
+        });
+        document.getElementById("add-row-button").style.display = "none";
+        document.getElementById("add-row-spr-button").style.display = "none";
+        document.getElementById("add-row-fpr-button").style.display = "none";
+        document.getElementById("add-row-func-button").style.display = "none";
+       
+        
+    });
+</script>
+
+  {% csrf_token %}
+    <table id="data-table" class="table table-hover">
+        <thead>
+          <tr>
+            
+            <th colspan="19" style="white-space: nowrap;">
+              <h2 style="text-align: center;">CUMBERLAND ACADEMY</h2><br>
+              <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{last_month}}</h2><br>
+            </th>
+            
+           
+            
+        </tr>
+        <tr class="green-header">
+          <th>FIRST Rating Indicators </th>
+          <th>Expected Results</th>
+          <th>Points</th>
+          <th>Status</th>
+          <th>Notes</th>
+        </tr>
+
+        <script>
+          function hide17thColumn() {
+            var columnsToHide = document.querySelectorAll("th:nth-child(17), td:nth-child(17)");
+        
+            for (var i = 0; i < columnsToHide.length; i++) {
+                columnsToHide[i].style.display = "none";
+            }
+        }
+        </script>
+
+        
+        </thead>
+    <tbody id="data-table-body">
+      <tr>
+        <td><strong>YTD Net Income </strong></td>
+        <td style="text-align:center;">(1,323,478)</td>
+        <td style="text-align:center;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements; 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
+        <td style="text-align:center;"></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><strong>Indicators 1-5 Pass/Fail</strong></td>
+        <td style="text-align:center;">Pass</td>
+        <td style="text-align:center;">n/a</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>Indicator #5 net asset balance at risk if losses continue; growth and new school exceptions do not apply.</td>
+      </tr>
+      <tr>
+        <td><strong>#6 - Net assets over 3 years < 25% decrease
+          Exception: >75days net assets"</strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">n/a</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>89 pts = B max if fails
+        </td>
+      </tr>
+      <tr>
+        <td><strong>#7 - Days Cash on Hand  ($40,806 = 1 day)</strong>
+        </td>
+        <td style="text-align:center;">190
+        </td>
+        <td style="text-align:center;">10
+        </td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>"Preferred benchmark > 60 days
+          10 pts > 60; 0 pts < 20"
+          
+        </td>
+      </tr>
+      <tr>
+        <td><strong>#8 - Current Assets / Current Liab.</strong></td>
+        <td style="text-align:center;">4.61</td>
+        <td style="text-align:center;">10
+        </td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
+      </tr>
+      <tr>
+        <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
+        <td style="text-align:center;">(802,645)</td>
+        <td style="text-align:center;">5
+        </td>
+        <td style="text-align:center;"><strong style="color: #077e09;">G</strong> <strong  style="color: #eeff00;">Y</strong></td>
+        <td>"revenues >= expenditures 
+          (excl. Depr.)"
+    
+      </tr>
+      <tr>
+        <td><strong>#10 - Budget vs Actual Revenue < 10% 3-yr variance</strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">10
+
+        </td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>"within 10% variance
+          (90%-110%)"
+          
+          </td>
+      </tr>
+      <tr>
+        <td><strong>#11 - LT Liabilities / Total Assets</strong></td>
+        <td style="text-align:center;">0.64</td>
+        <td style="text-align:center;">10</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td> <0.6 = 10pts, >1.0 = 0pts</td>
+      </tr>
+      <tr>
+        <td><strong>#12 - Debt Service Coverage Ratio</strong></td>
+        <td style="text-align:center;">n/a</td>
+        <td style="text-align:center;">10</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td> 10 pts >1.2X; 0 pts < 1.0X</td>
+      </tr>
+      <tr>
+        <td><strong>#13 - Debt to Capitalization %</strong></td>
+        <td style="text-align:center;">68%</td>
+        <td style="text-align:center;">5</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td> >95% = 0 pts;<95% = 5 pts </td>
+
+      </tr>
+
+      <tr>
+        <td><strong>#14 - Administrative Ratio 
+          </strong><p>(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)<p></td>
+        <td style="text-align:center;">10.3% / 10.2%</td>
+        <td style="text-align:center;">10</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td> "Target <=15.61%
+          <=26.45% if less than 500 students"
+           </td>
+        
+      </tr>
+      <tr>
+        <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
+        <td style="text-align:center;">Not measured by DSS</td>
+        <td style="text-align:center;">10</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>0  or 10 pts
+
+           </td>
+        
+      </tr>
+      <tr>
+        <td><strong>#16 - Actual ADA vs. Estimated ADA</strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">5</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>within 10% variance</td>
+        
+      </tr>
+      <tr>
+        <td><strong>#17 - Accurate PEIMS reporting</strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">Ceiling</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>79 pts = C max if material weaknesses</td>
+        
+      </tr>
+      <tr>
+        <td><strong>#19 - Annual audit compliance
+        </strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">10</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>Free of any material noncompliance
+        </td>
+        
+      </tr>
+      <tr>
+        <td><strong>#20 - Post financial info on website</strong></td>
+        <td style="text-align:center;">projected</td>
+        <td style="text-align:center;">5</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td>0 or 5 pts</td>
+        
+      </tr>
+      <tr>
+        <td><strong>#21 - Serves students reside approved geographic boundaries</strong></td>
+        <td style="text-align:center;">Not measured by DSS</td>
+        <td style="text-align:center;">Ceiling</td>
+        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td >89 pts = B max if fails</td>
+        
+      </tr>
+      <tr>
+        <td style="text-align:center;"><strong>Estimated FIRST Rating</strong></td>
+        <td colspan = "2" style="text-align:center;">100	</td>
+   
+        <td rowspan="2" style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
+        <td  rowspan="2">"F < 69, C Meets Standard = 70-79, 
+          B Above Standard = 80-89, 
+          A Superior = 90-100"
+          
+          </td>
+        
+      </tr>
+      <tr>
+        <td style="text-align:center;"><strong>2022-2023 School Year</strong></td>
+        <td colspan = "2" style="text-align:center;">A - Superior	
+        </td>
+ 
+        
+      </tr>
+
+        
+</tbody>
+</table>
+</form>
+</div>
+
+
+
+<script>
+  function formatNumberWithCommas(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+</script>
+
+
+
+{% endblock %}
+
+
