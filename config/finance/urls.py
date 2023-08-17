@@ -34,6 +34,7 @@ urlpatterns = [
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
     path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
     path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
+    path('first_cumberland/', views.first_cumberland, name='first_cumberland'),
 
     path('viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/', views.viewgl_cumberland, name='viewgl_cumberland'),
     path('viewglfunc_cumberland/<str:func>/<str:yr>/', views.viewglfunc_cumberland, name='viewglfunc_cumberland'),
