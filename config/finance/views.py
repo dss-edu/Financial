@@ -35,34 +35,6 @@ def connect():
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
 
-def loginView(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user is not None and user.is_active:
-            if user.is_admin or user.is_superuser:
-                auth.login(request, user)
-                return redirect('pl_advantage')
-            elif user is not None and user.is_employee:
-                auth.login(request, user)
-                return redirect('pl_advantage')
-            
-            else:
-                return redirect('login_form')
-        else:
-            
-            return redirect('login_form')
-
-def login_form(request):
-    return render(request,'login.html')
-
-
-
-def logoutView(request):
-	logout(request)
-	return redirect('login_form')
-
 def pl_advantage(request):
     
     cnxn = connect()
@@ -355,6 +327,9 @@ def pl_advantage(request):
 
           }
     return render(request,'dashboard/advantage/pl_advantage.html', context)
+
+def first_advantage(request):
+    return render(request,'dashboard/advantage/first_advantage.html')
 
 def pl_cumberland(request):
     
@@ -1020,11 +995,82 @@ def viewgl(request,fund,obj,yr):
         
         cnxn = connect()
         cursor = cnxn.cursor()
-
-
-        
-        
         query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE fund = ? and obj = ? and AcctPer = ?"
+        cursor.execute(query, (fund,obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        gl_data=[]
+    
+    
+        for row in rows:
+            date_str=row[11]
+
+            # date_without_time = date_str.strftime('%b. %d, %Y')
+
+
+            real = float(row[14]) if row[14] else 0
+            if real == 0:
+                realformat = ""
+            else:
+                realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
+
+            
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':date_str,
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':realformat,
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':row[17],
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            gl_data.append(row_dict)
+        
+        total_bal = sum(float(row['Real'].replace(',', '').replace('(', '-').replace(')', '')) for row in gl_data)
+        total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
+
+        context = { 
+            'gl_data':gl_data,
+            'total_bal':total_bal
+        }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def viewgl_cumberland(request,fund,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+
+        
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE fund = ? and obj = ? and AcctPer = ?"
         cursor.execute(query, (fund,obj,yr))
         
         rows = cursor.fetchall()
@@ -1908,6 +1954,92 @@ def viewgl_activitybs(request,obj,yr):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
+def viewgl_activitybs_cumberland(request,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE obj = ? and AcctPer = ?"
+        cursor.execute(query, (obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        glbs_data=[]
+    
+    
+        for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
+
+            bal = float(row[18]) if row[18] else 0
+            if bal == 0:
+                balformat = ""
+            else:
+                balformat = "{:,.0f}".format(abs(bal)) if bal >= 0 else "({:,.0f})".format(abs(bal))
+
+
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':date_without_time,
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':row[17],
+                'Bal':balformat,
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            glbs_data.append(row_dict)
+
+        total_expend = 0 
+        for row in glbs_data:
+            expend_str = row['Bal'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
+        
+        
+
+        # total_bal = sum(row['Bal'] for row in glbs_data)
+        total_bal = "{:,}".format(total_expend)
+        
+        context = { 
+            'glbs_data':glbs_data,
+            'total_bal':total_bal,
+
+            }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
 def viewglfunc(request,func,yr):
     print(request)
     try:
@@ -1917,6 +2049,93 @@ def viewglfunc(request,func,yr):
 
         
         query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE func = ? and AcctPer = ?"
+        cursor.execute(query, (func,yr))
+        
+        rows = cursor.fetchall()
+    
+        glfunc_data=[]
+    
+    
+        for row in rows:
+            date_str=row[11]
+        
+            
+            expend = float(row[17]) if row[17] else 0
+            if expend == 0:
+                expendformat = ""
+            else:
+                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
+
+            
+            
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':date_str,
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':expendformat,
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            glfunc_data.append(row_dict)
+
+
+
+        total_expend = 0 
+        for row in glfunc_data:
+            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
+        
+        
+        # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
+        total_bal = "{:,}".format(total_expend)
+        
+       
+        context = { 
+            'glfunc_data':glfunc_data,
+            'total_bal':total_bal
+            }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def viewglfunc_cumberland(request,func,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE func = ? and AcctPer = ?"
         cursor.execute(query, (func,yr))
         
         rows = cursor.fetchall()
@@ -2045,6 +2264,134 @@ def viewglexpense(request,obj,yr):
         
         
         query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE obj = ? and AcctPer = ? "
+        cursor.execute(query, (obj,yr))
+        
+        rows = cursor.fetchall()
+    
+        glfunc_data=[]
+    
+    
+        for row in rows:
+            date_str=row[11]
+        
+            date_without_time = date_str.strftime('%b. %d, %Y')
+            expend = float(row[17]) if row[17] else 0
+            if expend == 0:
+                expendformat = ""
+            else:
+                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
+
+            
+            
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':date_without_time,
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':expendformat,
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+            }
+
+            glfunc_data.append(row_dict)
+
+
+
+        total_expend = 0 
+        for row in glfunc_data:
+            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            try:
+                expend_value = float(expend_str)
+                total_expend += expend_value
+                
+            except ValueError:
+                pass
+            
+        
+        
+        # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
+        total_bal = "{:,}".format(total_expend)
+        
+       
+        context = { 
+            'glfunc_data':glfunc_data,
+            'total_bal':total_bal
+            }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def viewglexpense_cumberland(request,obj,yr):
+    print(request)
+    try:
+        
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        
+
+        cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_ExpensesbyObjectCode];") 
+        rows = cursor.fetchall()
+
+        data_expensebyobject=[]
+
+
+        for row in rows:
+
+            budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+            row_dict = {
+                'obj':row[0],
+                'Description':row[1],
+                'budget':budgetformat,
+
+                }
+
+            data_expensebyobject.append(row_dict)
+
+        cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_Activities];") 
+        rows = cursor.fetchall()
+
+        data_activities=[]
+
+
+        for row in rows:
+
+        
+            row_dict = {
+                'obj':row[0],
+                'Description':row[1],
+                'Category':row[2],
+
+                }
+
+            data_activities.append(row_dict)
+        
+
+
+            
+        
+        
+        query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE obj = ? and AcctPer = ? "
         cursor.execute(query, (obj,yr))
         
         rows = cursor.fetchall()
