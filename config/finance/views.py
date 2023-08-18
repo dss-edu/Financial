@@ -2999,7 +2999,6 @@ def cashflow_advantage(request):
     return render(request,'dashboard/advantage/cashflow_advantage.html',context)
 
 def cashflow_cumberland(request):
-    return render(request,'dashboard/cumberland/cashflow_advantage.html')
+    return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
-def cashflow_cumberland(request):
-    return render(request,'dashboard/cumberland/cashflow_advantage.html')
+
