@@ -552,6 +552,7 @@ def pl_cumberland(request):
         obj = item['obj']
 
         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+            
 
             item[f'total_activities{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
@@ -1217,10 +1218,10 @@ def gl_advantage(request):
     for row in rows:
         date_str=row[11]
         
-        if date_str is not None:
-                date_without_time = date_str.strftime('%b. %d, %Y')
-        else:
-                date_without_time = None 
+        # if date_str is not None:
+        #         date_without_time = date_str.strftime('%b. %d, %Y')
+        # else:
+        #         date_without_time = None 
         row_dict = {
             'fund':row[0],
             'func':row[1],
@@ -1233,7 +1234,7 @@ def gl_advantage(request):
             'projDtl':row[8],
             'AcctDescr':row[9],
             'Number':row[10],
-            'Date':date_without_time,
+            'Date':date_str,
             'AcctPer':row[12],
             'Est':row[13],
             'Real':row[14],
@@ -1273,10 +1274,10 @@ def gl_cumberland(request):
     for row in rows:
         date_str=row[11]
         
-        if date_str is not None:
-                date_without_time = date_str.strftime('%b. %d, %Y')
-        else:
-                date_without_time = None 
+        # if date_str is not None:
+        #         date_without_time = date_str.strftime('%b. %d, %Y')
+        # else:
+        #         date_without_time = None 
         row_dict = {
             'fund':row[0],
             'func':row[1],
@@ -1289,7 +1290,7 @@ def gl_cumberland(request):
             'projDtl':row[8],
             'AcctDescr':row[9],
             'Number':row[10],
-            'Date':date_without_time,
+            'Date':date_str,
             'AcctPer':row[12],
             'Est':row[13],
             'Real':row[14],
