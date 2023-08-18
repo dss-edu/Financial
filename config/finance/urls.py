@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/', views.logoutView, name='logout'),
     path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
+    path('first_advantagechart/', views.first_advantagechart, name='first_advantagechart'),
     path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
     path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
