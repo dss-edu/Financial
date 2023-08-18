@@ -477,35 +477,7 @@ def pl_cumberland(request):
     
     
 
-    for row in rows:
-        expend = float(row[17])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':expend,
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
-        
-        data3.append(row_dict)
 
 
     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_ExpensesbyObjectCode];") 
@@ -1152,11 +1124,11 @@ def viewgl_cumberland(request,fund,obj,yr):
 
           
 
-            real = float(row[14]) if row[14] else 0
-            if real == 0:
-                realformat = ""
-            else:
-                realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
+            # real = float(row[14]) if row[14] else 0
+            # if real == 0:
+            #     realformat = ""
+            # else:
+            #     realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
 
             
             row_dict = {
@@ -1174,7 +1146,7 @@ def viewgl_cumberland(request,fund,obj,yr):
                 'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
-                'Real':realformat,
+                'Real':row[14],
                 'Appr':row[15],
                 'Encum':row[16],
                 'Expend':row[17],
@@ -1186,7 +1158,7 @@ def viewgl_cumberland(request,fund,obj,yr):
 
             gl_data.append(row_dict)
         
-        total_bal = sum(float(row['Real'].replace(',', '').replace('(', '-').replace(')', '')) for row in gl_data)
+        total_bal = sum(float(row['Real']) for row in gl_data)
         total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
         
         
@@ -2519,7 +2491,7 @@ def viewglexpense_cumberland(request,obj,yr):
             
         
         
-        # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
+        total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
         total_bal = "{:,}".format(total_expend)
         
        
