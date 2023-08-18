@@ -1022,7 +1022,8 @@ def delete_bsa(request, obj, Activity):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-
+def first_advantagechart(request):
+    return render(request,'dashboard/advantage/first_advantagechart.html')
 
 def pl_advantagechart(request):
     return render(request,'dashboard/advantage/pl_advantagechart.html')
