@@ -552,7 +552,6 @@ def pl_cumberland(request):
         obj = item['obj']
 
         for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            test = entry['Date'] 
 
             item[f'total_activities{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
