@@ -14,6 +14,7 @@ urlpatterns = [
     path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
     path('first_advantage/', views.first_advantage, name='first_advantage'),
+    path('generate_excel/', views.generate_excel, name='generate_excel'),
 
     
     path('insert_row/', views.insert_row, name='insert-row'),
