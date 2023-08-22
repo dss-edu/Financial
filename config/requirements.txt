@@ -13,3 +13,4 @@ pytz
 pyxlsb
 sqlalchemy
 sqlparse
+openpyxl 
