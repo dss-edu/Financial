@@ -2979,4 +2979,457 @@ def cashflow_advantage(request):
 def cashflow_cumberland(request):
     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
+def generate_excel(request):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+    rows = cursor.fetchall()
+
+    
+    data = []
+    for row in rows:
+        if row[4] is None:
+            row[4] = ''
+       
+        
+        row_dict = {
+            'fund': row[0],
+            'obj': row[1],
+            'description': row[2],
+            'category': row[3],
+            'value': row[4]
+        }
+        data.append(row_dict)
+
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+    rows = cursor.fetchall()
+
+
+    data2=[]
+    for row in rows:
+       
+        row_dict = {
+            'func_func': row[0],
+            'desc': row[1],
+            'budget': row[3],
+            
+        }
+        data2.append(row_dict)
+
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
+    rows = cursor.fetchall()
+    
+    data3=[]
+    
+    
+    for row in rows:
+        expend = float(row[17])
+
+        row_dict = {
+            'fund':row[0],
+            'func':row[1],
+            'obj':row[2],
+            'sobj':row[3],
+            'org':row[4],
+            'fscl_yr':row[5],
+            'pgm':row[6],
+            'edSpan':row[7],
+            'projDtl':row[8],
+            'AcctDescr':row[9],
+            'Number':row[10],
+            'Date':row[11],
+            'AcctPer':row[12],
+            'Est':row[13],
+            'Real':row[14],
+            'Appr':row[15],
+            'Encum':row[16],
+            'Expend':expend,
+            'Bal':row[18],
+            'WorkDescr':row[19],
+            'Type':row[20],
+            'Contr':row[21]
+            }
+        
+        data3.append(row_dict)
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+    rows = cursor.fetchall()
+    
+    data_expensebyobject=[]
+    for row in rows:
+        
+        
+        row_dict = {
+            'obj':row[0],
+            'Description':row[1],
+            'budget':row[2],
+            
+            }
+        
+        data_expensebyobject.append(row_dict)
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+    rows = cursor.fetchall()
+    
+    data_activities=[]
+    for row in rows:
+        
+      
+        row_dict = {
+            'obj':row[0],
+            'Description':row[1],
+            'Category':row[2],
+            
+            }
+        
+        data_activities.append(row_dict)
+    
+
+    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    
+    for item in data_activities:
+        
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_activities{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+    for item in data:
+        fund = item['fund']
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_real{i}'] = sum(
+                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+
+
+    for item in data2:
+        func = item['func_func']
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_func{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+            )
+
+    for item in data2:
+        func = item['func_func']
+        
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_func2_{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+            )  
+
+
+    template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
+
+
+    generated_excel_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'GeneratedExcel.xlsx')
+
+
+    shutil.copyfile(template_path, generated_excel_path)
+
+ 
+    workbook = openpyxl.load_workbook(generated_excel_path)
+    sheet_names = workbook.sheetnames
+
+
+    first = sheet_names[0]
+    pl = sheet_names[1]
+    bs = sheet_names[2]
+    cashflow= sheet_names[3]
+
+    first_sheet = workbook[first]
+    pl_sheet = workbook[pl]
+    bs_sheet = workbook[bs]
+    cashflow_sheet = workbook[cashflow]
+
+    first_sheet.column_dimensions['A'].width = 46
+    first_sheet.column_dimensions['B'].width = 20
+    first_sheet.column_dimensions['C'].width = 9
+    first_sheet.column_dimensions['D'].width = 12
+    first_sheet.column_dimensions['E'].width = 38
+    for row in range(3,26):
+        first_sheet.row_dimensions[row].height = 30
+    first_sheet.row_dimensions[1].height = 21
+    first_sheet.row_dimensions[1].height = 21
+  
+    
+    # for col in range(7, 18):
+    #     col_letter = get_column_letter(col)
+    #     pl_sheet.column_dimensions[col_letter].hidden = True
+    for col in range(7, 19):
+        col_letter = get_column_letter(col)
+        pl_sheet.column_dimensions[col_letter].outline_level = 1
+
+    pl_sheet.row_dimensions[1].height = 64
+    for row in range(2,181):
+        pl_sheet.row_dimensions[row].height = 19
+    pl_sheet.row_dimensions[17].height = 26 #local revenue
+    pl_sheet.row_dimensions[20].height = 26 #spr
+    pl_sheet.row_dimensions[33].height = 26 #fpr
+    pl_sheet.row_dimensions[34].height = 26 #total
+    pl_sheet.column_dimensions['A'].width = 8
+    pl_sheet.column_dimensions['B'].width = 28
+    pl_sheet.column_dimensions['C'].hidden = True
+    pl_sheet.column_dimensions['D'].width = 14
+    pl_sheet.column_dimensions['E'].width = 12
+    pl_sheet.column_dimensions['F'].width = 1
+    pl_sheet.column_dimensions['G'].width = 12
+    pl_sheet.column_dimensions['H'].width = 12
+    pl_sheet.column_dimensions['I'].width = 12
+    pl_sheet.column_dimensions['J'].width = 12
+    pl_sheet.column_dimensions['K'].width = 12
+    pl_sheet.column_dimensions['L'].width = 12
+    pl_sheet.column_dimensions['M'].width = 12
+    pl_sheet.column_dimensions['N'].width = 12
+    pl_sheet.column_dimensions['O'].width = 12
+    pl_sheet.column_dimensions['P'].width = 12
+    pl_sheet.column_dimensions['Q'].width = 12
+    pl_sheet.column_dimensions['R'].width = 12
+    pl_sheet.column_dimensions['S'].width = 2
+    pl_sheet.column_dimensions['T'].width = 17
+    pl_sheet.column_dimensions['U'].width = 17
+    pl_sheet.column_dimensions['V'].width = 12
+
+
+    start_row = 5
+    for row_data in data:
+        if row_data['category'] == 'Local Revenue': 
+            pl_sheet[f'A{start_row}'] = row_data['fund']
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'G{start_row}'] = row_data['total_real9']
+            pl_sheet[f'H{start_row}'] = row_data['total_real10']
+            pl_sheet[f'I{start_row}'] = row_data['total_real11']
+            pl_sheet[f'J{start_row}'] = row_data['total_real12']
+            pl_sheet[f'K{start_row}'] = row_data['total_real1']
+            pl_sheet[f'L{start_row}'] = row_data['total_real2']
+            pl_sheet[f'M{start_row}'] = row_data['total_real3']
+            pl_sheet[f'N{start_row}'] = row_data['total_real4']
+            pl_sheet[f'O{start_row}'] = row_data['total_real5']
+            pl_sheet[f'P{start_row}'] = row_data['total_real6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
+            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+        
+            start_row += 1
+    start_row += 1   
+    for row_data in data:
+        if row_data['category'] == 'State Program Revenue':
+        
+            pl_sheet[f'A{start_row}'] = row_data['fund']
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'G{start_row}'] = row_data['total_real9']
+            pl_sheet[f'H{start_row}'] = row_data['total_real10']
+            pl_sheet[f'I{start_row}'] = row_data['total_real11']
+            pl_sheet[f'J{start_row}'] = row_data['total_real12']
+            pl_sheet[f'K{start_row}'] = row_data['total_real1']
+            pl_sheet[f'L{start_row}'] = row_data['total_real2']
+            pl_sheet[f'M{start_row}'] = row_data['total_real3']
+            pl_sheet[f'N{start_row}'] = row_data['total_real4']
+            pl_sheet[f'O{start_row}'] = row_data['total_real5']
+            pl_sheet[f'P{start_row}'] = row_data['total_real6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
+            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            
+            start_row += 1
+    start_row += 1   
+    for row_data in data:
+        if row_data['category'] == 'Federal Program Revenue':
+        
+            pl_sheet[f'A{start_row}'] = row_data['fund']
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'G{start_row}'] = row_data['total_real9']
+            pl_sheet[f'H{start_row}'] = row_data['total_real10']
+            pl_sheet[f'I{start_row}'] = row_data['total_real11']
+            pl_sheet[f'J{start_row}'] = row_data['total_real12']
+            pl_sheet[f'K{start_row}'] = row_data['total_real1']
+            pl_sheet[f'L{start_row}'] = row_data['total_real2']
+            pl_sheet[f'M{start_row}'] = row_data['total_real3']
+            pl_sheet[f'N{start_row}'] = row_data['total_real4']
+            pl_sheet[f'O{start_row}'] = row_data['total_real5']
+            pl_sheet[f'P{start_row}'] = row_data['total_real6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
+            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            start_row += 1
+
+    start_row += 5   
+
+    for row_data in data2: #
+        pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+        pl_sheet[f'D{start_row}'] = row_data['budget']
+        pl_sheet[f'G{start_row}'] = row_data['total_func9']
+        pl_sheet[f'H{start_row}'] = row_data['total_func10']
+        pl_sheet[f'I{start_row}'] = row_data['total_func11']
+        pl_sheet[f'J{start_row}'] = row_data['total_func12']
+        pl_sheet[f'K{start_row}'] = row_data['total_func1']
+        pl_sheet[f'L{start_row}'] = row_data['total_func2']
+        pl_sheet[f'M{start_row}'] = row_data['total_func3']
+        pl_sheet[f'N{start_row}'] = row_data['total_func4']
+        pl_sheet[f'O{start_row}'] = row_data['total_func5']
+        pl_sheet[f'P{start_row}'] = row_data['total_func6']
+        pl_sheet[f'Q{start_row}'] = row_data['total_func7']
+        pl_sheet[f'R{start_row}'] = row_data['total_func8']
+        start_row += 1
+    
+    start_row += 4  #surplus (deficits) before depreciation
+
+    for row_data in data2: #Depreciation and amortization
+        pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+        pl_sheet[f'c{start_row}'] = '6449'
+        pl_sheet[f'G{start_row}'] = row_data['total_func2_9']
+        pl_sheet[f'H{start_row}'] = row_data['total_func2_10']
+        pl_sheet[f'I{start_row}'] = row_data['total_func2_11']
+        pl_sheet[f'J{start_row}'] = row_data['total_func2_12']
+        pl_sheet[f'K{start_row}'] = row_data['total_func2_1']
+        pl_sheet[f'L{start_row}'] = row_data['total_func2_2']
+        pl_sheet[f'M{start_row}'] = row_data['total_func2_3']
+        pl_sheet[f'N{start_row}'] = row_data['total_func2_4']
+        pl_sheet[f'O{start_row}'] = row_data['total_func2_5']
+        pl_sheet[f'P{start_row}'] = row_data['total_func2_6']
+        pl_sheet[f'Q{start_row}'] = row_data['total_func2_7']
+        pl_sheet[f'R{start_row}'] = row_data['total_func2_8']
+        start_row += 1
+
+    start_row += 6 # net surplus (deficit)
+
+    for row_data in data_activities: 
+        if row_data['Category'] == 'Payroll Costs':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'G{start_row}'] = row_data['total_activities9']
+            pl_sheet[f'H{start_row}'] = row_data['total_activities10']
+            pl_sheet[f'I{start_row}'] = row_data['total_activities11']
+            pl_sheet[f'J{start_row}'] = row_data['total_activities12']
+            pl_sheet[f'K{start_row}'] = row_data['total_activities1']
+            pl_sheet[f'L{start_row}'] = row_data['total_activities2']
+            pl_sheet[f'M{start_row}'] = row_data['total_activities3']
+            pl_sheet[f'N{start_row}'] = row_data['total_activities4']
+            pl_sheet[f'O{start_row}'] = row_data['total_activities5']
+            pl_sheet[f'P{start_row}'] = row_data['total_activities6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
+            pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            start_row += 1
+            
+    for row_data in data_expensebyobject: 
+        if row_data['obj'] == '6100':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            start_row += 1
+
+
+    for row_data in data_activities: 
+        if row_data['Category'] == 'Professional and Cont Svcs':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'G{start_row}'] = row_data['total_activities9']
+            pl_sheet[f'H{start_row}'] = row_data['total_activities10']
+            pl_sheet[f'I{start_row}'] = row_data['total_activities11']
+            pl_sheet[f'J{start_row}'] = row_data['total_activities12']
+            pl_sheet[f'K{start_row}'] = row_data['total_activities1']
+            pl_sheet[f'L{start_row}'] = row_data['total_activities2']
+            pl_sheet[f'M{start_row}'] = row_data['total_activities3']
+            pl_sheet[f'N{start_row}'] = row_data['total_activities4']
+            pl_sheet[f'O{start_row}'] = row_data['total_activities5']
+            pl_sheet[f'P{start_row}'] = row_data['total_activities6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
+            pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            start_row += 1
+
+    for row_data in data_expensebyobject: 
+        if row_data['obj'] == '6200':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            start_row += 1
+
+    for row_data in data_activities: 
+        if row_data['Category'] == 'Supplies and Materials':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'G{start_row}'] = row_data['total_activities9']
+            pl_sheet[f'H{start_row}'] = row_data['total_activities10']
+            pl_sheet[f'I{start_row}'] = row_data['total_activities11']
+            pl_sheet[f'J{start_row}'] = row_data['total_activities12']
+            pl_sheet[f'K{start_row}'] = row_data['total_activities1']
+            pl_sheet[f'L{start_row}'] = row_data['total_activities2']
+            pl_sheet[f'M{start_row}'] = row_data['total_activities3']
+            pl_sheet[f'N{start_row}'] = row_data['total_activities4']
+            pl_sheet[f'O{start_row}'] = row_data['total_activities5']
+            pl_sheet[f'P{start_row}'] = row_data['total_activities6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
+            pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            start_row += 1
+
+    for row_data in data_expensebyobject: 
+        if row_data['obj'] == '6300':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            start_row += 1
+        
+    for row_data in data_activities: 
+        if row_data['Category'] == 'Other Operating Expenses':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'G{start_row}'] = row_data['total_activities9']
+            pl_sheet[f'H{start_row}'] = row_data['total_activities10']
+            pl_sheet[f'I{start_row}'] = row_data['total_activities11']
+            pl_sheet[f'J{start_row}'] = row_data['total_activities12']
+            pl_sheet[f'K{start_row}'] = row_data['total_activities1']
+            pl_sheet[f'L{start_row}'] = row_data['total_activities2']
+            pl_sheet[f'M{start_row}'] = row_data['total_activities3']
+            pl_sheet[f'N{start_row}'] = row_data['total_activities4']
+            pl_sheet[f'O{start_row}'] = row_data['total_activities5']
+            pl_sheet[f'P{start_row}'] = row_data['total_activities6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
+            pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            start_row += 1
+
+    for row_data in data_expensebyobject: 
+        if row_data['obj'] == '6400':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            start_row += 1
+
+    for row_data in data_activities: 
+        if row_data['Category'] == 'Total Expense':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'G{start_row}'] = row_data['total_activities9']
+            pl_sheet[f'H{start_row}'] = row_data['total_activities10']
+            pl_sheet[f'I{start_row}'] = row_data['total_activities11']
+            pl_sheet[f'J{start_row}'] = row_data['total_activities12']
+            pl_sheet[f'K{start_row}'] = row_data['total_activities1']
+            pl_sheet[f'L{start_row}'] = row_data['total_activities2']
+            pl_sheet[f'M{start_row}'] = row_data['total_activities3']
+            pl_sheet[f'N{start_row}'] = row_data['total_activities4']
+            pl_sheet[f'O{start_row}'] = row_data['total_activities5']
+            pl_sheet[f'P{start_row}'] = row_data['total_activities6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
+            pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            start_row += 1
+
+    for row_data in data_expensebyobject: 
+        if row_data['obj'] == '6500':
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            start_row += 1
+
+    start_row += 4 #Total expense and Net income
+ 
+
+
+
+ 
+
+    workbook.save(generated_excel_path)
+
+    # Serve the generated Excel file for download
+    with open(generated_excel_path, 'rb') as excel_file:
+        response = HttpResponse(excel_file.read(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = f'attachment; filename={os.path.basename(generated_excel_path)}'
+
+    # Remove the generated Excel file (optional)
+    os.remove(generated_excel_path)
+
+    return response
+
 
