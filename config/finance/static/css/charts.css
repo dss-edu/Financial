@@ -60,6 +60,7 @@ main {
 }
 main .insights {
   display: flex;
+  flex-direction: column;
   /* justify-content: center; */
   align-items: start;
   gap: 1.6rem;
@@ -73,7 +74,7 @@ main .insights > div {
   transition: all 300ms ease;
 }
 main .insights > .rating {
-  width: 300px;
+  width: 100%;
   padding: 10px;
   background: linear-gradient(to bottom, var(--color-success) 70%, var(--color-dark-variant) 30%);
 }
@@ -139,7 +140,7 @@ main .insights > .ratios h1{
 }
 
 main .insights > .projection {
-  width: auto;
+  width: 100%;
 }
 
 main .insights > .projection > span{
@@ -175,14 +176,14 @@ td {
 
 .container{
   display: grid;
-  width: 96%;
-  margin: 0 auto;
+  width: 100%;
+  /*margin: 0 auto;*/
   background: var(--color-background);
   gap: 1.8rem;
-  /* grid-template-columns: 14rem auto 23rem; */
+  grid-template-columns: 25rem auto;
 }
 
-/**/
+
 a {
   color: var(--color-dark);
 }

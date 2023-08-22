@@ -13,8 +13,8 @@
 </head>
 
 {% block body %}
-<div class="container">
-  <main>
+<main>
+  <div class="container">
     <div class="insights">
       <!--START rating-->
       <div class="rating">
@@ -22,21 +22,10 @@
           <h1>100</h1>
           <h3>A- Superior</h3>
         </div><!--end top-->
-        <small class="text-muted"><b>Estimated First Rating</b> SY2022-2023</small>
+        <small><b>Estimated First Rating</b> SY2022-2023</small>
       </div>
       <!--END rating-->
-      <!--START net-income -->
-      <div class="net-income">
-        <div>
-          <h3>Net YTD Income</h3>
-          <h1>$(1,323,478)</h1>
-        </div>
-        <div id="chartdiv">
-        </div>
-      </div><!--END net-income-->
-    </div> <!--END insights-->
 
-    <div class="insights">
       <div class="ratios">
         <h3>Solvency Ratio</h3>
         <!--debt to cap-->
@@ -83,7 +72,19 @@
         </span>
         <small>DAYS ON HAND RATIO: Preffered benchmark &gt;60 days 10 pts &gt; 60; 0 pts < 20</small>
       </div><!--END ratios-->
+    </div> <!--END insights-->
 
+    <div class="insights">
+
+      <!--START net-income -->
+      <div class="net-income">
+        <div>
+          <h3>Net YTD Income</h3>
+          <h1>$(1,323,478)</h1>
+        </div>
+        <div id="chartdiv">
+        </div>
+      </div><!--END net-income-->
       <div class="projection">
         <h3>Projection</h3>
         <table>
@@ -131,8 +132,8 @@
       </div><!--END projection-->
 
     </div> <!--END insights-->
-  </main>
-</div> <!-- END container-->
+  </div> <!-- END container-->
+</main>
 
 
 <!--AM Charts-->
