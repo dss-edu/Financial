@@ -106,7 +106,7 @@ main .insights b {
   color: var(--color-white);
 }
 main .insights .net-income {
-  width:800px;
+  width:100%;
   display: flex;
   align-items: start;
 }
@@ -141,6 +141,7 @@ main .insights > .ratios h1{
 
 main .insights > .projection {
   width: 100%;
+  height :100%;
 }
 
 main .insights > .projection > span{
@@ -174,13 +175,21 @@ td {
   height: 250px;
 }
 
+main {
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-background);
+  padding-top: 1rem;
+  padding-bottom: 80px;
+}
+
 .container{
   display: grid;
-  width: 100%;
-  /*margin: 0 auto;*/
   background: var(--color-background);
   gap: 1.8rem;
-  grid-template-columns: 25rem auto;
+  grid-template-columns: 20rem auto;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 
