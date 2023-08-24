@@ -9,9 +9,9 @@
     td {
       width: 100px;
     }
-    .firstcolumn
+   .firstcolumn
      {
-      
+      width: 0px;
     }
 
     .right-align-td {
@@ -48,8 +48,22 @@
     width: 100%;
     max-height: calc(100vh - 150px); 
     overflow: auto;
+    position: relative;
   }
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 
+    background-color: white !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.2rem !important;
+
+  }
  
   
 
@@ -531,10 +545,11 @@
 
     document.getElementById("cancel-button").addEventListener("click", function() {
         // Hide the "Save" container
+        
         document.getElementById("save-container").style.display = "none";
         document.getElementById("cancel-container").style.display = "none";
        
-        document.getElementsByClassName("new-row-template").style.display = "none";
+        document.getElementById("new-row-template").style.display = "none";
         document.getElementById("new-row-template-spr").style.display = "none";
         document.getElementById("new-row-template-fpr").style.display = "none";
         document.getElementById("new-row-template-func").style.display = "none";
@@ -543,7 +558,7 @@
         // Show the "Edit" container
         document.getElementById("edit-container").style.display = "block";
         var valueCells = document.querySelectorAll("[id^='value-cell-']");
-        valueCells.forEach(function(cell) {zz
+        valueCells.forEach(function(cell) {
             cell.contentEditable = "false";
         });
         var deleteLinks = document.querySelectorAll("[id^='delete-container']");
@@ -575,11 +590,11 @@
         <tr>
           <script>
             for (var i = 0; i <= 18; i++){
-              if (i === 1){
+              if (i === 0){
                 document.write(`<td  class="firstcolumn"></td>`);
 
               }
-              else if (i === 2){
+              else if (i === 1){
                 document.write(`<td  class="collapsed"></td>`);
 
               }
@@ -609,7 +624,7 @@
         
         </thead>
     <tbody id="data-table-body">
-        <tr>
+        <tr class="header">
             <th class="firstcolumn"></th>
             <th class="collapsed"></th>
             <th></th>
@@ -727,7 +742,7 @@
         <tr id="ttl-row" class="ttl-lr-row">
             <td class="firstcolumn">
               <button id="row1" class="expand-button"  type="button" onclick="toggleRow(1)" >+</button>
-              <button id="add-row-button" class="btn btn-success" type="button" onclick="addNewRowLR()" style="display:none; " >Add</button>
+              <button id="add-row-button" class="btn btn-success" type="button" onclick="addNewRowLR()" style="display:none; " >+</button>
             </td>
             <td class="collapsed"></td>
             <td  ><strong>Local Revenue</strong></td>
@@ -833,8 +848,8 @@
 
         <tr id="ttl-row" class="ttl-spr-row">
           <td class="firstcolumn">
-            <button id="row2" class="expand-button" type="button" onclick="toggleRow(2)" style=" float: left;">+</button>
-            <button id="add-row-spr-button" class="btn btn-success" type="button" onclick="addNewRowSPR()" style="display:none; float: right;" >Add</button>
+            <button id="row2" class="expand-button" type="button" onclick="toggleRow(2)">+</button>
+            <button id="add-row-spr-button" class="btn btn-success" type="button" onclick="addNewRowSPR()" style="display:none; " >+</button>
           </td>
           <td class="collapsed"></td>
           <td  ><strong>State Program Revenue</strong></td>
@@ -939,8 +954,8 @@
 
       <tr id="ttl-row" class="ttl-fpr-row">
         <td class="firstcolumn">
-          <button id="row3" class="expand-button" type="button" onclick="toggleRow(3)" style=" float: left;">+</button>
-          <button id="add-row-fpr-button" class="btn btn-success" type="button" onclick="addNewRowFPR()" style="display:none; float: right;" >Add</button>
+          <button id="row3" class="expand-button" type="button" onclick="toggleRow(3)" >+</button>
+          <button id="add-row-fpr-button" class="btn btn-success" type="button" onclick="addNewRowFPR()" style="display:none; " >+</button>
         </td>
         <td class="collapsed"></td>
         <td  ><strong>Federal Program Revenue</strong></td>
@@ -1029,8 +1044,9 @@
 
       <tr id="total-row1" class="ttl-1-row">
         <td class="firstcolumn">
+          
+          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
           <button id="add-row-func-button" class="btn btn-success" type="button" onclick="addNewRowFunc()" style="display:none;" >Add</button>
-          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" style=" float: left;">+</button>
         </td>
         <td class="collapsed"></td>
         <td  ><strong>Total </strong></td>
@@ -1126,8 +1142,9 @@
 
       <tr >
         <td class="firstcolumn">
-          <button id="add-row-func-button" class="btn btn-success" type="button" onclick="addNewRowFunc()" style="display:none;" >Add</button>
-          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" style=" float: left;">+</button>
+          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
+          <button id="add-row-func-button" class="btn btn-success" type="button" onclick="addNewRowFunc()" style="display:none;" >+</button>
+          
         </td>
         <td class="collapsed"></td>
         <td><strong>Depreciation and Amortization</strong></td>
