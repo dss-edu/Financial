@@ -16,7 +16,7 @@ from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 import datetime
 import locale
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 from datetime import datetime,timedelta
@@ -34,7 +34,8 @@ def connect():
     password = 'Pokemon!123'
     port = '1433'
     
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
+    # driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -3084,10 +3085,53 @@ def generate_excel(request):
             }
         
         data_activities.append(row_dict)
+    #----------------------------------------END OF PL DATA
+
+
+    #----------------- BS DATA
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+    rows = cursor.fetchall()
+    
+    data_balancesheet=[]
+    
+    
+    for row in rows:
+       
+        row_dict = {
+            'Activity':row[0],
+            'Description':row[1],
+            'Category':row[2],
+            'Subcategory':row[3],
+            'FYE':row[4],
+            
+            
+            }
+        
+        data_balancesheet.append(row_dict)
+    
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+    rows = cursor.fetchall()
+    
+    data_activitybs=[]
+    
+    
+    for row in rows:
+
+        row_dict = {
+            'Activity':row[0],
+            'obj':row[1],
+            'Description2':row[2],
+            
+            
+            }
+        
+        data_activitybs.append(row_dict)
+
     
 
     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
     
+    #---------- ADDITIONAL PL DATAS
     for item in data_activities:
         
         obj = item['obj']
@@ -3121,12 +3165,28 @@ def generate_excel(request):
             item[f'total_func2_{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
             )  
+    # END OF ADDITIONAL PL DATAS
 
+
+    # BS ADDITIONAL DATAS
+    for item in data_activitybs:
+        
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_bal{i}'] = sum(
+                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+
+    keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+  
 
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
 
     generated_excel_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'GeneratedExcel.xlsx')
+    print(template_path)
+    print(generated_excel_path)
 
 
     shutil.copyfile(template_path, generated_excel_path)
@@ -3146,6 +3206,7 @@ def generate_excel(request):
     bs_sheet = workbook[bs]
     cashflow_sheet = workbook[cashflow]
 
+    #------ FIRST DESIGN
     first_sheet.column_dimensions['A'].width = 46
     first_sheet.column_dimensions['B'].width = 20
     first_sheet.column_dimensions['C'].width = 9
@@ -3157,9 +3218,8 @@ def generate_excel(request):
     first_sheet.row_dimensions[1].height = 21
   
     
-    # for col in range(7, 18):
-    #     col_letter = get_column_letter(col)
-    #     pl_sheet.column_dimensions[col_letter].hidden = True
+
+    #------- BS DESIGN
     for col in range(7, 19):
         col_letter = get_column_letter(col)
         pl_sheet.column_dimensions[col_letter].outline_level = 1
@@ -3416,6 +3476,35 @@ def generate_excel(request):
     start_row += 4 #Total expense and Net income
  
 
+    start_row_bs = 6
+    bs_sheet[f'C{start_row}'] = 'Current Assets'
+    for row in data_activitybs:
+        if row['Activity'] == 'Cash':
+            start_row += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            # bs_sheet[f'T{start_row_bs}'] = row['total_bal9']
+            # bs_sheet[f'U{start_row_bs}'] = row['total_bal9']
+    
+    for row in data_balancesheet:
+        if row['Category'] == 'Asset':
+            if row['Subcategory'] == 'Current Assets':
+                if row['Activity'] == 'Cash':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+
+
 
 
  
@@ -3431,5 +3520,3 @@ def generate_excel(request):
     os.remove(generated_excel_path)
 
     return response
-
-
