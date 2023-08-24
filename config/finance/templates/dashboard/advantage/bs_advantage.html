@@ -41,8 +41,17 @@
     width: 100%;
     max-height: calc(100vh - 150px); 
     overflow: auto;
+    position: relative;
   }
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
 
+    background-color: white !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
   
 </style>
   {% endblock %}   
@@ -392,7 +401,7 @@ function expandColumns() {
         </script>
     </thead>
     <tbody id="data-table-body">
-        <tr>
+        <tr class="header">
             <th></th>
             <th></th>
             <th></th>
