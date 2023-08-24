@@ -138,7 +138,7 @@ AUTH_USER_MODEL = 'finance.User'
 STATIC_ROOT= os.path.join(BASE_DIR,'staticfiles')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR,"finance","static"),
 )
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
