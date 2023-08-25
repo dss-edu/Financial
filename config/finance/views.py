@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .forms import UploadForm
+from .forms import UploadForm, ReportsForm
 import pandas as pd
 import io
-from .models import User
+from .models import User, Item
 from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
@@ -25,6 +25,7 @@ import shutil
 import openpyxl
 from django.conf import settings
 from openpyxl.utils import get_column_letter
+from bs4 import BeautifulSoup
 
 
 def connect():
@@ -380,6 +381,70 @@ def first_advantage(request):
         'ytd_budget':ytd_budget,
     }
     return render(request,'dashboard/advantage/first_advantage.html', context)
+
+def reports_advantage(request):
+    if request.method == 'POST':
+        form = ReportsForm(request.POST)
+        activities = request.POST.get('activities')
+        accomplishments = request.POST.get('accomplishments')
+
+        # Parse the HTML content
+        soup_activities = BeautifulSoup(activities, 'html.parser')
+        soup_accomplishments = BeautifulSoup(accomplishments, 'html.parser')
+
+        # Find all list items within the <ul> tag
+        activities_items = soup_activities.find_all('li')
+        accomplishments_items = soup_accomplishments.find_all('li')
+
+        # Extract the text content from each list item
+        activities_list = [item.get_text() for item in activities_items]
+        accomplishments_list = [item.get_text() for item in accomplishments_items]
+
+        item = Item.objects.get(pk=2)
+        item.activities = activities_list
+        item.accomplishments = accomplishments_list
+        item.save()
+    else:
+        #
+        # single_item = Item.objects.get(pk=2)
+        # single_item.accomplishments = [ "Board approved the 2022-2023 operating budget August 2022.",
+        #                 "2021-2022 independent financial audit completed and submitted to TE.",
+        #                 "PEIMS Fail submission (FY23 budget) completed",
+        #                 "PEIMS Midyear submission (FY22 actuals) completed.",
+        #                 "Calendar year W2 and Form 1099 were processed.",
+        #                 "Form990 based on FY22 financial data approved and submitted to IRS.",
+        #                 "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
+        #                 "2023-2024 budget approved by Board."
+        #     ]
+        # single_item.save()
+        # item = Item(
+        #     activities=["Legislative Special Session.", 
+        #                   "PEIMS Summer submission.", 
+        #                   "Year-end audit preparation."
+        #     ],
+            # accomplishments=[ "Board approved the 2022-2023 operating budget August 2022.",
+            #             "2021-2022 independent financial audit completed and submitted to TE.",
+            #             "PEIMS Fail submission (FY23 budget) completed",
+            #             "PEIMS Midyear submission (FY22 actuals) completed.",
+            #             "Calendar year W2 and Form 1099 were processed.",
+            #             "Form990 based on FY22 financial data approved and submitted to IRS.",
+            #             "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
+            #             "2023-2024 budget approved by Board."
+            # ]
+        # )
+        # item.save()
+        pass
+    single_item = Item.objects.get(pk=2)
+    data = {
+        "activities": single_item.activities,
+        "accomplishments": single_item.accomplishments
+    }
+    activities = "</li>".join(["<li>" + w for w in single_item.activities])
+    accomplishments = "</li>" .join(["<li>" + w for w in single_item.accomplishments])
+    # form = CKEditorForm(initial={'form_field_name': initial_content})
+    form = ReportsForm(initial={'accomplishments': accomplishments, 'activities': activities})
+    # form = ReportsForm()
+    return render(request,'dashboard/advantage/reports_advantage.html', {'form': form, "data":data})
 
 def first_cumberland(request):
     current_date = datetime.today().date()
@@ -2969,10 +3034,6 @@ def cashflow_advantage(request):
           'total_DnA': formatted_total_DnA,
           'total_netsurplus':formatted_total_netsurplus,
           'total_SBD':total_SBD,
-          
-        
-          
-
           }
     return render(request,'dashboard/advantage/cashflow_advantage.html',context)
 

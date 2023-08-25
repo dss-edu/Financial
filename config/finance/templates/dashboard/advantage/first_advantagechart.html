@@ -111,40 +111,56 @@
                 <h3>Projection</h3>
                 <table>
                     <tr>
-                        <td>Students to Staff Ratio 15% or declines over 3 years</td>
+                        <td class="not-measured">Students to Staff Ratio 15% or declines over 3 years</td>
                         <td>10</td>
                     </tr>
                     <tr>
-                        <td>Actual ADA vs Estimated</td>
+                        <td class="projected">Actual ADA vs Estimated</td>
                         <td>5</td>
                     </tr>
                     <tr>
-                        <td>Accurate PEIMS reporting</td>
+                        <td class="projected">Accurate PEIMS reporting</td>
                         <td>Ceiling</td>
                     </tr>
                     <tr>
-                        <td>Annual audit compliance</td>
+                        <td class="projected">Annual audit compliance</td>
                         <td>Ceiling</td>
                     </tr>
                     <tr>
-                        <td>Annual audit compliance</td>
+                        <td class="projected">Annual audit compliance</td>
                         <td>10</td>
                     </tr>
                     <tr>
-                        <td>Post finanical info on</td>
+                        <td class="projected">Post finanical info on</td>
                         <td>5</td>
                     </tr>
                     <tr>
-                        <td>Serves students reside approved geographic</td>
+                        <td class="not-measured">Serves students reside approved geographic</td>
                         <td>Ceiling</td>
                     </tr>
                 </table>
+
+                <span><span class="material-symbols-outlined check-circle">
+                        crop_square
+                    </span>
+                    <h3>Projected</h3>
+                </span>
+
+                <span><span class="material-symbols-outlined error-circle">
+                        crop_square
+                    </span>
+                    <h3>Not measured by DSS</h3>
+                </span>
             </div><!--END projection-->
 
         </div> <!--END insights-->
     </div> <!-- END CONTAINER -->
 </main>
 
+
+
+{% endblock %}
+{% block javascript %}
 
 <!--AM Charts-->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
@@ -157,5 +173,4 @@
 
 <!-- my scripts-->
 <script src="{% static 'js/charts.js' %}"> </script>
-
 {% endblock %}
