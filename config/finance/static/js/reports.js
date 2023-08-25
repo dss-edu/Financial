@@ -12,10 +12,10 @@ $(document).ready(function() {
         var opt = {
             margin: 1,
             filename: 'reports.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            // html2canvas: { scale: 1 },
-            jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' },
-            pagebreak: { mode: 'avoid-all', before: '#page2' }
+            image: { type: 'png', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            //[w, h]
+            jsPDF: { unit: 'mm', format: [340, 260], orientation: 'landscape' },
         };
         html2pdf().set(opt).from(element).save();
     });

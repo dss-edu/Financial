@@ -1,4 +1,4 @@
-.green-circle, .yellow-circle{
+.green-circle, .yellow-circle, .red-circle{
     display:flex;
     border-radius: 50%;
     text-align: center;
@@ -14,7 +14,20 @@
     color:white;
 }
 
-.yelllow-circle{
+.yellow-circle{
     background-color: yellow;
 }
 
+.red-circle{
+    background-color: red;
+    color: white;
+}
+.circle-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust this gap as needed */
+}
+
+.legend-text {
+  margin: 0;
+}
