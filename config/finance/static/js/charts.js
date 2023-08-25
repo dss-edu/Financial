@@ -31,7 +31,7 @@ am5.ready(function() {
 
   // Data
   var data = [{
-    netIncome: "Net Income",
+    netIncome: "Net Income\nBefore and After\nDepreciation",
     before: 1323478,
     after: 802645,
   }];
@@ -70,7 +70,7 @@ am5.ready(function() {
       sequencedInterpolation: true,
       tooltip: am5.Tooltip.new(root, {
         pointerOrientation: "horizontal",
-        labelText: "[bold]{name}[/]\n{categoryY}: \({valueX}\)"
+        labelText: "[bold]{name}[/]\n \({valueX}\)"
       })
     }));
 
@@ -86,7 +86,7 @@ am5.ready(function() {
         locationY: 0.5,
         sprite: am5.Label.new(root, {
           centerY: am5.p50,
-          text: "$({valueX})",
+          text: "({valueX})",
           populateText: true
         })
       });
