@@ -401,41 +401,28 @@ def reports_advantage(request):
         activities_list = [item.get_text() for item in activities_items]
         accomplishments_list = [item.get_text() for item in accomplishments_items]
 
-        item = Item.objects.get(pk=2)
+        item = Item.objects.get(pk=1)
         item.activities = activities_list
         item.accomplishments = accomplishments_list
         item.save()
     else:
-        #
-        # single_item = Item.objects.get(pk=2)
-        # single_item.accomplishments = [ "Board approved the 2022-2023 operating budget August 2022.",
-        #                 "2021-2022 independent financial audit completed and submitted to TE.",
-        #                 "PEIMS Fail submission (FY23 budget) completed",
-        #                 "PEIMS Midyear submission (FY22 actuals) completed.",
-        #                 "Calendar year W2 and Form 1099 were processed.",
-        #                 "Form990 based on FY22 financial data approved and submitted to IRS.",
-        #                 "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
-        #                 "2023-2024 budget approved by Board."
-        #     ]
-        # single_item.save()
-        # item = Item(
-        #     activities=["Legislative Special Session.", 
-        #                   "PEIMS Summer submission.", 
-        #                   "Year-end audit preparation."
-        #     ],
-            # accomplishments=[ "Board approved the 2022-2023 operating budget August 2022.",
-            #             "2021-2022 independent financial audit completed and submitted to TE.",
-            #             "PEIMS Fail submission (FY23 budget) completed",
-            #             "PEIMS Midyear submission (FY22 actuals) completed.",
-            #             "Calendar year W2 and Form 1099 were processed.",
-            #             "Form990 based on FY22 financial data approved and submitted to IRS.",
-            #             "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
-            #             "2023-2024 budget approved by Board."
-            # ]
-        # )
-        # item.save()
-        pass
-    single_item = Item.objects.get(pk=2)
+        item = Item(
+            activities=["Legislative Special Session.", 
+                          "PEIMS Summer submission.", 
+                          "Year-end audit preparation."
+            ],
+            accomplishments=[ "Board approved the 2022-2023 operating budget August 2022.",
+                        "2021-2022 independent financial audit completed and submitted to TE.",
+                        "PEIMS Fail submission (FY23 budget) completed",
+                        "PEIMS Midyear submission (FY22 actuals) completed.",
+                        "Calendar year W2 and Form 1099 were processed.",
+                        "Form990 based on FY22 financial data approved and submitted to IRS.",
+                        "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
+                        "2023-2024 budget approved by Board."
+            ]
+        )
+        item.save()
+    single_item = Item.objects.get(pk=1)
     data = {
         "activities": single_item.activities,
         "accomplishments": single_item.accomplishments

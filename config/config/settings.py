@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'finance',
     'bootstrap4',
-
+    'ckeditor'
 ]
 
 MIDDLEWARE = [
