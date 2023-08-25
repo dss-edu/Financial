@@ -35,8 +35,9 @@ def connect():
     password = 'Pokemon!123'
     port = '1433'
     
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
-    #driver = '{SQL Server}'
+
+    # driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{ODBC Driver 17 for SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -384,54 +385,70 @@ def first_advantage(request):
     return render(request,'dashboard/advantage/first_advantage.html', context)
 
 def reports_advantage(request):
+    data = {"accomplishments":"", "activities":""}
+    delimiter = "\n"
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    school_name = 'advantage'
+
     if request.method == 'POST':
         form = ReportsForm(request.POST)
-        activities = request.POST.get('activities')
-        accomplishments = request.POST.get('accomplishments')
+        activities_text = request.POST.get('activities')
+        accomplishments_text = request.POST.get('accomplishments')
 
         # Parse the HTML content
-        soup_activities = BeautifulSoup(activities, 'html.parser')
-        soup_accomplishments = BeautifulSoup(accomplishments, 'html.parser')
+        soup_activities = BeautifulSoup(activities_text, 'html.parser')
+        soup_accomplishments = BeautifulSoup(accomplishments_text, 'html.parser')
 
         # Find all list items within the <ul> tag
         activities_items = soup_activities.find_all('li')
         accomplishments_items = soup_accomplishments.find_all('li')
 
         # Extract the text content from each list item
-        activities_list = [item.get_text() for item in activities_items]
-        accomplishments_list = [item.get_text() for item in accomplishments_items]
+        activities_list = [item.get_text()+delimiter for item in activities_items]
+        accomplishments_list = [item.get_text()+delimiter for item in accomplishments_items]
 
-        item = Item.objects.get(pk=1)
-        item.activities = activities_list
-        item.accomplishments = accomplishments_list
-        item.save()
+        activities = "".join(activities_list)
+        accomplishments = "".join(accomplishments_list)
+
+        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
+        cursor.execute(update_query, (accomplishments, activities, school_name))
+        cnxn.commit()
+
+        data["accomplishments"] = accomplishments.split(delimiter)[:-1]
+        data["activities"] = activities.split(delimiter)[:-1]
     else:
-        item = Item(
-            activities=["Legislative Special Session.", 
-                          "PEIMS Summer submission.", 
-                          "Year-end audit preparation."
-            ],
-            accomplishments=[ "Board approved the 2022-2023 operating budget August 2022.",
-                        "2021-2022 independent financial audit completed and submitted to TE.",
-                        "PEIMS Fail submission (FY23 budget) completed",
-                        "PEIMS Midyear submission (FY22 actuals) completed.",
-                        "Calendar year W2 and Form 1099 were processed.",
-                        "Form990 based on FY22 financial data approved and submitted to IRS.",
-                        "2022-2023 Amended budget to match actual revenues and expenditure approved by Board",
-                        "2023-2024 budget approved by Board."
-            ]
-        )
-        item.save()
-    single_item = Item.objects.get(pk=1)
-    data = {
-        "activities": single_item.activities,
-        "accomplishments": single_item.accomplishments
-    }
-    activities = "</li>".join(["<li>" + w for w in single_item.activities])
-    accomplishments = "</li>" .join(["<li>" + w for w in single_item.accomplishments])
+        # check if it exists
+        # query for the school
+        query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
+        cursor.execute(query, school_name)
+        row = cursor.fetchone()
+
+        if row is None:
+            # Insert query if it does noes exists
+            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
+            accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
+            activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
+
+            # Execute the INSERT query
+            cursor.execute(insert_query, (school_name, accomplishments, activities))
+
+            # Commit the transaction
+            cnxn.commit()
+            print("Row inserted successfully.")
+        else:
+            # row = (school, accomplishments, activities)
+            data["accomplishments"] = row[1].split(delimiter)[:-1]
+            data["activities"] = row[2].split(delimiter)[:-1]
+
+    activities = "</li>".join(["<li>" + w for w in data["activities"]])
+    accomplishments = "</li>" .join(["<li>" + w for w in data["accomplishments"]])
     # form = CKEditorForm(initial={'form_field_name': initial_content})
     form = ReportsForm(initial={'accomplishments': accomplishments, 'activities': activities})
-    # form = ReportsForm()
+
+    cursor.close()
+    cnxn.close()
     return render(request,'dashboard/advantage/reports_advantage.html', {'form': form, "data":data})
 
 def first_cumberland(request):
