@@ -23,15 +23,16 @@
         &nbsp;
         &nbsp;
         <div>
+            <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#txtModal">
                 Edit
             </button>
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row mb-4 mt-4">
-            <div class="col-7">
+    <div id="export-content" class="container">
+        <div id="page1" class="row mb-2 mt-2">
+            <div class="col-md-7 col-lg-7 p-2">
                 <div id="financial-update" class="card h-100 m-0 shadow"> 
                     <div class="card-body">
                         <h1 class="heading">Financial Update for the Board of Directors</h1>
@@ -96,7 +97,8 @@
                 </div> <!-- End of financial updates -->
             </div> <!-- End of col 2-->
 
-            <div class="col-5">
+
+            <div class="col-md-5 col-lg-5 p-2">
                 <div id="financial-graphs" class="card shadow m-0 h-100">
                     <div class="card-body">
                     <div class="row">
@@ -115,9 +117,10 @@
                     </div>
                 </div> <!-- end of financial graphs -->
             </div> <!-- End of col 1-->
+
         </div> <!-- End of row 1-->
-        <div class="row">
-            <div class="col">
+        <div id="page2" class="row mt-2 mb-2">
+            <div class="col-md-6 col-lg-6 p-2">
                 <div id="activities" class="card h-100 m-0 shadow">
                     <div class="card-body">
                     <div>
@@ -134,7 +137,8 @@
                     </div> <!-- end of card-body -->
                 </div> <!-- End of Activities -->
             </div> <!-- end of col1 -->
-            <div class="col">
+
+            <div class="col-md-6 col-lg-6 p-2">
                 <div id="accomplishments" class="card h-100 m-0 shadow">
                     <div class="card-body">
 
@@ -195,6 +199,18 @@
         </div>
     </div>
 
+    <!-- The Modal -->
+    <div class="modal fade" id="spinner-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Saving your edits...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End load modal -->
 </main> 
 
 {% endblock %}

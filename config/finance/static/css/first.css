@@ -1,0 +1,20 @@
+.green-circle, .yellow-circle{
+    display:flex;
+    border-radius: 50%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: auto auto;
+    width: 30px; 
+    height: 30px;
+}
+
+.green-circle {
+    background-color: green;
+    color:white;
+}
+
+.yelllow-circle{
+    background-color: yellow;
+}
+

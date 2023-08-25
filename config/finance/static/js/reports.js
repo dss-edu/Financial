@@ -1,31 +1,28 @@
 $(document).ready(function() {
     $('#saveEdit').on('click', function() {
-        // var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-        // var activitiesContent = CKEDITOR.instances.activities_form.getData();
-        // var accomplishmentsContent = CKEDITOR.instances.accomplishments_form.getData();
-        // console.log(activitiesContent);
-        // var formData = {
-        //     csrfmiddlewaretoken: csrfToken,
-        //     activities: activities,
-        //     accomplishments: accomplishments
-        // };
-        // $.ajax({
-        //     url: '/reports_advantage/',  // URL to your view
-        //     type: 'POST',
-        //     dataType: 'json',
-        //     data: formData,
-        //     success: function(reponse) {
-        //         alert('Changes saved.')
-        //     },
-        //     error: function(response) {
-        //         alert(response);
-        //     }
-        // });
-        alert('Saving Edits...')
         $('#myModal').modal('hide');  // Close the modal
         location.reload();  // Refresh the page
     });
 
+
+    ////////////////////////////////EXPORT TO PDF///////////////////////////////////////////
+    document.getElementById("export-pdf-button").addEventListener("click", function() {
+        // Get the element you want to export as PDF
+        var element = document.getElementById('export-content');
+        var opt = {
+            margin: 1,
+            filename: 'reports.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            // html2canvas: { scale: 1 },
+            jsPDF: { unit: 'mm', format: 'letter', orientation: 'landscape' },
+            pagebreak: { mode: 'avoid-all', before: '#page2' }
+        };
+        html2pdf().set(opt).from(element).save();
+    });
+
+
+
+    ///////////////////////////////////////// Charts ///////////////////////////////////////////
     data = [{
         date: new Date(2021, 0, 1).getTime(),
         value: 1000
