@@ -21,6 +21,7 @@ $(document).ready(function() {
         //         alert(response);
         //     }
         // });
+        alert('Saving Edits...')
         $('#myModal').modal('hide');  // Close the modal
         location.reload();  // Refresh the page
     });
