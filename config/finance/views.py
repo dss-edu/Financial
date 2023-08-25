@@ -1480,6 +1480,7 @@ def bs_advantage(request):
                 for entry in data_activitybs
             )
             activity_sum_dict[(Activity, i)] = total_sum_i
+    print(total_sum_i)
 
  
     for row in data_balancesheet:
@@ -3245,7 +3246,57 @@ def generate_excel(request):
 
     keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
   
+    activity_sum_dict = {} 
+    for item in data_activitybs:
+        Activity = item['Activity']
+        for i in range(1, 13):
+            total_sum_i = sum(
+                int(entry[f'total_bal{i}']) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+                for entry in data_activitybs
+            )
+            activity_sum_dict[(Activity, i)] = total_sum_i
+    
+    for row in data_balancesheet:
+    
+        activity = row['Activity']
+        for i in range(1, 13):
+            key = (activity, i)
+            row[f'total_sum{i}'] = activity_sum_dict.get(key, 0)
+    
 
+    
+    for row in data_balancesheet:
+    
+        FYE_value = int(row['FYE']) if row['FYE'] else 0
+        total_sum9_value = int(row['total_sum9']) if row['total_sum9'] else 0
+        total_sum10_value = int(row['total_sum10']) if row['total_sum10'] else 0
+        total_sum11_value = int(row['total_sum11']) if row['total_sum11'] else 0
+        total_sum12_value = int(row['total_sum12']) if row['total_sum12'] else 0
+        total_sum1_value = int(row['total_sum1']) if row['total_sum1'] else 0
+        total_sum2_value = int(row['total_sum2']) if row['total_sum2'] else 0
+        total_sum3_value = int(row['total_sum3']) if row['total_sum3'] else 0
+        total_sum4_value = int(row['total_sum4']) if row['total_sum4'] else 0
+        total_sum5_value = int(row['total_sum5']) if row['total_sum5'] else 0
+        total_sum6_value = int(row['total_sum6']) if row['total_sum6'] else 0
+        total_sum7_value = int(row['total_sum7']) if row['total_sum7'] else 0
+        total_sum8_value = int(row['total_sum8']) if row['total_sum8'] else 0
+    
+        # Calculate the differences and store them in the row dictionary
+        row['difference_9'] = float(FYE_value + total_sum9_value)
+        row['difference_10'] = float(FYE_value + total_sum9_value + total_sum10_value)
+        row['difference_11'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+        row['difference_12'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+        row['difference_1'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+        row['difference_2'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+        row['difference_3'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+        row['difference_4'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+        row['difference_5'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+        row['difference_6'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+        row['difference_7'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+        row['difference_8'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+    
+        row['fytd'] = float(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+    
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
 
@@ -3284,7 +3335,7 @@ def generate_excel(request):
   
     
 
-    #------- BS DESIGN
+    #------- PL DESIGN
     for col in range(7, 19):
         col_letter = get_column_letter(col)
         pl_sheet.column_dimensions[col_letter].outline_level = 1
@@ -3318,6 +3369,11 @@ def generate_excel(request):
     pl_sheet.column_dimensions['T'].width = 17
     pl_sheet.column_dimensions['U'].width = 17
     pl_sheet.column_dimensions['V'].width = 12
+
+    # BS DESIGN
+    for col in range(7, 18):
+        col_letter = get_column_letter(col)
+        bs_sheet.column_dimensions[col_letter].outline_level = 1
 
 
     start_row = 5
@@ -3541,11 +3597,13 @@ def generate_excel(request):
     start_row += 4 #Total expense and Net income
  
 
+
+    #--- BS INSERT
     start_row_bs = 6
-    bs_sheet[f'C{start_row}'] = 'Current Assets'
+    bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
     for row in data_activitybs:
         if row['Activity'] == 'Cash':
-            start_row += 1
+            start_row_bs += 1
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -3559,17 +3617,612 @@ def generate_excel(request):
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
             bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+
             # bs_sheet[f'T{start_row_bs}'] = row['total_bal9']
             # bs_sheet[f'U{start_row_bs}'] = row['total_bal9']
     
+
+
     for row in data_balancesheet:
-        if row['Category'] == 'Asset':
-            if row['Subcategory'] == 'Current Assets':
-                if row['Activity'] == 'Cash':
+        if row['Activity'] == 'Cash':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    
+
+    for row in data_activitybs:
+        if row['Activity'] == 'Restr':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
+    for row in data_balancesheet:
+        if row['Activity'] == 'Restr':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+           
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'DFS+F':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'DFS+F':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+    
+    for row in data_activitybs: 
+        if row['Activity'] == 'OTHR':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'OTHR':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'Inventory':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+          
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'Inventory':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'PPD':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'PPD':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Current Assets':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Total Current Assets'
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Capital Assets , Net'
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'FA-L':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'FA-L':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Capital Assets, Net':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'FA-BFE':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'FA-BFE':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Capital Assets, Net':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'FA-AD':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+   
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'FA-AD':
+            if row['Category'] == 'Assets':
+                if row['Subcategory'] == 'Capital Assets, Net':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Total Capital Assets'
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Total  Assets'
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Liabilities and Net Assets'
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Current Liabilities'
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'AP':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+       
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'AP':
+            if row['Category'] == 'Liabilities and Net Assets':
+                if row['Subcategory'] == 'Current Liabilities':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'Acc-Exp':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+   
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'Acc-Exp':
+            if row['Category'] == 'Liabilities and Net Assets':
+                if row['Subcategory'] == 'Current Liabilities':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'OtherLab':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+          
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'OtherLab':
+            if row['Category'] == 'Liabilities and Net Assets':
+                if row['Subcategory'] == 'Current Liabilities':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'Debt-C':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            bs_sheet[f'T{start_row_bs}'] = 'ACTIVITYBS YTD'
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'Debt-C':
+            if row['Category'] == 'Liabilities and Net Assets':
+                if row['Subcategory'] == 'Current Liabilities':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] ='Total Current Liabilities'
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] ='Long Term Debt'
+
+    for row in data_activitybs: 
+        if row['Activity'] == 'LTD':
+            start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'] = row['Description2']
+            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+  
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'LTD':
+            if row['Category'] == 'Debt':
+                if row['Subcategory'] == 'Long Term Debt':
+                    start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'] = row['Description']
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities'
+
+    for row in data_balancesheet:
+        if row['Activity'] == 'Equity':
+            if row['Category'] == 'Net Assets':
+                
+                start_row_bs += 1
+                bs_sheet[f'D{start_row_bs}'] = 'Net Assets'
+                
+                bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                bs_sheet[f'G{start_row_bs}'] = row['difference_9']
+                bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+
+    start_row_bs += 1
+    bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities and Net Assets'
+
+
+    
+
+
+  
 
 
  
