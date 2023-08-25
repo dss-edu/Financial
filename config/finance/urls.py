@@ -9,12 +9,13 @@ urlpatterns = [
     path('logout/', views.logoutView, name='logout'),
     path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
+    path('first_advantage/', views.first_advantage, name='first_advantage'),
     path('first_advantagechart/', views.first_advantagechart, name='first_advantagechart'),
     path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
     path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
-    path('first_advantage/', views.first_advantage, name='first_advantage'),
     path('generate_excel/', views.generate_excel, name='generate_excel'),
+    path('reports_advantage/', views.reports_advantage, name='reports_advantage'),
 
     
     path('insert_row/', views.insert_row, name='insert-row'),
