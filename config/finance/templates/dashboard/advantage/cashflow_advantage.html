@@ -5,12 +5,25 @@
 
   {% block stylesheet %}
   <style>
-      
-   
-    td:first-child,
-   {
-  width: 10px;
-  }
+
+
+    th,
+    td {
+      width: 10%;
+    }
+    th:first-child,
+    td:first-child {
+      width: 0%;
+    }
+    th:nth-child(2),
+    td:nth-child(2) {
+      white-space: nowrap;
+    }
+    th:nth-child(3),
+    td:nth-child(3) {
+      display: none;
+    }
+
     .right-align-td {
       text-align: right;
     padding-right: 250px;
@@ -32,6 +45,14 @@
     background-color: #f9f9f9;
     z-index: 1;
   }
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    background-color: white !important; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
   
  
   .modal-footer {
@@ -43,8 +64,16 @@
     width: 100%;
     max-height: calc(100vh - 150px); 
     overflow: auto;
+    margin:0;
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
   }
+  .table th,
+  .table td {
+    padding: 0.5rem !important;
 
+  }
 
   
 </style>
@@ -190,23 +219,23 @@
         </tr>
     </thead>
     <tbody id="data-table-body">
-        <tr>
+        <tr class="header">
             <th></th>
             <th></th>
             <th></th>
-            <th class="collapsed" >September</th>
-            <th class="collapsed" >October</th>
-            <th class="collapsed" >November</th>
-            <th class="collapsed" >December</th>
-            <th class="collapsed" >January</th>
-            <th class="collapsed">February</th>
-            <th class="collapsed">March</th>
-            <th class="collapsed">April</th>
-            <th class="collapsed">May</th>
-            <th class="collapsed">June</th>
-            <th class="collapsed">July</th>
-            <th class="collapsed">August</th>
-            <th>YTD FY 2023</th>
+            <th class="collapsed" style="text-align: center;" >September</th>
+            <th class="collapsed" style="text-align: center;" >October</th>
+            <th class="collapsed" style="text-align: center;" >November</th>
+            <th class="collapsed" style="text-align: center;" >December</th>
+            <th class="collapsed" style="text-align: center;" >January</th>
+            <th class="collapsed" style="text-align: center;">February</th>
+            <th class="collapsed" style="text-align: center;">March</th>
+            <th class="collapsed" style="text-align: center;">April</th>
+            <th class="collapsed" style="text-align: center;">May</th>
+            <th class="collapsed" style="text-align: center;">June</th>
+            <th class="collapsed" style="text-align: center;">July</th>
+            <th class="collapsed" style="text-align: center;">August</th>
+            <th style="text-align: center;">YTD FY 2023</th>
            
         </tr>
         <tr class="local-revenue-row">

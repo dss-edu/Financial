@@ -9,11 +9,11 @@
    
     td:first-child,
   td:nth-child(2) {
-  width: 100px;
+  width: 0%;
   }
   .right-align-td {
     text-align: right;
-    padding-right: 250px;
+
   }
   .collapsed {
     display: none;
@@ -42,6 +42,10 @@
     max-height: calc(100vh - 150px); 
     overflow: auto;
     position: relative;
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
   }
   .header {
     position: sticky;
@@ -51,6 +55,8 @@
     background-color: white !important; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
+
+  
   
   
 </style>
@@ -377,10 +383,10 @@ function expandColumns() {
         <tr>
           <script>
             for (var i = 0; i <= 17; i++){
-              if (i === 4 ) {
+              if (i === 5 ) {
                 document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
               }
-              else if(i>=5 && i<=15){
+              else if(i>=3 && i<=15){
                 document.write(`<td  class="collapsed"></td>`);
               }
               else{
@@ -407,7 +413,7 @@ function expandColumns() {
             <th></th>
             <th style="text-align: center;">FYE 2022</th>
             <th class="collapsed" style="text-align: center;" >September</th>
-            <th class="collapsed"  style="text-align: center;">October</th>
+            <th class="collapsed" style="text-align: center;">October</th>
             <th class="collapsed" style="text-align: center;">November</th>
             <th class="collapsed" style="text-align: center;">December</th>
             <th class="collapsed" style="text-align: center;">January</th>
