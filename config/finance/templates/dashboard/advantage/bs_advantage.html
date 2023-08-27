@@ -7,10 +7,23 @@
   <style>
       
    
-    td:first-child,
-  td:nth-child(2) {
+    th,
+    td {
+      width: 10%;
+    }
+
+  th:nth-child(2),
+td:nth-child(2) {
+  display: none;
+}
+/*th:first-child,
+td:first-child {
   width: 0%;
-  }
+}*/
+.firstcolumn
+{
+ width: 0%;
+}
   .right-align-td {
     text-align: right;
 
@@ -33,9 +46,7 @@
   .modal-footer {
     z-index: 2;
   }
-  .width20{
-    width: 20%;
-  }
+
   .table-container {
     bottom: 0;
     width: 100%;
@@ -56,6 +67,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
 
+  .table th,
+  .table td {
+    padding: 0.5rem !important;
+
+  }
   
   
   
@@ -326,15 +342,8 @@ function expandColumns() {
         valueCells.forEach(function(cell) {
             cell.contentEditable = "true";
         });
-        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
-        deleteLinks.forEach(function(link) {
-            link.style.display = "block";
-        });
-        document.getElementById("add-row-button").style.display = "block";
-        document.getElementById("add-row-button-capital-assets").style.display = "block";
-        document.getElementById("add-row-button-CL").style.display = "block";
-        document.getElementById("add-row-button-LTD").style.display = "block";
-        
+
+
         
     });
 
@@ -352,14 +361,8 @@ function expandColumns() {
         valueCells.forEach(function(cell) {
             cell.contentEditable = "false";
         });
-        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
-        deleteLinks.forEach(function(link) {
-            link.style.display = "none";
-        });
-        document.getElementById("add-row-button").style.display = "none";
-        document.getElementById("add-row-button-capital-assets").style.display = "none";
-        document.getElementById("add-row-button-CL").style.display = "none";
-        document.getElementById("add-row-button-LTD").style.display = "none";
+
+
         
        
         
@@ -370,10 +373,11 @@ function expandColumns() {
     <table id="data-table" class="table table-hover">
         <thead>
           <tr>
+            <th class="firstcolumn"></th>
             <th></th>
            
          
-            <th colspan="17" style="white-space: nowrap;">
+            <th colspan="16" style="white-space: nowrap;">
               <h2 style="text-align: center;">ADVANTAGE ACADEMY</h2><br>
               <h2 style="text-align: center;">FY2022-2023 Balance Sheet of {{last_month}}</h2><br>
             </th>
@@ -383,7 +387,11 @@ function expandColumns() {
         <tr>
           <script>
             for (var i = 0; i <= 17; i++){
-              if (i === 5 ) {
+              if (i===1){
+                document.write(`<td  class="firstcolumn"></td>`);
+                
+              }
+              else if (i === 5 ) {
                 document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
               }
               else if(i>=3 && i<=15){
@@ -408,7 +416,7 @@ function expandColumns() {
     </thead>
     <tbody id="data-table-body">
         <tr class="header">
-            <th></th>
+            <th class="firstcolumn"></th>
             <th></th>
             <th></th>
             <th style="text-align: center;">FYE 2022</th>
@@ -445,9 +453,9 @@ function expandColumns() {
         </script>
 
         <tr id="ttl-row" class="ttl-lr-row">
+          <td class="firstcolumn"></td>
           <td></td>
           <td><strong>Assets</strong></td>
-          <td></td>
           <script>
             for (var i = 3; i <= 17; i++) {
               if (i >= 4 && i <= 15) {
@@ -460,8 +468,7 @@ function expandColumns() {
       </tr>
 
         <tr >
-          <td><button id="add-row-button" class="btn btn-success" type="button" onclick="addNewRowLR()" style="display:none; float: right;" >Add</button>
-          </td>
+          <td class="firstcolumn"></td>
           <td></td>
           <td><strong>Current Assets</td>
           <td></td>
@@ -487,8 +494,8 @@ function expandColumns() {
       {% if row.Activity == 'Cash' %}
 
     <tr  id="row4-{{ forloop.counter }}" class="balancesheet-activity-row">
-      <td>
-        <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+      <td class="firstcolumn">
+       
       </td>
       <td>{{row.obj}}</td>
       <td>{{row.Description2}}</td>
@@ -517,9 +524,9 @@ function expandColumns() {
         {% if row.Activity == 'Cash' %}
             
             <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-              <td>
-                <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-                <button id="row4" class="expand-button"  type="button" onclick="toggleRow(4)" style=" float: left;">+</button>
+              <td class="firstcolumn">
+               
+                <button id="row4" class="expand-button"  type="button" onclick="toggleRow(4)" >+</button>
               </td>
               <td>
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -551,35 +558,9 @@ function expandColumns() {
         {% endif %}
       {% endfor %}
       
-      <tr id="new-row-template" style="display: none;">
-        <td></td>
-        <td ><select class="form-control" name="Activity[]">
-              
-          <option value=""></option>
-      {% for activity in bs_activity_list %}
-          <option value="{{ activity }}">{{activity }}</option>
-      {% endfor %}    
-        </select></td>
-        <td class="width20"><input type="text" class="form-control" name="Description[]" placeholder="Description"></td>
-        <td class="width20"><input type="text" class="form-control" name="fye[]" placeholder="FYE" oninput="validateBudgetInput(event)"></td>
-        <td></td>
-      </tr>
 
-      <script>
-        function addNewRowLR() {
-          const newRowTemplate = document.getElementById('new-row-template');
-          const newRow = newRowTemplate.cloneNode(true);
-          newRow.removeAttribute('style');
-      
-          
-          
-      
-          const currentAssetRows = document.querySelectorAll('.current-assets-row');
-          const lastCurrentAssetRow = currentAssetRows[currentAssetRows.length - 1];
-          lastCurrentAssetRow.insertAdjacentElement('afterend', newRow);
-        }
 
-      </script>
+
 
 
 
@@ -590,8 +571,8 @@ function expandColumns() {
 {% if row.Activity == 'Restr' %}
 
 <tr id="row5-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 
 </td>
 <td>{{row.obj}}</td>
@@ -623,9 +604,9 @@ function expandColumns() {
 {% if row.Activity == 'Restr' %}
     
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+        
+        <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -664,8 +645,8 @@ function expandColumns() {
 {% if row.Activity == 'DFS+F' %}
 
 <tr id="row6-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -695,9 +676,9 @@ function expandColumns() {
 {% if row.Activity == 'DFS+F' %}
     
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+        
+        <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)">+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -736,8 +717,8 @@ function expandColumns() {
 {% if row.Activity == 'OTHR' %}
 
 <tr id="row7-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -767,9 +748,9 @@ function expandColumns() {
 {% if row.Activity == 'OTHR' %}
     
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+        
+        <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -809,8 +790,8 @@ function expandColumns() {
 {% if row.Activity == 'Inventory' %}
 
 <tr id="row8-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -840,9 +821,9 @@ function expandColumns() {
 {% if row.Activity == 'Inventory' %}
     
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+       
+        <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -881,8 +862,8 @@ function expandColumns() {
 {% if row.Activity == 'PPD' %}
 
 <tr  id="row9-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -912,9 +893,9 @@ function expandColumns() {
 {% if row.Activity == 'PPD' %}
     
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+       
+        <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -947,7 +928,7 @@ function expandColumns() {
 {% endfor %}
 
       <tr id="ttl-row"  class="total-assets-row">
-        <td></td>
+        <td class="firstcolumn"></td>
         <td></td>
         <td><strong>Total Current Assets</strong></td>
         <script>
@@ -962,41 +943,12 @@ function expandColumns() {
     </tr>
 
     
-    <tr id="new-row-template-Capital-assets" style="display: none;">
-      <td></td>
-      <td ><select class="form-control" name="Activity_Capital_Assets[]">
-            
-        <option value=""></option>
-    {% for activity in bs_activity_list %}
-        <option value="{{ activity }}">{{activity }}</option>
-    {% endfor %}    
-      </select></td>
-      <td class="width20"><input type="text" class="form-control" name="Description_Capital_Assets[]" placeholder="Description"></td>
-      <td class="width20"><input type="text" class="form-control" name="fye_Capital_Assets[]" placeholder="FYE" oninput="validateBudgetInput(event)"></td>
-      <td></td>
-    </tr>
 
-<script>
-      function addNewCapitalAssets() {
-        const newRowTemplate = document.getElementById('new-row-template-Capital-assets');
-        const newRow = newRowTemplate.cloneNode(true);
-        newRow.removeAttribute('style');
-    
-        
-        
-    
-        const capitalAssetRows = document.querySelectorAll('.capital-assets-row');
-        const lastCapitalAssetRow = capitalAssetRows[capitalAssetRows.length - 1];
-        lastCapitalAssetRow.insertAdjacentElement('afterend', newRow);
-      }
-</script>
+
       
 
       <tr >
-        <td>
-         
-          <button id="add-row-button-capital-assets" class="btn btn-success" type="button" onclick="addNewCapitalAssets()" style="display:none; float: right;" >Add</button>
-        </td>
+        <td class="firstcolumn"> </td>
         <td></td>
         <td><strong>Capital Assets , Net</strong></td>
         <td></td>
@@ -1024,8 +976,8 @@ function expandColumns() {
       {% if row.Activity == 'FA-L' %}
 
     <tr id="row10-{{ forloop.counter }}" class="balancesheet-activity-row">
-      <td>
-        <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+      <td class="firstcolumn">
+       
       </td>
       <td>{{row.obj}}</td>
       <td>{{row.Description2}}</td>
@@ -1055,9 +1007,9 @@ function expandColumns() {
         {% if row.Activity == 'FA-L' %}
            
             <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
-              <td>
-                <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-                <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" style=" float: left;">+</button>
+              <td class="firstcolumn">
+                
+                <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" >+</button>
               </td>
               <td>
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1098,8 +1050,8 @@ function expandColumns() {
 {% if row.Activity == 'FA-BFE' %}
 
 <tr id="row11-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -1129,9 +1081,9 @@ function expandColumns() {
 {% if row.Activity == 'FA-BFE' %}
    
     <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+        
+        <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1171,8 +1123,8 @@ function expandColumns() {
 {% if row.Activity == 'FA-AD' %}
 
 <tr id="row12-{{ forloop.counter }}" class="balancesheet-activity-row">
-<td>
-<a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+<td class="firstcolumn">
+
 </td>
 <td>{{row.obj}}</td>
 <td>{{row.Description2}}</td>
@@ -1202,9 +1154,9 @@ function expandColumns() {
 {% if row.Activity == 'FA-AD' %}
    
     <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
-      <td>
-        <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-        <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" style=" float: left;">+</button>
+      <td class="firstcolumn">
+        
+        <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
       </td>
       <td>
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1237,7 +1189,7 @@ function expandColumns() {
 {% endfor %}
       
       <tr id="ttl-row" class="total-assets-row">
-            <td></td>
+            <td class="firstcolumn"> </td>
             <td></td>
             <td><strong>Total Capital Assets</strong></td>
             <script>
@@ -1252,7 +1204,7 @@ function expandColumns() {
         </tr>
 
         <tr id="ttl-row" class="ttl-lr-row">
-          <td></td>
+          <td class="firstcolumn"></td>
           <td></td>
           <td><strong>Total  Assets</strong></td>
           <script>
@@ -1267,9 +1219,9 @@ function expandColumns() {
       </tr>
 
       <tr id="ttl-row" class="ttl-lr-row">
+        <td class="firstcolumn"></td>
         <td></td>
         <td><strong>Liabilities and Net Assets</strong></td>
-        <td></td>
         <script>
           for (var i = 3; i <= 17; i++) {
             if (i >= 4 && i <= 15) {
@@ -1282,40 +1234,10 @@ function expandColumns() {
     </tr>
 
 
-    <tr id="new-row-template-CL" style="display: none;">
-      <td></td>
-      <td ><select class="form-control" name="Activity_CL[]">
-            
-        <option value=""></option>
-    {% for activity in bs_activity_list %}
-        <option value="{{ activity }}">{{activity }}</option>
-    {% endfor %}    
-      </select></td>
-      <td class="width20"><input type="text" class="form-control" name="Description_CL[]" placeholder="Description"></td>
-      <td class="width20"><input type="text" class="form-control" name="fye_CL[]" placeholder="FYE" oninput="validateBudgetInput(event)"></td>
-      <td></td>
-    </tr>
 
-<script>
-      function addNewCL() {
-        const newRowTemplate = document.getElementById('new-row-template-CL');
-        const newRow = newRowTemplate.cloneNode(true);
-        newRow.removeAttribute('style');
-    
-        
-        
-    
-        const currentLiabilitesRows = document.querySelectorAll('.current-liabilities-row');
-        const lastCurrentLiabilitesRow = currentLiabilitesRows[currentLiabilitesRows.length - 1];
-        lastCurrentLiabilitesRow.insertAdjacentElement('afterend', newRow);
-      }
-</script>
 
     <tr id="ttl-row" class="ttl-lr-row">
-      <td>
-        
-        <button id="add-row-button-CL" class="btn btn-success" type="button" onclick="addNewCL()" style="display:none; float: right;" >Add</button>
-      </td>
+      <td class="firstcolumn"></td>
       <td></td>
       <td><strong>Current Liabilities</strong></td>
       <script>
@@ -1336,26 +1258,26 @@ function expandColumns() {
       {% if row.Activity == 'AP' %}
       
       <tr id="row13-{{ forloop.counter }}" class="balancesheet-activity-row">
-      <td>
-        <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-      </td>
-      <td>{{row.obj}}</td>
-      <td>{{row.Description2}}</td>
-      <td></td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
-      <td class="right-align-td"></td>
-      <td class="right-align-td"></td>
+        <td class="firstcolumn">
+        
+        </td>
+        <td>{{row.obj}}</td>
+        <td>{{row.Description2}}</td>
+        <td></td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+        <td class="right-align-td"></td>
+        <td class="right-align-td"></td>
       </tr>
       
       {% endif %}
@@ -1367,9 +1289,9 @@ function expandColumns() {
         {% if row.Activity == 'AP' %}
            
             <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
-              <td>
-                <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-                <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)" style=" float: left;">+</button>
+              <td class="firstcolumn">
+               
+                <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)">+</button>
               </td>
               <td>
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1411,8 +1333,8 @@ function expandColumns() {
     {% if row.Activity == 'Acc-Exp' %}
     
     <tr id="row14-{{ forloop.counter }}" class="balancesheet-activity-row">
-    <td>
-      <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+    <td class="firstcolumn">
+      
     </td>
     <td>{{row.obj}}</td>
     <td>{{row.Description2}}</td>
@@ -1442,9 +1364,9 @@ function expandColumns() {
       {% if row.Activity == 'Acc-Exp' %}
          
           <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
-            <td>
-              <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-              <button id="row14" class="expand-button"  type="button" onclick="toggleRow(14)" style=" float: left;">+</button>
+            <td class="firstcolumn">
+              
+              <button id="row14" class="expand-button"  type="button" onclick="toggleRow(14)" >+</button>
             </td>
             <td>
               <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1484,8 +1406,8 @@ function expandColumns() {
   {% if row.Activity == 'OtherLab' %}
   
   <tr id="row15-{{ forloop.counter }}" class="balancesheet-activity-row">
-  <td>
-    <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+  <td class="firstcolumn">
+    
   </td>
   <td>{{row.obj}}</td>
   <td>{{row.Description2}}</td>
@@ -1515,9 +1437,9 @@ function expandColumns() {
     {% if row.Activity == 'OtherLab' %}
        
         <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
-          <td>
-            <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" style=" float: left;">+</button>
+          <td class="firstcolumn">
+          
+            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" >+</button>
           </td>
           <td>
             <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1559,8 +1481,8 @@ function expandColumns() {
   {% if row.Activity == 'Debt-C' %}
   
   <tr id="row16-{{ forloop.counter }}" class="balancesheet-activity-row">
-  <td>
-    <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+  <td class="firstcolumn">
+    
   </td>
   <td>{{row.obj}}</td>
   <td>{{row.Description2}} </td>
@@ -1590,13 +1512,13 @@ function expandColumns() {
     {% if row.Activity == 'Debt-C' %}
        
         <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
-          <td>
-            <a href="{% url 'delete_bs' row.Description row.Subcategory %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
+          <td class="firstcolumn">
+            
             {% if  forloop.first %}
-            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" style=" float: left;">+</button>
+            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)">+</button>
    
 
-        {% endif %}
+          {% endif %}
 
           </td>
           <td>
@@ -1630,71 +1552,10 @@ function expandColumns() {
 {% endfor %}
   <!-- END OF DebtC-->
 
-      <tr id="ttl-row" >
-          <td>
-           </td>
-           <td></td>
-           <td><strong>Total Current Liabilities</strong></td>
-           <script>
-          for (var i = 3; i <= 17; i++) {
-            if (i >= 4 && i <= 15) {
-              document.write(`<td id="current-liabilities-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="current-liabilities-total-${i}" class="right-align-td"></td>`);
-            }
-          }
-        </script>
-    </tr>
-    <tr id="ttl-row" class="ttl-lr-row">
-      <td></td>
-      <td></td>
-      <td><strong>Total Liabilities and Net Assets</strong></td>
-      <script>
-        for (var i = 3; i <= 17; i++) {
-          if (i >= 4 && i <= 15) {
-            document.write(`<td id="liabilitiesandnet-total-${i}" class="collapsed right-align-td" ></td>`);
-          } else {
-            document.write(`<td id="liabilitiesandnet-total-${i}" class="right-align-td"></td>`);
-          }
-        }
-      </script>
-  </tr>
 
-
-    <tr id="new-row-template-LTD" style="display: none;">
-      <td></td>
-      <td ><select class="form-control" name="Activity_LTD[]">
-            
-        <option value=""></option>
-    {% for activity in bs_activity_list %}
-        <option value="{{ activity }}">{{activity }}</option>
-    {% endfor %}    
-      </select></td>
-      <td class="width20"><input type="text" class="form-control" name="Description_LTD[]" placeholder="Description"></td>
-      <td class="width20"><input type="text" class="form-control" name="fye_LTD[]" placeholder="FYE" oninput="validateBudgetInput(event)"></td>
-      <td></td>
-    </tr>
-
-<script>
-      function addNewLTD() {
-        const newRowTemplate = document.getElementById('new-row-template-LTD');
-        const newRow = newRowTemplate.cloneNode(true);
-        newRow.removeAttribute('style');
-    
-        
-        
-    
-        const LTDRows = document.querySelectorAll('.total-liabilities-row');
-        const lastLTDRow = LTDRows[LTDRows.length - 1];
-        lastLTDRow.insertAdjacentElement('afterend', newRow);
-      }
-</script>
     
     <tr id="ttl-row" class="ttl-lr-row">
-        <td>
-
-          <button id="add-row-button-LTD" class="btn btn-success" type="button" onclick="addNewLTD()" style="display:none; float: right;" >Add</button>
-        </td>
+        <td class="firstcolumn"></td>
         <td></td>
         <td><strong>Long Term Debt</strong></td>
         <script>
@@ -1714,26 +1575,26 @@ function expandColumns() {
       {% if row.Activity == 'LTD' %}
       
       <tr id="row17-{{ forloop.counter }}" class="balancesheet-activity-row">
-      <td>
-        <a href=" {% url 'delete_bsa' row.obj row.Activity  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-      </td>
-      <td>{{row.obj}}</td>
-      <td>{{row.Description2}}</td>
-      <td></td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
-      <td class="right-align-td"></td>
-      <td class="right-align-td"></td>
+        <td class="firstcolumn">
+        
+        </td>
+        <td>{{row.obj}}</td>
+        <td>{{row.Description2}}</td>
+        <td></td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+        <td class="right-align-td"></td>
+        <td class="right-align-td"></td>
       </tr>
       
       {% endif %}
@@ -1745,9 +1606,9 @@ function expandColumns() {
         {% if row.Activity == 'LTD' %}
             
             <tr class="total-liabilities-row">
-              <td>
-                <a href=" {% url 'delete_bs' row.Description row.Subcategory  %}" id="delete-container-{{ forloop.counter }}" style="display:none;"><i class="fas fa-times"></i></a>
-                <button id="row17" class="expand-button"  type="button" onclick="toggleRow(17)" style=" float: left;">+</button>
+              <td class="firstcolumn">
+               
+                <button id="row17" class="expand-button"  type="button" onclick="toggleRow(17)" >+</button>
               </td>
               <td>
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
@@ -1781,7 +1642,7 @@ function expandColumns() {
       {% endfor %}
         
       <tr id="ttl-row" class="ttl-lr-row">
-        <td></td>
+        <td class="firstcolumn"></td>
         <td></td>
         <td><strong>Total Liabilities</strong></td>
         <script>
@@ -1799,7 +1660,7 @@ function expandColumns() {
         {% if row.Category == 'Net Assets' %}
         {% if row.Activity == 'Equity' %}
             <tr class="net-assets-row">
-              <td>
+              <td class="firstcolumn">
              
               </td>
               <td>
@@ -1830,10 +1691,21 @@ function expandColumns() {
             {% endif %}
             {% endif %}  
           {% endfor %}
-      
-
-  
-
+          <tr id="ttl-row" >
+            <td class="firstcolumn"></td>
+             <td></td>
+             <td><strong>Total Current Liabilities</strong></td>
+             <script>
+            for (var i = 3; i <= 17; i++) {
+              if (i >= 4 && i <= 15) {
+                document.write(`<td id="current-liabilities-total-${i}" class="collapsed right-align-td" ></td>`);
+              } else {
+                document.write(`<td id="current-liabilities-total-${i}" class="right-align-td"></td>`);
+              }
+            }
+          </script>
+        </tr>
+          
 </tbody>
 </table>
 </form>
