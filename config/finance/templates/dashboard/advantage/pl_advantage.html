@@ -15,10 +15,15 @@
     }
 
     .right-align-td {
-      text-align: right;
-    padding-right: 250px;
-     
+      text-align: center;
+      position: relative; /* Add relative positioning to the cell */
     }
+    .right-align-td::before {
+      content: ''; /* Add an empty content */
+      display: inline-block;
+      width: 100px; /* Adjust the width as needed */
+    }
+    
     .collapsed {
       display: none;
  
