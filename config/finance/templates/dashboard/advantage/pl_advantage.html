@@ -7,22 +7,19 @@
 
     th,
     td {
-      width: 100px;
+      width: 10%;
     }
    .firstcolumn
      {
-      width: 0px;
+      width: 0%;
     }
 
+
     .right-align-td {
-      text-align: center;
-      position: relative; /* Add relative positioning to the cell */
+      text-align: right;
+       
     }
-    .right-align-td::before {
-      content: ''; /* Add an empty content */
-      display: inline-block;
-      width: 100px; /* Adjust the width as needed */
-    }
+
     
     .collapsed {
       display: none;
@@ -54,6 +51,10 @@
     max-height: calc(100vh - 150px); 
     overflow: auto;
     position: relative;
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
   }
   .header {
     position: sticky;
@@ -64,8 +65,8 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
   td:nth-child(2) {
-    width: 0px;
-    text-align: right; /* Adjust text alignment */
+    width: 0%;
+    text-align: center; /* Adjust text alignment */
      /* Adjust font size */
     line-height: 1; /* Adjust line height */
     white-space: nowrap; /* Prevent text wrapping */
