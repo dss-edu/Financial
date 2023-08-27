@@ -1645,6 +1645,20 @@ function expandColumns() {
           }
         </script>
     </tr>
+    <tr id="ttl-row" class="ttl-lr-row">
+      <td></td>
+      <td></td>
+      <td><strong>Total Liabilities and Net Assets</strong></td>
+      <script>
+        for (var i = 3; i <= 17; i++) {
+          if (i >= 4 && i <= 15) {
+            document.write(`<td id="liabilitiesandnet-total-${i}" class="collapsed right-align-td" ></td>`);
+          } else {
+            document.write(`<td id="liabilitiesandnet-total-${i}" class="right-align-td"></td>`);
+          }
+        }
+      </script>
+  </tr>
 
 
     <tr id="new-row-template-LTD" style="display: none;">
@@ -1817,20 +1831,7 @@ function expandColumns() {
             {% endif %}  
           {% endfor %}
       
-      <tr id="ttl-row" class="ttl-lr-row">
-        <td></td>
-        <td></td>
-        <td><strong>Total Liabilities and Net Assets</strong></td>
-        <script>
-          for (var i = 3; i <= 17; i++) {
-            if (i >= 4 && i <= 15) {
-              document.write(`<td id="liabilitiesandnet-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="liabilitiesandnet-total-${i}" class="right-align-td"></td>`);
-            }
-          }
-        </script>
-    </tr>
+
   
 
 </tbody>
