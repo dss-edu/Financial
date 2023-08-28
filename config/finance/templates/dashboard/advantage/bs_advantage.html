@@ -7,10 +7,7 @@
   <style>
       
    
-    th,
-    td {
-      width: 10%;
-    }
+
 
   th:nth-child(2),
 td:nth-child(2) {
@@ -72,9 +69,40 @@ td:first-child {
     padding: 0.5rem !important;
 
   }
+  td:nth-child(3) {
+
+    line-height: 1; 
+    white-space: nowrap; 
+  }
+  .space-before {
+    margin-left: 10px; 
+  }
+  .space-before::before {
+    content: "\00a0"; 
+    margin-right: 10px; 
+  }
+
+  .space-before-total {
+    margin-left: 10px; 
+  }
+  .space-before-total::before {
+    content: "\00a0"; 
+    margin-right: 30px; 
+  }
+
+  .top-border {
+    position: relative;
+  }
   
-  
-  
+  .top-border::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; 
+    background-color: #000;
+  }
 </style>
   {% endblock %}   
    
@@ -419,21 +447,21 @@ function expandColumns() {
             <th class="firstcolumn"></th>
             <th></th>
             <th></th>
-            <th style="text-align: center;">FYE 2022</th>
-            <th class="collapsed" style="text-align: center;" >September</th>
-            <th class="collapsed" style="text-align: center;">October</th>
-            <th class="collapsed" style="text-align: center;">November</th>
-            <th class="collapsed" style="text-align: center;">December</th>
-            <th class="collapsed" style="text-align: center;">January</th>
-            <th class="collapsed" style="text-align: center;">February</th>
-            <th class="collapsed" style="text-align: center;">March</th>
-            <th class="collapsed" style="text-align: center;">April</th>
-            <th class="collapsed" style="text-align: center;">May</th>
-            <th class="collapsed" style="text-align: center;">June</th>
-            <th class="collapsed" style="text-align: center;">July</th>
-            <th class="collapsed" style="text-align: center;">August</th>
-            <th style="text-align: center;">FYTD Activity</th>
-            <th style="text-align: center;">As of June</th>
+            <th style="text-align: center;"><div style="width:100px;">FYE 2022</div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">September   </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">October     </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">November    </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">December    </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">January     </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">February    </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">March       </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">April       </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">May         </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">June        </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">July        </div></th>
+            <th class="collapsed" style="text-align: center;"><div style="width:100px;">August      </div></th>
+            <th style="text-align: center;"><div style="width:100px;">FYTD Activity                 </div></th>
+            <th style="text-align: center;"><div style="width:100px;">As of July                    </div></th>
         </tr>
 
         <script>
@@ -470,7 +498,7 @@ function expandColumns() {
         <tr >
           <td class="firstcolumn"></td>
           <td></td>
-          <td><strong>Current Assets</td>
+          <td>Current Assets</td>
           <td></td>
           <td class="collapsed"></td>
           <td class="collapsed"></td>
@@ -497,8 +525,8 @@ function expandColumns() {
       <td class="firstcolumn">
        
       </td>
-      <td>{{row.obj}}</td>
-      <td>{{row.Description2}}</td>
+      <td >{{row.obj}}</td>
+      <td class="space-before">&nbsp;{{row.Description2}}</td>
       <td></td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -532,7 +560,7 @@ function expandColumns() {
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
                 <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
               </td>
-              <td>{{row.Description}}</td>
+              <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
                 {{row.FYE}}
@@ -576,7 +604,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -608,11 +636,11 @@ function expandColumns() {
         
         <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" >+</button>
       </td>
-      <td>
+      <td >
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -649,7 +677,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -684,7 +712,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -721,7 +749,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -756,7 +784,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -794,7 +822,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -829,7 +857,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -866,7 +894,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -901,7 +929,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -930,13 +958,13 @@ function expandColumns() {
       <tr id="ttl-row"  class="total-assets-row">
         <td class="firstcolumn"></td>
         <td></td>
-        <td><strong>Total Current Assets</strong></td>
+        <td class="space-before-total "><strong>Total Current Assets</strong></td>
         <script>
           for (var i = 3; i <= 17; i++) {
             if (i >= 4 && i <= 15) {
-              document.write(`<td id="current-assets-total-${i}" class="collapsed right-align-td" ></td>`);
+              document.write(`<td id="current-assets-total-${i}" class="collapsed right-align-td top-border" ></td>`);
             } else {
-              document.write(`<td id="current-assets-total-${i}" class="right-align-td"></td>`);
+              document.write(`<td id="current-assets-total-${i}" class="right-align-td top-border"></td>`);
             }
           }
         </script>
@@ -950,7 +978,7 @@ function expandColumns() {
       <tr >
         <td class="firstcolumn"> </td>
         <td></td>
-        <td><strong>Capital Assets , Net</strong></td>
+        <td>Capital Assets , Net</td>
         <td></td>
         <td class="collapsed"></td>
         <td class="collapsed"></td>
@@ -980,7 +1008,7 @@ function expandColumns() {
        
       </td>
       <td>{{row.obj}}</td>
-      <td>{{row.Description2}}</td>
+      <td class="space-before">{{row.Description2}}</td>
       <td></td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1015,7 +1043,7 @@ function expandColumns() {
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
                 <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
               </td>
-              <td>{{row.Description}}</td>
+              <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
                 {{row.FYE}}
@@ -1054,7 +1082,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1089,7 +1117,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}} </td>
+      <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -1127,7 +1155,7 @@ function expandColumns() {
 
 </td>
 <td>{{row.obj}}</td>
-<td>{{row.Description2}}</td>
+<td class="space-before">{{row.Description2}}</td>
 <td></td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1162,7 +1190,7 @@ function expandColumns() {
         <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
         <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
       </td>
-      <td>{{row.Description}}</td>
+      <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
         <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
         {{row.FYE}}
@@ -1191,13 +1219,13 @@ function expandColumns() {
       <tr id="ttl-row" class="total-assets-row">
             <td class="firstcolumn"> </td>
             <td></td>
-            <td><strong>Total Capital Assets</strong></td>
+            <td class="space-before-total"><strong>Total Capital Assets</strong></td>
             <script>
               for (var i = 3; i <= 17; i++) {
                 if (i >= 4 && i <= 15) {
-                  document.write(`<td id="capital-assets-total-${i}" class="collapsed right-align-td" ></td>`);
+                  document.write(`<td id="capital-assets-total-${i}" class="collapsed right-align-td top-border" ></td>`);
                 } else {
-                  document.write(`<td id="capital-assets-total-${i}" class="right-align-td"></td>`);
+                  document.write(`<td id="capital-assets-total-${i}" class="right-align-td top-border"></td>`);
                 }
               }
             </script>
@@ -1206,7 +1234,7 @@ function expandColumns() {
         <tr id="ttl-row" class="ttl-lr-row">
           <td class="firstcolumn"></td>
           <td></td>
-          <td><strong>Total  Assets</strong></td>
+          <td ><strong>Total Assets</strong></td>
           <script>
             for (var i = 3; i <= 17; i++) {
               if (i >= 4 && i <= 15) {
@@ -1239,7 +1267,7 @@ function expandColumns() {
     <tr id="ttl-row" class="ttl-lr-row">
       <td class="firstcolumn"></td>
       <td></td>
-      <td><strong>Current Liabilities</strong></td>
+      <td>Current Liabilities</td>
       <script>
         for (var i = 3; i <= 17; i++) {
           if (i >= 4 && i <= 15) {
@@ -1262,7 +1290,7 @@ function expandColumns() {
         
         </td>
         <td>{{row.obj}}</td>
-        <td>{{row.Description2}}</td>
+        <td class="space-before">{{row.Description2}}</td>
         <td></td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1297,7 +1325,7 @@ function expandColumns() {
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
                 <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
               </td>
-              <td>{{row.Description}} </td>
+              <td class="space-before">{{row.Description}} </td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
                 {{row.FYE}}
@@ -1337,7 +1365,7 @@ function expandColumns() {
       
     </td>
     <td>{{row.obj}}</td>
-    <td>{{row.Description2}}</td>
+    <td class="space-before">{{row.Description2}}</td>
     <td></td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1372,7 +1400,7 @@ function expandColumns() {
               <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
               <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
             </td>
-            <td>{{row.Description}} </td>
+            <td class="space-before">{{row.Description}} </td>
             <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
               <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
               {{row.FYE}}
@@ -1410,7 +1438,7 @@ function expandColumns() {
     
   </td>
   <td>{{row.obj}}</td>
-  <td>{{row.Description2}}</td>
+  <td class="space-before">{{row.Description2}}</td>
   <td></td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1445,7 +1473,7 @@ function expandColumns() {
             <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
             <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
           </td>
-          <td>{{row.Description}} </td>
+          <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
             {{row.FYE}}
@@ -1485,7 +1513,7 @@ function expandColumns() {
     
   </td>
   <td>{{row.obj}}</td>
-  <td>{{row.Description2}} </td>
+  <td class="space-before">{{row.Description2}} </td>
   <td></td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1525,7 +1553,7 @@ function expandColumns() {
             <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
             <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
           </td>
-          <td>{{row.Description}}</td>
+          <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
             {{row.FYE}}
@@ -1551,13 +1579,27 @@ function expandColumns() {
     {% endif %}
 {% endfor %}
   <!-- END OF DebtC-->
+  <tr id="ttl-row" >
+    <td class="firstcolumn"></td>
+     <td></td>
+     <td class="space-before-total"><strong>Total Current Liabilities</strong></td>
+     <script>
+    for (var i = 3; i <= 17; i++) {
+      if (i >= 4 && i <= 15) {
+        document.write(`<td id="current-liabilities-total-${i}" class="collapsed right-align-td top-border" ></td>`);
+      } else {
+        document.write(`<td id="current-liabilities-total-${i}" class="right-align-td top-border"></td>`);
+      }
+    }
+  </script>
+</tr>
 
 
     
     <tr id="ttl-row" class="ttl-lr-row">
         <td class="firstcolumn"></td>
         <td></td>
-        <td><strong>Long Term Debt</strong></td>
+        <td>Long Term Debt</td>
         <script>
           for (var i = 3; i <= 17; i++) {
             if (i >= 4 && i <= 15) {
@@ -1579,7 +1621,7 @@ function expandColumns() {
         
         </td>
         <td>{{row.obj}}</td>
-        <td>{{row.Description2}}</td>
+        <td class="space-before">{{row.Description2}}</td>
         <td></td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
@@ -1614,7 +1656,7 @@ function expandColumns() {
                 <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
                 <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
               </td>
-              <td>{{row.Description}}</td>
+              <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
                 {{row.FYE}}
@@ -1644,7 +1686,7 @@ function expandColumns() {
       <tr id="ttl-row" class="ttl-lr-row">
         <td class="firstcolumn"></td>
         <td></td>
-        <td><strong>Total Liabilities</strong></td>
+        <td ><strong>Total Liabilities</strong></td>
         <script>
           for (var i = 3; i <= 17; i++) {
             if (i >= 4 && i <= 15) {
@@ -1691,20 +1733,21 @@ function expandColumns() {
             {% endif %}
             {% endif %}  
           {% endfor %}
-          <tr id="ttl-row" >
-            <td class="firstcolumn"></td>
-             <td></td>
-             <td><strong>Total Current Liabilities</strong></td>
-             <script>
+
+        <tr id="ttl-row" class="ttl-lr-row">
+          <td></td>
+          <td></td>
+          <td class="space-before-total"><strong>Total Liabilities and Net Assets</strong></td>
+          <script>
             for (var i = 3; i <= 17; i++) {
               if (i >= 4 && i <= 15) {
-                document.write(`<td id="current-liabilities-total-${i}" class="collapsed right-align-td" ></td>`);
+                document.write(`<td id="liabilitiesandnet-total-${i}" class="collapsed right-align-td top-border" ></td>`);
               } else {
-                document.write(`<td id="current-liabilities-total-${i}" class="right-align-td"></td>`);
+                document.write(`<td id="liabilitiesandnet-total-${i}" class="right-align-td top-border"></td>`);
               }
             }
           </script>
-        </tr>
+      </tr>
           
 </tbody>
 </table>
