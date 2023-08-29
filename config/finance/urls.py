@@ -47,6 +47,7 @@ urlpatterns = [
 
 
     path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
+    path('bs_villagetech/', views.bs_villagetech, name='bs_villagetech'),
 
 
 ]
