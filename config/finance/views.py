@@ -26,6 +26,7 @@ import openpyxl
 from django.conf import settings
 from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
+from openpyxl.styles import Font,NamedStyle, Border, Side
 
 
 def connect():
@@ -36,9 +37,9 @@ def connect():
     port = '1433'
     
 
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
+    #driver = '{/usr/lib/libmsodbcsql-17.so}'
     #driver = '{ODBC Driver 17 for SQL Server}'
-    #driver = '{SQL Server}'
+    driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -3311,12 +3312,14 @@ def generate_excel(request):
  
     workbook = openpyxl.load_workbook(generated_excel_path)
     sheet_names = workbook.sheetnames
+    fontbold = Font(bold=True)
 
 
     first = sheet_names[0]
     pl = sheet_names[1]
     bs = sheet_names[2]
     cashflow= sheet_names[3]
+    
 
     first_sheet = workbook[first]
     pl_sheet = workbook[pl]
@@ -3340,6 +3343,7 @@ def generate_excel(request):
     for col in range(7, 19):
         col_letter = get_column_letter(col)
         pl_sheet.column_dimensions[col_letter].outline_level = 1
+        pl_sheet.column_dimensions[col_letter].hidden = True
 
     pl_sheet.row_dimensions[1].height = 64
     for row in range(2,181):
@@ -3353,7 +3357,7 @@ def generate_excel(request):
     pl_sheet.column_dimensions['C'].hidden = True
     pl_sheet.column_dimensions['D'].width = 14
     pl_sheet.column_dimensions['E'].width = 12
-    pl_sheet.column_dimensions['F'].width = 1
+    pl_sheet.column_dimensions['F'].hidden = True
     pl_sheet.column_dimensions['G'].width = 12
     pl_sheet.column_dimensions['H'].width = 12
     pl_sheet.column_dimensions['I'].width = 12
@@ -3366,7 +3370,7 @@ def generate_excel(request):
     pl_sheet.column_dimensions['P'].width = 12
     pl_sheet.column_dimensions['Q'].width = 12
     pl_sheet.column_dimensions['R'].width = 12
-    pl_sheet.column_dimensions['S'].width = 2
+    pl_sheet.column_dimensions['S'].width = 3
     pl_sheet.column_dimensions['T'].width = 17
     pl_sheet.column_dimensions['U'].width = 17
     pl_sheet.column_dimensions['V'].width = 12
@@ -3375,35 +3379,22 @@ def generate_excel(request):
     for col in range(7, 18):
         col_letter = get_column_letter(col)
         bs_sheet.column_dimensions[col_letter].outline_level = 1
+        bs_sheet.column_dimensions[col_letter].hidden = True
 
+    total_vars = ['value', 'total_real9', 'total_real10', 'total_real11', 'total_real12', 
+              'total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5', 
+              'total_real6', 'total_real7', 'total_real8']
+    totals = {var: 0 for var in total_vars}
 
+    # PL START OF DESIGN
     start_row = 5
     for row_data in data:
         if row_data['category'] == 'Local Revenue': 
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'G{start_row}'] = row_data['total_real9']
-            pl_sheet[f'H{start_row}'] = row_data['total_real10']
-            pl_sheet[f'I{start_row}'] = row_data['total_real11']
-            pl_sheet[f'J{start_row}'] = row_data['total_real12']
-            pl_sheet[f'K{start_row}'] = row_data['total_real1']
-            pl_sheet[f'L{start_row}'] = row_data['total_real2']
-            pl_sheet[f'M{start_row}'] = row_data['total_real3']
-            pl_sheet[f'N{start_row}'] = row_data['total_real4']
-            pl_sheet[f'O{start_row}'] = row_data['total_real5']
-            pl_sheet[f'P{start_row}'] = row_data['total_real6']
-            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
-            pl_sheet[f'R{start_row}'] = row_data['total_real8']
-        
-            start_row += 1
-    start_row += 1   
-    for row_data in data:
-        if row_data['category'] == 'State Program Revenue':
-        
-            pl_sheet[f'A{start_row}'] = row_data['fund']
-            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-            pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
+            
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
             pl_sheet[f'I{start_row}'] = row_data['total_real11']
@@ -3417,14 +3408,46 @@ def generate_excel(request):
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
             
+            for var in total_vars:
+                totals[var] += row_data.get(var, 0)
             start_row += 1
-    start_row += 1   
+            
+    lr_end = start_row
+    #local revenue total
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'Local Revenue'
+    pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'G{start_row}'] = totals['total_real9']
+    pl_sheet[f'H{start_row}'] = totals['total_real10']
+    pl_sheet[f'I{start_row}'] = totals['total_real11']
+    pl_sheet[f'J{start_row}'] = totals['total_real12']
+    pl_sheet[f'K{start_row}'] = totals['total_real1']
+    pl_sheet[f'L{start_row}'] = totals['total_real2']
+    pl_sheet[f'M{start_row}'] = totals['total_real3']
+    pl_sheet[f'N{start_row}'] = totals['total_real4']
+    pl_sheet[f'O{start_row}'] = totals['total_real5']
+    pl_sheet[f'P{start_row}'] = totals['total_real6']
+    pl_sheet[f'Q{start_row}'] = totals['total_real7']
+    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    
+
+    start_row += 1  
+
+    
+    
+
+    # for row in total_vars:
+    #     globals()[row] = 0
+    totals = {var: 0 for var in total_vars} # reset the totals
     for row_data in data:
-        if row_data['category'] == 'Federal Program Revenue':
+        if row_data['category'] == 'State Program Revenue':
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
             pl_sheet[f'I{start_row}'] = row_data['total_real11']
@@ -3437,13 +3460,107 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+
+            for var in total_vars:
+                totals[var] += row_data.get(var, 0)
+            
             start_row += 1
+            
+            
+    spr_end = start_row
+    # STATE PROGRAM TOTAL      
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'State Program Revenue'
+    pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'G{start_row}'] = totals['total_real9']
+    pl_sheet[f'H{start_row}'] = totals['total_real10']
+    pl_sheet[f'I{start_row}'] = totals['total_real11']
+    pl_sheet[f'J{start_row}'] = totals['total_real12']
+    pl_sheet[f'K{start_row}'] = totals['total_real1']
+    pl_sheet[f'L{start_row}'] = totals['total_real2']
+    pl_sheet[f'M{start_row}'] = totals['total_real3']
+    pl_sheet[f'N{start_row}'] = totals['total_real4']
+    pl_sheet[f'O{start_row}'] = totals['total_real5']
+    pl_sheet[f'P{start_row}'] = totals['total_real6']
+    pl_sheet[f'Q{start_row}'] = totals['total_real7']
+    pl_sheet[f'R{start_row}'] = totals['total_real8']        
+    start_row += 1
 
-    start_row += 5   
+    totals = {var: 0 for var in total_vars} # reset the totals
+    for row_data in data:
+        if row_data['category'] == 'Federal Program Revenue':
+        
+            pl_sheet[f'A{start_row}'] = row_data['fund']
+            pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
+            pl_sheet[f'D{start_row}'] = row_data['value']
+            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
+            pl_sheet[f'G{start_row}'] = row_data['total_real9']
+            pl_sheet[f'H{start_row}'] = row_data['total_real10']
+            pl_sheet[f'I{start_row}'] = row_data['total_real11']
+            pl_sheet[f'J{start_row}'] = row_data['total_real12']
+            pl_sheet[f'K{start_row}'] = row_data['total_real1']
+            pl_sheet[f'L{start_row}'] = row_data['total_real2']
+            pl_sheet[f'M{start_row}'] = row_data['total_real3']
+            pl_sheet[f'N{start_row}'] = row_data['total_real4']
+            pl_sheet[f'O{start_row}'] = row_data['total_real5']
+            pl_sheet[f'P{start_row}'] = row_data['total_real6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
+            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            for var in total_vars:
+                totals[var] += row_data.get(var, 0)
+            
+            start_row += 1
+            
+    fpr_end = start_row
+        # FEDERAL PROGRAM REVENUE TOTAL
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
+    pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'G{start_row}'] = totals['total_real9']
+    pl_sheet[f'H{start_row}'] = totals['total_real10']
+    pl_sheet[f'I{start_row}'] = totals['total_real11']
+    pl_sheet[f'J{start_row}'] = totals['total_real12']
+    pl_sheet[f'K{start_row}'] = totals['total_real1']
+    pl_sheet[f'L{start_row}'] = totals['total_real2']
+    pl_sheet[f'M{start_row}'] = totals['total_real3']
+    pl_sheet[f'N{start_row}'] = totals['total_real4']
+    pl_sheet[f'O{start_row}'] = totals['total_real5']
+    pl_sheet[f'P{start_row}'] = totals['total_real6']
+    pl_sheet[f'Q{start_row}'] = totals['total_real7']
+    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    start_row += 1
 
-    for row_data in data2: #
+    total_revenue_row = start_row
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'Total Revenue'
+    pl_sheet[f'D{start_row}'].value = f'=SUM(D{spr_end},D{fpr_end},D{lr_end})'
+    pl_sheet[f'G{start_row}'].value = f'=SUM(G{spr_end},G{fpr_end},G{lr_end})'
+    pl_sheet[f'H{start_row}'].value = f'=SUM(H{spr_end},H{fpr_end},H{lr_end})'
+    pl_sheet[f'I{start_row}'].value = f'=SUM(I{spr_end},I{fpr_end},I{lr_end})'
+    pl_sheet[f'J{start_row}'].value = f'=SUM(J{spr_end},J{fpr_end},J{lr_end})'
+    pl_sheet[f'K{start_row}'].value = f'=SUM(K{spr_end},K{fpr_end},K{lr_end})'
+    pl_sheet[f'L{start_row}'].value = f'=SUM(L{spr_end},L{fpr_end},L{lr_end})'
+    pl_sheet[f'M{start_row}'].value = f'=SUM(M{spr_end},M{fpr_end},M{lr_end})'
+    pl_sheet[f'N{start_row}'].value = f'=SUM(N{spr_end},N{fpr_end},N{lr_end})'
+    pl_sheet[f'O{start_row}'].value = f'=SUM(O{spr_end},O{fpr_end},O{lr_end})'
+    pl_sheet[f'P{start_row}'].value = f'=SUM(P{spr_end},P{fpr_end},P{lr_end})'
+    pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{spr_end},Q{fpr_end},Q{lr_end})'
+    pl_sheet[f'R{start_row}'].value = f'=SUM(R{spr_end},R{fpr_end},R{lr_end})'
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{spr_end},T{fpr_end},T{lr_end})'   
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{spr_end},U{fpr_end},U{lr_end})'      
+
+    start_row += 4   
+    first_total_start = start_row
+    for row_data in data2: #1st TOTAL
         pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
         pl_sheet[f'D{start_row}'] = row_data['budget']
+        pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
         pl_sheet[f'G{start_row}'] = row_data['total_func9']
         pl_sheet[f'H{start_row}'] = row_data['total_func10']
         pl_sheet[f'I{start_row}'] = row_data['total_func11']
@@ -3456,13 +3573,56 @@ def generate_excel(request):
         pl_sheet[f'P{start_row}'] = row_data['total_func6']
         pl_sheet[f'Q{start_row}'] = row_data['total_func7']
         pl_sheet[f'R{start_row}'] = row_data['total_func8']
+        first_total_end = start_row
         start_row += 1
-    
-    start_row += 4  #surplus (deficits) before depreciation
 
+    first_total_row = start_row
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'Total'
+    pl_sheet[f'D{start_row}'].value = f'=SUM(D{first_total_start}:D{first_total_end})'
+    pl_sheet[f'G{start_row}'].value = f'=SUM(G{first_total_start}:G{first_total_end})'
+    pl_sheet[f'H{start_row}'].value = f'=SUM(H{first_total_start}:H{first_total_end})'
+    pl_sheet[f'I{start_row}'].value = f'=SUM(I{first_total_start}:I{first_total_end})'
+    pl_sheet[f'J{start_row}'].value = f'=SUM(J{first_total_start}:J{first_total_end})'
+    pl_sheet[f'K{start_row}'].value = f'=SUM(K{first_total_start}:K{first_total_end})'
+    pl_sheet[f'L{start_row}'].value = f'=SUM(L{first_total_start}:L{first_total_end})'
+    pl_sheet[f'M{start_row}'].value = f'=SUM(M{first_total_start}:M{first_total_end})'
+    pl_sheet[f'N{start_row}'].value = f'=SUM(N{first_total_start}:N{first_total_end})'
+    pl_sheet[f'O{start_row}'].value = f'=SUM(O{first_total_start}:O{first_total_end})'
+    pl_sheet[f'P{start_row}'].value = f'=SUM(P{first_total_start}:P{first_total_end})'
+    pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{first_total_start}:Q{first_total_end})'
+    pl_sheet[f'R{start_row}'].value = f'=SUM(R{first_total_start}:R{first_total_end})'
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{first_total_start}:T{first_total_end})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{first_total_start}:U{first_total_end})' 
+    
+    start_row += 2 #surplus (deficits) before depreciation
+    surplus_row = start_row
+    pl_sheet[f'B{start_row}'] = 'Surplus (Deficits) before Depreciation'
+    pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{first_total_row})'
+    pl_sheet[f'G{start_row}'].value = f'=(G{total_revenue_row}-G{first_total_row})'
+    pl_sheet[f'H{start_row}'].value = f'=(H{total_revenue_row}-H{first_total_row})'
+    pl_sheet[f'I{start_row}'].value = f'=(I{total_revenue_row}-I{first_total_row})'
+    pl_sheet[f'J{start_row}'].value = f'=(J{total_revenue_row}-J{first_total_row})'
+    pl_sheet[f'K{start_row}'].value = f'=(K{total_revenue_row}-K{first_total_row})'
+    pl_sheet[f'L{start_row}'].value = f'=(L{total_revenue_row}-L{first_total_row})'
+    pl_sheet[f'M{start_row}'].value = f'=(M{total_revenue_row}-M{first_total_row})'
+    pl_sheet[f'N{start_row}'].value = f'=(N{total_revenue_row}-N{first_total_row})'
+    pl_sheet[f'O{start_row}'].value = f'=(O{total_revenue_row}-O{first_total_row})'
+    pl_sheet[f'P{start_row}'].value = f'=(P{total_revenue_row}-P{first_total_row})'
+    pl_sheet[f'Q{start_row}'].value = f'=(Q{total_revenue_row}-Q{first_total_row})'
+    pl_sheet[f'R{start_row}'].value = f'=(R{total_revenue_row}-R{first_total_row})'
+    pl_sheet[f'T{start_row}'].value = f'=(T{total_revenue_row}-T{first_total_row})'  
+    pl_sheet[f'U{start_row}'].value = f'=(U{total_revenue_row}-U{first_total_row})' 
+
+    start_row += 2  
+
+    dna_row_start = start_row
     for row_data in data2: #Depreciation and amortization
         pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-        pl_sheet[f'c{start_row}'] = '6449'
+        pl_sheet[f'C{start_row}'] = '6449'
+        
         pl_sheet[f'G{start_row}'] = row_data['total_func2_9']
         pl_sheet[f'H{start_row}'] = row_data['total_func2_10']
         pl_sheet[f'I{start_row}'] = row_data['total_func2_11']
@@ -3475,13 +3635,61 @@ def generate_excel(request):
         pl_sheet[f'P{start_row}'] = row_data['total_func2_6']
         pl_sheet[f'Q{start_row}'] = row_data['total_func2_7']
         pl_sheet[f'R{start_row}'] = row_data['total_func2_8']
+        dna_row_end = start_row
         start_row += 1
 
-    start_row += 6 # net surplus (deficit)
+    dna_row = start_row
+    pl_sheet[f'B{start_row}'] = 'Depreciation and Amortization'
+    pl_sheet[f'D{start_row}'].value = f'=SUM(D{dna_row_start}:D{dna_row_end})'
+    pl_sheet[f'G{start_row}'].value = f'=SUM(G{dna_row_start}:G{dna_row_end})'
+    pl_sheet[f'H{start_row}'].value = f'=SUM(H{dna_row_start}:H{dna_row_end})'
+    pl_sheet[f'I{start_row}'].value = f'=SUM(I{dna_row_start}:I{dna_row_end})'
+    pl_sheet[f'J{start_row}'].value = f'=SUM(J{dna_row_start}:J{dna_row_end})'
+    pl_sheet[f'K{start_row}'].value = f'=SUM(K{dna_row_start}:K{dna_row_end})'
+    pl_sheet[f'L{start_row}'].value = f'=SUM(L{dna_row_start}:L{dna_row_end})'
+    pl_sheet[f'M{start_row}'].value = f'=SUM(M{dna_row_start}:M{dna_row_end})'
+    pl_sheet[f'N{start_row}'].value = f'=SUM(N{dna_row_start}:N{dna_row_end})'
+    pl_sheet[f'O{start_row}'].value = f'=SUM(O{dna_row_start}:O{dna_row_end})'
+    pl_sheet[f'P{start_row}'].value = f'=SUM(P{dna_row_start}:P{dna_row_end})'
+    pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{dna_row_start}:Q{dna_row_end})'
+    pl_sheet[f'R{start_row}'].value = f'=SUM(R{dna_row_start}:R{dna_row_end})'
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{dna_row_start}:T{dna_row_end})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{dna_row_start}:U{dna_row_end})'
 
+    start_row += 2
+    netsurplus_row = start_row
+    for col in range(2, 19):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    pl_sheet[f'B{start_row}'] = 'Net Surplus(Deficit)'
+    pl_sheet[f'D{start_row}'].value = f'=(D{surplus_row}-D{dna_row})'
+    pl_sheet[f'G{start_row}'].value = f'=(G{surplus_row}-G{dna_row})'
+    pl_sheet[f'H{start_row}'].value = f'=(H{surplus_row}-H{dna_row})'
+    pl_sheet[f'I{start_row}'].value = f'=(I{surplus_row}-I{dna_row})'
+    pl_sheet[f'J{start_row}'].value = f'=(J{surplus_row}-J{dna_row})'
+    pl_sheet[f'K{start_row}'].value = f'=(K{surplus_row}-K{dna_row})'
+    pl_sheet[f'L{start_row}'].value = f'=(L{surplus_row}-L{dna_row})'
+    pl_sheet[f'M{start_row}'].value = f'=(M{surplus_row}-M{dna_row})'
+    pl_sheet[f'N{start_row}'].value = f'=(N{surplus_row}-N{dna_row})'
+    pl_sheet[f'O{start_row}'].value = f'=(O{surplus_row}-O{dna_row})'
+    pl_sheet[f'P{start_row}'].value = f'=(P{surplus_row}-P{dna_row})'
+    pl_sheet[f'Q{start_row}'].value = f'=(Q{surplus_row}-Q{dna_row})'
+    pl_sheet[f'R{start_row}'].value = f'=(R{surplus_row}-R{dna_row})'
+    pl_sheet[f'T{start_row}'].value = f'=(T{surplus_row}-T{dna_row})'  
+    pl_sheet[f'U{start_row}'].value = f'=(U{surplus_row}-U{dna_row})' 
+
+
+
+    start_row += 3
+    pl_sheet[f'B{start_row}'] = 'Expense By Object Codes'
+    pl_sheet[f'B{start_row}'].font = fontbold
+
+    start_row += 1
+    payroll_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Payroll Costs':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+            
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
             pl_sheet[f'H{start_row}'] = row_data['total_activities10']
             pl_sheet[f'I{start_row}'] = row_data['total_activities11']
@@ -3494,15 +3702,32 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            payroll_row_end = start_row
             start_row += 1
             
+    payroll_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6100':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'].value = f'=SUM(G{payroll_row_start}:G{payroll_row_end})'
+            pl_sheet[f'H{start_row}'].value = f'=SUM(H{payroll_row_start}:H{payroll_row_end})'
+            pl_sheet[f'I{start_row}'].value = f'=SUM(I{payroll_row_start}:I{payroll_row_end})'
+            pl_sheet[f'J{start_row}'].value = f'=SUM(J{payroll_row_start}:J{payroll_row_end})'
+            pl_sheet[f'K{start_row}'].value = f'=SUM(K{payroll_row_start}:K{payroll_row_end})'
+            pl_sheet[f'L{start_row}'].value = f'=SUM(L{payroll_row_start}:L{payroll_row_end})'
+            pl_sheet[f'M{start_row}'].value = f'=SUM(M{payroll_row_start}:M{payroll_row_end})'
+            pl_sheet[f'N{start_row}'].value = f'=SUM(N{payroll_row_start}:N{payroll_row_end})'
+            pl_sheet[f'O{start_row}'].value = f'=SUM(O{payroll_row_start}:O{payroll_row_end})'
+            pl_sheet[f'P{start_row}'].value = f'=SUM(P{payroll_row_start}:P{payroll_row_end})'
+            pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{payroll_row_start}:Q{payroll_row_end})'
+            pl_sheet[f'R{start_row}'].value = f'=SUM(R{payroll_row_start}:R{payroll_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUM(T{payroll_row_start}:T{payroll_row_end})'  
+            pl_sheet[f'U{start_row}'].value = f'=SUM(U{payroll_row_start}:U{payroll_row_end})' 
             start_row += 1
 
-
+    pcs_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Professional and Cont Svcs':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
@@ -3518,14 +3743,32 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            pcs_row_end = start_row
             start_row += 1
 
+    pcs_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6200':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'].value = f'=SUM(G{pcs_row_start}:G{pcs_row_end})'
+            pl_sheet[f'H{start_row}'].value = f'=SUM(H{pcs_row_start}:H{pcs_row_end})'
+            pl_sheet[f'I{start_row}'].value = f'=SUM(I{pcs_row_start}:I{pcs_row_end})'
+            pl_sheet[f'J{start_row}'].value = f'=SUM(J{pcs_row_start}:J{pcs_row_end})'
+            pl_sheet[f'K{start_row}'].value = f'=SUM(K{pcs_row_start}:K{pcs_row_end})'
+            pl_sheet[f'L{start_row}'].value = f'=SUM(L{pcs_row_start}:L{pcs_row_end})'
+            pl_sheet[f'M{start_row}'].value = f'=SUM(M{pcs_row_start}:M{pcs_row_end})'
+            pl_sheet[f'N{start_row}'].value = f'=SUM(N{pcs_row_start}:N{pcs_row_end})'
+            pl_sheet[f'O{start_row}'].value = f'=SUM(O{pcs_row_start}:O{pcs_row_end})'
+            pl_sheet[f'P{start_row}'].value = f'=SUM(P{pcs_row_start}:P{pcs_row_end})'
+            pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{pcs_row_start}:Q{pcs_row_end})'
+            pl_sheet[f'R{start_row}'].value = f'=SUM(R{pcs_row_start}:R{pcs_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUM(T{pcs_row_start}:T{pcs_row_end})'  
+            pl_sheet[f'U{start_row}'].value = f'=SUM(U{pcs_row_start}:U{pcs_row_end})' 
             start_row += 1
 
+    sm_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Supplies and Materials':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
@@ -3541,14 +3784,32 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            sm_row_end = start_row
             start_row += 1
 
+    sm_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6300':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'].value = f'=SUM(G{sm_row_start}:G{sm_row_end})'
+            pl_sheet[f'H{start_row}'].value = f'=SUM(H{sm_row_start}:H{sm_row_end})'
+            pl_sheet[f'I{start_row}'].value = f'=SUM(I{sm_row_start}:I{sm_row_end})'
+            pl_sheet[f'J{start_row}'].value = f'=SUM(J{sm_row_start}:J{sm_row_end})'
+            pl_sheet[f'K{start_row}'].value = f'=SUM(K{sm_row_start}:K{sm_row_end})'
+            pl_sheet[f'L{start_row}'].value = f'=SUM(L{sm_row_start}:L{sm_row_end})'
+            pl_sheet[f'M{start_row}'].value = f'=SUM(M{sm_row_start}:M{sm_row_end})'
+            pl_sheet[f'N{start_row}'].value = f'=SUM(N{sm_row_start}:N{sm_row_end})'
+            pl_sheet[f'O{start_row}'].value = f'=SUM(O{sm_row_start}:O{sm_row_end})'
+            pl_sheet[f'P{start_row}'].value = f'=SUM(P{sm_row_start}:P{sm_row_end})'
+            pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{sm_row_start}:Q{sm_row_end})'
+            pl_sheet[f'R{start_row}'].value = f'=SUM(R{sm_row_start}:R{sm_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUM(T{sm_row_start}:T{sm_row_end})'  
+            pl_sheet[f'U{start_row}'].value = f'=SUM(U{sm_row_start}:U{sm_row_end})'
             start_row += 1
         
+    ooe_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Other Operating Expenses':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
@@ -3564,14 +3825,33 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            ooe_row_end = start_row
             start_row += 1
 
+    ooe_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6400':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'].value = f'=SUM(G{ooe_row_start}:G{ooe_row_end})'
+            pl_sheet[f'H{start_row}'].value = f'=SUM(H{ooe_row_start}:H{ooe_row_end})'
+            pl_sheet[f'I{start_row}'].value = f'=SUM(I{ooe_row_start}:I{ooe_row_end})'
+            pl_sheet[f'J{start_row}'].value = f'=SUM(J{ooe_row_start}:J{ooe_row_end})'
+            pl_sheet[f'K{start_row}'].value = f'=SUM(K{ooe_row_start}:K{ooe_row_end})'
+            pl_sheet[f'L{start_row}'].value = f'=SUM(L{ooe_row_start}:L{ooe_row_end})'
+            pl_sheet[f'M{start_row}'].value = f'=SUM(M{ooe_row_start}:M{ooe_row_end})'
+            pl_sheet[f'N{start_row}'].value = f'=SUM(N{ooe_row_start}:N{ooe_row_end})'
+            pl_sheet[f'O{start_row}'].value = f'=SUM(O{ooe_row_start}:O{ooe_row_end})'
+            pl_sheet[f'P{start_row}'].value = f'=SUM(P{ooe_row_start}:P{ooe_row_end})'
+            pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{ooe_row_start}:Q{ooe_row_end})'
+            pl_sheet[f'R{start_row}'].value = f'=SUM(R{ooe_row_start}:R{ooe_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUM(T{ooe_row_start}:T{ooe_row_end})'  
+            pl_sheet[f'U{start_row}'].value = f'=SUM(U{ooe_row_start}:U{ooe_row_end})'
             start_row += 1
 
+
+    total_expense_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Total Expense':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
@@ -3587,13 +3867,71 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            total_expense_row_end = start_row
             start_row += 1
 
+    total_expense_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6500':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'].value = f'=SUM(G{total_expense_row_start}:G{total_expense_row_end})'
+            pl_sheet[f'H{start_row}'].value = f'=SUM(H{total_expense_row_start}:H{total_expense_row_end})'
+            pl_sheet[f'I{start_row}'].value = f'=SUM(I{total_expense_row_start}:I{total_expense_row_end})'
+            pl_sheet[f'J{start_row}'].value = f'=SUM(J{total_expense_row_start}:J{total_expense_row_end})'
+            pl_sheet[f'K{start_row}'].value = f'=SUM(K{total_expense_row_start}:K{total_expense_row_end})'
+            pl_sheet[f'L{start_row}'].value = f'=SUM(L{total_expense_row_start}:L{total_expense_row_end})'
+            pl_sheet[f'M{start_row}'].value = f'=SUM(M{total_expense_row_start}:M{total_expense_row_end})'
+            pl_sheet[f'N{start_row}'].value = f'=SUM(N{total_expense_row_start}:N{total_expense_row_end})'
+            pl_sheet[f'O{start_row}'].value = f'=SUM(O{total_expense_row_start}:O{total_expense_row_end})'
+            pl_sheet[f'P{start_row}'].value = f'=SUM(P{total_expense_row_start}:P{total_expense_row_end})'
+            pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{total_expense_row_start}:Q{total_expense_row_end})'
+            pl_sheet[f'R{start_row}'].value = f'=SUM(R{total_expense_row_start}:R{total_expense_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUM(T{total_expense_row_start}:T{total_expense_row_end})'  
+            pl_sheet[f'U{start_row}'].value = f'=SUM(U{total_expense_row_start}:U{total_expense_row_end})'
             start_row += 1
+
+    start_row += 1
+
+    total_expense_total = start_row
+    pl_sheet[f'B{start_row}'] = 'Total Expense'
+    pl_sheet[f'D{start_row}'].value = f'=SUM(D{payroll_row},D{pcs_row},D{sm_row},D{ooe_row},D{total_expense_row})'
+    pl_sheet[f'G{start_row}'].value = f'=SUM(G{payroll_row},G{pcs_row},G{sm_row},G{ooe_row},G{total_expense_row})'
+    pl_sheet[f'H{start_row}'].value = f'=SUM(H{payroll_row},H{pcs_row},H{sm_row},H{ooe_row},H{total_expense_row})'
+    pl_sheet[f'I{start_row}'].value = f'=SUM(I{payroll_row},I{pcs_row},I{sm_row},I{ooe_row},I{total_expense_row})'
+    pl_sheet[f'J{start_row}'].value = f'=SUM(J{payroll_row},J{pcs_row},J{sm_row},J{ooe_row},J{total_expense_row})'
+    pl_sheet[f'K{start_row}'].value = f'=SUM(K{payroll_row},K{pcs_row},K{sm_row},K{ooe_row},K{total_expense_row})'
+    pl_sheet[f'L{start_row}'].value = f'=SUM(L{payroll_row},L{pcs_row},L{sm_row},L{ooe_row},L{total_expense_row})'
+    pl_sheet[f'M{start_row}'].value = f'=SUM(M{payroll_row},M{pcs_row},M{sm_row},M{ooe_row},M{total_expense_row})'
+    pl_sheet[f'N{start_row}'].value = f'=SUM(N{payroll_row},N{pcs_row},N{sm_row},N{ooe_row},N{total_expense_row})'
+    pl_sheet[f'O{start_row}'].value = f'=SUM(O{payroll_row},O{pcs_row},O{sm_row},O{ooe_row},O{total_expense_row})'
+    pl_sheet[f'P{start_row}'].value = f'=SUM(P{payroll_row},P{pcs_row},P{sm_row},P{ooe_row},P{total_expense_row})'
+    pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{payroll_row},Q{pcs_row},Q{sm_row},Q{ooe_row},Q{total_expense_row})'
+    pl_sheet[f'R{start_row}'].value = f'=SUM(R{payroll_row},R{pcs_row},R{sm_row},R{ooe_row},R{total_expense_row})'
+    pl_sheet[f'T{start_row}'].value = f'=SUM(S{payroll_row},S{pcs_row},S{sm_row},S{ooe_row},S{total_expense_row})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(T{payroll_row},T{pcs_row},T{sm_row},T{ooe_row},T{total_expense_row})'
+    
+
+    start_row += 1
+    pl_sheet[f'B{start_row}'] = 'Net Income'
+    pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{total_expense_total})'
+    pl_sheet[f'G{start_row}'].value = f'=(G{total_revenue_row}-G{total_expense_total})'
+    pl_sheet[f'H{start_row}'].value = f'=(H{total_revenue_row}-H{total_expense_total})'
+    pl_sheet[f'I{start_row}'].value = f'=(I{total_revenue_row}-I{total_expense_total})'
+    pl_sheet[f'J{start_row}'].value = f'=(J{total_revenue_row}-J{total_expense_total})'
+    pl_sheet[f'K{start_row}'].value = f'=(K{total_revenue_row}-K{total_expense_total})'
+    pl_sheet[f'L{start_row}'].value = f'=(L{total_revenue_row}-L{total_expense_total})'
+    pl_sheet[f'M{start_row}'].value = f'=(M{total_revenue_row}-M{total_expense_total})'
+    pl_sheet[f'N{start_row}'].value = f'=(N{total_revenue_row}-N{total_expense_total})'
+    pl_sheet[f'O{start_row}'].value = f'=(O{total_revenue_row}-O{total_expense_total})'
+    pl_sheet[f'P{start_row}'].value = f'=(P{total_revenue_row}-P{total_expense_total})'
+    pl_sheet[f'Q{start_row}'].value = f'=(Q{total_revenue_row}-Q{total_expense_total})'
+    pl_sheet[f'R{start_row}'].value = f'=(R{total_revenue_row}-R{total_expense_total})'
+    pl_sheet[f'T{start_row}'].value = f'=(S{total_revenue_row}-S{total_expense_total})'  
+    pl_sheet[f'U{start_row}'].value = f'=(T{total_revenue_row}-T{total_expense_total})'
+    
+
 
     start_row += 4 #Total expense and Net income
  
