@@ -4,23 +4,25 @@ $(document).ready(function() {
         location.reload();  // Refresh the page
     });
 
-
     ////////////////////////////////EXPORT TO PDF///////////////////////////////////////////
-    document.getElementById("export-pdf-button").addEventListener("click", function() {
-        // Get the element you want to export as PDF
-        var element = document.getElementById('export-content');
-        var opt = {
+    document.getElementById('export-pdf-button').addEventListener('click', function() {
+        const element = document.getElementById('export-content');
+        $('#spinner-modal').modal('show');
+
+        let opt = {
             margin: 1,
             filename: 'reports.pdf',
             image: { type: 'png', quality: 0.98 },
             html2canvas: { scale: 2 },
             //[w, h]
-            jsPDF: { unit: 'mm', format: [340, 260], orientation: 'landscape' },
+            // jsPDF: { unit: 'mm', format: [297, 420], orientation: 'landscape' },
+            jsPDF: { unit: 'mm', format: 'a3', orientation: 'landscape' },
         };
-        html2pdf().set(opt).from(element).save();
+        html2pdf().from(element).set(opt).outputPdf().then(function(pdf) {
+            // Hide the spinner modal
+            $('#spinner-modal').modal('hide');
+        }).save();
     });
-
-
 
     ///////////////////////////////////////// Charts ///////////////////////////////////////////
     data = [{

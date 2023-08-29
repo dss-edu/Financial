@@ -2,15 +2,11 @@
 {% extends 'dashboard/advantage/base.html' %}
 {% load static %}
 <head>
-
   {% block stylesheet %}
   <style>
-      
-   
-    td:first-child,
-   {
-  width: 10px;
-  }
+    td:first-child, {
+      width: 10px;
+    }
     .right-align-td {
       text-align: right;
     padding-right: 250px;
@@ -18,52 +14,42 @@
     }
     .collapsed {
       display: none;
-  }
+    }
   
-  .modal-body {
-    max-height: 2000px;
-    max-width: 2000px;
-    overflow-y: auto;
-  }
+    .modal-body {
+      max-height: 2000px;
+      max-width: 2000px;
+      overflow-y: auto;
+    }
   
-  .modal-body thead {
-    position: sticky;
-    top: 0;
-    background-color: #f9f9f9;
-    z-index: 1;
-  }
-  
+   .modal-body thead {
+     position: sticky;
+     top: 0;
+     background-color: #f9f9f9;
+     z-index: 1;
+   }
  
   .modal-footer {
     z-index: 2;
   }
   .table-container {
-
     bottom: 0;
     width: 100%;
     max-height: calc(100vh - 150px); 
     overflow: auto;
   }
-
-
-  
 </style>
-  {% endblock %} 
+{% endblock %} 
     
 
 </head>
 {% block body %}
 
  <div id="content-wrapper">
-  
   <nav class="navbar navbar-expand navbar-dark bg-dark ">
-
     <a class="navbar-brand mr-1 text-primary " href="" ></a>
-    
-
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      
     </form>
     <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/fd891db5-908a-4463-9807-eece4c2c2f76/ReportSection6c18d619620bd9b8337e?experience=power-bi" data-toggle="tooltip" title="POWERBI" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
     <!-- Navbar -->
@@ -78,28 +64,25 @@
     &nbsp;
     &nbsp;
     <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></i></a>
-    
-  
-
-</nav>
+</nav> <!-- End of nav -->
 
 
       
       
 <div class="table-container"  >
-<div id="json-response"></div>
-<form  id="insert-row-form" action="#" method="POST">
-  <div id="edit-container">
-    <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
-</div>
+    <div id="json-response"></div>
+    <form  id="insert-row-form" action="#" method="POST">
+        <div id="edit-container">
+            <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
+        </div>
 
-<div id="cancel-container" style="display: none;">
-  <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
-</div>
+        <div id="cancel-container" style="display: none;">
+              <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
+        </div>
 
-<div id="save-container" style="display: none;">
-    <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
-</div>
+        <div id="save-container" style="display: none;">
+            <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
+        </div>
 
 
 
@@ -152,23 +135,18 @@
         document.getElementById("add-row-spr-button").style.display = "none";
         document.getElementById("add-row-fpr-button").style.display = "none";
         document.getElementById("add-row-func-button").style.display = "none";
-       
-        
     });
 </script>
 
-  {% csrf_token %}
+    {% csrf_token %}
     <table id="data-table" class="table table-hover">
         <thead>
-                    <tr>
+        <tr>
             <th class="firstcolumn"></th>
-          
             <th colspan="18" style="white-space: nowrap;">
               <h2 style="text-align: center;">ADVANTAGE ACADEMY</h2><br>
               <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{last_month}}</h2><br>
             </th>
-
-            
         </tr>
         <tr>
             <th></th>
@@ -857,23 +835,30 @@
           </td>
         </tr>
           
-</tbody>
-</table>
-</form>
+        </tbody>
+    </table>
+    </form>
 </div>
 
-</script>
+
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of spinner modal -->
 
 
 <script>
   function validateBudgetInput(event) {
     const input = event.target;
     const value = input.value;
-
-    
     const regex = /^[0-9.]*$/;
-
-    
     if (!regex.test(value)) {
         
         input.value = value.replace(/[^0-9.]/g, '');
@@ -968,21 +953,13 @@ function toggleColumns() {
       }
     }
   }
-
-  
-
-
-
 window.addEventListener('DOMContentLoaded', () => {
   calculateNetCashTotal();
 
 });
-
-
-
 </script>
 
-
+<script src="{% static 'js/cashflow.js' %}"></script>
 {% endblock %}
 
 

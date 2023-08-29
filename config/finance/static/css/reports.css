@@ -96,3 +96,10 @@ main {
 .django-ckeditor-widget {
         width: 100%;
     }
+
+#export-content{
+    max-width: 1120px;
+    min-width: 1120px;
+    max-height: 1587px;
+    max-height: 1220px;
+}

@@ -110,10 +110,7 @@
     &nbsp;
     &nbsp;
     <a id="export-excel2-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
-
-  
-
-</nav>
+  </nav>
    <script>
   document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('export-excel2-button').addEventListener('click', function() {
@@ -122,6 +119,7 @@
   
       function generateExcel() {
          
+          $('#spinner-modal').modal('show');
           fetch('{% url "generate_excel" %}')
               .then(function(response) {
                   return response.blob();
@@ -138,6 +136,8 @@
               })
               .catch(function(error) {
                   console.error('Error generating Excel:', error);
+              }).finally(function (){
+                $('#spinner-modal').modal('hide');
               });
       }
   });
@@ -187,7 +187,11 @@
       };
 
       confirmationModal.style.display = "none";
-      html2pdf().set(options).from(element).save();
+
+      $('#spinner-modal').modal('show');
+      html2pdf().set(options).from(element).outputPdf().then(function(pdf){
+          $('#spinner-modal').modal('hide');
+      }).save();
       
       });
 
@@ -219,8 +223,11 @@
           jsPDF: { unit: 'mm', format: [700,700], orientation: 'portrait' },
         };
 
+      $('#spinner-modal').modal('show');
+      html2pdf().set(options).from(element).outputPdf().then(function(pdf){
+          $('#spinner-modal').modal('hide');
+      }).save();
         
-      html2pdf().set(options).from(element).save();
       confirmationModal.style.display = "none";
 
       });
@@ -264,7 +271,17 @@
     </div>
   </div>
 
-
+    <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+            <div class="modal-content  p-0 w-auto h-auto">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of spinner modal -->
 
 
 <div class="modal" id="myModal">
