@@ -117,6 +117,7 @@
         <datalist id="suggestions1">
             <option value="Advantage Academy"></option>
             <option value="Cumberland Academy"></option>
+            <option value="Villagetech Academy"></option>
             <!-- Add more options here as needed -->
         </datalist>
         <div class="input-group-append">
@@ -137,6 +138,9 @@ function search() {
     } else if (selectedValue === 'Cumberland Academy') {
         redirectUrl = "{% url 'pl_cumberland' %}";
     }
+    else if (selectedValue === 'Villagetech Academy') {
+      redirectUrl = "{% url 'pl_villagetech' %}";
+  }
 
     if (redirectUrl) {
         window.location.href = redirectUrl;

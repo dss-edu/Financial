@@ -37,9 +37,9 @@ def connect():
     port = '1433'
     
 
-    #driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{/usr/lib/libmsodbcsql-17.so}'
     #driver = '{ODBC Driver 17 for SQL Server}'
-    driver = '{SQL Server}'
+    #driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -364,6 +364,288 @@ def pl_advantage(request):
 
           }
     return render(request,'dashboard/advantage/pl_advantage.html', context)
+
+def pl_villagetech(request):
+    
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+    rows = cursor.fetchall()
+
+    
+    data = []
+    for row in rows:
+        if row[4] is None:
+            row[4] = ''
+        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+        row_dict = {
+            'fund': row[0],
+            'obj': row[1],
+            'description': row[2],
+            'category': row[3],
+            'value': valueformat  
+        }
+        data.append(row_dict)
+
+    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+    rows = cursor.fetchall()
+
+
+    data2=[]
+    for row in rows:
+        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+        row_dict = {
+            'func_func': row[0],
+            'desc': row[1],
+            'budget': budgetformat,
+            
+        }
+        data2.append(row_dict)
+
+
+
+    #
+    cursor.execute("SELECT * FROM [dbo].[Skyward_VillageTech];") 
+    rows = cursor.fetchall()
+    
+    data3=[]
+    
+    
+    for row in rows:
+        # expend = float(row[17])
+
+        row_dict = {
+            'fund':row[0],
+            'func':row[2],
+            'obj':row[3],
+            'sobj':row[4],
+            'org':row[5],
+            'fscl_yr':row[6],
+ 
+            'Date':row[9],
+            'AcctPer':row[10],
+            'Amount':row[19],
+
+            }
+        
+        data3.append(row_dict)
+
+
+    # cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+    # rows = cursor.fetchall()
+    
+    # data_expensebyobject=[]
+    
+    
+    # for row in rows:
+        
+    #     budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+    #     row_dict = {
+    #         'obj':row[0],
+    #         'Description':row[1],
+    #         'budget':budgetformat,
+            
+    #         }
+        
+    #     data_expensebyobject.append(row_dict)
+
+    # cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+    # rows = cursor.fetchall()
+    
+    # data_activities=[]
+    
+    
+    # for row in rows:
+        
+      
+    #     row_dict = {
+    #         'obj':row[0],
+    #         'Description':row[1],
+    #         'Category':row[2],
+            
+    #         }
+        
+    #     data_activities.append(row_dict)
+    
+
+    # #---------- FOR EXPENSE TOTAL -------
+    # acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    # for item in data_activities:
+        
+    #     obj = item['obj']
+
+    #     for i, acct_per in enumerate(acct_per_values_expense, start=1):
+    #         item[f'total_activities{i}'] = sum(
+    #             entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+    #         )
+    # keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+    # keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+
+
+
+    # for item in data_expensebyobject:
+    #     obj = item['obj']
+    #     if obj == '6100':
+    #         category = 'Payroll Costs'
+    #     elif obj == '6200':
+    #         category = 'Professional and Cont Svcs'
+    #     elif obj == '6300':
+    #         category = 'Supplies and Materials'
+    #     elif obj == '6400':
+    #         category = 'Other Operating Expenses'
+    #     else:
+    #         category = 'Total Expense'
+
+    #     for i, acct_per in enumerate(acct_per_values_expense, start=1):
+    #         item[f'total_expense{i}'] = sum(
+    #             entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+    #         )
+   
+    # for row in data_activities:
+    #     for key in keys_to_check_expense:
+    #         value = float(row[key])
+    #         if value == 0:
+    #             row[key] = ""
+    #         elif value < 0:
+    #             row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+    #         elif value != "":
+    #             row[key] = "{:,.0f}".format(float(row[key]))
+
+    # for row in data_expensebyobject:
+    #     for key in keys_to_check_expense2:
+    #         value = float(row[key])
+    #         if value == 0:
+    #             row[key] = ""
+    #         elif value < 0:
+    #             row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+    #         elif value != "":
+    #             row[key] = "{:,.0f}".format(float(row[key]))
+        
+    
+   
+    
+
+    
+
+
+    # #---- for data ------
+    # acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+
+    # for item in data:
+    #     fund = item['fund']
+    #     obj = item['obj']
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f'total_real{i}'] = sum(
+    #             entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+    #         )
+
+    # keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
+ 
+    # for row in data:
+    #     for key in keys_to_check:
+    #         if row[key] < 0:
+    #             row[key] = -row[key]
+    #         else:
+    #             row[key] = ''
+
+    # for row in data:
+    #     for key in keys_to_check:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
+                
+    
+
+
+
+    # acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+
+    # for item in data2:
+    #     func = item['func_func']
+        
+
+    #     for i, acct_per in enumerate(acct_per_values2, start=1):
+    #         item[f'total_func{i}'] = sum(
+    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+    #         )
+
+    # for item in data2:
+    #     func = item['func_func']
+        
+
+    #     for i, acct_per in enumerate(acct_per_values2, start=1):
+    #         item[f'total_func2_{i}'] = sum(
+    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+    #         )  
+
+    # keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+    # keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
+
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
+                
+                
+
+
+
+    # lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+    # lr_funds_sorted = sorted(lr_funds)
+    # lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+    # lr_obj_sorted = sorted(lr_obj)
+
+    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+    # func_choice_sorted = sorted(func_choice)
+    
+            
+    current_date = datetime.today().date()
+    current_year = current_date.year
+    last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4 
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+   
+    context = {
+         'data': data, 
+         'data2':data2 , 
+         'data3': data3 ,
+        #   'lr_funds':lr_funds_sorted, 
+        #   'lr_obj':lr_obj_sorted, 
+        #   'func_choice':func_choice_sorted ,
+        #   'data_expensebyobject': data_expensebyobject,
+        #   'data_activities': data_activities,
+          'last_month':last_month,
+          'last_month_number':last_month_number,
+          'format_ytd_budget': formatted_ytd_budget,
+          'ytd_budget':ytd_budget,
+          
+
+          }
+    return render(request,'dashboard/villagetech/pl_villagetech.html', context)
 
 def first_advantage(request):
     current_date = datetime.today().date()
@@ -3388,6 +3670,7 @@ def generate_excel(request):
 
     # PL START OF DESIGN
     start_row = 5
+    lr_row_start = start_row
     for row_data in data:
         if row_data['category'] == 'Local Revenue': 
             pl_sheet[f'A{start_row}'] = row_data['fund']
@@ -3407,9 +3690,11 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            lr_row_end = start_row
             
             for var in total_vars:
                 totals[var] += row_data.get(var, 0)
+            
             start_row += 1
             
     lr_end = start_row
@@ -3419,6 +3704,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Local Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{lr_row_start}:E{lr_row_end})'  
     pl_sheet[f'G{start_row}'] = totals['total_real9']
     pl_sheet[f'H{start_row}'] = totals['total_real10']
     pl_sheet[f'I{start_row}'] = totals['total_real11']
@@ -3431,6 +3717,8 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'] = totals['total_real6']
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
     pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{lr_row_start}:T{lr_row_end})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{lr_row_start}:U{lr_row_end})'
     
 
     start_row += 1  
@@ -3441,6 +3729,7 @@ def generate_excel(request):
     # for row in total_vars:
     #     globals()[row] = 0
     totals = {var: 0 for var in total_vars} # reset the totals
+    spr_row_start = start_row
     for row_data in data:
         if row_data['category'] == 'State Program Revenue':
         
@@ -3460,6 +3749,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            spr_row_end = start_row
 
             for var in total_vars:
                 totals[var] += row_data.get(var, 0)
@@ -3474,6 +3764,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_row_start}:E{spr_row_end})' 
     pl_sheet[f'G{start_row}'] = totals['total_real9']
     pl_sheet[f'H{start_row}'] = totals['total_real10']
     pl_sheet[f'I{start_row}'] = totals['total_real11']
@@ -3485,10 +3776,13 @@ def generate_excel(request):
     pl_sheet[f'O{start_row}'] = totals['total_real5']
     pl_sheet[f'P{start_row}'] = totals['total_real6']
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
-    pl_sheet[f'R{start_row}'] = totals['total_real8']        
+    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{spr_row_start}:T{spr_row_end})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{spr_row_start}:U{spr_row_end})'        
     start_row += 1
 
     totals = {var: 0 for var in total_vars} # reset the totals
+    fpr_row_start = start_row
     for row_data in data:
         if row_data['category'] == 'Federal Program Revenue':
         
@@ -3508,6 +3802,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            fpr_row_end = start_row
             for var in total_vars:
                 totals[var] += row_data.get(var, 0)
             
@@ -3520,6 +3815,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{fpr_row_start}:E{fpr_row_end})' 
     pl_sheet[f'G{start_row}'] = totals['total_real9']
     pl_sheet[f'H{start_row}'] = totals['total_real10']
     pl_sheet[f'I{start_row}'] = totals['total_real11']
@@ -3532,6 +3828,8 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'] = totals['total_real6']
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
     pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{fpr_row_start}:T{fpr_row_end})'  
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{fpr_row_start}:U{fpr_row_end})'   
     start_row += 1
 
     total_revenue_row = start_row
@@ -3540,6 +3838,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Total Revenue'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{spr_end},D{fpr_end},D{lr_end})'
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_end},E{fpr_end},E{lr_end})'
     pl_sheet[f'G{start_row}'].value = f'=SUM(G{spr_end},G{fpr_end},G{lr_end})'
     pl_sheet[f'H{start_row}'].value = f'=SUM(H{spr_end},H{fpr_end},H{lr_end})'
     pl_sheet[f'I{start_row}'].value = f'=SUM(I{spr_end},I{fpr_end},I{lr_end})'
@@ -3582,6 +3881,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Total'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{first_total_start}:D{first_total_end})'
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{first_total_start}:E{first_total_end})'
     pl_sheet[f'G{start_row}'].value = f'=SUM(G{first_total_start}:G{first_total_end})'
     pl_sheet[f'H{start_row}'].value = f'=SUM(H{first_total_start}:H{first_total_end})'
     pl_sheet[f'I{start_row}'].value = f'=SUM(I{first_total_start}:I{first_total_end})'
@@ -3601,6 +3901,7 @@ def generate_excel(request):
     surplus_row = start_row
     pl_sheet[f'B{start_row}'] = 'Surplus (Deficits) before Depreciation'
     pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{first_total_row})'
+    pl_sheet[f'E{start_row}'].value = f'=(E{total_revenue_row}-E{first_total_row})'
     pl_sheet[f'G{start_row}'].value = f'=(G{total_revenue_row}-G{first_total_row})'
     pl_sheet[f'H{start_row}'].value = f'=(H{total_revenue_row}-H{first_total_row})'
     pl_sheet[f'I{start_row}'].value = f'=(I{total_revenue_row}-I{first_total_row})'
@@ -3638,9 +3939,11 @@ def generate_excel(request):
         dna_row_end = start_row
         start_row += 1
 
+    start_row += 1
     dna_row = start_row
     pl_sheet[f'B{start_row}'] = 'Depreciation and Amortization'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{dna_row_start}:D{dna_row_end})'
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{dna_row_start}:E{dna_row_end})'
     pl_sheet[f'G{start_row}'].value = f'=SUM(G{dna_row_start}:G{dna_row_end})'
     pl_sheet[f'H{start_row}'].value = f'=SUM(H{dna_row_start}:H{dna_row_end})'
     pl_sheet[f'I{start_row}'].value = f'=SUM(I{dna_row_start}:I{dna_row_end})'
@@ -3663,6 +3966,7 @@ def generate_excel(request):
         cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Net Surplus(Deficit)'
     pl_sheet[f'D{start_row}'].value = f'=(D{surplus_row}-D{dna_row})'
+    pl_sheet[f'E{start_row}'].value = f'=(E{surplus_row}-E{dna_row})'
     pl_sheet[f'G{start_row}'].value = f'=(G{surplus_row}-G{dna_row})'
     pl_sheet[f'H{start_row}'].value = f'=(H{surplus_row}-H{dna_row})'
     pl_sheet[f'I{start_row}'].value = f'=(I{surplus_row}-I{dna_row})'
@@ -3680,7 +3984,7 @@ def generate_excel(request):
 
 
 
-    start_row += 3
+    start_row += 2
     pl_sheet[f'B{start_row}'] = 'Expense By Object Codes'
     pl_sheet[f'B{start_row}'].font = fontbold
 
@@ -3897,6 +4201,7 @@ def generate_excel(request):
     total_expense_total = start_row
     pl_sheet[f'B{start_row}'] = 'Total Expense'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{payroll_row},D{pcs_row},D{sm_row},D{ooe_row},D{total_expense_row})'
+    pl_sheet[f'E{start_row}'].value = f'=SUM(E{payroll_row},E{pcs_row},E{sm_row},E{ooe_row},E{total_expense_row})'
     pl_sheet[f'G{start_row}'].value = f'=SUM(G{payroll_row},G{pcs_row},G{sm_row},G{ooe_row},G{total_expense_row})'
     pl_sheet[f'H{start_row}'].value = f'=SUM(H{payroll_row},H{pcs_row},H{sm_row},H{ooe_row},H{total_expense_row})'
     pl_sheet[f'I{start_row}'].value = f'=SUM(I{payroll_row},I{pcs_row},I{sm_row},I{ooe_row},I{total_expense_row})'
@@ -3909,13 +4214,15 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'].value = f'=SUM(P{payroll_row},P{pcs_row},P{sm_row},P{ooe_row},P{total_expense_row})'
     pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{payroll_row},Q{pcs_row},Q{sm_row},Q{ooe_row},Q{total_expense_row})'
     pl_sheet[f'R{start_row}'].value = f'=SUM(R{payroll_row},R{pcs_row},R{sm_row},R{ooe_row},R{total_expense_row})'
-    pl_sheet[f'T{start_row}'].value = f'=SUM(S{payroll_row},S{pcs_row},S{sm_row},S{ooe_row},S{total_expense_row})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(T{payroll_row},T{pcs_row},T{sm_row},T{ooe_row},T{total_expense_row})'
+     
+    pl_sheet[f'T{start_row}'].value = f'=SUM(T{payroll_row},T{pcs_row},T{sm_row},T{ooe_row},T{total_expense_row})'
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{payroll_row},U{pcs_row},U{sm_row},U{ooe_row},U{total_expense_row})'
     
 
     start_row += 1
     pl_sheet[f'B{start_row}'] = 'Net Income'
     pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{total_expense_total})'
+    pl_sheet[f'E{start_row}'].value = f'=(E{total_revenue_row}-E{total_expense_total})'
     pl_sheet[f'G{start_row}'].value = f'=(G{total_revenue_row}-G{total_expense_total})'
     pl_sheet[f'H{start_row}'].value = f'=(H{total_revenue_row}-H{total_expense_total})'
     pl_sheet[f'I{start_row}'].value = f'=(I{total_revenue_row}-I{total_expense_total})'
@@ -3928,8 +4235,9 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'].value = f'=(P{total_revenue_row}-P{total_expense_total})'
     pl_sheet[f'Q{start_row}'].value = f'=(Q{total_revenue_row}-Q{total_expense_total})'
     pl_sheet[f'R{start_row}'].value = f'=(R{total_revenue_row}-R{total_expense_total})'
-    pl_sheet[f'T{start_row}'].value = f'=(S{total_revenue_row}-S{total_expense_total})'  
-    pl_sheet[f'U{start_row}'].value = f'=(T{total_revenue_row}-T{total_expense_total})'
+    
+    pl_sheet[f'T{start_row}'].value = f'=(T{total_revenue_row}-T{total_expense_total})'
+    pl_sheet[f'U{start_row}'].value = f'=(U{total_revenue_row}-U{total_expense_total})'
     
 
 

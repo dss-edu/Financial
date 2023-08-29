@@ -38,11 +38,15 @@ urlpatterns = [
     path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
     path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
     path('first_cumberland/', views.first_cumberland, name='first_cumberland'),
+    
 
     path('viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/', views.viewgl_cumberland, name='viewgl_cumberland'),
     path('viewglfunc_cumberland/<str:func>/<str:yr>/', views.viewglfunc_cumberland, name='viewglfunc_cumberland'),
     path('viewgl_activitybs_cumberland/<str:obj>/<str:yr>/', views.viewgl_activitybs_cumberland, name='viewgl_activitybs_cumberland'),
     path('viewglexpense_cumberland/<str:obj>/<str:yr>/', views.viewglexpense_cumberland, name='viewglexpense_cumberland'),
+
+
+    path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
 
 
 ]
