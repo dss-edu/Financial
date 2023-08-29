@@ -36,8 +36,8 @@ def connect():
     port = '1433'
     
 
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
-    #driver = '{ODBC Driver 17 for SQL Server}'
+    # driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{ODBC Driver 17 for SQL Server}'
     #driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
@@ -51,10 +51,10 @@ def loginView(request):
         if user is not None and user.is_active:
             if user.is_admin or user.is_superuser:
                 auth.login(request, user)
-                return redirect('pl_advantage')
+                return redirect('dashboard_advantage')
             elif user is not None and user.is_employee:
                 auth.login(request, user)
-                return redirect('pl_advantage')
+                return redirect('dashboard_advantage')
             
             else:
                 return redirect('login_form')
@@ -385,7 +385,7 @@ def first_advantage(request):
     }
     return render(request,'dashboard/advantage/first_advantage.html', context)
 
-def reports_advantage(request):
+def dashboard_advantage(request):
     data = {"accomplishments":"", "activities":""}
     delimiter = "\n"
 
