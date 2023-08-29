@@ -184,7 +184,11 @@ td:first-child {
   };
 
   confirmationModal.style.display = "none";
-  html2pdf().set(options).from(element).save();
+
+  $('#spinner-modal').modal('show');
+  html2pdf().set(options).from(element).outputPdf().then(function(pdf){
+    $('#spinner-modal').modal('hide');
+  }).save();
   
   });
 
@@ -217,7 +221,10 @@ td:first-child {
     };
 
     
-  html2pdf().set(options).from(element).save();
+  $('#spinner-modal').modal('show');
+  html2pdf().set(options).from(element).outputPdf().then(function(pdf){
+    $('#spinner-modal').modal('hide');
+  }).save();
   confirmationModal.style.display = "none";
 
   });
@@ -259,6 +266,17 @@ function expandColumns() {
   </div>
 </div>
 
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of spinner modal -->
 
 <div class="modal" id="myModal">
   <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
