@@ -5,20 +5,20 @@
   {% block stylesheet %}
   <style>
 
-    th,
-    td {
-      width: 100px;
-    }
+
+    /*
    .firstcolumn
      {
-      width: 0px;
-    }
+      width: 0%;
+    }*/
+
 
     .right-align-td {
       text-align: right;
-    padding-right: 250px;
-     
+       
     }
+
+    
     .collapsed {
       display: none;
  
@@ -49,30 +49,56 @@
     max-height: calc(100vh - 150px); 
     overflow: auto;
     position: relative;
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
+    table-layout: fixed;
+   
+
   }
   .header {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 3;
 
     background-color: white !important; 
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   }
+
   td:nth-child(2) {
-    width: 0px;
-    text-align: right; /* Adjust text alignment */
-     /* Adjust font size */
-    line-height: 1; /* Adjust line height */
-    white-space: nowrap; /* Prevent text wrapping */
-  }
+    width: 0%;
+    text-align: center;
   
+    line-height: 1; 
+    white-space: nowrap; 
+  }
+  td:nth-child(3) {
+
+    line-height: 1; 
+    white-space: nowrap; 
+  }
   .table th,
   .table td {
     padding: 0.2rem !important;
 
   }
-
+  .top-border {
+    position: relative;
+  }
   
+  .top-border::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; 
+    background-color: #000;
+  }
+  table{
+    font-size: .8 rem;
+  }
 
   
 </style>
@@ -586,7 +612,7 @@
 </script>
 
   {% csrf_token %}
-    <table id="data-table" class="table table-hover">
+    <table id="data-table" class="table table-hover" width="100%"> 
         <thead>
           <tr>
             <th class="firstcolumn"></th>
@@ -632,32 +658,36 @@
             }
         }
         </script>
+        <tr class="header">
+          <th class="firstcolumn" ></th>
+          <th class="collapsed" ></th>
+          <th ></th>
+          <th style="text-align: center; "><div style="width: 100px;">Ammended <br>Budget           </div></th>
+          <th style="text-align: center; "><div style="width: 100px;">{{format_ytd_budget}}% YTD <br>Budget</div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">September</div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">October  </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">November </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">December </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">January  </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">February </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">March    </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">April    </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">May      </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">June     </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">July     </div></th>
+          <th class="collapsed" style="text-align: center;"><div style="width: 100px;">August   </div></th>
+          <th style="text-align: center;"><div style="width: 100px;">Year-to-Date               </div></th>
+          <th style="text-align: center;"><div style="width: 100px;">Variances                  </div></th>
+          <th style="text-align: center;"><div style="width: 100px;">Var.({{format_ytd_budget}}%)</div></th>
+        </tr>
+
 
         
         </thead>
     <tbody id="data-table-body">
-        <tr class="header">
-            <th class="firstcolumn"></th>
-            <th class="collapsed"></th>
-            <th></th>
-            <th style="text-align: center; " >Ammended Budget </th>
-            <th style="text-align: center;">{{format_ytd_budget}}% YTD Budget </th>
-            <th class="collapsed"  style="text-align: center;">September</th>
-            <th class="collapsed"  style="text-align: center;">October</th>
-            <th class="collapsed"  style="text-align: center;">November</th>
-            <th class="collapsed"  style="text-align: center;">December</th>
-            <th class="collapsed"  style="text-align: center;">January</th>
-            <th class="collapsed"  style="text-align: center;">February</th>
-            <th class="collapsed"  style="text-align: center;">March</th>
-            <th class="collapsed"  style="text-align: center;">April</th>
-            <th class="collapsed"  style="text-align: center;">May</th>
-            <th class="collapsed"  style="text-align: center;">June</th>
-            <th class="collapsed"  style="text-align: center;">July</th>
-            <th class="collapsed"  style="text-align: center;">August</th>
-            <th style="text-align: center;">Year to Date</th>
-            <th style="text-align: center;">Variances</th>
-            <th style="text-align: center;">Var.({{format_ytd_budget}}%)</th>
-        </tr>
+        
+
+
        
     
         <!-- LOCAL REVENUE COLUMN START-->
@@ -731,7 +761,7 @@
       
         <tr id="ttl-row" class="ttl-lr-row">
             <td class="firstcolumn">
-              <button id="row1" class="expand-button"  type="button" onclick="toggleRow(1)" >+</button>
+              <button id="row1" class="expand-button"  type="button" onclick="toggleRow(1); toggleborderlr();" >+</button>
               
             </td>
             <td class="collapsed"></td>
@@ -746,6 +776,15 @@
               }
             </script>
         </tr>
+        <script>
+          function toggleborderlr() {
+            var fprTotalCells = document.querySelectorAll('[id^="local-revenue-total-"]');
+            
+            for (var i = 1; i <= 16; i++) {
+              fprTotalCells[i - 1].classList.toggle("top-border");
+            }
+          }
+        </script>
 
         <!-- STATE PROGRAM COLUMN START-->
         {% for row in data %}
@@ -814,7 +853,7 @@
 
         <tr id="ttl-row" class="ttl-spr-row">
           <td class="firstcolumn">
-            <button id="row2" class="expand-button" type="button" onclick="toggleRow(2)">+</button>
+            <button id="row2" class="expand-button" type="button" onclick="toggleRow(2); toggleborderspr();">+</button>
            
           </td>
           <td class="collapsed"></td>
@@ -829,6 +868,15 @@
             }
           </script>
       </tr>
+      <script>
+        function toggleborderspr() {
+          var fprTotalCells = document.querySelectorAll('[id^="spr-total-"]');
+          
+          for (var i = 1; i <= 16; i++) {
+            fprTotalCells[i - 1].classList.toggle("top-border");
+          }
+        }
+      </script>
       
       <!-- Federal Program Revenue COLUMN START-->
       {% for row in data %}
@@ -896,7 +944,7 @@
 
       <tr id="ttl-row" class="ttl-fpr-row">
         <td class="firstcolumn">
-          <button id="row3" class="expand-button" type="button" onclick="toggleRow(3)" >+</button>
+          <button id="row3" class="expand-button" type="button" onclick="toggleRow(3); toggleborderfpr(); " >+</button>
           
         </td>
         <td class="collapsed"></td>
@@ -904,13 +952,28 @@
         <script>
           for (var i = 3; i <= 19; i++) {
             if (i >= 5 && i <= 16) {
-              document.write(`<td id="fpr-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
+              document.write(`<td id="fpr-total-${i}" class="collapsed right-align-td" ></td>`); //top border here
+            }
+            else if (i == 19) {
               document.write(`<td id="fpr-total-${i}" class="right-align-td"></td>`);
+
+             }
+            else {
+              document.write(`<td id="fpr-total-${i}" class="right-align-td"></td>`); //top border here
             }
           }
         </script>
       </tr>
+      <script>
+        function toggleborderfpr() {
+          var fprTotalCells = document.querySelectorAll('[id^="fpr-total-"]');
+          
+          for (var i = 1; i <= 16; i++) {
+            fprTotalCells[i - 1].classList.toggle("top-border");
+          }
+        }
+      </script>
+      
 
       <tr id="total-row" class="ttl-0-row">
         <td class="firstcolumn"></td>
@@ -919,9 +982,12 @@
         <script>
           for (var i = 3; i <= 19; i++) {
             if (i >= 5 && i <= 16) {
-              document.write(`<td  id="total-${i}" class="collapsed right-align-td" ></td>`);
+              document.write(`<td  id="total-${i}" class="collapsed right-align-td top-border" ></td>`);
+            }
+            else if (i == 19) {
+              document.write(`<td  id="total-${i}" class="right-align-td " ></td>`);
             } else {
-              document.write(`<td id="total-${i}" class="right-align-td"></td>`);
+              document.write(`<td id="total-${i}" class="right-align-td top-border"></td>`);
             }
           }
         </script>
@@ -971,7 +1037,7 @@
       <tr id="total-row1" class="ttl-1-row">
         <td class="firstcolumn">
           
-          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
+          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11); togglebordertotal1();" >+</button>
           
         </td>
         <td class="collapsed"></td>
@@ -986,6 +1052,15 @@
           }
         </script>
       </tr>
+      <script>
+        function togglebordertotal1() {
+          var fprTotalCells = document.querySelectorAll('[id^="total1-"]');
+          
+          for (var i = 1; i <= 16; i++) {
+            fprTotalCells[i - 1].classList.toggle("top-border");
+          }
+        }
+      </script>
 
       <tr id="surplus-row1" class="surplus-ttl-1-row">
         <td class="firstcolumn"></td>
@@ -1006,15 +1081,16 @@
       <!-- Depreciation and  amortization start -->
 
       {% for row in data2 %}
+      {% if row.func_func == '51' %}
       
       <tr id="row12-{{ forloop.counter }}" class="DnA-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td style="white-space: nowrap;"><input type="hidden" class="form-control"  placeholder="Description" value="{{row.func_func}}">
-            <div class="row">
-            <div class="col">{{ row.func_func }} - {{ row.desc }}</div>
-            <div class="col" style="text-align:right;">6449</div>
-          </div></td>
+            
+            {{ row.func_func }} - {{ row.desc }}
+            6449
+          </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1045,14 +1121,14 @@
 
       
       
-      
+      {% endif %}
     {% endfor %}
 
 
       <tr >
         <td class="firstcolumn">
-          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
-          <button id="add-row-func-button" class="btn btn-success" type="button" onclick="addNewRowFunc()" style="display:none;" >+</button>
+          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12); toggleborderDNA();" >+</button>
+          
           
         </td>
         <td class="collapsed"></td>
@@ -1067,6 +1143,15 @@
           }
         </script>
       </tr>
+      <script>
+              function toggleborderDNA() {
+          var fprTotalCells = document.querySelectorAll('[id^="DnA-total-"]');
+          
+          for (var i = 1; i <= 16; i++) {
+            fprTotalCells[i - 1].classList.toggle("top-border");
+          }
+        }
+      </script>
 
       <tr >
         <td class="firstcolumn"></td>
@@ -1130,12 +1215,11 @@
       
       <tr id="row5-{{ forloop.counter }}" class="EOC-row">
           <td class="firstcolumn"> 
-            <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)" style=" float: left;">+</button></td>
+            <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6); toggleborder6100();" style=" float: left;">+</button></td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"><div class="row">
-            <div class="col">{{ row.obj }} - {{ row.Description }}</div>
-            <div class="col"></div>
-          </div></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+            {{ row.obj }} - {{ row.Description }}
+            </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1192,6 +1276,7 @@
     {% endif %}
       {%endfor%}
 
+
       <!-- END OF PAYROLL -->
       {% for row in data_activities %}
       {% if row.Category == 'Professional and Cont Svcs' %}
@@ -1230,10 +1315,9 @@
             <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" style=" float: left;">+</button>
           </td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"><div class="row">
-            <div class="col">{{ row.obj }} - {{ row.Description }}</div>
-            <div class="col"></div>
-          </div></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+            {{ row.obj }} - {{ row.Description }}
+            </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1319,10 +1403,9 @@
             <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" style=" float: left;">+</button>
           </td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"><div class="row">
-            <div class="col">{{ row.obj }} - {{ row.Description }}</div>
-            <div class="col"></div>
-          </div></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+            {{ row.obj }} - {{ row.Description }}
+            </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1408,10 +1491,9 @@
             <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" style=" float: left;">+</button>
           </td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"><div class="row">
-            <div class="col">{{ row.obj }} - {{ row.Description }}</div>
-            <div class="col"></div>
-          </div></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+            {{ row.obj }} - {{ row.Description }}
+            </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1498,10 +1580,10 @@
             <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" style=" float: left;">+</button>
           </td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"><div class="row">
-            <div class="col">{{ row.obj }} - {{ row.Description }}</div>
-            <div class="col"></div>
-          </div></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+           {{ row.obj }} - {{ row.Description }}
+            
+          </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1560,9 +1642,12 @@
         <script>
           for (var i = 3; i <= 19; i++) {
             if (i >= 5 && i <= 16) {
-              document.write(`<td  id="EOC-total-${i}" class="collapsed right-align-td" ></td>`);
+              document.write(`<td  id="EOC-total-${i}" class="collapsed right-align-td top-border" ></td>`);
+            }
+            else if(i == 19){
+              document.write(`<td id="EOC-total-${i}" class=" right-align-td "></td>`);
             } else {
-              document.write(`<td id="EOC-total-${i}" class=" right-align-td"></td>`);
+              document.write(`<td id="EOC-total-${i}" class=" right-align-td top-border"></td>`);
             }
           }
         </script>
