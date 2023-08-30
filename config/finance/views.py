@@ -733,7 +733,7 @@ def dashboard_advantage(request):
 
     cursor.close()
     cnxn.close()
-    return render(request,'dashboard/advantage/reports_advantage.html', {'form': form, "data":data})
+    return render(request,'dashboard/advantage/dashboard_advantage.html', {'form': form, "data":data})
 
 def first_cumberland(request):
     current_date = datetime.today().date()

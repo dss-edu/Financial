@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>Reports</title>
+<title>Dashboard</title>
 {% endblock %}
 
 {% block stylesheet %}
@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-<main id="content-wrapper">
+<div id="content-wrapper">
     <nav class="navbar navbar-expand navbar-dark bg-dark ">
         <a class="navbar-brand mr-1 text-primary " href="" ></a>
         <!-- Navbar Search -->
@@ -210,7 +210,7 @@
             </div>
         </div>
     </div> <!-- End of spinner modal -->
-</main> 
+</div> 
 
 {% endblock %}
 
@@ -225,7 +225,7 @@
 <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
 
 <!--My scripts-->
-<script src="{% static 'js/reports.js' %}"> </script>
+<script src="{% static 'js/reports.js' %}"></script>
 
 {% endblock %}
 
