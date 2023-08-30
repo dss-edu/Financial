@@ -26,7 +26,7 @@ import openpyxl
 from django.conf import settings
 from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
-from openpyxl.styles import Font,NamedStyle, Border, Side
+from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 
 
 def connect():
@@ -38,8 +38,8 @@ def connect():
     
 
     # driver = '{/usr/lib/libmsodbcsql-17.so}'
-    driver = '{ODBC Driver 17 for SQL Server}'
-    #driver = '{SQL Server}'
+    #driver = '{ODBC Driver 17 for SQL Server}'
+    driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -657,7 +657,7 @@ def first_advantage(request):
     ytd_budget_test = last_month_number + 4 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    print(last_month)
+    
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
     context = {
@@ -745,7 +745,7 @@ def first_cumberland(request):
     ytd_budget_test = last_month_number + 4 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    print(last_month)
+    
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
     context = {
@@ -1037,7 +1037,7 @@ def pl_cumberland(request):
 
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
-    print(ytd_budget) 
+     
     context = {
             'data': data, 
             'data2':data2 , 
@@ -1341,7 +1341,7 @@ def delete_func(request, func):
 
 def delete_bs(request, description, subcategory):
     try:
-        print(request)
+        
         
         cnxn = connect()
         cursor = cnxn.cursor()
@@ -1390,7 +1390,7 @@ def pl_cumberlandchart(request):
     return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
 
 def viewgl(request,fund,obj,yr):
-    print(request)
+    
     try:
         
         cnxn = connect()
@@ -1461,7 +1461,7 @@ def viewgl(request,fund,obj,yr):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewgl_cumberland(request,fund,obj,yr):
-    print(request)
+    
     try:
         
         cnxn = connect()
@@ -1764,7 +1764,7 @@ def bs_advantage(request):
                 for entry in data_activitybs
             )
             activity_sum_dict[(Activity, i)] = total_sum_i
-    print(total_sum_i)
+    
 
  
     for row in data_balancesheet:
@@ -1969,7 +1969,7 @@ def bs_villagetech(request):
                 for entry in data_activitybs
             )
             activity_sum_dict[(Activity, i)] = total_sum_i
-    print(total_sum_i)
+    
 
  
     for row in data_balancesheet:
@@ -3413,7 +3413,7 @@ def cashflow_advantage(request):
         acct_per: "{:,}".format(abs(int(value))) if value >= 0 else "({:,})".format(abs(int(value))) if value < 0 else ""
         for acct_per, value in total_DnA.items() if value!=0
     }
-    print(formatted_total_netsurplus)
+    
     # total_surplusBD9 = 0 
     # total_surplusBD10 = 0
     # total_surplusBD11 = 0
@@ -3790,8 +3790,7 @@ def generate_excel(request):
 
 
     generated_excel_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'GeneratedExcel.xlsx')
-    print(template_path)
-    print(generated_excel_path)
+
 
 
     shutil.copyfile(template_path, generated_excel_path)
@@ -3843,7 +3842,7 @@ def generate_excel(request):
     pl_sheet.column_dimensions['B'].width = 28
     pl_sheet.column_dimensions['C'].hidden = True
     pl_sheet.column_dimensions['D'].width = 14
-    pl_sheet.column_dimensions['E'].width = 12
+    pl_sheet.column_dimensions['E'].width = 14
     pl_sheet.column_dimensions['F'].hidden = True
     pl_sheet.column_dimensions['G'].width = 12
     pl_sheet.column_dimensions['H'].width = 12
@@ -3862,11 +3861,7 @@ def generate_excel(request):
     pl_sheet.column_dimensions['U'].width = 17
     pl_sheet.column_dimensions['V'].width = 12
 
-    # BS DESIGN
-    for col in range(7, 18):
-        col_letter = get_column_letter(col)
-        bs_sheet.column_dimensions[col_letter].outline_level = 1
-        bs_sheet.column_dimensions[col_letter].hidden = True
+   
 
     total_vars = ['value', 'total_real9', 'total_real10', 'total_real11', 'total_real12', 
               'total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5', 
@@ -4448,31 +4443,68 @@ def generate_excel(request):
 
     start_row += 4 #Total expense and Net income
  
+    # BS DESIGN
+    for col in range(7, 19):
+        col_letter = get_column_letter(col)
+        bs_sheet.column_dimensions[col_letter].outline_level = 1
+        bs_sheet.column_dimensions[col_letter].hidden = True
+    for row in range(2,181):
+        bs_sheet.row_dimensions[row].height = 19
+    # bs_sheet.row_dimensions[17].height = 26 #local revenue
+    # bs_sheet.row_dimensions[20].height = 26 #spr
+    # bs_sheet.row_dimensions[33].height = 26 #fpr
+
+    
+
+    bs_sheet.column_dimensions['A'].width = 8
+    bs_sheet.column_dimensions['B'].width = 32
+    bs_sheet.column_dimensions['C'].hidden = True
+    bs_sheet.column_dimensions['D'].width = 14
+    bs_sheet.column_dimensions['E'].width = 28
+    bs_sheet.column_dimensions['F'].width = 15
+    bs_sheet.column_dimensions['G'].width = 15
+    bs_sheet.column_dimensions['H'].width = 13
+    bs_sheet.column_dimensions['I'].width = 13
+    bs_sheet.column_dimensions['J'].width = 13
+    bs_sheet.column_dimensions['K'].width = 13
+    bs_sheet.column_dimensions['L'].width = 13
+    bs_sheet.column_dimensions['M'].width = 13
+    bs_sheet.column_dimensions['N'].width = 13
+    bs_sheet.column_dimensions['O'].width = 13
+    bs_sheet.column_dimensions['P'].width = 13
+    bs_sheet.column_dimensions['Q'].width = 13
+    bs_sheet.column_dimensions['R'].width = 13
+    bs_sheet.column_dimensions['S'].width = 3
+    bs_sheet.column_dimensions['T'].width = 17
+    bs_sheet.column_dimensions['U'].width = 17
+    bs_sheet.column_dimensions['V'].width = 12
+
+    indent_style = NamedStyle(name="indent_style", alignment=Alignment(indent=2))
+    indent_style2 = NamedStyle(name="indent_style2", alignment=Alignment(indent=4))
 
 
     #--- BS INSERT
     start_row_bs = 6
     bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
+    
     for row in data_activitybs:
         if row['Activity'] == 'Cash':
             start_row_bs += 1
-            bs_sheet[f'D{start_row_bs}'] = row['Description2']
-            bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-            bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-            bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-            bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-            bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-            bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-            bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-            bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-            bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-            bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-            bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
+            bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+            bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
+            bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
+            bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
+            bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
+            bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
+            bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
+            bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
+            bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
+            bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
+            bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
+            bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
+            bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
 
-            # bs_sheet[f'T{start_row_bs}'] = row['total_bal9']
-            # bs_sheet[f'U{start_row_bs}'] = row['total_bal9']
-    
 
 
     for row in data_balancesheet:
@@ -4480,6 +4512,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4496,12 +4529,14 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    cash_row_bs = start_row_bs
 
     
 
     for row in data_activitybs:
         if row['Activity'] == 'Restr':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4522,6 +4557,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4539,10 +4575,12 @@ def generate_excel(request):
            
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    restr_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'DFS+F':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4563,6 +4601,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4579,10 +4618,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    dfs_row_bs = start_row_bs
     
     for row in data_activitybs: 
         if row['Activity'] == 'OTHR':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4603,6 +4644,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4619,10 +4661,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    othr_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'Inventory':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4643,6 +4687,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4659,12 +4704,14 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    inventory_row_bs = start_row_bs
 
 
 
     for row in data_activitybs: 
         if row['Activity'] == 'PPD':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4685,6 +4732,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Current Assets':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4701,15 +4749,37 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    ppd_row_bs = start_row_bs
 
     start_row_bs += 1
+    total_current_assets_row_bs = start_row_bs
+    bs_sheet[f'D{start_row_bs}'].style = indent_style2
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Current Assets'
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{cash_row_bs},F{restr_row_bs},F{dfs_row_bs},F{othr_row_bs},F{inventory_row_bs},F{ppd_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{cash_row_bs},G{restr_row_bs},G{dfs_row_bs},G{othr_row_bs},G{inventory_row_bs},G{ppd_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{cash_row_bs},H{restr_row_bs},H{dfs_row_bs},H{othr_row_bs},H{inventory_row_bs},H{ppd_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{cash_row_bs},I{restr_row_bs},I{dfs_row_bs},I{othr_row_bs},I{inventory_row_bs},I{ppd_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{cash_row_bs},J{restr_row_bs},J{dfs_row_bs},J{othr_row_bs},J{inventory_row_bs},J{ppd_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{cash_row_bs},K{restr_row_bs},K{dfs_row_bs},K{othr_row_bs},K{inventory_row_bs},K{ppd_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{cash_row_bs},L{restr_row_bs},L{dfs_row_bs},L{othr_row_bs},L{inventory_row_bs},L{ppd_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{cash_row_bs},M{restr_row_bs},M{dfs_row_bs},M{othr_row_bs},M{inventory_row_bs},M{ppd_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{cash_row_bs},N{restr_row_bs},N{dfs_row_bs},N{othr_row_bs},N{inventory_row_bs},N{ppd_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{cash_row_bs},O{restr_row_bs},O{dfs_row_bs},O{othr_row_bs},O{inventory_row_bs},O{ppd_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{cash_row_bs},P{restr_row_bs},P{dfs_row_bs},P{othr_row_bs},P{inventory_row_bs},P{ppd_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{cash_row_bs},Q{restr_row_bs},Q{dfs_row_bs},Q{othr_row_bs},Q{inventory_row_bs},Q{ppd_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{cash_row_bs},R{restr_row_bs},R{dfs_row_bs},R{othr_row_bs},R{inventory_row_bs},R{ppd_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{cash_row_bs},T{restr_row_bs},T{dfs_row_bs},T{othr_row_bs},T{inventory_row_bs},T{ppd_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{cash_row_bs},U{restr_row_bs},U{dfs_row_bs},U{othr_row_bs},U{inventory_row_bs},U{ppd_row_bs})'
+    
     start_row_bs += 1
     bs_sheet[f'D{start_row_bs}'] = 'Capital Assets , Net'
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
 
     for row in data_activitybs: 
         if row['Activity'] == 'FA-L':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4730,6 +4800,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Capital Assets, Net':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4746,10 +4817,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    fal_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'FA-BFE':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4770,6 +4843,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Capital Assets, Net':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4786,10 +4860,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    fabfe_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'FA-AD':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4810,6 +4886,7 @@ def generate_excel(request):
             if row['Category'] == 'Assets':
                 if row['Subcategory'] == 'Capital Assets, Net':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4826,19 +4903,66 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    faad_row_bs = start_row_bs
+
 
     start_row_bs += 1
+    total_capital_assets_row_bs = start_row_bs
+    bs_sheet[f'D{start_row_bs}'].style = indent_style2
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Capital Assets'
+    
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{fal_row_bs},F{fabfe_row_bs},F{faad_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{fal_row_bs},G{fabfe_row_bs},G{faad_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{fal_row_bs},H{fabfe_row_bs},H{faad_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{fal_row_bs},I{fabfe_row_bs},I{faad_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{fal_row_bs},J{fabfe_row_bs},J{faad_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{fal_row_bs},K{fabfe_row_bs},K{faad_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{fal_row_bs},L{fabfe_row_bs},L{faad_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{fal_row_bs},M{fabfe_row_bs},M{faad_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{fal_row_bs},N{fabfe_row_bs},N{faad_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{fal_row_bs},O{fabfe_row_bs},O{faad_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{fal_row_bs},P{fabfe_row_bs},P{faad_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{fal_row_bs},Q{fabfe_row_bs},Q{faad_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{fal_row_bs},R{fabfe_row_bs},R{faad_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{fal_row_bs},T{fabfe_row_bs},T{faad_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{fal_row_bs},U{fabfe_row_bs},U{faad_row_bs})'
+    
     start_row_bs += 1
+    total_assets_row_bs = start_row_bs
+    bs_sheet.row_dimensions[start_row_bs].height = 37         
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total  Assets'
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{total_capital_assets_row_bs},F{total_current_assets_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{total_capital_assets_row_bs},G{total_current_assets_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{total_capital_assets_row_bs},H{total_current_assets_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{total_capital_assets_row_bs},I{total_current_assets_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{total_capital_assets_row_bs},J{total_current_assets_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{total_capital_assets_row_bs},K{total_current_assets_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{total_capital_assets_row_bs},L{total_current_assets_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{total_capital_assets_row_bs},M{total_current_assets_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{total_capital_assets_row_bs},N{total_current_assets_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_capital_assets_row_bs},O{total_current_assets_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_capital_assets_row_bs},P{total_current_assets_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_capital_assets_row_bs},Q{total_current_assets_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_capital_assets_row_bs},R{total_current_assets_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_capital_assets_row_bs},T{total_current_assets_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_capital_assets_row_bs},U{total_current_assets_row_bs})'
+
     start_row_bs += 1
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
+    
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Liabilities and Net Assets'
+    
     start_row_bs += 1
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
     bs_sheet[f'D{start_row_bs}'] = 'Current Liabilities'
 
     for row in data_activitybs: 
         if row['Activity'] == 'AP':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4859,6 +4983,7 @@ def generate_excel(request):
             if row['Category'] == 'Liabilities and Net Assets':
                 if row['Subcategory'] == 'Current Liabilities':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4875,10 +5000,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    ap_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'Acc-Exp':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4899,6 +5026,7 @@ def generate_excel(request):
             if row['Category'] == 'Liabilities and Net Assets':
                 if row['Subcategory'] == 'Current Liabilities':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4915,10 +5043,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    accexp_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'OtherLab':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4939,6 +5069,7 @@ def generate_excel(request):
             if row['Category'] == 'Liabilities and Net Assets':
                 if row['Subcategory'] == 'Current Liabilities':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4955,10 +5086,12 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    otherlab_row_bs = start_row_bs
 
     for row in data_activitybs: 
         if row['Activity'] == 'Debt-C':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -4979,6 +5112,7 @@ def generate_excel(request):
             if row['Category'] == 'Liabilities and Net Assets':
                 if row['Subcategory'] == 'Current Liabilities':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -4995,15 +5129,39 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    debtc_row_bs = start_row_bs
 
     start_row_bs += 1
+    total_current_liabilites_row_bs = start_row_bs
+    
+    bs_sheet[f'D{start_row_bs}'].style = indent_style2
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
+  
     bs_sheet[f'D{start_row_bs}'] ='Total Current Liabilities'
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{ap_row_bs},F{accexp_row_bs},F{otherlab_row_bs},F{debtc_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{ap_row_bs},G{accexp_row_bs},G{otherlab_row_bs},G{debtc_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{ap_row_bs},H{accexp_row_bs},H{otherlab_row_bs},H{debtc_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{ap_row_bs},I{accexp_row_bs},I{otherlab_row_bs},I{debtc_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{ap_row_bs},J{accexp_row_bs},J{otherlab_row_bs},J{debtc_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{ap_row_bs},K{accexp_row_bs},K{otherlab_row_bs},K{debtc_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{ap_row_bs},L{accexp_row_bs},L{otherlab_row_bs},L{debtc_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{ap_row_bs},M{accexp_row_bs},M{otherlab_row_bs},M{debtc_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{ap_row_bs},N{accexp_row_bs},N{otherlab_row_bs},N{debtc_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{ap_row_bs},O{accexp_row_bs},O{otherlab_row_bs},O{debtc_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{ap_row_bs},P{accexp_row_bs},P{otherlab_row_bs},P{debtc_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{ap_row_bs},Q{accexp_row_bs},Q{otherlab_row_bs},Q{debtc_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{ap_row_bs},R{accexp_row_bs},R{otherlab_row_bs},R{debtc_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{ap_row_bs},T{accexp_row_bs},T{otherlab_row_bs},T{debtc_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{ap_row_bs},U{accexp_row_bs},U{otherlab_row_bs},U{debtc_row_bs})'
+
     start_row_bs += 1
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
     bs_sheet[f'D{start_row_bs}'] ='Long Term Debt'
 
     for row in data_activitybs: 
         if row['Activity'] == 'LTD':
             start_row_bs += 1
+            bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
             bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
             bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
@@ -5024,6 +5182,7 @@ def generate_excel(request):
             if row['Category'] == 'Debt':
                 if row['Subcategory'] == 'Long Term Debt':
                     start_row_bs += 1
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
                     bs_sheet[f'D{start_row_bs}'] = row['Description']
                     bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     bs_sheet[f'G{start_row_bs}'] = row['difference_9']
@@ -5040,15 +5199,37 @@ def generate_excel(request):
                     bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                    ltd_row_bs = start_row_bs
 
     start_row_bs += 1
+    total_liabilites_row_bs = start_row_bs
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities'
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{total_current_liabilites_row_bs},F{ltd_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{total_current_liabilites_row_bs},G{ltd_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{total_current_liabilites_row_bs},H{ltd_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{total_current_liabilites_row_bs},I{ltd_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{total_current_liabilites_row_bs},J{ltd_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{total_current_liabilites_row_bs},K{ltd_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{total_current_liabilites_row_bs},L{ltd_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{total_current_liabilites_row_bs},M{ltd_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{total_current_liabilites_row_bs},N{ltd_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_current_liabilites_row_bs},O{ltd_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_current_liabilites_row_bs},P{ltd_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_current_liabilites_row_bs},Q{ltd_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_current_liabilites_row_bs},R{ltd_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_current_liabilites_row_bs},T{ltd_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_current_liabilites_row_bs},U{ltd_row_bs})'
+
 
     for row in data_balancesheet:
         if row['Activity'] == 'Equity':
             if row['Category'] == 'Net Assets':
                 
                 start_row_bs += 1
+                bs_sheet.row_dimensions[start_row_bs].height = 37 
+                bs_sheet[f'D{start_row_bs}'].font = fontbold
                 bs_sheet[f'D{start_row_bs}'] = 'Net Assets'
                 
                 bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -5066,9 +5247,29 @@ def generate_excel(request):
                 bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                 bs_sheet[f'T{start_row_bs}'] = row['fytd']
                 bs_sheet[f'U{start_row_bs}'] = row['difference_6']
+                net_assets_row_bs = start_row_bs
 
     start_row_bs += 1
+    bs_sheet.row_dimensions[start_row_bs].height = 37 
+    bs_sheet[f'D{start_row_bs}'].style = indent_style2
+    bs_sheet[f'D{start_row_bs}'].font = fontbold
+   
     bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities and Net Assets'
+    bs_sheet[f'F{start_row_bs}'].value = f'=SUM(F{total_liabilites_row_bs},F{net_assets_row_bs})'
+    bs_sheet[f'G{start_row_bs}'].value = f'=SUM(G{total_liabilites_row_bs},G{net_assets_row_bs})'
+    bs_sheet[f'H{start_row_bs}'].value = f'=SUM(H{total_liabilites_row_bs},H{net_assets_row_bs})'
+    bs_sheet[f'I{start_row_bs}'].value = f'=SUM(I{total_liabilites_row_bs},I{net_assets_row_bs})'
+    bs_sheet[f'J{start_row_bs}'].value = f'=SUM(J{total_liabilites_row_bs},J{net_assets_row_bs})'
+    bs_sheet[f'K{start_row_bs}'].value = f'=SUM(K{total_liabilites_row_bs},K{net_assets_row_bs})'
+    bs_sheet[f'L{start_row_bs}'].value = f'=SUM(L{total_liabilites_row_bs},L{net_assets_row_bs})'
+    bs_sheet[f'M{start_row_bs}'].value = f'=SUM(M{total_liabilites_row_bs},M{net_assets_row_bs})'
+    bs_sheet[f'N{start_row_bs}'].value = f'=SUM(N{total_liabilites_row_bs},N{net_assets_row_bs})'
+    bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_liabilites_row_bs},O{net_assets_row_bs})'
+    bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_liabilites_row_bs},P{net_assets_row_bs})'
+    bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_liabilites_row_bs},Q{net_assets_row_bs})'
+    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_liabilites_row_bs},R{net_assets_row_bs})'
+    bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_liabilites_row_bs},T{net_assets_row_bs})'  
+    bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_liabilites_row_bs},U{net_assets_row_bs})'
 
 
     
