@@ -5,7 +5,7 @@ $(document).ready(function() {
     });
 
     ////////////////////////////////EXPORT TO PDF///////////////////////////////////////////
-    /* document.getElementById('export-pdf-button').addEventListener('click', function() {
+    document.getElementById('export-pdf-button').addEventListener('click', function() {
         const element = document.getElementById('export-content');
         $('#spinner-modal').modal('show');
 
@@ -22,7 +22,7 @@ $(document).ready(function() {
             // Hide the spinner modal
             $('#spinner-modal').modal('hide');
         }).save();
-    }); */
+    });
 
     ///////////////////////////////////////// Charts ///////////////////////////////////////////
     data = [{
