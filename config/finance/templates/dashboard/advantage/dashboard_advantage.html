@@ -23,7 +23,7 @@
         &nbsp;
         &nbsp;
         <div>
-            <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
+            <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a> -->
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#txtModal">
                 Edit
             </button>
@@ -159,58 +159,105 @@
         </div> <!-- End of row 2-->
     </div> <!-- End of container -->
 
-    <div id="txtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="txtModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="txtModalLabel">Edit Activities/Accomplishments</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post">
-                <div class="modal-body">
-                    <div class="d-flex flex-column w-100 justify-content-center">
-                            {% csrf_token %}
-                            {{ form.media }}
-                            <div class="text-center">
-                                {{ form.activities.label_tag }}
-                            </div>
-                            <div class="m-auto" style="width:100%;">
-                                {{ form.activities }}
-                            </div>
-                            <div class="text-center">
-                                {{ form.accomplishments.label_tag }}
-                            </div>
-                            <div class="m-auto" style="width:100%;">
-                                {{ form.accomplishments }}
-                            </div>
-                    </div>
+    <div class="d-flex align-items center justify-content-center">
+        <hr class="bottom-line">
+    </div>
+    <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
+        <div class="col">
+            <img class="logo" src="{% static 'logos/advantage.png' %}" alt="advantage logo">
+        </div>
 
-                    <div class="edit-accomplishments">
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="legend green-circle mr-1">
+                            <span>G</span>
+                        </div>
+                        <span>On Track</span>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+                <div class="col">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="legend yellow-circle mr-1">
+                            <span>Y</span>
+                        </div>
+                        <span>Of Concern</span>
+                    </div>
                 </div>
-                </form>
+                <div class="col">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="legend red-circle mr-1">
+                            <span>R</span>
+                        </div>
+                        <span>At Risk</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="d-flex flex-row align-items-center">
+                        <div class="legend blue-circle mr-1">
+                            <span>C</span>
+                        </div>
+                        <span>Complete</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
-            <div class="modal-content  p-0 w-auto h-auto">
-                <div class="modal-body text-center">
-                    <div class="spinner-border" role="status">
-                        <span class="sr-only">Loading...</span>
-                    </div>
+</div>  <!-- End of content-wrapper -->
+
+<div id="txtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="txtModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="txtModalLabel">Edit Activities/Accomplishments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+            <div class="modal-body">
+                <div class="d-flex flex-column w-100 justify-content-center">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        <div class="text-center">
+                            {{ form.activities.label_tag }}
+                        </div>
+                        <div class="m-auto" style="width:100%;">
+                            {{ form.activities }}
+                        </div>
+                        <div class="text-center">
+                            {{ form.accomplishments.label_tag }}
+                        </div>
+                        <div class="m-auto" style="width:100%;">
+                            {{ form.accomplishments }}
+                        </div>
+                </div>
+
+                <div class="edit-accomplishments">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
                 </div>
             </div>
         </div>
-    </div> <!-- End of spinner modal -->
-</div> 
+    </div>
+</div> <!-- End of spinner modal -->
 
 {% endblock %}
 

@@ -10,7 +10,6 @@ $(document).ready(function() {
 
 
   linkEl.forEach(link => {
-    console.log(link);
     link.addEventListener('click', function() {
       $('#page-load-spinner').modal('show');  // Close the modal
     });

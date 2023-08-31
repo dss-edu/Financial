@@ -1,28 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-/* ROOT VAriables*/
-:root {
-  --color-primary: #7380ec;
-  --color-danger: #ff7782;
-  --color-success: #41f1b6;
-  --color-warning: #ffbb55;
-  --color-white: #fff;
-  --color-info-dark: #7d8da1;
-  --color-info-light: #dce1eb;
-  --color-dark: #363949;
-  --color-light: rgba(132,139,200,0.18);
-  --color-primary-variant: #111e88;
-  --color-dark-variant: #566483;
-  --color-background: #f6f6f9;
-
-  --border-radius-1: 0.4rem;
-  --border-raidue-2: 0.8rem;
-  --border-raidus-3: 1.2rem;
-
-}
-
 main {
-  background: var(--color-background);
+  background: #f6f6f9;
 }
 
 #reports-grid > div:hover {
@@ -51,7 +30,7 @@ main {
 }
 #financial-update table th{
     background-color: #6B2794;
-    color: var(--color-white);
+    color: #fff;
     font-size: 12px;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -64,7 +43,7 @@ main {
     text-align: center;
     align-items: center;
     vertical-align: middle;
-    border: 1px solid var(--color-dark-variant)
+    border: 1px solid #566483 
 }
 #financial-update td:last-child > p{
     display:flex;
@@ -82,10 +61,18 @@ main {
 }
 
 .green-circle{
-    background-color: var(--color-success);
+    background-color: #41f1b6;
 }
 .yellow-circle{
     background-color: yellow;
+}
+
+.red-circle{
+    background-color: red;
+}
+
+.blue-circle{
+    background-color: cyan;
 }
 
 #chartdiv, #chartdiv2, #chartdiv3 {
@@ -102,4 +89,29 @@ main {
     min-width: 1120px;
     max-height: 1587px;
     max-height: 1220px;
+}
+.card{
+    resize: both
+}
+.bottom-line {
+    width:100%;
+    border: none;
+    height: 3px;
+    background-color: #000000;
+    margin: auto;
+}
+
+.legend {
+    display:flex;
+    border-radius: 50%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 30px; 
+    height: 30px;
+}
+
+.logo {
+    height: 5rem;
+
 }
