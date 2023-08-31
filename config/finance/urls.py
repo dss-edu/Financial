@@ -23,6 +23,7 @@ urlpatterns = [
     path('insert_bs_advantage/', views.insert_bs_advantage, name='insert_bs_advantage'),
     path('delete_bs/<str:description>/<str:subcategory>/', views.delete_bs, name='delete_bs'),
     path('delete_bsa/<str:obj>/<str:Activity>/', views.delete_bsa, name='delete_bsa'),
+    
   
     path('delete_func/<str:func>/', views.delete_func, name='delete_func'),
     path('viewgl/<str:fund>/<str:obj>/<str:yr>/', views.viewgl, name='viewgl'),

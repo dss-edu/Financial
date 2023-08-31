@@ -115,7 +115,7 @@
                 <datalist id="suggestions1">
                     <option value="Advantage Academy"></option>
                     <option value="Cumberland Academy"></option>
-                    <option value="Village tech"></option>
+                    <option value="Village Tech"></option>
                     <!-- Add more options here as needed -->
                 </datalist>
                 <!-- <div class="input-group-append"> -->
@@ -131,12 +131,12 @@
                 const selectedValue = inputField.value;
                 let redirectUrl = '';
 
-                if (selectedValue === 'Advantage Academy') {
+                if (selectedValue.toLowerCase() === 'advantage academy') {
                     redirectUrl = "{% url 'pl_advantage' %}";
-                } else if (selectedValue === 'Cumberland Academy') {
+                } else if (selectedValue.toLowerCase() === 'cumberland academy') {
                     redirectUrl = "{% url 'pl_cumberland' %}";
                 }
-                 else if (selectedValue === 'Village tech') {
+                 else if (selectedValue.toLowerCase() === 'village tech') {
                     redirectUrl = "{% url 'pl_villagetech' %}";
                 }
 

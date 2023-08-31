@@ -4503,7 +4503,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
 
 
 
@@ -4526,7 +4526,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     cash_row_bs = start_row_bs
@@ -4549,7 +4549,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
     for row in data_balancesheet:
@@ -4571,7 +4571,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
            
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
@@ -4593,7 +4593,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
     for row in data_balancesheet:
@@ -4615,7 +4615,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     dfs_row_bs = start_row_bs
@@ -4636,7 +4636,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
             
 
     for row in data_balancesheet:
@@ -4658,7 +4658,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     othr_row_bs = start_row_bs
@@ -4679,7 +4679,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
           
 
     for row in data_balancesheet:
@@ -4701,7 +4701,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     inventory_row_bs = start_row_bs
@@ -4724,7 +4724,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
     for row in data_balancesheet:
@@ -4746,7 +4746,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     ppd_row_bs = start_row_bs
@@ -4768,7 +4768,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{cash_row_bs},O{restr_row_bs},O{dfs_row_bs},O{othr_row_bs},O{inventory_row_bs},O{ppd_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{cash_row_bs},P{restr_row_bs},P{dfs_row_bs},P{othr_row_bs},P{inventory_row_bs},P{ppd_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{cash_row_bs},Q{restr_row_bs},Q{dfs_row_bs},Q{othr_row_bs},Q{inventory_row_bs},Q{ppd_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{cash_row_bs},R{restr_row_bs},R{dfs_row_bs},R{othr_row_bs},R{inventory_row_bs},R{ppd_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{cash_row_bs},R{restr_row_bs},R{dfs_row_bs},R{othr_row_bs},R{inventory_row_bs},R{ppd_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{cash_row_bs},T{restr_row_bs},T{dfs_row_bs},T{othr_row_bs},T{inventory_row_bs},T{ppd_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{cash_row_bs},U{restr_row_bs},U{dfs_row_bs},U{othr_row_bs},U{inventory_row_bs},U{ppd_row_bs})'
     
@@ -4792,7 +4792,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
     for row in data_balancesheet:
@@ -4814,7 +4814,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     fal_row_bs = start_row_bs
@@ -4835,7 +4835,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
 
     for row in data_balancesheet:
@@ -4857,7 +4857,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     fabfe_row_bs = start_row_bs
@@ -4878,7 +4878,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
    
 
     for row in data_balancesheet:
@@ -4900,7 +4900,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     faad_row_bs = start_row_bs
@@ -4924,7 +4924,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{fal_row_bs},O{fabfe_row_bs},O{faad_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{fal_row_bs},P{fabfe_row_bs},P{faad_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{fal_row_bs},Q{fabfe_row_bs},Q{faad_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{fal_row_bs},R{fabfe_row_bs},R{faad_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{fal_row_bs},R{fabfe_row_bs},R{faad_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{fal_row_bs},T{fabfe_row_bs},T{faad_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{fal_row_bs},U{fabfe_row_bs},U{faad_row_bs})'
     
@@ -4945,7 +4945,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_capital_assets_row_bs},O{total_current_assets_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_capital_assets_row_bs},P{total_current_assets_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_capital_assets_row_bs},Q{total_current_assets_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_capital_assets_row_bs},R{total_current_assets_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_capital_assets_row_bs},R{total_current_assets_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_capital_assets_row_bs},T{total_current_assets_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_capital_assets_row_bs},U{total_current_assets_row_bs})'
 
@@ -4975,7 +4975,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
        
 
     for row in data_balancesheet:
@@ -4997,7 +4997,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     ap_row_bs = start_row_bs
@@ -5018,7 +5018,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+           #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
    
 
     for row in data_balancesheet:
@@ -5040,7 +5040,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     accexp_row_bs = start_row_bs
@@ -5061,7 +5061,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
           
 
     for row in data_balancesheet:
@@ -5083,7 +5083,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     otherlab_row_bs = start_row_bs
@@ -5104,7 +5104,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
             bs_sheet[f'T{start_row_bs}'] = 'ACTIVITYBS YTD'
 
     for row in data_balancesheet:
@@ -5126,7 +5126,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     debtc_row_bs = start_row_bs
@@ -5150,7 +5150,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{ap_row_bs},O{accexp_row_bs},O{otherlab_row_bs},O{debtc_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{ap_row_bs},P{accexp_row_bs},P{otherlab_row_bs},P{debtc_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{ap_row_bs},Q{accexp_row_bs},Q{otherlab_row_bs},Q{debtc_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{ap_row_bs},R{accexp_row_bs},R{otherlab_row_bs},R{debtc_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{ap_row_bs},R{accexp_row_bs},R{otherlab_row_bs},R{debtc_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{ap_row_bs},T{accexp_row_bs},T{otherlab_row_bs},T{debtc_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{ap_row_bs},U{accexp_row_bs},U{otherlab_row_bs},U{debtc_row_bs})'
 
@@ -5174,7 +5174,7 @@ def generate_excel(request):
             bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
             bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
             bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-            bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+            #bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
   
 
     for row in data_balancesheet:
@@ -5196,7 +5196,7 @@ def generate_excel(request):
                     bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                     bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                     bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                    #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                     bs_sheet[f'T{start_row_bs}'] = row['fytd']
                     bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                     ltd_row_bs = start_row_bs
@@ -5218,7 +5218,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_current_liabilites_row_bs},O{ltd_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_current_liabilites_row_bs},P{ltd_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_current_liabilites_row_bs},Q{ltd_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_current_liabilites_row_bs},R{ltd_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_current_liabilites_row_bs},R{ltd_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_current_liabilites_row_bs},T{ltd_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_current_liabilites_row_bs},U{ltd_row_bs})'
 
@@ -5244,7 +5244,7 @@ def generate_excel(request):
                 bs_sheet[f'O{start_row_bs}'] = row['difference_5']
                 bs_sheet[f'P{start_row_bs}'] = row['difference_6']
                 bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                #bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                 bs_sheet[f'T{start_row_bs}'] = row['fytd']
                 bs_sheet[f'U{start_row_bs}'] = row['difference_6']
                 net_assets_row_bs = start_row_bs
@@ -5267,7 +5267,7 @@ def generate_excel(request):
     bs_sheet[f'O{start_row_bs}'].value = f'=SUM(O{total_liabilites_row_bs},O{net_assets_row_bs})'
     bs_sheet[f'P{start_row_bs}'].value = f'=SUM(P{total_liabilites_row_bs},P{net_assets_row_bs})'
     bs_sheet[f'Q{start_row_bs}'].value = f'=SUM(Q{total_liabilites_row_bs},Q{net_assets_row_bs})'
-    bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_liabilites_row_bs},R{net_assets_row_bs})'
+    #bs_sheet[f'R{start_row_bs}'].value = f'=SUM(R{total_liabilites_row_bs},R{net_assets_row_bs})'
     bs_sheet[f'T{start_row_bs}'].value = f'=SUM(T{total_liabilites_row_bs},T{net_assets_row_bs})'  
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_liabilites_row_bs},U{net_assets_row_bs})'
 

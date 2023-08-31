@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    {% block title %}{% endblock %}
-    <title>TEST</title>
+    {% block title %}
+        <title>TEST</title>
+    {% endblock %}
 
-    {% load static %}
-   
     <!-- Custom fonts for this template-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
     <script
     src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
@@ -28,9 +30,6 @@
     <!-- Add the Bootstrap JS file (required by DataTables with Bootstrap 4) -->
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
   
-    
-    
-
     <!-- Page level plugin CSS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
@@ -38,41 +37,38 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <!-- Custom styles for this template-->
     <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+    <!-- Material Icons-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- loading stylsheet -->
+    <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+
     {% block stylesheet %}
     <style>
-      
-
-.collapsed {
-    display: none;
-}
-
-.modal-body {
-  max-height: 2000px;
-  max-width: 2000px;
-  overflow-y: auto;
-}
-
-.modal-body thead {
-  position: sticky;
-  top: 0;
-  background-color: #f9f9f9;
-  z-index: 1;
-}
-
-/* Optional: Adjust the z-index of the modal footer to ensure it's above the fixed header */
-.modal-footer {
-  z-index: 2;
-}
-
-     
-      
-    
-  </style>
+        .collapsed {
+            display: none;
+        }
+        .modal-body {
+            max-height: 2000px;
+            max-width: 2000px;
+            overflow-y: auto;
+        }
+        .modal-body thead {
+            position: sticky;
+            top: 0;
+            background-color: #f9f9f9;
+            z-index: 1;
+        }
+        /* Optional: Adjust the z-index of the modal footer to ensure it's above the fixed header */
+        .modal-footer {
+            z-index: 2;
+        }
+    </style>
     {% endblock %}
 </head>
 
 <body id="page-top">
-
 <!-- headers-->
 <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
 
@@ -83,143 +79,184 @@
 
     <!-- Navbar Search -->
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      
+
     </form>
 
     <!-- Navbar -->
     <ul class="navbar-nav ml-auto ml-md-0">
-      <li class="nav-item dropdown no-arrow">
-          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-user-circle fa-fw text-primary"></i>
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-              <a class="dropdown-item">
-                  
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
-          </div>
-      </li>
-  </ul>
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-user-circle fa-fw text-primary"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                <a class="dropdown-item">
+
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+            </div>
+        </li>
+    </ul>
 
 </nav>
-
-<div id="wrapper" style="padding-top: 50px;">
-<!-- Sidebar -->
-<ul class="sidebar navbar-nav ">
-  <span>
-    &nbsp;
-    &nbsp;
-  </span>
-  <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search" aria-label="Search" id="searchInput" list="suggestions1">
-        <datalist id="suggestions1">
-            <option value="Advantage Academy"></option>
-            <option value="Cumberland Academy"></option>
-            <option value="Village tech"></option>
-            <!-- Add more options here as needed -->
-        </datalist>
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="button" onclick="search()">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-    </div>
-</form>
-<script>
-function search() {
-    const inputField = document.getElementById('searchInput');
-    const selectedValue = inputField.value;
-    let redirectUrl = '';
-
-    if (selectedValue === 'Advantage Academy') {
-        redirectUrl = "{% url 'pl_advantage' %}";
-    } else if (selectedValue === 'Cumberland Academy') {
-        redirectUrl = "{% url 'pl_cumberland' %}";
-    }
-    else if (selectedValue === 'Village tech') {
-      redirectUrl = "{% url 'pl_villagetech' %}";
-  }
-
-    if (redirectUrl) {
-        window.location.href = redirectUrl;
-    }
-}
-</script>
-
-<span>
-  &nbsp;
-  &nbsp;
-</span>
-  <li class="nav-item active">
-    <a class="nav-link" href="#" data-placement="right" >
-        <i class="fa fa-home" > </i>
-        <span style="color: white">DASHBOARD</span>
-    </a>
-</li>
-<span>
-  &nbsp;
-  &nbsp;
-</span>
-
-
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'first_cumberland' %}" data-toggle="tooltip" data-placement="right" title="FIRST">
-    <i class="fas fa-circle"></i>
-      <span style="color: white">FIRST</span>
-  </a>
-</li>
-
-
-<li class="nav-item">
-    <a class="nav-link" href=" {% url 'pl_villagetech' %}" data-toggle="tooltip" data-placement="right" title="PL">
-      <i class="fas fa-plus-circle"> </i>
-      <span style="color: white">P&L</span>
-    </a>
-</li>
-
-<li class="nav-item">
-  <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right" title="PIVOT">
-    <i class="fas fa-window-maximize"> </i>
-    <span style="color: white">PIVOT</span>
-  </a>
-</li>
-
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'bs_villagetech' %}" data-toggle="tooltip" data-placement="right" title="BS">
-    <i class="fas fa-weight-hanging"> </i>
-    <span style="color: white">BS</span>
-  </a>
-</li>
-
-<li class="nav-item">
-  <a class="nav-link" href="{% url 'cashflow_cumberland' %}" data-toggle="tooltip" data-placement="right" title="Cash Flow Statement">
-    <i class="fas fa-trophy"></i>
-    <span style="color: white"> Cash Flow Statement</span>
-  </a>
-</li>
-
-
-<li class="nav-item">
-  <a class="nav-link" href=" {% url 'gl_cumberland' %}"  data-toggle="tooltip" data-placement="right" title="GL">
-    <i class="fas fa-times-circle"> </i>
-    <span style="color: white">GL</span>
-  </a>
-</li>
-    
-
-
-    
-
-   
-</ul>    
-
-
-  {% block body %}{% endblock %}
-
-    
+<div style="width:100%;height:60px;">
 </div>
+
+<div id="wrapper">
+    <!-- Sidebar -->
+    <ul class="sidebar navbar-nav ">
+        <span>
+            &nbsp;
+            &nbsp;
+        </span>
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" aria-label="Search" id="searchInput" list="suggestions1">
+                <datalist id="suggestions1">
+                    <option value="Advantage Academy"></option>
+                    <option value="Cumberland Academy"></option>
+                    <option value="Village Tech"></option>
+                    <!-- Add more options here as needed -->
+                </datalist>
+                <!-- <div class="input-group-append"> -->
+                <!--     <button class="btn btn-primary" type="button" onclick="search()"> -->
+                <!--         <i class="fas fa-search"></i> -->
+                <!--     </button> -->
+                <!-- </div> -->
+            </div>
+        </form>
+        <script>
+            function search() {
+                const inputField = document.getElementById('searchInput');
+                const selectedValue = inputField.value;
+                let redirectUrl = '';
+
+                if (selectedValue.toLowerCase() === 'advantage academy') {
+                    redirectUrl = "{% url 'pl_advantage' %}";
+                } else if (selectedValue.toLowerCase() === 'cumberland academy') {
+                    redirectUrl = "{% url 'pl_cumberland' %}";
+                }
+                 else if (selectedValue.toLowerCase() === 'village tech') {
+                    redirectUrl = "{% url 'pl_villagetech' %}";
+                }
+
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            }
+        </script>
+
+        <span>
+            &nbsp;
+            &nbsp;
+        </span>
+        <li class="nav-item active">
+            <a id="dashboard-link" class="nav-link" href="{% url 'dashboard_advantage' %}" data-placement="right" >
+                <!-- <div class="d-flex flex-row align-items-center justify-content-center"> -->
+                <!--     <div class="col-1"> -->
+                        <i class="fa-solid fa-house"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col sb-label"> -->
+                        <span class="text-center"style="color: white">Dashboard</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+
+        <span>
+            <hr style="background-color:gray;width:80%;margin:auto;border-width:2px;">
+        </span>
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="#"  data-toggle="tooltip" data-placement="right" title="First">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                        <i class="fa-solid fa-trophy"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col"> -->
+                        <span style="color: white">First</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a id="PL-link" class="nav-link" href=" {% url 'pl_villagetech' %}" data-toggle="tooltip" data-placement="right" title="Profit and Loss">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                        <i class="fas fa-sack-dollar"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col"> -->
+                        <span style="color: white">Profit and Loss</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'bs_villagetech' %}" data-toggle="tooltip" data-placement="right" title="Balance Sheet">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col"> -->
+                        <span style="color: white">Balance Sheet</span>
+                <!--     </div> -->
+                <!-- </div> -->
+
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="tooltip" data-placement="right" title="Cash Flow Statement">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col"> -->
+                        <span style="color: white">Cash Flow Statement</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="#"  data-toggle="tooltip" data-placement="right" title="General Ledger">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                        <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <!-- </div> -->
+                    <!-- <div class="col"> -->
+                        <span style="color: white">General Ledger</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+
+    </ul>    
+
+    <!---->
+    <div class="modal" id="page-load-spinner" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+          <div class="modal-content  p-0 w-auto h-auto">
+              <div class="modal-body text-center">
+                  <div class="spinner-border" role="status">
+                      <span class="sr-only">loading...</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div> <!-- end of spinner modal -->
+
+
+    {% block body %}{% endblock %}
+
+</div> <!-- end of div wrapper -->
 <!-- /#wrapper -->
 
 <!-- Scroll to Top Button-->
@@ -246,13 +283,16 @@ function search() {
         </div>
     </div>
 </div>
+
  {% block content %}
  {% endblock %}
 
- <script>
-  $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
-  });
+
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
 </script>
 
 
@@ -261,6 +301,8 @@ function search() {
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 
+<!-- loading.js -->
+<script src="{% static 'js/loading.js' %}"></script>
 
 <!-- Custom scripts for all pages-->
 <script src="{% static 'js/sb-admin.min.js' %}"></script>
@@ -273,11 +315,19 @@ function search() {
     });
 </script>
 <!-- for pdf-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- for xls-->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.1/dist/xlsx.full.min.js"></script>
+
+<!-- page-loading -->
+<script src="{% static 'js/loading.js' %}"></script>
+
 {% block javascript %}
 
 
 {% endblock %}
+</body>
+
+
+</html>
