@@ -37,9 +37,9 @@ def connect():
     port = '1433'
     
 
-    # driver = '{/usr/lib/libmsodbcsql-17.so}'
-    driver = '{ODBC Driver 17 for SQL Server}'
-    #driver = '{SQL Server}'
+    #driver = '{/usr/lib/libmsodbcsql-17.so}'
+    #driver = '{ODBC Driver 17 for SQL Server}'
+    driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn
@@ -3962,6 +3962,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})' 
             lr_row_end = start_row
             
             for var in total_vars:
@@ -3990,7 +3991,8 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
     pl_sheet[f'R{start_row}'] = totals['total_real8']
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{lr_row_start}:T{lr_row_end})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{lr_row_start}:U{lr_row_end})'
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
+    pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'
     
 
     start_row += 1  
@@ -4011,7 +4013,7 @@ def generate_excel(request):
             pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
-            pl_sheet[f'I{start_row}'] = row_data['total_real11']
+            pl_sheet[f'I{start_row}'] = row_data['total_real11']        
             pl_sheet[f'J{start_row}'] = row_data['total_real12']
             pl_sheet[f'K{start_row}'] = row_data['total_real1']
             pl_sheet[f'L{start_row}'] = row_data['total_real2']
@@ -4021,6 +4023,9 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})' 
+             
+            pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
             spr_row_end = start_row
 
             for var in total_vars:
@@ -4050,7 +4055,8 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
     pl_sheet[f'R{start_row}'] = totals['total_real8']
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{spr_row_start}:T{spr_row_end})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{spr_row_start}:U{spr_row_end})'        
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'  
+    pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}' 
     start_row += 1
 
     totals = {var: 0 for var in total_vars} # reset the totals
@@ -4074,6 +4080,8 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_real6']
             pl_sheet[f'Q{start_row}'] = row_data['total_real7']
             pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})'
+            pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}' 
             fpr_row_end = start_row
             for var in total_vars:
                 totals[var] += row_data.get(var, 0)
@@ -4101,7 +4109,8 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'] = totals['total_real7']
     pl_sheet[f'R{start_row}'] = totals['total_real8']
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{fpr_row_start}:T{fpr_row_end})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{fpr_row_start}:U{fpr_row_end})'   
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
+    pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'   
     start_row += 1
 
     total_revenue_row = start_row
@@ -4124,7 +4133,8 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{spr_end},Q{fpr_end},Q{lr_end})'
     pl_sheet[f'R{start_row}'].value = f'=SUM(R{spr_end},R{fpr_end},R{lr_end})'
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{spr_end},T{fpr_end},T{lr_end})'   
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{spr_end},U{fpr_end},U{lr_end})'      
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
+    pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'     
 
     start_row += 4   
     first_total_start = start_row
@@ -4144,9 +4154,13 @@ def generate_excel(request):
         pl_sheet[f'P{start_row}'] = row_data['total_func6']
         pl_sheet[f'Q{start_row}'] = row_data['total_func7']
         pl_sheet[f'R{start_row}'] = row_data['total_func8']
+        pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
+        pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+        pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
         first_total_end = start_row
         start_row += 1
 
+ 
     first_total_row = start_row
     for col in range(2, 19):  
         cell = pl_sheet.cell(row=start_row, column=col)
@@ -4167,7 +4181,9 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{first_total_start}:Q{first_total_end})'
     pl_sheet[f'R{start_row}'].value = f'=SUM(R{first_total_start}:R{first_total_end})'
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{first_total_start}:T{first_total_end})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{first_total_start}:U{first_total_end})' 
+    pl_sheet[f'U{start_row}'].value = f'=SUM(U{first_total_start}:U{first_total_end})'
+    pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}' 
+    pl_sheet[f'v{start_row}'].value = f'=IFERROR(+T{start_row}/E{start_row},"    ")'
     
     start_row += 2 #surplus (deficits) before depreciation
     surplus_row = start_row
@@ -4187,29 +4203,34 @@ def generate_excel(request):
     pl_sheet[f'Q{start_row}'].value = f'=(Q{total_revenue_row}-Q{first_total_row})'
     pl_sheet[f'R{start_row}'].value = f'=(R{total_revenue_row}-R{first_total_row})'
     pl_sheet[f'T{start_row}'].value = f'=(T{total_revenue_row}-T{first_total_row})'  
-    pl_sheet[f'U{start_row}'].value = f'=(U{total_revenue_row}-U{first_total_row})' 
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
+    pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
 
     start_row += 2  
 
     dna_row_start = start_row
     for row_data in data2: #Depreciation and amortization
-        pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-        pl_sheet[f'C{start_row}'] = '6449'
-        
-        pl_sheet[f'G{start_row}'] = row_data['total_func2_9']
-        pl_sheet[f'H{start_row}'] = row_data['total_func2_10']
-        pl_sheet[f'I{start_row}'] = row_data['total_func2_11']
-        pl_sheet[f'J{start_row}'] = row_data['total_func2_12']
-        pl_sheet[f'K{start_row}'] = row_data['total_func2_1']
-        pl_sheet[f'L{start_row}'] = row_data['total_func2_2']
-        pl_sheet[f'M{start_row}'] = row_data['total_func2_3']
-        pl_sheet[f'N{start_row}'] = row_data['total_func2_4']
-        pl_sheet[f'O{start_row}'] = row_data['total_func2_5']
-        pl_sheet[f'P{start_row}'] = row_data['total_func2_6']
-        pl_sheet[f'Q{start_row}'] = row_data['total_func2_7']
-        pl_sheet[f'R{start_row}'] = row_data['total_func2_8']
-        dna_row_end = start_row
-        start_row += 1
+        if row_data["func_func"] == '51':
+            pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+            pl_sheet[f'C{start_row}'] = '6449'
+            
+            pl_sheet[f'G{start_row}'] = row_data['total_func2_9']
+            pl_sheet[f'H{start_row}'] = row_data['total_func2_10']
+            pl_sheet[f'I{start_row}'] = row_data['total_func2_11']
+            pl_sheet[f'J{start_row}'] = row_data['total_func2_12']
+            pl_sheet[f'K{start_row}'] = row_data['total_func2_1']
+            pl_sheet[f'L{start_row}'] = row_data['total_func2_2']
+            pl_sheet[f'M{start_row}'] = row_data['total_func2_3']
+            pl_sheet[f'N{start_row}'] = row_data['total_func2_4']
+            pl_sheet[f'O{start_row}'] = row_data['total_func2_5']
+            pl_sheet[f'P{start_row}'] = row_data['total_func2_6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_func2_7']
+            pl_sheet[f'R{start_row}'] = row_data['total_func2_8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}'
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'  
+            dna_row_end = start_row
+            start_row += 1
 
     start_row += 1
     dna_row = start_row
@@ -4228,8 +4249,9 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'].value = f'=SUM(P{dna_row_start}:P{dna_row_end})'
     pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{dna_row_start}:Q{dna_row_end})'
     pl_sheet[f'R{start_row}'].value = f'=SUM(R{dna_row_start}:R{dna_row_end})'
-    pl_sheet[f'T{start_row}'].value = f'=SUM(T{dna_row_start}:T{dna_row_end})'  
-    pl_sheet[f'U{start_row}'].value = f'=SUM(U{dna_row_start}:U{dna_row_end})'
+    pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'  
+    pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+    pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/E{start_row},"    ")' 
 
     start_row += 2
     netsurplus_row = start_row
@@ -4251,8 +4273,10 @@ def generate_excel(request):
     pl_sheet[f'P{start_row}'].value = f'=(P{surplus_row}-P{dna_row})'
     pl_sheet[f'Q{start_row}'].value = f'=(Q{surplus_row}-Q{dna_row})'
     pl_sheet[f'R{start_row}'].value = f'=(R{surplus_row}-R{dna_row})'
-    pl_sheet[f'T{start_row}'].value = f'=(T{surplus_row}-T{dna_row})'  
-    pl_sheet[f'U{start_row}'].value = f'=(U{surplus_row}-U{dna_row})' 
+    pl_sheet[f'T{start_row}'].value = f'=(T{surplus_row}-T{dna_row})' 
+    pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
+    pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'   
+    
 
 
 
@@ -4278,6 +4302,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
             payroll_row_end = start_row
             start_row += 1
             
@@ -4299,8 +4324,9 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'].value = f'=SUM(P{payroll_row_start}:P{payroll_row_end})'
             pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{payroll_row_start}:Q{payroll_row_end})'
             pl_sheet[f'R{start_row}'].value = f'=SUM(R{payroll_row_start}:R{payroll_row_end})'
-            pl_sheet[f'T{start_row}'].value = f'=SUM(T{payroll_row_start}:T{payroll_row_end})'  
-            pl_sheet[f'U{start_row}'].value = f'=SUM(U{payroll_row_start}:U{payroll_row_end})' 
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'  
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
             start_row += 1
 
     pcs_row_start = start_row
@@ -4319,6 +4345,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
             pcs_row_end = start_row
             start_row += 1
 
@@ -4340,8 +4367,10 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'].value = f'=SUM(P{pcs_row_start}:P{pcs_row_end})'
             pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{pcs_row_start}:Q{pcs_row_end})'
             pl_sheet[f'R{start_row}'].value = f'=SUM(R{pcs_row_start}:R{pcs_row_end})'
-            pl_sheet[f'T{start_row}'].value = f'=SUM(T{pcs_row_start}:T{pcs_row_end})'  
-            pl_sheet[f'U{start_row}'].value = f'=SUM(U{pcs_row_start}:U{pcs_row_end})' 
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})' 
+           
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
             start_row += 1
 
     sm_row_start = start_row
@@ -4360,6 +4389,7 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
             sm_row_end = start_row
             start_row += 1
 
@@ -4381,8 +4411,10 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'].value = f'=SUM(P{sm_row_start}:P{sm_row_end})'
             pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{sm_row_start}:Q{sm_row_end})'
             pl_sheet[f'R{start_row}'].value = f'=SUM(R{sm_row_start}:R{sm_row_end})'
-            pl_sheet[f'T{start_row}'].value = f'=SUM(T{sm_row_start}:T{sm_row_end})'  
-            pl_sheet[f'U{start_row}'].value = f'=SUM(U{sm_row_start}:U{sm_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'  
+            
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
             start_row += 1
         
     ooe_row_start = start_row
@@ -4422,8 +4454,11 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'].value = f'=SUM(P{ooe_row_start}:P{ooe_row_end})'
             pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{ooe_row_start}:Q{ooe_row_end})'
             pl_sheet[f'R{start_row}'].value = f'=SUM(R{ooe_row_start}:R{ooe_row_end})'
-            pl_sheet[f'T{start_row}'].value = f'=SUM(T{ooe_row_start}:T{ooe_row_end})'  
-            pl_sheet[f'U{start_row}'].value = f'=SUM(U{ooe_row_start}:U{ooe_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'  
+           
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
+            
             start_row += 1
 
 
@@ -4443,6 +4478,9 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'] = row_data['total_activities6']
             pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
+            
+            
             total_expense_row_end = start_row
             start_row += 1
 
@@ -4464,8 +4502,10 @@ def generate_excel(request):
             pl_sheet[f'P{start_row}'].value = f'=SUM(P{total_expense_row_start}:P{total_expense_row_end})'
             pl_sheet[f'Q{start_row}'].value = f'=SUM(Q{total_expense_row_start}:Q{total_expense_row_end})'
             pl_sheet[f'R{start_row}'].value = f'=SUM(R{total_expense_row_start}:R{total_expense_row_end})'
-            pl_sheet[f'T{start_row}'].value = f'=SUM(T{total_expense_row_start}:T{total_expense_row_end})'  
-            pl_sheet[f'U{start_row}'].value = f'=SUM(U{total_expense_row_start}:U{total_expense_row_end})'
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'  
+            
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
             start_row += 1
 
     start_row += 1
@@ -4489,6 +4529,7 @@ def generate_excel(request):
      
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{payroll_row},T{pcs_row},T{sm_row},T{ooe_row},T{total_expense_row})'
     pl_sheet[f'U{start_row}'].value = f'=SUM(U{payroll_row},U{pcs_row},U{sm_row},U{ooe_row},U{total_expense_row})'
+    pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
     
 
     start_row += 1
@@ -4510,6 +4551,7 @@ def generate_excel(request):
     
     pl_sheet[f'T{start_row}'].value = f'=(T{total_revenue_row}-T{total_expense_total})'
     pl_sheet[f'U{start_row}'].value = f'=(U{total_revenue_row}-U{total_expense_total})'
+    pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
     
 
 
