@@ -1,6 +1,6 @@
 $(document).ready(function() {
 ///////////////////////////////////   PDF   /////////////////////////////////////////////
-  document.getElementById('export-pdf-button').addEventListener('click', function() {
+  /* document.getElementById('export-pdf-button').addEventListener('click', function() {
     const element = document.getElementById('table-container');
     $('#spinner-modal').modal('show');
 
@@ -18,10 +18,12 @@ $(document).ready(function() {
       $('#spinner-modal').modal('hide');
     }).save();
   });
-
+*/
 
 ///////////////////////////   TABLE   //////////////////////////////////
   calculateNetCashTotal();
+
+  $('#toggle-button').on('click', toggleColumns);
 
   function validateBudgetInput(event) {
     const input = event.target;
@@ -72,7 +74,7 @@ function toggleRow(rowId) {
     const totalCells = [];
   
     
-    const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18 ];
+    const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14];
   
     for (let i = 0; i < totalCellIds.length; i++) {
       const cellId = totalCellIds[i];
