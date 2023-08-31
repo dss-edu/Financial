@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from . import prepschool_view
+from . import prep_views
+from . import manara_views
 
 
 urlpatterns = [
@@ -51,6 +52,12 @@ urlpatterns = [
 
     path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
     path('bs_villagetech/', views.bs_villagetech, name='bs_villagetech'),
+
+    path('pl_prep/',prep_views.pl_prep,name = 'pl_prep'),
+    path('bs_prep/',prep_views.bs_prep,name = 'bs_prep'),
+
+    path('pl_manara/',manara_views.pl_manara,name = 'pl_manara'),
+    path('bs_manara/',manara_views.bs_manara,name = 'bs_manara'),
 
 
 ]

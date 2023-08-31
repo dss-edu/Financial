@@ -37,9 +37,9 @@ def connect():
     port = '1433'
     
 
-    #driver = '{/usr/lib/libmsodbcsql-17.so}'
+    driver = '{/usr/lib/libmsodbcsql-17.so}'
     #driver = '{ODBC Driver 17 for SQL Server}'
-    driver = '{SQL Server}'
+    #driver = '{SQL Server}'
 
     cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
     return cnxn

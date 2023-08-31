@@ -116,6 +116,8 @@
                     <option value="Advantage Academy"></option>
                     <option value="Cumberland Academy"></option>
                     <option value="Village Tech"></option>
+                    <option value="Prep School"></option>
+                    <option value="Manara Academy"></option>
                     <!-- Add more options here as needed -->
                 </datalist>
                 <!-- <div class="input-group-append"> -->
@@ -138,6 +140,12 @@
                 }
                  else if (selectedValue.toLowerCase() === 'village tech') {
                     redirectUrl = "{% url 'pl_villagetech' %}";
+                }                
+                else if (selectedValue.toLowerCase() === 'prep school') {
+                    redirectUrl = "{% url 'pl_prep' %}";
+                }
+                else if (selectedValue.toLowerCase() === 'manara academy') {
+                    redirectUrl = "{% url 'pl_manara' %}";
                 }
 
                 if (redirectUrl) {
