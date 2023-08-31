@@ -130,48 +130,17 @@ td:first-child {
     &nbsp;
     <a class="navbar-brand mr-1 text-primary " href="{% url 'pl_advantagechart' %}" data-toggle="tooltip" title="view as chart"><i class="fas fa-chart-bar" ></i></a>
     
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to PDF"><i class="fas fa-file-pdf"></i></a> -->
     &nbsp;
     &nbsp;
     &nbsp;
     &nbsp;
-    <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to PDF"><i class="fas fa-file-pdf"></i></a>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <a id="export-excel2-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
-    
-  
-
+    <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
 </nav>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('export-excel2-button').addEventListener('click', function() {
-          generateExcel();
-      });
-  
-      function generateExcel() {
-         
-          fetch('{% url "generate_excel" %}')
-              .then(function(response) {
-                  return response.blob();
-              })
-              .then(function(blob) {
-                  const url = window.URL.createObjectURL(blob);
-                  const a = document.createElement('a');
-                  a.style.display = 'none';
-                  a.href = url;
-                  a.download = 'GeneratedExcel.xlsx'; // Change the filename as needed
-                  document.body.appendChild(a);
-                  a.click();
-                  window.URL.revokeObjectURL(url);
-              })
-              .catch(function(error) {
-                  console.error('Error generating Excel:', error);
-              });
-      }
-  });
-  </script>
 
 <script>
   document.getElementById('export-pdf-button').addEventListener('click', function (event) {
@@ -2337,3 +2306,6 @@ function hideRowsOnLoad() {
 {% endblock %}
 
 
+{% block javascript %}
+<script src="{% static 'js/excel.js' %}"></script>
+{% endblock %}

@@ -148,9 +148,16 @@ MEDIA_URL = '/media/'
 CKEDITOR_CONFIGS = {
     'financial_config': {
         'toolbar': [
-            ['BulletedList', 'Undo', 'Redo'],
-            # Customize the toolbar as needed
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['NumberedList', 'BulletedList', 'Indent', 'Outdent'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['Image', 'Table', 'HorizontalRule', 'SpecialChar'],
+            ['Undo', 'Redo'],
+            ['Source'],
         ],
         'width': '100%',
+        'removePlugins': 'stylesheetparser',
+        'allowedContent': True,
     },
 }
