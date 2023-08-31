@@ -47,19 +47,7 @@ function toggleRow(rowId) {
   }
 }
 
-function toggleColumns() {
-    var toggleButton = document.getElementById("toggle-button");
-    var collapsedColumns = document.getElementsByClassName("collapsed");
-    for (var i = 0; i < collapsedColumns.length; i++) {
-      if (collapsedColumns[i].style.display === "none") {
-        collapsedColumns[i].style.display = "table-cell";
-        toggleButton.innerHTML = "-";
-      } else {
-        collapsedColumns[i].style.display = "none";
-        toggleButton.innerHTML = "+";
-      }
-    }
-  }
+
 
   function hideRowsByClass(className) {
     const rows = document.querySelectorAll(className);
@@ -121,4 +109,19 @@ function toggleColumns() {
       }
     }
   }
+
 });
+
+function toggleColumns() {
+  var toggleButton = document.getElementById("toggle-button");
+  var collapsedColumns = document.getElementsByClassName("collapsed");
+  for (var i = 0; i < collapsedColumns.length; i++) {
+    if (collapsedColumns[i].style.display === "none") {
+      collapsedColumns[i].style.display = "table-cell";
+      toggleButton.innerHTML = "-";
+    } else {
+      collapsedColumns[i].style.display = "none";
+      toggleButton.innerHTML = "+";
+    }
+  }
+}

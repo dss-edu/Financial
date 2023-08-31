@@ -27,22 +27,7 @@ from django.conf import settings
 from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
 from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
-
-
-def connect():
-    server = 'aca-mysqlserver1.database.windows.net'
-    database = 'Database1'
-    username = 'aca-user1'
-    password = 'Pokemon!123'
-    port = '1433'
-    
-
-    driver = '{/usr/lib/libmsodbcsql-17.so}'
-    #driver = '{ODBC Driver 17 for SQL Server}'
-    #driver = '{SQL Server}'
-
-    cnxn = pyodbc.connect(f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password}')
-    return cnxn
+from .connect import connect
 
 
 def pl_prep(request):

@@ -99,6 +99,10 @@
   table{
     font-size: .8 rem;
   }
+  td:nth-child(17),th:nth-child(17) {
+
+    display: none;
+  }
 
   
 </style>
@@ -137,7 +141,7 @@
     &nbsp;
     <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
   </nav>
-  <script>
+  {% comment %} <script>
       document.getElementById('export-pdf-button').addEventListener('click', function (event) {
       event.preventDefault(); 
 
@@ -246,7 +250,7 @@
     }
 
 
-  </script>
+  </script> {% endcomment %}
 
 
   <div class="modal" id="confirmation-modal" tabindex="-1" role="dialog">
@@ -605,7 +609,7 @@
 
               }
               else if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); " >+</button></th>`);
               }
               else if(i>=6 && i<=16){
                 document.write(`<td  class="collapsed"></td>`);
@@ -617,15 +621,7 @@
             
           </script>
         </tr>
-        <script>
-          function hide17thColumn() {
-            var columnsToHide = document.querySelectorAll("th:nth-child(17), td:nth-child(17) ");
-        
-            for (var i = 0; i < columnsToHide.length; i++) {
-                columnsToHide[i].style.display = "none";
-            }
-        }
-        </script>
+ 
         <tr class="header">
           <th class="firstcolumn" ></th>
           <th class="collapsed" ></th>
@@ -738,10 +734,13 @@
               for (var i = 3; i <= 19; i++) {
                 if (i >= 5 && i <= 16) {
                   document.write(`<td id="local-revenue-total-${i}" class="collapsed right-align-td" ></td>`);
+                  console.log(`local-revenue-total-${i}`);
                 } else {
                   document.write(`<td id="local-revenue-total-${i}" class="right-align-td"></td>`);
+                  console.log(`local-revenue-total-${i}`);
                 }
               }
+           
             </script>
         </tr>
         <script>
@@ -2018,7 +2017,7 @@ function calculateLocalRevenueTotal() {
   const totalCells = [];
 
   
-  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17];
 
   for (let i = 0; i < totalCellIds.length; i++) {
     const cellId = totalCellIds[i];
@@ -2048,6 +2047,7 @@ function calculateLocalRevenueTotal() {
     const totalCell = totalCells[i];
     const columnTotal = parseInt(columnTotals[i]);
     totalCell.textContent = columnTotal !== 0 ? '$' + columnTotal.toLocaleString() : '';
+    console.log(columnTotal)
   }
 }
 
@@ -2062,7 +2062,7 @@ function calculateSPRTotal() {
   const totalCells = [];
 
   
-  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16];
 
   for (let i = 0; i < totalCellIds.length; i++) {
     const cellId = totalCellIds[i];
@@ -2103,7 +2103,7 @@ function calculateSPRTotal() {
   const totalCells = [];
 
    
-  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+  const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14,15,16];
 
    for (let i = 0; i < totalCellIds.length; i++) {
     const cellId = totalCellIds[i];

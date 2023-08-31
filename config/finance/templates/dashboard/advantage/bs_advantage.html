@@ -142,7 +142,7 @@ td:first-child {
     <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
 </nav>
 
-<script>
+{% comment %} <script>
   document.getElementById('export-pdf-button').addEventListener('click', function (event) {
   event.preventDefault(); 
 
@@ -251,7 +251,7 @@ function expandColumns() {
 }
 
 
-</script>
+</script> {% endcomment %}
 <div class="modal" id="confirmation-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="height: 80%;">
@@ -440,7 +440,7 @@ function expandColumns() {
                 
               }
               else if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns();  " >+</button></th>`);
               }
               else if(i>=3 && i<=15){
                 document.write(`<td  class="collapsed"></td>`);
@@ -452,6 +452,7 @@ function expandColumns() {
             
           </script>
         </tr>
+
         <script>
           function hide17thColumn() {
             var columnsToHide = document.querySelectorAll("th:nth-child(16), td:nth-child(16)");
@@ -460,7 +461,7 @@ function expandColumns() {
                 columnsToHide[i].style.display = "none";
             }
         }
-        </script>
+        </script> 
     </thead>
     <tbody id="data-table-body">
         <tr class="header">
@@ -596,10 +597,10 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_4}}</td>
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td"></td>
+              <td class="collapsed right-align-td">{{row.difference_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_6}}</td>
+              <td class="right-align-td">{{row.difference_7}}</td>
             </tr> 
             {% endif %}    
             {% endif %}   
@@ -676,10 +677,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -748,10 +749,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -820,10 +821,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -893,10 +894,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -965,10 +966,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -1079,10 +1080,10 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_4}}</td>
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td"></td>
+              <td class="collapsed right-align-td">{{row.difference_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_6}}</td>
+              <td class="right-align-td">{{row.difference_7}}</td>
             </tr>
             {% endif %} 
             {% endif %}   
@@ -1153,10 +1154,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr>
     {% endif %} 
     {% endif %}   
@@ -1226,10 +1227,10 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_4}}</td>
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
-      <td class="collapsed right-align-td"></td>
+      <td class="collapsed right-align-td">{{row.difference_7}}</td>
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
     </tr>
     {% endif %} 
     {% endif %}   
@@ -1361,10 +1362,10 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_4}}</td>
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td"></td>
+              <td class="collapsed right-align-td">{{row.difference_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_6}}</td>
+              <td class="right-align-td">{{row.difference_7}}</td>
             </tr>
        
             {% endif %}  
@@ -1436,10 +1437,10 @@ function expandColumns() {
             <td class="collapsed right-align-td">{{row.difference_4}}</td>
             <td class="collapsed right-align-td">{{row.difference_5}}</td>
             <td class="collapsed right-align-td">{{row.difference_6}}</td>
-            <td class="collapsed right-align-td"></td>
+            <td class="collapsed right-align-td">{{row.difference_7}}</td>
             <td class="collapsed right-align-td"></td>
             <td class="right-align-td">{{row.fytd}}</td>
-            <td class="right-align-td">{{row.difference_6}}</td>
+            <td class="right-align-td">{{row.difference_7}}</td>
           </tr>
      
           {% endif %}  
@@ -1509,10 +1510,10 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.difference_4}}</td>
           <td class="collapsed right-align-td">{{row.difference_5}}</td>
           <td class="collapsed right-align-td">{{row.difference_6}}</td>
-          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td">{{row.difference_7}}</td>
           <td class="collapsed right-align-td"></td>
           <td class="right-align-td">{{row.fytd}}</td>
-          <td class="right-align-td">{{row.difference_6}}</td>
+          <td class="right-align-td">{{row.difference_7}}</td>
         </tr>
    
         {% endif %}  
@@ -1589,10 +1590,10 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.difference_4}}</td>
           <td class="collapsed right-align-td">{{row.difference_5}}</td>
           <td class="collapsed right-align-td">{{row.difference_6}}</td>
-          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td">{{row.difference_7}}</td>
           <td class="collapsed right-align-td"></td>
           <td class="right-align-td">{{row.fytd}}</td>
-          <td class="right-align-td">{{row.difference_6}}</td>
+          <td class="right-align-td">{{row.difference_7}}</td>
         </tr>
         {% endif %}  
         {% endif %}   
@@ -1692,10 +1693,10 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_4}}</td>
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td"></td>
+              <td class="collapsed right-align-td">{{row.difference_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_6}}</td>
+              <td class="right-align-td">{{row.difference_7}}</td>
             </tr>
             {% endif %}   
             
@@ -1745,10 +1746,10 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_4}}</td>
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td"></td>
+              <td class="collapsed right-align-td">{{row.difference_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_6}}</td>
+              <td class="right-align-td">{{row.difference_7}}</td>
             </tr>
             {% endif %}
             {% endif %}  
@@ -1954,6 +1955,7 @@ function expandColumns() {
       const totalCell = totalCells[i];
       const columnTotal = parseInt(columnTotals[i]);
       totalCell.textContent = columnTotal !== 0 ?  columnTotal.toLocaleString() : '';
+      console.log(columnTotal)
     }
   }
 
