@@ -3901,7 +3901,7 @@ def generate_excel(request):
     pl_sheet.row_dimensions[34].height = 26 #total
     pl_sheet.column_dimensions['A'].width = 8
     pl_sheet.column_dimensions['B'].width = 28
-    pl_sheet.column_dimensions['C'].hidden = True
+    pl_sheet.column_dimensions['C'].width = 10
     pl_sheet.column_dimensions['D'].width = 14
     pl_sheet.column_dimensions['E'].width = 14
     pl_sheet.column_dimensions['F'].hidden = True
