@@ -329,7 +329,7 @@ def pl_advantage(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -611,7 +611,7 @@ def pl_villagetech(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -643,7 +643,7 @@ def first_advantage(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     
@@ -803,7 +803,7 @@ def first_cumberland(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     
@@ -1092,7 +1092,7 @@ def pl_cumberland(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -1895,7 +1895,7 @@ def bs_advantage(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3 
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -2100,7 +2100,7 @@ def bs_villagetech(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -2310,7 +2310,7 @@ def bs_cumberland(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -3567,7 +3567,7 @@ def cashflow_advantage(request):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4 
+    ytd_budget_test = last_month_number + 3
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  
 

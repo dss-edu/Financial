@@ -15,10 +15,21 @@
       display: none;
  
   }
+  .table-container {
+    bottom: 0;
+    width: 100%;
+    max-height: calc(100vh - 150px); 
+    overflow: auto;
+    position: relative;
+    margin: 0; 
+    padding: 0; 
+    display: flex;
+    justify-content: flex-start;
+  }
   
   table {
     border-collapse: collapse; /* Collapse cell borders */
-    width: 100%; /* Adjust table width as needed */
+    width: 70%; /* Adjust table width as needed */
     border: 1px solid black; /* Outer border of the table */
   }
 
@@ -38,12 +49,17 @@
     background-color: green;
 
   }
+  .table th,
+  .table td {
+    padding: 0.1rem !important;
 
- 
-  
-
-  
+  }
+  td:nth-child(4) {
+    text-align: center;
+}
 </style>
+
+<link rel="stylesheet" href="{% static 'css/first.css' %}">
   {% endblock %}
 
 </head>
@@ -60,12 +76,25 @@
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
       
     </form>
-
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" data-toggle="tooltip" title="POWERBI" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
+    <!-- Navbar -->
     &nbsp;
     &nbsp;
     &nbsp;
-    <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
+    &nbsp;
+    <a class="navbar-brand mr-1 text-primary " href="{% url 'first_advantagechart' %}" data-toggle="tooltip" title="CHART"><i class="fas fa-chart-bar" ></i></a>
     
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a> -->
+    
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
   
 
 </nav>
@@ -77,7 +106,7 @@
 <div class="table-container"  >
 <form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
  
-  <div id="edit-container" >
+  {% comment %} <div id="edit-container" >
     <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
 </div>
 
@@ -88,9 +117,9 @@
 <div id="save-container" style="display: none; ">
     <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
 </div>
+ {% endcomment %}
 
-
-<script>
+{% comment %} <script>
     document.getElementById("edit-button").addEventListener("click", function() {
         // Hide the "Edit" container
         document.getElementById("edit-container").style.display = "none";
@@ -145,7 +174,7 @@
        
         
     });
-</script>
+</script> {% endcomment %}
 
   {% csrf_token %}
     <table id="data-table" class="table table-hover">
@@ -160,23 +189,15 @@
            
             
         </tr>
-        <tr class="green-header">
-          <th>FIRST Rating Indicators </th>
-          <th>Expected Results</th>
-          <th>Points</th>
-          <th>Status</th>
-          <th>Notes</th>
+        <tr class="green-header" style="height: 50px">
+          <th style="text-align: center;">FIRST Rating Indicators </th>
+          <th style="text-align: center;">Expected Results</th>
+          <th style="text-align: center;">Points</th>
+          <th style="text-align: center;">Status</th>
+          <th style="text-align: center;">Notes</th>
         </tr>
 
-        <script>
-          function hide17thColumn() {
-            var columnsToHide = document.querySelectorAll("th:nth-child(17), td:nth-child(17)");
-        
-            for (var i = 0; i < columnsToHide.length; i++) {
-                columnsToHide[i].style.display = "none";
-            }
-        }
-        </script>
+
 
         
         </thead>
@@ -184,24 +205,24 @@
       <tr>
         <td><strong>YTD Net Income </strong></td>
         <td style="text-align:center;">(1,323,478)</td>
-        <td style="text-align:center;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements; 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
-        <td style="text-align:center;"></td>
-        <td></td>
+        <td colspan="3" style="text-align:center; overflow: auto;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements;<br> 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
+        <!-- <td style="text-align:center;"></td> -->
+        <!-- <td></td> -->
       </tr>
       <tr>
         <td><strong>Indicators 1-5 Pass/Fail</strong></td>
         <td style="text-align:center;">Pass</td>
         <td style="text-align:center;">n/a</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>Indicator #5 net asset balance at risk if losses continue; growth and new school exceptions do not apply.</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">Indicator #5 net asset balance at risk if<br> losses continue; growth and new school exceptions do not apply.</td>
       </tr>
       <tr>
-        <td><strong>#6 - Net assets over 3 years < 25% decrease
+        <td><strong>#6 - Net assets over 3 years < 25% decrease<br>
           Exception: >75days net assets"</strong></td>
         <td style="text-align:center;">projected</td>
         <td style="text-align:center;">n/a</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>89 pts = B max if fails
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">89 pts = B max if fails
         </td>
       </tr>
       <tr>
@@ -211,28 +232,40 @@
         </td>
         <td style="text-align:center;">10
         </td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>"Preferred benchmark > 60 days
-          10 pts > 60; 0 pts < 20"
-          
-        </td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">Preferred benchmark &gt; 60 days<br> 10 pts &gt; 60; 0 pts &lt; 20 </td>
       </tr>
       <tr>
         <td><strong>#8 - Current Assets / Current Liab.</strong></td>
         <td style="text-align:center;">4.61</td>
         <td style="text-align:center;">10
         </td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
       </tr>
       <tr>
         <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
         <td style="text-align:center;">(802,645)</td>
         <td style="text-align:center;">5
         </td>
-        <td style="text-align:center;"><strong style="color: #077e09;">G</strong> <strong  style="color: #eeff00;">Y</strong></td>
-        <td>"revenues >= expenditures 
-          (excl. Depr.)"
+        <td style="text-align:center;width:100px;" >
+          <div class="row">
+            <div class="col-6 p-0">
+              <div>
+              <p class="green-circle mr-0">G</p>
+              </div>
+            </div>
+            <div class="col-6 p-0">
+              <div>
+              <p class="yellow-circle ml-0">Y</p> 
+              </div>
+            </div>
+          </div>
+        </td>
+        <td style="text-align:center;">revenues &gt;= expenditures
+          (excl. Depr.)
+        </td>
+
     
       </tr>
       <tr>
@@ -241,8 +274,8 @@
         <td style="text-align:center;">10
 
         </td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>"within 10% variance
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">"within 10% variance<br>
           (90%-110%)"
           
           </td>
@@ -251,33 +284,33 @@
         <td><strong>#11 - LT Liabilities / Total Assets</strong></td>
         <td style="text-align:center;">0.64</td>
         <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td> <0.6 = 10pts, >1.0 = 0pts</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;"> <0.6 = 10pts, >1.0 = 0pts</td>
       </tr>
       <tr>
         <td><strong>#12 - Debt Service Coverage Ratio</strong></td>
         <td style="text-align:center;">n/a</td>
         <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td> 10 pts >1.2X; 0 pts < 1.0X</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;"> 10 pts >1.2X; 0 pts < 1.0X</td>
       </tr>
       <tr>
         <td><strong>#13 - Debt to Capitalization %</strong></td>
         <td style="text-align:center;">68%</td>
         <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td> >95% = 0 pts;<95% = 5 pts </td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;"> >95% = 0 pts;<95% = 5 pts </td>
 
       </tr>
 
       <tr>
         <td><strong>#14 - Administrative Ratio 
-          </strong><p>(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)<p></td>
+          </strong><p style="font-size: 12px;">(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)<p></td>
         <td style="text-align:center;">10.3% / 10.2%</td>
         <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td> "Target <=15.61%
-          <=26.45% if less than 500 students"
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;"> Target &lt;=15.61% <br>
+          &lt;=26.45% if less than 500 students"
            </td>
         
       </tr>
@@ -285,8 +318,8 @@
         <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
         <td style="text-align:center;">Not measured by DSS</td>
         <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>0  or 10 pts
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">0  or 10 pts
 
            </td>
         
@@ -295,16 +328,16 @@
         <td><strong>#16 - Actual ADA vs. Estimated ADA</strong></td>
         <td style="text-align:center;">projected</td>
         <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>within 10% variance</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">within 10% variance</td>
         
       </tr>
       <tr>
         <td><strong>#17 - Accurate PEIMS reporting</strong></td>
         <td style="text-align:center;">projected</td>
         <td style="text-align:center;">Ceiling</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>79 pts = C max if material weaknesses</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">79 pts = C max if material weaknesses</td>
         
       </tr>
       <tr>
@@ -312,8 +345,8 @@
         </strong></td>
         <td style="text-align:center;">projected</td>
         <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>Free of any material noncompliance
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">Free of any material noncompliance
         </td>
         
       </tr>
@@ -321,45 +354,78 @@
         <td><strong>#20 - Post financial info on website</strong></td>
         <td style="text-align:center;">projected</td>
         <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td>0 or 5 pts</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">0 or 5 pts</td>
         
       </tr>
       <tr>
-        <td><strong>#21 - Serves students reside approved geographic boundaries</strong></td>
+        <td><strong>#21 - Serves students reside approved geographic<br> boundaries</strong></td>
         <td style="text-align:center;">Not measured by DSS</td>
         <td style="text-align:center;">Ceiling</td>
-        <td style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td >89 pts = B max if fails</td>
+        <td style="text-align:center;"><p class="green-circle">G</p></td>
+        <td style="text-align:center;">89 pts = B max if fails</td>
         
       </tr>
       <tr>
-        <td style="text-align:center;"><strong>Estimated FIRST Rating</strong></td>
-        <td colspan = "2" style="text-align:center;">100	</td>
+        <td style="text-align:center;border-bottom:none;"><strong>Estimated FIRST Rating</strong></td>
+        <td colspan = "2" style="text-align:center;border-bottom:none;">100	</td>
    
-        <td rowspan="2" style="text-align:center;"><i class="fab fa-google" style="color: #077e09;"></i></td>
-        <td  rowspan="2">"F < 69, C Meets Standard = 70-79, 
-          B Above Standard = 80-89, 
+        <td rowspan="2" style="text-align:center;"><p class="green-circle">G</p></td>
+        <td  rowspan="2" style="text-align:center;">
+          F &lt; 69, C Meets Standard = 70-79, <br>
+          B Above Standard = 80-89, <br>
           A Superior = 90-100"
-          
-          </td>
-        
+        </td>
       </tr>
       <tr>
-        <td style="text-align:center;"><strong>2022-2023 School Year</strong></td>
-        <td colspan = "2" style="text-align:center;">A - Superior	
-        </td>
- 
-        
+        <td style="text-align:center;border-top:none;"><strong>2022-2023 School Year</strong></td>
+        <td colspan = "2" style="text-align:center; border-top:none;">A - Superior</td>
       </tr>
-
-        
 </tbody>
 </table>
 </form>
 </div>
 
+<div class="row">
+  <div class="col">
+    <div class="circle-legend">
+      <p class="green-circle" style="margin:0;">G</p>
+      <p class="legend-text">On Track</p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="circle-legend">
+      <p class="yellow-circle" style="margin:0;">Y</p>
+      <p class="legend-text">Of Concern</p>
+    </div>
+  </div>
+  <div class="col">
+    <div class="circle-legend">
+      <p class="red-circle" style="margin:0;">R</p>
+      <p class="legend-text">At Risk</p>
+    </div>
+  </div>
+  <div class="col-7">
+    <div class="circle-legend">
+      <p><b>Link to Calculations</b>
+      <a class="legend-text" href="https://textreg.sos.state.tx.us/fids/202105100-4.pdf">https://textreg.sos.state.tx.us/fids/202105100-4.pdf</a>
+      </>
+    </div>
+  </div>
+</div>
 
+
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of spinner modal -->
 
 <script>
   function formatNumberWithCommas(number) {
@@ -370,6 +436,10 @@
 
 
 
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/excel.js' %}"></script>
 {% endblock %}
 
 
