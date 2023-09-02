@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-main {
-  background: #f6f6f9;
-}
-
-#reports-grid > div:hover {
-  box-shadow: none;
-}
-
 #financial-update {
     display: flex;
     flex-direction: column;
@@ -45,23 +37,8 @@ main {
     vertical-align: middle;
     border: 1px solid #566483 
 }
-#financial-update td:last-child > p{
-    display:flex;
-    border-radius: 50%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin: auto auto;
-    width: 30px; 
-    height: 30px;
-}
-
-#financial-update td:nth-child(2) {
-    background-color: gray;
-}
-
 .green-circle{
-    background-color: #41f1b6;
+    background-color: #28a745;
 }
 .yellow-circle{
     background-color: yellow;
@@ -72,7 +49,7 @@ main {
 }
 
 .blue-circle{
-    background-color: cyan;
+    background-color: #17a2b8;
 }
 
 #chartdiv, #chartdiv2, #chartdiv3 {
@@ -97,7 +74,6 @@ main {
     width:100%;
     border: none;
     height: 3px;
-    background-color: #000000;
     margin: auto;
 }
 

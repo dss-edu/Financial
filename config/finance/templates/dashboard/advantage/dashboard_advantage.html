@@ -6,6 +6,8 @@
 {% endblock %}
 
 {% block stylesheet %}
+{% comment %}
+{% endcomment %}
 <link rel="stylesheet" href="{% static 'css/reports.css' %}">
 
 {% endblock %}
@@ -31,66 +33,94 @@
     </nav>
 
     <div id="export-content" class="container">
-        <div id="page1" class="row mb-2 mt-2">
+        <div id="dashboard-body">
+            <div id="dashboard-title">
+                <h1>Financial Update for the Board of Directors</h1>
+            </div>
+            <div class="row">
             <div class="col-md-7 col-lg-7 p-2">
                 <div id="financial-update" class="card h-100 m-0 shadow"> 
                     <div class="card-body">
-                        <h1 class="heading">Financial Update for the Board of Directors</h1>
-                        <h2 class="subheading">For the period ended 7/31/2023 (unaudited financial statements)</h2>
+                        <p class="m-0">For the period ended 10/31/2022</p>
+                        <p>Based on Unaudited Financial Statements</p>
                         <table>
                             <tr>
-                                <th>
-                                    <p>FIRST Key Ratio Indicator</p>
-                                    <p>(Three-month comparison)</p>
-                                </th>
-                                <th>Benchmark</th>
-                                <th>May-23</th>
-                                <th>Jun-23</th>
-                                <th>Jul-23</th>
-                                <th>Current Status</th>
+                                <th>Key Ratio/Indicator</th>
+                                <th>Results</th>
+                                <th>Status</th>
+                                <th>Notes</th>
                             </tr>
                             <tr>
-                                <td>YTD Net Income (excluding depreciation)</td>
-                                <td>&gt; $0</td>
-                                <td>$496,176</td>
-                                <td>$698,736</td>
-                                <td>$970,293</td>
-                                <td><p class="green-circle">G</p></td>
+                                <td>
+                                    <p>YTD Net Income (excluding depreciation)</p>
+                                    <p>Post non-operating expenses</p>
+                                </td>
+                                <td>
+                                    <p>$(40.354)</p>
+                                    <p>$(164,794)</p>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="legend green-circle">
+                                            <span>G</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>State Revenues have not been accrued</td>
                             </tr>
                             <tr>
                                 <td>Days Cash on Hand</td>
+                                <td>93 days</td>
                                 <td>
-                                    <p>60 Days (State)</p>
-                                    <p>100+ (Lenders)</p>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="legend green-circle">
+                                            <span>G</span>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>96</td>
-                                <td>103</td>
-                                <td>113</td>
-                                <td><p class="green-circle">G</p></td>
+                                <td>Benchmark TEA 60 days; S&P 120 days</td>
                             </tr>
                             <tr>
-                                <td>Admin Ratio</td>
-                                <td>15%</td>
-                                <td>5.9%</td>
-                                <td>5.7%</td>
-                                <td>5.8%</td>
-                                <td><p class="green-circle">G</p></td>
+                                <td>
+                                    <p>Administrative Ratio</p>
+                                    <p>(By function: 21+41/11+12+13+31)</p>
+                                </td>
+                                <td>4%</td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="legend green-circle">
+                                            <span>G</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Benchmark 15%</td>
                             </tr>
                             <tr>
-                                <td>Debt to Capitalization %</td>
-                                <td>Less than 95%</td>
-                                <td>86%</td>
-                                <td>85%</td>
-                                <td>84%</td>
-                                <td><p class="green-circle">G</p></td>
+                                <td>Did the student-to-staff ratio decline more than 15%?</td>
+                                <td>No</td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="legend green-circle">
+                                            <span>G</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Goal: No decline</td>
                             </tr>
                             <tr>
-                                <td>Debt Service Coverage Ratio</td>
-                                <td>Debt Covenant: 1.10x</td>
-                                <td>0.92</td>
-                                <td>1.10</td>
-                                <td>1.25</td>
-                                <td><p class="yellow-circle">Y</p></td>
+                                <td>
+                                    <p>Debt Service Coverage Ratio</p>
+                                    <p>(EBIDA / Interest + Principal)</p>
+                                </td>
+                                <td>0.60X</td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="legend yellow-circle">
+                                            <span>Y</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Required 1.10X</td>
                             </tr>
                         </table>
                     </div> <!-- End of content div -->
@@ -99,111 +129,98 @@
 
 
             <div class="col-md-5 col-lg-5 p-2">
-                <div id="financial-graphs" class="card shadow m-0 h-100">
-                    <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <div id="chartdiv"></div>
+                <div id="agenda" class="card shadow m-0 h-100">
+                        <div class="card-body">
+                        <div>
+                            <h1 class="heading">Agenda Topics and Decision Points</h1>
                         </div>
-                        <div class="col">
-                            <div id="chartdiv2"></div>
+                        <div id="txtAgenda">
+                            {{ data.agendas }}
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div id="chartdiv3"></div>
-                        </div>
-                    </div>
-                    </div>
-                </div> <!-- end of financial graphs -->
-            </div> <!-- End of col 1-->
-
-        </div> <!-- End of row 1-->
-        <div id="page2" class="row mt-2 mb-2">
-            <div class="col-md-6 col-lg-6 p-2">
-                <div id="activities" class="card h-100 m-0 shadow">
-                    <div class="card-body">
-                    <div>
-                        <h1 class="heading">Activities in Progress</h1>
-                    </div>
-                    <div id="txtActivities">
-                        <ul>
-                            {% for activity in data.activities %}
-                            <li>{{ activity }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    </div> <!-- end of card-body -->
+                        </div> <!-- end of card-body -->
                 </div> <!-- End of Activities -->
-            </div> <!-- end of col1 -->
+            </div> <!-- end of financial graphs -->
+            </div> <!-- End of row 1 -->
+            <div class="row mt-2 mb-2">
+                <div class="col-md-6 col-lg-6 p-2">
+                    <div id="activities" class="card h-100 m-0 shadow">
+                        <div class="card-body">
+                        <div>
+                            <h1 class="heading">Activities in Progress</h1>
+                        </div>
+                        <div id="txtActivities">
+                            {{ data.activities }}
+                        </div>
+                        </div> <!-- end of card-body -->
+                    </div> <!-- End of Activities -->
+                </div> <!-- end of col1 -->
 
-            <div class="col-md-6 col-lg-6 p-2">
-                <div id="accomplishments" class="card h-100 m-0 shadow">
-                    <div class="card-body">
-
-                    <div>
-                        <h1 class="heading">Accomplishments</h1>
-                    </div>
-
-                    <div id="txtAccomplishments">
-                        <ul>
-                            {% for accomplishment in data.accomplishments %}
-                            <li>{{ accomplishment }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    </div> <!-- end of cardbody -->
-                </div> <!-- End of accomplishments -->
-            </div> <!-- end of col2 -->
-        </div> <!-- End of row 2-->
-    </div> <!-- End of container -->
-
-    <div class="d-flex align-items center justify-content-center">
-        <hr class="bottom-line">
-    </div>
-    <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
-        <div class="col">
-            <img class="logo" src="{% static 'logos/advantage.png' %}" alt="advantage logo">
+                <div class="col-md-6 col-lg-6 p-2">
+                    <div id="accomplishments" class="card h-100 m-0 shadow">
+                        <div class="card-body">
+                        <div>
+                            <h1 class="heading">Accomplishments</h1>
+                        </div>
+                        <div id="txtAccomplishments">
+                            {{ data.accomplishments }}
+                        </div>
+                        </div> <!-- end of cardbody -->
+                    </div> <!-- End of accomplishments -->
+                </div> <!-- end of col2 -->
+            </div> <!-- End of row 2-->
         </div>
 
-        <div class="col">
-            <div class="row">
-                <div class="col">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="legend green-circle mr-1">
+
+        <div id="dashboard-footer">
+        <div class="d-flex align-items center justify-content-center">
+            <hr class="bottom-line bg-dark">
+        </div>
+        <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
+            <div class="col">
+                <img class="logo" src="{% static 'logos/advantage.png' %}" alt="advantage logo">
+            </div>
+
+            <div class="col d-flex p-0">
+                <div class="d-flex flex-row align-items-center">
+                    <div>
+                        <div class="legend green-circle">
                             <span>G</span>
                         </div>
+                    </div>
+                    <div class="m-2">
                         <span>On Track</span>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="legend yellow-circle mr-1">
+                    <div>
+                        <div class="legend yellow-circle">
                             <span>Y</span>
                         </div>
+                    </div>
+                    <div class="m-2">
                         <span>Of Concern</span>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="legend red-circle mr-1">
+
+                    <div>
+                        <div class="legend red-circle">
                             <span>R</span>
                         </div>
+                    </div>
+                    <div class="m-2">
                         <span>At Risk</span>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="d-flex flex-row align-items-center">
-                        <div class="legend blue-circle mr-1">
+                    <div>
+                        <div class="legend blue-circle">
                             <span>C</span>
                         </div>
+                    </div>
+                    <div class="m-2">
                         <span>Complete</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> <!-- End of bottom legend -->
+        </div> <!-- end of dashboard-footer -->
+    </div> <!-- End of container -->
+
 
 </div>  <!-- End of content-wrapper -->
 
@@ -232,6 +249,12 @@
                         </div>
                         <div class="m-auto" style="width:100%;">
                             {{ form.accomplishments }}
+                        </div>
+                        <div class="text-center">
+                            {{ form.agendas.label_tag }}
+                        </div>
+                        <div class="m-auto" style="width:100%;">
+                            {{ form.agendas }}
                         </div>
                 </div>
 

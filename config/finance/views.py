@@ -7,6 +7,7 @@ from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
+from django.utils.safestring import mark_safe
 import sys
 from time import strftime
 import os
@@ -658,7 +659,7 @@ def first_advantage(request):
     return render(request,'dashboard/advantage/first_advantage.html', context)
 
 def dashboard_advantage(request):
-    data = {"accomplishments":"", "activities":""}
+    data = {"accomplishments":"", "activities":"", "agendas": ""}
     delimiter = "\n"
 
     cnxn = connect()
@@ -667,30 +668,18 @@ def dashboard_advantage(request):
 
     if request.method == 'POST':
         form = ReportsForm(request.POST)
-        activities_text = request.POST.get('activities')
-        accomplishments_text = request.POST.get('accomplishments')
+        activities = request.POST.get('activities')
+        accomplishments = request.POST.get('accomplishments')
+        agendas = request.POST.get('agendas')
 
-        # Parse the HTML content
-        soup_activities = BeautifulSoup(activities_text, 'html.parser')
-        soup_accomplishments = BeautifulSoup(accomplishments_text, 'html.parser')
-
-        # Find all list items within the <ul> tag
-        activities_items = soup_activities.find_all('li')
-        accomplishments_items = soup_accomplishments.find_all('li')
-
-        # Extract the text content from each list item
-        activities_list = [item.get_text()+delimiter for item in activities_items]
-        accomplishments_list = [item.get_text()+delimiter for item in accomplishments_items]
-
-        activities = "".join(activities_list)
-        accomplishments = "".join(accomplishments_list)
-
-        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
-        cursor.execute(update_query, (accomplishments, activities, school_name))
+         
+        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
+        cursor.execute(update_query, (accomplishments, activities, agendas, school_name))
         cnxn.commit()
 
-        data["accomplishments"] = accomplishments.split(delimiter)[:-1]
-        data["activities"] = activities.split(delimiter)[:-1]
+        data["accomplishments"] = mark_safe(accomplishments)
+        data["activities"] = mark_safe(activities)
+        data["agendas"] = mark_safe(agendas)
     else:
         # check if it exists
         # query for the school
@@ -700,12 +689,13 @@ def dashboard_advantage(request):
 
         if row is None:
             # Insert query if it does noes exists
-            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
+            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities, agendas) VALUES (?, ?, ?, ?)"
             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
+            agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
 
             # Execute the INSERT query
-            cursor.execute(insert_query, (school_name, accomplishments, activities))
+            cursor.execute(insert_query, (school_name, accomplishments, activities, agendas))
 
             # Commit the transaction
             cnxn.commit()
@@ -713,14 +703,17 @@ def dashboard_advantage(request):
         else:
             # row = (school, accomplishments, activities)
             if row[1]:
-                data["accomplishments"] = row[1].split(delimiter)[:-1]
+                data["accomplishments"] = mark_safe(row[1])
             if row[2]:
-                data["activities"] = row[2].split(delimiter)[:-1]
+                data["activities"] = mark_safe(row[2])
+            try:
+                if row[3]:
+                    data["agendas"] = mark_safe(row[3])
+            except:
+                pass
 
-    activities = "</li>".join(["<li>" + w for w in data["activities"]])
-    accomplishments = "</li>" .join(["<li>" + w for w in data["accomplishments"]])
     # form = CKEditorForm(initial={'form_field_name': initial_content})
-    form = ReportsForm(initial={'accomplishments': accomplishments, 'activities': activities})
+    form = ReportsForm(initial={'accomplishments': data["accomplishments"], 'activities': data["activities"], "agendas": data["agendas"]})
 
     cursor.close()
     cnxn.close()

@@ -9,4 +9,5 @@ class ReportsForm(forms.Form):
                                                        attrs={"id":"activities-form"}))
     accomplishments = forms.CharField(widget=CKEditorWidget(config_name='financial_config', 
                                                             attrs={"id":"accomplishments-form"}))
-    
+    agendas = forms.CharField(widget=CKEditorWidget(config_name='financial_config', 
+                                                            attrs={"id":"agendas-form"}))
