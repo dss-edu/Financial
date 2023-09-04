@@ -1335,6 +1335,7 @@ function NetSurplusTotal() {
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
       const value = extractNumericValue(cell.textContent);
+      
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {

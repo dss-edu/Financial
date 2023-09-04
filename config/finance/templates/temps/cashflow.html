@@ -92,7 +92,7 @@
     &nbsp;
     &nbsp;
     &nbsp;
-    <a class="navbar-brand mr-1 text-primary " href="{% url 'pl_advantagechart' %}" data-toggle="tooltip" title="CHART"><i class="fas fa-chart-bar" ></i></a>
+    <a class="navbar-brand mr-1 text-primary " href="/charter-first/{{ school }}" ><i class="fas fa-table"></i></a>
     
     <!-- &nbsp; -->
     <!-- &nbsp; -->
@@ -113,7 +113,7 @@
 <div class="table-container"  >
     <div id="json-response"></div>
     <form  id="insert-row-form" action="#" method="POST">
-        <div id="edit-container">
+        {% comment %} <div id="edit-container">
             <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
         </div>
 
@@ -123,10 +123,10 @@
 
         <div id="save-container" style="display: none;">
             <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
-        </div>
+        </div> {% endcomment %}
 
 
-
+{% comment %} 
 <script>
     document.getElementById("edit-button").addEventListener("click", function() {
         // Hide the "Edit" container
@@ -177,7 +177,7 @@
         document.getElementById("add-row-fpr-button").style.display = "none";
         document.getElementById("add-row-func-button").style.display = "none";
     });
-</script>
+</script> {% endcomment %}
 
     {% csrf_token %}
     <table id="data-table" class="table table-hover">
@@ -213,18 +213,18 @@
             <th></th>
             <th></th>
             <th></th>
-            <th class="collapsed" style="text-align: center;" >September</th>
-            <th class="collapsed" style="text-align: center;" >October</th>
-            <th class="collapsed" style="text-align: center;" >November</th>
-            <th class="collapsed" style="text-align: center;" >December</th>
-            <th class="collapsed" style="text-align: center;" >January</th>
-            <th class="collapsed" style="text-align: center;">February</th>
-            <th class="collapsed" style="text-align: center;">March</th>
-            <th class="collapsed" style="text-align: center;">April</th>
-            <th class="collapsed" style="text-align: center;">May</th>
-            <th class="collapsed" style="text-align: center;">June</th>
-            <th class="collapsed" style="text-align: center;">July</th>
-            <th class="collapsed" style="text-align: center;">August</th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">September     </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">October       </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">November      </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">December      </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">January       </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">February      </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">March         </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">April         </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">May           </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">June          </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">July          </div></th>
+            <th class="collapsed" style="text-align: center;"> <div style="width: 100px">August        </div></th>
             <th style="text-align: center;">YTD FY 2023</th>
            
         </tr>
@@ -263,28 +263,11 @@
           <td class="collapsed right-align-td" >{{ total_netsurplus.06 }} </td>
           <td class="collapsed right-align-td" >{{ total_netsurplus.07 }} </td>
           <td class="collapsed right-align-td" >{{ total_netsurplus.08 }} </td>
-          <td class="right-align-td"> $(1,323,478)
+          <td class="right-align-td"> 
           </td>
         </tr>
        
-        <tr class="netcash-row">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
-        </tr>
+     
         <tr class="netcash-row">
           <td></td>
           <td>&nbsp;&nbsp;Depreciation and Amortization</td>
@@ -304,134 +287,52 @@
           <td class="right-align-td"> 
           </td>
         </tr>
+        {% for row in data_cashflow %}
+        {% if row.Category == 'Operating' %}
         <tr class="netcash-row">
           <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Accounts Receivable</td>
+          <td>&nbsp;&nbsp;{{ row.Description }}</td>
           <td></td>
-          <td class="collapsed right-align-td"  ></td>
-          <td class="collapsed right-align-td"  > 589,378 
-          </td>
-          <td class="collapsed right-align-td"  ></td>
-          <td class="collapsed right-align-td"  > 246,683 
-          </td>
-          <td class="collapsed right-align-td"  > 273,447 
-          </td>
-          <td class="collapsed right-align-td" ></td>
-          <td class="collapsed right-align-td" ></td>
-          <td class="collapsed right-align-td"></td>
-          <td class="collapsed right-align-td"></td>
-          <td class="collapsed right-align-td"></td>
-          <td class="collapsed right-align-td"></td>
-          <td class="collapsed right-align-td"></td>
-          <td class="right-align-td"> 1,109,508 
-          </td>
+          <td class="collapsed right-align-td" >{{row.total_operating9}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating10}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating11}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating12}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating1}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating2}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating3}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating4}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating5}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating6}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating7}}</td>
+          <td class="collapsed right-align-td" >{{row.total_operating8}}</td>
+          <td class="right-align-td"></td>
         </tr>
-        <tr class="netcash-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Increase (Decrease) in Accounts Payable</td>
-          <td></td>
-          <td class="collapsed right-align-td" > 20,990 
-          </td>
-          <td class="collapsed right-align-td" > (30,688)
-          </td>
-          <td class="collapsed right-align-td" > 7,305 
-          </td>
-          <td class="collapsed right-align-td" > (9,094)
-          </td>
-          <td class="collapsed right-align-td" > 8,758 
-          </td>
-          <td class="collapsed right-align-td"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> (2,728)
-          </td>
-        </tr>
-        <tr class="netcash-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Increase (Decrease) in Payroll and Payroll Related Payables</td>
-          <td></td>
-          <td class="collapsed right-align-td" > 181,842 
-          </td>
-          <td class="collapsed right-align-td" > 122,755 
-          </td>
-          <td class="collapsed right-align-td" > 38,663 
-          </td>
-          <td class="collapsed right-align-td" > (149,873)
-          </td>
-          <td class="collapsed right-align-td" > 167,540 
-          </td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> 360,926 
-          </td>
-        </tr>
-        <tr class="netcash-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Inventories</td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed right-align-td" > 1,080 
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> 1,080 
-          </td>
-        </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
-        </tr>
-        <tr class="local-revenue-row">
+                  
+        {% endif %}
+        {% endfor %}
+
+        
+
+        <tr class="netcash-row-total">
           <td></td>
           <td><strong>NET CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
           <td></td>
-          <td id="netcash-total-3"class="collapsed right-align-td" ></td>
-          <td id="netcash-total-4"class="collapsed right-align-td" ></td>
-          <td id="netcash-total-5"class="collapsed right-align-td" ></td>
-          <td id="netcash-total-6"class="collapsed right-align-td" ></td>
-          <td id="netcash-total-7"class="collapsed right-align-td" ></td>
-          <td id="netcash-total-8"class="collapsed right-align-td"></td>
-          <td id="netcash-total-9"class="collapsed right-align-td"></td>
+          <td id="netcash-total-3" class="collapsed right-align-td" ></td>
+          <td id="netcash-total-4" class="collapsed right-align-td" ></td>
+          <td id="netcash-total-5" class="collapsed right-align-td" ></td>
+          <td id="netcash-total-6" class="collapsed right-align-td" ></td>
+          <td id="netcash-total-7" class="collapsed right-align-td" ></td>
+          <td id="netcash-total-8" class="collapsed right-align-td"></td>
+          <td id="netcash-total-9" class="collapsed right-align-td"></td>
           <td id="netcash-total-10"class="collapsed right-align-td"></td>
           <td id="netcash-total-11"class="collapsed right-align-td"></td>
           <td id="netcash-total-12"class="collapsed right-align-td"></td>
           <td id="netcash-total-13"class="collapsed right-align-td"></td>
           <td id="netcash-total-14"class="collapsed right-align-td"></td>
-          <td class="right-align-td"> $666,141 
+          <td id="netcash-total-15"class="right-align-td"> 
           </td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="">
           <td></td>
           <td></td>
           <td></td>
@@ -467,160 +368,48 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        {% for row in data_cashflow %}
+        {% if row.Category == 'Investing' %}
+        <tr class="investing-row">
           <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Land</td>
+          <td>&nbsp;&nbsp;{{ row.Description }}</td>
           <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
+          <td class="collapsed right-align-td" >{{row.total_investing9}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing10}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing11}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing12}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing1}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing2}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing3}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing4}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing5}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing6}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing7}}</td>
+          <td class="collapsed right-align-td" >{{row.total_investing8}}</td>
+          <td class="right-align-td"></td>
         </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Building & Improvements</td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed right-align-td" > (132,300)
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> (132,300)
-          </td>
-        </tr>
-       
-        <tr class="local-revenue-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Technology Equipment</td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed right-align-td" > (139)
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed right-align-td" > (21,374)
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> (21,513)
-          </td>
-        </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Furniture & Equipment</td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
-        </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) in Vehicles</td>
-          <td></td>
-          <td class="collapsed right-align-td" > (231)
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> (231)
-          </td>
-        </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td>&nbsp;&nbsp;Decrease (Increase) Construction in Process</td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
-        </tr>
-        <tr class="local-revenue-row">
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
-        </tr>
-        <tr class="local-revenue-row">
+                  
+        {% endif %}
+        {% endfor %}
+
+      
+        <tr class="investing-row-total">
           <td></td>
           <td><strong>NET CASH FLOWS FROM INVESTING ACTIVITIES</strong></td>
           <td></td>
-          <td class="collapsed right-align-td" > $(231)
-          </td>
-          <td class="collapsed right-align-td" > $(132,439)
-          </td>
-          <td class="collapsed right-align-td" ></td>
-          <td class="collapsed right-align-td" > $(21,374)
-          </td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> $(154,045)
+          <td id="investing-total-3" class="collapsed right-align-td" ></td>
+          <td id="investing-total-4" class="collapsed right-align-td" ></td>
+          <td id="investing-total-5" class="collapsed right-align-td" ></td>
+          <td id="investing-total-6" class="collapsed right-align-td" ></td>
+          <td id="investing-total-7" class="collapsed right-align-td" ></td>
+          <td id="investing-total-8" class="collapsed right-align-td"></td>
+          <td id="investing-total-9" class="collapsed right-align-td"></td>
+          <td id="investing-total-10"class="collapsed right-align-td"></td>
+          <td id="investing-total-11"class="collapsed right-align-td"></td>
+          <td id="investing-total-12"class="collapsed right-align-td"></td>
+          <td id="investing-total-13"class="collapsed right-align-td"></td>
+          <td id="investing-total-14"class="collapsed right-align-td"></td>
+          <td id="investing-total-15"class="right-align-td"> 
           </td>
         </tr>
         <tr class="local-revenue-row">
@@ -641,7 +430,7 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="finacing-row">
           <td></td>
           <td><strong>CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
           <td></td>
@@ -659,7 +448,7 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="finacing-row">
           <td></td>
           <td>&nbsp;&nbsp;Increase (Decrease) in Short Term Notes Payable, Bond</td>
           <td></td>
@@ -677,7 +466,7 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="finacing-row">
           <td></td>
           <td>&nbsp;&nbsp;Increase (Decrease) in Long Term Liabilities</td>
           <td></td>
@@ -695,7 +484,7 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="finacing-row">
           <td></td>
           <td>&nbsp;&nbsp;Decrease (Increase) Restricted Cash (Constr.)</td>
           <td></td>
@@ -713,7 +502,7 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="finacing-row">
           <td></td>
           <td></td>
           <td></td>
@@ -735,19 +524,19 @@
           <td></td>
           <td><strong>NET CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
           <td></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed" ></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td></td>
+          <td id="financing-total-3"  class="collapsed"></td>
+          <td id="financing-total-4"  class="collapsed"></td>
+          <td id="financing-total-5"  class="collapsed"></td>
+          <td id="financing-total-6"  class="collapsed"></td>
+          <td id="financing-total-7"  class="collapsed"></td>
+          <td id="financing-total-8"  class="collapsed"></td>
+          <td id="financing-total-9"  class="collapsed"></td>
+          <td id="financing-total-10" class="collapsed"></td>
+          <td id="financing-total-11" class="collapsed"></td>
+          <td id="financing-total-12" class="collapsed"></td>
+          <td id="financing-total-13" class="collapsed"></td>
+          <td id="financing-total-14" class="collapsed"></td>
+          <td id="financing-total-15" ></td>
         </tr>
         <tr class="local-revenue-row">
           <td></td>
@@ -767,29 +556,23 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        <tr class="NIC-row-total">
           <td></td>
           <td><strong>NET INCREASE (DECREASE) IN CASH</strong></td>
           <td></td>
-          <td class="collapsed right-align-td" > $(1,068,815)
-          </td>
-          <td class="collapsed right-align-td" > $1,317,670 
-          </td>
-          <td class="collapsed right-align-td" > $(357,699)
-          </td>
-          <td class="collapsed right-align-td" > $107,116 
-          </td>
-          <td class="collapsed right-align-td" > $513,824 
-          </td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> $512,096 
-          </td>
+          <td id="NIC-total-3" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-4" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-5" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-6" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-7" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-8" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-9" class="collapsed right-align-td" ></td>
+          <td id="NIC-total-10"class="collapsed right-align-td" ></td>
+          <td id="NIC-total-11"class="collapsed right-align-td" ></td>
+          <td id="NIC-total-12"class="collapsed right-align-td" ></td>
+          <td id="NIC-total-13"class="collapsed right-align-td" ></td>
+          <td id="NIC-total-14"class="collapsed right-align-td" ></td>
+          <td id="NIC-total-15"class="right-align-td"></td>
         </tr>
         <tr class="local-revenue-row">
           <td></td>
@@ -809,30 +592,32 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        {% for row in data_balancesheet %}
+        {% if row.Category == 'Assets' %}
+        {% if row.Subcategory == 'Current Assets' %}
+        {% if row.Activity == 'Cash' %}
+        <tr class="CBP-row">
           <td></td>
           <td><strong>Cash at Beginning of Period</strong></td>
           <td></td>
-          <td class="collapsed right-align-td" > $7,264,371 
-          </td>
-          <td class="collapsed right-align-td" > $6,195,556 
-          </td>
-          <td class="collapsed right-align-td" > $7,513,119 
-          </td>
-          <td class="collapsed right-align-td" > $7,152,482 
-          </td>
-          <td class="collapsed right-align-td" > $7,259,598 
-          </td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> $7,264,371 
-          </td>
+          <td class="collapsed right-align-td" > {{row.FYE}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_9}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_10}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_11}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_12}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_1}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_2}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_3}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_4}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_5}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_6}}</td>
+          <td class="collapsed right-align-td" > </td>
+          <td class="right-align-td"> {{row.FYE}}</td>
         </tr>
+        {% endif %}    
+        {% endif %}   
+    {% endif %}
+  {% endfor %}
         <tr class="local-revenue-row">
           <td></td>
           <td></td>
@@ -851,30 +636,32 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        <tr class="local-revenue-row">
+        {% for row in data_balancesheet %}
+        {% if row.Category == 'Assets' %}
+        {% if row.Subcategory == 'Current Assets' %}
+        {% if row.Activity == 'Cash' %}
+        <tr class="CEP-row">
           <td></td>
           <td><strong>Cash at End of Period</strong></td>
           <td></td>
-          <td class="collapsed right-align-td" > $6,195,556 
-          </td>
-          <td class="collapsed right-align-td" > $7,513,119 
-          </td>
-          <td class="collapsed right-align-td" > $7,152,482 
-          </td>
-          <td class="collapsed right-align-td" > $7,259,598 
-          </td>
-          <td class="collapsed right-align-td" > $7,771,900 
-          </td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="collapsed"></td>
-          <td class="right-align-td"> $7,771,900 
-          </td>
+          <td class="collapsed right-align-td" > {{row.difference_9}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_10}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_11}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_12}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_1}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_2}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_3}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_4}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_5}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_6}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_7}}</td>
+          <td class="collapsed right-align-td" > </td>
+          <td class="right-align-td">{{row.difference_7}}</td>
         </tr>
+        {% endif %}    
+        {% endif %}   
+    {% endif %}
+  {% endfor %}
           
         </tbody>
     </table>
@@ -900,6 +687,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'js/cashflow2.js' %}"></script>
 <script src="{% static 'js/cashflow.js' %}"></script>
 <script src="{% static 'js/excel.js' %}"></script>
 {% endblock %}

@@ -21,7 +21,9 @@ $(document).ready(function() {
 */
 
 ///////////////////////////   TABLE   //////////////////////////////////
-  calculateNetCashTotal();
+
+
+  
 
   $('#toggle-button').on('click', toggleColumns);
 
@@ -57,60 +59,7 @@ function toggleRow(rowId) {
       row.style.display = 'none';
     });
   }
-  function extractNumericValue(content) {
-    const match = content.match(/-?\$?\(?([\d,.]+)\)?/);
-    if (match) {
-      const numericValue = parseFloat(match[1].replace(/,/g, '').trim());
-      return isNaN(numericValue) ? 0 : (content.includes('(') ? -numericValue : numericValue);
-    } else {
-      return 0;
-    }
-  }
-  
 
-  /* NET CASH FLOWS FROM OPEARTING ACTIVITIES TOTAL*/
-  function calculateNetCashTotal() {
-    const rows = document.querySelectorAll('.netcash-row');
-    const totalCells = [];
-  
-    
-    const totalCellIds = [3,4, 5,6,7,8,9,10,11,12,13,14];
-  
-    for (let i = 0; i < totalCellIds.length; i++) {
-      const cellId = totalCellIds[i];
-      const totalCell = document.getElementById(`netcash-total-${cellId}`);
-      totalCells.push(totalCell);
-    }
-  
-    let columnTotals = new Array(totalCells.length).fill(0);
-  
-    rows.forEach(row => {
-      const cells = row.cells;
-      for (let i = 3; i < cells.length; i++) {
-        const cell = cells[i];
-        const value = extractNumericValue(cell.textContent);
-        if (!isNaN(value)) {
-          for (let j = 0; j < totalCells.length; j++) {
-            if (i === totalCellIds[j]) {
-              columnTotals[j] += value;
-              break;
-            }
-          }
-        }
-      }
-    });
-  
-    for (let i = 0; i < totalCells.length; i++) {
-      const totalCell = totalCells[i];
-      const columnTotal = parseFloat(columnTotals[i]);
-      if (columnTotal !== 0) {
-        const formattedTotal = columnTotal.toLocaleString();
-        totalCell.textContent = columnTotal < 0 ? '($' + formattedTotal.replace('-', '') + ')' : '$' + formattedTotal;
-      } else {
-        totalCell.textContent = '';
-      }
-    }
-  }
 
 });
 
