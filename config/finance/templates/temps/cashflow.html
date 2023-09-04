@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+{% block title %}
+{{ school_name }}
+{% endblock %}
+
+{% block stylesheet %}
+<style>
+    th,
+    td {
+        width: 10%;
+    }
+    th:first-child,
+    td:first-child {
+        width: 0%;
+    }
+    th:nth-child(2),
+    td:nth-child(2) {
+        white-space: nowrap;
+    }
+    th:nth-child(3),
+    td:nth-child(3) {
+        display: none;
+    }
+    .right-align-td {
+        text-align: right;
+        padding-right: 250px;
+
+    }
+    .collapsed {
+        display: none;
+    }
+
+    .modal-body thead {
+        position: sticky;
+        top: 0;
+        background-color: #f9f9f9;
+        z-index: 1;
+    }
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+
+        background-color: white !important; 
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    }
+
+    .modal-body thead {
+        position: sticky;
+        top: 0;
+        background-color: #f9f9f9;
+        z-index: 1;
+    }
+
+    .modal-footer {
+        z-index: 2;
+    }
+    .table-container {
+        bottom: 0;
+        width: 100%;
+        max-height: calc(100vh - 150px); 
+        overflow: auto;
+        margin:0;
+        padding: 0; 
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .table th,
+    .table td {
+        padding: 0.5rem !important;
+
+    }
+
+</style>
+{% endblock %} 
+    
+
+{% block body %}
+
+ <div id="content-wrapper">
+  <nav class="navbar navbar-expand navbar-dark bg-dark ">
+    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+    </form>
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/fd891db5-908a-4463-9807-eece4c2c2f76/ReportSection6c18d619620bd9b8337e?experience=power-bi" data-toggle="tooltip" title="POWERBI" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
+    <!-- Navbar -->
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a class="navbar-brand mr-1 text-primary " href="{% url 'pl_advantagechart' %}" data-toggle="tooltip" title="CHART"><i class="fas fa-chart-bar" ></i></a>
+    
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- &nbsp; -->
+    <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></i></a> -->
+
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
+</nav> <!-- End of nav -->
+
+
+      
+      
+<div class="table-container"  >
+    <div id="json-response"></div>
+    <form  id="insert-row-form" action="#" method="POST">
+        <div id="edit-container">
+            <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
+        </div>
+
+        <div id="cancel-container" style="display: none;">
+              <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
+        </div>
+
+        <div id="save-container" style="display: none;">
+            <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
+        </div>
+
+
+
+<script>
+    document.getElementById("edit-button").addEventListener("click", function() {
+        // Hide the "Edit" container
+        document.getElementById("edit-container").style.display = "none";
+
+        // Show the "Save" container
+        document.getElementById("save-container").style.display = "block";
+        document.getElementById("cancel-container").style.display = "block";
+        
+        
+        
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {
+            cell.contentEditable = "true";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "block";
+        });
+        document.getElementById("add-row-button").style.display = "block";
+        document.getElementById("add-row-spr-button").style.display = "block";
+        document.getElementById("add-row-fpr-button").style.display = "block";
+        document.getElementById("add-row-func-button").style.display = "block";
+        
+        
+    });
+
+    document.getElementById("cancel-button").addEventListener("click", function() {
+        // Hide the "Save" container
+        document.getElementById("save-container").style.display = "none";
+        document.getElementById("cancel-container").style.display = "none";
+        
+    
+        
+
+        // Show the "Edit" container
+        document.getElementById("edit-container").style.display = "block";
+        var valueCells = document.querySelectorAll("[id^='value-cell-']");
+        valueCells.forEach(function(cell) {
+            cell.contentEditable = "false";
+        });
+        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
+        deleteLinks.forEach(function(link) {
+            link.style.display = "none";
+        });
+        document.getElementById("add-row-button").style.display = "none";
+        document.getElementById("add-row-spr-button").style.display = "none";
+        document.getElementById("add-row-fpr-button").style.display = "none";
+        document.getElementById("add-row-func-button").style.display = "none";
+    });
+</script>
+
+    {% csrf_token %}
+    <table id="data-table" class="table table-hover">
+        <thead>
+        <tr>
+            <th class="firstcolumn"></th>
+            <th colspan="18" style="white-space: nowrap;">
+              <h2 style="text-align: center;">ADVANTAGE ACADEMY</h2><br>
+              <h2 style="text-align: center;">Statement of Cash Flows for the period ended {{last_month}}</h2><br>
+            </th>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="collapsed" ></th>
+            <th class="collapsed" ></th>
+            <th class="collapsed" ></th>
+            <th class="collapsed" ></th>
+            <th class="collapsed" ></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th class="collapsed"></th>
+            <th><button id="toggle-button" type="button" class="expand-button">+</button></th>
+        </tr>
+    </thead>
+    <tbody id="data-table-body">
+        <tr class="header">
+            <th></th>
+            <th></th>
+            <th></th>
+            <th class="collapsed" style="text-align: center;" >September</th>
+            <th class="collapsed" style="text-align: center;" >October</th>
+            <th class="collapsed" style="text-align: center;" >November</th>
+            <th class="collapsed" style="text-align: center;" >December</th>
+            <th class="collapsed" style="text-align: center;" >January</th>
+            <th class="collapsed" style="text-align: center;">February</th>
+            <th class="collapsed" style="text-align: center;">March</th>
+            <th class="collapsed" style="text-align: center;">April</th>
+            <th class="collapsed" style="text-align: center;">May</th>
+            <th class="collapsed" style="text-align: center;">June</th>
+            <th class="collapsed" style="text-align: center;">July</th>
+            <th class="collapsed" style="text-align: center;">August</th>
+            <th style="text-align: center;">YTD FY 2023</th>
+           
+        </tr>
+        <tr class="local-revenue-row">
+            <td></td>
+            <td><strong>CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
+            <td></td>
+            <td class="collapsed" ></td>
+            <td class="collapsed" ></td>
+            <td class="collapsed" ></td>
+            <td class="collapsed" ></td>
+            <td class="collapsed" ></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td></td>
+        </tr>
+       
+        <tr class="netcash-row">
+          <td> </td>
+          <td>&nbsp;&nbsp;Change in Net Assets</td>
+           <td></td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.09 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.10 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.11 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.12 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.01 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.02 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.03 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.04 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.05 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.06 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.07 }} </td>
+          <td class="collapsed right-align-td" >{{ total_netsurplus.08 }} </td>
+          <td class="right-align-td"> $(1,323,478)
+          </td>
+        </tr>
+       
+        <tr class="netcash-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="netcash-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Depreciation and Amortization</td>
+          <td></td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.09 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.10 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.11 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.12 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.01 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.02 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.03 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.04 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.05 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.06 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.07 }} </td>
+          <td class="collapsed right-align-td" >  {{ total_DnA.08 }} </td>
+          <td class="right-align-td"> 
+          </td>
+        </tr>
+        <tr class="netcash-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Accounts Receivable</td>
+          <td></td>
+          <td class="collapsed right-align-td"  ></td>
+          <td class="collapsed right-align-td"  > 589,378 
+          </td>
+          <td class="collapsed right-align-td"  ></td>
+          <td class="collapsed right-align-td"  > 246,683 
+          </td>
+          <td class="collapsed right-align-td"  > 273,447 
+          </td>
+          <td class="collapsed right-align-td" ></td>
+          <td class="collapsed right-align-td" ></td>
+          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td"></td>
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td"> 1,109,508 
+          </td>
+        </tr>
+        <tr class="netcash-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Increase (Decrease) in Accounts Payable</td>
+          <td></td>
+          <td class="collapsed right-align-td" > 20,990 
+          </td>
+          <td class="collapsed right-align-td" > (30,688)
+          </td>
+          <td class="collapsed right-align-td" > 7,305 
+          </td>
+          <td class="collapsed right-align-td" > (9,094)
+          </td>
+          <td class="collapsed right-align-td" > 8,758 
+          </td>
+          <td class="collapsed right-align-td"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> (2,728)
+          </td>
+        </tr>
+        <tr class="netcash-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Increase (Decrease) in Payroll and Payroll Related Payables</td>
+          <td></td>
+          <td class="collapsed right-align-td" > 181,842 
+          </td>
+          <td class="collapsed right-align-td" > 122,755 
+          </td>
+          <td class="collapsed right-align-td" > 38,663 
+          </td>
+          <td class="collapsed right-align-td" > (149,873)
+          </td>
+          <td class="collapsed right-align-td" > 167,540 
+          </td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> 360,926 
+          </td>
+        </tr>
+        <tr class="netcash-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Inventories</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed right-align-td" > 1,080 
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> 1,080 
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>NET CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
+          <td></td>
+          <td id="netcash-total-3"class="collapsed right-align-td" ></td>
+          <td id="netcash-total-4"class="collapsed right-align-td" ></td>
+          <td id="netcash-total-5"class="collapsed right-align-td" ></td>
+          <td id="netcash-total-6"class="collapsed right-align-td" ></td>
+          <td id="netcash-total-7"class="collapsed right-align-td" ></td>
+          <td id="netcash-total-8"class="collapsed right-align-td"></td>
+          <td id="netcash-total-9"class="collapsed right-align-td"></td>
+          <td id="netcash-total-10"class="collapsed right-align-td"></td>
+          <td id="netcash-total-11"class="collapsed right-align-td"></td>
+          <td id="netcash-total-12"class="collapsed right-align-td"></td>
+          <td id="netcash-total-13"class="collapsed right-align-td"></td>
+          <td id="netcash-total-14"class="collapsed right-align-td"></td>
+          <td class="right-align-td"> $666,141 
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>CASH FLOWS FROM INVESTING ACTIVITIES</strong></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Land</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Building & Improvements</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed right-align-td" > (132,300)
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> (132,300)
+          </td>
+        </tr>
+       
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Technology Equipment</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed right-align-td" > (139)
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed right-align-td" > (21,374)
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> (21,513)
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Furniture & Equipment</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) in Vehicles</td>
+          <td></td>
+          <td class="collapsed right-align-td" > (231)
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> (231)
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) Construction in Process</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>NET CASH FLOWS FROM INVESTING ACTIVITIES</strong></td>
+          <td></td>
+          <td class="collapsed right-align-td" > $(231)
+          </td>
+          <td class="collapsed right-align-td" > $(132,439)
+          </td>
+          <td class="collapsed right-align-td" ></td>
+          <td class="collapsed right-align-td" > $(21,374)
+          </td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> $(154,045)
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Increase (Decrease) in Short Term Notes Payable, Bond</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Increase (Decrease) in Long Term Liabilities</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td>&nbsp;&nbsp;Decrease (Increase) Restricted Cash (Constr.)</td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>NET CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>NET INCREASE (DECREASE) IN CASH</strong></td>
+          <td></td>
+          <td class="collapsed right-align-td" > $(1,068,815)
+          </td>
+          <td class="collapsed right-align-td" > $1,317,670 
+          </td>
+          <td class="collapsed right-align-td" > $(357,699)
+          </td>
+          <td class="collapsed right-align-td" > $107,116 
+          </td>
+          <td class="collapsed right-align-td" > $513,824 
+          </td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> $512,096 
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>Cash at Beginning of Period</strong></td>
+          <td></td>
+          <td class="collapsed right-align-td" > $7,264,371 
+          </td>
+          <td class="collapsed right-align-td" > $6,195,556 
+          </td>
+          <td class="collapsed right-align-td" > $7,513,119 
+          </td>
+          <td class="collapsed right-align-td" > $7,152,482 
+          </td>
+          <td class="collapsed right-align-td" > $7,259,598 
+          </td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> $7,264,371 
+          </td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed" ></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td></td>
+        </tr>
+        <tr class="local-revenue-row">
+          <td></td>
+          <td><strong>Cash at End of Period</strong></td>
+          <td></td>
+          <td class="collapsed right-align-td" > $6,195,556 
+          </td>
+          <td class="collapsed right-align-td" > $7,513,119 
+          </td>
+          <td class="collapsed right-align-td" > $7,152,482 
+          </td>
+          <td class="collapsed right-align-td" > $7,259,598 
+          </td>
+          <td class="collapsed right-align-td" > $7,771,900 
+          </td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td"> $7,771,900 
+          </td>
+        </tr>
+          
+        </tbody>
+    </table>
+    </form>
+</div>
+
+
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of spinner modal -->
+
+
+<script></script>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/cashflow.js' %}"></script>
+<script src="{% static 'js/excel.js' %}"></script>
+{% endblock %}
+

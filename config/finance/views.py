@@ -673,8 +673,10 @@ def dashboard_advantage(request):
         agendas = request.POST.get('agendas')
 
          
-        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
-        cursor.execute(update_query, (accomplishments, activities, agendas, school_name))
+        # update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
+        # cursor.execute(update_query, (accomplishments, activities, agendas, school_name))
+        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
+        cursor.execute(update_query, (accomplishments, activities, school_name))
         cnxn.commit()
 
         data["accomplishments"] = mark_safe(accomplishments)
@@ -689,13 +691,14 @@ def dashboard_advantage(request):
 
         if row is None:
             # Insert query if it does noes exists
-            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities, agendas) VALUES (?, ?, ?, ?)"
+            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
-            agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
+            # agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
 
             # Execute the INSERT query
-            cursor.execute(insert_query, (school_name, accomplishments, activities, agendas))
+            # cursor.execute(insert_query, (school_name, accomplishments, activities, agendas))
+            cursor.execute(insert_query, (school_name, accomplishments, activities))
 
             # Commit the transaction
             cnxn.commit()
@@ -706,11 +709,12 @@ def dashboard_advantage(request):
                 data["accomplishments"] = mark_safe(row[1])
             if row[2]:
                 data["activities"] = mark_safe(row[2])
-            try:
-                if row[3]:
-                    data["agendas"] = mark_safe(row[3])
-            except:
-                pass
+                data["agendas"] = mark_safe(row[2])
+            # try:
+            #     if row[3]:
+            #         data["agendas"] = mark_safe(row[3])
+            # except:
+            #     pass
 
     # form = CKEditorForm(initial={'form_field_name': initial_content})
     form = ReportsForm(initial={'accomplishments': data["accomplishments"], 'activities': data["activities"], "agendas": data["agendas"]})
@@ -1723,8 +1727,6 @@ def bs_advantage(request):
             'Category':row[2],
             'Subcategory':row[3],
             'FYE':fyeformat,
-            
-            
             }
         
         data_balancesheet.append(row_dict)
