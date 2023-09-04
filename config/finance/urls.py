@@ -2,9 +2,11 @@ from django.urls import path
 from . import views
 from . import prep_views
 from . import manara_views
+from . import new_views
 
 
 urlpatterns = [
+
     
    
     path('login/',views.loginView,name = 'login'),
@@ -35,7 +37,6 @@ urlpatterns = [
     path('viewglexpense/<str:obj>/<str:yr>/', views.viewglexpense, name='viewglexpense'),
 
     
-
     path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
     path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
     path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
@@ -61,5 +62,15 @@ urlpatterns = [
     path('pl_manara/',manara_views.pl_manara,name = 'pl_manara'),
     path('bs_manara/',manara_views.bs_manara,name = 'bs_manara'),
 
-
+    # refactored urls
+    path('dashboard/<str:school>',new_views.dashboard),
+    path('charter-first/<str:school>',new_views.charter_first),
+    path('charter-first-charts/<str:school>',new_views.charter_first_charts),
+    path('profit-loss/<str:school>',new_views.profit_loss),
+    path('profit-loss-charts/<str:school>',new_views.profit_loss_charts),
+    path('balance-sheet/<str:school>',new_views.balance_sheet),
+    path('balance-sheet-charts/<str:school>',new_views.balance_sheet_charts),
+    path('cashflow-statement/<str:school>',new_views.cashflow),
+    path('cashflow-statement-charts/<str:school>',new_views.cashflow_charts),
+    path('general-ledger/<str:school>',new_views.general_ledger)
 ]

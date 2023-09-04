@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ school_name }}
+{% endblock %}
+
+{% block stylesheet %}
+<link rel="stylesheet" href="{% static 'css/charts.css' %}">
+
+<!--  Material icons -->
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+{% endblock %}
+
+{% block body %}
+<div id="content-wrapper">
+
+<nav class="navbar navbar-expand navbar-dark bg-dark ">
+
+    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    
+
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+      
+    </form>
+    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
+    <!-- Navbar -->
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    <a class="navbar-brand mr-1 text-primary " href="/charter-first/{{ school }}" ><i class="fas fa-table"></i></a>
+    
+      
+  
+
+</nav>
+    <div class="container">
+        <div class="insights">
+            <!--START rating-->
+            <div class="rating">
+                <div class="top">
+                    <h1>100</h1>
+                    <h3>A- Superior</h3>
+                </div><!--end top-->
+                <small><b>Estimated First Rating</b> SY2022-2023</small>
+            </div>
+            <!--END rating-->
+
+            <div class="ratios">
+                <h3>Solvency Ratio</h3>
+                <!--debt to cap-->
+                <span><span class="material-symbols-outlined check-circle">
+                        check_circle
+                    </span>
+                    <h1>17:1</h1>
+                </span>
+                <small>DEBT TO CAP RATIO: &gt;95% = 0 pts; &lt;95% = 5 pts</small>
+
+                <!--LT LIAB-->
+                <span><span class="material-symbols-outlined error-circle">
+                        error
+                    </span>
+                    <h1>16:1</h1>
+                </span>
+                <small>LT LIAB/TOTAL ASSETS: &lt;0.6 = 10 pts; &gt;1.0 = 0 pts</small>
+                <!--ADMIN-->
+                <span><span class="material-symbols-outlined check-circle">
+                        check_circle
+                    </span>
+                    <h1>1:10</h1>
+                </span>
+                <small>ADMIN RATIO: &lt;=15.61%</small>
+                <!--DSCR-->
+                <span><span class="material-symbols-outlined error-circle">
+                        error
+                    </span>
+                    <h1>0:1</h1>
+                </span>
+                <small>DSCR: &gt;1.2x = 10 pts; &lt;1.0x = 0 pts</small>
+                <!--Current ratio-->
+                <span><span class="material-symbols-outlined check-circle">
+                        check_circle
+                    </span>
+                    <h1>4.61</h1>
+                </span>
+                <small>CURRENT RATIO</small>
+                <!--Days on hand-->
+                <span><span class="material-symbols-outlined check-circle">
+                        check_circle
+                    </span>
+                    <h1>190</h1>
+                </span>
+                <small>DAYS ON HAND RATIO: Preffered benchmark &gt;60 days 10 pts &gt; 60; 0 pts < 20</small>
+            </div><!--END ratios-->
+        </div> <!--END insights-->
+
+        <div class="insights">
+
+            <!--START net-income -->
+            <div class="net-income">
+                <div>
+                    <h3>Net YTD Income</h3>
+                    <h1>$(1,323,478)</h1>
+                </div>
+                <div id="chartdiv">
+                </div>
+            </div><!--END net-income-->
+            <div class="projection">
+                <h3>Projection</h3>
+                <table>
+                    <tr>
+                        <td class="not-measured">Students to Staff Ratio 15% or declines over 3 years</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td class="projected">Actual ADA vs Estimated</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td class="projected">Accurate PEIMS reporting</td>
+                        <td>Ceiling</td>
+                    </tr>
+                    <tr>
+                        <td class="projected">Annual audit compliance</td>
+                        <td>Ceiling</td>
+                    </tr>
+                    <tr>
+                        <td class="projected">Annual audit compliance</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td class="projected">Post finanical info on</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td class="not-measured">Serves students reside approved geographic</td>
+                        <td>Ceiling</td>
+                    </tr>
+                </table>
+
+                <span><span class="material-symbols-outlined check-circle">
+                        crop_square
+                    </span>
+                    <h3>Projected</h3>
+                </span>
+
+                <span><span class="material-symbols-outlined error-circle">
+                        crop_square
+                    </span>
+                    <h3>Not measured by DSS</h3>
+                </span>
+            </div><!--END projection-->
+
+        </div> <!--END insights-->
+    </div> <!-- END CONTAINER -->
+</div>
+
+
+
+{% endblock %}
+{% block javascript %}
+
+<!--AM Charts-->
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+
+
+<!-- my scripts-->
+<script src="{% static 'js/charts.js' %}"> </script>
+{% endblock %}

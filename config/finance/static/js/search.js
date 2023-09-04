@@ -9,7 +9,7 @@ $(document).ready(function(){
         var selectedOption = e.params.data.id;
         if (selectedOption) {
             $('#page-load-spinner').modal('show');
-            window.location.href = selectedOption;
+            window.location.href = "/dashboard/"+selectedOption;
         }
     });
 });
