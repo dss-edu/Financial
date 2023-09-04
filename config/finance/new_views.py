@@ -186,8 +186,5 @@ def cashflow_charts(request, school):
 
 
 def general_ledger(request, school):
-    if school == "advantage":
-        context = modules.general_ledger()
-        context["school"] = school
-        context["school_name"] = SCHOOLS[school]
-        return render(request, "temps/general-ledger.html", context)
+    context = modules.general_ledger(school)
+    return render(request, "temps/general-ledger.html", context)
