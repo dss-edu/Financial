@@ -12,14 +12,14 @@ urlpatterns = [
     path('login/',views.loginView,name = 'login'),
     path('login_form/',views.login_form,name = 'login_form'),
     path('logout/', views.logoutView, name='logout'),
-    # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
+    path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
     # path('first_advantage/', views.first_advantage, name='first_advantage'),
     # path('first_advantagechart/', views.first_advantagechart, name='first_advantagechart'),
     # path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
     # path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     # path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
-    # path('generate_excel/', views.generate_excel, name='generate_excel'),
+    
     # path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
 
     
@@ -35,7 +35,7 @@ urlpatterns = [
     path('viewglfunc/<str:func>/<str:yr>/', views.viewglfunc, name='viewglfunc'),
     path('viewgl_activitybs/<str:obj>/<str:yr>/', views.viewgl_activitybs, name='viewgl_activitybs'),
     path('viewglexpense/<str:obj>/<str:yr>/', views.viewglexpense, name='viewglexpense'),
-
+    path('generate_excel/', views.generate_excel, name='generate_excel'),
     
     # path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
     # path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
