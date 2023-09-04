@@ -894,6 +894,31 @@
 
       
       
+      <script>
+        function convertValue(rowNumber, value) {
+          if (isNaN(value)) {
+            document.getElementById("convertFunc" + rowNumber).innerHTML = '';
+            return;
+          }
+            var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
+            var formattedbudget = Number(convertedBudget).toLocaleString();
+            document.getElementById("convertFunc" + rowNumber).innerHTML = formattedbudget;
+        }
+
+        var rowValue = "{{ row.budget }}";
+        var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
+        if (formatrowValue !== 0.0) {
+            convertValue({{ forloop.counter }}, formatrowValue);
+        }
+
+        
+        document.getElementById("row11-{{ forloop.counter }}").addEventListener("input", function(e) {
+            var newValue = parseFloat(e.target.innerText);
+            if (!isNaN(newValue)) {
+                convertValue({{ forloop.counter }}, newValue);
+            }
+        });
+    </script>
       
     {% endfor %}
 
@@ -984,8 +1009,31 @@
       </tr>
       
 
-      
-      
+      <script>
+        function convertValue(rowNumber, value) {
+          if (isNaN(value)) {
+            document.getElementById("convertFunc" + rowNumber).innerHTML = '';
+            return;
+          }
+            var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
+            var formattedbudget = Number(convertedBudget).toLocaleString();
+            document.getElementById("convertFunc" + rowNumber).innerHTML = formattedbudget;
+        }
+
+        var rowValue = "{{ row.budget }}";
+        var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
+        if (formatrowValue !== 0.0) {
+            convertValue({{ forloop.counter }}, formatrowValue);
+        }
+
+        
+        document.getElementById("row12-{{ forloop.counter }}").addEventListener("input", function(e) {
+            var newValue = parseFloat(e.target.innerText);
+            if (!isNaN(newValue)) {
+                convertValue({{ forloop.counter }}, newValue);
+            }
+        });
+    </script>
       {% endif %}
     {% endfor %}
 
