@@ -20,6 +20,7 @@ db = {
         "activities": "[AscenderData_Advantage_PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow" : "[AscenderData_Advantage_Cashflow]",
     },
     "cumberland": {
         "object": "[AscenderData_Cumberland_Definition_obj]", 
@@ -29,6 +30,7 @@ db = {
         "activities": "[AscenderData_Cumberland_PL_Activities]",
         "bs": "[AscenderData_Cumberland_Balancesheet]",
         "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
+        "cashflow" : "[AscenderData_Advantage_Cashflow]",
     },
     "village-tech": {
         "object": "[AscenderData_Advantage_Definition_obj]", 
@@ -38,6 +40,7 @@ db = {
         "activities": "[AscenderData_Advantage_PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow" : "[AscenderData_Advantage_Cashflow]",
     },
     "prepschool": {
         "object": "[AscenderData_Advantage_Definition_obj]", 
@@ -47,6 +50,7 @@ db = {
         "activities": "[AscenderData_Advantage_PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow" : "[AscenderData_Advantage_Cashflow]",
     },
     "manara": {
         "object": "[AscenderData_Advantage_Definition_obj]", 
@@ -56,6 +60,7 @@ db = {
         "activities": "[AscenderData_Advantage_PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow" : "[AscenderData_Advantage_Cashflow]",
         },
 }
 
@@ -611,10 +616,10 @@ def balance_sheet(school):
 
 
 
-def cashflow():
+def cashflow(school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};") 
     rows = cursor.fetchall()
 
     
@@ -632,7 +637,7 @@ def cashflow():
         }
         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};") 
     rows = cursor.fetchall()
 
 
@@ -650,44 +655,63 @@ def cashflow():
 
 
     #
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")  
     rows = cursor.fetchall()
     
     data3=[]
     
     
-    for row in rows:
-        expend = float(row[17])
+    if not school == "village-tech":
+        for row in rows:
+            expend = float(row[17])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':expend,
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
+            row_dict = {
+                'fund':row[0],
+                'func':row[1],
+                'obj':row[2],
+                'sobj':row[3],
+                'org':row[4],
+                'fscl_yr':row[5],
+                'pgm':row[6],
+                'edSpan':row[7],
+                'projDtl':row[8],
+                'AcctDescr':row[9],
+                'Number':row[10],
+                'Date':row[11],
+                'AcctPer':row[12],
+                'Est':row[13],
+                'Real':row[14],
+                'Appr':row[15],
+                'Encum':row[16],
+                'Expend':expend,
+                'Bal':row[18],
+                'WorkDescr':row[19],
+                'Type':row[20],
+                'Contr':row[21]
+                }
+
+            data3.append(row_dict)
+            
+    else:
+        for row in rows:
+            amount = float(row[19])
+            row_dict = {
+                'fund':row[0],
+                'func':row[2],
+                'obj':row[3],
+                'sobj':row[4],
+                'org':row[5],
+                'fscl_yr':row[6],
+     
+                'Date':row[9],
+                'AcctPer':row[10],
+                'Amount':amount,
             }
-        
-        data3.append(row_dict)
+
+            data3.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};") 
     rows = cursor.fetchall()
     
     data_expensebyobject=[]
@@ -705,7 +729,7 @@ def cashflow():
         
         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};") 
     rows = cursor.fetchall()
     
     data_activities=[]
@@ -723,7 +747,7 @@ def cashflow():
         
         data_activities.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_Cashflow];") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")  
     rows = cursor.fetchall()
     
     data_cashflow=[]
@@ -742,7 +766,7 @@ def cashflow():
         
         data_cashflow.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']};")   
     rows = cursor.fetchall()
     
     data_activitybs=[]
@@ -760,7 +784,7 @@ def cashflow():
         
         data_activitybs.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}") 
     rows = cursor.fetchall()
     
     data_balancesheet=[]
@@ -784,13 +808,17 @@ def cashflow():
     
     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
+    activity_key = 'Bal'
+    if school == "village-tech":
+        activity_key = 'Amount'
+
     for item in data_activitybs:
         obj = item['obj']
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             key = f'total_bal{i}' 
             item[key] = sum(
-                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+                entry[activity_key] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
             )  
 
 
@@ -1219,24 +1247,26 @@ def cashflow():
         formatted_ytd_budget = formatted_ytd_budget[2:]
    
     context = {
+         'school' : school,
+         'school_name': SCHOOLS[school],
          'data': data, 
          'data2':data2 , 
          'data3': data3 ,
          'data_cashflow': data_cashflow,
          'data_activitybs': data_activitybs,
          'data_balancesheet':data_balancesheet,
-          'lr_funds':lr_funds_sorted, 
-          'lr_obj':lr_obj_sorted, 
-          'func_choice':func_choice_sorted ,
-          'data_expensebyobject': data_expensebyobject,
-          'data_activities': data_activities,
-          'last_month':last_month,
-          'last_month_number':last_month_number,
-          'format_ytd_budget': formatted_ytd_budget,
-          'ytd_budget':ytd_budget,
-          'total_DnA': formatted_total_DnA,
-          'total_netsurplus':formatted_total_netsurplus,
-          'total_SBD':total_SBD,
+         'lr_funds':lr_funds_sorted, 
+         'lr_obj':lr_obj_sorted, 
+         'func_choice':func_choice_sorted ,
+         'data_expensebyobject': data_expensebyobject,
+         'data_activities': data_activities,
+         'last_month':last_month,
+         'last_month_number':last_month_number,
+         'format_ytd_budget': formatted_ytd_budget,
+         'ytd_budget':ytd_budget,
+         'total_DnA': formatted_total_DnA,
+         'total_netsurplus':formatted_total_netsurplus,
+         'total_SBD':total_SBD,
           }
     return context
 

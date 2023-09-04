@@ -166,10 +166,10 @@ def balance_sheet_charts(request, school):
     return render(request,'temps/profit-loss-charts.html', context)
 
 def cashflow(request, school):
-    if school == "advantage":
-        context = modules.cashflow()
-        context["school"] = school
-        return render(request, 'temps/cashflow.html', context)
+    
+    context = modules.cashflow(school)
+    
+    return render(request, 'temps/cashflow.html', context)
 
 def cashflow_charts(request, school):
     context = {
