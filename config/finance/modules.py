@@ -4,42 +4,60 @@ from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
 
 SCHOOLS = {
-        "advantage": "ADVANTAGE ACADEMY",
-        "cumberland": "CUMBERLAND ACADEMY",
-        "village-tech": "VILLAGE TECH",
-        "prepschool": "LEADERSHIP PREP SCHOOL",
-        "manara": "MANARA ACADEMY"
-        }
+    "advantage": "ADVANTAGE ACADEMY",
+    "cumberland": "CUMBERLAND ACADEMY",
+    "village-tech": "VILLAGE TECH",
+    "prepschool": "LEADERSHIP PREP SCHOOL",
+    "manara": "MANARA ACADEMY"
+}
 
 db = {
-        "advantage": {
-            "object": "[AscenderData_Advantage_Definition_obj]", 
-            "function": "[AscenderData_Advantage_Definition_func]",
-            "db": "[AscenderData_Advantage]",
-            "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-            "activities": "[AscenderData_Advantage_PL_Activities]",
-            "bs": "[AscenderData_Advantage_Balancesheet]",
-            "bs_activity": "[AscenderData_Advantage_ActivityBS]",
-            },
-        "cumberland": {
-            "object": "[AscenderData_Cumberland_Definition_obj]", 
-            "function": "[AscenderData_Cumberland_Definition_func]",
-            "db": "[AscenderData_Cumberland]",
-            "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
-            "activities": "[AscenderData_Cumberland_PL_Activities]",
-            "bs": "[AscenderData_Cumberland_Balancesheet]",
-            "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
-            },
-        "village-tech": {
-            "object": "[AscenderData_Advantage_Definition_obj]", 
-            "function": "[AscenderData_Advantage_Definition_func]",
-            "db": "[Skyward_VillageTech]",
-            "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-            "activities": "[AscenderData_Advantage_PL_Activities]",
-            "bs": "[AscenderData_Advantage_Balancesheet]",
-            "bs_activity": "[AscenderData_Advantage_ActivityBS]",
-            },
-        }
+    "advantage": {
+        "object": "[AscenderData_Advantage_Definition_obj]", 
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Advantage]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+    },
+    "cumberland": {
+        "object": "[AscenderData_Cumberland_Definition_obj]", 
+        "function": "[AscenderData_Cumberland_Definition_func]",
+        "db": "[AscenderData_Cumberland]",
+        "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Cumberland_PL_Activities]",
+        "bs": "[AscenderData_Cumberland_Balancesheet]",
+        "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
+    },
+    "village-tech": {
+        "object": "[AscenderData_Advantage_Definition_obj]", 
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[Skyward_VillageTech]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+    },
+    "prepschool": {
+        "object": "[AscenderData_Advantage_Definition_obj]", 
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Leadership]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+    },
+    "manara": {
+        "object": "[AscenderData_Advantage_Definition_obj]", 
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Manara]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        },
+}
 
 
 def profit_loss(school):
@@ -320,7 +338,7 @@ def profit_loss(school):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
+    ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -567,7 +585,7 @@ def balance_sheet(school):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
+    ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
