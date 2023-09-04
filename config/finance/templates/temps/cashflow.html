@@ -6,75 +6,11 @@
 {% endblock %}
 
 {% block stylesheet %}
-<style>
-    th,
-    td {
-        width: 10%;
-    }
-    th:first-child,
-    td:first-child {
-        width: 0%;
-    }
-    th:nth-child(2),
-    td:nth-child(2) {
-        white-space: nowrap;
-    }
-    th:nth-child(3),
-    td:nth-child(3) {
-        display: none;
-    }
-    .right-align-td {
-        text-align: right;
-        padding-right: 250px;
 
-    }
-    .collapsed {
-        display: none;
-    }
+    
+  <link rel="stylesheet" href="{% static 'css/cashflow.css' %}">
 
-    .modal-body thead {
-        position: sticky;
-        top: 0;
-        background-color: #f9f9f9;
-        z-index: 1;
-    }
-    .header {
-        position: sticky;
-        top: 0;
-        z-index: 2;
 
-        background-color: white !important; 
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    }
-
-    .modal-body thead {
-        position: sticky;
-        top: 0;
-        background-color: #f9f9f9;
-        z-index: 1;
-    }
-
-    .modal-footer {
-        z-index: 2;
-    }
-    .table-container {
-        bottom: 0;
-        width: 100%;
-        max-height: calc(100vh - 150px); 
-        overflow: auto;
-        margin:0;
-        padding: 0; 
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    .table th,
-    .table td {
-        padding: 0.5rem !important;
-
-    }
-
-</style>
 {% endblock %} 
     
 
