@@ -1,6 +1,6 @@
 from .connect import connect
 from time import strftime
-from datetime import datetime,timedelta
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 SCHOOLS = {
@@ -1270,19 +1270,15 @@ def cashflow(school):
           }
     return context
 
-def general_ledger():
+def general_ledger(school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    
-    cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Advantage]") 
+    cursor.execute(f"SELECT  TOP(300)* FROM [dbo].{db[school]['db']}")
     rows = cursor.fetchall()
     
-    data3=[]
-    
-    
+    data3 = []
     for row in rows:
-        date_str=row[11]
-        
+        date_str = row[11]
         # if date_str is not None:
         #         date_without_time = date_str.strftime('%b. %d, %Y')
         # else:
@@ -1314,10 +1310,9 @@ def general_ledger():
         
         data3.append(row_dict)
 
-    context = { 
-        'data3': data3 , 
+    context = {
+        'data3': data3, 
          }
     context["school"] = school
     context["school_name"] = SCHOOLS[school]
     return context
-
