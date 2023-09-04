@@ -12,15 +12,15 @@ urlpatterns = [
     path('login/',views.loginView,name = 'login'),
     path('login_form/',views.login_form,name = 'login_form'),
     path('logout/', views.logoutView, name='logout'),
-    path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
-    path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
-    path('first_advantage/', views.first_advantage, name='first_advantage'),
-    path('first_advantagechart/', views.first_advantagechart, name='first_advantagechart'),
-    path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
-    path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
-    path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
-    path('generate_excel/', views.generate_excel, name='generate_excel'),
-    path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
+    # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
+    # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
+    # path('first_advantage/', views.first_advantage, name='first_advantage'),
+    # path('first_advantagechart/', views.first_advantagechart, name='first_advantagechart'),
+    # path('gl_advantage/', views.gl_advantage, name='gl_advantage'),
+    # path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
+    # path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
+    # path('generate_excel/', views.generate_excel, name='generate_excel'),
+    # path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
 
     
     path('insert_row/', views.insert_row, name='insert-row'),
@@ -37,13 +37,13 @@ urlpatterns = [
     path('viewglexpense/<str:obj>/<str:yr>/', views.viewglexpense, name='viewglexpense'),
 
     
-    path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
-    path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
-    path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
-    path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
-    path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
-    path('first_cumberland/', views.first_cumberland, name='first_cumberland'),
-    path('dashboard_cumberland/', views.dashboard_cumberland, name='dashboard_cumberland'),
+    # path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
+    # path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
+    # path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
+    # path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
+    # path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
+    # path('first_cumberland/', views.first_cumberland, name='first_cumberland'),
+    # path('dashboard_cumberland/', views.dashboard_cumberland, name='dashboard_cumberland'),
 
     
 
@@ -53,14 +53,14 @@ urlpatterns = [
     path('viewglexpense_cumberland/<str:obj>/<str:yr>/', views.viewglexpense_cumberland, name='viewglexpense_cumberland'),
 
 
-    path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
-    path('bs_villagetech/', views.bs_villagetech, name='bs_villagetech'),
+    # path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
+    # path('bs_villagetech/', views.bs_villagetech, name='bs_villagetech'),
 
-    path('pl_prep/',prep_views.pl_prep,name = 'pl_prep'),
-    path('bs_prep/',prep_views.bs_prep,name = 'bs_prep'),
+    # path('pl_prep/',prep_views.pl_prep,name = 'pl_prep'),
+    # path('bs_prep/',prep_views.bs_prep,name = 'bs_prep'),
 
-    path('pl_manara/',manara_views.pl_manara,name = 'pl_manara'),
-    path('bs_manara/',manara_views.bs_manara,name = 'bs_manara'),
+    # path('pl_manara/',manara_views.pl_manara,name = 'pl_manara'),
+    # path('bs_manara/',manara_views.bs_manara,name = 'bs_manara'),
 
     # refactored urls
     path('dashboard/<str:school>',new_views.dashboard),
