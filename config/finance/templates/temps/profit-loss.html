@@ -490,7 +490,7 @@
           
             <th colspan="17" style="white-space: nowrap;">
                 <h2 style="text-align: center;">{{ school_name }}</h2><br>
-                <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of July 31, 2023</h2><br>
+                <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{last_month}}</h2><br>
             </th>
 
             
@@ -928,7 +928,7 @@
       <tr id="total-row1" class="ttl-1-row">
         <td class="firstcolumn">
           
-          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11); togglebordertotal1();" >+</button>
+          <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11); togglebordertotal1();" >-</button>
           
         </td>
         <td class="collapsed"></td>
@@ -980,7 +980,7 @@
           <td style="white-space: nowrap;"><input type="hidden" class="form-control"  placeholder="Description" value="{{row.func_func}}">
             
             {{ row.func_func }} - {{ row.desc }}
-            6449
+            {{row.obj}}
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.budget == 0.0 or row.budget == None %}
@@ -1041,7 +1041,7 @@
 
       <tr class="DnA-row-total">
         <td class="firstcolumn">
-          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12); toggleborderDNA();" >+</button>
+          <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12); toggleborderDNA();" >-</button>
           
           
         </td>

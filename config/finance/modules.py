@@ -97,6 +97,7 @@ def profit_loss(school):
             'func_func': row[0],
             'desc': row[1],
             'category': row[2],
+            'obj': row[4],
             'budget': budgetformat,
             
         }
@@ -411,6 +412,42 @@ def balance_sheet(school):
         
         data_balancesheet.append(row_dict)
 
+
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};") 
+    rows = cursor.fetchall()
+
+    
+    data = []
+    for row in rows:
+        if row[4] is None:
+            row[4] = ''
+        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+        row_dict = {
+            'fund': row[0],
+            'obj': row[1],
+            'description': row[2],
+            'category': row[3],
+            'value': valueformat  
+        }
+        data.append(row_dict)
+
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};") 
+    rows = cursor.fetchall()
+
+
+    data2=[]
+    for row in rows:
+        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+        row_dict = {
+            'func_func': row[0],
+            'desc': row[1],
+            'category': row[2],
+            'obj': row[4],
+            'budget': budgetformat,
+            
+        }
+        data2.append(row_dict)
+
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}") 
     rows = cursor.fetchall()
     
@@ -530,8 +567,67 @@ def balance_sheet(school):
         for i in range(1, 13):
             key = (activity, i)
             row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
-            
 
+    # TOTAL REVENUE
+    total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+
+    for item in data:
+        fund = item['fund']
+        obj = item['obj']
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_real{i}'] = sum(
+                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+            )
+
+            total_revenue[acct_per] += abs(item[f'total_real{i}'])
+    
+    #total surplus
+    total_surplus = {acct_per: 0 for acct_per in acct_per_values}
+    data_key = 'Expend'
+    if school == "village-tech":
+        data_key = 'Amount'
+    for item in data2:
+        if item['category'] != 'Depreciation and Amortization':
+            func = item['func_func']
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f'total_func{i}'] = sum(
+                    entry[data_key] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
+                )
+                total_surplus[acct_per] += item[f'total_func{i}']
+
+    # difference_func_values = {i: 0 for i in range(1, 13)}
+    # monthly_totals_func = {i: 0 for i in range(1, 13)}
+    # monthly_totals_func2 = {i: 0 for i in range(1, 13)}
+
+    #---- Depreciation and ammortization total
+    total_DnA = {acct_per: 0 for acct_per in acct_per_values}
+    
+    for item in data2:
+        if item['category'] == 'Depreciation and Amortization':
+            func = item['func_func']
+            obj =  item['obj']
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f'total_func2_{i}'] = sum(
+                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
+                )
+                total_DnA[acct_per] += item[f'total_func2_{i}']
+
+    total_SBD = {acct_per: total_revenue[acct_per] - total_surplus[acct_per]  for acct_per in acct_per_values}
+    total_netsurplus = {acct_per: total_SBD[acct_per] - total_DnA[acct_per]  for acct_per in acct_per_values}
+    
+    
+
+
+    # for month, total in monthly_totals_func2.items():
+    #     print(f'MonthFUNC2 {month}: {total}')
+           
+    
+    # for key, value in difference_func_values.items():
+    #     print(f'{key}: {value}')
+    
     def format_with_parentheses(value):
         if value == 0:
             return ""
@@ -569,9 +665,46 @@ def balance_sheet(school):
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-    
+        #row['net_assets9'] = format_with_parentheses(FYE_value +total_netsurplus.09)
+        # row['net_total9'] =  format_with_parentheses(FYE_value + difference_func_values['difference_func9'])
+        # row['net_total10'] =  format_with_parentheses(FYE_value + difference_func_values['difference_func9'] + difference_func_values['difference_func10'])
 
+    # for row in data_balancesheet:
+    #     row['diffunc9']
 
+    # keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+    # keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
+
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
+
+    formatted_total_netsurplus = {
+        acct_per: "${:,}".format(abs(int(value))) if value > 0 else "(${:,})".format(abs(int(value))) if value < 0 else ""
+        for acct_per, value in total_netsurplus.items() if value != 0
+    }
+    formatted_total_DnA = {
+        acct_per: "{:,}".format(abs(int(value))) if value >= 0 else "({:,})".format(abs(int(value))) if value < 0 else ""
+        for acct_per, value in total_DnA.items() if value!=0
+    }
 
     
     
@@ -591,7 +724,7 @@ def balance_sheet(school):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
+    ytd_budget_test = last_month_number + 3
     ytd_budget = ytd_budget_test / 12
     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
@@ -611,6 +744,9 @@ def balance_sheet(school):
                'last_month_number':last_month_number,
                'format_ytd_budget': formatted_ytd_budget,
                'ytd_budget':ytd_budget,
+               'total_DnA': formatted_total_DnA,
+               'total_netsurplus':formatted_total_netsurplus,
+               'total_SBD':total_SBD,
                }
 
     return context
@@ -648,6 +784,8 @@ def cashflow(school):
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
+            'category': row[2],
+            'obj': row[4],
             'budget': budgetformat,
             
         }
@@ -1072,13 +1210,14 @@ def cashflow(school):
     total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
 
     for item in data2:
-        func = item['func_func']
+        if item['category'] != 'Depreciation and Amortization':
+            func = item['func_func']
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
-            )
-            total_surplus[acct_per] += item[f'total_func{i}']
+            for i, acct_per in enumerate(acct_per_values2, start=1):
+                item[f'total_func{i}'] = sum(
+                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
+                )
+                total_surplus[acct_per] += item[f'total_func{i}']
     # total_surplus9 = 0 
     # total_surplus10 = 0
     # total_surplus11 = 0
@@ -1129,10 +1268,11 @@ def cashflow(school):
     
     for item in data2:
         func = item['func_func']
+        obj =  item['obj']
     
         for i, acct_per in enumerate(acct_per_values2, start=1):
             item[f'total_func2_{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
             )
             total_DnA[acct_per] += item[f'total_func2_{i}']
         
@@ -1195,30 +1335,30 @@ def cashflow(school):
 
 
     
-    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
-    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+    # keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+    # keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
 
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] > 0:
+    #             row[key] = row[key]
+    #         else:
+    #             row[key] = ''
+    # for row in data2:
+    #     for key in keys_to_check_func_2:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
 
                 
           

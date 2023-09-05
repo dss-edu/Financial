@@ -346,7 +346,7 @@ function expandColumns() {
          
             <th colspan="16" style="white-space: nowrap;">
                 <h2 style="text-align: center;">{{ school_name }}</h2><br>
-                <h2 style="text-align: center;">FY2022-2023 Balance Sheet of July 31,2023</h2><br>
+                <h2 style="text-align: center;">FY2022-2023 Balance Sheet of {{last_month}}</h2><br>
             </th>
            
             
@@ -1588,17 +1588,17 @@ function expandColumns() {
                 {{row.FYE}}
               
               </td>
-              <td class="collapsed right-align-td">{{row.difference_9}}</td>
-              <td class="collapsed right-align-td">{{row.difference_10}}</td>
-              <td class="collapsed right-align-td">{{row.difference_11}}</td>
-              <td class="collapsed right-align-td">{{row.difference_12}}</td>
-              <td class="collapsed right-align-td">{{row.difference_1}}</td>
-              <td class="collapsed right-align-td">{{row.difference_2}}</td>
-              <td class="collapsed right-align-td">{{row.difference_3}}</td>
-              <td class="collapsed right-align-td">{{row.difference_4}}</td>
-              <td class="collapsed right-align-td">{{row.difference_5}}</td>
-              <td class="collapsed right-align-td">{{row.difference_6}}</td>
-              <td class="collapsed right-align-td">{{row.difference_7}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_9}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_10}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_11}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_12}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_1}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_2}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_3}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_4}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_5}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_6}}</td>
+              <td class="collapsed right-align-td">{{row.difference_func_7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
               <td class="right-align-td">{{row.difference_7}}</td>
@@ -1641,8 +1641,8 @@ function expandColumns() {
                 {{row.FYE}}
               
               </td>
-              <td class="collapsed right-align-td">{{row.difference_9}}</td>
-              <td class="collapsed right-align-td">{{row.difference_10}}</td>
+              <td class="collapsed right-align-td">{{row.net_total9}}</td>
+              <td class="collapsed right-align-td">{{row.net_total10}}</td>
               <td class="collapsed right-align-td">{{row.difference_11}}</td>
               <td class="collapsed right-align-td">{{row.difference_12}}</td>
               <td class="collapsed right-align-td">{{row.difference_1}}</td>
