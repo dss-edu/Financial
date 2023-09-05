@@ -24,7 +24,8 @@ db = {
     },
     "cumberland": {
         "object": "[AscenderData_Cumberland_Definition_obj]", 
-        "function": "[AscenderData_Cumberland_Definition_func]",
+        #"function": "[AscenderData_Cumberland_Definition_func]",
+        "function": "[AscenderData_Advantage_Definition_func]",
         "db": "[AscenderData_Cumberland]",
         "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
         "activities": "[AscenderData_Cumberland_PL_Activities]",
@@ -570,14 +571,17 @@ def balance_sheet(school):
 
     # TOTAL REVENUE
     total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-
+    data_key2 = 'Real'
+    if school == "village-tech":
+        data_key2 = 'Amount'
+        
     for item in data:
         fund = item['fund']
         obj = item['obj']
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f'total_real{i}'] = sum(
-                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+                entry[data_key2] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
 
             total_revenue[acct_per] += abs(item[f'total_real{i}'])
@@ -611,7 +615,7 @@ def balance_sheet(school):
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 item[f'total_func2_{i}'] = sum(
-                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
+                    entry[data_key] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
                 )
                 total_DnA[acct_per] += item[f'total_func2_{i}']
 
@@ -636,19 +640,19 @@ def balance_sheet(school):
     
     for row in data_balancesheet:
     
-        FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
-        total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
-        total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
-        total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
-        total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
-        total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
-        total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
-        total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
-        total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
-        total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
-        total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
-        total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
-        total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
+        FYE_value = float(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
+        total_sum9_value = float(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
+        total_sum10_value = float(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
+        total_sum11_value = float(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
+        total_sum12_value = float(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
+        total_sum1_value = float(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
+        total_sum2_value = float(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
+        total_sum3_value = float(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
+        total_sum4_value = float(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
+        total_sum5_value = float(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
+        total_sum6_value = float(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
+        total_sum7_value = float(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
+        total_sum8_value = float(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
 
         # Calculate the differences and store them in the row dictionary
         row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
@@ -664,10 +668,34 @@ def balance_sheet(school):
         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
+        row['debt_9'] = format_with_parentheses(FYE_value  - total_sum9_value)
+        row['debt_10'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value)
+        row['debt_11'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value - total_sum11_value)
+        row['debt_12'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value)
+        row['debt_1'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value)
+        row['debt_2'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value)
+        row['debt_3'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value)
+        row['debt_4'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value)
+        row['debt_5'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value)
+        row['debt_6'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value)
+        row['debt_7'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value - total_sum7_value)
+        row['debt_8'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value - total_sum7_value - total_sum8_value)
+        
         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-        #row['net_assets9'] = format_with_parentheses(FYE_value +total_netsurplus.09)
-        # row['net_total9'] =  format_with_parentheses(FYE_value + difference_func_values['difference_func9'])
-        # row['net_total10'] =  format_with_parentheses(FYE_value + difference_func_values['difference_func9'] + difference_func_values['difference_func10'])
+        row['net_assets9'] = format_with_parentheses(FYE_value + total_netsurplus['09'])
+        row['net_assets10'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'])
+        row['net_assets11'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'])
+        row['net_assets12'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'])
+      
+        row['net_assets1'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'])
+        row['net_assets2'] =  format_with_parentheses(FYE_value + total_netsurplus['09']+total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02'])
+        row['net_assets3'] =  format_with_parentheses(FYE_value + total_netsurplus['09']+total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03'])
+        row['net_assets4'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03']+total_netsurplus['04'])
+        row['net_assets5'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03']+total_netsurplus['04']+total_netsurplus['05'])
+        row['net_assets6'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03']+total_netsurplus['04']+total_netsurplus['05']+total_netsurplus['06'])
+        row['net_assets7'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03']+total_netsurplus['04']+total_netsurplus['05']+total_netsurplus['06']+total_netsurplus['07'])
+        row['net_assets8'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'] +total_netsurplus['12'] +total_netsurplus['01'] +total_netsurplus['02']+total_netsurplus['03']+total_netsurplus['04']+total_netsurplus['05']+total_netsurplus['06']+total_netsurplus['07']+total_netsurplus['08'])
+       
 
     # for row in data_balancesheet:
     #     row['diffunc9']
@@ -723,6 +751,8 @@ def balance_sheet(school):
     last_year = current_date - timedelta(days=365)
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime('%B')
+
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
@@ -742,6 +772,7 @@ def balance_sheet(school):
                'button_rendered': button_rendered,
                'last_month':last_month,
                'last_month_number':last_month_number,
+               'last_month_name':last_month_name,
                'format_ytd_budget': formatted_ytd_budget,
                'ytd_budget':ytd_budget,
                'total_DnA': formatted_total_DnA,
