@@ -96,6 +96,7 @@ def profit_loss(school):
         row_dict = {
             'func_func': row[0],
             'desc': row[1],
+            'category': row[2],
             'budget': budgetformat,
             
         }

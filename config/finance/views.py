@@ -5370,7 +5370,34 @@ def generate_excel(request):
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_liabilites_row_bs},U{net_assets_row_bs})'
 
 
-    
+    # for row in range(2,181):
+    #     cashflow_sheet.row_dimensions[row].height = 19
+    # cashflow_sheet.row_dimensions[17].height = 26 #local revenue
+    # cashflow_sheet.row_dimensions[20].height = 26 #spr
+    # cashflow_sheet.row_dimensions[33].height = 26 #fpr
+    # cashflow_sheet.row_dimensions[34].height = 26 
+    # cashflow_sheet.column_dimensions['A'].width = 8
+    # cashflow_sheet.column_dimensions['B'].width = 28
+    # cashflow_sheet.column_dimensions['C'].width = 10
+    # cashflow_sheet.column_dimensions['D'].width = 14
+    # cashflow_sheet.column_dimensions['E'].width = 14
+    # cashflow_sheet.column_dimensions['F'].hidden = True
+    # cashflow_sheet.column_dimensions['G'].width = 12
+    # cashflow_sheet.column_dimensions['H'].width = 12
+    # cashflow_sheet.column_dimensions['I'].width = 12
+    # cashflow_sheet.column_dimensions['J'].width = 12
+    # cashflow_sheet.column_dimensions['K'].width = 12
+    # cashflow_sheet.column_dimensions['L'].width = 12
+    # cashflow_sheet.column_dimensions['M'].width = 12
+    # cashflow_sheet.column_dimensions['N'].width = 12
+    # cashflow_sheet.column_dimensions['O'].width = 12
+    # cashflow_sheet.column_dimensions['P'].width = 12
+    # cashflow_sheet.column_dimensions['Q'].width = 12
+    # cashflow_sheet.column_dimensions['R'].width = 12
+    # cashflow_sheet.column_dimensions['S'].width = 3
+    # cashflow_sheet.column_dimensions['T'].width = 17
+    # cashflow_sheet.column_dimensions['U'].width = 17
+    # cashflow_sheet.column_dimensions['V'].width = 12
 
 
   

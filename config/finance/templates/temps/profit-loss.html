@@ -859,6 +859,7 @@
       </tr>
 
     {% for row in data2 %}
+    {% if row.category != 'Depreciation and Amortization' %}
       
       <tr id="row11-{{ forloop.counter }}" class="total-row1">
           <td class="firstcolumn"></td>
@@ -919,7 +920,7 @@
             }
         });
     </script>
-      
+    {% endif %}
     {% endfor %}
 
 
@@ -971,7 +972,7 @@
       <!-- Depreciation and  amortization start -->
 
       {% for row in data2 %}
-      {% if row.func_func == '51' %}
+      {% if row.category == 'Depreciation and Amortization' %}
       
       <tr id="row12-{{ forloop.counter }}" class="DnA-row">
           <td class="firstcolumn"></td>
@@ -985,7 +986,7 @@
             {% if row.budget == 0.0 or row.budget == None %}
             <input type="hidden" class="form-control" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
             {% else %}
-            <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">
+            <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
             {% endif %} 
           </td>
           
@@ -1038,7 +1039,7 @@
     {% endfor %}
 
 
-      <tr >
+      <tr class="DnA-row-total">
         <td class="firstcolumn">
           <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12); toggleborderDNA();" >+</button>
           

@@ -150,8 +150,8 @@ function toggleColumns() {
     hideRowsByClass('.ooe-row');
     hideRowsByClass('.expense-row');
     hideRowsByClass('.payroll-row');
-    hideRowsByClass('.total-row1');
-    hideRowsByClass('.DnA-row');
+    // hideRowsByClass('.total-row1');
+    // hideRowsByClass('.DnA-row');
    
   }
 
@@ -378,7 +378,7 @@ function calculateLSFTotals() {
 
 /*---- year to date totals ------------*/
 function calculateYTD() {
-  const rows = document.querySelectorAll('.local-revenue-row, .spr-row, .fpr-row, .total-row1, .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-1-row, .ttl-0-row');
+  const rows = document.querySelectorAll('.local-revenue-row, .spr-row, .fpr-row, .total-row1, .DnA-row, .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-1-row, .ttl-0-row');
 
   rows.forEach(row => {
     const cells = row.cells;
@@ -470,7 +470,7 @@ function CalculateVariances1() {
 
 /*----- Calculate Variances for total row 1 ex. data 2 from fund------------ */
 function CalculateVariances2() {
-  const rows = document.querySelectorAll('.total-row1, .ttl-1-row');
+  const rows = document.querySelectorAll('.total-row1, .ttl-1-row, .DnA-row ' );
 
   rows.forEach(row => {
     const cells = row.cells;
@@ -514,9 +514,51 @@ function CalculateVariances2() {
 }
 
 
-/*----- Calculate Variances for total row 1 ex. data 2 from fund------------ */
+/*----- Calculate VAR. for dna row total------------ */
+function CalculateDnAVar42() {
+  const rows = document.querySelectorAll(' .DnA-row-total');
+
+  rows.forEach(row => {
+    const cells = row.cells;
+    let ytdCell = cells[17];
+    let ammendedCell = cells[4];
+
+    // Parse the values from the cells and remove any non-numeric characters
+    let ytdValue = parseFloat(ytdCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+    let ammendedValue = parseFloat(ammendedCell.textContent.trim().replace('$', '').replace(/,/g, ''));
+    console.log(ytdValue);
+    console.log(ammendedValue);
+
+
+    if (isNaN(ytdValue)) {
+      ytdValue = 0;
+    }
+    if (isNaN(ammendedValue)) {
+      ammendedValue = 1; // To avoid division by zero
+    }
+
+    // Calculate the percentage
+    const percentage = (ytdValue / ammendedValue) * 100;
+
+    // Format the percentage with parentheses for negative values and append '%'
+    let formattedPercentage = '';
+    if (!isNaN(percentage)) {
+      if (percentage < 0) {
+        formattedPercentage = `(${Math.abs(percentage.toFixed(0))}%)`;
+      } else {
+        formattedPercentage = `${percentage.toFixed(0)}%`;
+      }
+    }
+
+   
+
+    // Display the result in cell[19]
+    cells[19].textContent = percentage !== 0 ? formattedPercentage : '';
+  });
+}
+
 function CalculateVar42() {
-  const rows = document.querySelectorAll('.total-row1, .ttl-1-row,  .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-0-row');
+  const rows = document.querySelectorAll('.total-row1, .ttl-1-row,  .ttl-lr-row, .ttl-fpr-row, .ttl-spr-row, .ttl-0-row , .DnA-row');
 
   rows.forEach(row => {
     const cells = row.cells;
@@ -1423,6 +1465,6 @@ function NetSurplusTotal() {
     totalEOC();
     NetIncomeVariance();
     CalculateVar42forNetSurplus();
-  
+    CalculateDnAVar42();
     
 });
