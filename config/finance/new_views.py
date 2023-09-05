@@ -1,33 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UploadForm, ReportsForm
-import pandas as pd
-import io
-from .models import User, Item
-from django.contrib import auth
-from django.contrib.auth import login, authenticate
-from django.contrib.auth import logout
-from django.urls import reverse_lazy
+from .forms import ReportsForm
 from django.utils.safestring import mark_safe
-import sys
-from time import strftime
-import os
-import pyodbc
-import sqlalchemy as sa
-from sqlalchemy import create_engine
-from urllib.parse import quote_plus
 import datetime
-import locale
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-import shutil
-import openpyxl
-from django.conf import settings
-from openpyxl.utils import get_column_letter
-from bs4 import BeautifulSoup
-from openpyxl.styles import Font, NamedStyle, Border, Side, Alignment
 from .connect import connect
 from . import modules
 
@@ -58,8 +34,6 @@ def dashboard(request, school):
             update_query, (accomplishments, activities, agendas, school_name)
         )
 
-        # update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
-        # cursor.execute(update_query, (accomplishments, activities, school_name))
         cnxn.commit()
 
         data["accomplishments"] = mark_safe(accomplishments)
@@ -84,7 +58,6 @@ def dashboard(request, school):
             cursor.execute(
                 insert_query, (school_name, accomplishments, activities, agendas)
             )
-            # cursor.execute(insert_query, (school_name, accomplishments, activities))
 
             # Commit the transaction
             cnxn.commit()
