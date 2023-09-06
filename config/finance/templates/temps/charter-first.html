@@ -3,101 +3,101 @@
 {% load static %}
 
 {% block title %}
-{{ school_name }}
+    {{ school_name }}
 {% endblock %}
 
 {% block stylesheet %}
-  <style>
+    <style>
 
 
-    .right-align-td {
-      text-align: right;
-    padding-right: 250px;
-     
-    }
-    .collapsed {
-      display: none;
- 
-  }
-  .table-container {
-    bottom: 0;
-    width: 100%;
-    max-height: calc(100vh - 150px); 
-    overflow: auto;
-    position: relative;
-    margin: 0; 
-    padding: 0; 
-    display: flex;
-    justify-content: flex-start;
-  }
-  
-  table {
-    border-collapse: collapse; /* Collapse cell borders */
-    width: 70%; /* Adjust table width as needed */
-    border: 1px solid black; /* Outer border of the table */
-  }
+        .right-align-td {
+            text-align: right;
+            padding-right: 250px;
+
+        }
+        .collapsed {
+            display: none;
+
+        }
+        .table-container {
+            bottom: 0;
+            width: 100%;
+            max-height: calc(100vh - 150px);
+            overflow: auto;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        table {
+            border-collapse: collapse; /* Collapse cell borders */
+            width: 70%; /* Adjust table width as needed */
+            border: 1px solid black; /* Outer border of the table */
+        }
 
   /* Style for table header row */
-  th {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
-  }
+        th {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
 
   /* Style for table data cells */
-  td {
-    border: 1px solid black;
-    padding: 8px;
-  }
-  .green-header {
-    background-color: green;
+        td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        .green-header {
+            background-color: green;
 
-  }
-  .table th,
-  .table td {
-    padding: 0.1rem !important;
+        }
+        .table th,
+        .table td {
+            padding: 0.1rem !important;
 
-  }
-  td:nth-child(4) {
-    text-align: center;
-}
-</style>
+        }
+        td:nth-child(4) {
+            text-align: center;
+        }
+    </style>
 
-<link rel="stylesheet" href="{% static 'css/first.css' %}">
+    <link rel="stylesheet" href="{% static 'css/first.css' %}">
 {% endblock %}
 
 {% block body %}
 
- <div id="content-wrapper">
-  <nav class="navbar navbar-expand navbar-dark bg-dark ">
-    <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-dark bg-dark ">
+            <a class="navbar-brand mr-1 text-primary " href="" ></a>
     <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-    </form>
-    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" data-toggle="tooltip" title="POWERBI" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            </form>
+            <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" data-toggle="tooltip" title="POWERBI" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
     <!-- Navbar -->
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <a class="navbar-brand mr-1 text-primary " href="/charter-first-charts/{{ school }}" data-toggle="tooltip" title="CHART"><i class="fas fa-chart-bar" ></i></a>
-    
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <a class="navbar-brand mr-1 text-primary " href="/charter-first-charts/{{ school }}" data-toggle="tooltip" title="CHART"><i class="fas fa-chart-bar" ></i></a>
+
     <!-- &nbsp; -->
     <!-- &nbsp; -->
     <!-- &nbsp; -->
     <!-- &nbsp; -->
     <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a> -->
-    
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
-</nav>
 
-<div class="table-container"  >
-<form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
- 
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
+        </nav>
+
+        <div class="table-container"  >
+            <form  id="insert-row-form" action="{% url 'insert-row' %}" method="post">
+
   {% comment %} <div id="edit-container" >
     <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
 </div>
@@ -168,274 +168,272 @@
     });
 </script> {% endcomment %}
 
-  {% csrf_token %}
-    <table id="data-table" class="table table-hover">
-        <thead>
-          <tr>
-            
-              <th colspan="19" style="white-space: nowrap;">
-                  <h2 style="text-align: center;">{{school_name}}</h2><br>
-                  <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of July 31, 2023</h2><br>
-              </th>
-            
-           
-            
-        </tr>
-        <tr class="green-header" style="height: 50px">
-          <th style="text-align: center;">FIRST Rating Indicators </th>
-          <th style="text-align: center;">Expected Results</th>
-          <th style="text-align: center;">Points</th>
-          <th style="text-align: center;">Status</th>
-          <th style="text-align: center;">Notes</th>
-        </tr>
+                {% csrf_token %}
+                <table id="data-table" class="table table-hover">
+                    <thead>
+                        <tr>
+
+                            <th colspan="19" style="white-space: nowrap;">
+                                <h2 style="text-align: center;">{{school_name}}</h2><br>
+                                <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{ month }} 31, {{ year }}</h2><br>
+                            </th>
 
 
 
-        
-        </thead>
-    <tbody id="data-table-body">
-      <tr>
-        <td><strong>YTD Net Income </strong></td>
-        <td style="text-align:center;">(1,323,478)</td>
-        <td colspan="3" style="text-align:center; overflow: auto;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements;<br> 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
+                        </tr>
+                        <tr class="green-header" style="height: 50px">
+                            <th style="text-align: center;">FIRST Rating Indicators </th>
+                            <th style="text-align: center;">Expected Results</th>
+                            <th style="text-align: center;">Points</th>
+                            <th style="text-align: center;">Status</th>
+                            <th style="text-align: center;">Notes</th>
+                        </tr>
+
+
+
+
+                    </thead>
+                    <tbody id="data-table-body">
+                        <tr>
+                            <td><strong>YTD Net Income </strong></td>
+                            <td id="net-income-ytd" style="text-align:center;">{{ net_income_ytd }}</td>
+                            <td colspan="3" style="text-align:center; overflow: auto;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements;<br> 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
         <!-- <td style="text-align:center;"></td> -->
         <!-- <td></td> -->
-      </tr>
-      <tr>
-        <td><strong>Indicators 1-5 Pass/Fail</strong></td>
-        <td style="text-align:center;">Pass</td>
-        <td style="text-align:center;">n/a</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">Indicator #5 net asset balance at risk if<br> losses continue; growth and new school exceptions do not apply.</td>
-      </tr>
-      <tr>
-        <td><strong>#6 - Net assets over 3 years < 25% decrease<br>
-          Exception: >75days net assets"</strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">n/a</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">89 pts = B max if fails
-        </td>
-      </tr>
-      <tr>
-        <td><strong>#7 - Days Cash on Hand  ($40,806 = 1 day)</strong>
-        </td>
-        <td style="text-align:center;">190
-        </td>
-        <td style="text-align:center;">10
-        </td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">Preferred benchmark &gt; 60 days<br> 10 pts &gt; 60; 0 pts &lt; 20 </td>
-      </tr>
-      <tr>
-        <td><strong>#8 - Current Assets / Current Liab.</strong></td>
-        <td style="text-align:center;">4.61</td>
-        <td style="text-align:center;">10
-        </td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
-      </tr>
-      <tr>
-        <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
-        <td style="text-align:center;">(802,645)</td>
-        <td style="text-align:center;">5
-        </td>
-        <td style="text-align:center;width:100px;" >
-          <div class="row">
-            <div class="col-6 p-0">
-              <div>
-              <p class="green-circle mr-0">G</p>
-              </div>
-            </div>
-            <div class="col-6 p-0">
-              <div>
-              <p class="yellow-circle ml-0">Y</p> 
-              </div>
-            </div>
-          </div>
-        </td>
-        <td style="text-align:center;">revenues &gt;= expenditures
-          (excl. Depr.)
-        </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Indicators 1-5 Pass/Fail</strong></td>
+                            <td id="indicator" style="text-align:center;">{{ indicators }}</td>
+                            <td style="text-align:center;">n/a</td>
+                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;">Indicator #5 net asset balance at risk if<br> losses continue; growth and new school exceptions do not apply.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>#6 - Net assets over 3 years < 25% decrease<br>
+                                Exception: >75days net assets"</strong></td>
+                            <td id="net-assets" style="text-align:center;">{{ net_assets }}</td>
+                            <td style="text-align:center;">n/a</td>
+                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;">89 pts = B max if fails
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>#7 - Days Cash on Hand  ($40,806 = 1 day)</strong>
+                            </td>
+                            <td id="days-coh" style="text-align:center;">{{ days_coh }}</td>
+                            <td style="text-align:center;">10
+                            </td>
+                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;">Preferred benchmark &gt; 60 days<br> 10 pts &gt; 60; 0 pts &lt; 20 </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#8 - Current Assets / Current Liab.</strong></td>
+                            <td id="current-assets" style="text-align:center;">{{ current_assets }}</td>
+                            <td style="text-align:center;">10
+                            </td>
+                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;">Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
+                            </tr>
+                            <tr>
+                                <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
+                                <td id="net-earnings" style="text-align:center;">{{ net_earnings }}</td>
+                                <td style="text-align:center;">5
+                                </td>
+                                <td style="text-align:center;width:100px;" >
+                                    <div class="row">
+                                        <div class="col-6 p-0">
+                                            <div>
+                                                <p class="green-circle mr-0">G</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 p-0">
+                                            <div>
+                                                <p class="yellow-circle ml-0">Y</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="text-align:center;">revenues &gt;= expenditures
+                                    (excl. Depr.)
+                                </td>
 
-    
-      </tr>
-      <tr>
-        <td><strong>#10 - Budget vs Actual Revenue < 10% 3-yr variance</strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">10
 
-        </td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">"within 10% variance<br>
-          (90%-110%)"
-          
-          </td>
-      </tr>
-      <tr>
-        <td><strong>#11 - LT Liabilities / Total Assets</strong></td>
-        <td style="text-align:center;">0.64</td>
-        <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;"> <0.6 = 10pts, >1.0 = 0pts</td>
-      </tr>
-      <tr>
-        <td><strong>#12 - Debt Service Coverage Ratio</strong></td>
-        <td style="text-align:center;">n/a</td>
-        <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;"> 10 pts >1.2X; 0 pts < 1.0X</td>
-      </tr>
-      <tr>
-        <td><strong>#13 - Debt to Capitalization %</strong></td>
-        <td style="text-align:center;">68%</td>
-        <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;"> >95% = 0 pts;<95% = 5 pts </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#10 - Budget vs Actual Revenue < 10% 3-yr variance</strong></td>
+                                <td id="budget-vs-revenue" style="text-align:center;">{{ budget_vs_revenue }}</td>
+                                <td style="text-align:center;">10
 
-      </tr>
+                                </td>
+                                <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                <td style="text-align:center;">"within 10% variance<br>
+                                    (90%-110%)"
 
-      <tr>
-        <td>
-            <strong>#14 - Administrative Ratio</strong>
-            <p style="font-size: 12px;">(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)</p>
-        </td>
-        <td style="text-align:center;">10.3% / 10.2%</td>
-        <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;"> Target &lt;=15.61% <br>
-          &lt;=26.45% if less than 500 students"
-           </td>
-        
-      </tr>
-      <tr>
-        <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
-        <td style="text-align:center;">Not measured by DSS</td>
-        <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">0  or 10 pts
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>#11 - LT Liabilities / Total Assets</strong></td>
+                                <td id="total-assets" style="text-align:center;">{{ total_assets }}</td>
+                                <td style="text-align:center;">10</td>
+                                <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                <td style="text-align:center;"> <0.6 = 10pts, >1.0 = 0pts</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#12 - Debt Service Coverage Ratio</strong></td>
+                                    <td id="debt-services" style="text-align:center;">{{ debt_service }}</td>
+                                    <td style="text-align:center;">10</td>
+                                    <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                    <td style="text-align:center;"> 10 pts >1.2X; 0 pts < 1.0X</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>#13 - Debt to Capitalization %</strong></td>
+                                    <td id="debt-capitalization" style="text-align:center;">{{ debt_capitalization }}</td>
+                                    <td style="text-align:center;">5</td>
+                                    <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                    <td style="text-align:center;"> >95% = 0 pts;<95% = 5 pts </td>
 
-           </td>
-        
-      </tr>
-      <tr>
-        <td><strong>#16 - Actual ADA vs. Estimated ADA</strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">within 10% variance</td>
-        
-      </tr>
-      <tr>
-        <td><strong>#17 - Accurate PEIMS reporting</strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">Ceiling</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">79 pts = C max if material weaknesses</td>
-        
-      </tr>
-      <tr>
-        <td><strong>#19 - Annual audit compliance
-        </strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">10</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">Free of any material noncompliance
-        </td>
-        
-      </tr>
-      <tr>
-        <td><strong>#20 - Post financial info on website</strong></td>
-        <td style="text-align:center;">projected</td>
-        <td style="text-align:center;">5</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">0 or 5 pts</td>
-        
-      </tr>
-      <tr>
-        <td><strong>#21 - Serves students reside approved geographic<br> boundaries</strong></td>
-        <td style="text-align:center;">Not measured by DSS</td>
-        <td style="text-align:center;">Ceiling</td>
-        <td style="text-align:center;"><p class="green-circle">G</p></td>
-        <td style="text-align:center;">89 pts = B max if fails</td>
-        
-      </tr>
-      <tr>
-        <td style="text-align:center;border-bottom:none;"><strong>Estimated FIRST Rating</strong></td>
-        <td colspan = "2" style="text-align:center;border-bottom:none;">100	</td>
-   
-        <td rowspan="2" style="text-align:center;"><p class="green-circle">G</p></td>
-        <td rowspan="2" style="text-align:center;">
-          F &lt; 69, C Meets Standard = 70-79, <br>
-          B Above Standard = 80-89, <br>
-          A Superior = 90-100"
-        </td>
-      </tr>
-      <tr>
-        <td style="text-align:center;border-top:none;"><strong>2022-2023 School Year</strong></td>
-        <td colspan="2" style="text-align:center; border-top:none;">A - Superior</td>
-      </tr>
-      <tr>
-        <td colspan="5">
-          <div class="row">
-            <div class="col">
-              <div class="circle-legend">
-                <p class="green-circle" style="margin:0;">G</p>
-                <p class="legend-text">On Track</p>
-              </div>
-            </div>
-            <div class="col">
-              <div class="circle-legend">
-                <p class="yellow-circle" style="margin:0;">Y</p>
-                <p class="legend-text">Of Concern</p>
-              </div>
-            </div>
-            <div class="col">
-              <div class="circle-legend">
-                <p class="red-circle" style="margin:0;">R</p>
-                <p class="legend-text">At Risk</p>
-              </div>
-            </div>
-            <div class="col-7">
-              <div class="circle-legend">
-                  <p><b>Link to Calculations</b></p>
-                <a class="legend-text" href="https://textreg.sos.state.tx.us/fids/202105100-4.pdf">https://textreg.sos.state.tx.us/fids/202105100-4.pdf</a>
-                </>
-              </div>
-            </div>
-          </div>
-        </td>
-      </tr>
-</tbody>
-</table>
-</form>
-</div>
-</div>
-<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
-        <div class="modal-content  p-0 w-auto h-auto">
-            <div class="modal-body text-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+                                    </tr>
+
+                                        <tr>
+                                            <td>
+                                                <strong>#14 - Administrative Ratio</strong>
+                                                <p style="font-size: 12px;">(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)</p>
+                                            </td>
+                                            <td id="ratio-administrative" style="text-align:center;">{{ ratio_administrative }}</td>
+                                            <td style="text-align:center;">10</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"> Target &lt;=15.61% <br>
+                                                &lt;=26.45% if less than 500 students"
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
+                                            <td id="ratio-student-teacher" style="text-align:center;">{{ ratio_student_teacher }}</td>
+                                            <td style="text-align:center;">10</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">0  or 10 pts
+
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#16 - Actual ADA vs. Estimated ADA</strong></td>
+                                            <td id="estimated-actual-ada" style="text-align:center;">{{ estimated_actual_ada }}</td>
+                                            <td style="text-align:center;">5</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">within 10% variance</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#17 - Accurate PEIMS reporting</strong></td>
+                                            <td id="reporting-peims" style="text-align:center;">{{ reporting_peims }}</td>
+                                            <td style="text-align:center;">Ceiling</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">79 pts = C max if material weaknesses</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#19 - Annual audit compliance
+                                            </strong></td>
+                                            <td id="annual-audit" style="text-align:center;">{{ annual_audit }}</td>
+                                            <td style="text-align:center;">10</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">Free of any material noncompliance
+                                            </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#20 - Post financial info on website</strong></td>
+                                            <td id="post-financial-info" style="text-align:center;">{{ post_financial_info }}</td>
+                                            <td style="text-align:center;">5</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">0 or 5 pts</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td><strong>#21 - Serves students reside approved geographic<br> boundaries</strong></td>
+                                            <td id="approved-geo-boundaries" style="text-align:center;">{{ approved_geo_boundaries }}</td>
+                                            <td style="text-align:center;">Ceiling</td>
+                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;">89 pts = B max if fails</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;border-bottom:none;"><strong>Estimated FIRST Rating</strong></td>
+                                            <td id="estimated-first-rating" colspan = "2" style="text-align:center;border-bottom:none;">{{ estimated_first_rating }}</td>
+
+                                            <td rowspan="2" style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td rowspan="2" style="text-align:center;">
+                                                F &lt; 69, C Meets Standard = 70-79, <br>
+                                                B Above Standard = 80-89, <br>
+                                                A Superior = 90-100"
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:center;border-top:none;"><strong>2022-2023 School Year</strong></td>
+                                            <td colspan="2" style="text-align:center; border-top:none;">A - Superior</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="circle-legend">
+                                                            <p class="green-circle" style="margin:0;">G</p>
+                                                            <p class="legend-text">On Track</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="circle-legend">
+                                                            <p class="yellow-circle" style="margin:0;">Y</p>
+                                                            <p class="legend-text">Of Concern</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="circle-legend">
+                                                            <p class="red-circle" style="margin:0;">R</p>
+                                                            <p class="legend-text">At Risk</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-7">
+                                                        <div class="circle-legend">
+                                                            <p><b>Link to Calculations</b></p>
+                                                            <a class="legend-text" href="https://textreg.sos.state.tx.us/fids/202105100-4.pdf">https://textreg.sos.state.tx.us/fids/202105100-4.pdf</a>
+                                                        </>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- End of spinner modal -->
+                <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+                        <div class="modal-content  p-0 w-auto h-auto">
+                            <div class="modal-body text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of spinner modal -->
 
-<script>
-  function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+                <script>
+                    function formatNumberWithCommas(number) {
+                        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    }
 
-</script>
+                </script>
 
 
 
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'js/excel.js' %}"></script>
+    <script src="{% static 'js/excel.js' %}"></script>
 {% endblock %}
-
-
