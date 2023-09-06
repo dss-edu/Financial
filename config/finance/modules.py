@@ -2,6 +2,7 @@ from .connect import connect
 from time import strftime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from django.views.decorators.cache import cache_control
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -638,6 +639,12 @@ def balance_sheet(school):
         formatted_value = "{:,.0f}".format(abs(value))
         return "({})".format(formatted_value) if value < 0 else formatted_value
     
+    def format_with_parentheses2(value):
+        if value == 0:
+            return ""
+        formatted_value = "{:,.0f}".format(abs(value))
+        return "({})".format(formatted_value) if value > 0 else formatted_value
+
     for row in data_balancesheet:
     
         FYE_value = float(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
@@ -667,7 +674,9 @@ def balance_sheet(school):
         row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-
+        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+        
+        print(row['fytd'])
         row['debt_9'] = format_with_parentheses(FYE_value  - total_sum9_value)
         row['debt_10'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value)
         row['debt_11'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value - total_sum11_value)
@@ -680,8 +689,8 @@ def balance_sheet(school):
         row['debt_6'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value)
         row['debt_7'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value - total_sum7_value)
         row['debt_8'] = format_with_parentheses(FYE_value  - total_sum9_value - total_sum10_value - total_sum11_value - total_sum12_value - total_sum1_value - total_sum2_value - total_sum3_value + total_sum4_value - total_sum5_value - total_sum6_value - total_sum7_value - total_sum8_value)
+        row['debt_fytd'] = format_with_parentheses2(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
         
-        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
         row['net_assets9'] = format_with_parentheses(FYE_value + total_netsurplus['09'])
         row['net_assets10'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'])
         row['net_assets11'] =  format_with_parentheses(FYE_value + total_netsurplus['09'] +total_netsurplus['10'] +total_netsurplus['11'])
