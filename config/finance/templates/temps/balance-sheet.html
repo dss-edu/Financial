@@ -1211,7 +1211,7 @@ function expandColumns() {
       {% for row in data_activitybs %}
       {% if row.Activity == 'AP' %}
       
-      <tr id="row13-{{ forloop.counter }}" class="balancesheet-activity-row">
+      <tr id="row13-{{ forloop.counter }}" class="liabilities-activity-row">
         <td class="firstcolumn">
         
         </td>
@@ -1269,8 +1269,8 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.debt_6}}</td>
               <td class="collapsed right-align-td">{{row.debt_7}}</td>
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_7}}</td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{row.debt_7}}</td>
             </tr>
        
             {% endif %}  
@@ -1286,7 +1286,7 @@ function expandColumns() {
     {% for row in data_activitybs %}
     {% if row.Activity == 'Acc-Exp' %}
     
-    <tr id="row14-{{ forloop.counter }}" class="balancesheet-activity-row">
+    <tr id="row14-{{ forloop.counter }}" class="liabilities-activity-row">
     <td class="firstcolumn">
       
     </td>
@@ -1344,8 +1344,8 @@ function expandColumns() {
             <td class="collapsed right-align-td">{{row.debt_6}}</td>
             <td class="collapsed right-align-td">{{row.debt_7}}</td>
             <td class="collapsed right-align-td"></td>
-            <td class="right-align-td">{{row.fytd}}</td>
-            <td class="right-align-td">{{row.difference_7}}</td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{row.debt_7}}</td>
           </tr>
      
           {% endif %}  
@@ -1359,7 +1359,7 @@ function expandColumns() {
   {% for row in data_activitybs %}
   {% if row.Activity == 'OtherLab' %}
   
-  <tr id="row15-{{ forloop.counter }}" class="balancesheet-activity-row">
+  <tr id="row15-{{ forloop.counter }}" class="liabilities-activity-row">
   <td class="firstcolumn">
     
   </td>
@@ -1417,8 +1417,8 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.debt_6}}</td>
           <td class="collapsed right-align-td">{{row.debt_7}}</td>
           <td class="collapsed right-align-td"></td>
-          <td class="right-align-td">{{row.fytd}}</td>
-          <td class="right-align-td">{{row.difference_7}}</td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{row.debt_7}}</td>
         </tr>
    
         {% endif %}  
@@ -1434,7 +1434,7 @@ function expandColumns() {
   {% for row in data_activitybs %}
   {% if row.Activity == 'Debt-C' %}
   
-  <tr id="row16-{{ forloop.counter }}" class="balancesheet-activity-row">
+  <tr id="row16-{{ forloop.counter }}" class="liabilities-activity-row">
   <td class="firstcolumn">
     
   </td>
@@ -1497,7 +1497,7 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.debt_6}}</td>
           <td class="collapsed right-align-td">{{row.debt_7}}</td>
           <td class="collapsed right-align-td"></td>
-          <td class="right-align-td">{{row.fytd}}</td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
           <td class="right-align-td">{{row.debt_7}}</td>
         </tr>
         {% endif %}  
@@ -1542,7 +1542,7 @@ function expandColumns() {
       {% for row in data_activitybs %}
       {% if row.Activity == 'LTD' %}
       
-      <tr id="row17-{{ forloop.counter }}" class="balancesheet-activity-row">
+      <tr id="row17-{{ forloop.counter }}" class="liabilities-activity-row">
         <td class="firstcolumn">
         
         </td>
@@ -1600,8 +1600,8 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.debt_6}}</td>
               <td class="collapsed right-align-td">{{row.debt_7}}</td>
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_7}}</td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{row.debt_7}}</td>
             </tr>
             {% endif %}   
             
@@ -1654,7 +1654,7 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.net_assets7}}</td>
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_7}}</td>
+              <td class="right-align-td">{{row.net_assets7}}</td>
             </tr>
             {% endif %}
             {% endif %}  

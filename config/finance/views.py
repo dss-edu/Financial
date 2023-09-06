@@ -3573,19 +3573,19 @@ def cashflow_advantage(request):
          'data': data, 
          'data2':data2 , 
          'data3': data3 ,
-          'lr_funds':lr_funds_sorted, 
-          'lr_obj':lr_obj_sorted, 
-          'func_choice':func_choice_sorted ,
-          'data_expensebyobject': data_expensebyobject,
-          'data_activities': data_activities,
-          'last_month':last_month,
-          'last_month_number':last_month_number,
-          'format_ytd_budget': formatted_ytd_budget,
-          'ytd_budget':ytd_budget,
-          'total_DnA': formatted_total_DnA,
-          'total_netsurplus':formatted_total_netsurplus,
-          'total_SBD':total_SBD,
-          }
+         'lr_funds':lr_funds_sorted, 
+         'lr_obj':lr_obj_sorted, 
+         'func_choice':func_choice_sorted ,
+         'data_expensebyobject': data_expensebyobject,
+         'data_activities': data_activities,
+         'last_month':last_month,
+         'last_month_number':last_month_number,
+         'format_ytd_budget': formatted_ytd_budget,
+         'ytd_budget':ytd_budget,
+         'total_DnA': formatted_total_DnA,
+         'total_netsurplus':formatted_total_netsurplus,
+         'total_SBD':total_SBD,
+        }
     return render(request,'dashboard/advantage/cashflow_advantage.html',context)
 
 def cashflow_cumberland(request):
