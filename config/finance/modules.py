@@ -2,6 +2,7 @@ from .connect import connect
 from time import strftime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from django.views.decorators.cache import cache_control
 
 # Get the current date
 current_date = datetime.now()
@@ -806,6 +807,12 @@ def balance_sheet(school):
         formatted_value = "{:,.0f}".format(abs(value))
         return "({})".format(formatted_value) if value < 0 else formatted_value
     
+    def format_with_parentheses2(value):
+        if value == 0:
+            return ""
+        formatted_value = "{:,.0f}".format(abs(value))
+        return "({})".format(formatted_value) if value > 0 else formatted_value
+
     for row in data_balancesheet:
     
         FYE_value = float(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0

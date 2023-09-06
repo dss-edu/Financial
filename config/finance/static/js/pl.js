@@ -934,7 +934,7 @@ function CalculateVariances4() {
 function extractNumericValue(content) {
   const match = content.match(/\(([^)]+)\)/);
   if (match) {
-    const numericValue = parseFloat(match[1].replace(/,/g, '').trim());
+    const numericValue = parseFloat(match[1].replace(/[$,]/g, '').trim());
     return isNaN(numericValue) ? 0 : -numericValue;
   } else {
     const numericValue = parseFloat(content.replace(/[$,]/g, '').trim());
@@ -1401,6 +1401,7 @@ function NetSurplusTotal() {
   }
  }
 
+
  
     const editableCells = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable], .total-row1 td[contenteditable]');
     editableCells.forEach(cell => {
@@ -1466,5 +1467,5 @@ function NetSurplusTotal() {
     NetIncomeVariance();
     CalculateVar42forNetSurplus();
     CalculateDnAVar42();
-    
+  
 });

@@ -420,6 +420,25 @@
   });
 </script>
 
+{% comment %} <div id="dataCheckModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="height: 80%;">
+
+      <div class="modal-body">
+         
+        <p id="modal-text"></p>
+      </div>
+      <div class="modal-footer">
+     
+        <button type="button" class="close" class="btn btn-secondary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+
+
+
 <div class="table-container"  >
 <form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
  
@@ -1594,6 +1613,60 @@
 </form>
 </div>
 
+
+<div class="modal fade" id="missingDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Missing Data Columns</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="missingDataMessage">All Data Complete</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function (){
+    var missingColumns = []; 
+  
+    var monthNames = [
+      "September", "October", "November", "December",
+      "January", "February", "March", "April",
+      "May", "June", "July", "August"
+    ];
+    for (var i = 2; i <= 17; i++) { 
+        var columnCells = document.querySelectorAll(".local-revenue-row td:nth-child(" + i + "), .spr-row td:nth-child(" + i + "), .fpr-row td:nth-child(" + i + ")");
+  
+        var allEmpty = true;
+  
+        columnCells.forEach(function(cell) {
+            if (cell.innerText.trim()) {
+                allEmpty = false;
+            }
+        });
+  
+        if (allEmpty) {
+          missingColumns.push(monthNames[i-6 ]);
+        }
+    }
+  
+    if (missingColumns.length > 0) {
+        var missingColumnsText = missingColumns.join(", ");
+        var missingDataMessage = "The following columns have no data: " + missingColumnsText;
+        document.getElementById("missingDataMessage").textContent = missingDataMessage;
+        $('#missingDataModal').modal('show');
+    }
+  });
+</script>
 
 
 <script>
