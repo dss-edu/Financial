@@ -843,8 +843,7 @@ def balance_sheet(school):
         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-        
-        print(row['fytd'])
+    
         row['debt_9'] = format_with_parentheses(FYE_value  - total_sum9_value)
         row['debt_10'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value)
         row['debt_11'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value - total_sum11_value)
