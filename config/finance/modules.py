@@ -27,18 +27,20 @@ db = {
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
     },
     "cumberland": {
 
         "object": "[AscenderData_Cumberland_Definition_obj]", 
-        #"function": "[AscenderData_Cumberland_Definition_func]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "function": "[AscenderData_Cumberland_Definition_func]",
+        # "function": "[AscenderData_Advantage_Definition_func]",
         "db": "[AscenderData_Cumberland]",
         "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
         "activities": "[AscenderData_Cumberland_PL_Activities]",
         "bs": "[AscenderData_Cumberland_Balancesheet]",
         "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
     },
     "village-tech": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -49,6 +51,7 @@ db = {
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
     },
     "prepschool": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -59,6 +62,7 @@ db = {
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
     },
     "manara": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -69,6 +73,7 @@ db = {
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
     },
 }
 
@@ -150,7 +155,7 @@ def profit_loss(school):
         data2.append(row_dict)
 
     #
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';")
     rows = cursor.fetchall()
 
     data3 = []
@@ -202,6 +207,43 @@ def profit_loss(school):
             }
 
             data3.append(row_dict)
+
+
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
+    rows = cursor.fetchall()
+
+    adjustment = []
+ 
+    if not school == "village-tech":
+        for row in rows:
+            expend = float(row[17])
+
+            row_dict = {
+                "fund": row[0],
+                "func": row[1],
+                "obj": row[2],
+                "sobj": row[3],
+                "org": row[4],
+                "fscl_yr": row[5],
+                "pgm": row[6],
+                "edSpan": row[7],
+                "projDtl": row[8],
+                "AcctDescr": row[9],
+                "Number": row[10],
+                "Date": row[11],
+                "AcctPer": row[12],
+                "Est": row[13],
+                "Real": row[14],
+                "Appr": row[15],
+                "Encum": row[16],
+                "Expend": expend,
+                "Bal": row[18],
+                "WorkDescr": row[19],
+                "Type": row[20],
+                "School": row[21],
+            }
+
+            adjustment.append(row_dict)
 
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
     rows = cursor.fetchall()
@@ -408,23 +450,42 @@ def profit_loss(school):
     if school == "village-tech":
         data_key = "Amount"
     for item in data2:
-        func = item["func_func"]
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f"total_func{i}"] = sum(
-                entry[data_key]
-                for entry in data3
-                if entry["func"] == func and entry["AcctPer"] == acct_per
-            )
+        if item['category'] != 'Depreciation and Amortization':
+            func = item["func_func"]
+            for i, acct_per in enumerate(acct_per_values2, start=1):
+                total_func = sum(
+                    entry[data_key]
+                    for entry in data3
+                    if entry["func"] == func and entry["AcctPer"] == acct_per
+                )
+                total_adjustment = sum(
+                    entry[data_key]
+                    for entry in adjustment
+                    if entry["func"] == func and entry["AcctPer"] == acct_per
+                )
+                item[f"total_func{i}"] = total_func + total_adjustment
+
     for item in data2:
-        func = item["func_func"]
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f"total_func2_{i}"] = sum(
-                entry[data_key]
-                for entry in data3
-                if entry["func"] == func
-                and entry["AcctPer"] == acct_per
-                and entry["obj"] == "6449"
-            )
+        if item['category'] == 'Depreciation and Amortization':
+            func = item["func_func"]
+            obj = item["obj"]
+            for i, acct_per in enumerate(acct_per_values2, start=1):
+                total_func = sum(
+                    entry[data_key]
+                    for entry in data3
+                    if entry["func"] == func
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+                total_adjustment = sum(
+                    entry[data_key]
+                    for entry in adjustment
+                    if entry["func"] == func
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+                item[f"total_func2_{i}"] = total_func + total_adjustment
+
 
     keys_to_check_func = [
         "total_func1",
@@ -438,8 +499,9 @@ def profit_loss(school):
         "total_func9",
         "total_func10",
         "total_func11",
-        "total_func12",
+        "total_func12"
     ]
+
     keys_to_check_func_2 = [
         "total_func2_1",
         "total_func2_2",
@@ -457,7 +519,8 @@ def profit_loss(school):
 
     for row in data2:
         for key in keys_to_check_func:
-            if row[key] > 0:
+            
+            if key in row and row[key] is not None and row[key] > 0:
                 row[key] = row[key]
             else:
                 row[key] = ""
@@ -468,7 +531,7 @@ def profit_loss(school):
 
     for row in data2:
         for key in keys_to_check_func_2:
-            if row[key] > 0:
+            if key in row and row[key] is not None and row[key] > 0:
                 row[key] = row[key]
             else:
                 row[key] = ""
@@ -661,6 +724,42 @@ def balance_sheet(school):
             }
             data3.append(row_dict)
 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
+    rows = cursor.fetchall()
+
+    adjustment = []
+ 
+    if not school == "village-tech":
+        for row in rows:
+            expend = float(row[17])
+
+            row_dict = {
+                "fund": row[0],
+                "func": row[1],
+                "obj": row[2],
+                "sobj": row[3],
+                "org": row[4],
+                "fscl_yr": row[5],
+                "pgm": row[6],
+                "edSpan": row[7],
+                "projDtl": row[8],
+                "AcctDescr": row[9],
+                "Number": row[10],
+                "Date": row[11],
+                "AcctPer": row[12],
+                "Est": row[13],
+                "Real": row[14],
+                "Appr": row[15],
+                "Encum": row[16],
+                "Expend": expend,
+                "Bal": row[18],
+                "WorkDescr": row[19],
+                "Type": row[20],
+                "School": row[21],
+            }
+
+            adjustment.append(row_dict)
+
     acct_per_values = [
         "01",
         "02",
@@ -684,11 +783,17 @@ def balance_sheet(school):
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_bal{i}"] = sum(
+            total_data3 = sum(
                 entry[activity_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
+            total_adjustment = sum(
+                entry[activity_key]
+                for entry in adjustment
+                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+            )
+            item[f"total_bal{i}"] = total_data3 + total_adjustment
 
     keys_to_check = [
         "total_bal1",
@@ -794,6 +899,8 @@ def balance_sheet(school):
 
 
     ytd_DnA= sum(total_DnA.values())
+    ytd_netsurplus= sum(total_netsurplus.values())
+ 
    
 
 
@@ -914,7 +1021,7 @@ def balance_sheet(school):
     }
     
 
-    
+    formated_ytdnetsurplus = format_with_parentheses(ytd_netsurplus)
     
     bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
     bs_activity_list_sorted = sorted(bs_activity_list)
@@ -960,7 +1067,7 @@ def balance_sheet(school):
                    'total_DnA': formatted_total_DnA,
                    'total_netsurplus':formatted_total_netsurplus,
                    'total_SBD':total_SBD,
-                #    'ytd_netsurplus': ytd_netsurplus,
+                   'ytd_netsurplus': formated_ytdnetsurplus,
                    }
     else:
         context = {

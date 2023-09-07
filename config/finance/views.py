@@ -3629,7 +3629,7 @@ def generate_excel(request):
         data2.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage] as AA where AA.Number != 'BEGBAL';") 
     rows = cursor.fetchall()
     
     data3=[]
@@ -3751,6 +3751,8 @@ def generate_excel(request):
             item[f'total_activities{i}'] = sum(
                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
+
+    total_revenue = {acct_per: 0 for acct_per in acct_per_values}
     for item in data:
         fund = item['fund']
         obj = item['obj']
@@ -3759,6 +3761,7 @@ def generate_excel(request):
             item[f'total_real{i}'] = sum(
                 entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
+            total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
 
     for item in data2:
@@ -3842,6 +3845,42 @@ def generate_excel(request):
     
         row['fytd'] = float(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
     
+
+    total_surplus = {acct_per: 0 for acct_per in acct_per_values}
+
+    for item in data2:
+        if item['category'] != 'Depreciation and Amortization':
+            func = item['func_func']
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f'total_func{i}'] = sum(
+                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
+                )
+                total_surplus[acct_per] += item[f'total_func{i}']
+   
+
+    # ---- Depreciation and ammortization total
+    total_DnA = {acct_per: 0 for acct_per in acct_per_values}
+
+    for item in data2:
+        func = item['func_func']
+        obj =  item['obj']
+    
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f'total_func2_{i}'] = sum(
+                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
+            )
+            total_DnA[acct_per] += item[f"total_func2_{i}"]
+
+    total_SBD = {
+        acct_per: total_revenue[acct_per] - total_surplus[acct_per]
+        for acct_per in acct_per_values
+    }
+    total_netsurplus = {
+        acct_per: total_SBD[acct_per] - total_DnA[acct_per]
+        for acct_per in acct_per_values
+    }
+
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
 
@@ -5370,6 +5409,8 @@ def generate_excel(request):
     bs_sheet[f'U{start_row_bs}'].value = f'=SUM(U{total_liabilites_row_bs},U{net_assets_row_bs})'
 
 
+
+    # #CASHFLOW DESIGN
     # for row in range(2,181):
     #     cashflow_sheet.row_dimensions[row].height = 19
     # cashflow_sheet.row_dimensions[17].height = 26 #local revenue
@@ -5398,6 +5439,25 @@ def generate_excel(request):
     # cashflow_sheet.column_dimensions['T'].width = 17
     # cashflow_sheet.column_dimensions['U'].width = 17
     # cashflow_sheet.column_dimensions['V'].width = 12
+
+    # cashflow_start_row = 7
+
+
+
+    # cashflow_sheet[f'F{cashflow_start_row}'] = total_netsurplus['09']
+    # cashflow_sheet[f'G{cashflow_start_row}'] = row['total_netsurplus.09']
+    # cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_10']
+    # cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_11']
+    # cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_12']
+    # cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_1']
+    # cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_2']
+    # cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_3']
+    # cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_4']
+    # cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_5']
+    # cashflow_sheet[f'P{cashflow_start_row}'] = row['difference_6']
+    # cashflow_sheet[f'Q{cashflow_start_row}'] = row['difference_7']
+
+
 
 
   
