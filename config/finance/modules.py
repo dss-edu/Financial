@@ -545,7 +545,7 @@ def balance_sheet(school):
     data_balancesheet = []
 
     for row in rows:
-        fye = int(row[4]) if row[4] else 0
+        fye = float(row[4]) if row[4] else 0
         if fye == 0:
             fyeformat = ""
         else:
@@ -612,7 +612,7 @@ def balance_sheet(school):
 
         data_activitybs.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']}")
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL'")
     rows = cursor.fetchall()
 
     data3 = []
@@ -720,7 +720,7 @@ def balance_sheet(school):
         Activity = item["Activity"]
         for i in range(1, 13):
             total_sum_i = sum(
-                int(
+                float(
                     entry[f"total_bal{i}"]
                     .replace(",", "")
                     .replace("(", "-")
@@ -754,6 +754,7 @@ def balance_sheet(school):
             )
 
             total_revenue[acct_per] += abs(item[f'total_real{i}'])
+           
     
     #total surplus
     total_surplus = {acct_per: 0 for acct_per in acct_per_values}
@@ -790,8 +791,10 @@ def balance_sheet(school):
 
     total_SBD = {acct_per: total_revenue[acct_per] - total_surplus[acct_per]  for acct_per in acct_per_values}
     total_netsurplus = {acct_per: total_SBD[acct_per] - total_DnA[acct_per]  for acct_per in acct_per_values}
-    
-    
+
+
+    ytd_DnA= sum(total_DnA.values())
+   
 
 
     # for month, total in monthly_totals_func2.items():
@@ -843,7 +846,7 @@ def balance_sheet(school):
         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-    
+        
         row['debt_9'] = format_with_parentheses(FYE_value  - total_sum9_value)
         row['debt_10'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value)
         row['debt_11'] = format_with_parentheses(FYE_value - total_sum9_value - total_sum10_value - total_sum11_value)
@@ -909,6 +912,7 @@ def balance_sheet(school):
         acct_per: "{:,}".format(abs(int(value))) if value >= 0 else "({:,})".format(abs(int(value))) if value < 0 else ""
         for acct_per, value in total_DnA.items() if value!=0
     }
+    
 
     
     
@@ -938,40 +942,41 @@ def balance_sheet(school):
 
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
-    
-    context = { 
-               'school': school,
-               'school_name': SCHOOLS[school],
-               'data_balancesheet': data_balancesheet ,
-               'data_activitybs': data_activitybs,
-               'data3': data3,
-               'bs_activity_list': bs_activity_list_sorted,
-               'gl_obj':gl_obj_sorted,
-               'button_rendered': button_rendered,
-               'last_month':last_month,
-               'last_month_number':last_month_number,
-               'last_month_name':last_month_name,
-               'format_ytd_budget': formatted_ytd_budget,
-               'ytd_budget':ytd_budget,
-               'total_DnA': formatted_total_DnA,
-               'total_netsurplus':formatted_total_netsurplus,
-               'total_SBD':total_SBD,
-               }
-
-    context = {
-        "school": school,
-        "school_name": SCHOOLS[school],
-        "data_balancesheet": data_balancesheet,
-        "data_activitybs": data_activitybs,
-        "data3": data3,
-        "bs_activity_list": bs_activity_list_sorted,
-        "gl_obj": gl_obj_sorted,
-        "button_rendered": button_rendered,
-        "last_month": last_month,
-        "last_month_number": last_month_number,
-        "format_ytd_budget": formatted_ytd_budget,
-        "ytd_budget": ytd_budget,
-    }
+    if not school == "village-tech":
+        context = { 
+                   'school': school,
+                   'school_name': SCHOOLS[school],
+                   'data_balancesheet': data_balancesheet ,
+                   'data_activitybs': data_activitybs,
+                   'data3': data3,
+                   'bs_activity_list': bs_activity_list_sorted,
+                   'gl_obj':gl_obj_sorted,
+                   'button_rendered': button_rendered,
+                   'last_month':last_month,
+                   'last_month_number':last_month_number,
+                   'last_month_name':last_month_name,
+                   'format_ytd_budget': formatted_ytd_budget,
+                   'ytd_budget':ytd_budget,
+                   'total_DnA': formatted_total_DnA,
+                   'total_netsurplus':formatted_total_netsurplus,
+                   'total_SBD':total_SBD,
+                #    'ytd_netsurplus': ytd_netsurplus,
+                   }
+    else:
+        context = {
+            "school": school,
+            "school_name": SCHOOLS[school],
+            "data_balancesheet": data_balancesheet,
+            "data_activitybs": data_activitybs,
+            "data3": data3,
+            "bs_activity_list": bs_activity_list_sorted,
+            "gl_obj": gl_obj_sorted,
+            "button_rendered": button_rendered,
+            "last_month": last_month,
+            "last_month_number": last_month_number,
+            "format_ytd_budget": formatted_ytd_budget,
+            "ytd_budget": ytd_budget,
+        }
 
     return context
 
@@ -1130,7 +1135,7 @@ def cashflow(school):
     data_balancesheet = []
 
     for row in rows:
-        fye = int(row[4]) if row[4] else 0
+        fye = float(row[4]) if row[4] else 0
         if fye == 0:
             fyeformat = ""
         else:
@@ -1212,7 +1217,7 @@ def cashflow(school):
         Activity = item["Activity"]
         for i in range(1, 13):
             total_sum_i = sum(
-                int(entry[f"total_bal{i}"])
+                float(entry[f"total_bal{i}"])
                 if entry[f"total_bal{i}"] and entry["Activity"] == Activity
                 else 0
                 for entry in data_activitybs
@@ -1233,67 +1238,67 @@ def cashflow(school):
 
     for row in data_balancesheet:
         FYE_value = (
-            int(row["FYE"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["FYE"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["FYE"]
             else 0
         )
         total_sum9_value = (
-            int(row["total_sum9"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum9"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum9"]
             else 0
         )
         total_sum10_value = (
-            int(row["total_sum10"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum10"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum10"]
             else 0
         )
         total_sum11_value = (
-            int(row["total_sum11"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum11"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum11"]
             else 0
         )
         total_sum12_value = (
-            int(row["total_sum12"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum12"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum12"]
             else 0
         )
         total_sum1_value = (
-            int(row["total_sum1"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum1"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum1"]
             else 0
         )
         total_sum2_value = (
-            int(row["total_sum2"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum2"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum2"]
             else 0
         )
         total_sum3_value = (
-            int(row["total_sum3"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum3"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum3"]
             else 0
         )
         total_sum4_value = (
-            int(row["total_sum4"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum4"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum4"]
             else 0
         )
         total_sum5_value = (
-            int(row["total_sum5"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum5"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum5"]
             else 0
         )
         total_sum6_value = (
-            int(row["total_sum6"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum6"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum6"]
             else 0
         )
         total_sum7_value = (
-            int(row["total_sum7"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum7"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum7"]
             else 0
         )
         total_sum8_value = (
-            int(row["total_sum8"].replace(",", "").replace("(", "-").replace(")", ""))
+            float(row["total_sum8"].replace(",", "").replace("(", "-").replace(")", ""))
             if row["total_sum8"]
             else 0
         )
@@ -1723,18 +1728,18 @@ def cashflow(school):
         for acct_per in acct_per_values
     }
     formatted_total_netsurplus = {
-        acct_per: "${:,}".format(abs(int(value)))
+        acct_per: "${:,}".format(abs(float(value)))
         if value > 0
-        else "(${:,})".format(abs(int(value)))
+        else "(${:,})".format(abs(float(value)))
         if value < 0
         else ""
         for acct_per, value in total_netsurplus.items()
         if value != 0
     }
     formatted_total_DnA = {
-        acct_per: "{:,}".format(abs(int(value)))
+        acct_per: "{:,}".format(abs(float(value)))
         if value >= 0
-        else "({:,})".format(abs(int(value)))
+        else "({:,})".format(abs(float(value)))
         if value < 0
         else ""
         for acct_per, value in total_DnA.items()
