@@ -3756,6 +3756,41 @@ def generate_excel(request):
 
         data_cashflow.append(row_dict)
 
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
+    rows = cursor.fetchall()
+
+    data_charterfirst = []
+
+    for row in rows:
+        row_dict = {
+            "school": row[0],
+            "year": row[1],
+            "month": row[2],
+            "net_income_ytd":row[3],
+            "indicators": row[4],
+            "net_assets": row[5],
+            "days_coh": row[6],
+            "current_assets": row[7],
+            "net_earnings": row[8],
+            "budget_vs_revenue": row[9],
+            "total_assets": row[10],
+            "debt_service": row[11],
+            "debt_capitalization": row[12],
+            "ratio_administrative": row[13],
+            "ratio_student_teacher": row[14],
+            "estimated_actual_ada": row[15],
+            "reporting_peims": row[16],
+            "annual_audit": row[17],
+            "post_financial_info": row[18],
+            "approved_geo_boundaries": row[19],
+            "estimated_first_rating": row[20],
+        }
+
+        data_charterfirst.append(row_dict)
+
+    
+
+
     
 
     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
@@ -3967,7 +4002,48 @@ def generate_excel(request):
         first_sheet.row_dimensions[row].height = 30
     first_sheet.row_dimensions[1].height = 21
     first_sheet.row_dimensions[1].height = 21
-  
+    
+    first_start_row = 4
+    for row in data_charterfirst:
+        if row['school'] == 'advantage':
+            
+            
+            first_sheet[f'B{first_start_row}'] = row['net_income_ytd']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['indicators']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['net_assets']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['days_coh']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['current_assets']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['net_earnings']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['budget_vs_revenue']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['total_assets']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['debt_service']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['debt_capitalization']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['ratio_student_teacher']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['estimated_actual_ada']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['reporting_peims']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['annual_audit']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['post_financial_info']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['approved_geo_boundaries']
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['estimated_first_rating']
+            
     
 
     #------- PL DESIGN
