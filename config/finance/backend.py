@@ -122,9 +122,13 @@ def profit_loss(school):
         data2.append(row_dict)
 
     #
-    cursor.execute(
-        f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
-    )
+    if not school == "village-tech":
+        cursor.execute(
+            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+        )
+    else:
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+
     rows = cursor.fetchall()
 
     data3 = []
@@ -166,6 +170,9 @@ def profit_loss(school):
     else:
         for row in rows:
             amount = float(row[19])
+            date = row[9]
+            if isinstance(row[9], datetime):
+                date = row[9].strftime("%Y-%m-%d")
             row_dict = {
                 "fund": row[0],
                 "func": row[2],
@@ -173,7 +180,7 @@ def profit_loss(school):
                 "sobj": row[4],
                 "org": row[5],
                 "fscl_yr": row[6],
-                "Date": row[9],
+                "Date": date,
                 "AcctPer": row[10],
                 "Amount": amount,
             }
