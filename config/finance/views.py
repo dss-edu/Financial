@@ -4024,9 +4024,12 @@ def generate_excel(request):
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['total_assets']
             first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['debt_service']
+ 
+            first_sheet[f'B{first_start_row}'] = row['debt_service'] 
             first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['debt_capitalization']
+         
+            first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
+
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
             first_start_row += 1
