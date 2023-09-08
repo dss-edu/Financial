@@ -243,7 +243,7 @@ def cashflow(school):
         data2.append(row_dict)
 
     #
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} as AA where AA.Number != 'BEGBAL';")
     rows = cursor.fetchall()
 
     data3 = []
