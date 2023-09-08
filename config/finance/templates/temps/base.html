@@ -95,6 +95,10 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                 <a class="dropdown-item">
+                    <form method="post" action="{% url 'updatedb' %}">
+                        {% csrf_token %}
+                        <button type="submit">Update Database</button>
+                    </form>
 
                 </a>
                 <div class="dropdown-divider"></div>

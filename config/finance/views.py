@@ -29,7 +29,12 @@ from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
 from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
+from .backend import update_db
 
+def updatedb(request):
+    if request.method == 'POST':
+        update_db()
+    return redirect('/dashboard/advantage')
 
 
 
