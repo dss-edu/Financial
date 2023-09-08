@@ -1802,18 +1802,18 @@ def cashflow(school):
         for acct_per in acct_per_values
     }
     formatted_total_netsurplus = {
-        acct_per: "${:,}".format(abs(float(value)))
+        acct_per: "${:,}".format(abs(int(value)))
         if value > 0
-        else "(${:,})".format(abs(float(value)))
+        else "(${:,})".format(abs(int(value)))
         if value < 0
         else ""
         for acct_per, value in total_netsurplus.items()
         if value != 0
     }
     formatted_total_DnA = {
-        acct_per: "{:,}".format(abs(float(value)))
+        acct_per: "{:,}".format(abs(int(value)))
         if value >= 0
-        else "({:,})".format(abs(float(value)))
+        else "({:,})".format(abs(int(value)))
         if value < 0
         else ""
         for acct_per, value in total_DnA.items()
