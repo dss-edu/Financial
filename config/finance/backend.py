@@ -565,7 +565,6 @@ def profit_loss(school):
 
     for key in dict_keys:
         if key in context.keys():
-            print(key)
             json_path = os.path.join(JSON_DIR, f"{key}.json")
             with open(json_path, "w") as f:
                 json.dump(context[key], f)
