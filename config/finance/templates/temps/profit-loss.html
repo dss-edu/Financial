@@ -1637,13 +1637,18 @@
 
   document.addEventListener("DOMContentLoaded", function (){
     var missingColumns = []; 
-  
+    var today = new Date();
+    var currentMonthIndex = today.getMonth();
+    console.log(currentMonthIndex);
+
     var monthNames = [
       "September", "October", "November", "December",
       "January", "February", "March", "April",
       "May", "June", "July", "August"
     ];
-    for (var i = 2; i <= 17; i++) { 
+
+    
+    for (var i = 6 + currentMonthIndex; i <= 17; i++) { 
         var columnCells = document.querySelectorAll(".local-revenue-row td:nth-child(" + i + "), .spr-row td:nth-child(" + i + "), .fpr-row td:nth-child(" + i + ")");
   
         var allEmpty = true;

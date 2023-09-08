@@ -526,8 +526,7 @@ function CalculateDnAVar42() {
     // Parse the values from the cells and remove any non-numeric characters
     let ytdValue = parseFloat(ytdCell.textContent.trim().replace('$', '').replace(/,/g, ''));
     let ammendedValue = parseFloat(ammendedCell.textContent.trim().replace('$', '').replace(/,/g, ''));
-    console.log(ytdValue);
-    console.log(ammendedValue);
+
 
 
     if (isNaN(ytdValue)) {
@@ -1336,6 +1335,8 @@ function NetSurplusTotal() {
 
  
 
+ 
+
  function NetIncomeVariance() {
   const rows = document.querySelectorAll('.ttl-0-row');
   const totalCells = [];
@@ -1400,6 +1401,8 @@ function NetSurplusTotal() {
     totalCell.textContent = columnTotal !== 0 ? formattedTotal : '';
   }
  }
+
+ 
 
 
  

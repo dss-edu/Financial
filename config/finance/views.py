@@ -62,172 +62,172 @@ def logoutView(request):
 	logout(request)
 	return redirect('login_form')
 
-def pl_advantage(request):
+# def pl_advantage(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
-    rows = cursor.fetchall()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+#     rows = cursor.fetchall()
 
     
-    data = []
-    for row in rows:
-        if row[4] is None:
-            row[4] = ''
-        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
-        row_dict = {
-            'fund': row[0],
-            'obj': row[1],
-            'description': row[2],
-            'category': row[3],
-            'value': valueformat  
-        }
-        data.append(row_dict)
+#     data = []
+#     for row in rows:
+#         if row[4] is None:
+#             row[4] = ''
+#         valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+#         row_dict = {
+#             'fund': row[0],
+#             'obj': row[1],
+#             'description': row[2],
+#             'category': row[3],
+#             'value': valueformat  
+#         }
+#         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+#     rows = cursor.fetchall()
 
 
-    data2=[]
-    for row in rows:
-        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
-        row_dict = {
-            'func_func': row[0],
-            'desc': row[1],
-            'budget': budgetformat,
+#     data2=[]
+#     for row in rows:
+#         budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+#         row_dict = {
+#             'func_func': row[0],
+#             'desc': row[1],
+#             'budget': budgetformat,
             
-        }
-        data2.append(row_dict)
+#         }
+#         data2.append(row_dict)
 
 
 
-    #
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
-    rows = cursor.fetchall()
+#     #
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        expend = float(row[17])
+#     for row in rows:
+#         expend = float(row[17])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':expend,
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':row[11],
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':expend,
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+#     rows = cursor.fetchall()
     
-    data_expensebyobject=[]
+#     data_expensebyobject=[]
     
     
-    for row in rows:
+#     for row in rows:
         
-        budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'budget':budgetformat,
+#         budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'budget':budgetformat,
             
-            }
+#             }
         
-        data_expensebyobject.append(row_dict)
+#         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+#     rows = cursor.fetchall()
     
-    data_activities=[]
+#     data_activities=[]
     
     
-    for row in rows:
+#     for row in rows:
         
       
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'Category':row[2],
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
             
-            }
+#             }
         
-        data_activities.append(row_dict)
+#         data_activities.append(row_dict)
     
 
-    #---------- FOR EXPENSE TOTAL -------
-    acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    for item in data_activities:
+#     #---------- FOR EXPENSE TOTAL -------
+#     acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     for item in data_activities:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_activities{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
-    keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
-    keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_activities{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
+#     keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+#     keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
 
 
 
-    for item in data_expensebyobject:
-        obj = item['obj']
-        if obj == '6100':
-            category = 'Payroll Costs'
-        elif obj == '6200':
-            category = 'Professional and Cont Svcs'
-        elif obj == '6300':
-            category = 'Supplies and Materials'
-        elif obj == '6400':
-            category = 'Other Operating Expenses'
-        else:
-            category = 'Total Expense'
+#     for item in data_expensebyobject:
+#         obj = item['obj']
+#         if obj == '6100':
+#             category = 'Payroll Costs'
+#         elif obj == '6200':
+#             category = 'Professional and Cont Svcs'
+#         elif obj == '6300':
+#             category = 'Supplies and Materials'
+#         elif obj == '6400':
+#             category = 'Other Operating Expenses'
+#         else:
+#             category = 'Total Expense'
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_expense{i}'] = sum(
-                entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
-            )
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_expense{i}'] = sum(
+#                 entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+#             )
    
-    for row in data_activities:
-        for key in keys_to_check_expense:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activities:
+#         for key in keys_to_check_expense:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
 
-    for row in data_expensebyobject:
-        for key in keys_to_check_expense2:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_expensebyobject:
+#         for key in keys_to_check_expense2:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
         
     
    
@@ -236,280 +236,280 @@ def pl_advantage(request):
     
 
 
-    #---- for data ------
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     #---- for data ------
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data:
-        fund = item['fund']
-        obj = item['obj']
+#     for item in data:
+#         fund = item['fund']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_real{i}'] = sum(
-                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_real{i}'] = sum(
+#                 entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-    keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
+#     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
  
-    for row in data:
-        for key in keys_to_check:
-            if row[key] < 0:
-                row[key] = -row[key]
-            else:
-                row[key] = ''
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] < 0:
+#                 row[key] = -row[key]
+#             else:
+#                 row[key] = ''
 
-    for row in data:
-        for key in keys_to_check:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
     
 
 
 
-    acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+#             )
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func2_{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-            )  
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func2_{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+#             )  
 
-    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
-    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+#     keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+#     keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
 
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
                 
 
 
 
-    lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
-    lr_funds_sorted = sorted(lr_funds)
-    lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    lr_obj_sorted = sorted(lr_obj)
+#     lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+#     lr_funds_sorted = sorted(lr_funds)
+#     lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     lr_obj_sorted = sorted(lr_obj)
 
-    func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    func_choice_sorted = sorted(func_choice)
+#     func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     func_choice_sorted = sorted(func_choice)
     
             
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
    
-    context = {
-         'data': data, 
-         'data2':data2 , 
-         'data3': data3 ,
-          'lr_funds':lr_funds_sorted, 
-          'lr_obj':lr_obj_sorted, 
-          'func_choice':func_choice_sorted ,
-          'data_expensebyobject': data_expensebyobject,
-          'data_activities': data_activities,
-          'last_month':last_month,
-          'last_month_number':last_month_number,
-          'format_ytd_budget': formatted_ytd_budget,
-          'ytd_budget':ytd_budget,
+#     context = {
+#          'data': data, 
+#          'data2':data2 , 
+#          'data3': data3 ,
+#           'lr_funds':lr_funds_sorted, 
+#           'lr_obj':lr_obj_sorted, 
+#           'func_choice':func_choice_sorted ,
+#           'data_expensebyobject': data_expensebyobject,
+#           'data_activities': data_activities,
+#           'last_month':last_month,
+#           'last_month_number':last_month_number,
+#           'format_ytd_budget': formatted_ytd_budget,
+#           'ytd_budget':ytd_budget,
           
 
-          }
-    return render(request,'dashboard/advantage/pl_advantage.html', context)
+#           }
+#     return render(request,'dashboard/advantage/pl_advantage.html', context)
 
-def pl_villagetech(request):
+# def pl_villagetech(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
-    rows = cursor.fetchall()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+#     rows = cursor.fetchall()
 
     
-    data = []
-    for row in rows:
-        if row[4] is None:
-            row[4] = ''
-        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
-        row_dict = {
-            'fund': row[0],
-            'obj': row[1],
-            'description': row[2],
-            'category': row[3],
-            'value': valueformat  
-        }
-        data.append(row_dict)
+#     data = []
+#     for row in rows:
+#         if row[4] is None:
+#             row[4] = ''
+#         valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+#         row_dict = {
+#             'fund': row[0],
+#             'obj': row[1],
+#             'description': row[2],
+#             'category': row[3],
+#             'value': valueformat  
+#         }
+#         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+#     rows = cursor.fetchall()
 
 
-    data2=[]
-    for row in rows:
-        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
-        row_dict = {
-            'func_func': row[0],
-            'desc': row[1],
-            'budget': budgetformat,
+#     data2=[]
+#     for row in rows:
+#         budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+#         row_dict = {
+#             'func_func': row[0],
+#             'desc': row[1],
+#             'budget': budgetformat,
             
-        }
-        data2.append(row_dict)
+#         }
+#         data2.append(row_dict)
 
 
 
-    #
-    cursor.execute("SELECT * FROM [dbo].[Skyward_VillageTech];") 
-    rows = cursor.fetchall()
+#     #
+#     cursor.execute("SELECT * FROM [dbo].[Skyward_VillageTech];") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        amount = float(row[19])
+#     for row in rows:
+#         amount = float(row[19])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[2],
-            'obj':row[3],
-            'sobj':row[4],
-            'org':row[5],
-            'fscl_yr':row[6],
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[2],
+#             'obj':row[3],
+#             'sobj':row[4],
+#             'org':row[5],
+#             'fscl_yr':row[6],
  
-            'Date':row[9],
-            'AcctPer':row[10],
-            'Amount':amount,
+#             'Date':row[9],
+#             'AcctPer':row[10],
+#             'Amount':amount,
 
-            }
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+#     rows = cursor.fetchall()
     
-    data_expensebyobject=[]
+#     data_expensebyobject=[]
     
     
-    for row in rows:
+#     for row in rows:
         
-        budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'budget':budgetformat,
+#         budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'budget':budgetformat,
             
-            }
+#             }
         
-        data_expensebyobject.append(row_dict)
+#         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+#     rows = cursor.fetchall()
     
-    data_activities=[]
+#     data_activities=[]
     
     
-    for row in rows:
+#     for row in rows:
         
       
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'Category':row[2],
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
             
-            }
+#             }
         
-        data_activities.append(row_dict)
+#         data_activities.append(row_dict)
     
 
-    # #---------- FOR EXPENSE TOTAL -------
-    acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    for item in data_activities:
+#     # #---------- FOR EXPENSE TOTAL -------
+#     acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     for item in data_activities:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_activities{i}'] = sum(
-                entry['Amount'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
-    keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
-    keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_activities{i}'] = sum(
+#                 entry['Amount'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
+#     keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+#     keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
 
 
 
-    for item in data_expensebyobject:
-        obj = item['obj']
-        if obj == '6100':
-            category = 'Payroll Costs'
-        elif obj == '6200':
-            category = 'Professional and Cont Svcs'
-        elif obj == '6300':
-            category = 'Supplies and Materials'
-        elif obj == '6400':
-            category = 'Other Operating Expenses'
-        else:
-            category = 'Total Expense'
+#     for item in data_expensebyobject:
+#         obj = item['obj']
+#         if obj == '6100':
+#             category = 'Payroll Costs'
+#         elif obj == '6200':
+#             category = 'Professional and Cont Svcs'
+#         elif obj == '6300':
+#             category = 'Supplies and Materials'
+#         elif obj == '6400':
+#             category = 'Other Operating Expenses'
+#         else:
+#             category = 'Total Expense'
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_expense{i}'] = sum(
-                entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
-            )
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_expense{i}'] = sum(
+#                 entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+#             )
    
-    for row in data_activities:
-        for key in keys_to_check_expense:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activities:
+#         for key in keys_to_check_expense:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
 
-    for row in data_expensebyobject:
-        for key in keys_to_check_expense2:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_expensebyobject:
+#         for key in keys_to_check_expense2:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
         
     
    
@@ -518,475 +518,475 @@ def pl_villagetech(request):
     
 
 
-    #---- for data ------
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     #---- for data ------
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data:
-        fund = item['fund']
-        obj = item['obj']
+#     for item in data:
+#         fund = item['fund']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_real{i}'] = sum(
-                entry['Amount'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_real{i}'] = sum(
+#                 entry['Amount'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-    keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
+#     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
  
-    for row in data:
-        for key in keys_to_check:
-            if row[key] < 0:
-                row[key] = -row[key]
-            else:
-                row[key] = ''
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] < 0:
+#                 row[key] = -row[key]
+#             else:
+#                 row[key] = ''
 
-    for row in data:
-        for key in keys_to_check:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
     
 
 
 
-    acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Amount'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func{i}'] = sum(
+#                 entry['Amount'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+#             )
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func2_{i}'] = sum(
-                entry['Amount'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-            )  
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func2_{i}'] = sum(
+#                 entry['Amount'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+#             )  
 
-    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
-    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+#     keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+#     keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
 
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
                 
 
 
 
-    # lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
-    # lr_funds_sorted = sorted(lr_funds)
-    # lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    # lr_obj_sorted = sorted(lr_obj)
+#     # lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+#     # lr_funds_sorted = sorted(lr_funds)
+#     # lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     # lr_obj_sorted = sorted(lr_obj)
 
-    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    # func_choice_sorted = sorted(func_choice)
+#     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     # func_choice_sorted = sorted(func_choice)
     
             
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
    
-    context = {
-         'data': data, 
-         'data2':data2 , 
-         'data3': data3 ,
-        #   'lr_funds':lr_funds_sorted, 
-        #   'lr_obj':lr_obj_sorted, 
-        #   'func_choice':func_choice_sorted ,
-          'data_expensebyobject': data_expensebyobject,
-          'data_activities': data_activities,
-          'last_month':last_month,
-          'last_month_number':last_month_number,
-          'format_ytd_budget': formatted_ytd_budget,
-          'ytd_budget':ytd_budget,
+#     context = {
+#          'data': data, 
+#          'data2':data2 , 
+#          'data3': data3 ,
+#         #   'lr_funds':lr_funds_sorted, 
+#         #   'lr_obj':lr_obj_sorted, 
+#         #   'func_choice':func_choice_sorted ,
+#           'data_expensebyobject': data_expensebyobject,
+#           'data_activities': data_activities,
+#           'last_month':last_month,
+#           'last_month_number':last_month_number,
+#           'format_ytd_budget': formatted_ytd_budget,
+#           'ytd_budget':ytd_budget,
           
 
-          }
-    return render(request,'dashboard/villagetech/pl_villagetech.html', context)
+#           }
+#     return render(request,'dashboard/villagetech/pl_villagetech.html', context)
 
-def first_advantage(request):
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+# def first_advantage(request):
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
-    context = {
-        'last_month':last_month,
-        'last_month_number':last_month_number,
-        'format_ytd_budget': formatted_ytd_budget,
-        'ytd_budget':ytd_budget,
-    }
-    return render(request,'dashboard/advantage/first_advantage.html', context)
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
+#     context = {
+#         'last_month':last_month,
+#         'last_month_number':last_month_number,
+#         'format_ytd_budget': formatted_ytd_budget,
+#         'ytd_budget':ytd_budget,
+#     }
+#     return render(request,'dashboard/advantage/first_advantage.html', context)
 
-def dashboard_advantage(request):
-    data = {"accomplishments":"", "activities":"", "agendas": ""}
-    delimiter = "\n"
+# def dashboard_advantage(request):
+#     data = {"accomplishments":"", "activities":"", "agendas": ""}
+#     delimiter = "\n"
 
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    school_name = 'advantage'
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     school_name = 'advantage'
 
-    if request.method == 'POST':
-        form = ReportsForm(request.POST)
-        activities = request.POST.get('activities')
-        accomplishments = request.POST.get('accomplishments')
-        agendas = request.POST.get('agendas')
+#     if request.method == 'POST':
+#         form = ReportsForm(request.POST)
+#         activities = request.POST.get('activities')
+#         accomplishments = request.POST.get('accomplishments')
+#         agendas = request.POST.get('agendas')
 
          
-        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
-        cursor.execute(update_query, (accomplishments, activities, agendas, school_name))
-        # update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
-        # cursor.execute(update_query, (accomplishments, activities, school_name))
-        cnxn.commit()
+#         update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
+#         cursor.execute(update_query, (accomplishments, activities, agendas, school_name))
+#         # update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
+#         # cursor.execute(update_query, (accomplishments, activities, school_name))
+#         cnxn.commit()
 
-        data["accomplishments"] = mark_safe(accomplishments)
-        data["activities"] = mark_safe(activities)
-        data["agendas"] = mark_safe(activities)
-    else:
-        # check if it exists
-        # query for the school
-        query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
-        cursor.execute(query, school_name)
-        row = cursor.fetchone()
+#         data["accomplishments"] = mark_safe(accomplishments)
+#         data["activities"] = mark_safe(activities)
+#         data["agendas"] = mark_safe(activities)
+#     else:
+#         # check if it exists
+#         # query for the school
+#         query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
+#         cursor.execute(query, school_name)
+#         row = cursor.fetchone()
 
-        if row is None:
-            # Insert query if it does noes exists
+#         if row is None:
+#             # Insert query if it does noes exists
 
-            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities, agendas) VALUES (?, ?, ?, ?)"
-            accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
-            activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
-            agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
+#             insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities, agendas) VALUES (?, ?, ?, ?)"
+#             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
+#             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
+#             agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
 
-            # Execute the INSERT query
-            cursor.execute(insert_query, (school_name, accomplishments, activities, agendas))
-            # cursor.execute(insert_query, (school_name, accomplishments, activities))
+#             # Execute the INSERT query
+#             cursor.execute(insert_query, (school_name, accomplishments, activities, agendas))
+#             # cursor.execute(insert_query, (school_name, accomplishments, activities))
 
-            # Commit the transaction
-            cnxn.commit()
-            print("Row inserted successfully.")
-        else:
-            # row = (school, accomplishments, activities)
-            if row[1]:
-                data["accomplishments"] = mark_safe(row[1])
-            if row[2]:
-                data["activities"] = mark_safe(row[2])
-            try:
-                if row[3]:
-                    data["agendas"] = mark_safe(row[3])
-            except:
-                pass
+#             # Commit the transaction
+#             cnxn.commit()
+#             print("Row inserted successfully.")
+#         else:
+#             # row = (school, accomplishments, activities)
+#             if row[1]:
+#                 data["accomplishments"] = mark_safe(row[1])
+#             if row[2]:
+#                 data["activities"] = mark_safe(row[2])
+#             try:
+#                 if row[3]:
+#                     data["agendas"] = mark_safe(row[3])
+#             except:
+#                 pass
 
-    # form = CKEditorForm(initial={'form_field_name': initial_content})
-    form = ReportsForm(initial={'accomplishments': data["accomplishments"], 'activities': data["activities"], "agendas": data["agendas"]})
+#     # form = CKEditorForm(initial={'form_field_name': initial_content})
+#     form = ReportsForm(initial={'accomplishments': data["accomplishments"], 'activities': data["activities"], "agendas": data["agendas"]})
 
-    cursor.close()
-    cnxn.close()
-    return render(request,'dashboard/advantage/dashboard_advantage.html', {'form': form, "data":data})
+#     cursor.close()
+#     cnxn.close()
+#     return render(request,'dashboard/advantage/dashboard_advantage.html', {'form': form, "data":data})
 
 
-def dashboard_cumberland(request):
-    data = {"accomplishments":"", "activities":""}
-    delimiter = "\n"
+# def dashboard_cumberland(request):
+#     data = {"accomplishments":"", "activities":""}
+#     delimiter = "\n"
 
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    school_name = 'cumberland'
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     school_name = 'cumberland'
 
-    if request.method == 'POST':
-        form = ReportsForm(request.POST)
-        activities_text = request.POST.get('activities')
-        accomplishments_text = request.POST.get('accomplishments')
+#     if request.method == 'POST':
+#         form = ReportsForm(request.POST)
+#         activities_text = request.POST.get('activities')
+#         accomplishments_text = request.POST.get('accomplishments')
 
-        # Parse the HTML content
-        soup_activities = BeautifulSoup(activities_text, 'html.parser')
-        soup_accomplishments = BeautifulSoup(accomplishments_text, 'html.parser')
+#         # Parse the HTML content
+#         soup_activities = BeautifulSoup(activities_text, 'html.parser')
+#         soup_accomplishments = BeautifulSoup(accomplishments_text, 'html.parser')
 
-        # Find all list items within the <ul> tag
-        activities_items = soup_activities.find_all('li')
-        accomplishments_items = soup_accomplishments.find_all('li')
+#         # Find all list items within the <ul> tag
+#         activities_items = soup_activities.find_all('li')
+#         accomplishments_items = soup_accomplishments.find_all('li')
 
-        # Extract the text content from each list item
-        activities_list = [item.get_text()+delimiter for item in activities_items]
-        accomplishments_list = [item.get_text()+delimiter for item in accomplishments_items]
+#         # Extract the text content from each list item
+#         activities_list = [item.get_text()+delimiter for item in activities_items]
+#         accomplishments_list = [item.get_text()+delimiter for item in accomplishments_items]
 
-        activities = "".join(activities_list)
-        accomplishments = "".join(accomplishments_list)
+#         activities = "".join(activities_list)
+#         accomplishments = "".join(accomplishments_list)
 
-        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
-        cursor.execute(update_query, (accomplishments, activities, school_name))
-        cnxn.commit()
+#         update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ? WHERE school = ?"
+#         cursor.execute(update_query, (accomplishments, activities, school_name))
+#         cnxn.commit()
 
-        data["accomplishments"] = accomplishments.split(delimiter)[:-1]
-        data["activities"] = activities.split(delimiter)[:-1]
-    else:
-        # check if it exists
-        # query for the school
-        query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
-        cursor.execute(query, school_name)
-        row = cursor.fetchone()
+#         data["accomplishments"] = accomplishments.split(delimiter)[:-1]
+#         data["activities"] = activities.split(delimiter)[:-1]
+#     else:
+#         # check if it exists
+#         # query for the school
+#         query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
+#         cursor.execute(query, school_name)
+#         row = cursor.fetchone()
 
-        if row is None:
-            # Insert query if it does noes exists
-            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
-            accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
-            activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
+#         if row is None:
+#             # Insert query if it does noes exists
+#             insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
+#             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
+#             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
 
-            # Execute the INSERT query
-            cursor.execute(insert_query, (school_name, accomplishments, activities))
+#             # Execute the INSERT query
+#             cursor.execute(insert_query, (school_name, accomplishments, activities))
 
-            # Commit the transaction
-            cnxn.commit()
-            print("Row inserted successfully.")
-        else:
-            # row = (school, accomplishments, activities)
-            if row[1]:
-                data["accomplishments"] = row[1].split(delimiter)[:-1]
-            if row[2]:
-                data["activities"] = row[2].split(delimiter)[:-1]
+#             # Commit the transaction
+#             cnxn.commit()
+#             print("Row inserted successfully.")
+#         else:
+#             # row = (school, accomplishments, activities)
+#             if row[1]:
+#                 data["accomplishments"] = row[1].split(delimiter)[:-1]
+#             if row[2]:
+#                 data["activities"] = row[2].split(delimiter)[:-1]
 
-    activities = "</li>".join(["<li>" + w for w in data["activities"]])
-    accomplishments = "</li>" .join(["<li>" + w for w in data["accomplishments"]])
-    # form = CKEditorForm(initial={'form_field_name': initial_content})
-    form = ReportsForm(initial={'accomplishments': accomplishments, 'activities': activities})
+#     activities = "</li>".join(["<li>" + w for w in data["activities"]])
+#     accomplishments = "</li>" .join(["<li>" + w for w in data["accomplishments"]])
+#     # form = CKEditorForm(initial={'form_field_name': initial_content})
+#     form = ReportsForm(initial={'accomplishments': accomplishments, 'activities': activities})
 
-    cursor.close()
-    cnxn.close()
-    return render(request,'dashboard/cumberland/dashboard_cumberland.html', {'form': form, "data":data})
+#     cursor.close()
+#     cnxn.close()
+#     return render(request,'dashboard/cumberland/dashboard_cumberland.html', {'form': form, "data":data})
 
-def first_cumberland(request):
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+# def first_cumberland(request):
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
-    context = {
-        'last_month':last_month,
-        'last_month_number':last_month_number,
-        'format_ytd_budget': formatted_ytd_budget,
-        'ytd_budget':ytd_budget,
-    }
-    return render(request,'dashboard/cumberland/first_cumberland.html', context)
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
+#     context = {
+#         'last_month':last_month,
+#         'last_month_number':last_month_number,
+#         'format_ytd_budget': formatted_ytd_budget,
+#         'ytd_budget':ytd_budget,
+#     }
+#     return render(request,'dashboard/cumberland/first_cumberland.html', context)
 
-def pl_cumberland(request):
+# def pl_cumberland(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_obj];") 
-    rows = cursor.fetchall()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_obj];") 
+#     rows = cursor.fetchall()
 
     
-    data = []
-    for row in rows:
-        if row[4] is None:
-            row[4] = ''
-        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+#     data = []
+#     for row in rows:
+#         if row[4] is None:
+#             row[4] = ''
+#         valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
             
-        row_dict = {
-            'fund': row[0],
-            'obj': row[1],
-            'description': row[2],
-            'category': row[3],
-            'value':  valueformat
-        }
-        data.append(row_dict)
+#         row_dict = {
+#             'fund': row[0],
+#             'obj': row[1],
+#             'description': row[2],
+#             'category': row[3],
+#             'value':  valueformat
+#         }
+#         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_func];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Definition_func];") 
+#     rows = cursor.fetchall()
 
 
-    data2=[]
-    for row in rows:
-        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
-        row_dict = {
-            'func_func': row[0],
-            'desc': row[1],
-            'budget': budgetformat,
+#     data2=[]
+#     for row in rows:
+#         budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+#         row_dict = {
+#             'func_func': row[0],
+#             'desc': row[1],
+#             'budget': budgetformat,
             
-        }
-        data2.append(row_dict)
+#         }
+#         data2.append(row_dict)
 
 
-    #
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland];") 
-    rows = cursor.fetchall()
+#     #
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland];") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
+#     for row in rows:
 
         
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':row[17],
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':row[11],
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':row[17],
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
     
     
 
 
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_ExpensesbyObjectCode];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_ExpensesbyObjectCode];") 
+#     rows = cursor.fetchall()
     
-    data_expensebyobject=[]
+#     data_expensebyobject=[]
     
     
-    for row in rows:
+#     for row in rows:
         
-        budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'budget':budgetformat,
+#         budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'budget':budgetformat,
             
-            }
+#             }
         
-        data_expensebyobject.append(row_dict)
+#         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_Activities];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_PL_Activities];") 
+#     rows = cursor.fetchall()
     
-    data_activities=[]
+#     data_activities=[]
     
     
-    for row in rows:
+#     for row in rows:
         
       
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'Category':row[2],
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
             
-            }
+#             }
         
-        data_activities.append(row_dict)
+#         data_activities.append(row_dict)
     
 
-    #---------- FOR EXPENSE TOTAL -------
-    acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    for item in data_activities:
+#     #---------- FOR EXPENSE TOTAL -------
+#     acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     for item in data_activities:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
             
 
-            item[f'total_activities{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
-    keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
-    keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+#             item[f'total_activities{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
+#     keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+#     keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
 
 
 
-    for item in data_expensebyobject:
-        obj = item['obj']
-        if obj == '6100':
-            category = 'Payroll Costs'
-        elif obj == '6200':
-            category = 'Professional and Cont Svcs'
-        elif obj == '6300':
-            category = 'Supplies and Materials'
-        elif obj == '6400':
-            category = 'Other Operating Expenses'
-        else:
-            category = 'Total Expense'
+#     for item in data_expensebyobject:
+#         obj = item['obj']
+#         if obj == '6100':
+#             category = 'Payroll Costs'
+#         elif obj == '6200':
+#             category = 'Professional and Cont Svcs'
+#         elif obj == '6300':
+#             category = 'Supplies and Materials'
+#         elif obj == '6400':
+#             category = 'Other Operating Expenses'
+#         else:
+#             category = 'Total Expense'
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_expense{i}'] = sum(
-                entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
-            )
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_expense{i}'] = sum(
+#                 entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+#             )
    
-    for row in data_activities:
-        for key in keys_to_check_expense:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activities:
+#         for key in keys_to_check_expense:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
 
-    for row in data_expensebyobject:
-        for key in keys_to_check_expense2:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_expensebyobject:
+#         for key in keys_to_check_expense2:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
         
     
    
@@ -995,124 +995,124 @@ def pl_cumberland(request):
     
 
 
-    #---- for data ------
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     #---- for data ------
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data:
-        fund = item['fund']
-        obj = item['obj']
+#     for item in data:
+#         fund = item['fund']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_real{i}'] = sum(
-                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_real{i}'] = sum(
+#                 entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-    keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
+#     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
  
-    for row in data:
-        for key in keys_to_check:
-            if row[key] < 0:
-                row[key] = -row[key]
-            else:
-                row[key] = ''
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] < 0:
+#                 row[key] = -row[key]
+#             else:
+#                 row[key] = ''
 
-    for row in data:
-        for key in keys_to_check:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
     
 
 
 
-    acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+#             )
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func2_{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-            )  
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func2_{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+#             )  
 
-    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
-    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+#     keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+#     keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
 
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
                 
 
 
 
-    lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
-    lr_funds_sorted = sorted(lr_funds)
-    lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    lr_obj_sorted = sorted(lr_obj)
+#     lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+#     lr_funds_sorted = sorted(lr_funds)
+#     lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     lr_obj_sorted = sorted(lr_obj)
 
-    func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    func_choice_sorted = sorted(func_choice)
+#     func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     func_choice_sorted = sorted(func_choice)
     
             
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
      
-    context = {
-            'data': data, 
-            'data2':data2 , 
-            'data3': data3 ,
-            'lr_funds':lr_funds_sorted, 
-            'lr_obj':lr_obj_sorted, 
-            'func_choice':func_choice_sorted ,
-            'data_expensebyobject': data_expensebyobject,
-            'data_activities': data_activities,
-            'last_month':last_month,
-            'last_month_number':last_month_number,
-            'format_ytd_budget': formatted_ytd_budget,
-            'ytd_budget':ytd_budget,
+#     context = {
+#             'data': data, 
+#             'data2':data2 , 
+#             'data3': data3 ,
+#             'lr_funds':lr_funds_sorted, 
+#             'lr_obj':lr_obj_sorted, 
+#             'func_choice':func_choice_sorted ,
+#             'data_expensebyobject': data_expensebyobject,
+#             'data_activities': data_activities,
+#             'last_month':last_month,
+#             'last_month_number':last_month_number,
+#             'format_ytd_budget': formatted_ytd_budget,
+#             'ytd_budget':ytd_budget,
           
 
-          }
-    return render(request,'dashboard/cumberland/pl_cumberland.html', context)
+#           }
+#     return render(request,'dashboard/cumberland/pl_cumberland.html', context)
 
 
 
@@ -1438,14 +1438,14 @@ def delete_bsa(request, obj, Activity):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def first_advantagechart(request):
-    return render(request,'dashboard/advantage/first_advantagechart.html')
+# def first_advantagechart(request):
+#     return render(request,'dashboard/advantage/first_advantagechart.html')
 
-def pl_advantagechart(request):
-    return render(request,'dashboard/advantage/pl_advantagechart.html')
+# def pl_advantagechart(request):
+#     return render(request,'dashboard/advantage/pl_advantagechart.html')
 
-def pl_cumberlandchart(request):
-    return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
+# def pl_cumberlandchart(request):
+#     return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
 
 def viewgl(request,fund,obj,yr):
     
@@ -1593,741 +1593,741 @@ def viewgl_cumberland(request,fund,obj,yr):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def gl_advantage(request):
+# def gl_advantage(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
     
-    cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Advantage]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Advantage]") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        date_str=row[11]
+#     for row in rows:
+#         date_str=row[11]
         
-        # if date_str is not None:
-        #         date_without_time = date_str.strftime('%b. %d, %Y')
-        # else:
-        #         date_without_time = None 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':date_str,
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':row[17],
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         # if date_str is not None:
+#         #         date_without_time = date_str.strftime('%b. %d, %Y')
+#         # else:
+#         #         date_without_time = None 
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':date_str,
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':row[17],
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
     
     
 
             
 
-    context = { 
+#     context = { 
         
-        'data3': data3 , 
-         }
-    return render(request,'dashboard/advantage/gl_advantage.html', context)
+#         'data3': data3 , 
+#          }
+#     return render(request,'dashboard/advantage/gl_advantage.html', context)
 
 
-def gl_cumberland(request):
+# def gl_cumberland(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
     
-    cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Cumberland]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  TOP(300)* FROM [dbo].[AscenderData_Cumberland]") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        date_str=row[11]
+#     for row in rows:
+#         date_str=row[11]
         
-        # if date_str is not None:
-        #         date_without_time = date_str.strftime('%b. %d, %Y')
-        # else:
-        #         date_without_time = None 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':date_str,
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':row[17],
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         # if date_str is not None:
+#         #         date_without_time = date_str.strftime('%b. %d, %Y')
+#         # else:
+#         #         date_without_time = None 
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':date_str,
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':row[17],
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
     
     
 
             
 
-    context = { 
+#     context = { 
         
-        'data3': data3 , 
-         }
-    return render(request,'dashboard/cumberland/gl_cumberland.html', context)
+#         'data3': data3 , 
+#          }
+#     return render(request,'dashboard/cumberland/gl_cumberland.html', context)
 
-def bs_advantage(request):
+# def bs_advantage(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
     
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+#     rows = cursor.fetchall()
     
-    data_balancesheet=[]
+#     data_balancesheet=[]
     
     
-    for row in rows:
-        fye = int(row[4]) if row[4] else 0
-        if fye == 0:
-            fyeformat = ""
-        else:
-            fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
-        row_dict = {
-            'Activity':row[0],
-            'Description':row[1],
-            'Category':row[2],
-            'Subcategory':row[3],
-            'FYE':fyeformat,
-            }
+#     for row in rows:
+#         fye = int(row[4]) if row[4] else 0
+#         if fye == 0:
+#             fyeformat = ""
+#         else:
+#             fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+#         row_dict = {
+#             'Activity':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
+#             'Subcategory':row[3],
+#             'FYE':fyeformat,
+#             }
         
-        data_balancesheet.append(row_dict)
+#         data_balancesheet.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+#     rows = cursor.fetchall()
     
-    data_activitybs=[]
+#     data_activitybs=[]
     
     
-    for row in rows:
+#     for row in rows:
 
-        row_dict = {
-            'Activity':row[0],
-            'obj':row[1],
-            'Description2':row[2],
+#         row_dict = {
+#             'Activity':row[0],
+#             'obj':row[1],
+#             'Description2':row[2],
             
             
-            }
+#             }
         
-        data_activitybs.append(row_dict)
+#         data_activitybs.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage]") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
+#     for row in rows:
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':row[17],
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':row[11],
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':row[17],
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
 
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data_activitybs:
+#     for item in data_activitybs:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_bal{i}'] = sum(
-                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_bal{i}'] = sum(
+#                 entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-    keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+#     keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
     
     
                 
-    for row in data_activitybs:
-        for key in keys_to_check:
-            value = int(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activitybs:
+#         for key in keys_to_check:
+#             value = int(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
                 
 
 
-    activity_sum_dict = {} 
-    for item in data_activitybs:
-        Activity = item['Activity']
-        for i in range(1, 13):
-            total_sum_i = sum(
-                int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
-                for entry in data_activitybs
-            )
-            activity_sum_dict[(Activity, i)] = total_sum_i
+#     activity_sum_dict = {} 
+#     for item in data_activitybs:
+#         Activity = item['Activity']
+#         for i in range(1, 13):
+#             total_sum_i = sum(
+#                 int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+#                 for entry in data_activitybs
+#             )
+#             activity_sum_dict[(Activity, i)] = total_sum_i
     
 
  
-    for row in data_balancesheet:
+#     for row in data_balancesheet:
         
-        activity = row['Activity']
-        for i in range(1, 13):
-            key = (activity, i)
-            row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
+#         activity = row['Activity']
+#         for i in range(1, 13):
+#             key = (activity, i)
+#             row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
             
 
-    def format_with_parentheses(value):
-        if value == 0:
-            return ""
-        formatted_value = "{:,.0f}".format(abs(value))
-        return "({})".format(formatted_value) if value < 0 else formatted_value
+#     def format_with_parentheses(value):
+#         if value == 0:
+#             return ""
+#         formatted_value = "{:,.0f}".format(abs(value))
+#         return "({})".format(formatted_value) if value < 0 else formatted_value
     
-    for row in data_balancesheet:
+#     for row in data_balancesheet:
     
-        FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
-        total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
-        total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
-        total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
-        total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
-        total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
-        total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
-        total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
-        total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
-        total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
-        total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
-        total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
-        total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
+#         FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
+#         total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
+#         total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
+#         total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
+#         total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
+#         total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
+#         total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
+#         total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
+#         total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
+#         total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
+#         total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
+#         total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
+#         total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
 
-        # Calculate the differences and store them in the row dictionary
-        row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
-        row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
-        row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
-        row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
-        row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
-        row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
-        row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
-        row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
-        row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
-        row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
-        row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
-        row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+#         # Calculate the differences and store them in the row dictionary
+#         row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
+#         row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
+#         row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+#         row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+#         row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+#         row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+#         row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+#         row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+#         row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+#         row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+#         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+#         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
-        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+#         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
     
 
 
 
     
     
-    bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
-    bs_activity_list_sorted = sorted(bs_activity_list)
-    gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    gl_obj_sorted = sorted(gl_obj)
+#     bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
+#     bs_activity_list_sorted = sorted(bs_activity_list)
+#     gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     gl_obj_sorted = sorted(gl_obj)
 
-    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    # func_choice_sorted = sorted(func_choice)        
+#     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     # func_choice_sorted = sorted(func_choice)        
 
-    button_rendered = 0
+#     button_rendered = 0
 
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3 
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3 
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
     
-    context = { 
+#     context = { 
         
-        'data_balancesheet': data_balancesheet ,
-        'data_activitybs': data_activitybs,
-        'data3': data3,
-        'bs_activity_list': bs_activity_list_sorted,
-        'gl_obj':gl_obj_sorted,
-        'button_rendered': button_rendered,
-        'last_month':last_month,
-        'last_month_number':last_month_number,
-        'format_ytd_budget': formatted_ytd_budget,
-        'ytd_budget':ytd_budget,
+#         'data_balancesheet': data_balancesheet ,
+#         'data_activitybs': data_activitybs,
+#         'data3': data3,
+#         'bs_activity_list': bs_activity_list_sorted,
+#         'gl_obj':gl_obj_sorted,
+#         'button_rendered': button_rendered,
+#         'last_month':last_month,
+#         'last_month_number':last_month_number,
+#         'format_ytd_budget': formatted_ytd_budget,
+#         'ytd_budget':ytd_budget,
         
-         }
+#          }
 
-    return render(request,'dashboard/advantage/bs_advantage.html', context)
+#     return render(request,'dashboard/advantage/bs_advantage.html', context)
 
 
-def bs_villagetech(request):
+# def bs_villagetech(request):
     
-    cnxn = connect()
-    cursor = cnxn.cursor()
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
     
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+#     rows = cursor.fetchall()
     
-    data_balancesheet=[]
+#     data_balancesheet=[]
     
     
-    for row in rows:
-        fye = int(row[4]) if row[4] else 0
-        if fye == 0:
-            fyeformat = ""
-        else:
-            fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
-        row_dict = {
-            'Activity':row[0],
-            'Description':row[1],
-            'Category':row[2],
-            'Subcategory':row[3],
-            'FYE':fyeformat,
+#     for row in rows:
+#         fye = int(row[4]) if row[4] else 0
+#         if fye == 0:
+#             fyeformat = ""
+#         else:
+#             fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+#         row_dict = {
+#             'Activity':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
+#             'Subcategory':row[3],
+#             'FYE':fyeformat,
             
             
-            }
+#             }
         
-        data_balancesheet.append(row_dict)
+#         data_balancesheet.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+#     rows = cursor.fetchall()
     
-    data_activitybs=[]
+#     data_activitybs=[]
     
     
-    for row in rows:
+#     for row in rows:
 
-        row_dict = {
-            'Activity':row[0],
-            'obj':row[1],
-            'Description2':row[2],
+#         row_dict = {
+#             'Activity':row[0],
+#             'obj':row[1],
+#             'Description2':row[2],
             
             
-            }
+#             }
         
-        data_activitybs.append(row_dict)
+#         data_activitybs.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[Skyward_VillageTech]") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[Skyward_VillageTech]") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        amount = float(row[19])
+#     for row in rows:
+#         amount = float(row[19])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[2],
-            'obj':row[3],
-            'sobj':row[4],
-            'org':row[5],
-            'fscl_yr':row[6],
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[2],
+#             'obj':row[3],
+#             'sobj':row[4],
+#             'org':row[5],
+#             'fscl_yr':row[6],
  
-            'Date':row[9],
-            'AcctPer':row[10],
-            'Amount':amount,
+#             'Date':row[9],
+#             'AcctPer':row[10],
+#             'Amount':amount,
 
-            }
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
         
         
 
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
-    for item in data_activitybs:
+#     for item in data_activitybs:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_bal{i}'] = sum(
-                entry['Amount'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_bal{i}'] = sum(
+#                 entry['Amount'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-    keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+#     keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
     
     
                 
-    for row in data_activitybs:
-        for key in keys_to_check:
-            value = int(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activitybs:
+#         for key in keys_to_check:
+#             value = int(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
                 
 
 
-    activity_sum_dict = {} 
-    for item in data_activitybs:
-        Activity = item['Activity']
-        for i in range(1, 13):
-            total_sum_i = sum(
-                int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
-                for entry in data_activitybs
-            )
-            activity_sum_dict[(Activity, i)] = total_sum_i
+#     activity_sum_dict = {} 
+#     for item in data_activitybs:
+#         Activity = item['Activity']
+#         for i in range(1, 13):
+#             total_sum_i = sum(
+#                 int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+#                 for entry in data_activitybs
+#             )
+#             activity_sum_dict[(Activity, i)] = total_sum_i
     
-
- 
-    for row in data_balancesheet:
-        
-        activity = row['Activity']
-        for i in range(1, 13):
-            key = (activity, i)
-            row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
-            
-
-    def format_with_parentheses(value):
-        if value == 0:
-            return ""
-        formatted_value = "{:,.0f}".format(abs(value))
-        return "({})".format(formatted_value) if value < 0 else formatted_value
-    
-    for row in data_balancesheet:
-    
-        FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
-        total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
-        total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
-        total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
-        total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
-        total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
-        total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
-        total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
-        total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
-        total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
-        total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
-        total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
-        total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
-
-        # Calculate the differences and store them in the row dictionary
-        row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
-        row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
-        row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
-        row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
-        row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
-        row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
-        row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
-        row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
-        row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
-        row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
-        row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
-        row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-
-        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-    
-
-
-
-    
-    
-    bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
-    bs_activity_list_sorted = sorted(bs_activity_list)
-    gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    gl_obj_sorted = sorted(gl_obj)
-
-    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    # func_choice_sorted = sorted(func_choice)        
-
-    button_rendered = 0
-
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
-    
-    context = { 
-        
-        'data_balancesheet': data_balancesheet ,
-        'data_activitybs': data_activitybs,
-        'data3': data3,
-        'bs_activity_list': bs_activity_list_sorted,
-        'gl_obj':gl_obj_sorted,
-        'button_rendered': button_rendered,
-        'last_month':last_month,
-        'last_month_number':last_month_number,
-        'format_ytd_budget': formatted_ytd_budget,
-        'ytd_budget':ytd_budget,
-        
-         }
-
-    return render(request,'dashboard/villagetech/bs_villagetech.html', context)
-
-
-def bs_cumberland(request):
-    
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Balancesheet]") 
-    rows = cursor.fetchall()
-    
-    data_balancesheet=[]
-    
-    
-    for row in rows:
-        fye = int(row[4]) if row[4] else 0
-        if fye == 0:
-            fyeformat = ""
-        else:
-            fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
-        row_dict = {
-            'Activity':row[0],
-            'Description':row[1],
-            'Category':row[2],
-            'Subcategory':row[3],
-            'FYE':fyeformat,
-            
-            
-            }
-        
-        data_balancesheet.append(row_dict)
-
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_ActivityBS]") 
-    rows = cursor.fetchall()
-    
-    data_activitybs=[]
-    
-    
-    for row in rows:
-
-        row_dict = {
-            'Activity':row[0],
-            'obj':row[1],
-            'Description2':row[2],
-            
-            
-            }
-        
-        data_activitybs.append(row_dict)
-
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland]") 
-    rows = cursor.fetchall()
-    
-    data3=[]
-    
-    
-    for row in rows:
-
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':row[17],
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
-        
-        data3.append(row_dict)
-
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-
-    for item in data_activitybs:
-        
-        obj = item['obj']
-
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_bal{i}'] = sum(
-                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
-
-    keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
-    
-    
-                
-    for row in data_activitybs:
-        for key in keys_to_check:
-            value = int(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
-                
-
-
-    activity_sum_dict = {} 
-    for item in data_activitybs:
-        Activity = item['Activity']
-        for i in range(1, 13):
-            total_sum_i = sum(
-                int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
-                for entry in data_activitybs
-            )
-            activity_sum_dict[(Activity, i)] = total_sum_i
 
  
-    for row in data_balancesheet:
+#     for row in data_balancesheet:
         
-        activity = row['Activity']
-        for i in range(1, 13):
-            key = (activity, i)
-            row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
+#         activity = row['Activity']
+#         for i in range(1, 13):
+#             key = (activity, i)
+#             row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
             
 
-    def format_with_parentheses(value):
-        if value == 0:
-            return ""
-        formatted_value = "{:,.0f}".format(abs(value))
-        return "({})".format(formatted_value) if value < 0 else formatted_value
+#     def format_with_parentheses(value):
+#         if value == 0:
+#             return ""
+#         formatted_value = "{:,.0f}".format(abs(value))
+#         return "({})".format(formatted_value) if value < 0 else formatted_value
     
-    for row in data_balancesheet:
+#     for row in data_balancesheet:
     
-        FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
-        total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
-        total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
-        total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
-        total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
-        total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
-        total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
-        total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
-        total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
-        total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
-        total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
-        total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
-        total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
+#         FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
+#         total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
+#         total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
+#         total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
+#         total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
+#         total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
+#         total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
+#         total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
+#         total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
+#         total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
+#         total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
+#         total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
+#         total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
 
-        # Calculate the differences and store them in the row dictionary
-        row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
-        row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
-        row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
-        row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
-        row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
-        row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
-        row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
-        row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
-        row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
-        row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
-        row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
-        row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+#         # Calculate the differences and store them in the row dictionary
+#         row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
+#         row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
+#         row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+#         row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+#         row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+#         row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+#         row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+#         row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+#         row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+#         row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+#         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+#         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
-        row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+#         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
     
 
 
 
     
     
-    bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
-    bs_activity_list_sorted = sorted(bs_activity_list)
-    gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    gl_obj_sorted = sorted(gl_obj)
+#     bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
+#     bs_activity_list_sorted = sorted(bs_activity_list)
+#     gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     gl_obj_sorted = sorted(gl_obj)
 
-    # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    # func_choice_sorted = sorted(func_choice)        
+#     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     # func_choice_sorted = sorted(func_choice)        
 
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+#     button_rendered = 0
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
     
-    context = { 
+#     context = { 
         
-        'data_balancesheet': data_balancesheet ,
-        'data_activitybs': data_activitybs,
-        'data3': data3,
-        'bs_activity_list': bs_activity_list_sorted,
-        'gl_obj':gl_obj_sorted,
-        'last_month':last_month,
-        'last_month_number':last_month_number,
-        'format_ytd_budget': formatted_ytd_budget,
-        'ytd_budget':ytd_budget,
+#         'data_balancesheet': data_balancesheet ,
+#         'data_activitybs': data_activitybs,
+#         'data3': data3,
+#         'bs_activity_list': bs_activity_list_sorted,
+#         'gl_obj':gl_obj_sorted,
+#         'button_rendered': button_rendered,
+#         'last_month':last_month,
+#         'last_month_number':last_month_number,
+#         'format_ytd_budget': formatted_ytd_budget,
+#         'ytd_budget':ytd_budget,
         
-        
-         }
+#          }
 
-    return render(request,'dashboard/cumberland/bs_cumberland.html', context)
+#     return render(request,'dashboard/villagetech/bs_villagetech.html', context)
+
+
+# def bs_cumberland(request):
+    
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+    
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Cumberland_Balancesheet]") 
+#     rows = cursor.fetchall()
+    
+#     data_balancesheet=[]
+    
+    
+#     for row in rows:
+#         fye = int(row[4]) if row[4] else 0
+#         if fye == 0:
+#             fyeformat = ""
+#         else:
+#             fyeformat = "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+#         row_dict = {
+#             'Activity':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
+#             'Subcategory':row[3],
+#             'FYE':fyeformat,
+            
+            
+#             }
+        
+#         data_balancesheet.append(row_dict)
+
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland_ActivityBS]") 
+#     rows = cursor.fetchall()
+    
+#     data_activitybs=[]
+    
+    
+#     for row in rows:
+
+#         row_dict = {
+#             'Activity':row[0],
+#             'obj':row[1],
+#             'Description2':row[2],
+            
+            
+#             }
+        
+#         data_activitybs.append(row_dict)
+
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Cumberland]") 
+#     rows = cursor.fetchall()
+    
+#     data3=[]
+    
+    
+#     for row in rows:
+
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':row[11],
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':row[17],
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
+        
+#         data3.append(row_dict)
+
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+
+#     for item in data_activitybs:
+        
+#         obj = item['obj']
+
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_bal{i}'] = sum(
+#                 entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
+
+#     keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+    
+    
+                
+#     for row in data_activitybs:
+#         for key in keys_to_check:
+#             value = int(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
+                
+
+
+#     activity_sum_dict = {} 
+#     for item in data_activitybs:
+#         Activity = item['Activity']
+#         for i in range(1, 13):
+#             total_sum_i = sum(
+#                 int(entry[f'total_bal{i}'].replace(',', '').replace('(', '-').replace(')', '')) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+#                 for entry in data_activitybs
+#             )
+#             activity_sum_dict[(Activity, i)] = total_sum_i
+
+ 
+#     for row in data_balancesheet:
+        
+#         activity = row['Activity']
+#         for i in range(1, 13):
+#             key = (activity, i)
+#             row[f'total_sum{i}'] = "{:,.0f}".format(activity_sum_dict.get(key, 0))
+            
+
+#     def format_with_parentheses(value):
+#         if value == 0:
+#             return ""
+#         formatted_value = "{:,.0f}".format(abs(value))
+#         return "({})".format(formatted_value) if value < 0 else formatted_value
+    
+#     for row in data_balancesheet:
+    
+#         FYE_value = int(row['FYE'].replace(',', '').replace('(', '-').replace(')', '')) if row['FYE'] else 0
+#         total_sum9_value = int(row['total_sum9'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum9'] else 0
+#         total_sum10_value = int(row['total_sum10'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum10'] else 0
+#         total_sum11_value = int(row['total_sum11'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum11'] else 0
+#         total_sum12_value = int(row['total_sum12'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum12'] else 0
+#         total_sum1_value = int(row['total_sum1'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum1'] else 0
+#         total_sum2_value = int(row['total_sum2'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum2'] else 0
+#         total_sum3_value = int(row['total_sum3'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum3'] else 0
+#         total_sum4_value = int(row['total_sum4'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum4'] else 0
+#         total_sum5_value = int(row['total_sum5'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum5'] else 0
+#         total_sum6_value = int(row['total_sum6'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum6'] else 0
+#         total_sum7_value = int(row['total_sum7'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum7'] else 0
+#         total_sum8_value = int(row['total_sum8'].replace(',', '').replace('(', '-').replace(')', '')) if row['total_sum8'] else 0
+
+#         # Calculate the differences and store them in the row dictionary
+#         row['difference_9'] = format_with_parentheses(FYE_value + total_sum9_value)
+#         row['difference_10'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value)
+#         row['difference_11'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+#         row['difference_12'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+#         row['difference_1'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+#         row['difference_2'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+#         row['difference_3'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+#         row['difference_4'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+#         row['difference_5'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+#         row['difference_6'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+#         row['difference_7'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+#         row['difference_8'] = format_with_parentheses(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+#         row['fytd'] = format_with_parentheses(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+    
+
+
+
+    
+    
+#     bs_activity_list = list(set(row['Activity'] for row in data_balancesheet if 'Activity' in row))
+#     bs_activity_list_sorted = sorted(bs_activity_list)
+#     gl_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     gl_obj_sorted = sorted(gl_obj)
+
+#     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     # func_choice_sorted = sorted(func_choice)        
+
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
+    
+#     context = { 
+        
+#         'data_balancesheet': data_balancesheet ,
+#         'data_activitybs': data_activitybs,
+#         'data3': data3,
+#         'bs_activity_list': bs_activity_list_sorted,
+#         'gl_obj':gl_obj_sorted,
+#         'last_month':last_month,
+#         'last_month_number':last_month_number,
+#         'format_ytd_budget': formatted_ytd_budget,
+#         'ytd_budget':ytd_budget,
+        
+        
+#          }
+
+#     return render(request,'dashboard/cumberland/bs_cumberland.html', context)
 
 
 def insert_bs_advantage(request):
@@ -3131,171 +3131,171 @@ def viewglexpense_cumberland(request,obj,yr):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
         
-def cashflow_advantage(request):
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
-    rows = cursor.fetchall()
+# def cashflow_advantage(request):
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+#     rows = cursor.fetchall()
 
     
-    data = []
-    for row in rows:
-        if row[4] is None:
-            row[4] = ''
-        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
-        row_dict = {
-            'fund': row[0],
-            'obj': row[1],
-            'description': row[2],
-            'category': row[3],
-            'value': valueformat  
-        }
-        data.append(row_dict)
+#     data = []
+#     for row in rows:
+#         if row[4] is None:
+#             row[4] = ''
+#         valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
+#         row_dict = {
+#             'fund': row[0],
+#             'obj': row[1],
+#             'description': row[2],
+#             'category': row[3],
+#             'value': valueformat  
+#         }
+#         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+#     rows = cursor.fetchall()
 
 
-    data2=[]
-    for row in rows:
-        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
-        row_dict = {
-            'func_func': row[0],
-            'desc': row[1],
-            'budget': budgetformat,
+#     data2=[]
+#     for row in rows:
+#         budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
+#         row_dict = {
+#             'func_func': row[0],
+#             'desc': row[1],
+#             'budget': budgetformat,
             
-        }
-        data2.append(row_dict)
+#         }
+#         data2.append(row_dict)
 
 
 
-    #
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
-    rows = cursor.fetchall()
+#     #
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage];") 
+#     rows = cursor.fetchall()
     
-    data3=[]
+#     data3=[]
     
     
-    for row in rows:
-        expend = float(row[17])
+#     for row in rows:
+#         expend = float(row[17])
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':expend,
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
-            }
+#         row_dict = {
+#             'fund':row[0],
+#             'func':row[1],
+#             'obj':row[2],
+#             'sobj':row[3],
+#             'org':row[4],
+#             'fscl_yr':row[5],
+#             'pgm':row[6],
+#             'edSpan':row[7],
+#             'projDtl':row[8],
+#             'AcctDescr':row[9],
+#             'Number':row[10],
+#             'Date':row[11],
+#             'AcctPer':row[12],
+#             'Est':row[13],
+#             'Real':row[14],
+#             'Appr':row[15],
+#             'Encum':row[16],
+#             'Expend':expend,
+#             'Bal':row[18],
+#             'WorkDescr':row[19],
+#             'Type':row[20],
+#             'Contr':row[21]
+#             }
         
-        data3.append(row_dict)
+#         data3.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+#     rows = cursor.fetchall()
     
-    data_expensebyobject=[]
+#     data_expensebyobject=[]
     
     
-    for row in rows:
+#     for row in rows:
         
-        budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'budget':budgetformat,
+#         budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'budget':budgetformat,
             
-            }
+#             }
         
-        data_expensebyobject.append(row_dict)
+#         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
-    rows = cursor.fetchall()
+#     cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+#     rows = cursor.fetchall()
     
-    data_activities=[]
+#     data_activities=[]
     
     
-    for row in rows:
+#     for row in rows:
         
       
-        row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'Category':row[2],
+#         row_dict = {
+#             'obj':row[0],
+#             'Description':row[1],
+#             'Category':row[2],
             
-            }
+#             }
         
-        data_activities.append(row_dict)
+#         data_activities.append(row_dict)
     
 
-    #---------- FOR EXPENSE TOTAL -------
-    acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    for item in data_activities:
+#     #---------- FOR EXPENSE TOTAL -------
+#     acct_per_values_expense = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     for item in data_activities:
         
-        obj = item['obj']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_activities{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
-    keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
-    keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_activities{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
+#     keys_to_check_expense = ['total_activities1', 'total_activities2', 'total_activities3', 'total_activities4', 'total_activities5','total_activities6','total_activities7','total_activities8','total_activities9','total_activities10','total_activities11','total_activities12']
+#     keys_to_check_expense2 = ['total_expense1', 'total_expense2', 'total_expense3', 'total_expense4', 'total_expense5','total_expense6','total_expense7','total_expense8','total_expense9','total_expense10','total_expense11','total_expense12']
 
 
 
-    for item in data_expensebyobject:
-        obj = item['obj']
-        if obj == '6100':
-            category = 'Payroll Costs'
-        elif obj == '6200':
-            category = 'Professional and Cont Svcs'
-        elif obj == '6300':
-            category = 'Supplies and Materials'
-        elif obj == '6400':
-            category = 'Other Operating Expenses'
-        else:
-            category = 'Total Expense'
+#     for item in data_expensebyobject:
+#         obj = item['obj']
+#         if obj == '6100':
+#             category = 'Payroll Costs'
+#         elif obj == '6200':
+#             category = 'Professional and Cont Svcs'
+#         elif obj == '6300':
+#             category = 'Supplies and Materials'
+#         elif obj == '6400':
+#             category = 'Other Operating Expenses'
+#         else:
+#             category = 'Total Expense'
 
-        for i, acct_per in enumerate(acct_per_values_expense, start=1):
-            item[f'total_expense{i}'] = sum(
-                entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
-            )
+#         for i, acct_per in enumerate(acct_per_values_expense, start=1):
+#             item[f'total_expense{i}'] = sum(
+#                 entry[f'total_activities{i}'] for entry in data_activities if entry['Category'] == category 
+#             )
    
-    for row in data_activities:
-        for key in keys_to_check_expense:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_activities:
+#         for key in keys_to_check_expense:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
 
-    for row in data_expensebyobject:
-        for key in keys_to_check_expense2:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value < 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key]))) 
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+#     for row in data_expensebyobject:
+#         for key in keys_to_check_expense2:
+#             value = float(row[key])
+#             if value == 0:
+#                 row[key] = ""
+#             elif value < 0:
+#                 row[key] = "({:,.0f})".format(abs(float(row[key]))) 
+#             elif value != "":
+#                 row[key] = "{:,.0f}".format(float(row[key]))
         
     
    
@@ -3304,292 +3304,292 @@ def cashflow_advantage(request):
     
 
 
-    #---- for data ------
-    acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     #---- for data ------
+#     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
     
     
     
-    #--- total revenue
-    total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+#     #--- total revenue
+#     total_revenue = {acct_per: 0 for acct_per in acct_per_values}
 
-    for item in data:
-        fund = item['fund']
-        obj = item['obj']
+#     for item in data:
+#         fund = item['fund']
+#         obj = item['obj']
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_real{i}'] = sum(
-                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-            )
+#         for i, acct_per in enumerate(acct_per_values, start=1):
+#             item[f'total_real{i}'] = sum(
+#                 entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+#             )
 
-            total_revenue[acct_per] += abs(item[f'total_real{i}'])
-    # total_revenue9 = 0 
-    # total_revenue10 = 0
-    # total_revenue11 = 0
-    # total_revenue12 = 0
-    # total_revenue1 = 0
-    # total_revenue2 = 0
-    # total_revenue3 = 0
-    # total_revenue4 = 0
-    # total_revenue5 = 0
-    # total_revenue6 = 0
-    # total_revenue7 = 0
-    # total_revenue8 = 0
+#             total_revenue[acct_per] += abs(item[f'total_real{i}'])
+#     # total_revenue9 = 0 
+#     # total_revenue10 = 0
+#     # total_revenue11 = 0
+#     # total_revenue12 = 0
+#     # total_revenue1 = 0
+#     # total_revenue2 = 0
+#     # total_revenue3 = 0
+#     # total_revenue4 = 0
+#     # total_revenue5 = 0
+#     # total_revenue6 = 0
+#     # total_revenue7 = 0
+#     # total_revenue8 = 0
    
-    # for item in data:
-    #     fund = item['fund']
-    #     obj = item['obj']
+#     # for item in data:
+#     #     fund = item['fund']
+#     #     obj = item['obj']
 
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         item[f'total_real{i}'] = sum(
-    #             entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-    #         )
+#     #     for i, acct_per in enumerate(acct_per_values, start=1):
+#     #         item[f'total_real{i}'] = sum(
+#     #             entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+#     #         )
             
     
-    #         if acct_per == '09':
-    #             total_revenue9 += item[f'total_real{i}']
-    #         if acct_per == '10':
-    #             total_revenue10 += item[f'total_real{i}']
-    #         if acct_per == '11':
-    #             total_revenue11 += item[f'total_real{i}']
-    #         if acct_per == '12':
-    #             total_revenue12 += item[f'total_real{i}']
-    #         if acct_per == '01':
-    #             total_revenue1 += item[f'total_real{i}']
-    #         if acct_per == '02':
-    #             total_revenue2 += item[f'total_real{i}']
-    #         if acct_per == '03':
-    #             total_revenue3 += item[f'total_real{i}']
-    #         if acct_per == '04':
-    #             total_revenue4 += item[f'total_real{i}']
-    #         if acct_per == '05':
-    #             total_revenue5 += item[f'total_real{i}']
-    #         if acct_per == '06':
-    #             total_revenue6 += item[f'total_real{i}']
-    #         if acct_per == '07':
-    #             total_revenue7 += item[f'total_real{i}']
-    #         if acct_per == '08':
-    #             total_revenue8 += item[f'total_real{i}']
+#     #         if acct_per == '09':
+#     #             total_revenue9 += item[f'total_real{i}']
+#     #         if acct_per == '10':
+#     #             total_revenue10 += item[f'total_real{i}']
+#     #         if acct_per == '11':
+#     #             total_revenue11 += item[f'total_real{i}']
+#     #         if acct_per == '12':
+#     #             total_revenue12 += item[f'total_real{i}']
+#     #         if acct_per == '01':
+#     #             total_revenue1 += item[f'total_real{i}']
+#     #         if acct_per == '02':
+#     #             total_revenue2 += item[f'total_real{i}']
+#     #         if acct_per == '03':
+#     #             total_revenue3 += item[f'total_real{i}']
+#     #         if acct_per == '04':
+#     #             total_revenue4 += item[f'total_real{i}']
+#     #         if acct_per == '05':
+#     #             total_revenue5 += item[f'total_real{i}']
+#     #         if acct_per == '06':
+#     #             total_revenue6 += item[f'total_real{i}']
+#     #         if acct_per == '07':
+#     #             total_revenue7 += item[f'total_real{i}']
+#     #         if acct_per == '08':
+#     #             total_revenue8 += item[f'total_real{i}']
                 
-    keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
+#     keys_to_check = ['total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5','total_real6','total_real7','total_real8','total_real9','total_real10','total_real11','total_real12']
  
-    for row in data:
-        for key in keys_to_check:
-            if row[key] < 0:
-                row[key] = -row[key]
-            else:
-                row[key] = ''
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] < 0:
+#                 row[key] = -row[key]
+#             else:
+#                 row[key] = ''
 
-    for row in data:
-        for key in keys_to_check:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data:
+#         for key in keys_to_check:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
                 
     
 
 
 
-    acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+#     acct_per_values2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
     
     
-    total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
+#     total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
 
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
 
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
-            )
-            total_surplus[acct_per] += item[f'total_func{i}']
-    # total_surplus9 = 0 
-    # total_surplus10 = 0
-    # total_surplus11 = 0
-    # total_surplus12 = 0
-    # total_surplus1 = 0
-    # total_surplus2 = 0
-    # total_surplus3 = 0
-    # total_surplus4 = 0
-    # total_surplus5 = 0
-    # total_surplus6 = 0
-    # total_surplus7 = 0
-    # total_surplus8 = 0
-    # for item in data2:
-    #     func = item['func_func']
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
+#             )
+#             total_surplus[acct_per] += item[f'total_func{i}']
+#     # total_surplus9 = 0 
+#     # total_surplus10 = 0
+#     # total_surplus11 = 0
+#     # total_surplus12 = 0
+#     # total_surplus1 = 0
+#     # total_surplus2 = 0
+#     # total_surplus3 = 0
+#     # total_surplus4 = 0
+#     # total_surplus5 = 0
+#     # total_surplus6 = 0
+#     # total_surplus7 = 0
+#     # total_surplus8 = 0
+#     # for item in data2:
+#     #     func = item['func_func']
         
 
-    #     for i, acct_per in enumerate(acct_per_values2, start=1):
-    #         item[f'total_func{i}'] = sum(
-    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-    #         )
-    #         if acct_per == '09':
-    #             total_surplus9 += item[f'total_func{i}']
-    #         if acct_per == '10':
-    #             total_surplus10 += item[f'total_func{i}']
-    #         if acct_per == '11':
-    #             total_surplus11 += item[f'total_func{i}']
-    #         if acct_per == '12':
-    #             total_surplus12 += item[f'total_func{i}']
-    #         if acct_per == '01':
-    #             total_surplus1 += item[f'total_func{i}']
-    #         if acct_per == '02':
-    #             total_surplus2 += item[f'total_func{i}']
-    #         if acct_per == '03':
-    #             total_surplus3 += item[f'total_func{i}']
-    #         if acct_per == '04':
-    #             total_surplus4 += item[f'total_func{i}']
-    #         if acct_per == '05':
-    #             total_surplus5 += item[f'total_func{i}']
-    #         if acct_per == '06':
-    #             total_surplus6 += item[f'total_func{i}']
-    #         if acct_per == '07':
-    #             total_surplus7 += item[f'total_func{i}']
-    #         if acct_per == '08':
-    #             total_surplus8 += item[f'total_func{i}']
+#     #     for i, acct_per in enumerate(acct_per_values2, start=1):
+#     #         item[f'total_func{i}'] = sum(
+#     #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+#     #         )
+#     #         if acct_per == '09':
+#     #             total_surplus9 += item[f'total_func{i}']
+#     #         if acct_per == '10':
+#     #             total_surplus10 += item[f'total_func{i}']
+#     #         if acct_per == '11':
+#     #             total_surplus11 += item[f'total_func{i}']
+#     #         if acct_per == '12':
+#     #             total_surplus12 += item[f'total_func{i}']
+#     #         if acct_per == '01':
+#     #             total_surplus1 += item[f'total_func{i}']
+#     #         if acct_per == '02':
+#     #             total_surplus2 += item[f'total_func{i}']
+#     #         if acct_per == '03':
+#     #             total_surplus3 += item[f'total_func{i}']
+#     #         if acct_per == '04':
+#     #             total_surplus4 += item[f'total_func{i}']
+#     #         if acct_per == '05':
+#     #             total_surplus5 += item[f'total_func{i}']
+#     #         if acct_per == '06':
+#     #             total_surplus6 += item[f'total_func{i}']
+#     #         if acct_per == '07':
+#     #             total_surplus7 += item[f'total_func{i}']
+#     #         if acct_per == '08':
+#     #             total_surplus8 += item[f'total_func{i}']
 
-    #---- Depreciation and ammortization total
-    total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
+#     #---- Depreciation and ammortization total
+#     total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
     
-    for item in data2:
-        func = item['func_func']
+#     for item in data2:
+#         func = item['func_func']
     
-        for i, acct_per in enumerate(acct_per_values2, start=1):
-            item[f'total_func2_{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-            )
-            total_DnA[acct_per] += item[f'total_func2_{i}']
+#         for i, acct_per in enumerate(acct_per_values2, start=1):
+#             item[f'total_func2_{i}'] = sum(
+#                 entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+#             )
+#             total_DnA[acct_per] += item[f'total_func2_{i}']
         
     
-    total_SBD = {acct_per: total_revenue[acct_per] - total_surplus[acct_per]  for acct_per in acct_per_values}
-    total_netsurplus = {acct_per: total_SBD[acct_per] - total_DnA[acct_per]  for acct_per in acct_per_values}
-    formatted_total_netsurplus = {
-        acct_per: "${:,}".format(abs(int(value))) if value > 0 else "(${:,})".format(abs(int(value))) if value < 0 else ""
-        for acct_per, value in total_netsurplus.items() if value != 0
-    }
-    formatted_total_DnA = {
-        acct_per: "{:,}".format(abs(int(value))) if value >= 0 else "({:,})".format(abs(int(value))) if value < 0 else ""
-        for acct_per, value in total_DnA.items() if value!=0
-    }
+#     total_SBD = {acct_per: total_revenue[acct_per] - total_surplus[acct_per]  for acct_per in acct_per_values}
+#     total_netsurplus = {acct_per: total_SBD[acct_per] - total_DnA[acct_per]  for acct_per in acct_per_values}
+#     formatted_total_netsurplus = {
+#         acct_per: "${:,}".format(abs(int(value))) if value > 0 else "(${:,})".format(abs(int(value))) if value < 0 else ""
+#         for acct_per, value in total_netsurplus.items() if value != 0
+#     }
+#     formatted_total_DnA = {
+#         acct_per: "{:,}".format(abs(int(value))) if value >= 0 else "({:,})".format(abs(int(value))) if value < 0 else ""
+#         for acct_per, value in total_DnA.items() if value!=0
+#     }
     
-    # total_surplusBD9 = 0 
-    # total_surplusBD10 = 0
-    # total_surplusBD11 = 0
-    # total_surplusBD12 = 0
-    # total_surplusBD1 = 0
-    # total_surplusBD2 = 0
-    # total_surplusBD3 = 0
-    # total_surplusBD4 = 0
-    # total_surplusBD5 = 0
-    # total_surplusBD6 = 0
-    # total_surplusBD7 = 0
-    # total_surplusBD8 = 0
-    # for item in data2:
-    #     func = item['func_func']
+#     # total_surplusBD9 = 0 
+#     # total_surplusBD10 = 0
+#     # total_surplusBD11 = 0
+#     # total_surplusBD12 = 0
+#     # total_surplusBD1 = 0
+#     # total_surplusBD2 = 0
+#     # total_surplusBD3 = 0
+#     # total_surplusBD4 = 0
+#     # total_surplusBD5 = 0
+#     # total_surplusBD6 = 0
+#     # total_surplusBD7 = 0
+#     # total_surplusBD8 = 0
+#     # for item in data2:
+#     #     func = item['func_func']
         
 
-    #     for i, acct_per in enumerate(acct_per_values2, start=1):
-    #         item[f'total_func2_{i}'] = sum(
-    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-    #         )
-            # if acct_per == '09':
-            #     total_surplusBD9 += item[f'total_func2_{i}']
-            # if acct_per == '10':
-            #     total_surplusBD10 += item[f'total_func2_{i}']
-            # if acct_per == '11':
-            #     total_surplusBD11 += item[f'total_func2_{i}']
-            # if acct_per == '12':
-            #     total_surplusBD12 += item[f'total_func2_{i}']
-            # if acct_per == '01':
-            #     total_surplusBD1 += item[f'total_func2_{i}']
-            # if acct_per == '02':
-            #     total_surplusBD2 += item[f'total_func2_{i}']
-            # if acct_per == '03':
-            #     total_surplusBD3 += item[f'total_func2_{i}']
-            # if acct_per == '04':
-            #     total_surplusBD4 += item[f'total_func2_{i}']
-            # if acct_per == '05':
-            #     total_surplusBD5 += item[f'total_func2_{i}']
-            # if acct_per == '06':
-            #     total_surplusBD6 += item[f'total_func2_{i}']
-            # if acct_per == '07':
-            #     total_surplusBD7 += item[f'total_func{i}']
-            # if acct_per == '08':
-            #     total_surplusBD8 += item[f'total_func{i}']
+#     #     for i, acct_per in enumerate(acct_per_values2, start=1):
+#     #         item[f'total_func2_{i}'] = sum(
+#     #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+#     #         )
+#             # if acct_per == '09':
+#             #     total_surplusBD9 += item[f'total_func2_{i}']
+#             # if acct_per == '10':
+#             #     total_surplusBD10 += item[f'total_func2_{i}']
+#             # if acct_per == '11':
+#             #     total_surplusBD11 += item[f'total_func2_{i}']
+#             # if acct_per == '12':
+#             #     total_surplusBD12 += item[f'total_func2_{i}']
+#             # if acct_per == '01':
+#             #     total_surplusBD1 += item[f'total_func2_{i}']
+#             # if acct_per == '02':
+#             #     total_surplusBD2 += item[f'total_func2_{i}']
+#             # if acct_per == '03':
+#             #     total_surplusBD3 += item[f'total_func2_{i}']
+#             # if acct_per == '04':
+#             #     total_surplusBD4 += item[f'total_func2_{i}']
+#             # if acct_per == '05':
+#             #     total_surplusBD5 += item[f'total_func2_{i}']
+#             # if acct_per == '06':
+#             #     total_surplusBD6 += item[f'total_func2_{i}']
+#             # if acct_per == '07':
+#             #     total_surplusBD7 += item[f'total_func{i}']
+#             # if acct_per == '08':
+#             #     total_surplusBD8 += item[f'total_func{i}']
 
 
     
-    keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
-    keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
+#     keys_to_check_func = ['total_func1', 'total_func2', 'total_func3', 'total_func4', 'total_func5','total_func6','total_func7','total_func8','total_func9','total_func10','total_func11','total_func12']
+#     keys_to_check_func_2 = ['total_func2_1', 'total_func2_2', 'total_func2_3', 'total_func2_4', 'total_func2_5','total_func2_6','total_func2_7','total_func2_8','total_func2_9','total_func2_10','total_func2_11','total_func2_12']
 
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
 
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ''
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] > 0:
+#                 row[key] = row[key]
+#             else:
+#                 row[key] = ''
+#     for row in data2:
+#         for key in keys_to_check_func_2:
+#             if row[key] != "":
+#                 row[key] = "{:,.0f}".format(row[key])
 
                 
           
 
 
 
-    lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
-    lr_funds_sorted = sorted(lr_funds)
-    lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
-    lr_obj_sorted = sorted(lr_obj)
+#     lr_funds = list(set(row['fund'] for row in data3 if 'fund' in row))
+#     lr_funds_sorted = sorted(lr_funds)
+#     lr_obj = list(set(row['obj'] for row in data3 if 'obj' in row))
+#     lr_obj_sorted = sorted(lr_obj)
 
-    func_choice = list(set(row['func'] for row in data3 if 'func' in row))
-    func_choice_sorted = sorted(func_choice)
+#     func_choice = list(set(row['func'] for row in data3 if 'func' in row))
+#     func_choice_sorted = sorted(func_choice)
     
             
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 3
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"  
+#     current_date = datetime.today().date()
+#     current_year = current_date.year
+#     last_year = current_date - timedelta(days=365)
+#     current_month = current_date.replace(day=1)
+#     last_month = current_month - relativedelta(days=1)
+#     last_month_number = last_month.month
+#     ytd_budget_test = last_month_number + 3
+#     ytd_budget = ytd_budget_test / 12
+#     formatted_ytd_budget = f"{ytd_budget:.2f}"  
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+#     if formatted_ytd_budget.startswith("0."):
+#         formatted_ytd_budget = formatted_ytd_budget[2:]
    
-    context = {
-         'data': data, 
-         'data2':data2 , 
-         'data3': data3 ,
-         'lr_funds':lr_funds_sorted, 
-         'lr_obj':lr_obj_sorted, 
-         'func_choice':func_choice_sorted ,
-         'data_expensebyobject': data_expensebyobject,
-         'data_activities': data_activities,
-         'last_month':last_month,
-         'last_month_number':last_month_number,
-         'format_ytd_budget': formatted_ytd_budget,
-         'ytd_budget':ytd_budget,
-         'total_DnA': formatted_total_DnA,
-         'total_netsurplus':formatted_total_netsurplus,
-         'total_SBD':total_SBD,
-        }
-    return render(request,'dashboard/advantage/cashflow_advantage.html',context)
+#     context = {
+#          'data': data, 
+#          'data2':data2 , 
+#          'data3': data3 ,
+#          'lr_funds':lr_funds_sorted, 
+#          'lr_obj':lr_obj_sorted, 
+#          'func_choice':func_choice_sorted ,
+#          'data_expensebyobject': data_expensebyobject,
+#          'data_activities': data_activities,
+#          'last_month':last_month,
+#          'last_month_number':last_month_number,
+#          'format_ytd_budget': formatted_ytd_budget,
+#          'ytd_budget':ytd_budget,
+#          'total_DnA': formatted_total_DnA,
+#          'total_netsurplus':formatted_total_netsurplus,
+#          'total_SBD':total_SBD,
+#         }
+#     return render(request,'dashboard/advantage/cashflow_advantage.html',context)
 
-def cashflow_cumberland(request):
-    return render(request,'dashboard/cumberland/cashflow_cumberland.html')
+# def cashflow_cumberland(request):
+#     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
 def generate_excel(request):
     cnxn = connect()

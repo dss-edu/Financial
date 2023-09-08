@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   
+  
     var modal = document.getElementById("myModal2");
 
      
@@ -83,3 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
       modal.style.display = "none";
     });
   });
+
+
+ 
