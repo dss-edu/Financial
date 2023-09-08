@@ -417,22 +417,26 @@ def cashflow(school):
                 entry[key] for entry in data_activitybs if entry["Activity"] == activity
             )
 
+    
     for item in data_cashflow:
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_investing{i}"] = sum(
-                entry["Bal"]
+                entry[activity_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
 
+    data_key = "Expend"
+    if school == "village-tech":
+        data_key = "Amount"
     for item in data_activities:
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_activities{i}"] = sum(
-                entry["Expend"]
+                entry[data_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
@@ -776,8 +780,15 @@ def cashflow(school):
 
     # ---- for data ------
 
+    
     # --- total revenue
     total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+
+
+
+    data_key = "Real"
+    if school == "village-tech":
+        data_key = "Amount"
 
     for item in data:
         fund = item["fund"]
@@ -785,7 +796,7 @@ def cashflow(school):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_real{i}"] = sum(
-                entry["Real"]
+                entry[data_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
@@ -884,13 +895,16 @@ def cashflow(school):
 
     total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
 
+    data_key = "Expend"
+    if school == "village-tech":
+        data_key = "Amount"
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
 
             for i, acct_per in enumerate(acct_per_values2, start=1):
                 item[f"total_func{i}"] = sum(
-                    entry["Expend"]
+                    entry[data_key]
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per
                 )
@@ -942,13 +956,16 @@ def cashflow(school):
     # ---- Depreciation and ammortization total
     total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
 
+    data_key = "Expend"
+    if school == "village-tech":
+        data_key = "Amount"
     for item in data2:
         func = item["func_func"]
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values2, start=1):
             item[f"total_func2_{i}"] = sum(
-                entry["Expend"]
+                entry[data_key]
                 for entry in data3
                 if entry["func"] == func
                 and entry["AcctPer"] == acct_per
