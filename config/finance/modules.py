@@ -162,9 +162,7 @@ def profit_loss(school):
         context["lr_funds"] = lr_funds_sorted
         context["lr_obj"] = lr_obj_sorted
         context["func_choice"] = func_choice_sorted
-
-    for data in context["data3"]:
-        print(data["Date"])
+        
     return context
 
 
