@@ -4212,26 +4212,27 @@ def generate_excel(request):
     start_row += 4   
     first_total_start = start_row
     for row_data in data2: #1st TOTAL
-        pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-        pl_sheet[f'D{start_row}'] = row_data['budget']
-        pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
-        pl_sheet[f'G{start_row}'] = row_data['total_func9']
-        pl_sheet[f'H{start_row}'] = row_data['total_func10']
-        pl_sheet[f'I{start_row}'] = row_data['total_func11']
-        pl_sheet[f'J{start_row}'] = row_data['total_func12']
-        pl_sheet[f'K{start_row}'] = row_data['total_func1']
-        pl_sheet[f'L{start_row}'] = row_data['total_func2']
-        pl_sheet[f'M{start_row}'] = row_data['total_func3']
-        pl_sheet[f'N{start_row}'] = row_data['total_func4']
-        pl_sheet[f'O{start_row}'] = row_data['total_func5']
-        pl_sheet[f'P{start_row}'] = row_data['total_func6']
-        pl_sheet[f'Q{start_row}'] = row_data['total_func7']
-        pl_sheet[f'R{start_row}'] = row_data['total_func8']
-        pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
-        pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
-        pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
-        first_total_end = start_row
-        start_row += 1
+        if row_data["category"] != 'Depreciation and Amortization':
+            pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'G{start_row}'] = row_data['total_func9']
+            pl_sheet[f'H{start_row}'] = row_data['total_func10']
+            pl_sheet[f'I{start_row}'] = row_data['total_func11']
+            pl_sheet[f'J{start_row}'] = row_data['total_func12']
+            pl_sheet[f'K{start_row}'] = row_data['total_func1']
+            pl_sheet[f'L{start_row}'] = row_data['total_func2']
+            pl_sheet[f'M{start_row}'] = row_data['total_func3']
+            pl_sheet[f'N{start_row}'] = row_data['total_func4']
+            pl_sheet[f'O{start_row}'] = row_data['total_func5']
+            pl_sheet[f'P{start_row}'] = row_data['total_func6']
+            pl_sheet[f'Q{start_row}'] = row_data['total_func7']
+            pl_sheet[f'R{start_row}'] = row_data['total_func8']
+            pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
+            pl_sheet[f'U{start_row}'].value = f'=E{start_row}-T{start_row}' 
+            pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
+            first_total_end = start_row
+            start_row += 1
 
  
     first_total_row = start_row
@@ -4283,7 +4284,7 @@ def generate_excel(request):
 
     dna_row_start = start_row
     for row_data in data2: #Depreciation and amortization
-        if row_data["func_func"] == '51':
+        if row_data["category"] == 'Depreciation and Amortization':
             pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
             pl_sheet[f'C{start_row}'] = '6449'
             
@@ -4378,7 +4379,13 @@ def generate_excel(request):
             pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
             payroll_row_end = start_row
             start_row += 1
-            
+    for row in range(payroll_row_start, payroll_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")    
+
     payroll_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6100':
@@ -4421,6 +4428,13 @@ def generate_excel(request):
             pl_sheet[f'T{start_row}'].value = f'=SUBTOTAL(109,G{start_row}:R{start_row})'
             pcs_row_end = start_row
             start_row += 1
+
+    for row in range(pcs_row_start, pcs_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")    
 
     pcs_row = start_row
     for row_data in data_expensebyobject: 
@@ -4466,6 +4480,13 @@ def generate_excel(request):
             sm_row_end = start_row
             start_row += 1
 
+    for row in range(sm_row_start, sm_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")   
+
     sm_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6300':
@@ -4508,6 +4529,13 @@ def generate_excel(request):
             pl_sheet[f'R{start_row}'] = row_data['total_activities8']
             ooe_row_end = start_row
             start_row += 1
+
+    for row in range(ooe_row_start, ooe_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")  
 
     ooe_row = start_row
     for row_data in data_expensebyobject: 
@@ -4556,6 +4584,13 @@ def generate_excel(request):
             
             total_expense_row_end = start_row
             start_row += 1
+
+    for row in range(total_expense_row_start, total_expense_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")  
 
     total_expense_row = start_row
     for row_data in data_expensebyobject: 
