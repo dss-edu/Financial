@@ -4029,6 +4029,18 @@ def generate_excel(request):
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
 
+    current_date = datetime.today().date()
+    # current_year = current_date.year
+    # last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    )
+
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
 
@@ -4128,27 +4140,38 @@ def generate_excel(request):
     pl_sheet.column_dimensions['A'].width = 8
     pl_sheet.column_dimensions['B'].width = 28
     pl_sheet.column_dimensions['C'].width = 10
-    pl_sheet.column_dimensions['D'].width = 14
-    pl_sheet.column_dimensions['E'].width = 14
+    pl_sheet.column_dimensions['D'].width = 16
+    pl_sheet.column_dimensions['E'].width = 16
     pl_sheet.column_dimensions['F'].hidden = True
-    pl_sheet.column_dimensions['G'].width = 12
-    pl_sheet.column_dimensions['H'].width = 12
-    pl_sheet.column_dimensions['I'].width = 12
-    pl_sheet.column_dimensions['J'].width = 12
-    pl_sheet.column_dimensions['K'].width = 12
-    pl_sheet.column_dimensions['L'].width = 12
-    pl_sheet.column_dimensions['M'].width = 12
-    pl_sheet.column_dimensions['N'].width = 12
-    pl_sheet.column_dimensions['O'].width = 12
-    pl_sheet.column_dimensions['P'].width = 12
-    pl_sheet.column_dimensions['Q'].width = 12
-    pl_sheet.column_dimensions['R'].width = 12
+    pl_sheet.column_dimensions['G'].width = 16
+    pl_sheet.column_dimensions['H'].width = 16
+    pl_sheet.column_dimensions['I'].width = 16
+    pl_sheet.column_dimensions['J'].width = 16
+    pl_sheet.column_dimensions['K'].width = 16
+    pl_sheet.column_dimensions['L'].width = 16
+    pl_sheet.column_dimensions['M'].width = 16
+    pl_sheet.column_dimensions['N'].width = 16
+    pl_sheet.column_dimensions['O'].width = 16
+    pl_sheet.column_dimensions['P'].width = 16
+    pl_sheet.column_dimensions['Q'].width = 16
+    pl_sheet.column_dimensions['R'].width = 16
     pl_sheet.column_dimensions['S'].width = 3
     pl_sheet.column_dimensions['T'].width = 17
     pl_sheet.column_dimensions['U'].width = 17
     pl_sheet.column_dimensions['V'].width = 12
 
-   
+    thin_border = Border(top=Side(border_style='thin'))
+    currency_style = NamedStyle(name="currency_style", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
+    currency_style.border =Border(top=Side(border_style='thin'))
+    currency_style.alignment = Alignment(horizontal='right', vertical='top')
+    currency_font = Font(name='Calibri', size=11, bold=True)
+    currency_style.font = currency_font
+
+    normal_cell = NamedStyle(name="normal_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    
+    normal_cell.alignment = Alignment(horizontal='right', vertical='bottom')
+    normal_font = Font(name='Calibri', size=11, bold=False)
+    normal_cell.font = normal_font
 
     total_vars = ['value', 'total_real9', 'total_real10', 'total_real11', 'total_real12', 
               'total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5', 
@@ -4159,11 +4182,14 @@ def generate_excel(request):
     start_row = 5
     lr_row_start = start_row
     for row_data in data:
-        if row_data['category'] == 'Local Revenue': 
+        if row_data['category'] == 'Local Revenue':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
             
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
@@ -4187,9 +4213,13 @@ def generate_excel(request):
             
     lr_end = start_row
     #local revenue total
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Local Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{lr_row_start}:E{lr_row_end})'  
@@ -4219,13 +4249,14 @@ def generate_excel(request):
     #     globals()[row] = 0
     totals = {var: 0 for var in total_vars} # reset the totals
     spr_row_start = start_row
+    
     for row_data in data:
         if row_data['category'] == 'State Program Revenue':
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
             pl_sheet[f'I{start_row}'] = row_data['total_real11']        
@@ -4251,9 +4282,13 @@ def generate_excel(request):
             
     spr_end = start_row
     # STATE PROGRAM TOTAL      
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_row_start}:E{spr_row_end})' 
@@ -4282,7 +4317,7 @@ def generate_excel(request):
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
             pl_sheet[f'G{start_row}'] = row_data['total_real9']
             pl_sheet[f'H{start_row}'] = row_data['total_real10']
             pl_sheet[f'I{start_row}'] = row_data['total_real11']
@@ -4305,9 +4340,13 @@ def generate_excel(request):
             
     fpr_end = start_row
         # FEDERAL PROGRAM REVENUE TOTAL
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{fpr_row_start}:E{fpr_row_end})' 
@@ -4329,9 +4368,14 @@ def generate_excel(request):
     start_row += 1
 
     total_revenue_row = start_row
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+    for col in range(4, 22):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+ 
+    
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Total Revenue'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{spr_end},D{fpr_end},D{lr_end})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_end},E{fpr_end},E{lr_end})'
@@ -4351,13 +4395,13 @@ def generate_excel(request):
     pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'     
 
-    start_row += 4   
+    start_row += 1   
     first_total_start = start_row
     for row_data in data2: #1st TOTAL
         if row_data["category"] != 'Depreciation and Amortization':
             pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'] = row_data['total_func9']
             pl_sheet[f'H{start_row}'] = row_data['total_func10']
             pl_sheet[f'I{start_row}'] = row_data['total_func11']
@@ -4378,9 +4422,13 @@ def generate_excel(request):
 
  
     first_total_row = start_row
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+    for col in range(4, 22):  # Columns D to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Total'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{first_total_start}:D{first_total_end})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{first_total_start}:E{first_total_end})'
@@ -4403,6 +4451,13 @@ def generate_excel(request):
     
     start_row += 2 #surplus (deficits) before depreciation
     surplus_row = start_row
+    for col in range(2, 22):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    for col in range(4, 22):  # Columns D to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Surplus (Deficits) before Depreciation'
     pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{first_total_row})'
     pl_sheet[f'E{start_row}'].value = f'=(E{total_revenue_row}-E{first_total_row})'
@@ -4422,13 +4477,18 @@ def generate_excel(request):
     pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
 
-    start_row += 2  
+    start_row += 2
 
     dna_row_start = start_row
     for row_data in data2: #Depreciation and amortization
         if row_data["category"] == 'Depreciation and Amortization':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
             pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-            pl_sheet[f'C{start_row}'] = '6449'
+           
+            pl_sheet[f'D{start_row}'] = row_data['budget']
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             
             pl_sheet[f'G{start_row}'] = row_data['total_func2_9']
             pl_sheet[f'H{start_row}'] = row_data['total_func2_10']
@@ -4448,8 +4508,15 @@ def generate_excel(request):
             dna_row_end = start_row
             start_row += 1
 
-    start_row += 1
+
     dna_row = start_row
+    for col in range(4, 22):  # Columns D to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        
+        cell.style = currency_style
+    for col in range(2, 22):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
     pl_sheet[f'B{start_row}'] = 'Depreciation and Amortization'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{dna_row_start}:D{dna_row_end})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{dna_row_start}:E{dna_row_end})'
@@ -4471,9 +4538,14 @@ def generate_excel(request):
 
     start_row += 2
     netsurplus_row = start_row
-    for col in range(2, 19):  
+    for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
         cell.font = fontbold
+
+    for col in range(4, 22):  # Columns D to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.border = thin_border
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Net Surplus(Deficit)'
     pl_sheet[f'D{start_row}'].value = f'=(D{surplus_row}-D{dna_row})'
     pl_sheet[f'E{start_row}'].value = f'=(E{surplus_row}-E{dna_row})'
@@ -4533,7 +4605,7 @@ def generate_excel(request):
         if row_data['obj'] == '6100':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'].value = f'=SUM(G{payroll_row_start}:G{payroll_row_end})'
             pl_sheet[f'H{start_row}'].value = f'=SUM(H{payroll_row_start}:H{payroll_row_end})'
             pl_sheet[f'I{start_row}'].value = f'=SUM(I{payroll_row_start}:I{payroll_row_end})'
@@ -4583,7 +4655,7 @@ def generate_excel(request):
         if row_data['obj'] == '6200':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'].value = f'=SUM(G{pcs_row_start}:G{pcs_row_end})'
             pl_sheet[f'H{start_row}'].value = f'=SUM(H{pcs_row_start}:H{pcs_row_end})'
             pl_sheet[f'I{start_row}'].value = f'=SUM(I{pcs_row_start}:I{pcs_row_end})'
@@ -4634,7 +4706,7 @@ def generate_excel(request):
         if row_data['obj'] == '6300':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'].value = f'=SUM(G{sm_row_start}:G{sm_row_end})'
             pl_sheet[f'H{start_row}'].value = f'=SUM(H{sm_row_start}:H{sm_row_end})'
             pl_sheet[f'I{start_row}'].value = f'=SUM(I{sm_row_start}:I{sm_row_end})'
@@ -4684,7 +4756,7 @@ def generate_excel(request):
         if row_data['obj'] == '6400':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'].value = f'=SUM(G{ooe_row_start}:G{ooe_row_end})'
             pl_sheet[f'H{start_row}'].value = f'=SUM(H{ooe_row_start}:H{ooe_row_end})'
             pl_sheet[f'I{start_row}'].value = f'=SUM(I{ooe_row_start}:I{ooe_row_end})'
@@ -4739,7 +4811,7 @@ def generate_excel(request):
         if row_data['obj'] == '6500':
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
-            pl_sheet[f'E{start_row}'] = row_data['budget'] * .922222
+            pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
             pl_sheet[f'G{start_row}'].value = f'=SUM(G{total_expense_row_start}:G{total_expense_row_end})'
             pl_sheet[f'H{start_row}'].value = f'=SUM(H{total_expense_row_start}:H{total_expense_row_end})'
             pl_sheet[f'I{start_row}'].value = f'=SUM(I{total_expense_row_start}:I{total_expense_row_end})'
@@ -4761,6 +4833,13 @@ def generate_excel(request):
     start_row += 1
 
     total_expense_total = start_row
+    for col in range(2, 22):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.border = thin_border
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Total Expense'
     pl_sheet[f'D{start_row}'].value = f'=SUM(D{payroll_row},D{pcs_row},D{sm_row},D{ooe_row},D{total_expense_row})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{payroll_row},E{pcs_row},E{sm_row},E{ooe_row},E{total_expense_row})'
@@ -4783,6 +4862,13 @@ def generate_excel(request):
     
 
     start_row += 1
+    for col in range(2, 22):  
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.font = fontbold
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=start_row, column=col)
+        cell.border = thin_border
+        cell.style = currency_style
     pl_sheet[f'B{start_row}'] = 'Net Income'
     pl_sheet[f'D{start_row}'].value = f'=(D{total_revenue_row}-D{total_expense_total})'
     pl_sheet[f'E{start_row}'].value = f'=(E{total_revenue_row}-E{total_expense_total})'
