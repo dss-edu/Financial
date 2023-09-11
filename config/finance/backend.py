@@ -1,4 +1,4 @@
-from connect import connect
+from .connect import connect
 from time import strftime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -12,7 +12,7 @@ current_date = datetime.now()
 month_number = current_date.month
 curr_year = current_date.year
 
-JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
+JSON_DIR = os.path.join(os.getcwd(),"finance","json")
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -83,10 +83,11 @@ db = {
 
 
 def update_db():
-    # for school, name in SCHOOLS.items():
-    #     profit_loss(school)
-    #     balance_sheet(school)
-    balance_sheet("manara")
+    for school, name in SCHOOLS.items():
+
+        profit_loss(school)
+        balance_sheet(school)
+    # profit_loss("advantage")
 
 
 def profit_loss(school):
@@ -369,9 +370,9 @@ def profit_loss(school):
         "12",
     ]
 
-    data_key = "Real"
+    real_key = "Real"
     if school == "village-tech":
-        data_key = "Amount"
+        real_key = "Amount"
 
     for item in data:
         fund = item["fund"]
@@ -379,7 +380,7 @@ def profit_loss(school):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_real{i}"] = sum(
-                entry[data_key]
+                entry[real_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
@@ -428,24 +429,26 @@ def profit_loss(school):
         "12",
     ]
 
-    data_key = "Expend"
+    expend_key = "Expend"
     if school == "village-tech":
-        data_key = "Amount"
+        expend_key = "Amount"
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             for i, acct_per in enumerate(acct_per_values2, start=1):
                 total_func = sum(
-                    entry[data_key]
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per
                 )
-                total_adjustment = sum(
-                    entry[data_key]
-                    for entry in adjustment
-                    if entry["func"] == func and entry["AcctPer"] == acct_per
-                )
+                total_adjustment = 0
+                # sum(
+                #     entry[expend_key]
+                #     for entry in adjustment
+                #     if entry["func"] == func and entry["AcctPer"] == acct_per
+                # )
                 item[f"total_func{i}"] = total_func + total_adjustment
+                
 
     for item in data2:
         if item["category"] == "Depreciation and Amortization":
@@ -453,14 +456,14 @@ def profit_loss(school):
             obj = item["obj"]
             for i, acct_per in enumerate(acct_per_values2, start=1):
                 total_func = sum(
-                    entry[data_key]
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                 )
                 total_adjustment = sum(
-                    entry[data_key]
+                    entry[expend_key]
                     for entry in adjustment
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
@@ -563,11 +566,12 @@ def profit_loss(school):
 
     # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
 
-    json_path = os.path.join(JSON_DIR, school)
+    json_path = os.path.join(JSON_DIR, "profit-loss", school)
     if not os.path.exists(json_path):
         os.makedirs(json_path)
 
     for key, val in context.items():
+
         file = os.path.join(json_path, f"{key}.json")
         with open(file, "w") as f:
             json.dump(val, f)
@@ -761,21 +765,21 @@ def balance_sheet(school):
         "12",
     ]
 
-    activity_key = "Bal"
+    bal_key = "Bal"
     if school == "village-tech":
-        activity_key = "Amount"
+        bal_key = "Amount"
 
     for item in data_activitybs:
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             total_data3 = sum(
-                entry[activity_key]
+                entry[bal_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
             total_adjustment = sum(
-                entry[activity_key]
+                entry[bal_key]
                 for entry in adjustment
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
@@ -1236,6 +1240,7 @@ def balance_sheet(school):
         )
 
         row["net_assets9"] = format_with_parentheses(FYE_value + total_netsurplus["09"])
+        print(total_netsurplus["09"])
         row["net_assets10"] = format_with_parentheses(
             FYE_value + total_netsurplus["09"] + total_netsurplus["10"]
         )
