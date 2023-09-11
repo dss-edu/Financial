@@ -4167,11 +4167,23 @@ def generate_excel(request):
     currency_font = Font(name='Calibri', size=11, bold=True)
     currency_style.font = currency_font
 
+
+    normal_cell_bottom_border = NamedStyle(name="normal_cell_bottom_border", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    normal_cell_bottom_border.border =Border(bottom=Side(border_style='thin'))
+    normal_cell_bottom_border.alignment = Alignment(horizontal='right', vertical='bottom')
+    normal_font_bottom_border = Font(name='Calibri', size=11, bold=False)
+    normal_cell_bottom_border.font = normal_font_bottom_border
+
     normal_cell = NamedStyle(name="normal_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
-    
     normal_cell.alignment = Alignment(horizontal='right', vertical='bottom')
     normal_font = Font(name='Calibri', size=11, bold=False)
     normal_cell.font = normal_font
+
+
+    currency_style_noborder = NamedStyle(name="currency_style_noborder", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
+    currency_style_noborder.alignment = Alignment(horizontal='right', vertical='top')
+    currency_font_noborder = Font(name='Calibri', size=11, bold=True)
+    currency_style_noborder.font = currency_font_noborder
 
     total_vars = ['value', 'total_real9', 'total_real10', 'total_real11', 'total_real12', 
               'total_real1', 'total_real2', 'total_real3', 'total_real4', 'total_real5', 
@@ -4210,7 +4222,19 @@ def generate_excel(request):
                 totals[var] += row_data.get(var, 0)
             
             start_row += 1
+
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=lr_row_end, column=col)
+        
+        cell.style = normal_cell_bottom_border
+
+    for row in range(lr_row_start, lr_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
             
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")           
     lr_end = start_row
     #local revenue total
     for col in range(2, 22):  
@@ -4219,7 +4243,7 @@ def generate_excel(request):
     for col in range(4, 22):  # Columns G to U
         cell = pl_sheet.cell(row=start_row, column=col)
         
-        cell.style = currency_style
+        cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'Local Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{lr_row_start}:E{lr_row_end})'  
@@ -4252,6 +4276,9 @@ def generate_excel(request):
     
     for row_data in data:
         if row_data['category'] == 'State Program Revenue':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
@@ -4278,6 +4305,19 @@ def generate_excel(request):
                 totals[var] += row_data.get(var, 0)
             
             start_row += 1
+
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=spr_row_end, column=col)
+        
+        cell.style = normal_cell_bottom_border
+
+    for row in range(spr_row_start, spr_row_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+            
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")    
             
             
     spr_end = start_row
@@ -4288,7 +4328,7 @@ def generate_excel(request):
     for col in range(4, 22):  # Columns G to U
         cell = pl_sheet.cell(row=start_row, column=col)
         
-        cell.style = currency_style
+        cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_row_start}:E{spr_row_end})' 
@@ -4313,6 +4353,9 @@ def generate_excel(request):
     fpr_row_start = start_row
     for row_data in data:
         if row_data['category'] == 'Federal Program Revenue':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
@@ -4339,6 +4382,19 @@ def generate_excel(request):
             start_row += 1
             
     fpr_end = start_row
+
+    for col in range(4, 22):  # Columns G to U
+        cell = pl_sheet.cell(row=fpr_row_end, column=col)
+        
+        cell.style = normal_cell_bottom_border
+
+    for row in range(fpr_row_start, fpr_end):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+            pl_sheet.row_dimensions[row].hidden = True
+            
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}") 
         # FEDERAL PROGRAM REVENUE TOTAL
     for col in range(2, 22):  
         cell = pl_sheet.cell(row=start_row, column=col)
@@ -4346,7 +4402,7 @@ def generate_excel(request):
     for col in range(4, 22):  # Columns G to U
         cell = pl_sheet.cell(row=start_row, column=col)
         
-        cell.style = currency_style
+        cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{fpr_row_start}:E{fpr_row_end})' 
@@ -4397,8 +4453,12 @@ def generate_excel(request):
 
     start_row += 1   
     first_total_start = start_row
+ 
     for row_data in data2: #1st TOTAL
         if row_data["category"] != 'Depreciation and Amortization':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
             pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
@@ -4419,7 +4479,13 @@ def generate_excel(request):
             pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
             first_total_end = start_row
             start_row += 1
-
+    for row in range(first_total_start, first_total_end+1):
+        try:
+            pl_sheet.row_dimensions[row].outline_level = 1
+           
+            
+        except KeyError as e:
+            print(f"Error hiding row {row}: {e}")   
  
     first_total_row = start_row
     for col in range(2, 22):  
@@ -4576,6 +4642,9 @@ def generate_excel(request):
     payroll_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Payroll Costs':
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
@@ -4603,6 +4672,9 @@ def generate_excel(request):
     payroll_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6100':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell 
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
@@ -4626,6 +4698,9 @@ def generate_excel(request):
     pcs_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Professional and Cont Svcs':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
             pl_sheet[f'H{start_row}'] = row_data['total_activities10']
@@ -4653,6 +4728,9 @@ def generate_excel(request):
     pcs_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6200':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
@@ -4677,6 +4755,9 @@ def generate_excel(request):
     sm_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Supplies and Materials':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
             pl_sheet[f'H{start_row}'] = row_data['total_activities10']
@@ -4704,6 +4785,9 @@ def generate_excel(request):
     sm_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6300':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
@@ -4728,6 +4812,9 @@ def generate_excel(request):
     ooe_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Other Operating Expenses':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
             pl_sheet[f'H{start_row}'] = row_data['total_activities10']
@@ -4754,6 +4841,9 @@ def generate_excel(request):
     ooe_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6400':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
@@ -4780,6 +4870,9 @@ def generate_excel(request):
     total_expense_row_start = start_row
     for row_data in data_activities: 
         if row_data['Category'] == 'Total Expense':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'G{start_row}'] = row_data['total_activities9']
             pl_sheet[f'H{start_row}'] = row_data['total_activities10']
@@ -4809,6 +4902,9 @@ def generate_excel(request):
     total_expense_row = start_row
     for row_data in data_expensebyobject: 
         if row_data['obj'] == '6500':
+            for col in range(4, 22):  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.style = normal_cell
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
             pl_sheet[f'D{start_row}'] = row_data['budget']
             pl_sheet[f'E{start_row}'] = row_data['budget'] * ytd_budget
