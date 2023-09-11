@@ -83,6 +83,8 @@ db = {
 
 
 def update_db():
+    # profit_loss("advantage")
+    # balance_sheet("advantage")
     for school, name in SCHOOLS.items():
 
         profit_loss(school)
@@ -197,10 +199,11 @@ def profit_loss(school):
 
     adjustment = []
 
-    if not school == "village-tech":
+    if school != "village-tech":
         for row in rows:
+        
+        
             expend = float(row[17])
-
             row_dict = {
                 "fund": row[0],
                 "func": row[1],
@@ -224,8 +227,8 @@ def profit_loss(school):
                 "WorkDescr": row[19],
                 "Type": row[20],
                 "School": row[21],
+               
             }
-
             adjustment.append(row_dict)
 
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
@@ -719,10 +722,10 @@ def balance_sheet(school):
 
     adjustment = []
 
-    if not school == "village-tech":
+    if school != "village-tech":
         for row in rows:
+        
             expend = float(row[17])
-
             row_dict = {
                 "fund": row[0],
                 "func": row[1],
@@ -747,7 +750,6 @@ def balance_sheet(school):
                 "Type": row[20],
                 "School": row[21],
             }
-
             adjustment.append(row_dict)
 
     acct_per_values = [
@@ -856,19 +858,26 @@ def balance_sheet(school):
 
     # total surplus
     total_surplus = {acct_per: 0 for acct_per in acct_per_values}
-    data_key = "Expend"
+    expend_key = "Expend"
     if school == "village-tech":
-        data_key = "Amount"
+        expend_key = "Amount"
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
 
             for i, acct_per in enumerate(acct_per_values, start=1):
-                item[f"total_func{i}"] = sum(
-                    entry[data_key]
+                total_func = sum(
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per
                 )
+                total_adjustment = 0
+                # sum(
+                #     entry[expend_key]
+                #     for entry in adjustment
+                #     if entry["func"] == func and entry["AcctPer"] == acct_per
+                # )
+                item[f"total_func{i}"] = total_func + total_adjustment
                 total_surplus[acct_per] += item[f"total_func{i}"]
 
     # difference_func_values = {i: 0 for i in range(1, 13)}
@@ -884,14 +893,23 @@ def balance_sheet(school):
             obj = item["obj"]
 
             for i, acct_per in enumerate(acct_per_values, start=1):
-                item[f"total_func2_{i}"] = sum(
-                    entry[data_key]
+                total_func = sum(
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                 )
+                total_adjustment = sum(
+                    entry[expend_key]
+                    for entry in adjustment
+                    if entry["func"] == func
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+                item[f"total_func2_{i}"] = total_func + total_adjustment
                 total_DnA[acct_per] += item[f"total_func2_{i}"]
+                
 
     total_SBD = {
         acct_per: total_revenue[acct_per] - total_surplus[acct_per]
@@ -1240,7 +1258,7 @@ def balance_sheet(school):
         )
 
         row["net_assets9"] = format_with_parentheses(FYE_value + total_netsurplus["09"])
-        print(total_netsurplus["09"])
+        
         row["net_assets10"] = format_with_parentheses(
             FYE_value + total_netsurplus["09"] + total_netsurplus["10"]
         )
