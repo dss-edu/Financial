@@ -280,7 +280,7 @@ def cashflow(school):
 def general_ledger(school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute(f"SELECT  TOP(300)* FROM [dbo].{db[school]['db']}")
+    cursor.execute(f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC")
     rows = cursor.fetchall()
 
     data3 = []
