@@ -3,16 +3,17 @@ from time import strftime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import json
-import pprint
 import os
-
+import re
+import pprint
+pp = pprint.PrettyPrinter()
 # Get the current date
 current_date = datetime.now()
 # Extract the month number from the current date
 month_number = current_date.month
 curr_year = current_date.year
 
-JSON_DIR = os.path.join(os.getcwd(),"finance","json")
+JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -85,11 +86,12 @@ db = {
 def update_db():
     # profit_loss("advantage")
     # balance_sheet("advantage")
+    cashflow("cumberland")
     for school, name in SCHOOLS.items():
+        # profit_loss(school)
+        # balance_sheet(school)
+        cashflow(school)
 
-        profit_loss(school)
-        balance_sheet(school)
-    # profit_loss("advantage")
 
 
 def profit_loss(school):
@@ -201,8 +203,6 @@ def profit_loss(school):
 
     if school != "village-tech":
         for row in rows:
-        
-        
             expend = float(row[17])
             row_dict = {
                 "fund": row[0],
@@ -227,7 +227,6 @@ def profit_loss(school):
                 "WorkDescr": row[19],
                 "Type": row[20],
                 "School": row[21],
-               
             }
             adjustment.append(row_dict)
 
@@ -451,7 +450,6 @@ def profit_loss(school):
                 #     if entry["func"] == func and entry["AcctPer"] == acct_per
                 # )
                 item[f"total_func{i}"] = total_func + total_adjustment
-                
 
     for item in data2:
         if item["category"] == "Depreciation and Amortization":
@@ -574,7 +572,6 @@ def profit_loss(school):
         os.makedirs(json_path)
 
     for key, val in context.items():
-
         file = os.path.join(json_path, f"{key}.json")
         with open(file, "w") as f:
             json.dump(val, f)
@@ -611,7 +608,7 @@ def balance_sheet(school):
     # rows = cursor.fetchall()
     #
     # data = []
-    json_path = os.path.join(JSON_DIR, "profit-loss" ,school)
+    json_path = os.path.join(JSON_DIR, "profit-loss", school)
     with open(os.path.join(json_path, "data.json"), "r") as f:
         data = json.load(f)
     # for row in rows:
@@ -657,7 +654,6 @@ def balance_sheet(school):
         }
 
         data_activitybs.append(row_dict)
-
 
     with open(os.path.join(json_path, "data3.json"), "r") as f:
         data3 = json.load(f)
@@ -724,7 +720,6 @@ def balance_sheet(school):
 
     if school != "village-tech":
         for row in rows:
-        
             expend = float(row[17])
             row_dict = {
                 "fund": row[0],
@@ -909,7 +904,6 @@ def balance_sheet(school):
                 )
                 item[f"total_func2_{i}"] = total_func + total_adjustment
                 total_DnA[acct_per] += item[f"total_func2_{i}"]
-                
 
     total_SBD = {
         acct_per: total_revenue[acct_per] - total_surplus[acct_per]
@@ -1258,7 +1252,7 @@ def balance_sheet(school):
         )
 
         row["net_assets9"] = format_with_parentheses(FYE_value + total_netsurplus["09"])
-        
+
         row["net_assets10"] = format_with_parentheses(
             FYE_value + total_netsurplus["09"] + total_netsurplus["10"]
         )
@@ -1443,7 +1437,7 @@ def balance_sheet(school):
     }
 
     if not school == "village-tech":
-        context["total_DnA"] = formatted_total_DnA,
+        context["total_DnA"] = (formatted_total_DnA,)
         context["total_netsurplus"] = formatted_total_netsurplus
         context["total_SBD"] = total_SBD
         context["ytd_netsurplus"] = formated_ytdnetsurplus
@@ -1460,8 +1454,288 @@ def balance_sheet(school):
         with open(file, "w") as f:
             json.dump(val, f)
 
+def cashflow(school):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    json_path = os.path.join(JSON_DIR, "profit-loss", school)
+    with open(os.path.join(json_path, "data.json"), "r") as f:
+        data = json.load(f)
+
+    with open(os.path.join(json_path, "data2.json"), "r") as f:
+        data2 = json.load(f)
+
+    with open(os.path.join(json_path, "data3.json"), "r") as f:
+        data3 = json.load(f)
+
+    with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
+        data_expensebyobject = json.load(f)
+
+    with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
+        data_activities = json.load(f)
+
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
+    rows = cursor.fetchall()
+
+    data_cashflow = []
+
+    for row in rows:
+        row_dict = {
+            "Category": row[0],
+            "Activity": row[1],
+            "Description": row[2],
+            "obj": str(row[3]),
+        }
+
+        data_cashflow.append(row_dict)
+
+    json_path = os.path.join(JSON_DIR, "balance-sheet", school)
+    with open(os.path.join(json_path, "data_activitybs.json"), "r") as f:
+        data_activitybs = json.load(f)
+
+    with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
+        data_balancesheet = json.load(f)
+
+    acct_per_values = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+    ]
+
+    activity_key = "Bal"
+    if school == "village-tech":
+        activity_key = "Amount"
+
+    # ---------- FOR EXPENSE TOTAL -------
 
 
+    chars_to_remove = r'[(),]'
+    for i, acct_per in enumerate(acct_per_values, start=1):
+        key = f"total_bal{i}"
+        for entry in data_activitybs:
+            sign = 1
+            if '(' in entry[key]:
+                sign = -1
+            try:
+                entry[key] = float(re.sub(chars_to_remove, '', entry[key])) * sign
+            except (TypeError, ValueError):
+                if entry[key] == '':
+                    entry[key] = 0
+                else:
+                    print(entry[key])
+
+
+    for item in data_cashflow:
+        activity = item["Activity"]
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            key = f"total_bal{i}"
+            item[f"total_operating{i}"] = sum(
+                entry[key]
+                for entry in data_activitybs
+                if entry["Activity"] == activity
+            )
+
+    for item in data_cashflow:
+        obj = item["obj"]
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f"total_investing{i}"] = sum(
+                entry[activity_key]
+                for entry in data3
+                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+            )
+
+    data_key = "Expend"
+    if school == "village-tech":
+        data_key = "Amount"
+
+    keys_to_check_cashflow = [
+        "total_operating1",
+        "total_operating2",
+        "total_operating3",
+        "total_operating4",
+        "total_operating5",
+        "total_operating6",
+        "total_operating7",
+        "total_operating8",
+        "total_operating9",
+        "total_operating10",
+        "total_operating11",
+        "total_operating12",
+    ]
+    keys_to_check_cashflow2 = [
+        "total_investing1",
+        "total_investing2",
+        "total_investing3",
+        "total_investing4",
+        "total_investing5",
+        "total_investing6",
+        "total_investing7",
+        "total_investing8",
+        "total_investing9",
+        "total_investing10",
+        "total_investing11",
+        "total_investing12",
+    ]
+    for row in data_cashflow:
+        for key in keys_to_check_cashflow:
+            value = float(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "({:,.0f})".format(abs(float(row[key])))
+            elif value != "":
+                row[key] = "{:,.0f}".format(float(row[key]))
+
+    for row in data_cashflow:
+        for key in keys_to_check_cashflow2:
+            value = float(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "({:,.0f})".format(abs(float(row[key])))
+            elif value != "":
+                row[key] = "{:,.0f}".format(float(row[key]))
+
+    # --- total revenue
+    # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+    #
+    # data_key = "Real"
+    # if school == "village-tech":
+    #     data_key = "Amount"
+    #
+    # for item in data:
+    #     fund = item["fund"]
+    #     obj = item["obj"]
+    #
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f"total_real{i}"] = sum(
+    #             entry[data_key]
+    #             for entry in data3
+    #             if entry["fund"] == fund
+    #             and entry["obj"] == obj
+    #             and entry["AcctPer"] == acct_per
+    #         )
+    #
+    #         total_revenue[acct_per] += abs(item[f"total_real{i}"])
+
+    # keys_to_check = [
+    #     "total_real1",
+    #     "total_real2",
+    #     "total_real3",
+    #     "total_real4",
+    #     "total_real5",
+    #     "total_real6",
+    #     "total_real7",
+    #     "total_real8",
+    #     "total_real9",
+    #     "total_real10",
+    #     "total_real11",
+    #     "total_real12",
+    # ]
+    #
+    # acct_per_values2 = [
+    #     "01",
+    #     "02",
+    #     "03",
+    #     "04",
+    #     "05",
+    #     "06",
+    #     "07",
+    #     "08",
+    #     "09",
+    #     "10",
+    #     "11",
+    #     "12",
+    # ]
+
+    # total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
+
+    # data_key = "Expend"
+    # if school == "village-tech":
+    #     data_key = "Amount"
+    # for item in data2:
+    #     if item["category"] != "Depreciation and Amortization":
+    #         func = item["func_func"]
+    #
+    #         for i, acct_per in enumerate(acct_per_values2, start=1):
+    #             item[f"total_func{i}"] = sum(
+    #                 entry[data_key]
+    #                 for entry in data3
+    #                 if entry["func"] == func and entry["AcctPer"] == acct_per
+    #             )
+    #             total_surplus[acct_per] += item[f"total_func{i}"]
+    #
+    # ---- Depreciation and ammortization total
+    # total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
+    #
+    # data_key = "Expend"
+    # if school == "village-tech":
+    #     data_key = "Amount"
+    # for item in data2:
+    #     func = item["func_func"]
+    #     obj = item["obj"]
+    #
+    #     for i, acct_per in enumerate(acct_per_values2, start=1):
+    #         item[f"total_func2_{i}"] = sum(
+    #             entry[data_key]
+    #             for entry in data3
+    #             if entry["func"] == func
+    #             and entry["AcctPer"] == acct_per
+    #             and entry["obj"] == obj
+    #         )
+    #         total_DnA[acct_per] += item[f"total_func2_{i}"]
+    #
+    # total_SBD = {
+    #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
+    #     for acct_per in acct_per_values
+    # }
+    # total_netsurplus = {
+    #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
+    #     for acct_per in acct_per_values
+    # }
+    # formatted_total_netsurplus = {
+    #     acct_per: "${:,}".format(abs(int(value)))
+    #     if value > 0
+    #     else "(${:,})".format(abs(int(value)))
+    #     if value < 0
+    #     else ""
+    #     for acct_per, value in total_netsurplus.items()
+    #     if value != 0
+    # }
+    # formatted_total_DnA = {
+    #     acct_per: "{:,}".format(abs(int(value)))
+    #     if value >= 0
+    #     else "({:,})".format(abs(int(value)))
+    #     if value < 0
+    #     else ""
+    #     for acct_per, value in total_DnA.items()
+    #     if value != 0
+    # }
+    #
+    # if formatted_ytd_budget.startswith("0."):
+    #     formatted_ytd_budget = formatted_ytd_budget[2:]
+
+    cashflow_path = os.path.join(JSON_DIR, 'cashflow', school)
+    if not os.path.exists(cashflow_path):
+        os.makedirs(cashflow_path)
+
+    cashflow_file = os.path.join(cashflow_path, "data_cashflow")
+    with open(cashflow_file, "w") as f:
+        json.dump(data_cashflow, f)
+
+    cursor.close()
+    cnxn.close()
 
 if __name__ == "__main__":
     update_db()
