@@ -3793,6 +3793,43 @@ def generate_excel(request):
 
         data_charterfirst.append(row_dict)
 
+    cursor.execute("SELECT * FROM [dbo].[Adjustment]")
+    rows = cursor.fetchall()
+
+    adjustment = []
+
+   
+    for row in rows:
+        
+        
+        expend = float(row[17])
+        row_dict = {
+            "fund": row[0],
+            "func": row[1],
+            "obj": row[2],
+            "sobj": row[3],
+            "org": row[4],
+            "fscl_yr": row[5],
+            "pgm": row[6],
+            "edSpan": row[7],
+            "projDtl": row[8],
+            "AcctDescr": row[9],
+            "Number": row[10],
+            "Date": row[11],
+            "AcctPer": row[12],
+            "Est": row[13],
+            "Real": row[14],
+            "Appr": row[15],
+            "Encum": row[16],
+            "Expend": expend,
+            "Bal": row[18],
+            "WorkDescr": row[19],
+            "Type": row[20],
+            "School": row[21],
+           
+        }
+        adjustment.append(row_dict)
+
     
 
 
@@ -3822,21 +3859,21 @@ def generate_excel(request):
             total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
 
-    for item in data2:
-        func = item['func_func']
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_func{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
-            )
+    # for item in data2:
+    #     func = item['func_func']
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f'total_func{i}'] = sum(
+    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per
+    #         )
 
-    for item in data2:
-        func = item['func_func']
+    # for item in data2:
+    #     func = item['func_func']
         
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f'total_func2_{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
-            )  
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f'total_func2_{i}'] = sum(
+    #             entry['Expend'] for entry in data3 if entry['func'] == func  and entry['AcctPer'] == acct_per and entry['obj'] == '6449'
+    #         )  
     # END OF ADDITIONAL PL DATAS
 
 
@@ -3911,9 +3948,18 @@ def generate_excel(request):
             func = item['func_func']
 
             for i, acct_per in enumerate(acct_per_values, start=1):
-                item[f'total_func{i}'] = sum(
-                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per
+                total_func = sum(
+                    entry['Expend']
+                    for entry in data3
+                    if entry["func"] == func and entry["AcctPer"] == acct_per
                 )
+                total_adjustment = 0
+                # sum(
+                #     entry[expend_key]
+                #     for entry in adjustment
+                #     if entry["func"] == func and entry["AcctPer"] == acct_per
+                # )
+                item[f"total_func{i}"] = total_func + total_adjustment
                 total_surplus[acct_per] += item[f'total_func{i}']
    
 
@@ -3926,9 +3972,21 @@ def generate_excel(request):
             obj =  item['obj']
 
             for i, acct_per in enumerate(acct_per_values, start=1):
-                item[f'total_func2_{i}'] = sum(
-                    entry['Expend'] for entry in data3 if entry['func'] == func and entry['AcctPer'] == acct_per and entry['obj'] == obj
+                total_func = sum(
+                    entry['Expend']
+                    for entry in data3
+                    if entry["func"] == func
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
                 )
+                total_adjustment = sum(
+                    entry['Expend']
+                    for entry in adjustment
+                    if entry["func"] == func
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+                item[f"total_func2_{i}"] = total_func + total_adjustment
                 total_DnA[acct_per] += item[f"total_func2_{i}"]
                 
 
