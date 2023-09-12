@@ -14,6 +14,7 @@
 
 {% block body %}
 
+
  <div id="content-wrapper">
   
   <nav class="navbar navbar-expand navbar-dark bg-dark ">
@@ -1689,7 +1690,11 @@ function expandColumns() {
 
 
 {% block javascript %}
+<script>
+  var school = "{{ school }}"; 
+</script>
 <script src="{% static 'js/bs2.js' %}"></script>
 <script src="{% static 'js/bs.js' %}"></script>
+
 <script src="{% static 'js/excel.js' %}"></script>
 {% endblock %}

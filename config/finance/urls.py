@@ -25,7 +25,7 @@ urlpatterns = [
         name="delete_bs",
     ),
     path("delete_bsa/<str:obj>/<str:Activity>/", views.delete_bsa, name="delete_bsa"),
-    path("generate_excel/", views.generate_excel, name="generate_excel"),
+    path("generate_excel/<str:school>", views.generate_excel, name="generate_excel"),
     path("delete_func/<str:func>/", views.delete_func, name="delete_func"),
     path("viewgl/<str:fund>/<str:obj>/<str:yr>/", views.viewgl, name="viewgl"),
     path("viewglfunc/<str:func>/<str:yr>/", views.viewglfunc, name="viewglfunc"),
@@ -37,7 +37,7 @@ urlpatterns = [
     path(
         "viewglexpense/<str:obj>/<str:yr>/", views.viewglexpense, name="viewglexpense"
     ),
-    path("generate_excel/", views.generate_excel, name="generate_excel"),
+    # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
     # path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
     # path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
     # path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),

@@ -17,6 +17,7 @@ SCHOOLS = {
 }
 
 
+
 def dashboard(request, school):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
 

@@ -623,6 +623,9 @@
 {% endblock %}
 
 {% block javascript %}
+<script>
+  var school = "{{ school }}"; 
+</script>
 <script src="{% static 'js/cashflow2.js' %}"></script>
 <script src="{% static 'js/cashflow.js' %}"></script>
 <script src="{% static 'js/excel.js' %}"></script>

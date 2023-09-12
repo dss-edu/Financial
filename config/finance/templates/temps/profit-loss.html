@@ -1774,7 +1774,9 @@
 {% endblock %}
 
 {% block javascript %}
-
+<script>
+  var school = "{{ school }}"; 
+</script>
 <script src="{% static 'js/pl1.js' %}"></script>
 <script src="{% static 'js/pl.js' %}"></script> 
 <script src="{% static 'js/excel.js' %}"></script>

@@ -86,10 +86,10 @@ db = {
 def update_db():
     # profit_loss("advantage")
     # balance_sheet("advantage")
-    cashflow("cumberland")
+    # cashflow("cumberland")
     for school, name in SCHOOLS.items():
-        # profit_loss(school)
-        # balance_sheet(school)
+        profit_loss(school)
+        balance_sheet(school)
         cashflow(school)
 
 

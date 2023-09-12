@@ -31,10 +31,80 @@ from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
 from .backend import update_db
 
+SCHOOLS = {
+    "advantage": "ADVANTAGE ACADEMY",
+    "cumberland": "CUMBERLAND ACADEMY",
+    "village-tech": "VILLAGE TECH",
+    "prepschool": "LEADERSHIP PREP SCHOOL",
+    "manara": "MANARA ACADEMY",
+}
+
+
+db = {
+    "advantage": {
+        "object": "[AscenderData_Advantage_Definition_obj]",
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Advantage]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+    },
+    "cumberland": {
+        "object": "[AscenderData_Cumberland_Definition_obj]",
+        "function": "[AscenderData_Cumberland_Definition_func]",
+        # "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Cumberland]",
+        "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Cumberland_PL_Activities]",
+        "bs": "[AscenderData_Cumberland_Balancesheet]",
+        "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+    },
+    "village-tech": {
+        "object": "[AscenderData_Advantage_Definition_obj]",
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[Skyward_VillageTech]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+    },
+    "prepschool": {
+        "object": "[AscenderData_Advantage_Definition_obj]",
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Leadership]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+    },
+    "manara": {
+        "object": "[AscenderData_Advantage_Definition_obj]",
+        "function": "[AscenderData_Advantage_Definition_func]",
+        "db": "[AscenderData_Manara]",
+        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
+        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+    },
+}
+
+
 def updatedb(request):
     if request.method == 'POST':
         update_db()
     return redirect('/dashboard/advantage')
+
 
 
 
@@ -3596,10 +3666,12 @@ def viewglexpense_cumberland(request,obj,yr):
 # def cashflow_cumberland(request):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
-def generate_excel(request):
+def generate_excel(request,school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_obj];") 
+    
+    
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
     rows = cursor.fetchall()
 
     
@@ -3618,7 +3690,7 @@ def generate_excel(request):
         }
         data.append(row_dict)
 
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Definition_func];") 
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
     rows = cursor.fetchall()
 
 
@@ -3636,78 +3708,104 @@ def generate_excel(request):
         data2.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage] as AA where AA.Number != 'BEGBAL';") 
+    if not school == "village-tech":
+        cursor.execute(
+            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+        )
+    else:
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")  
     rows = cursor.fetchall()
     
     data3=[]
     
     
-    for row in rows:
-        expend = float(row[17])
+    if not school == "village-tech":
+        for row in rows:
+            expend = float(row[17])
+            date = row[11]
+            if isinstance(row[11], datetime):
+                date = row[11].strftime("%Y-%m-%d")
 
-        row_dict = {
-            'fund':row[0],
-            'func':row[1],
-            'obj':row[2],
-            'sobj':row[3],
-            'org':row[4],
-            'fscl_yr':row[5],
-            'pgm':row[6],
-            'edSpan':row[7],
-            'projDtl':row[8],
-            'AcctDescr':row[9],
-            'Number':row[10],
-            'Date':row[11],
-            'AcctPer':row[12],
-            'Est':row[13],
-            'Real':row[14],
-            'Appr':row[15],
-            'Encum':row[16],
-            'Expend':expend,
-            'Bal':row[18],
-            'WorkDescr':row[19],
-            'Type':row[20],
-            'Contr':row[21]
+            row_dict = {
+                "fund": row[0],
+                "func": row[1],
+                "obj": row[2],
+                "sobj": row[3],
+                "org": row[4],
+                "fscl_yr": row[5],
+                "pgm": row[6],
+                "edSpan": row[7],
+                "projDtl": row[8],
+                "AcctDescr": row[9],
+                "Number": row[10],
+                "Date": date,
+                "AcctPer": row[12],
+                "Est": row[13],
+                "Real": row[14],
+                "Appr": row[15],
+                "Encum": row[16],
+                "Expend": expend,
+                "Bal": row[18],
+                "WorkDescr": row[19],
+                "Type": row[20],
+                "Contr": row[21],
             }
-        
-        data3.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+            data3.append(row_dict)
+
+    else:
+        for row in rows:
+            amount = float(row[19])
+            date = row[9]
+            if isinstance(row[9], datetime):
+                date = row[9].strftime("%Y-%m-%d")
+            row_dict = {
+                "fund": row[0],
+                "func": row[2],
+                "obj": row[3],
+                "sobj": row[4],
+                "org": row[5],
+                "fscl_yr": row[6],
+                "Date": date,
+                "AcctPer": row[10],
+                "Amount": amount,
+            }
+
+            data3.append(row_dict)
+
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
     rows = cursor.fetchall()
-    
-    data_expensebyobject=[]
+
+    data_expensebyobject = []
+
     for row in rows:
         
-        
         row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'budget':row[2],
-            
-            }
-        
+            "obj": row[0],
+            "Description": row[1],
+            "budget": row[2],
+        }
+
         data_expensebyobject.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
     rows = cursor.fetchall()
-    
-    data_activities=[]
+
+    data_activities = []
+
     for row in rows:
-        
-      
         row_dict = {
-            'obj':row[0],
-            'Description':row[1],
-            'Category':row[2],
-            
-            }
-        
+            "obj": row[0],
+            "Description": row[1],
+            "Category": row[2],
+        }
+
         data_activities.append(row_dict)
     #----------------------------------------END OF PL DATA
 
 
     #----------------- BS DATA
-    cursor.execute("SELECT  * FROM [dbo].[AscenderData_Advantage_Balancesheet]") 
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}") 
     rows = cursor.fetchall()
     
     data_balancesheet=[]
@@ -3727,26 +3825,23 @@ def generate_excel(request):
         
         data_balancesheet.append(row_dict)
     
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_ActivityBS]") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
     rows = cursor.fetchall()
     
     data_activitybs=[]
     
     
     for row in rows:
-
         row_dict = {
             'Activity':row[0],
             'obj':row[1],
             'Description2':row[2],
-            
-            
             }
         
         data_activitybs.append(row_dict)
 
 
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_Cashflow]") 
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};") 
     rows = cursor.fetchall()
 
     data_cashflow = []
@@ -3793,42 +3888,39 @@ def generate_excel(request):
 
         data_charterfirst.append(row_dict)
 
-    cursor.execute("SELECT * FROM [dbo].[Adjustment]")
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
     rows = cursor.fetchall()
 
     adjustment = []
 
-   
-    for row in rows:
-        
-        
-        expend = float(row[17])
-        row_dict = {
-            "fund": row[0],
-            "func": row[1],
-            "obj": row[2],
-            "sobj": row[3],
-            "org": row[4],
-            "fscl_yr": row[5],
-            "pgm": row[6],
-            "edSpan": row[7],
-            "projDtl": row[8],
-            "AcctDescr": row[9],
-            "Number": row[10],
-            "Date": row[11],
-            "AcctPer": row[12],
-            "Est": row[13],
-            "Real": row[14],
-            "Appr": row[15],
-            "Encum": row[16],
-            "Expend": expend,
-            "Bal": row[18],
-            "WorkDescr": row[19],
-            "Type": row[20],
-            "School": row[21],
-           
-        }
-        adjustment.append(row_dict)
+    if school != "village-tech":
+        for row in rows:
+            expend = float(row[17])
+            row_dict = {
+                "fund": row[0],
+                "func": row[1],
+                "obj": row[2],
+                "sobj": row[3],
+                "org": row[4],
+                "fscl_yr": row[5],
+                "pgm": row[6],
+                "edSpan": row[7],
+                "projDtl": row[8],
+                "AcctDescr": row[9],
+                "Number": row[10],
+                "Date": row[11],
+                "AcctPer": row[12],
+                "Est": row[13],
+                "Real": row[14],
+                "Appr": row[15],
+                "Encum": row[16],
+                "Expend": expend,
+                "Bal": row[18],
+                "WorkDescr": row[19],
+                "Type": row[20],
+                "School": row[21],
+            }
+            adjustment.append(row_dict)
 
     
 
@@ -3836,7 +3928,13 @@ def generate_excel(request):
     
 
     acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    
+    expend_key = "Expend"
+    real_key = "Real"
+    bal_key = "Bal"
+    if school == "village-tech":
+        expend_key = "Amount"
+        real_key = "Amount"
+        bal_key = "Amount"
     #---------- ADDITIONAL PL DATAS
     for item in data_activities:
         
@@ -3844,7 +3942,7 @@ def generate_excel(request):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f'total_activities{i}'] = sum(
-                entry['Expend'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+                entry[expend_key] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
 
     total_revenue = {acct_per: 0 for acct_per in acct_per_values}
@@ -3854,7 +3952,7 @@ def generate_excel(request):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f'total_real{i}'] = sum(
-                entry['Real'] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+                entry[real_key] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
             total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
@@ -3884,7 +3982,7 @@ def generate_excel(request):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f'total_bal{i}'] = sum(
-                entry['Bal'] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+                entry[bal_key] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
             )
 
     keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
@@ -3949,7 +4047,7 @@ def generate_excel(request):
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
-                    entry['Expend']
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per
                 )
@@ -3973,7 +4071,7 @@ def generate_excel(request):
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
-                    entry['Expend']
+                    entry[expend_key]
                     for entry in data3
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
@@ -4014,7 +4112,7 @@ def generate_excel(request):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_investing{i}"] = sum(
-                entry["Bal"]
+                entry[bal_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
@@ -4024,7 +4122,7 @@ def generate_excel(request):
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_activities{i}"] = sum(
-                entry["Expend"]
+                entry[expend_key]
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
@@ -4034,12 +4132,15 @@ def generate_excel(request):
     # last_year = current_date - timedelta(days=365)
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime("%B")
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
+    formatted_last_month = last_month.strftime('%B %d, %Y')
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
+    school_name = SCHOOLS[school]
 
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
@@ -4078,9 +4179,15 @@ def generate_excel(request):
     first_sheet.row_dimensions[1].height = 21
     first_sheet.row_dimensions[1].height = 21
     
+
+    start = 1
     first_start_row = 4
     for row in data_charterfirst:
-        if row['school'] == 'advantage':
+        if row['school'] == school:
+            first_sheet[f'A{start}'] = school_name
+            start +=1 
+            first_sheet[f'A{start}'] =  f'FY2022-2023 Charter FIRST Forecasts of  {formatted_last_month}'
+           
             
             
             first_sheet[f'B{first_start_row}'] = row['net_income_ytd']
@@ -4191,6 +4298,11 @@ def generate_excel(request):
     totals = {var: 0 for var in total_vars}
 
     # PL START OF DESIGN
+
+    start_pl = 1
+    pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY2022-2023 Statement of\nActivities as of {formatted_last_month}'
+  
+
     start_row = 5
     lr_row_start = start_row
     for row_data in data:
@@ -5028,11 +5140,14 @@ def generate_excel(request):
     indent_style = NamedStyle(name="indent_style", alignment=Alignment(indent=2))
     indent_style2 = NamedStyle(name="indent_style2", alignment=Alignment(indent=4))
 
-
+    start_bs = 1
+    bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY2022-2023 Balance Sheet as of {formatted_last_month}'
     #--- BS INSERT
+    header_bs = 3
+    bs_sheet[f'U{header_bs}'] = f'As of {last_month_name}'
     start_row_bs = 6
-    bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
     
+    bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
     for row in data_activitybs:
         if row['Activity'] == 'Cash':
             start_row_bs += 1
@@ -5853,6 +5968,14 @@ def generate_excel(request):
         col_letter = get_column_letter(col)
         cashflow_sheet.column_dimensions[col_letter].outline_level = 1
         cashflow_sheet.column_dimensions[col_letter].hidden = True
+
+
+    start = 1 
+    cashflow_sheet[f'A{start}'] = school_name
+    start += 1
+    cashflow_sheet[f'A{start}'] = 'Statement of Cash Flows'
+    start += 1
+    cashflow_sheet[f'A{start}'] = f'for the period ended of {formatted_last_month}'
 
     cashflow_start_row = 7
     operating_start_row = cashflow_start_row
