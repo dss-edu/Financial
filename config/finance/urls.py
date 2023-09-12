@@ -38,13 +38,7 @@ urlpatterns = [
         "viewglexpense/<str:obj>/<str:yr>/", views.viewglexpense, name="viewglexpense"
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
-    # path('bs_cumberland/', views.bs_cumberland, name='bs_cumberland'),
-    # path('pl_cumberlandchart/', views.pl_cumberlandchart, name='pl_cumberlandchart'),
-    # path('pl_cumberland/',views.pl_cumberland,name = 'pl_cumberland'),
-    # path('gl_cumberland/', views.gl_cumberland, name='gl_cumberland'),
-    # path('cashflow_cumberland/', views.cashflow_cumberland, name='cashflow_cumberland'),
-    # path('first_cumberland/', views.first_cumberland, name='first_cumberland'),
-    # path('dashboard_cumberland/', views.dashboard_cumberland, name='dashboard_cumberland'),
+
     path(
         "viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/",
         views.viewgl_cumberland,
@@ -65,12 +59,7 @@ urlpatterns = [
         views.viewglexpense_cumberland,
         name="viewglexpense_cumberland",
     ),
-    # path('pl_villagetech/',views.pl_villagetech,name = 'pl_villagetech'),
-    # path('bs_villagetech/', views.bs_villagetech, name='bs_villagetech'),
-    # path('pl_prep/',prep_views.pl_prep,name = 'pl_prep'),
-    # path('bs_prep/',prep_views.bs_prep,name = 'bs_prep'),
-    # path('pl_manara/',manara_views.pl_manara,name = 'pl_manara'),
-    # path('bs_manara/',manara_views.bs_manara,name = 'bs_manara'),
+  
     # refactored urls
     path("dashboard/<str:school>", new_views.dashboard),
     path("charter-first/<str:school>", new_views.charter_first),
