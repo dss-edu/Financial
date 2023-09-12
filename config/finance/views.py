@@ -30,6 +30,7 @@ from bs4 import BeautifulSoup
 from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
 from .backend import update_db
+from openpyxl.drawing.image import Image
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -4146,7 +4147,11 @@ def generate_excel(request,school):
 
 
     generated_excel_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'GeneratedExcel.xlsx')
+    image_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','G.png' )
 
+    img_g = Image(image_path)
+    img_g.width = 50
+    img_g.height = 50
 
 
     shutil.copyfile(template_path, generated_excel_path)
@@ -4180,54 +4185,120 @@ def generate_excel(request,school):
     first_sheet.row_dimensions[1].height = 21
     
 
+    # image_cell = NamedStyle(name="image_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    # normal_cell_bottom_border.border =Border(bottom=Side(border_style='thin'))
+    # normal_cell_bottom_border.alignment = Alignment(horizontal='right', vertical='bottom')
+    # normal_font_bottom_border = Font(name='Calibri', size=11, bold=False)
+    # normal_cell_bottom_border.font = normal_font_bottom_border
+    image_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','G2.png' )
+    image_path2 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','GY.png' )
+    image_path3 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','R.png' )
+    image_path4 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','Y.png' )
+
+
+    image_list_g = []
+    image_list_gy = []
+    image_list_r = []
+    image_list_y = []
+
+    for i in range(1, 30):
+        img_g = Image(image_path)
+        img_gy = Image(image_path2)
+        img_r = Image(image_path3)
+        img_y = Image(image_path4)   
+        image_list_g.append(img_g)  
+        image_list_gy.append(img_gy)
+        image_list_r.append(img_r)  
+        image_list_y.append(img_y) 
+
+    
     start = 1
     first_start_row = 4
     for row in data_charterfirst:
         if row['school'] == school:
+  # Create a new Image object
+    
             first_sheet[f'A{start}'] = school_name
-            start +=1 
-            first_sheet[f'A{start}'] =  f'FY2022-2023 Charter FIRST Forecasts of  {formatted_last_month}'
-           
-            
-            
+            start += 1
+            first_sheet[f'A{start}'] = f'FY2022-2023 Charter FIRST Forecasts of {formatted_last_month}'
+
+
+
+    
+    
+            # Set the image position within the cell   
             first_sheet[f'B{first_start_row}'] = row['net_income_ytd']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['indicators']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['net_assets']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['days_coh']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['current_assets']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['net_earnings']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['budget_vs_revenue']
-            first_start_row += 1
-            first_sheet[f'B{first_start_row}'] = row['total_assets']
-            first_start_row += 1
- 
-            first_sheet[f'B{first_start_row}'] = row['debt_service'] 
-            first_start_row += 1
-         
-            first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
 
             first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['indicators']
+            first_sheet.add_image(image_list_g[0],f'D{first_start_row}')
+
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['net_assets']
+            first_sheet.add_image(image_list_g[1],f'D{first_start_row}')
+
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['days_coh']
+            first_sheet.add_image(image_list_g[2],f'D{first_start_row}')
+         
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['current_assets']
+            first_sheet.add_image(image_list_g[3],f'D{first_start_row}')
+            
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['net_earnings']
+            first_sheet.add_image(image_list_gy[0],f'D{first_start_row}')
+            
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['budget_vs_revenue']
+            first_sheet.add_image(image_list_g[4],f'D{first_start_row}')
+            
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['total_assets']
+            first_sheet.add_image(image_list_g[5],f'D{first_start_row}')
+            
+            first_start_row += 1
+ 
+            first_sheet[f'B{first_start_row}'] = row['debt_service']
+            first_sheet.add_image(image_list_g[6],f'D{first_start_row}') 
+            
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
+            first_sheet.add_image(image_list_g[7],f'D{first_start_row}')
+           
+            first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
+            first_sheet.add_image(image_list_g[8],f'D{first_start_row}')
+          
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_student_teacher']
+            first_sheet.add_image(image_list_g[9],f'D{first_start_row}')
+      
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['estimated_actual_ada']
+            first_sheet.add_image(image_list_g[10],f'D{first_start_row}')
+      
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['reporting_peims']
+            first_sheet.add_image(image_list_g[11],f'D{first_start_row}')
+      
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['annual_audit']
+            first_sheet.add_image(image_list_g[12],f'D{first_start_row}')
+
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['post_financial_info']
+            first_sheet.add_image(image_list_g[13],f'D{first_start_row}')
+
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['approved_geo_boundaries']
+            first_sheet.add_image(image_list_g[14],f'D{first_start_row}')
+
             first_start_row += 1
+            first_sheet.add_image(image_list_g[15],f'D{first_start_row}')
             first_sheet[f'B{first_start_row}'] = row['estimated_first_rating']
+            first_start_row += 1
+            first_sheet.add_image(image_list_g[16],f'D{first_start_row}')
             
     
 

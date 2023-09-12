@@ -21,3 +21,4 @@ sqlalchemy==2.0.20
 sqlparse==0.4.4
 typing-extensions==4.7.1; python_version >= '3.7'
 tzdata==2023.3; python_version >= '2'
+Pillow==10.0.0
