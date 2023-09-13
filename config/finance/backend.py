@@ -260,10 +260,20 @@ def profit_loss(school):
         data_activities.append(row_dict)
 
     # ---------- FOR EXPENSE TOTAL -------
+
+    expend_key = "Expend"
+    est_key = "Est"
     expense_key = "Expend"
+    real_key = "Real"
     if school == "village-tech":
         expense_key = "Amount"
+        expend_key = "Amount"
+        est_key = "Amount"
+        real_key = "Amount"
 
+    
+
+        
     acct_per_values_expense = [
         "01",
         "02",
@@ -372,9 +382,6 @@ def profit_loss(school):
         "12",
     ]
 
-    real_key = "Real"
-    if school == "village-tech":
-        real_key = "Amount"
 
     for item in data:
         fund = item["fund"]
@@ -395,17 +402,23 @@ def profit_loss(school):
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_real{i}"] = sum(
+            total_real = sum(
                 entry[real_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
                 and entry["AcctPer"] == acct_per
             )
+            total_adjustment = sum(
+                    entry[real_key]
+                    for entry in adjustment
+                    if entry["fund"] == fund
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+            item[f"total_real{i}"] = total_real + total_adjustment
 
-    est_key = "Est"
-    if school == "village-tech":
-        est_key = "Amount"
+
 
     for item in data:
         fund = item["fund"]
@@ -497,9 +510,7 @@ def profit_loss(school):
         "12",
     ]
 
-    expend_key = "Expend"
-    if school == "village-tech":
-        expend_key = "Amount"
+
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
