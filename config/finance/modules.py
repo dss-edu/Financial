@@ -80,6 +80,39 @@ db = {
 }
 
 
+def dashboard(school):
+    # need to validate and sanitize school to avoid SQLi
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                WHERE school = '{school}' \
+                AND month = {month_number - 1};"
+    cursor.execute(query)
+    row = cursor.fetchone()
+
+    current_date = datetime.today().date()
+    # current_year = current_date.year
+    # last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+        "date": last_month,
+        "net_income_ytd": row[3],  ###
+        "days_coh": row[6],  ###
+        "net_earnings": row[8],  ###
+        "debt_service": row[11],  ###
+        "ratio_administrative": row[13],  ###
+        ## "ratio_student_teacher": row[14],
+    }
+
+    cursor.close()
+    cnxn.close()
+    return context
+
+
 def charter_first(school):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
@@ -95,17 +128,17 @@ def charter_first(school):
         "school_name": SCHOOLS[school],
         "year": row[1],
         "month": row[2],
-        "net_income_ytd": row[3],
+        "net_income_ytd": row[3],  ###
         "indicators": row[4],
         "net_assets": row[5],
-        "days_coh": row[6],
+        "days_coh": row[6],  ###
         "current_assets": row[7],
-        "net_earnings": row[8],
+        "net_earnings": row[8],  ###
         "budget_vs_revenue": row[9],
         "total_assets": row[10],
-        "debt_service": row[11],
+        "debt_service": row[11],  ###
         "debt_capitalization": row[12],
-        "ratio_administrative": row[13],
+        "ratio_administrative": row[13],  ###
         "ratio_student_teacher": row[14],
         "estimated_actual_ada": row[15],
         "reporting_peims": row[16],
@@ -162,13 +195,11 @@ def profit_loss(school):
         context["lr_funds"] = lr_funds_sorted
         context["lr_obj"] = lr_obj_sorted
         context["func_choice"] = func_choice_sorted
-        
+
     return context
 
 
 def balance_sheet(school):
-    
-
     current_date = datetime.today().date()
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
@@ -184,15 +215,14 @@ def balance_sheet(school):
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
     context = {
-            "school": school,
-            "school_name": SCHOOLS[school],
-            
-            "last_month": last_month,
-            "last_month_number": last_month_number,
-            "last_month_name": last_month_name,
-            "format_ytd_budget": formatted_ytd_budget,
-            "ytd_budget": ytd_budget,
-            }
+        "school": school,
+        "school_name": SCHOOLS[school],
+        "last_month": last_month,
+        "last_month_number": last_month_number,
+        "last_month_name": last_month_name,
+        "format_ytd_budget": formatted_ytd_budget,
+        "ytd_budget": ytd_budget,
+    }
 
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "balance-sheet", school)
@@ -204,7 +234,6 @@ def balance_sheet(school):
             context[basename] = json.load(f)
 
     return context
-
 
 
 def cashflow(school):
@@ -280,7 +309,9 @@ def cashflow(school):
 def general_ledger(school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute(f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC")
+    cursor.execute(
+        f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC"
+    )
     rows = cursor.fetchall()
 
     data3 = []

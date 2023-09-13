@@ -2,297 +2,289 @@
 {% load static %}
 
 {% block title %}
-{{ school_name }}
+    {{ school_name }}
 {% endblock %}
 
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/reports.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reports.css' %}">
 {% endblock %}
 
 
 {% block body %}
-<div id="content-wrapper">
-    <nav class="navbar navbar-expand navbar-dark bg-dark ">
-        <a class="navbar-brand mr-1 text-primary " href="" ></a>
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-dark bg-dark ">
+            <a class="navbar-brand mr-1 text-primary " href="" ></a>
         <!-- Navbar Search -->
-        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        </form>
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            </form>
         <!-- Navbar -->
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <div>
-            <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#txtModal">
-                Edit
-            </button>
-        </div>
-    </nav>
-
-    <div id="export-content" class="container">
-        <div id="dashboard-body">
-            <div id="dashboard-title">
-                <h1>Financial Update for the Board of Directors</h1>
-            </div>
-            <div class="row">
-            <div class="col-md-7 col-lg-7 p-2">
-                <div id="financial-update" class="card h-100 m-0 shadow"> 
-                    <div class="card-body">
-                        <p class="m-0">For the period ended 10/31/2022</p>
-                        <p>Based on Unaudited Financial Statements</p>
-                        <table>
-                            <tr>
-                                <th>Key Ratio/Indicator</th>
-                                <th>Results</th>
-                                <th>Status</th>
-                                <th>Notes</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>YTD Net Income (excluding depreciation)</p>
-                                    <p>Post non-operating expenses</p>
-                                </td>
-                                <td>
-                                    <p>$(40.354)</p>
-                                    <p>$(164,794)</p>
-                                </td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="legend green-circle">
-                                            <span>G</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>State Revenues have not been accrued</td>
-                            </tr>
-                            <tr>
-                                <td>Days Cash on Hand</td>
-                                <td>93 days</td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="legend green-circle">
-                                            <span>G</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Benchmark TEA 60 days; S&P 120 days</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>Administrative Ratio</p>
-                                    <p>(By function: 21+41/11+12+13+31)</p>
-                                </td>
-                                <td>4%</td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="legend green-circle">
-                                            <span>G</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Benchmark 15%</td>
-                            </tr>
-                            <tr>
-                                <td>Did the student-to-staff ratio decline more than 15%?</td>
-                                <td>No</td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="legend green-circle">
-                                            <span>G</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Goal: No decline</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <p>Debt Service Coverage Ratio</p>
-                                    <p>(EBIDA / Interest + Principal)</p>
-                                </td>
-                                <td>0.60X</td>
-                                <td>
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <div class="legend yellow-circle">
-                                            <span>Y</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Required 1.10X</td>
-                            </tr>
-                        </table>
-                    </div> <!-- End of content div -->
-                </div> <!-- End of financial updates -->
-            </div> <!-- End of col 2-->
-
-
-            <div class="col-md-5 col-lg-5 p-2">
-                <div id="agenda" class="card shadow m-0 h-100">
-                        <div class="card-body">
-                        <div>
-                            <h1 class="heading">Agenda Topics and Decision Points</h1>
-                        </div>
-                        <div id="txtAgenda">
-                            {{ data.agendas }}
-                        </div>
-                        </div> <!-- end of card-body -->
-                </div> <!-- End of Activities -->
-            </div> <!-- end of financial graphs -->
-            </div> <!-- End of row 1 -->
-            <div class="row mt-2 mb-2">
-                <div class="col-md-6 col-lg-6 p-2">
-                    <div id="activities" class="card h-100 m-0 shadow">
-                        <div class="card-body">
-                        <div>
-                            <h1 class="heading">Activities in Progress</h1>
-                        </div>
-                        <div id="txtActivities">
-                            {{ data.activities }}
-                        </div>
-                        </div> <!-- end of card-body -->
-                    </div> <!-- End of Activities -->
-                </div> <!-- end of col1 -->
-
-                <div class="col-md-6 col-lg-6 p-2">
-                    <div id="accomplishments" class="card h-100 m-0 shadow">
-                        <div class="card-body">
-                        <div>
-                            <h1 class="heading">Accomplishments</h1>
-                        </div>
-                        <div id="txtAccomplishments">
-                            {{ data.accomplishments }}
-                        </div>
-                        </div> <!-- end of cardbody -->
-                    </div> <!-- End of accomplishments -->
-                </div> <!-- end of col2 -->
-            </div> <!-- End of row 2-->
-        </div>
-
-
-        <div id="dashboard-footer">
-        <div class="d-flex align-items center justify-content-center">
-            <hr class="bottom-line bg-dark">
-        </div>
-        <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
-            <div class="col">
-                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo">
-            </div>
-
-            <div class="col d-flex p-0">
-                <div class="d-flex flex-row align-items-center">
-                    <div>
-                        <div class="legend green-circle">
-                            <span>G</span>
-                        </div>
-                    </div>
-                    <div class="m-2">
-                        <span>On Track</span>
-                    </div>
-                    <div>
-                        <div class="legend yellow-circle">
-                            <span>Y</span>
-                        </div>
-                    </div>
-                    <div class="m-2">
-                        <span>Of Concern</span>
-                    </div>
-
-                    <div>
-                        <div class="legend red-circle">
-                            <span>R</span>
-                        </div>
-                    </div>
-                    <div class="m-2">
-                        <span>At Risk</span>
-                    </div>
-                    <div>
-                        <div class="legend blue-circle">
-                            <span>C</span>
-                        </div>
-                    </div>
-                    <div class="m-2">
-                        <span>Complete</span>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- End of bottom legend -->
-        </div> <!-- end of dashboard-footer -->
-    </div> <!-- End of container -->
-
-
-</div>  <!-- End of content-wrapper -->
-
-<div id="txtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="txtModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="txtModalLabel">Edit Activities/Accomplishments</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <div>
+                <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#txtModal">
+                    Edit
                 </button>
             </div>
-            <form method="post">
-            <div class="modal-body">
-                <div class="d-flex flex-column w-100 justify-content-center">
-                        {% csrf_token %}
-                        {{ form.media }}
-                        <div class="text-center">
-                            {{ form.activities.label_tag }}
-                        </div>
-                        <div class="m-auto" style="width:100%;">
-                            {{ form.activities }}
-                        </div>
-                        <div class="text-center">
-                            {{ form.accomplishments.label_tag }}
-                        </div>
-                        <div class="m-auto" style="width:100%;">
-                            {{ form.accomplishments }}
-                        </div>
-                        <div class="text-center">
-                            {{ form.agendas.label_tag }}
-                        </div>
-                        <div class="m-auto" style="width:100%;">
-                            {{ form.agendas }}
-                        </div>
-                </div>
+        </nav>
 
-                <div class="edit-accomplishments">
+        <div id="export-content" class="container">
+            <div id="dashboard-body">
+                <div id="dashboard-title">
+                    <h1>Financial Update for the Board of Directors</h1>
                 </div>
+                <div class="row">
+                    <div class="col-md-7 col-lg-7 p-2">
+                        <div id="financial-update" class="card h-100 m-0 shadow">
+                            <div class="card-body">
+                                <p class="m-0">For the period ended {{ date|date:"m/d/Y" }}</p>
+                                <p>Based on Unaudited Financial Statements</p>
+                                <table>
+                                    <tr>
+                                        <th>Key Ratio/Indicator</th>
+                                        <th>Results</th>
+                                        <th>Status</th>
+                                        <th>Notes</th>
+                                    </tr>
+                                    <tr id="ytd">
+                                        <td>
+                                            <p>YTD Net Income (excluding depreciation)</p>
+                                            <p>Post non-operating expenses</p>
+                                        </td>
+                                        <td>
+                                            <p>{{ net_income_ytd }}</p>
+                                            <p>{{ net_earnings }}</p>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="legend green-circle"> G </div>
+                                            </div>
+                                        </td>
+                                        <td>State Revenues have not been accrued</td>
+                                    </tr>
+                                    <tr id="days-coh">
+                                        <td>Days Cash on Hand</td>
+                                        <td>{{ days_coh }} days</td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="status"></div>
+                                            </div>
+                                        </td>
+                                        <td>Benchmark TEA 60 days; S&P 120 days</td>
+                                    </tr>
+                                    <tr id="admin-ratio">
+                                        <td>
+                                            <p>Administrative Ratio</p>
+                                            <p>(By function: 21+41/11+12+13+31)</p>
+                                        </td>
+                                        <td>{{ ratio_administrative }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="legend green-circle"> G </div>
+                                            </div>
+                                        </td>
+                                        <td>Benchmark 15%</td>
+                                    </tr>
+                                    <tr id="student-staff">
+                                        <td>Did the student-to-staff ratio decline more than 15%?</td>
+                                        <td>No</td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="status"></div>
+                                            </div>
+                                        </td>
+                                        <td>Goal: No decline</td>
+                                    </tr>
+                                    <tr id="debt-service">
+                                        <td>
+                                            <p>Debt Service Coverage Ratio</p>
+                                            <p>(EBIDA / Interest + Principal)</p>
+                                        </td>
+                                        <td>{{ debt_service }}X</td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <div class="status"></div>
+                                            </div>
+                                        </td>
+                                        <td editable="true">Required 1.10X</td>
+                                    </tr>
+                                </table>
+                            </div> <!-- End of content div -->
+                        </div> <!-- End of financial updates -->
+                    </div> <!-- End of col 2-->
+
+
+                    <div class="col-md-5 col-lg-5 p-2">
+                        <div id="agenda" class="card shadow m-0 h-100">
+                            <div class="card-body">
+                                <div>
+                                    <h1 class="heading">Agenda Topics and Decision Points</h1>
+                                </div>
+                                <div id="txtAgenda">
+                                    {{ data.agendas }}
+                                </div>
+                            </div> <!-- end of card-body -->
+                        </div> <!-- End of Activities -->
+                    </div> <!-- end of financial graphs -->
+                </div> <!-- End of row 1 -->
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-6 col-lg-6 p-2">
+                        <div id="activities" class="card h-100 m-0 shadow">
+                            <div class="card-body">
+                                <div>
+                                    <h1 class="heading">Activities in Progress</h1>
+                                </div>
+                                <div id="txtActivities">
+                                    {{ data.activities }}
+                                </div>
+                            </div> <!-- end of card-body -->
+                        </div> <!-- End of Activities -->
+                    </div> <!-- end of col1 -->
+
+                    <div class="col-md-6 col-lg-6 p-2">
+                        <div id="accomplishments" class="card h-100 m-0 shadow">
+                            <div class="card-body">
+                                <div>
+                                    <h1 class="heading">Accomplishments</h1>
+                                </div>
+                                <div id="txtAccomplishments">
+                                    {{ data.accomplishments }}
+                                </div>
+                            </div> <!-- end of cardbody -->
+                        </div> <!-- End of accomplishments -->
+                    </div> <!-- end of col2 -->
+                </div> <!-- End of row 2-->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+
+
+            <div id="dashboard-footer">
+                <div class="d-flex align-items center justify-content-center">
+                    <hr class="bottom-line bg-dark">
+                </div>
+                <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
+                    <div class="col">
+                        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo">
+                    </div>
+
+                    <div class="col d-flex p-0">
+                        <div class="d-flex flex-row align-items-center">
+                            <div>
+                                <div class="legend green-circle">
+                                    <span>G</span>
+                                </div>
+                            </div>
+                            <div class="m-2">
+                                <span>On Track</span>
+                            </div>
+                            <div>
+                                <div class="legend yellow-circle">
+                                    <span>Y</span>
+                                </div>
+                            </div>
+                            <div class="m-2">
+                                <span>Of Concern</span>
+                            </div>
+
+                            <div>
+                                <div class="legend red-circle">
+                                    <span>R</span>
+                                </div>
+                            </div>
+                            <div class="m-2">
+                                <span>At Risk</span>
+                            </div>
+                            <div>
+                                <div class="legend blue-circle">
+                                    <span>C</span>
+                                </div>
+                            </div>
+                            <div class="m-2">
+                                <span>Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- End of bottom legend -->
+            </div> <!-- end of dashboard-footer -->
+        </div> <!-- End of container -->
+
+
+    </div>  <!-- End of content-wrapper -->
+
+    <div id="txtModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="txtModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="txtModalLabel">Edit Activities/Accomplishments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post">
+                    <div class="modal-body">
+                        <div class="d-flex flex-column w-100 justify-content-center">
+                            {% csrf_token %}
+                            {{ form.media }}
+                            <div class="text-center">
+                                {{ form.activities.label_tag }}
+                            </div>
+                            <div class="m-auto" style="width:100%;">
+                                {{ form.activities }}
+                            </div>
+                            <div class="text-center">
+                                {{ form.accomplishments.label_tag }}
+                            </div>
+                            <div class="m-auto" style="width:100%;">
+                                {{ form.accomplishments }}
+                            </div>
+                            <div class="text-center">
+                                {{ form.agendas.label_tag }}
+                            </div>
+                            <div class="m-auto" style="width:100%;">
+                                {{ form.agendas }}
+                            </div>
+                        </div>
+
+                        <div class="edit-accomplishments">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="saveEdit" type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
-</div>
 
-<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
-        <div class="modal-content  p-0 w-auto h-auto">
-            <div class="modal-body text-center">
-                <div class="spinner-border" role="status">
-                    <span class="sr-only">Loading...</span>
+    <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+            <div class="modal-content  p-0 w-auto h-auto">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div> <!-- End of spinner modal -->
+    </div> <!-- End of spinner modal -->
 {% endblock %}
 
 {% block javascript %}
 
 <!--AM Charts-->
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
 
 <!--My scripts-->
-<script src="{% static 'js/reports.js' %}"></script>
+    <script src="{% static 'js/reports.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    {% comment %}
+    {% endcomment %}
 
 {% endblock %}
-

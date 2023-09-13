@@ -17,7 +17,6 @@ SCHOOLS = {
 }
 
 
-
 def dashboard(request, school):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
 
@@ -85,14 +84,29 @@ def dashboard(request, school):
         }
     )
 
+    context = modules.dashboard(school)
+
+    net_ytd = context["net_income_ytd"]
+    net_earnings = context["net_earnings"]
+
+    if net_ytd < 0:
+        context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
+    else:
+        context["net_income_ytd"] = f"${net_ytd:.f}"
+
+    if net_earnings < 0:
+        context["net_earnings"] = f"$({net_earnings * -1:.0f})"
+    else:
+        context["net_earnings"] = f"${net_earnings:.0f}"
+
+    # turn int into month name
+    # context["month"] = calendar.month_name[context["month"]]
+
     cursor.close()
     cnxn.close()
-    context = {
-        "school": school,
-        "school_name": SCHOOLS[school],
-        "form": form,
-        "data": data,
-    }
+
+    context["form"] = form
+    context["data"] = data
     return render(request, "temps/dashboard.html", context)
 
 
@@ -114,7 +128,11 @@ def charter_first(request, school):
     context["debt_capitalization"] = f"{context['debt_capitalization']:.0f}%"
 
     # turn int into month name
-    context["month"] = calendar.month_name[context["month"]]
+    month = context["month"]
+    year = context["year"]
+    next_month = datetime(year, month + 1, 1)
+    this_month = next_month - relativedelta(days=1)
+    context["date"] = this_month
 
     # current_date = datetime.today().date()
     # current_year = current_date.year
