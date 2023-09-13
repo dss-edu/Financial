@@ -158,6 +158,17 @@ function toggleColumns() {
 
 
 
+  function extractNumericValue(content) {
+    const match = content.match(/\(([^)]+)\)/);
+    if (match) {
+      const numericValue = parseFloat(match[1].replace(/[$,]/g, '').trim());
+      return isNaN(numericValue) ? 0 : -numericValue;
+    } else {
+      const numericValue = parseFloat(content.replace(/[$,]/g, '').trim());
+      return isNaN(numericValue) ? 0 : numericValue;
+    }
+  }
+  
   
  
 
@@ -191,7 +202,7 @@ function calculateLocalRevenueTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -236,7 +247,7 @@ function calculateSPRTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -277,7 +288,7 @@ function calculateSPRTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -292,7 +303,8 @@ function calculateSPRTotal() {
    for (let i = 0; i < totalCells.length; i++) {
     const totalCell = totalCells[i];
     const columnTotal = parseInt(columnTotals[i]);
-    totalCell.textContent = columnTotal !== 0 ? '$' + columnTotal.toLocaleString() : '';
+    const formattedTotal = columnTotal < 0 ? `$(${Math.abs(columnTotal).toLocaleString()})` : `$${columnTotal.toLocaleString()}`;
+    totalCell.textContent = columnTotal !== 0 ? formattedTotal : '';
   }
  }
 
@@ -317,7 +329,7 @@ function calculaterow1Total() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -355,7 +367,7 @@ function calculateLSFTotals() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -384,7 +396,7 @@ function calculateYTD() {
     const cells = row.cells;
     let rowTotal = 0;
     for (let i = 5; i <= 18; i++) {
-      const cellValue = parseFloat(cells[i].textContent.trim().replace('$', '').replace(/,/g, ''));
+      const cellValue = extractNumericValue(cells[i].textContent);
       if (!isNaN(cellValue)) {
         rowTotal += cellValue;
       }
@@ -406,7 +418,7 @@ function calculateYTD2() {
     const cells = row.cells;
     let rowTotal = 0;
     for (let i = 5; i <= 18; i++) {
-      const cellValue = parseFloat(cells[i].textContent.trim().replace('$', '').replace(/,/g, ''));
+      const cellValue = extractNumericValue(cells[i].textContent);
       if (!isNaN(cellValue)) {
         rowTotal += cellValue;
       }
@@ -738,7 +750,7 @@ function SurplusDeficitTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -930,17 +942,6 @@ function CalculateVariances4() {
 
 
 
-function extractNumericValue(content) {
-  const match = content.match(/\(([^)]+)\)/);
-  if (match) {
-    const numericValue = parseFloat(match[1].replace(/[$,]/g, '').trim());
-    return isNaN(numericValue) ? 0 : -numericValue;
-  } else {
-    const numericValue = parseFloat(content.replace(/[$,]/g, '').trim());
-    return isNaN(numericValue) ? 0 : numericValue;
-  }
-}
-
 
 
 /* --------------PayrollCostTotal function ------------------*/
@@ -963,7 +964,7 @@ function PayrollCostTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1002,7 +1003,7 @@ function PCSTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1040,7 +1041,7 @@ function SMTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1080,7 +1081,7 @@ function OOETotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1118,7 +1119,7 @@ function OperatingExpenseTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1238,7 +1239,7 @@ function DandATotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {
@@ -1295,7 +1296,7 @@ function NetSurplusTotal() {
     const cells = row.cells;
     for (let i = 3; i < cells.length; i++) {
       const cell = cells[i];
-      const value = parseFloat(cell.textContent.replace(/,/g, '').trim());
+      const value = extractNumericValue(cell.textContent);
       if (!isNaN(value)) {
         for (let j = 0; j < totalCells.length; j++) {
           if (i === totalCellIds[j]) {

@@ -89,8 +89,8 @@ def update_db():
     # cashflow("cumberland")
     for school, name in SCHOOLS.items():
         profit_loss(school)
-        balance_sheet(school)
-        cashflow(school)
+        # balance_sheet(school)
+        # cashflow(school)
 
 
 
@@ -388,6 +388,14 @@ def profit_loss(school):
                 and entry["obj"] == obj
                 and entry["AcctPer"] == acct_per
             )
+            if fund == '281' and obj =='5929':
+                print('total_real',i ,':' , item[f"total_real{i}"])
+
+            
+
+            
+            
+
 
     keys_to_check = [
         "total_real1",
@@ -404,17 +412,37 @@ def profit_loss(school):
         "total_real12",
     ]
 
-    for row in data:
-        for key in keys_to_check:
-            if row[key] < 0:
-                row[key] = -row[key]
-            else:
-                row[key] = ""
+        # for row in data_activitybs:
+        # for key in keys_to_check:
+        #     value = int(row[key])
+        #     if value == 0:
+        #         row[key] = ""
+        #     elif value < 0:
+        #         row[key] = "({:,.0f})".format(abs(float(row[key])))
+        #     elif value != "":
+        #         row[key] = "{:,.0f}".format(float(row[key]))
 
     for row in data:
         for key in keys_to_check:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+            value = int(row[key])
+            if value == 0:
+                row[key] = ""
+            elif value < 0:
+                row[key] = "{:,.0f}".format(abs(float(row[key])))
+            elif value != "":
+                row[key] = "({:,.0f})".format(float(row[key]))
+
+    # for row in data:
+    #     for key in keys_to_check:
+    #         if row[key] < 0:
+    #             row[key] = -row[key]
+    #         else if row[key] > 0:
+    #             row[key] = row[key]
+
+    # for row in data:
+    #     for key in keys_to_check:
+    #         if row[key] != "":
+    #             row[key] = "{:,.0f}".format(row[key])
 
     acct_per_values2 = [
         "01",

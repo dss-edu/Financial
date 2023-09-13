@@ -4386,18 +4386,18 @@ def generate_excel(request,school):
             pl_sheet[f'D{start_row}'] = row_data['value']
             pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
             
-            pl_sheet[f'G{start_row}'] = row_data['total_real9']
-            pl_sheet[f'H{start_row}'] = row_data['total_real10']
-            pl_sheet[f'I{start_row}'] = row_data['total_real11']
-            pl_sheet[f'J{start_row}'] = row_data['total_real12']
-            pl_sheet[f'K{start_row}'] = row_data['total_real1']
-            pl_sheet[f'L{start_row}'] = row_data['total_real2']
-            pl_sheet[f'M{start_row}'] = row_data['total_real3']
-            pl_sheet[f'N{start_row}'] = row_data['total_real4']
-            pl_sheet[f'O{start_row}'] = row_data['total_real5']
-            pl_sheet[f'P{start_row}'] = row_data['total_real6']
-            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
-            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
+            pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
+            pl_sheet[f'I{start_row}'] = -(row_data['total_real11'])
+            pl_sheet[f'J{start_row}'] = -(row_data['total_real12'])
+            pl_sheet[f'K{start_row}'] = -(row_data['total_real1'])
+            pl_sheet[f'L{start_row}'] = -(row_data['total_real2'])
+            pl_sheet[f'M{start_row}'] = -(row_data['total_real3'])
+            pl_sheet[f'N{start_row}'] = -(row_data['total_real4'])
+            pl_sheet[f'O{start_row}'] = -(row_data['total_real5'])
+            pl_sheet[f'P{start_row}'] = -(row_data['total_real6'])
+            pl_sheet[f'Q{start_row}'] = -(row_data['total_real7'])
+            pl_sheet[f'R{start_row}'] = -(row_data['total_real8'])
             pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})' 
             lr_row_end = start_row
             
@@ -4430,18 +4430,18 @@ def generate_excel(request,school):
     pl_sheet[f'B{start_row}'] = 'Local Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{lr_row_start}:E{lr_row_end})'  
-    pl_sheet[f'G{start_row}'] = totals['total_real9']
-    pl_sheet[f'H{start_row}'] = totals['total_real10']
-    pl_sheet[f'I{start_row}'] = totals['total_real11']
-    pl_sheet[f'J{start_row}'] = totals['total_real12']
-    pl_sheet[f'K{start_row}'] = totals['total_real1']
-    pl_sheet[f'L{start_row}'] = totals['total_real2']
-    pl_sheet[f'M{start_row}'] = totals['total_real3']
-    pl_sheet[f'N{start_row}'] = totals['total_real4']
-    pl_sheet[f'O{start_row}'] = totals['total_real5']
-    pl_sheet[f'P{start_row}'] = totals['total_real6']
-    pl_sheet[f'Q{start_row}'] = totals['total_real7']
-    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'G{start_row}'] =  f'=SUM(G{lr_row_start}:G{lr_row_end})'
+    pl_sheet[f'H{start_row}'] =  f'=SUM(H{lr_row_start}:H{lr_row_end})'
+    pl_sheet[f'I{start_row}'] =  f'=SUM(I{lr_row_start}:I{lr_row_end})'
+    pl_sheet[f'J{start_row}'] =  f'=SUM(J{lr_row_start}:J{lr_row_end})'
+    pl_sheet[f'K{start_row}'] =  f'=SUM(K{lr_row_start}:K{lr_row_end})'
+    pl_sheet[f'L{start_row}'] =  f'=SUM(L{lr_row_start}:L{lr_row_end})'
+    pl_sheet[f'M{start_row}'] =  f'=SUM(M{lr_row_start}:M{lr_row_end})'
+    pl_sheet[f'N{start_row}'] =  f'=SUM(N{lr_row_start}:N{lr_row_end})'
+    pl_sheet[f'O{start_row}'] =  f'=SUM(O{lr_row_start}:O{lr_row_end})'
+    pl_sheet[f'P{start_row}'] =  f'=SUM(P{lr_row_start}:P{lr_row_end})'
+    pl_sheet[f'Q{start_row}'] =  f'=SUM(Q{lr_row_start}:Q{lr_row_end})'
+    pl_sheet[f'R{start_row}'] =  f'=SUM(R{lr_row_start}:R{lr_row_end})'
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{lr_row_start}:T{lr_row_end})'  
     pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'
@@ -4467,18 +4467,18 @@ def generate_excel(request,school):
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
             pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
-            pl_sheet[f'G{start_row}'] = row_data['total_real9']
-            pl_sheet[f'H{start_row}'] = row_data['total_real10']
-            pl_sheet[f'I{start_row}'] = row_data['total_real11']        
-            pl_sheet[f'J{start_row}'] = row_data['total_real12']
-            pl_sheet[f'K{start_row}'] = row_data['total_real1']
-            pl_sheet[f'L{start_row}'] = row_data['total_real2']
-            pl_sheet[f'M{start_row}'] = row_data['total_real3']
-            pl_sheet[f'N{start_row}'] = row_data['total_real4']
-            pl_sheet[f'O{start_row}'] = row_data['total_real5']
-            pl_sheet[f'P{start_row}'] = row_data['total_real6']
-            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
-            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
+            pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
+            pl_sheet[f'I{start_row}'] = -(row_data['total_real11'])        
+            pl_sheet[f'J{start_row}'] = -(row_data['total_real12'])
+            pl_sheet[f'K{start_row}'] = -(row_data['total_real1'])
+            pl_sheet[f'L{start_row}'] = -(row_data['total_real2'])
+            pl_sheet[f'M{start_row}'] = -(row_data['total_real3'])
+            pl_sheet[f'N{start_row}'] = -(row_data['total_real4'])
+            pl_sheet[f'O{start_row}'] = -(row_data['total_real5'])
+            pl_sheet[f'P{start_row}'] = -(row_data['total_real6'])
+            pl_sheet[f'Q{start_row}'] = -(row_data['total_real7'])
+            pl_sheet[f'R{start_row}'] = -(row_data['total_real8'])
             pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})' 
              
             pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
@@ -4515,18 +4515,18 @@ def generate_excel(request,school):
     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_row_start}:E{spr_row_end})' 
-    pl_sheet[f'G{start_row}'] = totals['total_real9']
-    pl_sheet[f'H{start_row}'] = totals['total_real10']
-    pl_sheet[f'I{start_row}'] = totals['total_real11']
-    pl_sheet[f'J{start_row}'] = totals['total_real12']
-    pl_sheet[f'K{start_row}'] = totals['total_real1']
-    pl_sheet[f'L{start_row}'] = totals['total_real2']
-    pl_sheet[f'M{start_row}'] = totals['total_real3']
-    pl_sheet[f'N{start_row}'] = totals['total_real4']
-    pl_sheet[f'O{start_row}'] = totals['total_real5']
-    pl_sheet[f'P{start_row}'] = totals['total_real6']
-    pl_sheet[f'Q{start_row}'] = totals['total_real7']
-    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'G{start_row}'] = f'=SUM(G{spr_row_start}:G{spr_row_end})'
+    pl_sheet[f'H{start_row}'] = f'=SUM(H{spr_row_start}:H{spr_row_end})'
+    pl_sheet[f'I{start_row}'] = f'=SUM(I{spr_row_start}:I{spr_row_end})'
+    pl_sheet[f'J{start_row}'] = f'=SUM(J{spr_row_start}:J{spr_row_end})'
+    pl_sheet[f'K{start_row}'] = f'=SUM(K{spr_row_start}:K{spr_row_end})'
+    pl_sheet[f'L{start_row}'] = f'=SUM(L{spr_row_start}:L{spr_row_end})'
+    pl_sheet[f'M{start_row}'] = f'=SUM(M{spr_row_start}:M{spr_row_end})'
+    pl_sheet[f'N{start_row}'] = f'=SUM(N{spr_row_start}:N{spr_row_end})'
+    pl_sheet[f'O{start_row}'] = f'=SUM(O{spr_row_start}:O{spr_row_end})'
+    pl_sheet[f'P{start_row}'] = f'=SUM(P{spr_row_start}:P{spr_row_end})'
+    pl_sheet[f'Q{start_row}'] = f'=SUM(Q{spr_row_start}:Q{spr_row_end})'
+    pl_sheet[f'R{start_row}'] = f'=SUM(R{spr_row_start}:R{spr_row_end})'
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{spr_row_start}:T{spr_row_end})'  
     pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'  
     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}' 
@@ -4544,18 +4544,18 @@ def generate_excel(request,school):
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
             pl_sheet[f'D{start_row}'] = row_data['value']
             pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
-            pl_sheet[f'G{start_row}'] = row_data['total_real9']
-            pl_sheet[f'H{start_row}'] = row_data['total_real10']
-            pl_sheet[f'I{start_row}'] = row_data['total_real11']
-            pl_sheet[f'J{start_row}'] = row_data['total_real12']
-            pl_sheet[f'K{start_row}'] = row_data['total_real1']
-            pl_sheet[f'L{start_row}'] = row_data['total_real2']
-            pl_sheet[f'M{start_row}'] = row_data['total_real3']
-            pl_sheet[f'N{start_row}'] = row_data['total_real4']
-            pl_sheet[f'O{start_row}'] = row_data['total_real5']
-            pl_sheet[f'P{start_row}'] = row_data['total_real6']
-            pl_sheet[f'Q{start_row}'] = row_data['total_real7']
-            pl_sheet[f'R{start_row}'] = row_data['total_real8']
+            pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
+            pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
+            pl_sheet[f'I{start_row}'] = -(row_data['total_real11'])
+            pl_sheet[f'J{start_row}'] = -(row_data['total_real12'])
+            pl_sheet[f'K{start_row}'] = -(row_data['total_real1'])
+            pl_sheet[f'L{start_row}'] = -(row_data['total_real2'])
+            pl_sheet[f'M{start_row}'] = -(row_data['total_real3'])
+            pl_sheet[f'N{start_row}'] = -(row_data['total_real4'])
+            pl_sheet[f'O{start_row}'] = -(row_data['total_real5'])
+            pl_sheet[f'P{start_row}'] = -(row_data['total_real6'])
+            pl_sheet[f'Q{start_row}'] = -(row_data['total_real7'])
+            pl_sheet[f'R{start_row}'] = -(row_data['total_real8'])
             pl_sheet[f'T{start_row}'].value = f'=SUM(G{start_row}:R{start_row})'
             pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}' 
             fpr_row_end = start_row
@@ -4589,18 +4589,18 @@ def generate_excel(request,school):
     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
     pl_sheet[f'D{start_row}'] = totals['value']
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{fpr_row_start}:E{fpr_row_end})' 
-    pl_sheet[f'G{start_row}'] = totals['total_real9']
-    pl_sheet[f'H{start_row}'] = totals['total_real10']
-    pl_sheet[f'I{start_row}'] = totals['total_real11']
-    pl_sheet[f'J{start_row}'] = totals['total_real12']
-    pl_sheet[f'K{start_row}'] = totals['total_real1']
-    pl_sheet[f'L{start_row}'] = totals['total_real2']
-    pl_sheet[f'M{start_row}'] = totals['total_real3']
-    pl_sheet[f'N{start_row}'] = totals['total_real4']
-    pl_sheet[f'O{start_row}'] = totals['total_real5']
-    pl_sheet[f'P{start_row}'] = totals['total_real6']
-    pl_sheet[f'Q{start_row}'] = totals['total_real7']
-    pl_sheet[f'R{start_row}'] = totals['total_real8']
+    pl_sheet[f'G{start_row}'] = f'=SUM(G{fpr_row_start}:G{fpr_row_end})'
+    pl_sheet[f'H{start_row}'] = f'=SUM(H{fpr_row_start}:H{fpr_row_end})'
+    pl_sheet[f'I{start_row}'] = f'=SUM(I{fpr_row_start}:I{fpr_row_end})'
+    pl_sheet[f'J{start_row}'] = f'=SUM(J{fpr_row_start}:J{fpr_row_end})'
+    pl_sheet[f'K{start_row}'] = f'=SUM(K{fpr_row_start}:K{fpr_row_end})'
+    pl_sheet[f'L{start_row}'] = f'=SUM(L{fpr_row_start}:L{fpr_row_end})'
+    pl_sheet[f'M{start_row}'] = f'=SUM(M{fpr_row_start}:M{fpr_row_end})'
+    pl_sheet[f'N{start_row}'] = f'=SUM(N{fpr_row_start}:N{fpr_row_end})'
+    pl_sheet[f'O{start_row}'] = f'=SUM(O{fpr_row_start}:O{fpr_row_end})'
+    pl_sheet[f'P{start_row}'] = f'=SUM(P{fpr_row_start}:P{fpr_row_end})'
+    pl_sheet[f'Q{start_row}'] = f'=SUM(Q{fpr_row_start}:Q{fpr_row_end})'
+    pl_sheet[f'R{start_row}'] = f'=SUM(R{fpr_row_start}:R{fpr_row_end})'
     pl_sheet[f'T{start_row}'].value = f'=SUM(T{fpr_row_start}:T{fpr_row_end})'  
     pl_sheet[f'U{start_row}'].value = f'=+T{start_row}-E{start_row}'
     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'   
