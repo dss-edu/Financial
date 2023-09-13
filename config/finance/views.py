@@ -3932,10 +3932,12 @@ def generate_excel(request,school):
     expend_key = "Expend"
     real_key = "Real"
     bal_key = "Bal"
+    est_key = "Est"
     if school == "village-tech":
         expend_key = "Amount"
         real_key = "Amount"
         bal_key = "Amount"
+        est_key = "Amount"
     #---------- ADDITIONAL PL DATAS
     for item in data_activities:
         
@@ -4127,6 +4129,17 @@ def generate_excel(request,school):
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
+
+    for item in data:
+        fund = item["fund"]
+        obj = item["obj"]
+
+        item["total_budget"] = sum(
+            entry[est_key]
+            for entry in data3
+            if entry["fund"] == fund
+            and entry["obj"] == obj                
+        )
 
     current_date = datetime.today().date()
     # current_year = current_date.year
@@ -4383,8 +4396,8 @@ def generate_excel(request,school):
                 cell.style = normal_cell 
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-            pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
+            pl_sheet[f'D{start_row}'] = row_data['total_budget']
+            pl_sheet[f'E{start_row}'] = row_data['total_budget'] * ytd_budget
             
             pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
             pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
@@ -4428,8 +4441,8 @@ def generate_excel(request,school):
         
         cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'Local Revenue'
-    pl_sheet[f'D{start_row}'] = totals['value']
-    pl_sheet[f'E{start_row}'].value = f'=SUM(E{lr_row_start}:E{lr_row_end})'  
+    pl_sheet[f'D{start_row}'] =  f'=SUM(D{lr_row_start}:D{lr_row_end})'
+    pl_sheet[f'E{start_row}'] =  f'=SUM(E{lr_row_start}:E{lr_row_end})'  
     pl_sheet[f'G{start_row}'] =  f'=SUM(G{lr_row_start}:G{lr_row_end})'
     pl_sheet[f'H{start_row}'] =  f'=SUM(H{lr_row_start}:H{lr_row_end})'
     pl_sheet[f'I{start_row}'] =  f'=SUM(I{lr_row_start}:I{lr_row_end})'
@@ -4465,8 +4478,8 @@ def generate_excel(request,school):
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-            pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
+            pl_sheet[f'D{start_row}'] = row_data['total_budget']
+            pl_sheet[f'E{start_row}'] = row_data['total_budget'] * ytd_budget
             pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
             pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
             pl_sheet[f'I{start_row}'] = -(row_data['total_real11'])        
@@ -4513,7 +4526,7 @@ def generate_excel(request,school):
         
         cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
-    pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'D{start_row}'] = f'=SUM(D{spr_row_start}:D{spr_row_end})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{spr_row_start}:E{spr_row_end})' 
     pl_sheet[f'G{start_row}'] = f'=SUM(G{spr_row_start}:G{spr_row_end})'
     pl_sheet[f'H{start_row}'] = f'=SUM(H{spr_row_start}:H{spr_row_end})'
@@ -4542,8 +4555,8 @@ def generate_excel(request,school):
         
             pl_sheet[f'A{start_row}'] = row_data['fund']
             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-            pl_sheet[f'D{start_row}'] = row_data['value']
-            pl_sheet[f'E{start_row}'] = row_data['value'] * ytd_budget
+            pl_sheet[f'D{start_row}'] = row_data['total_budget']
+            pl_sheet[f'E{start_row}'] = row_data['total_budget'] * ytd_budget
             pl_sheet[f'G{start_row}'] = -(row_data['total_real9'])
             pl_sheet[f'H{start_row}'] = -(row_data['total_real10'])
             pl_sheet[f'I{start_row}'] = -(row_data['total_real11'])
@@ -4587,7 +4600,7 @@ def generate_excel(request,school):
         
         cell.style = currency_style_noborder
     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
-    pl_sheet[f'D{start_row}'] = totals['value']
+    pl_sheet[f'D{start_row}'] = f'=SUM(D{fpr_row_start}:D{fpr_row_end})'
     pl_sheet[f'E{start_row}'].value = f'=SUM(E{fpr_row_start}:E{fpr_row_end})' 
     pl_sheet[f'G{start_row}'] = f'=SUM(G{fpr_row_start}:G{fpr_row_end})'
     pl_sheet[f'H{start_row}'] = f'=SUM(H{fpr_row_start}:H{fpr_row_end})'
