@@ -839,9 +839,13 @@ def balance_sheet(school):
         "12",
     ]
 
+    real_key = "Real"        
     bal_key = "Bal"
+    expend_key = "Expend"
     if school == "village-tech":
         bal_key = "Amount"
+        real_key = "Amount"
+        expend_key = "Amount"
 
     for item in data_activitybs:
         obj = item["obj"]
@@ -909,30 +913,32 @@ def balance_sheet(school):
 
     # TOTAL REVENUE
     total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-    data_key2 = "Real"
-    if school == "village-tech":
-        data_key2 = "Amount"
-
     for item in data:
         fund = item["fund"]
         obj = item["obj"]
 
         for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_real{i}"] = sum(
-                entry[data_key2]
+            total_real = sum(
+                entry[real_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
                 and entry["AcctPer"] == acct_per
             )
+            total_adjustment = sum(
+                    entry[real_key]
+                    for entry in adjustment
+                    if entry["fund"] == fund
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+            item[f"total_real{i}"] = total_real + total_adjustment
 
             total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
     # total surplus
     total_surplus = {acct_per: 0 for acct_per in acct_per_values}
-    expend_key = "Expend"
-    if school == "village-tech":
-        expend_key = "Amount"
+
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
@@ -1339,6 +1345,7 @@ def balance_sheet(school):
             + total_netsurplus["10"]
             + total_netsurplus["11"]
         )
+  
         row["net_assets12"] = format_with_parentheses(
             FYE_value
             + total_netsurplus["09"]
@@ -1346,6 +1353,7 @@ def balance_sheet(school):
             + total_netsurplus["11"]
             + total_netsurplus["12"]
         )
+   
 
         row["net_assets1"] = format_with_parentheses(
             FYE_value
