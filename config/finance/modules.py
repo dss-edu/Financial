@@ -167,7 +167,7 @@ def profit_loss(school):
 
 
 def balance_sheet(school):
-    button_rendered = 0
+    
 
     current_date = datetime.today().date()
     current_month = current_date.replace(day=1)
@@ -186,7 +186,7 @@ def balance_sheet(school):
     context = {
             "school": school,
             "school_name": SCHOOLS[school],
-            "button_rendered": button_rendered,
+            
             "last_month": last_month,
             "last_month_number": last_month_number,
             "last_month_name": last_month_name,

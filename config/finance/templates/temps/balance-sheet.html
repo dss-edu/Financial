@@ -1358,7 +1358,7 @@ function expandColumns() {
     
 
   {% for row in data_activitybs %}
-  {% if row.Activity == 'OtherLab' %}
+  {% if row.Activity == 'OtherLiab' %}
   
   <tr id="row15-{{ forloop.counter }}" class="liabilities-activity-row">
   <td class="firstcolumn">
@@ -1389,7 +1389,7 @@ function expandColumns() {
   {% for row in data_balancesheet %}
     {% if row.Category == 'Liabilities and Net Assets' %}
     {% if row.Subcategory == 'Current Liabilities' %}
-    {% if row.Activity == 'OtherLab' %}
+    {% if row.Activity == 'OtherLiab' %}
        
         <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
           <td class="firstcolumn">
@@ -1400,7 +1400,7 @@ function expandColumns() {
             <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
             <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
           </td>
-          <td class="space-before">{{row.Description}} </td>
+          <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
             {{row.FYE}}
