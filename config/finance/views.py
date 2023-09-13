@@ -5778,7 +5778,7 @@ def generate_excel(request,school):
                     accexp_row_bs = start_row_bs
 
     for row in data_activitybs: 
-        if row['Activity'] == 'OtherLab':
+        if row['Activity'] == 'OtherLiab':
             start_row_bs += 1
             bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['Description2']
@@ -5797,7 +5797,7 @@ def generate_excel(request,school):
           
 
     for row in data_balancesheet:
-        if row['Activity'] == 'OtherLab':
+        if row['Activity'] == 'OtherLiab':
             if row['Category'] == 'Liabilities and Net Assets':
                 if row['Subcategory'] == 'Current Liabilities':
                     start_row_bs += 1
