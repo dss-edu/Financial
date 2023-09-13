@@ -201,58 +201,58 @@
         <!-- <td style="text-align:center;"></td> -->
         <!-- <td></td> -->
                         </tr>
-                        <tr>
+                        <tr id="indicator">
                             <td><strong>Indicators 1-5 Pass/Fail</strong></td>
-                            <td id="indicator" style="text-align:center;">{{ indicators }}</td>
+                            <td style="text-align:center;">{{ indicators }}</td>
                             <td style="text-align:center;">n/a</td>
-                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">Indicator #5 net asset balance at risk if<br> losses continue; growth and new school exceptions do not apply.</td>
                         </tr>
-                        <tr>
+                        <tr id="net-assets">
                             <td><strong>#6 - Net assets over 3 years < 25% decrease<br>
                                 Exception: >75days net assets"</strong></td>
-                            <td id="net-assets" style="text-align:center;">{{ net_assets }}</td>
+                            <td style="text-align:center;">{{ net_assets }}</td>
                             <td style="text-align:center;">n/a</td>
-                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">89 pts = B max if fails
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="days-coh">
                             <td>
                                 <strong>#7 - Days Cash on Hand  ($40,806 = 1 day)</strong>
                             </td>
-                            <td id="days-coh" style="text-align:center;">{{ days_coh }}</td>
+                            <td style="text-align:center;">{{ days_coh }}</td>
                             <td style="text-align:center;">10
                             </td>
-                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">Preferred benchmark &gt; 60 days<br> 10 pts &gt; 60; 0 pts &lt; 20 </td>
                         </tr>
-                        <tr>
+                        <tr id="current-assets">
                             <td><strong>#8 - Current Assets / Current Liab.</strong></td>
-                            <td id="current-assets" style="text-align:center;">{{ current_assets }}</td>
+                            <td style="text-align:center;">{{ current_assets }}</td>
                             <td style="text-align:center;">10
                             </td>
-                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
                             </tr>
-                            <tr>
+                            <tr id="net-earnings">
                                 <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
-                                <td id="net-earnings" style="text-align:center;">{{ net_earnings }}</td>
+                                <td style="text-align:center;">{{ net_earnings }}</td>
                                 <td style="text-align:center;">5
                                 </td>
-                                <td style="text-align:center;"><p class="yellow-circle">Y</p></td>
+                                <td style="text-align:center;"><p></p></td>
                                 <td style="text-align:center;">
                                     revenues &gt;= expenditures
                                     (excl. Depr.)
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="budget-vs-revenue">
                                 <td><strong>#10 - Budget vs Actual Revenue < 10% 3-yr variance</strong></td>
                                 <td id="budget-vs-revenue" style="text-align:center;">{{ budget_vs_revenue }}</td>
                                 <td style="text-align:center;">10
 
                                 </td>
-                                <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                <td style="text-align:center;"><p></p></td>
                                 <td style="text-align:center;">"within 10% variance<br>
                                     (90%-110%)"
 
@@ -294,63 +294,63 @@
                                             </td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="ratio-student-teacher">
                                             <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
-                                            <td id="ratio-student-teacher" style="text-align:center;">{{ ratio_student_teacher }}</td>
+                                            <td style="text-align:center;">{{ ratio_student_teacher }}</td>
                                             <td style="text-align:center;">10</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">0  or 10 pts
 
                                             </td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="estimated-actual-ada">
                                             <td><strong>#16 - Actual ADA vs. Estimated ADA</strong></td>
-                                            <td id="estimated-actual-ada" style="text-align:center;">{{ estimated_actual_ada }}</td>
+                                            <td style="text-align:center;">{{ estimated_actual_ada }}</td>
                                             <td style="text-align:center;">5</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">within 10% variance</td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="reporting-peims">
                                             <td><strong>#17 - Accurate PEIMS reporting</strong></td>
-                                            <td id="reporting-peims" style="text-align:center;">{{ reporting_peims }}</td>
+                                            <td style="text-align:center;">{{ reporting_peims }}</td>
                                             <td style="text-align:center;">Ceiling</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">79 pts = C max if material weaknesses</td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="annual-audit">
                                             <td><strong>#19 - Annual audit compliance
                                             </strong></td>
-                                            <td id="annual-audit" style="text-align:center;">{{ annual_audit }}</td>
+                                            <td style="text-align:center;">{{ annual_audit }}</td>
                                             <td style="text-align:center;">10</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">Free of any material noncompliance
                                             </td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="post-financial-info">
                                             <td><strong>#20 - Post financial info on website</strong></td>
-                                            <td id="post-financial-info" style="text-align:center;">{{ post_financial_info }}</td>
+                                            <td style="text-align:center;">{{ post_financial_info }}</td>
                                             <td style="text-align:center;">5</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">0 or 5 pts</td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="approved-geo-boundaries">
                                             <td><strong>#21 - Serves students reside approved geographic<br> boundaries</strong></td>
-                                            <td id="approved-geo-boundaries" style="text-align:center;">{{ approved_geo_boundaries }}</td>
+                                            <td style="text-align:center;">{{ approved_geo_boundaries }}</td>
                                             <td style="text-align:center;">Ceiling</td>
-                                            <td style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td style="text-align:center;"><p></p></td>
                                             <td style="text-align:center;">89 pts = B max if fails</td>
 
                                         </tr>
-                                        <tr>
+                                        <tr id="estimated-first-rating">
                                             <td style="text-align:center;border-bottom:none;"><strong>Estimated FIRST Rating</strong></td>
-                                            <td id="estimated-first-rating" colspan = "2" style="text-align:center;border-bottom:none;">{{ estimated_first_rating }}</td>
+                                            <td colspan = "2" style="text-align:center;border-bottom:none;">{{ estimated_first_rating }}</td>
 
-                                            <td rowspan="2" style="text-align:center;"><p class="green-circle">G</p></td>
+                                            <td rowspan="2" style="text-align:center;"><p></p></td>
                                             <td rowspan="2" style="text-align:center;">
                                                 F &lt; 69, C Meets Standard = 70-79, <br>
                                                 B Above Standard = 80-89, <br>
@@ -359,7 +359,7 @@
                                         </tr>
                                         <tr>
                                             <td style="text-align:center;border-top:none;"><strong>2022-2023 School Year</strong></td>
-                                            <td colspan="2" style="text-align:center; border-top:none;">B - Above Standard</td>
+                                            <td id="rating-grade" colspan="2" style="text-align:center; border-top:none;"></td>
                                         </tr>
                                         <tr>
                                             <td colspan="5">
@@ -422,4 +422,5 @@
 
 {% block javascript %}
     <script src="{% static 'js/excel.js' %}"></script>
+    <script src="{% static 'js/charter.js' %}"></script>
 {% endblock %}

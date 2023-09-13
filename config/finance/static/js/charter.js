@@ -1,0 +1,137 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const circles = {
+        "green-circle": "G",
+        "yellow-circle": "Y",
+        "red-circle": "R",
+    };
+    StatusChecker();
+
+    function StatusChecker() {
+        test("indicator", criteriaPassFail);
+        test("net-assets", projectionCriteria);
+        test("estimated-actual-ada", projectionCriteria);
+        test("budget-vs-revenue", projectionCriteria);
+        test("reporting-peims", projectionCriteria);
+        test("annual-audit", projectionCriteria);
+        test("post-financial-info", projectionCriteria);
+        test("estimated-first-rating", ratingCriteria);
+        test("ratio-student-teacher", measureCriteria);
+        test("approved-geo-boundaries", measureCriteria);
+        test("days-coh", cohCriteria);
+        test("current-assets", currAssetsCriteria);
+    }
+
+    function test(rowId, criteriaFunc) {
+        const row = document.getElementById(rowId);
+        const td = row.getElementsByTagName("td");
+        let itemVal = td[1].innerText.toLowerCase();
+        statusTD = td[3];
+        if (rowId === "estimated-first-rating") {
+            statusTD = td[2];
+        }
+
+        criteriaFunc(itemVal, statusTD);
+    }
+    function criteriaPassFail(value, statusTD) {
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "pass") {
+            status = "green-circle";
+        } else if (value === "fail") {
+            status = "red-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+
+    function projectionCriteria(value, statusTD) {
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "projected") {
+            status = "green-circle";
+        } else {
+            status = "red-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function ratingCriteria(value, statusTD) {
+        const rating = parseInt(value);
+        const p = statusTD.querySelector("p");
+        const grade = document.getElementById("rating-grade");
+        let status = "";
+        if (rating < 69) {
+            grade.innerText = "F - Fail";
+            status = "red-circle";
+        } else if (rating < 80) {
+            grade.innerText = "C - Meets Standard";
+            status = "yellow-circle";
+        } else if (rating < 90) {
+            grade.innerText = "B - Above Standard";
+            status = "green-circle";
+        } else {
+            grade.innerText = "A - Superior";
+            status = "green-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+
+    function measureCriteria(value, statusTD) {
+        const rating = parseInt(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "not measured by dss") {
+            status = "green-circle";
+        } else {
+            status = "red-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function cohCriteria(value, statusTD) {
+        const coh = parseInt(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+
+        if (coh > 60) {
+            status = "green-circle";
+        } else if (coh < 20) {
+            status = "red-circle";
+        } else {
+            status = "yellow-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function currAssetsCriteria(value, statusTD) {
+        const currAssets = parseFloat(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+
+        if (currAssets > 2) {
+            status = "green-circle";
+        } else if (currAssets < 1) {
+            status = "red-circle";
+        } else {
+            status = "yellow-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function netEarningsCriteria(value, statusTD) {
+        const currAssets = parseFloat(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+
+        if (currAssets > 2) {
+            status = "green-circle";
+        } else if (currAssets < 1) {
+            status = "red-circle";
+        } else {
+            status = "yellow-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+});
