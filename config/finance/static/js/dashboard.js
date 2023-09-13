@@ -65,4 +65,46 @@ document.addEventListener("DOMContentLoaded", function() {
     function removeStringsInNum(str) {
         return str.replace(/[^0-9.\-]/g, "");
     }
+
+    const editNotesBtn = document.getElementById("edit-notes");
+    const tableButtonsDiv = document.getElementById("table-save");
+    const saveBtn = tableButtonsDiv.querySelector(".save");
+    const cancelBtn = tableButtonsDiv.querySelector(".cancel");
+
+    editNotesBtn.addEventListener("click", function() {
+        tableButtonsDiv.classList.toggle("d-none");
+        tableButtonsDiv.classList.toggle("d-flex");
+        editNotesBtn.disabled = true;
+        changeEditableProp("true");
+    });
+
+    function resetEditNotes() {
+        editNotesBtn.disabled = false;
+        tableButtonsDiv.classList.toggle("d-none");
+        tableButtonsDiv.classList.toggle("d-flex");
+    }
+
+    let defaults = [];
+    const table = document.querySelector("#financial-update tbody");
+    const rows = table.getElementsByTagName("tr");
+    function changeEditableProp(state) {
+        rows.forEach((row) => {
+            const td = row.getElementsByTagName("td");
+            const cellToRevert = td[3];
+            const input = cellToRevert.textContent;
+            cellToRevert.contentEditable = state;
+            if (state === "true") {
+                defaults.push(input);
+            } else {
+                cellToRevert.textContent = defaults.shift();
+            }
+        });
+    }
+
+    // edit saveBtn
+    saveBtn.addEventListener("click", resetEditNotes);
+    cancelBtn.addEventListener("click", function() {
+        changeEditableProp("false");
+        resetEditNotes();
+    });
 });

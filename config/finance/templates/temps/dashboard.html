@@ -39,78 +39,97 @@
                     <div class="col-md-7 col-lg-7 p-2">
                         <div id="financial-update" class="card h-100 m-0 shadow">
                             <div class="card-body">
-                                <p class="m-0">For the period ended {{ date|date:"m/d/Y" }}</p>
-                                <p>Based on Unaudited Financial Statements</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="m-0">For the period ended {{ date|date:"m/d/Y" }}</p>
+                                        <p>Based on Unaudited Financial Statements</p>
+                                    </div>
+                                    <div class="col-2 d-flex justify-content-end align-items-start">
+                                        <button id="edit-notes" class="btn d-flex justify-content-center align-items-center m-0 p-0" title="Edit Notes" style="height:30px;width:30px;">
+                                            <span class="material-symbols-outlined">
+                                                edit
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
                                 <table>
-                                    <tr>
-                                        <th>Key Ratio/Indicator</th>
-                                        <th>Results</th>
-                                        <th>Status</th>
-                                        <th>Notes</th>
-                                    </tr>
-                                    <tr id="ytd">
-                                        <td>
-                                            <p>YTD Net Income (excluding depreciation)</p>
-                                            <p>Post non-operating expenses</p>
-                                        </td>
-                                        <td>
-                                            <p>{{ net_income_ytd }}</p>
-                                            <p>{{ net_earnings }}</p>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <div class="legend green-circle"> G </div>
-                                            </div>
-                                        </td>
-                                        <td>State Revenues have not been accrued</td>
-                                    </tr>
-                                    <tr id="days-coh">
-                                        <td>Days Cash on Hand</td>
-                                        <td>{{ days_coh }} days</td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <div class="status"></div>
-                                            </div>
-                                        </td>
-                                        <td>Benchmark TEA 60 days; S&P 120 days</td>
-                                    </tr>
-                                    <tr id="admin-ratio">
-                                        <td>
-                                            <p>Administrative Ratio</p>
-                                            <p>(By function: 21+41/11+12+13+31)</p>
-                                        </td>
-                                        <td>{{ ratio_administrative }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <div class="legend green-circle"> G </div>
-                                            </div>
-                                        </td>
-                                        <td>Benchmark 15%</td>
-                                    </tr>
-                                    <tr id="student-staff">
-                                        <td>Did the student-to-staff ratio decline more than 15%?</td>
-                                        <td>No</td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <div class="status"></div>
-                                            </div>
-                                        </td>
-                                        <td>Goal: No decline</td>
-                                    </tr>
-                                    <tr id="debt-service">
-                                        <td>
-                                            <p>Debt Service Coverage Ratio</p>
-                                            <p>(EBIDA / Interest + Principal)</p>
-                                        </td>
-                                        <td>{{ debt_service }}X</td>
-                                        <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <div class="status"></div>
-                                            </div>
-                                        </td>
-                                        <td editable="true">Required 1.10X</td>
-                                    </tr>
+                                    <thead>
+                                        <tr>
+                                            <th>Key Ratio/Indicator</th>
+                                            <th>Results</th>
+                                            <th>Status</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr id="ytd">
+                                            <td>
+                                                <p>YTD Net Income (excluding depreciation)</p>
+                                                <p>Post non-operating expenses</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ net_income_ytd }}</p>
+                                                <p>{{ net_earnings }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="legend green-circle"> G </div>
+                                                </div>
+                                            </td>
+                                            <td contentEditable=true>State Revenues have not been accrued</td>
+                                        </tr>
+                                        <tr id="days-coh">
+                                            <td>Days Cash on Hand</td>
+                                            <td>{{ days_coh }} days</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="status"></div>
+                                                </div>
+                                            </td>
+                                            <td>Benchmark TEA 60 days; S&P 120 days</td>
+                                        </tr>
+                                        <tr id="admin-ratio">
+                                            <td>
+                                                <p>Administrative Ratio</p>
+                                                <p>(By function: 21+41/11+12+13+31)</p>
+                                            </td>
+                                            <td>{{ ratio_administrative }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="legend green-circle"> G </div>
+                                                </div>
+                                            </td>
+                                            <td>Benchmark 15%</td>
+                                        </tr>
+                                        <tr id="student-staff">
+                                            <td>Did the student-to-staff ratio decline more than 15%?</td>
+                                            <td>No</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="status"></div>
+                                                </div>
+                                            </td>
+                                            <td>Goal: No decline</td>
+                                        </tr>
+                                        <tr id="debt-service">
+                                            <td>
+                                                <p>Debt Service Coverage Ratio</p>
+                                                <p>(EBIDA / Interest + Principal)</p>
+                                            </td>
+                                            <td>{{ debt_service }}X</td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <div class="status"></div>
+                                                </div>
+                                            </td>
+                                            <td editable="true">Required 1.10X</td>
+                                        </tr>
+                                    </tbody>
                                 </table>
+                                <div id="table-save" class="d-none align-items-center justify-content-center mt-2" hidden>
+                                    <button class="save btn btn-primary mr-1">Save</button>
+                                    <button class="cancel btn btn-primary ml-1">Cancel</button>
+                                </div>
                             </div> <!-- End of content div -->
                         </div> <!-- End of financial updates -->
                     </div> <!-- End of col 2-->
@@ -273,7 +292,7 @@
 
 {% block javascript %}
 
-<!--AM Charts-->
+                                                                                                                                              <!--AM Charts-->
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
@@ -281,7 +300,7 @@
     <script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
 
-<!--My scripts-->
+                                                                                                                                                           <!--My scripts-->
     <script src="{% static 'js/reports.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
     {% comment %}
