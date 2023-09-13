@@ -388,10 +388,48 @@ def profit_loss(school):
                 and entry["obj"] == obj
                 and entry["AcctPer"] == acct_per
             )
-            if fund == '281' and obj =='5929':
-                print('total_real',i ,':' , item[f"total_real{i}"])
 
-            
+
+    for item in data:
+        fund = item["fund"]
+        obj = item["obj"]
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f"total_real{i}"] = sum(
+                entry[real_key]
+                for entry in data3
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                and entry["AcctPer"] == acct_per
+            )
+
+    est_key = "Est"
+    if school == "village-tech":
+        est_key = "Amount"
+
+    for item in data:
+        fund = item["fund"]
+        obj = item["obj"]
+
+        item["total_budget"] = sum(
+            entry[est_key]
+            for entry in data3
+            if entry["fund"] == fund
+            and entry["obj"] == obj                
+        )
+        
+
+
+    for row in data:
+        
+        value = int(row["total_budget"])
+        if value == 0:
+            row["total_budget"] = ""
+        elif value < 0:
+            row["total_budget"] = "({:,.0f})".format(value)
+        elif value != "":
+            row["total_budget"] = "{:,.0f}".format(value)
+        
 
             
             
