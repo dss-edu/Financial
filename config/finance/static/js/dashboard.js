@@ -100,11 +100,89 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-
+    // document
+    //     .getElementById("financial-form")
+    //     .addEventListener("submit", function(event) {
+    //         event.preventDefault();
+    //         const csrfToken = $("#financial-form")
+    //             .find('input[name="csrfmiddlewaretoken"]')
+    //             .val();
+    //         const school = this.dataset.school;
+    //         const noteElements = document.querySelectorAll("td[name='notes']");
+    //         function getNotes(noteElements) {
+    //             const notes = [];
+    //             noteElements.forEach((note) => {
+    //                 notes.push(note.textContent);
+    //             });
+    //             return notes;
+    //         }
+    //         const notes = getNotes(noteElements);
+    //         const formData = {
+    //             csrfmiddlewaretoken: csrfToken,
+    //             notesList: notes,
+    //         };
+    //
+    //         fetch("/dashboard/notes/" + school, {
+    //             method: "POST",
+    //             body: formData,
+    //         })
+    //             .then((response) => response.json())
+    //             .then((data) => {
+    //                 console.log(data); // Handle the response from the server
+    //             })
+    //             .catch((error) => {
+    //                 console.error(error); // Handle errors
+    //             });
+    //     });
     // edit saveBtn
-    saveBtn.addEventListener("click", resetEditNotes);
+    saveBtn.addEventListener("click", function(event) {
+        const csrfToken = $("input[name='csrfmiddlewaretoken']").val();
+        const school = this.dataset.school;
+        const noteElements = document.querySelectorAll("td[name='notes']");
+        function getNotes(noteElements) {
+            const notes = [];
+            noteElements.forEach((note) => {
+                notes.push(note.textContent);
+            });
+            return notes;
+        }
+        const notes = getNotes(noteElements);
+        data = {
+            csrfmiddlewaretoken: csrfToken,
+            notesList: notes,
+        }; // Convert data to JSON format
+        $("#spinner-modal").modal("show");
+        $.ajax({
+            url: "/dashboard/notes/" + school,
+            async: false,
+            type: "POST",
+            // dataType: "json", // Set the expected data type of the response
+            // contentType: "application/json", // Set the content type of the request
+            data: data,
+            success: function(response) {
+                // Handle the successful response here
+                console.log(response);
+            },
+            error: function(error) {
+                // Handle errors here
+                console.error(error);
+            },
+            complete: function() {
+                $("#spinner-modal").modal("hide");
+            },
+        });
+
+        defaults = notes;
+        changeEditableProp("false"); // Define the URL of the endpoint
+        resetEditNotes();
+    });
     cancelBtn.addEventListener("click", function() {
         changeEditableProp("false");
         resetEditNotes();
     });
+
+    function getCookie(name) {
+        let cookie = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+        return cookie ? cookie[2] : null;
+    }
 });

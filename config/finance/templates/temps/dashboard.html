@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{% static 'css/reports.css' %}">
 {% endblock %}
 
-
 {% block body %}
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark ">
@@ -32,8 +31,11 @@
 
         <div id="export-content" class="container">
             <div id="dashboard-body">
-                <div id="dashboard-title">
-                    <h1>Financial Update for the Board of Directors</h1>
+                <div id="dashboard-title" class="d-flex align-items-center">
+                    <!-- <div> -->
+                    <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo">
+                    <!-- </div> -->
+                    <h2>Financial Update for the Board of Directors</h2>
                 </div>
                 <div class="row">
                     <div class="col-md-7 col-lg-7 p-2">
@@ -76,7 +78,7 @@
                                                     <div class="legend green-circle"> G </div>
                                                 </div>
                                             </td>
-                                            <td>State Revenues have not been accrued</td>
+                                            <td name="notes">{{ data.notes.0 }}</td>
                                         </tr>
                                         <tr id="days-coh">
                                             <td>Days Cash on Hand</td>
@@ -86,7 +88,7 @@
                                                     <div class="status"></div>
                                                 </div>
                                             </td>
-                                            <td>Benchmark TEA 60 days; S&P 120 days</td>
+                                            <td name="notes">{{ data.notes.1 }}</td>
                                         </tr>
                                         <tr id="admin-ratio">
                                             <td>
@@ -99,7 +101,7 @@
                                                     <div class="legend green-circle"> G </div>
                                                 </div>
                                             </td>
-                                            <td>Benchmark 15%</td>
+                                            <td name="notes">{{ data.notes.2 }}</td>
                                         </tr>
                                         <tr id="student-staff">
                                             <td>Did the student-to-staff ratio decline more than 15%?</td>
@@ -109,7 +111,7 @@
                                                     <div class="status"></div>
                                                 </div>
                                             </td>
-                                            <td>Goal: No decline</td>
+                                            <td name="notes">{{ data.notes.3 }}</td>
                                         </tr>
                                         <tr id="debt-service">
                                             <td>
@@ -122,12 +124,15 @@
                                                     <div class="status"></div>
                                                 </div>
                                             </td>
-                                            <td editable="true">Required 1.10X</td>
+                                            <td name="notes">{{ data.notes.4 }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
                                 <div id="table-save" class="d-none align-items-center justify-content-center mt-2" hidden>
-                                    <button class="save btn btn-primary mr-1">Save</button>
+                                    <form>
+                                        {% csrf_token %}
+                                    </form>
+                                    <button class="save btn btn-primary mr-1" data-school="{{ school }}">Save</button>
                                     <button class="cancel btn btn-primary ml-1">Cancel</button>
                                 </div>
                             </div> <!-- End of content div -->
@@ -182,48 +187,50 @@
                 <div class="d-flex align-items center justify-content-center">
                     <hr class="bottom-line bg-dark">
                 </div>
-                <div id="bottom-legend" class="row d-flex align-items-center justify-content-center">
+                <div id="bottom-legend" class="row d-flex align-items-center justify-content-center p-2">
+                    {% comment %}
                     <div class="col">
                         <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo">
                     </div>
+                    {% endcomment %}
 
-                    <div class="col d-flex p-0">
-                        <div class="d-flex flex-row align-items-center">
-                            <div>
-                                <div class="legend green-circle">
-                                    <span>G</span>
-                                </div>
-                            </div>
-                            <div class="m-2">
-                                <span>On Track</span>
-                            </div>
-                            <div>
-                                <div class="legend yellow-circle">
-                                    <span>Y</span>
-                                </div>
-                            </div>
-                            <div class="m-2">
-                                <span>Of Concern</span>
-                            </div>
-
-                            <div>
-                                <div class="legend red-circle">
-                                    <span>R</span>
-                                </div>
-                            </div>
-                            <div class="m-2">
-                                <span>At Risk</span>
-                            </div>
-                            <div>
-                                <div class="legend blue-circle">
-                                    <span>C</span>
-                                </div>
-                            </div>
-                            <div class="m-2">
-                                <span>Complete</span>
+                    <!-- <div class="col d-flex p-0"> -->
+                    <div class="d-flex flex-row align-items-center">
+                        <div>
+                            <div class="legend green-circle">
+                                <span>G</span>
                             </div>
                         </div>
+                        <div class="m-2">
+                            <span>On Track</span>
+                        </div>
+                        <div>
+                            <div class="legend yellow-circle">
+                                <span>Y</span>
+                            </div>
+                        </div>
+                        <div class="m-2">
+                            <span>Of Concern</span>
+                        </div>
+
+                        <div>
+                            <div class="legend red-circle">
+                                <span>R</span>
+                            </div>
+                        </div>
+                        <div class="m-2">
+                            <span>At Risk</span>
+                        </div>
+                        <div>
+                            <div class="legend blue-circle">
+                                <span>C</span>
+                            </div>
+                        </div>
+                        <div class="m-2">
+                            <span>Complete</span>
+                        </div>
                     </div>
+                    <!-- </div> -->
                 </div> <!-- End of bottom legend -->
             </div> <!-- end of dashboard-footer -->
         </div> <!-- End of container -->

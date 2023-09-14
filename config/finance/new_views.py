@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ReportsForm
 from django.utils.safestring import mark_safe
+from django.http import JsonResponse, HttpResponse
 import datetime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 from .connect import connect
 from . import modules
+from django.views.decorators.csrf import requires_csrf_token, csrf_exempt
 import calendar
+import json
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -15,6 +18,25 @@ SCHOOLS = {
     "prepschool": "Leadership Prep School",
     "manara": "MANARA ACADEMY",
 }
+
+
+def dashboard_notes(request, school):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    if request.method == "POST":
+        notes = request.POST.getlist("notesList[]")
+        data = json.dumps({i: note for i, note in enumerate(notes)})
+
+    update_query = "UPDATE [dbo].[Report] SET notes = ? WHERE school = ?"
+    cursor.execute(update_query, (data, school))
+    # update_query = "UPDATE [dbo].[Report] SET notes = ?"
+    # cursor.execute(update_query, data)
+
+    cnxn.commit()
+    cursor.close()
+    cnxn.close()
+    # return JsonResponse({1: "hello world"}, safe=False)
+    return HttpResponse(status=200)
 
 
 def dashboard(request, school):
@@ -74,6 +96,8 @@ def dashboard(request, school):
                     data["agendas"] = mark_safe(row[3])
             except:
                 pass
+            if row[4]:
+                data["notes"] = json.loads(row[4])
 
     # form = CKEditorForm(initial={'form_field_name': initial_content})
     form = ReportsForm(
@@ -107,6 +131,7 @@ def dashboard(request, school):
 
     context["form"] = form
     context["data"] = data
+    print(context)
     return render(request, "temps/dashboard.html", context)
 
 
