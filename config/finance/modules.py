@@ -156,6 +156,7 @@ def profit_loss(school):
     # last_year = current_date - timedelta(days=365)
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
+    formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
@@ -166,7 +167,7 @@ def profit_loss(school):
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        "last_month": last_month,
+        "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
@@ -204,7 +205,7 @@ def balance_sheet(school):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_name = last_month.strftime("%B")
-
+    formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
@@ -217,7 +218,7 @@ def balance_sheet(school):
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        "last_month": last_month,
+        "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "last_month_name": last_month_name,
         "format_ytd_budget": formatted_ytd_budget,
