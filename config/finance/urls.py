@@ -15,7 +15,7 @@ urlpatterns = [
     # path('bs_advantage/', views.bs_advantage, name='bs_advantage'),
     # path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
     # path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
-    path('updatedb/', views.updatedb, name='updatedb'),
+    path("updatedb/", views.updatedb, name="updatedb"),
     path("insert_row/", views.insert_row, name="insert-row"),
     path("delete/<str:fund>/<str:obj>/", views.delete, name="delete"),
     path("insert_bs_advantage/", views.insert_bs_advantage, name="insert_bs_advantage"),
@@ -38,7 +38,6 @@ urlpatterns = [
         "viewglexpense/<str:obj>/<str:yr>/", views.viewglexpense, name="viewglexpense"
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
-
     path(
         "viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/",
         views.viewgl_cumberland,
@@ -59,9 +58,9 @@ urlpatterns = [
         views.viewglexpense_cumberland,
         name="viewglexpense_cumberland",
     ),
-  
     # refactored urls
     path("dashboard/<str:school>", new_views.dashboard),
+    path("dashboard/notes/<str:school>", new_views.dashboard_notes),
     path("charter-first/<str:school>", new_views.charter_first),
     path("charter-first-charts/<str:school>", new_views.charter_first_charts),
     path("profit-loss/<str:school>", new_views.profit_loss),
