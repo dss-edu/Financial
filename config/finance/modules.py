@@ -156,7 +156,7 @@ def profit_loss(school):
     # last_year = current_date - timedelta(days=365)
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
-    formatted_last_month = last_month.strftime('%B %d, %Y')
+    formatted_last_month = last_month.strftime("%B %d, %Y")
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
@@ -207,7 +207,7 @@ def balance_sheet(school):
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_name = last_month.strftime("%B")
-    formatted_last_month = last_month.strftime('%B %d, %Y')
+    formatted_last_month = last_month.strftime("%B %d, %Y")
     last_month_number = last_month.month
     ytd_budget_test = last_month_number + 4
     ytd_budget = ytd_budget_test / 12
@@ -347,7 +347,7 @@ def general_ledger(school):
             "Bal": row[18],
             "WorkDescr": row[19],
             "Type": row[20],
-            "Contr": row[21],
+            # "Contr": row[21],
         }
 
         data3.append(row_dict)
@@ -357,4 +357,58 @@ def general_ledger(school):
     }
     context["school"] = school
     context["school_name"] = SCHOOLS[school]
+    return context
+
+
+def manual_adjustments(school):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = "SELECT * FROM [dbo].[Adjustment] WHERE School = ? ;"
+    # AND month = {month_number - 1};"
+    cursor.execute(query, f"{school}")
+    # cursor.execute(query)
+    rows = cursor.fetchall()
+
+    cursor.close()
+    cnxn.close()
+
+    data3 = []
+    for row in rows:
+        date_str = row[11]
+        # if date_str is not None:
+        #     date_without_time = date_str.strftime("%b. %d, %Y")
+        # else:
+        #     date_without_time = None
+        row_dict = {
+            "fund": row[0],
+            "func": row[1],
+            "obj": row[2],
+            "sobj": row[3],
+            "org": row[4],
+            "fscl_yr": row[5],
+            "pgm": row[6],
+            "edSpan": row[7],
+            "projDtl": row[8],
+            "AcctDescr": row[9],
+            "Number": row[10],
+            "Date": date_str,
+            "AcctPer": row[12],
+            "Est": row[13],
+            "Real": row[14],
+            "Appr": row[15],
+            "Encum": row[16],
+            "Expend": row[17],
+            "Bal": row[18],
+            "WorkDescr": row[19],
+            "Type": row[20],
+            # "Contr": row[21],
+        }
+
+        data3.append(row_dict)
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+        "data3": data3,
+    }
     return context

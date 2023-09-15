@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+{% block title %}
+    {{ school_name }}
+{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <div class="card-header d-flex justify-content-between">
+            <div>
+                <a href="/general-ledger/{{ school }}">
+                    <i class="fas fa-table"></i>
+                    General Ledger
+                </a>
+                <a href="/manual-adjustments/{{ school }}">
+                    <i class="fa-solid fa-sliders"></i>
+                    Manual Adjustments
+                </a>
+            </div>
+            <div>
+                <button id="add-adjustment" class="btn btn-primary">Add</button>
+            </div>
+            <!-- ... Add your other buttons here if needed ... -->
+        </div>
+        <table class="table table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr class="table-dark">
+                    <th>fund</th>
+                    <th>func</th>
+                    <th>obj</th>
+                    <th>org</th>
+                    <th>fscl_yr</th>
+                    <th>pgm</th>
+                    <th>edSpan</th>
+                    <th>projDtl</th>
+                    <th>AcctDescr</th>
+                    <th>Number</th>
+                    <th>Date</th>
+                    <th>AcctPer</th>
+                    <th>Est</th>
+                    <th>Real</th>
+                    <th>Appr</th>
+                    <th>Encum</th>
+                    <th>Expend</th>
+                    <th>Bal</th>
+                    <th>WorkDescr</th>
+                    <th>Type</th>
+                    <!-- <th>Contr</th> -->
+                </tr>
+                <tr>
+                    <th>fund</th>
+                    <th>func</th>
+                    <th>obj</th>
+                    <th>org</th>
+                    <th>fscl_yr</th>
+                    <th>pgm</th>
+                    <th>edSpan</th>
+                    <th>projDtl</th>
+                    <th>AcctDescr</th>
+                    <th>Number</th>
+                    <th>Date</th>
+                    <th>AcctPer</th>
+                    <th>Est</th>
+                    <th>Real</th>
+                    <th>Appr</th>
+                    <th>Encum</th>
+                    <th>Expend</th>
+                    <th>Bal</th>
+                    <th>WorkDescr</th>
+                    <th>Type</th>
+                    <!-- <th>Contr</th> -->
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for row in data3 %}
+                    <tr class="table-row">
+                        <td>{{row.fund}}</td>
+                        <td>{{row.func}}</td>
+                        <td>{{row.obj}}</td>
+                        <td>{{row.org}}</td>
+                        <td>{{row.fscl_yr}}</td>
+                        <td>{{row.pgm}}</td>
+                        <td>{{row.edSpan}}</td>
+                        <td>{{row.projDtl}}</td>
+                        <td>{{row.AcctDescr}}</td>
+                        <td>{{row.Number}}</td>
+                        <td>{{row.Date}}</td>
+                        <td>{{row.AcctPer}}</td>
+                        <td>{{row.Est}}</td>
+                        <td>{{row.Real}}</td>
+                        <td>{{row.Appr}}</td>
+                        <td>{{row.Encum}}</td>
+                        <td>{{row.Expend}}</td>
+                        <td>{{row.Bal}}</td>
+                        <td>{{row.WorkDescr}}</td>
+                        <td>{{row.Type}}</td>
+                        {% comment %}
+                        <td>{{row.Contr}}</td>
+                        {% endcomment %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="add-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Manual Adjustments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-adjustment-form" action="{% url 'add_adjustments' %}" method="post">
+                        {% csrf_token %}
+                        <!--Row  1-->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="fund">Fund</label>
+                                    </div>
+                                    <select name="fund" class="custom-select" id="fund">
+                                        <option selected>Choose...</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="func">func</label>
+                                    </div>
+                                    <select name="func" class="custom-select" id="func">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="obj">Obj</label>
+                                    </div>
+                                    <select name="obj" class="custom-select" id="obj">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="org">Org</label>
+                                    </div>
+                                    <select name="org" class="custom-select" id="org">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- End of row 1 -->
+
+                        <!-- Row 2 -->
+                        <div class="row  mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="fscl-yr">Fscl_yr</label>
+                                    </div>
+                                    <select name="fscl_yr" class="custom-select" id="fscl-yr">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="pgm">PGM</label>
+                                    </div>
+                                    <select name="pgm" class="custom-select" id="pgm">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="edSpan">EdSpan</label>
+                                    </div>
+                                    <select name="edSpan" class="custom-select" id="edSpan">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="projDtl">ProjDtl</label>
+                                    </div>
+                                    <select name="projDtl" class="custom-select" id="projDtl">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- End of row 2 -->
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="acct-descr">AcctDescr</label>
+                                    </div>
+                                    <select name="acctDescr" class="custom-select" id="acct-descr">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="number">Number</label>
+                                    </div>
+                                    <select name="number" class="custom-select" id="number">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- End of row 3 -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Date</span>
+                                    </div>
+                                    <input type="date" class="form-control" placeholder="" name="date">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" for="acct-per">AcctPer</label>
+                                    </div>
+                                    <select name="acctPer" class="custom-select" id="acct-per">
+                                        <option selected>choose...</option>
+                                        <option value="1">one</option>
+                                        <option value="2">two</option>
+                                        <option value="3">three</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div> <!-- End of row 4 -->
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Est</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="" name="est">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Real</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="" name="acct-real">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Appr</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="" name="appr">
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                        <!-- <div class="row mb-3"> -->
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Expend</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="" name="expend">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Balance</span>
+                                    </div>
+                                    <input type="number" class="form-control" placeholder="" name="bal">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Work Description</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="" name="work-descr">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Type</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="" name="type">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="school" value="{{ school }}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="save-adjustment" type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(document).ready(function() {
+        // Initialize DataTables
+            var table = $('#dataTable').DataTable({
+                "ordering": false,
+                "dom": 'lrtip',
+
+            });
+
+        // Add select dropdowns for each column except the first column (index 0)
+            $('#dataTable thead tr:nth-child(2) th').each(function(index) {
+                var column = table.column(index);
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo($(this).empty())
+                    .on('change', function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        column.search(val ? val : '', true, false).draw(); // Updated search method
+                    });
+
+            // Populate the select dropdown with unique values from the column
+                column.data().unique().each(function(d) {
+                    select.append('<option value="' + d + '">' + d + '</option>');
+                });
+            });
+        });
+    </script>
+    <script src="{% static 'js/manualAdjustments.js' %}"></script>
+{% endblock %}
