@@ -232,5 +232,27 @@ def manual_adjustments(request, school):
 
 def add_adjustments(request):
     if request.method == "POST":
-        print(request.POST)
-    return HttpResponse(status=200)
+        school = request.POST.get("school")
+
+        # save to database
+        values = []
+        floats = ["est", "acct-real", "appr", "expend", "bal"]
+        for key in request.POST.keys():
+            if key == "csrfmiddlewaretoken":
+                continue
+            if key in floats:
+                values.append(
+                    float(request.POST.get(key)) if request.POST.get(key) else 0
+                )
+            else:
+                values.append(request.POST.get(key))
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        insert_query = f"INSERT INTO [dbo].[Adjustment] (fund, func, obj, org, fscl_yr, pgm, edSpan, projDtl, AcctDescr, Number, Date, AcctPer, Est, Real, Appr, Expend, Bal, WorkDescr, Type, School) VALUES ({','.join(['?' for i in range(len(request.POST.keys())-1)])})"
+        cursor.execute(insert_query, tuple(values))
+        cnxn.commit()
+
+        cursor.close()
+        cnxn.close()
+    return redirect(f"/manual-adjustments/{school}")

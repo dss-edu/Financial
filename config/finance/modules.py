@@ -172,8 +172,6 @@ def profit_loss(school):
         "ytd_budget": ytd_budget,
     }
 
-
-
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     files = os.listdir(JSON_DIR)
@@ -197,7 +195,6 @@ def profit_loss(school):
         context["lr_funds"] = lr_funds_sorted
         context["lr_obj"] = lr_obj_sorted
         context["func_choice"] = func_choice_sorted
-
 
     return context
 
@@ -226,7 +223,6 @@ def balance_sheet(school):
 
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
-    
 
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "balance-sheet", school)
@@ -365,12 +361,9 @@ def manual_adjustments(school):
     cursor = cnxn.cursor()
     query = "SELECT * FROM [dbo].[Adjustment] WHERE School = ? ;"
     # AND month = {month_number - 1};"
-    cursor.execute(query, f"{school}")
+    cursor.execute(query, school)
     # cursor.execute(query)
     rows = cursor.fetchall()
-
-    cursor.close()
-    cnxn.close()
 
     data3 = []
     for row in rows:
@@ -406,9 +399,82 @@ def manual_adjustments(school):
 
         data3.append(row_dict)
 
+    query = f"SELECT * FROM [dbo].{db[school]['db']};"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    options = {
+        "fund": [],
+        "func": [],
+        "obj": [],
+        "sobj": [],
+        "org": [],
+        "fscl_yr": [],
+        "pgm": [],
+        "edSpan": [],
+        "projDtl": [],
+        "AcctDescr": [],
+        "Number": [],
+        # "Date": date_str,""
+        "AcctPer": [
+            "10",
+            "11",
+            "00",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+        ],
+        # "Est": row[13],
+        # "Real": row[14],
+        # "Appr": row[15],
+        # "Encum": row[16],
+        # "Expend": row[17],
+        # "Bal": row[18],
+        "WorkDescr": [],
+        "Type": [],
+        # "Contr": row[21],
+    }
+
+    for row in rows:
+        if row[0] not in options["fund"]:
+            options["fund"].append(row[0])
+        if row[1] not in options["func"]:
+            options["func"].append(row[1])
+        if row[2] not in options["obj"]:
+            options["obj"].append(row[2])
+        if row[3] not in options["sobj"]:
+            options["sobj"].append(row[3])
+        if row[4] not in options["org"]:
+            options["org"].append(row[4])
+        if row[5] not in options["fscl_yr"]:
+            options["fscl_yr"].append(row[5])
+        if row[6] not in options["pgm"]:
+            options["pgm"].append(row[6])
+        if row[7] not in options["edSpan"]:
+            options["edSpan"].append(row[7])
+        if row[8] not in options["projDtl"]:
+            options["projDtl"].append(row[8])
+        if row[9] not in options["AcctDescr"]:
+            options["AcctDescr"].append(row[9])
+        if row[10] not in options["Number"]:
+            options["Number"].append(row[10])
+        if row[19] not in options["WorkDescr"]:
+            options["WorkDescr"].append(row[19])
+        if row[20] not in options["Type"]:
+            options["Type"].append(row[20])
+
+    cursor.close()
+    cnxn.close()
+
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
         "data3": data3,
+        "options": options,
     }
     return context
