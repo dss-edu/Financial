@@ -100,6 +100,12 @@ def update_db():
 
 
 def profit_loss(school):
+    current_date = datetime.today().date()
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime("%B")
+    formatted_last_month = last_month.strftime('%B %d, %Y')
+    last_month_number = last_month.month
     cnxn = connect()
     cursor = cnxn.cursor()
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
@@ -400,6 +406,7 @@ def profit_loss(school):
                 and entry["obj"] == obj
                 and entry["AcctPer"] == acct_per
             )
+            
 
 
     for item in data:
@@ -423,6 +430,12 @@ def profit_loss(school):
                 )
             item[f"total_real{i}"] = total_real + total_adjustment
 
+    if all(item[f"total_real{last_month_number}"] == 0 for item in data):
+        last_2months = current_month - relativedelta(months=1)
+        last_2months = last_2months - relativedelta(days=1)
+        last_month_number = last_2months.month
+        last_month_name = last_2months.strftime("%B")
+        formatted_last_month = last_2months.strftime('%B %d, %Y') 
 
 
     for item in data:
@@ -670,6 +683,7 @@ def balance_sheet(school):
     last_month_name = last_month.strftime("%B")
     formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
+
 
     cnxn = connect()
     cursor = cnxn.cursor()

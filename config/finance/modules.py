@@ -166,9 +166,9 @@ def profit_loss(school):
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        "last_month": formatted_last_month,
-        "last_month_number": last_month_number,
-        "format_ytd_budget": formatted_ytd_budget,
+        # "last_month": formatted_last_month,
+        # "last_month_number": last_month_number,
+        # "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
     }
 
