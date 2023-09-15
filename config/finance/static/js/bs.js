@@ -795,56 +795,56 @@ function extractNumericValue(content) {
             
             
     
-      var updateValuesArray = [];
+    //   var updateValuesArray = [];
     
-      //---------------- update for local revenue, spr , fpr ------------------
-      function updateBS(event) {
-       var tdElement = event.target;
-       var rowNumber = tdElement.id.split("-")[2];
-       var updateValueInput = document.getElementById("updatefye-" + rowNumber);
+    //   //---------------- update for local revenue, spr , fpr ------------------
+    //   function updateBS(event) {
+    //    var tdElement = event.target;
+    //    var rowNumber = tdElement.id.split("-")[2];
+    //    var updateValueInput = document.getElementById("updatefye-" + rowNumber);
      
-       var cellContent = tdElement.innerText.trim();
+    //    var cellContent = tdElement.innerText.trim();
     
     
-       var cleanedValue = cellContent.replace(/[^0-9.]/g, '');
+    //    var cleanedValue = cellContent.replace(/[^0-9.]/g, '');
      
-       if (cleanedValue === "" || isNaN(parseFloat(cleanedValue))) {
-         if (updateValueInput) {
-           updateValueInput.value = 0; // Set to an empty string when cell is empty or not a number
-         }
-       } else {
-         var value = parseFloat(cleanedValue);
+    //    if (cleanedValue === "" || isNaN(parseFloat(cleanedValue))) {
+    //      if (updateValueInput) {
+    //        updateValueInput.value = 0; // Set to an empty string when cell is empty or not a number
+    //      }
+    //    } else {
+    //      var value = parseFloat(cleanedValue);
          
      
-         if (!isNaN(value) || value === 0) {
-           if (updateValueInput) {
+    //      if (!isNaN(value) || value === 0) {
+    //        if (updateValueInput) {
            
      
-             updateValueInput.value = value;
-           }
-         } else {
-           if (updateValueInput) {
+    //          updateValueInput.value = value;
+    //        }
+    //      } else {
+    //        if (updateValueInput) {
     
      
-             updateValueInput.value = 0;
-           }
-         }
+    //          updateValueInput.value = 0;
+    //        }
+    //      }
      
-         // Update the value in the updateValuesArray based on the rowNumber
-         updateValuesArray[rowNumber - 1] = !isNaN(value) ? value : "";
-       }
-     }
+    //      // Update the value in the updateValuesArray based on the rowNumber
+    //      updateValuesArray[rowNumber - 1] = !isNaN(value) ? value : "";
+    //    }
+    //  }
     
-      var tbodyElements = document.querySelectorAll('.current-assets-row, .capital-assets-row, .current-liabilities-row, .total-liabilities-row, .net-assets-row ');
-    tbodyElements.forEach(function(tbodyElement) {
-      tbodyElement.addEventListener("input", updateBS);
-    });
-    var tdElements = document.querySelectorAll('.current-assets-row td[contenteditable], .capital-assets-row td[contenteditable], .current-liabilities-row td[contenteditable], .total-liabilities-row td[contenteditable], .net-assets-row td[contenteditable] ');
-    tdElements.forEach(function(tdElement) {
-      var rowNumber = tdElement.id.split("-")[2];
-      updateBS({ target: tdElement });
+    //   var tbodyElements = document.querySelectorAll('.current-assets-row, .capital-assets-row, .current-liabilities-row, .total-liabilities-row, .net-assets-row ');
+    // tbodyElements.forEach(function(tbodyElement) {
+    //   tbodyElement.addEventListener("input", updateBS);
+    // });
+    // var tdElements = document.querySelectorAll('.current-assets-row td[contenteditable], .capital-assets-row td[contenteditable], .current-liabilities-row td[contenteditable], .total-liabilities-row td[contenteditable], .net-assets-row td[contenteditable] ');
+    // tdElements.forEach(function(tdElement) {
+    //   var rowNumber = tdElement.id.split("-")[2];
+    //   updateBS({ target: tdElement });
     
-    });
+    // });
     
     function hideRowsByClass(className) {
       const rows = document.querySelectorAll(className);
@@ -956,56 +956,56 @@ function extractNumericValue(content) {
         
         
 
-  var updateValuesArray = [];
+//   var updateValuesArray = [];
 
-  //---------------- update for local revenue, spr , fpr ------------------
-  function updateBS(event) {
-   var tdElement = event.target;
-   var rowNumber = tdElement.id.split("-")[2];
-   var updateValueInput = document.getElementById("updatefye-" + rowNumber);
+//   //---------------- update for local revenue, spr , fpr ------------------
+//   function updateBS(event) {
+//    var tdElement = event.target;
+//    var rowNumber = tdElement.id.split("-")[2];
+//    var updateValueInput = document.getElementById("updatefye-" + rowNumber);
  
-   var cellContent = tdElement.innerText.trim();
+//    var cellContent = tdElement.innerText.trim();
 
 
-   var cleanedValue = cellContent.replace(/[^0-9.]/g, '');
+//    var cleanedValue = cellContent.replace(/[^0-9.]/g, '');
  
-   if (cleanedValue === "" || isNaN(parseFloat(cleanedValue))) {
-     if (updateValueInput) {
-       updateValueInput.value = 0; // Set to an empty string when cell is empty or not a number
-     }
-   } else {
-     var value = parseFloat(cleanedValue);
+//    if (cleanedValue === "" || isNaN(parseFloat(cleanedValue))) {
+//      if (updateValueInput) {
+//        updateValueInput.value = 0; // Set to an empty string when cell is empty or not a number
+//      }
+//    } else {
+//      var value = parseFloat(cleanedValue);
      
  
-     if (!isNaN(value) || value === 0) {
-       if (updateValueInput) {
+//      if (!isNaN(value) || value === 0) {
+//        if (updateValueInput) {
        
  
-         updateValueInput.value = value;
-       }
-     } else {
-       if (updateValueInput) {
+//          updateValueInput.value = value;
+//        }
+//      } else {
+//        if (updateValueInput) {
 
  
-         updateValueInput.value = 0;
-       }
-     }
+//          updateValueInput.value = 0;
+//        }
+//      }
  
-     // Update the value in the updateValuesArray based on the rowNumber
-     updateValuesArray[rowNumber - 1] = !isNaN(value) ? value : "";
-   }
- }
+     
+//      updateValuesArray[rowNumber - 1] = !isNaN(value) ? value : "";
+//    }
+//  }
 
-  var tbodyElements = document.querySelectorAll('.current-assets-row, .capital-assets-row, .current-liabilities-row, .total-liabilities-row, .net-assets-row ');
-tbodyElements.forEach(function(tbodyElement) {
-  tbodyElement.addEventListener("input", updateBS);
-});
-var tdElements = document.querySelectorAll('.current-assets-row td[contenteditable], .capital-assets-row td[contenteditable], .current-liabilities-row td[contenteditable], .total-liabilities-row td[contenteditable], .net-assets-row td[contenteditable] ');
-tdElements.forEach(function(tdElement) {
-  var rowNumber = tdElement.id.split("-")[2];
-  updateBS({ target: tdElement });
+//   var tbodyElements = document.querySelectorAll('.current-assets-row, .capital-assets-row, .current-liabilities-row, .total-liabilities-row, .net-assets-row ');
+// tbodyElements.forEach(function(tbodyElement) {
+//   tbodyElement.addEventListener("input", updateBS);
+// });
+// var tdElements = document.querySelectorAll('.current-assets-row td[contenteditable], .capital-assets-row td[contenteditable], .current-liabilities-row td[contenteditable], .total-liabilities-row td[contenteditable], .net-assets-row td[contenteditable] ');
+// tdElements.forEach(function(tdElement) {
+//   var rowNumber = tdElement.id.split("-")[2];
+//   updateBS({ target: tdElement });
 
-});
+// });
 
 function hideRowsByClass(className) {
   const rows = document.querySelectorAll(className);

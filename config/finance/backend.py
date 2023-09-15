@@ -34,6 +34,7 @@ db = {
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "cumberland": {
         "object": "[AscenderData_Cumberland_Definition_obj]",
@@ -42,10 +43,11 @@ db = {
         "db": "[AscenderData_Cumberland]",
         "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
         "activities": "[AscenderData_Cumberland_PL_Activities]",
-        "bs": "[AscenderData_Cumberland_Balancesheet]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "village-tech": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -57,6 +59,7 @@ db = {
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "prepschool": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -68,6 +71,7 @@ db = {
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "manara": {
         "object": "[AscenderData_Advantage_Definition_obj]",
@@ -79,6 +83,7 @@ db = {
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
 }
 
@@ -658,7 +663,7 @@ def balance_sheet(school):
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}")
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id;  ")
     rows = cursor.fetchall()
 
     data_balancesheet = []
@@ -677,6 +682,8 @@ def balance_sheet(school):
             "Category": row[2],
             "Subcategory": row[3],
             "FYE": fyeformat,
+            "BS_id": row[5],
+            "school": row[8],
         }
 
         data_balancesheet.append(row_dict)

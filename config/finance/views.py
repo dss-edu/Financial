@@ -1192,7 +1192,54 @@ def logoutView(request):
 
 
 
+def update_row(request,school):
+    if request.method == 'POST':
+        print(request.POST)
+        try:
+            cnxn = connect()
+            cursor = cnxn.cursor()
+            updatefye = request.POST.getlist('updatefye[]')  
+            print(updatefye)
+            
 
+            
+            
+
+            # updatedata_list = []
+
+            # for updatefund,updatevalue,updateobj in zip(updatefunds, updatevalues,updateobjs):
+            #     if updatefund.strip() and updatevalue.strip() :
+            #         updatedata_list.append({
+            #             'updatefund': updatefund,
+            #             'updateobj':updateobj,
+                        
+            #             'updatevalue': updatevalue,
+                        
+            #         })
+            # for data in updatedata_list:
+            #     updatefund= data['updatefund']
+            #     updateobj=data['updateobj']
+                
+            #     updatevalue = data['updatevalue']
+
+            #     try:
+            #         query = "UPDATE [dbo].[AscenderData_Advantage_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
+            #         cursor.execute(query, (updatevalue, updatefund,updateobj))
+            #         cnxn.commit()
+            #         print(f"Rows affected for fund={updatefund}: {cursor.rowcount}")
+            #     except Exception as e:
+            #         print(f"Error updating fund={updatefund}: {str(e)}")
+            
+            
+            cursor.close()
+            cnxn.close()
+
+            return redirect('dashboard/advantage')
+
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}) 
     
 
 def insert_row(request):

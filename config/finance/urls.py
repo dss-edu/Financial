@@ -17,6 +17,8 @@ urlpatterns = [
     # path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
     path("updatedb/", views.updatedb, name="updatedb"),
     path("insert_row/", views.insert_row, name="insert-row"),
+    path("update_row/<str:school>", views.update_row, name="update_row"),
+ 
     path("delete/<str:fund>/<str:obj>/", views.delete, name="delete"),
     path("insert_bs_advantage/", views.insert_bs_advantage, name="insert_bs_advantage"),
     path(
