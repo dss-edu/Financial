@@ -1713,7 +1713,48 @@ function expandColumns() {
 
 
 
+<script>
+  var last_month = "{{last_month}}";
 
+  document.addEventListener("DOMContentLoaded", function (){
+    var missingColumns = []; 
+    var today = new Date();
+    var currentMonthIndex = today.getMonth();
+    console.log(currentMonthIndex);
+    console.log(last_month)
+
+    var monthNames = [
+      "September", "October", "November", "December",
+      "January", "February", "March", "April",
+      "May", "June", "July", "August"
+    ];
+
+    
+    for (var i = 6 + currentMonthIndex; i <= 17; i++) { 
+        var columnCells = document.querySelectorAll(".balancesheet-activity-row td:nth-child(" + i + "), .current-assets-row td:nth-child(" + i + ")");
+  
+        var allEmpty = true;
+  
+        columnCells.forEach(function(cell) {
+            if (cell.innerText.trim()) {
+                allEmpty = false;
+            }
+        });
+  
+        if (allEmpty) {
+          missingColumns.push(monthNames[i-5 ]);
+          
+        }
+    }
+  
+    if (missingColumns.length > 0) {
+        var missingColumnsText = missingColumns.join(", ");
+        var missingDataMessage = "The following columns have no data: " + missingColumnsText;
+        
+
+    }
+  });
+</script>
 
 
 {% endblock %}
@@ -1722,6 +1763,7 @@ function expandColumns() {
 {% block javascript %}
 <script>
   var school = "{{ school }}"; 
+  console.log(school);
 </script>
 <script src="{% static 'js/bs2.js' %}"></script>
 <script src="{% static 'js/bs.js' %}"></script>

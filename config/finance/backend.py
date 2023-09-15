@@ -660,6 +660,13 @@ def profit_loss(school):
 
 
 def balance_sheet(school):
+    current_date = datetime.today().date()
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime("%B")
+    formatted_last_month = last_month.strftime('%B %d, %Y')
+    last_month_number = last_month.month
+
     cnxn = connect()
     cursor = cnxn.cursor()
 
@@ -869,6 +876,7 @@ def balance_sheet(school):
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
             item[f"total_bal{i}"] = total_data3 + total_adjustment
+            
 
     keys_to_check = [
         "total_bal1",
@@ -940,6 +948,16 @@ def balance_sheet(school):
                     and entry["obj"] == obj
                 )
             item[f"total_real{i}"] = total_real + total_adjustment
+            if i == last_month_number and (item[f"total_real{i}"] == 0):
+
+                    last_2months = current_month - relativedelta(months=1)
+                    last_2months = last_2months - relativedelta(days=1)
+                    last_month_name = last_2months.strftime("%B")
+                    formatted_last_month = last_2months.strftime('%B %d, %Y')
+                    print(formatted_last_month)
+
+
+                
 
             total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
@@ -1521,9 +1539,9 @@ def balance_sheet(school):
         "bs_activity_list": bs_activity_list_sorted,
         "gl_obj": gl_obj_sorted,
         # "button_rendered": button_rendered,
-        # "last_month": last_month,
-        # "last_month_number": last_month_number,
-        # "last_month_name": last_month_name,
+        "last_month": formatted_last_month,
+        "last_month_number": last_month_number,
+        "last_month_name": last_month_name,
         # "format_ytd_budget": formatted_ytd_budget,
         # "ytd_budget": ytd_budget,
     }

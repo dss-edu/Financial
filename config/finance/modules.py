@@ -163,7 +163,6 @@ def profit_loss(school):
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
-
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
@@ -172,6 +171,8 @@ def profit_loss(school):
         "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
     }
+
+
 
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
@@ -197,6 +198,7 @@ def profit_loss(school):
         context["lr_obj"] = lr_obj_sorted
         context["func_choice"] = func_choice_sorted
 
+
     return context
 
 
@@ -212,18 +214,19 @@ def balance_sheet(school):
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
-
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        "last_month": formatted_last_month,
-        "last_month_number": last_month_number,
-        "last_month_name": last_month_name,
+        # "last_month": formatted_last_month,
+        # "last_month_number": last_month_number,
+        # "last_month_name": last_month_name,
         "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
     }
+
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+    
 
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "balance-sheet", school)
