@@ -688,7 +688,7 @@ def balance_sheet(school):
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id;  ")
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} ;  ")
     rows = cursor.fetchall()
 
     data_balancesheet = []
@@ -707,8 +707,7 @@ def balance_sheet(school):
             "Category": row[2],
             "Subcategory": row[3],
             "FYE": fyeformat,
-            "BS_id": row[5],
-            "school": row[8],
+
         }
 
         data_balancesheet.append(row_dict)
