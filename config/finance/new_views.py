@@ -84,7 +84,6 @@ def dashboard(request, school):
 
             # Commit the transaction
             cnxn.commit()
-            print("Row inserted successfully.")
         else:
             # row = (school, accomplishments, activities)
             if row[1]:
@@ -131,7 +130,6 @@ def dashboard(request, school):
 
     context["form"] = form
     context["data"] = data
-    print(context)
     return render(request, "temps/dashboard.html", context)
 
 
@@ -225,3 +223,14 @@ def cashflow_charts(request, school):
 def general_ledger(request, school):
     context = modules.general_ledger(school)
     return render(request, "temps/general-ledger.html", context)
+
+
+def manual_adjustments(request, school):
+    context = modules.manual_adjustments(school)
+    return render(request, "temps/manual-adjustments.html", context)
+
+
+def add_adjustments(request):
+    if request.method == "POST":
+        print(request.POST)
+    return HttpResponse(status=200)
