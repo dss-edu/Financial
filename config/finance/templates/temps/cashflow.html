@@ -529,6 +529,7 @@
           <td></td>
         </tr>
         {% for row in data_balancesheet %}
+        {% if row.school == school %}
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Current Assets' %}
         {% if row.Activity == 'Cash' %}
@@ -551,7 +552,8 @@
           <td class="right-align-td"> {{row.FYE}}</td>
         </tr>
         {% endif %}    
-        {% endif %}   
+        {% endif %} 
+        {% endif %}    
     {% endif %}
   {% endfor %}
         <tr class="local-revenue-row">
@@ -573,6 +575,7 @@
           <td></td>
         </tr>
         {% for row in data_balancesheet %}
+        {% if row.school == school %}
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Current Assets' %}
         {% if row.Activity == 'Cash' %}
@@ -594,6 +597,7 @@
           <td class="collapsed right-align-td" > </td>
           <td class="right-align-td">{{row.difference_7}}</td>
         </tr>
+        {% endif %} 
         {% endif %}    
         {% endif %}   
     {% endif %}

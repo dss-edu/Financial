@@ -636,11 +636,15 @@ def profit_loss(school):
         "data3": data3,
         "data_expensebyobject": data_expensebyobject,
         "data_activities": data_activities,
+        "last_month": formatted_last_month,
+        "last_month_number": last_month_number,
+        "last_month_name": last_month_name,
         # "last_month": last_month,
         # "last_month_number": last_month_number,
         # "format_ytd_budget": formatted_ytd_budget,
         # "ytd_budget": ytd_budget,
     }
+
 
     # if not school == "village-tech":
     #     context["lr_funds"] = lr_funds_sorted
