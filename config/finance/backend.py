@@ -948,18 +948,22 @@ def balance_sheet(school):
                     and entry["obj"] == obj
                 )
             item[f"total_real{i}"] = total_real + total_adjustment
-            if i == last_month_number and (item[f"total_real{i}"] == 0):
+            # if i == last_month_number and (item[f"total_real{i}"] == 0):
 
-                    last_2months = current_month - relativedelta(months=1)
-                    last_2months = last_2months - relativedelta(days=1)
-                    last_month_name = last_2months.strftime("%B")
-                    formatted_last_month = last_2months.strftime('%B %d, %Y')
-                    print(formatted_last_month)
-
-
-                
-
+            #         last_2months = current_month - relativedelta(months=1)
+            #         last_2months = last_2months - relativedelta(days=1)
+            #         last_month_name = last_2months.strftime("%B")
+            #         formatted_last_month = last_2months.strftime('%B %d, %Y')
+            
             total_revenue[acct_per] += abs(item[f"total_real{i}"])
+
+    if all(item[f"total_real{last_month_number}"] == 0 for item in data):
+        last_2months = current_month - relativedelta(months=1)
+        last_2months = last_2months - relativedelta(days=1)
+        last_month_number = last_2months.month
+        last_month_name = last_2months.strftime("%B")
+        formatted_last_month = last_2months.strftime('%B %d, %Y')                    
+
 
     # total surplus
     total_surplus = {acct_per: 0 for acct_per in acct_per_values}
@@ -1532,6 +1536,7 @@ def balance_sheet(school):
     # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
     # func_choice_sorted = sorted(func_choice)
 
+    difference_key = "difference_" + str(last_month_number)
     context = {
         "data_balancesheet": data_balancesheet,
         "data_activitybs": data_activitybs,
@@ -1542,6 +1547,7 @@ def balance_sheet(school):
         "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "last_month_name": last_month_name,
+        "difference_key": difference_key,
         # "format_ytd_budget": formatted_ytd_budget,
         # "ytd_budget": ytd_budget,
     }

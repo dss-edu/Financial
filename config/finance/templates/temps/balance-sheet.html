@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% extends 'temps/base.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block title %}
 {{ school_name }}
 {% endblock %}
@@ -494,7 +494,7 @@ function expandColumns() {
                 {{row.FYE}}
               
               </td>
-              <td class="collapsed right-align-td">{{row.difference_9}}</td>
+              <td class="collapsed right-align-td">{{row.difference_9}} </td>
               <td class="collapsed right-align-td">{{row.difference_10}}</td>
               <td class="collapsed right-align-td">{{row.difference_11}}</td>
               <td class="collapsed right-align-td">{{row.difference_12}}</td>
@@ -505,9 +505,60 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
               <td class="collapsed right-align-td">{{row.difference_7}}</td>
+            
+              
+
+              {% if last_month_number == 1 %}
+              <td class="collapsed right-align-td"></td>
+                <td class="right-align-td">{{row.fytd}}</td>
+                <td class="right-align-td">{{ row.difference_1 }}</td>
+              {% elif last_month_number == 2 %}
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_7}}</td>
+              <td class="right-align-td">{{ row.difference_2 }}</td>
+              {% elif last_month_number == 3 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_3 }}</td>
+              {% elif last_month_number == 4 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_4 }}</td>
+              {% elif last_month_number == 5 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_5 }}</td>
+              {% elif last_month_number == 6 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_6 }}</td>
+              {% elif last_month_number == 7 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_7 }}</td>
+              {% elif last_month_number == 8 %}
+              <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_8 }}</td>
+              {% elif last_month_number == 9 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_9 }}</td>
+              {% elif last_month_number == 10 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_10 }}</td>
+              {% elif last_month_number == 11 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_11 }}</td>
+              {% elif last_month_number == 12 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_12 }}</td>
+              {% endif %}
+
+           
             </tr> 
             {% endif %}    
             {% endif %}   
@@ -587,9 +638,56 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
+
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -661,9 +759,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr> 
     {% endif %}    
     {% endif %}
@@ -735,9 +879,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -810,9 +1000,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr> 
     {% endif %}    
     {% endif %}  
@@ -884,9 +1120,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr> 
     {% endif %}    
     {% endif %}   
@@ -1000,9 +1282,55 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.difference_5}}</td>
               <td class="collapsed right-align-td">{{row.difference_6}}</td>
               <td class="collapsed right-align-td">{{row.difference_7}}</td>
+              {% if last_month_number == 1 %}
+              <td class="collapsed right-align-td"></td>
+                <td class="right-align-td">{{row.fytd}}</td>
+                <td class="right-align-td">{{ row.difference_1 }}</td>
+              {% elif last_month_number == 2 %}
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.fytd}}</td>
-              <td class="right-align-td">{{row.difference_7}}</td>
+              <td class="right-align-td">{{ row.difference_2 }}</td>
+              {% elif last_month_number == 3 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_3 }}</td>
+              {% elif last_month_number == 4 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_4 }}</td>
+              {% elif last_month_number == 5 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_5 }}</td>
+              {% elif last_month_number == 6 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_6 }}</td>
+              {% elif last_month_number == 7 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_7 }}</td>
+              {% elif last_month_number == 8 %}
+              <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_8 }}</td>
+              {% elif last_month_number == 9 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_9 }}</td>
+              {% elif last_month_number == 10 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_10 }}</td>
+              {% elif last_month_number == 11 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_11 }}</td>
+              {% elif last_month_number == 12 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.fytd}}</td>
+              <td class="right-align-td">{{ row.difference_12 }}</td>
+              {% endif %}
             </tr>
             {% endif %} 
             {% endif %}   
@@ -1076,9 +1404,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr>
     {% endif %} 
     {% endif %}   
@@ -1151,9 +1525,55 @@ function expandColumns() {
       <td class="collapsed right-align-td">{{row.difference_5}}</td>
       <td class="collapsed right-align-td">{{row.difference_6}}</td>
       <td class="collapsed right-align-td">{{row.difference_7}}</td>
+      {% if last_month_number == 1 %}
+      <td class="collapsed right-align-td"></td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.difference_1 }}</td>
+      {% elif last_month_number == 2 %}
       <td class="collapsed right-align-td"></td>
       <td class="right-align-td">{{row.fytd}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+      <td class="right-align-td">{{ row.difference_2 }}</td>
+      {% elif last_month_number == 3 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_3 }}</td>
+      {% elif last_month_number == 4 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_4 }}</td>
+      {% elif last_month_number == 5 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_5 }}</td>
+      {% elif last_month_number == 6 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_6 }}</td>
+      {% elif last_month_number == 7 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_7 }}</td>
+      {% elif last_month_number == 8 %}
+      <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_8 }}</td>
+      {% elif last_month_number == 9 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_9 }}</td>
+      {% elif last_month_number == 10 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_10 }}</td>
+      {% elif last_month_number == 11 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_11 }}</td>
+      {% elif last_month_number == 12 %}
+      <td class="collapsed right-align-td"></td>
+      <td class="right-align-td">{{row.fytd}}</td>
+      <td class="right-align-td">{{ row.difference_12 }}</td>
+      {% endif %}
     </tr>
     {% endif %} 
     {% endif %}   
@@ -1288,9 +1708,58 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.debt_5}}</td>
               <td class="collapsed right-align-td">{{row.debt_6}}</td>
               <td class="collapsed right-align-td">{{row.debt_7}}</td>
+              
+             
+              {% if last_month_number == 1 %}
+              <td class="collapsed right-align-td"></td>
+                <td class="right-align-td">{{row.debt_fytd}}</td>
+                <td class="right-align-td">{{ row.debt_1 }}</td>
+              {% elif last_month_number == 2 %}
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.debt_fytd}}</td>
-              <td class="right-align-td">{{row.debt_7}}</td>
+              <td class="right-align-td">{{ row.debt_2 }}</td>
+              {% elif last_month_number == 3 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_3 }}</td>
+              {% elif last_month_number == 4 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_4 }}</td>
+              {% elif last_month_number == 5 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_5 }}</td>
+              {% elif last_month_number == 6 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_6 }}</td>
+              {% elif last_month_number == 7 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_7 }}</td>
+              {% elif last_month_number == 8 %}
+              <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_8 }}</td>
+              {% elif last_month_number == 9 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_9 }}</td>
+              {% elif last_month_number == 10 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_10 }}</td>
+              {% elif last_month_number == 11 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_11 }}</td>
+              {% elif last_month_number == 12 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_12 }}</td>
+              {% endif %}
+    
             </tr>
        
             {% endif %}  
@@ -1365,9 +1834,55 @@ function expandColumns() {
             <td class="collapsed right-align-td">{{row.debt_5}}</td>
             <td class="collapsed right-align-td">{{row.debt_6}}</td>
             <td class="collapsed right-align-td">{{row.debt_7}}</td>
+            {% if last_month_number == 1 %}
+            <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_1 }}</td>
+            {% elif last_month_number == 2 %}
             <td class="collapsed right-align-td"></td>
             <td class="right-align-td">{{row.debt_fytd}}</td>
-            <td class="right-align-td">{{row.debt_7}}</td>
+            <td class="right-align-td">{{ row.debt_2 }}</td>
+            {% elif last_month_number == 3 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_3 }}</td>
+            {% elif last_month_number == 4 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_4 }}</td>
+            {% elif last_month_number == 5 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_5 }}</td>
+            {% elif last_month_number == 6 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_6 }}</td>
+            {% elif last_month_number == 7 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_7 }}</td>
+            {% elif last_month_number == 8 %}
+            <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_8 }}</td>
+            {% elif last_month_number == 9 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_9 }}</td>
+            {% elif last_month_number == 10 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_10 }}</td>
+            {% elif last_month_number == 11 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_11 }}</td>
+            {% elif last_month_number == 12 %}
+            <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_12 }}</td>
+            {% endif %}
           </tr>
      
           {% endif %}  
@@ -1440,9 +1955,55 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.debt_5}}</td>
           <td class="collapsed right-align-td">{{row.debt_6}}</td>
           <td class="collapsed right-align-td">{{row.debt_7}}</td>
+          {% if last_month_number == 1 %}
+          <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_1 }}</td>
+          {% elif last_month_number == 2 %}
           <td class="collapsed right-align-td"></td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
-          <td class="right-align-td">{{row.debt_7}}</td>
+          <td class="right-align-td">{{ row.debt_2 }}</td>
+          {% elif last_month_number == 3 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_3 }}</td>
+          {% elif last_month_number == 4 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_4 }}</td>
+          {% elif last_month_number == 5 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_5 }}</td>
+          {% elif last_month_number == 6 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_6 }}</td>
+          {% elif last_month_number == 7 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_7 }}</td>
+          {% elif last_month_number == 8 %}
+          <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_8 }}</td>
+          {% elif last_month_number == 9 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_9 }}</td>
+          {% elif last_month_number == 10 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_10 }}</td>
+          {% elif last_month_number == 11 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_11 }}</td>
+          {% elif last_month_number == 12 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_12 }}</td>
+          {% endif %}
         </tr>
    
         {% endif %}  
@@ -1522,9 +2083,55 @@ function expandColumns() {
           <td class="collapsed right-align-td">{{row.debt_5}}</td>
           <td class="collapsed right-align-td">{{row.debt_6}}</td>
           <td class="collapsed right-align-td">{{row.debt_7}}</td>
+          {% if last_month_number == 1 %}
+          <td class="collapsed right-align-td"></td>
+            <td class="right-align-td">{{row.debt_fytd}}</td>
+            <td class="right-align-td">{{ row.debt_1 }}</td>
+          {% elif last_month_number == 2 %}
           <td class="collapsed right-align-td"></td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
-          <td class="right-align-td">{{row.debt_7}}</td>
+          <td class="right-align-td">{{ row.debt_2 }}</td>
+          {% elif last_month_number == 3 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_3 }}</td>
+          {% elif last_month_number == 4 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_4 }}</td>
+          {% elif last_month_number == 5 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_5 }}</td>
+          {% elif last_month_number == 6 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_6 }}</td>
+          {% elif last_month_number == 7 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_7 }}</td>
+          {% elif last_month_number == 8 %}
+          <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_8 }}</td>
+          {% elif last_month_number == 9 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_9 }}</td>
+          {% elif last_month_number == 10 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_10 }}</td>
+          {% elif last_month_number == 11 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_11 }}</td>
+          {% elif last_month_number == 12 %}
+          <td class="collapsed right-align-td"></td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{ row.debt_12 }}</td>
+          {% endif %}
         </tr>
         {% endif %}  
         {% endif %}   
@@ -1627,9 +2234,55 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.debt_5}}</td>
               <td class="collapsed right-align-td">{{row.debt_6}}</td>
               <td class="collapsed right-align-td">{{row.debt_7}}</td>
+              {% if last_month_number == 1 %}
+              <td class="collapsed right-align-td"></td>
+                <td class="right-align-td">{{row.debt_fytd}}</td>
+                <td class="right-align-td">{{ row.debt_1 }}</td>
+              {% elif last_month_number == 2 %}
               <td class="collapsed right-align-td"></td>
               <td class="right-align-td">{{row.debt_fytd}}</td>
-              <td class="right-align-td">{{row.debt_7}}</td>
+              <td class="right-align-td">{{ row.debt_2 }}</td>
+              {% elif last_month_number == 3 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_3 }}</td>
+              {% elif last_month_number == 4 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_4 }}</td>
+              {% elif last_month_number == 5 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_5 }}</td>
+              {% elif last_month_number == 6 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_6 }}</td>
+              {% elif last_month_number == 7 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_7 }}</td>
+              {% elif last_month_number == 8 %}
+              <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_8 }}</td>
+              {% elif last_month_number == 9 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_9 }}</td>
+              {% elif last_month_number == 10 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_10 }}</td>
+              {% elif last_month_number == 11 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_11 }}</td>
+              {% elif last_month_number == 12 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+              <td class="right-align-td">{{ row.debt_12 }}</td>
+              {% endif %}
             </tr>
             {% endif %}   
             {% endif %} 
@@ -1682,9 +2335,55 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.net_assets5}}</td>
               <td class="collapsed right-align-td">{{row.net_assets6}}</td>
               <td class="collapsed right-align-td">{{row.net_assets7}}</td>
+              {% if last_month_number == 1 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{ytd_netsurplus}}</td>
-              <td class="right-align-td">{{row.net_assets7}}</td>
+                <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+                <td class="right-align-td">{{ row.net_assets1 }}</td>
+              {% elif last_month_number == 2 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets2 }}</td>
+              {% elif last_month_number == 3 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets3 }}</td>
+              {% elif last_month_number == 4 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets4 }}</td>
+              {% elif last_month_number == 5 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets5 }}</td>
+              {% elif last_month_number == 6 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets6 }}</td>
+              {% elif last_month_number == 7 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets7 }}</td>
+              {% elif last_month_number == 8 %}
+              <td class="collapsed right-align-td">{{ row.net_assets8 }}</td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets8 }}</td>
+              {% elif last_month_number == 9 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets9 }}</td>
+              {% elif last_month_number == 10 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets10 }}</td>
+              {% elif last_month_number == 11 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets11 }}</td>
+              {% elif last_month_number == 12 %}
+              <td class="collapsed right-align-td"></td>
+              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{ row.net_assets12 }}</td>
+              {% endif %}
             </tr>
             {% endif %}
             {% endif %}  
