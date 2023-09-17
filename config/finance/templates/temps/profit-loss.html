@@ -509,7 +509,7 @@
           
             <th colspan="17" style="white-space: nowrap;">
                 <h2 style="text-align: center;">{{ school_name }}</h2><br>
-                <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{last_month}}</h2><br>
+                <h2 style="text-align: center;">FY2022-2023 Statement of Activities as of {{months.last_month}}</h2><br>
             </th>
 
             
@@ -544,7 +544,7 @@
           <th class="collapsed" ></th>
           <th ></th>
           <th style="text-align: center; "><div style="width: 100px;">Ammended <br>Budget           </div></th>
-          <th style="text-align: center; "><div style="width: 100px;">{{format_ytd_budget}}% YTD <br>Budget</div></th>
+          <th style="text-align: center; "><div style="width: 100px;">{{months.format_ytd_budget}}% YTD <br>Budget</div></th>
           <th class="collapsed" style="text-align: center;"><div style="width: 100px;">September</div></th>
           <th class="collapsed" style="text-align: center;"><div style="width: 100px;">October  </div></th>
           <th class="collapsed" style="text-align: center;"><div style="width: 100px;">November </div></th>
@@ -559,7 +559,7 @@
           <th class="collapsed" style="text-align: center;"><div style="width: 100px;">August   </div></th>
           <th style="text-align: center;"><div style="width: 100px;">Year-to-Date               </div></th>
           <th style="text-align: center;"><div style="width: 100px;">Variances                  </div></th>
-          <th style="text-align: center;"><div style="width: 100px;">Var.({{format_ytd_budget}}%)</div></th>
+          <th style="text-align: center;"><div style="width: 100px;">Var.({{months.format_ytd_budget}}%)</div></th>
         </tr>
 
 
@@ -580,14 +580,14 @@
                 <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
                 <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
                 <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-                  {% if row.total_budget == 0.0 %}
+                  {% if row.value == 0.0 %}
                       <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}"> 
                   {% else %}
-                      <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}">{{ row.total_budget }}
+                      <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}">{{ row.value }}
                   {% endif %}
                 </td>
            
-                <td id="convertLR{{ forloop.counter }}" class="right-align-td"></td>
+                <td  class="right-align-td">{{row.ytd_budget}}</td>
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10}}</a></td>
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11 }}</a></td>
@@ -600,35 +600,11 @@
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7 }}</a></td>
                 <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
-                <td class="right-align-td"></td>
+                <td class="right-align-td">{{ row.ytd_total }}</td>
                 <td class="right-align-td"></td>
                 <td class="right-align-td"></td>
             </tr>
-            <script>
-              function convertValue1(rowNumber, value) {
-                if (isNaN(value)) {
-                  document.getElementById("convertLR" + rowNumber).innerHTML = '';
-                  return;
-                }
-                var convertedBudget1 = (value * {{ytd_budget}} ).toFixed(0);
-                var formattedBudget1 = Number(convertedBudget1).toLocaleString();
-                document.getElementById("convertLR" + rowNumber).innerHTML = formattedBudget1;
-            }
-            
-            var rowValue = "{{ row.total_budget }}";
-            var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
-            if (formatrowValue !== 0.0) {
-                convertValue1({{ forloop.counter }}, formatrowValue);
-            }
-            
-            
-            document.getElementById("row1-{{ forloop.counter }}").addEventListener("input", function(e) {
-                var newValue = parseFloat(e.target.innerText);
-                if (!isNaN(newValue)) {
-                    convertValue1({{ forloop.counter }}, newValue);
-                }
-            });
-            </script>
+
             
             
             
@@ -647,18 +623,24 @@
             </td>
             <td class="collapsed"></td>
             <td  ><strong>Local Revenue</strong></td>
-            <script>
-              for (var i = 3; i <= 19; i++) {
-                if (i >= 5 && i <= 16) {
-                  document.write(`<td id="local-revenue-total-${i}" class="collapsed right-align-td" ></td>`);
-                 
-                } else {
-                  document.write(`<td id="local-revenue-total-${i}" class="right-align-td"></td>`);
-                  
-                }
-              }
-           
-            </script>
+            <td id="local-revenue-total-3" class=" right-align-td" >{{totals.total_ammended_lr }}</td>
+            <td id="local-revenue-total-4" class=" right-align-td" >{{totals.ytd_ammended_total_lr}}</td>
+            <td id="local-revenue-total-5" class="collapsed right-align-td" >{{ totals.total_lr.09 }}</td>
+            <td id="local-revenue-total-6" class="collapsed right-align-td" >{{ totals.total_lr.10 }}</td>
+            <td id="local-revenue-total-7" class="collapsed right-align-td" >{{ totals.total_lr.11 }}</td>
+            <td id="local-revenue-total-8" class="collapsed right-align-td" >{{ totals.total_lr.12 }}</td>
+            <td id="local-revenue-total-9" class="collapsed right-align-td" >{{ totals.total_lr.01 }}</td>
+            <td id="local-revenue-total-10" class="collapsed right-align-td">{{ totals.total_lr.02 }}</td>
+            <td id="local-revenue-total-11" class="collapsed right-align-td">{{ totals.total_lr.03 }}</td>
+            <td id="local-revenue-total-12" class="collapsed right-align-td">{{ totals.total_lr.04 }}</td>
+            <td id="local-revenue-total-13" class="collapsed right-align-td">{{ totals.total_lr.05 }}</td>
+            <td id="local-revenue-total-14" class="collapsed right-align-td">{{ totals.total_lr.06 }}</td>
+            <td id="local-revenue-total-15" class="collapsed right-align-td">{{ totals.total_lr.07 }}</td>
+            <td id="local-revenue-total-16" class="collapsed right-align-td">{{ totals.total_lr.08 }}</td>
+            <td id="local-revenue-total-17" class="right-align-td ">{{totals.ytd_total_lr}}</td>
+            <td id="local-revenue-total-18" class="right-align-td ">{{totals.variances_revenue_lr}}</td>
+            <td id="local-revenue-total-19" class="right-align-td">{{totals.var_ytd_lr}}</td>
+
         </tr>
         <script>
           function toggleborderlr() {
@@ -678,14 +660,14 @@
             <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
             <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
             <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-            {% if row.total_budget == 0.0 %}
+            {% if row.value == 0.0 %}
                 <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}"> 
             {% else %}
-                <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.total_budget }}
+                <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.value }}
             {% endif %}
             </td>
     
-            <td id="convertSPR{{ forloop.counter }}" class="right-align-td">></td>
+            <td class="right-align-td">{{row.ytd_budget}}</td>
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10 }}</a></td>
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11">{{ row.total_real11 }}</a></td>
@@ -698,35 +680,11 @@
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7}}</a></td>
             <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
-            <td class="right-align-td"></td>
-            <td class="right-align-td"></td>
+            <td class="right-align-td">{{ row.ytd_total }}</td>
+            <td class="right-align-td">{{ row.variances }}</td>
             <td class="right-align-td"></td>
         </tr>
-        <script>
-          function convertValue2(rowNumber, value) {
-            if (isNaN(value)) {
-              document.getElementById("convertSPR" + rowNumber).innerHTML = '';
-              return;
-            }
-            var convertedBudget2 = (value * {{ytd_budget}}).toFixed(0);
-            var formattedBudget2 = Number(convertedBudget2).toLocaleString();
-            document.getElementById("convertSPR" + rowNumber).innerHTML = formattedBudget2;
-          }
-
-          var rowValue = "{{ row.total_budget }}";
-          var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
-          if (formatrowValue !== 0.0) {
-              convertValue2({{ forloop.counter }}, formatrowValue);
-          }
-
-          
-          document.getElementById("row2-{{ forloop.counter }}").addEventListener("input", function(e) {
-              var newValue = parseFloat(e.target.innerText);
-              if (!isNaN(newValue)) {
-                  convertValue2({{ forloop.counter }}, newValue);
-              }
-          });
-      </script>
+ 
       
         {% endif %}
         {% endfor %}
@@ -741,16 +699,24 @@
            
           </td>
           <td class="collapsed"></td>
-          <td  ><strong>State Program Revenue</strong></td>
-          <script>
-            for (var i = 3; i <= 19; i++) {
-              if (i >= 5 && i <= 16) {
-                document.write(`<td id="spr-total-${i}" class="collapsed right-align-td"" ></td>`);
-              } else {
-                document.write(`<td id="spr-total-${i}"  class="right-align-td"></td>`);
-              }
-            }
-          </script>
+          <td ><strong>State Program Revenue</strong></td>
+          <td id="spr-total-3" class=" right-align-td" >{{ totals.total_ammended_spr }}</td>
+          <td id="spr-total-4" class=" right-align-td" >{{totals.ytd_ammended_total_spr}} </td>
+          <td id="spr-total-5" class="collapsed right-align-td" >{{ totals.total_spr.09 }}</td>
+          <td id="spr-total-6" class="collapsed right-align-td" >{{ totals.total_spr.10 }}</td>
+          <td id="spr-total-7" class="collapsed right-align-td" >{{ totals.total_spr.11 }}</td>
+          <td id="spr-total-8" class="collapsed right-align-td" >{{ totals.total_spr.12 }}</td>
+          <td id="spr-total-9" class="collapsed right-align-td" >{{ totals.total_spr.01 }}</td>
+          <td id="spr-total-10" class="collapsed right-align-td">{{ totals.total_spr.02 }}</td>
+          <td id="spr-total-11" class="collapsed right-align-td">{{ totals.total_spr.03 }}</td>
+          <td id="spr-total-12" class="collapsed right-align-td">{{ totals.total_spr.04 }}</td>
+          <td id="spr-total-13" class="collapsed right-align-td">{{ totals.total_spr.05 }}</td>
+          <td id="spr-total-14" class="collapsed right-align-td">{{ totals.total_spr.06 }}</td>
+          <td id="spr-total-15" class="collapsed right-align-td">{{ totals.total_spr.07 }}</td>
+          <td id="spr-total-16" class="collapsed right-align-td">{{ totals.total_spr.08 }}</td>
+          <td id="spr-total-17" class="right-align-td ">{{totals.ytd_total_spr}}</td>
+          <td id="spr-total-18" class="right-align-td ">{{totals.variances_revenue_spr}}</td>
+          <td id="spr-total-19" class="right-align-td">{{totals.var_ytd_spr}}</td>
       </tr>
       <script>
         function toggleborderspr() {
@@ -770,14 +736,14 @@
           <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
           <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-          {% if row.total_budget == 0.0 %}
+          {% if row.value == 0.0 %}
             <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}"> 
           {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.total_budget }}
+            <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.value }}
           {% endif %}
           </td>
           
-          <td id="convertFPR{{ forloop.counter }}" class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           
           <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09">{{ row.total_real9 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10">{{ row.total_real10 }}</a></td>
@@ -791,35 +757,11 @@
           <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06">{{ row.total_real6 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07">{{ row.total_real7 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewgl-link" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08">{{ row.total_real8 }}</a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{ row.ytd_total }}</td>
+          <td class="right-align-td">{{ row.variances }}</td>
           <td class="right-align-td"></td>
       </tr>
-            <script>
-              function convertValue(rowNumber, value) {
-                if (isNaN(value)) {
-                  document.getElementById("convertFPR" + rowNumber).innerHTML = '';
-                  return;
-                }
-                  var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
-                  var formattedbudget = Number(convertedBudget).toLocaleString();
-                  document.getElementById("convertFPR" + rowNumber).innerHTML = formattedbudget;
-              }
-  
-              var rowValue = "{{ row.total_budget }}";
-              var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
-              if (formatrowValue !== 0.0) {
-                  convertValue({{ forloop.counter }}, formatrowValue);
-              }
-  
-              
-              document.getElementById("row3-{{ forloop.counter }}").addEventListener("input", function(e) {
-                  var newValue = parseFloat(e.target.innerText);
-                  if (!isNaN(newValue)) {
-                      convertValue({{ forloop.counter }}, newValue);
-                  }
-              });
-          </script>
+     
           
       {% endif %}
       {% endfor %}
@@ -833,20 +775,23 @@
         </td>
         <td class="collapsed"></td>
         <td  ><strong>Federal Program Revenue</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td id="fpr-total-${i}" class="collapsed right-align-td" ></td>`); //top border here
-            }
-            else if (i == 19) {
-              document.write(`<td id="fpr-total-${i}" class="right-align-td"></td>`);
-
-             }
-            else {
-              document.write(`<td id="fpr-total-${i}" class="right-align-td"></td>`); //top border here
-            }
-          }
-        </script>
+        <td id="fpr-total-3" class=" right-align-td" >{{totals.total_ammended_fpr }}</td>
+        <td id="fpr-total-4" class=" right-align-td" >{{totals.ytd_ammended_total_fpr}}</td>
+        <td id="fpr-total-5" class="collapsed right-align-td" >{{ totals.total_fpr.09 }}</td>
+        <td id="fpr-total-6" class="collapsed right-align-td" >{{ totals.total_fpr.10 }}</td>
+        <td id="fpr-total-7" class="collapsed right-align-td" >{{ totals.total_fpr.11 }}</td>
+        <td id="fpr-total-8" class="collapsed right-align-td" >{{ totals.total_fpr.12 }}</td>
+        <td id="fpr-total-9" class="collapsed right-align-td" >{{ totals.total_fpr.01 }}</td>
+        <td id="fpr-total-10" class="collapsed right-align-td">{{ totals.total_fpr.02 }}</td>
+        <td id="fpr-total-11" class="collapsed right-align-td">{{ totals.total_fpr.03 }}</td>
+        <td id="fpr-total-12" class="collapsed right-align-td">{{ totals.total_fpr.04 }}</td>
+        <td id="fpr-total-13" class="collapsed right-align-td">{{ totals.total_fpr.05 }}</td>
+        <td id="fpr-total-14" class="collapsed right-align-td">{{ totals.total_fpr.06 }}</td>
+        <td id="fpr-total-15" class="collapsed right-align-td">{{ totals.total_fpr.07 }}</td>
+        <td id="fpr-total-16" class="collapsed right-align-td">{{ totals.total_fpr.08 }}</td>
+        <td id="fpr-total-17" class="right-align-td ">{{totals.ytd_total_fpr}}</td>
+        <td id="fpr-total-18" class="right-align-td ">{{totals.variances_revenue_fpr}}</td>
+        <td id="fpr-total-19" class="right-align-td">{{totals.var_ytd_fpr}}</td>
       </tr>
       <script>
         function toggleborderfpr() {
@@ -863,18 +808,23 @@
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  ><strong>Total Revenue</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="total-${i}" class="collapsed right-align-td top-border" ></td>`);
-            }
-            else if (i == 19) {
-              document.write(`<td  id="total-${i}" class="right-align-td " ></td>`);
-            } else {
-              document.write(`<td id="total-${i}" class="right-align-td top-border"></td>`);
-            }
-          }
-        </script>
+        <td id="fpr-total-3" class=" right-align-td top-border" >{{ totals.total_ammended }}</td>
+        <td id="fpr-total-4" class=" right-align-td top-border" >{{totals.ytd_ammended_total}}</td>
+        <td id="fpr-total-5" class="collapsed right-align-td  top-border">{{ totals.total_revenue.09 }}</td>
+        <td id="fpr-total-6" class="collapsed right-align-td  top-border">{{ totals.total_revenue.10 }}</td>
+        <td id="fpr-total-7" class="collapsed right-align-td  top-border">{{ totals.total_revenue.11 }}</td>
+        <td id="fpr-total-8" class="collapsed right-align-td  top-border">{{ totals.total_revenue.12 }}</td>
+        <td id="fpr-total-9" class="collapsed right-align-td  top-border">{{ totals.total_revenue.01 }}</td>
+        <td id="fpr-total-10" class="collapsed right-align-td top-border">{{ totals.total_revenue.02 }}</td>
+        <td id="fpr-total-11" class="collapsed right-align-td top-border">{{ totals.total_revenue.03 }}</td>
+        <td id="fpr-total-12" class="collapsed right-align-td top-border">{{ totals.total_revenue.04 }}</td>
+        <td id="fpr-total-13" class="collapsed right-align-td top-border">{{ totals.total_revenue.05 }}</td>
+        <td id="fpr-total-14" class="collapsed right-align-td top-border">{{ totals.total_revenue.06 }}</td>
+        <td id="fpr-total-15" class="collapsed right-align-td top-border">{{ totals.total_revenue.07 }}</td>
+        <td id="fpr-total-16" class="collapsed right-align-td top-border">{{ totals.total_revenue.08 }}</td>
+        <td id="fpr-total-17" class="right-align-td top-border">{{totals.ytd_total_revenue}}</td>
+        <td id="fpr-total-18" class="right-align-td top-border">{{totals.variances_revenue}}</td>
+        <td id="fpr-total-19" class="right-align-td">{{totals.var_ytd}}</td>
       </tr>
 
     {% for row in data2 %}
@@ -893,7 +843,7 @@
           </td>
           
           
-          <td id="convertFunc{{ forloop.counter }}" class="right-align-td"></td>
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="09">{{ row.total_func9 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="10">{{ row.total_func10 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="11">{{ row.total_func11 }}</a></td>
@@ -906,39 +856,10 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="06">{{ row.total_func6 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="07">{{ row.total_func7 }}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="08">{{ row.total_func8}}</a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_ytd}}</td>
       </tr>
-      
-
-      
-      
-      <script>
-        function convertValue(rowNumber, value) {
-          if (isNaN(value)) {
-            document.getElementById("convertFunc" + rowNumber).innerHTML = '';
-            return;
-          }
-            var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
-            var formattedbudget = Number(convertedBudget).toLocaleString();
-            document.getElementById("convertFunc" + rowNumber).innerHTML = formattedbudget;
-        }
-
-        var rowValue = "{{ row.budget }}";
-        var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
-        if (formatrowValue !== 0.0) {
-            convertValue({{ forloop.counter }}, formatrowValue);
-        }
-
-        
-        document.getElementById("row11-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText);
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
     {% endif %}
     {% endfor %}
 
@@ -952,15 +873,23 @@
         </td>
         <td class="collapsed"></td>
         <td  ><strong>Total </strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="total1-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="total1-${i}" class=" right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="total1-3" class=" right-align-td top-border" >{{totals.first_total}}</td>
+        <td id="total1-4" class=" right-align-td top-border" >{{totals.ytd_ammended_total_first}}</td>
+        <td id="total1-5" class="collapsed right-align-td  top-border">{{totals.first_total_months.09}}</td>
+        <td id="total1-6" class="collapsed right-align-td  top-border">{{totals.first_total_months.10}}</td>
+        <td id="total1-7" class="collapsed right-align-td  top-border">{{totals.first_total_months.11}}</td>
+        <td id="total1-8" class="collapsed right-align-td  top-border">{{totals.first_total_months.12}}</td>
+        <td id="total1-9" class="collapsed right-align-td  top-border">{{totals.first_total_months.01}}</td>
+        <td id="total1-10" class="collapsed right-align-td top-border">{{totals.first_total_months.02}}</td>
+        <td id="total1-11" class="collapsed right-align-td top-border">{{totals.first_total_months.03}}</td>
+        <td id="total1-12" class="collapsed right-align-td top-border">{{totals.first_total_months.04}}</td>
+        <td id="total1-13" class="collapsed right-align-td top-border">{{totals.first_total_months.05}}</td>
+        <td id="total1-14" class="collapsed right-align-td top-border">{{totals.first_total_months.06}}</td>
+        <td id="total1-15" class="collapsed right-align-td top-border">{{totals.first_total_months.07}}</td>
+        <td id="total1-16" class="collapsed right-align-td top-border">{{totals.first_total_months.08}}</td>
+        <td id="total1-17" class="right-align-td top-border">{{totals.first_ytd_total}}</td>
+        <td id="total1-18" class="right-align-td top-border">{{totals.variances_first_total}}</td>
+        <td id="total1-19" class="right-align-td">{{totals.var_ytd_first_total}}</td>
       </tr>
       <script>
         function togglebordertotal1() {
@@ -976,15 +905,23 @@
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  ><strong>Surplus (Deficits) before Depreciation</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="surplus-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="surplus-total-${i}" class=" right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="surplus-total-3" class=" right-align-td top-border" >{{totals.ammended_budget_SBD}}</td>
+        <td id="surplus-total-4" class=" right-align-td top-border" >{{totals.ytd_ammended_SBD}}</td>
+        <td id="surplus-total-5" class="collapsed right-align-td  top-border">{{totals.total_SBD.09}}</td>
+        <td id="surplus-total-6" class="collapsed right-align-td  top-border">{{totals.total_SBD.10}}</td>
+        <td id="surplus-total-7" class="collapsed right-align-td  top-border">{{totals.total_SBD.11}}</td>
+        <td id="surplus-total-8" class="collapsed right-align-td  top-border">{{totals.total_SBD.12}}</td>
+        <td id="surplus-total-9" class="collapsed right-align-td  top-border">{{totals.total_SBD.01}}</td>
+        <td id="surplus-total-10" class="collapsed right-align-td top-border">{{totals.total_SBD.02}}</td>
+        <td id="surplus-total-11" class="collapsed right-align-td top-border">{{totals.total_SBD.03}}</td>
+        <td id="surplus-total-12" class="collapsed right-align-td top-border">{{totals.total_SBD.04}}</td>
+        <td id="surplus-total-13" class="collapsed right-align-td top-border">{{totals.total_SBD.05}}</td>
+        <td id="surplus-total-14" class="collapsed right-align-td top-border">{{totals.total_SBD.06}}</td>
+        <td id="surplus-total-15" class="collapsed right-align-td top-border">{{totals.total_SBD.07}}</td>
+        <td id="surplus-total-16" class="collapsed right-align-td top-border">{{totals.total_SBD.08}}</td>
+        <td id="surplus-total-17" class="right-align-td top-border">{{totals.ytd_SBD}}</td>
+        <td id="surplus-total-18" class="right-align-td top-border">{{totals.variances_SBD}}</td>
+        <td id="surplus-total-19" class="right-align-td">{{totals.var_SBD}}</td>
       </tr>
 
 
@@ -1010,7 +947,7 @@
           </td>
           
           
-          <td id="convertFunc{{ forloop.counter }}" class="right-align-td"></td>
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="09">{{row.total_func2_9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="10">{{row.total_func2_10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="11">{{row.total_func2_11}}</a></td>
@@ -1023,37 +960,12 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="06">{{row.total_func2_6}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="07">{{row.total_func2_7}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}"  data-yr="08">{{row.total_func2_8}}</a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_ytd}}</td>
       </tr>
       
 
-      <script>
-        function convertValue(rowNumber, value) {
-          if (isNaN(value)) {
-            document.getElementById("convertFunc" + rowNumber).innerHTML = '';
-            return;
-          }
-            var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
-            var formattedbudget = Number(convertedBudget).toLocaleString();
-            document.getElementById("convertFunc" + rowNumber).innerHTML = formattedbudget;
-        }
-
-        var rowValue = "{{ row.budget }}";
-        var formatrowValue = parseFloat(rowValue.replace(/,/g, ''));
-        if (formatrowValue !== 0.0) {
-            convertValue({{ forloop.counter }}, formatrowValue);
-        }
-
-        
-        document.getElementById("row12-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText);
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
       {% endif %}
     {% endfor %}
 
@@ -1066,15 +978,23 @@
         </td>
         <td class="collapsed"></td>
         <td><strong>Depreciation and Amortization</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="DnA-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="DnA-total-${i}" class=" right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="DnA-total-3" class=" right-align-td top-border" >{{totals.dna_total}}</td>
+        <td id="DnA-total-4" class=" right-align-td top-border" >{{totals.ytd_ammended_dna}}</td>
+        <td id="DnA-total-5" class="collapsed right-align-td  top-border">{{totals.dna_total_months.09}}</td>
+        <td id="DnA-total-6" class="collapsed right-align-td  top-border">{{totals.dna_total_months.10}}</td>
+        <td id="DnA-total-7" class="collapsed right-align-td  top-border">{{totals.dna_total_months.11}}</td>
+        <td id="DnA-total-8" class="collapsed right-align-td  top-border">{{totals.dna_total_months.12}}</td>
+        <td id="DnA-total-9" class="collapsed right-align-td  top-border">{{totals.dna_total_months.01}}</td>
+        <td id="DnA-total-10" class="collapsed right-align-td top-border">{{totals.dna_total_months.02}}</td>
+        <td id="DnA-total-11" class="collapsed right-align-td top-border">{{totals.dna_total_months.03}}</td>
+        <td id="DnA-total-12" class="collapsed right-align-td top-border">{{totals.dna_total_months.04}}</td>
+        <td id="DnA-total-13" class="collapsed right-align-td top-border">{{totals.dna_total_months.05}}</td>
+        <td id="DnA-total-14" class="collapsed right-align-td top-border">{{totals.dna_total_months.06}}</td>
+        <td id="DnA-total-15" class="collapsed right-align-td top-border">{{totals.dna_total_months.07}}</td>
+        <td id="DnA-total-16" class="collapsed right-align-td top-border">{{totals.dna_total_months.08}}</td>
+        <td id="DnA-total-17" class="right-align-td top-border">{{totals.dna_ytd_total}}</td>
+        <td id="DnA-total-18" class="right-align-td top-border">{{totals.variances_dna}}</td>
+        <td id="DnA-total-19" class="right-align-td">{{totals.var_ytd_dna}}</td>
       </tr>
       <script>
               function toggleborderDNA() {
@@ -1090,16 +1010,25 @@
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  ><strong>Net Surplus(Deficit)</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="net-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="net-total-${i}" class=" right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="net-total-3" class=" right-align-td top-border" >{{totals.ammended_budget_netsurplus}}</td>
+        <td id="net-total-4" class=" right-align-td top-border" >{{totals.ytd_ammended_netsurplus}}</td>
+        <td id="net-total-5" class="collapsed right-align-td  top-border">{{totals.total_netsurplus_months.09}}</td>
+        <td id="net-total-6" class="collapsed right-align-td  top-border">{{totals.total_netsurplus_months.10}}</td>
+        <td id="net-total-7" class="collapsed right-align-td  top-border">{{totals.total_netsurplus_months.11}}</td>
+        <td id="net-total-8" class="collapsed right-align-td  top-border">{{totals.total_netsurplus_months.12}}</td>
+        <td id="net-total-9" class="collapsed right-align-td  top-border">{{totals.total_netsurplus_months.01}}</td>
+        <td id="net-total-10" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.02}}</td>
+        <td id="net-total-11" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.03}}</td>
+        <td id="net-total-12" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.04}}</td>
+        <td id="net-total-13" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.05}}</td>
+        <td id="net-total-14" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.06}}</td>
+        <td id="net-total-15" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.07}}</td>
+        <td id="net-total-16" class="collapsed right-align-td top-border">{{totals.total_netsurplus_months.08}}</td>
+        <td id="net-total-17" class="right-align-td top-border">{{totals.ytd_netsurplus}}</td>
+        <td id="net-total-18" class="right-align-td top-border">{{totals.variances_netsurplus}}</td>
+        <td id="net-total-19" class="right-align-td">{{totals.var_netsurplus}}</td>
       </tr>
+
       <tr id="total-row1" class="ttl-1-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
@@ -1107,9 +1036,9 @@
         <script>
           for (var i = 3; i <= 19; i++) {
             if (i >= 5 && i <= 16) {
-              document.write(`<td  id="total1-${i}" class="collapsed right-align-td" ></td>`);
+              document.write(`<td  class="collapsed right-align-td" ></td>`);
             } else {
-              document.write(`<td id="total1-${i}" class=" right-align-td"></td>`);
+              document.write(`<td  class=" right-align-td"></td>`);
             }
           }
         </script>
@@ -1127,7 +1056,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
-          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
@@ -1136,7 +1065,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
           <td class="right-align-td"></td>
           <td class="right-align-td"></td>
       </tr>
@@ -1150,62 +1079,33 @@
           <td class="firstcolumn"> 
             <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6); " style=" float: left;">+</button></td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+          <td>
+            
             {{ row.obj }} - {{ row.Description }}
-            </td>
-          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-            {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-            {% endif %} 
           </td>
-          
-          
-          <td id="convertExpense{{ forloop.counter }}" class="right-align-td"></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-5" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-6" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-7" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-8" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-9" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-10"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-11"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-12"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="04"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-13"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="05"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-14"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-15"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07"></a></td>
-          <td class="collapsed right-align-td" id="payroll-row-total-16"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08"></a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
+           {{row.budget}}
+            
+          </td>      
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-5" >{{totals.total_EOC_pc.09}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-6" >{{totals.total_EOC_pc.10}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-7" >{{totals.total_EOC_pc.11}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-8" >{{totals.total_EOC_pc.12}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-9" >{{totals.total_EOC_pc.01}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-10">{{totals.total_EOC_pc.02}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-11">{{totals.total_EOC_pc.03}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-12">{{totals.total_EOC_pc.04}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-13">{{totals.total_EOC_pc.05}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-14">{{totals.total_EOC_pc.06}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-15">{{totals.total_EOC_pc.07}}</td>
+          <td class="collapsed right-align-td" id="payroll-row-total-16">{{totals.total_EOC_pc.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_pc}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
       </tr>
 
-      <script>
-        function convertExpense(rowNumber, value) {
-            if (isNaN(value)) {
-                document.getElementById("convertExpense" + rowNumber).innerHTML = '';
-                return;
-            }
-    
-            var convertedBudget = (value * {{ytd_budget}}).toFixed(0);
-            var formattedBudget = Number(convertedBudget).toLocaleString();
-            document.getElementById("convertExpense" + rowNumber).innerHTML = formattedBudget;
-        }
-    
-        var rowBudget = "{{ row.budget }}";
-        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
-        
-        if (!isNaN(rowValue)) {
-          convertExpense({{ forloop.counter }}, rowValue);
-        }
-    
-        document.getElementById("row5-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
+      
     {% endif %}
       {%endfor%}
 
@@ -1223,7 +1123,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
-          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
@@ -1232,7 +1132,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
           <td class="right-align-td"></td>
           <td class="right-align-td"></td>
       </tr>
@@ -1260,40 +1160,24 @@
           </td>
           
           
-          <td id="convertExpense{{ forloop.counter }}" class="right-align-td"></td>
-          <td class="collapsed right-align-td" id="pcs-total-5" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-6" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-7" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-8" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-9" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-10"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-11"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-12"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="04"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-13"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="05"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-14"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-15"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07"></a></td>
-          <td class="collapsed right-align-td" id="pcs-total-16"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08"></a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-5" >{{totals.total_EOC_pcs.09}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-6" >{{totals.total_EOC_pcs.10}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-7" >{{totals.total_EOC_pcs.11}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-8" >{{totals.total_EOC_pcs.12}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-9" >{{totals.total_EOC_pcs.01}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-10">{{totals.total_EOC_pcs.02}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-11">{{totals.total_EOC_pcs.03}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-12">{{totals.total_EOC_pcs.04}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-13">{{totals.total_EOC_pcs.05}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-14">{{totals.total_EOC_pcs.06}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-15">{{totals.total_EOC_pcs.07}}</td>
+          <td class="collapsed right-align-td" id="pcs-total-16">{{totals.total_EOC_pcs.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_pcs}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
       </tr>
-      <script>
-
-    
-        var rowBudget = "{{ row.budget }}";
-        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
-        
-        if (!isNaN(rowValue)) {
-          convertExpense({{ forloop.counter }}, rowValue);
-        }
-    
-        document.getElementById("row5-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
+      
     
     {% endif %}
       {%endfor%}
@@ -1312,7 +1196,7 @@
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
-          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
@@ -1321,7 +1205,7 @@
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
           <td class="right-align-td"></td>
           <td class="right-align-td"></td>
       </tr>
@@ -1348,41 +1232,25 @@
           </td>
           
           
-          <td id="convertExpense{{ forloop.counter }}" class="right-align-td"></td>
-          <td class="collapsed right-align-td" id="sm-total-5" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-6" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-7" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-8" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-9" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-10"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-11"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-12"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="04"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-13"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="05"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-14"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-15"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07"></a></td>
-          <td class="collapsed right-align-td" id="sm-total-16"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08"></a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="collapsed right-align-td" id="sm-total-5" >{{totals.total_EOC_sm.09}}</td>
+          <td class="collapsed right-align-td" id="sm-total-6" >{{totals.total_EOC_sm.10}}</td>
+          <td class="collapsed right-align-td" id="sm-total-7" >{{totals.total_EOC_sm.11}}</td>
+          <td class="collapsed right-align-td" id="sm-total-8" >{{totals.total_EOC_sm.12}}</td>
+          <td class="collapsed right-align-td" id="sm-total-9" >{{totals.total_EOC_sm.01}}</td>
+          <td class="collapsed right-align-td" id="sm-total-10">{{totals.total_EOC_sm.02}}</td>
+          <td class="collapsed right-align-td" id="sm-total-11">{{totals.total_EOC_sm.03}}</td>
+          <td class="collapsed right-align-td" id="sm-total-12">{{totals.total_EOC_sm.04}}</td>
+          <td class="collapsed right-align-td" id="sm-total-13">{{totals.total_EOC_sm.05}}</td>
+          <td class="collapsed right-align-td" id="sm-total-14">{{totals.total_EOC_sm.06}}</td>
+          <td class="collapsed right-align-td" id="sm-total-15">{{totals.total_EOC_sm.07}}</td>
+          <td class="collapsed right-align-td" id="sm-total-16">{{totals.total_EOC_sm.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_sm}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
       </tr>
 
-      <script>
-
-    
-        var rowBudget = "{{ row.budget }}";
-        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
-        
-        if (!isNaN(rowValue)) {
-          convertExpense({{ forloop.counter }}, rowValue);
-        }
-    
-        document.getElementById("row5-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
+      
     {% endif %}
       {%endfor%}
 
@@ -1400,7 +1268,7 @@
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
-          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
@@ -1409,7 +1277,7 @@
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
           <td class="right-align-td"></td>
           <td class="right-align-td"></td>
       </tr>
@@ -1436,49 +1304,33 @@
           </td>
           
           
-          <td id="convertExpense{{ forloop.counter }}" class="right-align-td"></td>
-          <td class="collapsed right-align-td" id="ooe-total-5" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-6" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-7" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-8" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-9" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-10"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-11"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-12"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="04"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-13"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="05"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-14"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-15"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07"></a></td>
-          <td class="collapsed right-align-td" id="ooe-total-16"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08"></a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_ooe.09}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_ooe.10}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_ooe.11}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.total_EOC_ooe.12}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.total_EOC_ooe.01}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-10">{{totals.total_EOC_ooe.02}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-11">{{totals.total_EOC_ooe.03}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-12">{{totals.total_EOC_ooe.04}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-13">{{totals.total_EOC_ooe.05}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-14">{{totals.total_EOC_ooe.06}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_ooe.07}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_ooe.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_ooe}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
       </tr>
 
-      <script>
-
-    
-        var rowBudget = "{{ row.budget }}";
-        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
-        
-        if (!isNaN(rowValue)) {
-          convertExpense({{ forloop.counter }}, rowValue);
-        }
-    
-        document.getElementById("row5-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
+      
     {% endif %}
-      {%endfor%}
+    {%endfor%}
 
 
             <!-- END OF Other Operating Expenses-->
 
 
-            {% for row in data_activities %}
+      {% for row in data_activities %}
       {% if row.Category == 'Total Expense' %}
       
       <tr id="row10-{{ forloop.counter }}" class="expense-row">
@@ -1490,7 +1342,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
-          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
@@ -1499,7 +1351,7 @@
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
-          <td class="right-align-td"></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
           <td class="right-align-td"></td>
           <td class="right-align-td"></td>
       </tr>
@@ -1518,49 +1370,31 @@
             
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-            {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-            {% endif %} 
+         
+            {{totals.budget_for_6500}}
+          
           </td>
           
           
-          <td id="convertExpense{{ forloop.counter }}" class="right-align-td"></td>
-          <td class="collapsed right-align-td" id="oe-total-5" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-6" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-7" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-8" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="12"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-9" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="01"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-10"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="02"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-11"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="03"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-12"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="04"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-13"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="05"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-14"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="06"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-15"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07"></a></td>
-          <td class="collapsed right-align-td" id="oe-total-16"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08"></a></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
-          <td class="right-align-td"></td>
+          <td  class="right-align-td">{{totals.ytd_budget_for_6500}}</td>
+          <td class="collapsed right-align-td" id="oe-total-5" >{{totals.total_EOC_te.09}}</td>
+          <td class="collapsed right-align-td" id="oe-total-6" >{{totals.total_EOC_te.10}}</td>
+          <td class="collapsed right-align-td" id="oe-total-7" >{{totals.total_EOC_te.11}}</td>
+          <td class="collapsed right-align-td" id="oe-total-8" >{{totals.total_EOC_te.12}}</td>
+          <td class="collapsed right-align-td" id="oe-total-9" >{{totals.total_EOC_te.01}}</td>
+          <td class="collapsed right-align-td" id="oe-total-10">{{totals.total_EOC_te.02}}</td>
+          <td class="collapsed right-align-td" id="oe-total-11">{{totals.total_EOC_te.03}}</td>
+          <td class="collapsed right-align-td" id="oe-total-12">{{totals.total_EOC_te.04}}</td>
+          <td class="collapsed right-align-td" id="oe-total-13">{{totals.total_EOC_te.05}}</td>
+          <td class="collapsed right-align-td" id="oe-total-14">{{totals.total_EOC_te.06}}</td>
+          <td class="collapsed right-align-td" id="oe-total-15">{{totals.total_EOC_te.07}}</td>
+          <td class="collapsed right-align-td" id="oe-total-16">{{totals.total_EOC_te.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_te}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
       </tr>
 
-      <script>
-
-    
-        var rowBudget = "{{ row.budget }}";
-        var rowValue = parseFloat(rowBudget.replace(/,/g, ''));
-        
-        if (!isNaN(rowValue)) {
-          convertExpense({{ forloop.counter }}, rowValue);
-        }
-    
-        document.getElementById("row5-{{ forloop.counter }}").addEventListener("input", function(e) {
-            var newValue = parseFloat(e.target.innerText.replace(/,/g, ''));
-            if (!isNaN(newValue)) {
-                convertValue({{ forloop.counter }}, newValue);
-            }
-        });
-    </script>
+      
       {% endif %} 
       {%endfor%}
       <!-- END OF OPEARTING EXPENSE-->
@@ -1572,33 +1406,46 @@
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  ><strong>Total Expense</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="EOC-total-${i}" class="collapsed right-align-td top-border" ></td>`);
-            }
-            else if(i == 19){
-              document.write(`<td id="EOC-total-${i}" class=" right-align-td "></td>`);
-            } else {
-              document.write(`<td id="EOC-total-${i}" class=" right-align-td top-border"></td>`);
-            }
-          }
-        </script>
+        <td id="EOC-total-3" class=" right-align-td top-border" >{{totals.total_expense}}</td>
+        <td id="EOC-total-4" class=" right-align-td top-border" >{{totals.total_expense_ytd_budget}}</td>
+        <td id="EOC-total-5" class="collapsed right-align-td  top-border">{{totals.total_expense_months.09}}</td>
+        <td id="EOC-total-6" class="collapsed right-align-td  top-border">{{totals.total_expense_months.10}}</td>
+        <td id="EOC-total-7" class="collapsed right-align-td  top-border">{{totals.total_expense_months.11}}</td>
+        <td id="EOC-total-8" class="collapsed right-align-td  top-border">{{totals.total_expense_months.12}}</td>
+        <td id="EOC-total-9" class="collapsed right-align-td  top-border">{{totals.total_expense_months.01}}</td>
+        <td id="EOC-total-10" class="collapsed right-align-td top-border">{{totals.total_expense_months.02}}</td>
+        <td id="EOC-total-11" class="collapsed right-align-td top-border">{{totals.total_expense_months.03}}</td>
+        <td id="EOC-total-12" class="collapsed right-align-td top-border">{{totals.total_expense_months.04}}</td>
+        <td id="EOC-total-13" class="collapsed right-align-td top-border">{{totals.total_expense_months.05}}</td>
+        <td id="EOC-total-14" class="collapsed right-align-td top-border">{{totals.total_expense_months.06}}</td>
+        <td id="EOC-total-15" class="collapsed right-align-td top-border">{{totals.total_expense_months.07}}</td>
+        <td id="EOC-total-16" class="collapsed right-align-td top-border">{{totals.total_expense_months.08}}</td>
+        <td id="EOC-total-17" class="right-align-td top-border">{{totals.total_expense_ytd}}</td>
+        <td id="EOC-total-18" class="right-align-td top-border">{{totals.variances_total_expense}}</td>
+        <td id="EOC-total-19" class="right-align-td">{{totals.var_total_expense}}</td>
       </tr>
 
       <tr id="" class="netincome-total-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  ><strong>Net Income</strong></td>
-        <script>
-          for (var i = 3; i <= 19; i++) {
-            if (i >= 5 && i <= 16) {
-              document.write(`<td  id="netincome-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="netincome-total-${i}" class=" right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="netincome-total-3" class=" right-align-td top-border" >{{totals.budget_net_income}}</td>
+        <td id="netincome-total-4" class=" right-align-td top-border" >{{totals.ytd_budget_net_income}}</td>
+        <td id="netincome-total-5" class="collapsed right-align-td  top-border">{{totals.total_net_income_months.09}}</td>
+        <td id="netincome-total-6" class="collapsed right-align-td  top-border">{{totals.total_net_income_months.10}}</td>
+        <td id="netincome-total-7" class="collapsed right-align-td  top-border">{{totals.total_net_income_months.11}}</td>
+        <td id="netincome-total-8" class="collapsed right-align-td  top-border">{{totals.total_net_income_months.12}}</td>
+        <td id="netincome-total-9" class="collapsed right-align-td  top-border">{{totals.total_net_income_months.01}}</td>
+        <td id="netincome-total-10" class="collapsed right-align-td top-border">{{totals.total_net_income_months.02}}</td>
+        <td id="netincome-total-11" class="collapsed right-align-td top-border">{{totals.total_net_income_months.03}}</td>
+        <td id="netincome-total-12" class="collapsed right-align-td top-border">{{totals.total_net_income_months.04}}</td>
+        <td id="netincome-total-13" class="collapsed right-align-td top-border">{{totals.total_net_income_months.05}}</td>
+        <td id="netincome-total-14" class="collapsed right-align-td top-border">{{totals.total_net_income_months.06}}</td>
+        <td id="netincome-total-15" class="collapsed right-align-td top-border">{{totals.total_net_income_months.07}}</td>
+        <td id="netincome-total-16" class="collapsed right-align-td top-border">{{totals.total_net_income_months.08}}</td>
+        <td id="netincome-total-17" class="right-align-td top-border">{{totals.ytd_net_income}}</td>
+        <td id="netincome-total-18" class="right-align-td top-border">{{totals.variances_net_income}}</td>
+        <td id="netincome-total-19" class="right-align-td">{{totals.var_net_income}}</td>
       </tr>
 
 

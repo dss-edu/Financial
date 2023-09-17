@@ -1407,69 +1407,69 @@ function NetSurplusTotal() {
 
 
  
-    const editableCells = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable], .total-row1 td[contenteditable]');
-    editableCells.forEach(cell => {
-      cell.addEventListener('input', () => {
+    // const editableCells = document.querySelectorAll('.local-revenue-row td[contenteditable], .spr-row td[contenteditable], .fpr-row td[contenteditable], .total-row1 td[contenteditable]');
+    // editableCells.forEach(cell => {
+    //   cell.addEventListener('input', () => {
         
-        calculateLocalRevenueTotal();
-        calculateSPRTotal();
-        calculateFPRTotal();
-        calculaterow1Total();
-        calculateLSFTotals();
+    //     // calculateLocalRevenueTotal();
+    //     calculateSPRTotal();
+    //     calculateFPRTotal();
+    //     calculaterow1Total();
+    //     calculateLSFTotals();
         
-        CalculateVariances1();
-        CalculateVariances2();
-        CalculateVar42();
-        SurplusDeficitTotal();
-        CalculateVariances3();
+    //     CalculateVariances1();
+    //     CalculateVariances2();
+    //     CalculateVar42();
+    //     SurplusDeficitTotal();
+    //     CalculateVariances3();
         
-        CalculateVar42forSurplus();
-        PayrollCostTotal();
-        PCSTotal();
-        SMTotal();
-        OperatingExpenseTotal();
-        OOETotal();
-        //ExpenseTotal();
-        totalEOC();
-        DandATotal();
-        NetSurplusTotal();
-        NetIncomeTotal();
-        CalculateVar42forNetSurplus();
+    //     CalculateVar42forSurplus();
+    //     PayrollCostTotal();
+    //     PCSTotal();
+    //     SMTotal();
+    //     OperatingExpenseTotal();
+    //     OOETotal();
+    //     //ExpenseTotal();
+    //     totalEOC();
+    //     DandATotal();
+    //     NetSurplusTotal();
+    //     NetIncomeTotal();
+    //     CalculateVar42forNetSurplus();
         
         
-      });
-    });
+    //   });
+    // });
    
-    calculateLocalRevenueTotal();
-    calculateSPRTotal();
-    calculateFPRTotal();
-    calculaterow1Total();
-    calculateLSFTotals();
-    calculateYTD();
-    CalculateVariances1();
-    CalculateVariances2();
-    CalculateVar42();
-    SurplusDeficitTotal();
+    // // calculateLocalRevenueTotal();
+    // calculateSPRTotal();
+    // calculateFPRTotal();
+    // calculaterow1Total();
+    // calculateLSFTotals();
+    // calculateYTD();
+    // CalculateVariances1();
+    // CalculateVariances2();
+    // CalculateVar42();
+    // SurplusDeficitTotal();
    
    
-    PayrollCostTotal();
-    PCSTotal();
-    SMTotal();
-    OperatingExpenseTotal();
-    OOETotal();
-    //ExpenseTotal();
+    // PayrollCostTotal();
+    // PCSTotal();
+    // SMTotal();
+    // OperatingExpenseTotal();
+    // OOETotal();
+    // //ExpenseTotal();
  
-    CalculateVar42forSurplus();
+    // CalculateVar42forSurplus();
     
-    DandATotal();
-    NetSurplusTotal();
+    // DandATotal();
+    // NetSurplusTotal();
     
-    CalculateVariances3();
-    calculateYTD2();
-    CalculateVariances4();
-    totalEOC();
-    NetIncomeVariance();
-    CalculateVar42forNetSurplus();
-    CalculateDnAVar42();
+    // CalculateVariances3();
+    // calculateYTD2();
+    // CalculateVariances4();
+    // totalEOC();
+    // NetIncomeVariance();
+    // CalculateVar42forNetSurplus();
+    // CalculateDnAVar42();
   
 });

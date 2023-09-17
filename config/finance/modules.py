@@ -169,7 +169,7 @@ def profit_loss(school):
         # "last_month": formatted_last_month,
         # "last_month_number": last_month_number,
         # "format_ytd_budget": formatted_ytd_budget,
-        "ytd_budget": ytd_budget,
+        # "ytd_budget": ytd_budget,
     }
 
     BASE_DIR = os.getcwd()
@@ -217,8 +217,8 @@ def balance_sheet(school):
         # "last_month": formatted_last_month,
         # "last_month_number": last_month_number,
         # "last_month_name": last_month_name,
-        "format_ytd_budget": formatted_ytd_budget,
-        "ytd_budget": ytd_budget,
+        # "format_ytd_budget": formatted_ytd_budget,
+        # "ytd_budget": ytd_budget,
     }
 
     if formatted_ytd_budget.startswith("0."):
