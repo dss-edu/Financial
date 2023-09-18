@@ -91,7 +91,7 @@ db = {
 def update_db():
     # profit_loss("advantage")
     # balance_sheet("advantage")
-    # cashflow("cumberland")
+    # cashflow("advantage")
     for school, name in SCHOOLS.items():
         profit_loss(school) #should always be the first to update
         balance_sheet(school)
@@ -112,9 +112,7 @@ def profit_loss(school):
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
-    formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
+
     
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
@@ -378,19 +376,31 @@ def profit_loss(school):
         category = item["category"]
         ytd_total = 0
         
+        
 
 
          #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
-        item["total_budget"] = sum(
-            entry[est_key]
-            for entry in data3
-            if entry["fund"] == fund
-            and entry["obj"] == obj
-            and entry["Type"] == "GJ"                
-        )
+        if school == "village-tech":
+            
+            item["total_budget"] = sum(
+                entry[est_key]
+                for entry in data3
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                           
+            )
+        else:
+            item["total_budget"] = sum(
+                entry[est_key]
+                for entry in data3
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                and entry["Type"] == "GJ"                
+            )
+
         totals["total_ammended"] += item["total_budget"]
         item[f"ytd_budget"] = item["total_budget"] * ytd_budget
-       
+        
 
             
         if category == 'Local Revenue':
@@ -791,15 +801,12 @@ def profit_loss(school):
         ytd_total = float(row["ytd_total"])
        
         variances =float(row["variances"])
-        value_str = row["value"]
-        if value_str:
-            value = float(value_str.replace(",", ""))
+        total_budget = float(row["total_budget"])
+ 
+        if total_budget is None or total_budget == 0:
+            row["total_budget"] = ""
         else:
-            value = 0
-        if value is None or value == 0:
-            row["value"] = ""
-        else:
-            row["value"] = format_value(value) 
+            row["total_budget"] = format_value(total_budget) 
 
         if ytd_total is None or ytd_total == 0:
             row["ytd_total"] = ""
@@ -1594,12 +1601,12 @@ def balance_sheet(school):
         acct_per: total_SBD[acct_per] - total_DnA[acct_per]
         for acct_per in acct_per_values
     }
-    for acct_per, value in total_netsurplus.items():
-        print(f"Acct_Per: {acct_per}, Total_NetSurplus: {value}")
-    for acct_per, value in total_DnA.items():
-        print(f"Acct_Per: {acct_per}, total_DnA: {value}")
-    for acct_per, value in total_SBD.items():
-        print(f"Acct_Per: {acct_per}, total_SBD: {value}")
+    # for acct_per, value in total_netsurplus.items():
+    #     print(f"Acct_Per: {acct_per}, Total_NetSurplus: {value}")
+    # for acct_per, value in total_DnA.items():
+    #     print(f"Acct_Per: {acct_per}, total_DnA: {value}")
+    # for acct_per, value in total_SBD.items():
+    #     print(f"Acct_Per: {acct_per}, total_SBD: {value}")
     
     
     

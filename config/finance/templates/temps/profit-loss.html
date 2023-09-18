@@ -580,10 +580,10 @@
                 <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
                 <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
                 <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-                  {% if row.value == 0.0 %}
+                  {% if row.total_budget == 0.0 %}
                       <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}"> 
                   {% else %}
-                      <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}">{{ row.value }}
+                      <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.value }}">{{ row.total_budget }}
                   {% endif %}
                 </td>
            
@@ -660,10 +660,10 @@
             <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
             <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
             <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-            {% if row.value == 0.0 %}
+            {% if row.total_budget == 0.0 %}
                 <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}"> 
             {% else %}
-                <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.value }}
+                <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.total_budget }}
             {% endif %}
             </td>
     
@@ -736,10 +736,10 @@
           <td class=" collapsed" ><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}">{{row.fund}}</td>
           <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}">{{ row.obj }} - {{ row.description }}</td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false"  class="right-align-td">
-          {% if row.value == 0.0 %}
+          {% if row.total_budget == 0.0 %}
             <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}"> 
           {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.value }}
+            <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description"  value="{{ row.total_budget }}">{{ row.total_budget }}
           {% endif %}
           </td>
           
