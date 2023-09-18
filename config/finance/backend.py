@@ -89,13 +89,13 @@ db = {
 
 
 def update_db():
-    profit_loss("advantage")
+    # profit_loss("advantage")
     # balance_sheet("advantage")
     # cashflow("cumberland")
-    # for school, name in SCHOOLS.items():
-    #     profit_loss(school) #should always be the first to update
-    #     balance_sheet(school)
-    #     cashflow(school)
+    for school, name in SCHOOLS.items():
+        profit_loss(school) #should always be the first to update
+        balance_sheet(school)
+        cashflow(school)
 
 
 
@@ -385,7 +385,8 @@ def profit_loss(school):
             entry[est_key]
             for entry in data3
             if entry["fund"] == fund
-            and entry["obj"] == obj                
+            and entry["obj"] == obj
+            and entry["Type"] == "GJ"                
         )
         totals["total_ammended"] += item["total_budget"]
         item[f"ytd_budget"] = item["total_budget"] * ytd_budget
@@ -1593,6 +1594,15 @@ def balance_sheet(school):
         acct_per: total_SBD[acct_per] - total_DnA[acct_per]
         for acct_per in acct_per_values
     }
+    for acct_per, value in total_netsurplus.items():
+        print(f"Acct_Per: {acct_per}, Total_NetSurplus: {value}")
+    for acct_per, value in total_DnA.items():
+        print(f"Acct_Per: {acct_per}, total_DnA: {value}")
+    for acct_per, value in total_SBD.items():
+        print(f"Acct_Per: {acct_per}, total_SBD: {value}")
+    
+    
+    
 
     ytd_DnA = sum(total_DnA.values())
     ytd_netsurplus = sum(total_netsurplus.values())
