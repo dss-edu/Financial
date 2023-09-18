@@ -101,21 +101,7 @@ def update_db():
 
 def profit_loss(school):
 
-    current_date = datetime.today().date()
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_name = last_month.strftime("%B")
-    formatted_last_month = last_month.strftime('%B %d, %Y')
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
 
-    
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
     
     
     cnxn = connect()
@@ -319,6 +305,23 @@ def profit_loss(school):
         else:
             return ""
 
+    
+    current_date = datetime.today().date()
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime("%B")
+    formatted_last_month = last_month.strftime('%B %d, %Y')
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    )
+
+    
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+
 
 
 
@@ -347,6 +350,48 @@ def profit_loss(school):
         "11",
         "12",
     ]
+
+
+    for item in data:
+        fund = item["fund"]
+        obj = item["obj"]
+        
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            total_real = sum(
+                entry[real_key]
+                for entry in data3
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                and entry["AcctPer"] == acct_per
+            )
+            total_adjustment = sum(
+                    entry[real_key]
+                    for entry in adjustment
+                    if entry["fund"] == fund
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+            item[f"total_check{i}"] = total_real + total_adjustment
+
+
+    #checks if the last month column is empty. if empty. last month will be set to  last two months.
+    if all(item[f"total_check{last_month_number}"] == 0 for item in data):
+        last_2months = current_month - relativedelta(months=1)
+        last_2months = last_2months - relativedelta(days=1)
+        last_month_number = last_2months.month
+        last_month_name = last_2months.strftime("%B")
+        formatted_last_month = last_2months.strftime('%B %d, %Y')
+        last_month_number = last_2months.month
+        ytd_budget_test = last_month_number + 4
+        ytd_budget = ytd_budget_test / 12
+        formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+        )
+
+    
+        if formatted_ytd_budget.startswith("0."):
+            formatted_ytd_budget = formatted_ytd_budget[2:]
+
         
 
 
@@ -379,7 +424,7 @@ def profit_loss(school):
         
 
 
-         #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
+        #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
         if school == "village-tech":
             
             item["total_budget"] = sum(
@@ -451,6 +496,8 @@ def profit_loss(school):
         item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
 
         item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
+    
+
 
     
     ytd_total_revenue = abs(sum(total_revenue.values()))  
@@ -759,13 +806,7 @@ def profit_loss(school):
         for acct_per in acct_per_values
     }  
 
-    #checks if the last month column is empty. if empty. last month will be set to  last two months.
-    if all(item[f"total_real{last_month_number}"] == 0 for item in data):
-        last_2months = current_month - relativedelta(months=1)
-        last_2months = last_2months - relativedelta(days=1)
-        last_month_number = last_2months.month
-        last_month_name = last_2months.strftime("%B")
-        formatted_last_month = last_2months.strftime('%B %d, %Y')
+
 
 
 
@@ -1601,12 +1642,7 @@ def balance_sheet(school):
         acct_per: total_SBD[acct_per] - total_DnA[acct_per]
         for acct_per in acct_per_values
     }
-    for acct_per, value in total_SBD.items():
-        print(f"Acct_Per: {acct_per}, total_SBD: {value}")
-    for acct_per, value in total_DnA.items():
-        print(f"Acct_Per: {acct_per}, total_DnA: {value}")
-    for acct_per, value in total_netsurplus.items():
-        print(f"Acct_Per: {acct_per}, total_netsurplus: {value}")
+
 
     
     
