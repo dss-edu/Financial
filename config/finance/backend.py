@@ -89,13 +89,13 @@ db = {
 
 
 def update_db():
-    # profit_loss("advantage")
+    profit_loss("advantage")
     # balance_sheet("advantage")
     # cashflow("cumberland")
-    for school, name in SCHOOLS.items():
-        profit_loss(school) #should always be the first to update
-        balance_sheet(school)
-        cashflow(school)
+    # for school, name in SCHOOLS.items():
+    #     profit_loss(school) #should always be the first to update
+    #     balance_sheet(school)
+    #     cashflow(school)
 
 
 
@@ -376,33 +376,28 @@ def profit_loss(school):
         fund = item["fund"]
         obj = item["obj"]
         category = item["category"]
-        
-        value_str = item["value"]
-        if value_str:
-            value = float(value_str.replace(",", ""))
-        else:
-            value = 0.0
-        
         ytd_total = 0
+        
 
-         # PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
-        # item["total_budget"] = sum(
-        #     entry[est_key]
-        #     for entry in data3
-        #     if entry["fund"] == fund
-        #     and entry["obj"] == obj                
-        # )
-        totals["total_ammended"] += value
-        item[f"ytd_budget"] = value * ytd_budget
+
+         #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
+        item["total_budget"] = sum(
+            entry[est_key]
+            for entry in data3
+            if entry["fund"] == fund
+            and entry["obj"] == obj                
+        )
+        totals["total_ammended"] += item["total_budget"]
+        item[f"ytd_budget"] = item["total_budget"] * ytd_budget
        
 
             
         if category == 'Local Revenue':
-            totals["total_ammended_lr"] += value
+            totals["total_ammended_lr"] += item["total_budget"]
         elif category == 'State Program Revenue':
-            totals["total_ammended_spr"] += value
+            totals["total_ammended_spr"] += item["total_budget"]
         elif category == 'Federal Program Revenue':
-            totals["total_ammended_fpr"] += value
+            totals["total_ammended_fpr"] += item["total_budget"]
         
 
         for i, acct_per in enumerate(acct_per_values, start=1):
@@ -2117,10 +2112,14 @@ def balance_sheet(school):
         "bs_activity_list": bs_activity_list_sorted,
         "gl_obj": gl_obj_sorted,
         # "button_rendered": button_rendered,
+        
         "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "last_month_name": last_month_name,
-        "difference_key": difference_key,
+
+        ,
+        
+        #"difference_key": difference_key,
         # "format_ytd_budget": formatted_ytd_budget,
         # "ytd_budget": ytd_budget,
     }
