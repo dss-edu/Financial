@@ -1531,7 +1531,7 @@ def balance_sheet(school):
             #         last_month_name = last_2months.strftime("%B")
             #         formatted_last_month = last_2months.strftime('%B %d, %Y')
             
-            total_revenue[acct_per] += abs(item[f"total_real{i}"])
+            total_revenue[acct_per] += (item[f"total_real{i}"])
 
     if all(item[f"total_real{last_month_number}"] == 0 for item in data):
         last_2months = current_month - relativedelta(months=1)
@@ -1594,19 +1594,20 @@ def balance_sheet(school):
                 total_DnA[acct_per] += item[f"total_func2_{i}"]
 
     total_SBD = {
-        acct_per: total_revenue[acct_per] - total_surplus[acct_per]
+        acct_per: abs(total_revenue[acct_per]) - total_surplus[acct_per]
         for acct_per in acct_per_values
     }
     total_netsurplus = {
         acct_per: total_SBD[acct_per] - total_DnA[acct_per]
         for acct_per in acct_per_values
     }
-    # for acct_per, value in total_netsurplus.items():
-    #     print(f"Acct_Per: {acct_per}, Total_NetSurplus: {value}")
-    # for acct_per, value in total_DnA.items():
-    #     print(f"Acct_Per: {acct_per}, total_DnA: {value}")
-    # for acct_per, value in total_SBD.items():
-    #     print(f"Acct_Per: {acct_per}, total_SBD: {value}")
+    for acct_per, value in total_SBD.items():
+        print(f"Acct_Per: {acct_per}, total_SBD: {value}")
+    for acct_per, value in total_DnA.items():
+        print(f"Acct_Per: {acct_per}, total_DnA: {value}")
+    for acct_per, value in total_netsurplus.items():
+        print(f"Acct_Per: {acct_per}, total_netsurplus: {value}")
+
     
     
     
