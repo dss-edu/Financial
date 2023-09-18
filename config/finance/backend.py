@@ -2112,12 +2112,11 @@ def balance_sheet(school):
         "bs_activity_list": bs_activity_list_sorted,
         "gl_obj": gl_obj_sorted,
         # "button_rendered": button_rendered,
-        
+       
         "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "last_month_name": last_month_name,
 
-        ,
         
         #"difference_key": difference_key,
         # "format_ytd_budget": formatted_ytd_budget,
