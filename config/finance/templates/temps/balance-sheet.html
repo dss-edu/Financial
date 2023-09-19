@@ -1180,15 +1180,21 @@ function expandColumns() {
         <td class="firstcolumn"></td>
         <td></td>
         <td class="space-before-total "><strong>Total Current Assets</strong></td>
-        <script>
-          for (var i = 3; i <= 17; i++) {
-            if (i >= 4 && i <= 15) {
-              document.write(`<td id="current-assets-total-${i}" class="collapsed right-align-td top-border" ></td>`);
-            } else {
-              document.write(`<td id="current-assets-total-${i}" class="right-align-td top-border"></td>`);
-            }
-          }
-        </script>
+        <td id="current-assets-total-3" class="right-align-td top-border">{{totals_bs.total_current_assets_fye}}</td>
+        <td id="current-assets-total-4" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.09}}</td>
+        <td id="current-assets-total-5" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.10}}</td>
+        <td id="current-assets-total-6" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.11}}</td>
+        <td id="current-assets-total-7" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.12}}</td>
+        <td id="current-assets-total-8" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.01}}</td>
+        <td id="current-assets-total-9" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.02}}</td>
+        <td id="current-assets-total-10" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.03}}</td>
+        <td id="current-assets-total-11" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.04}}</td>
+        <td id="current-assets-total-12" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.05}}</td>
+        <td id="current-assets-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.06}}</td>
+        <td id="current-assets-total-14" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.07}}</td>
+        <td id="current-assets-total-15" class="collapsed right-align-td top-border" ></td>
+        <td id="current-assets-total-16" class="right-align-td top-border" ></td>
+        <td id="current-assets-total-17" class="right-align-td top-border" >{{totals_bs.total_current_assets.07}}</td>        
     </tr>
 
     
@@ -1585,30 +1591,43 @@ function expandColumns() {
             <td class="firstcolumn"> </td>
             <td></td>
             <td class="space-before-total"><strong>Total Capital Assets</strong></td>
-            <script>
-              for (var i = 3; i <= 17; i++) {
-                if (i >= 4 && i <= 15) {
-                  document.write(`<td id="capital-assets-total-${i}" class="collapsed right-align-td top-border" ></td>`);
-                } else {
-                  document.write(`<td id="capital-assets-total-${i}" class="right-align-td top-border"></td>`);
-                }
-              }
-            </script>
+            <td id="capital-assets-total-3" class="right-align-td top-border">{{totals_bs.total_capital_assets_fye}}</td>
+            <td id="capital-assets-total-4" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.09}}</td>
+            <td id="capital-assets-total-5" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.10}}</td>
+            <td id="capital-assets-total-6" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.11}}</td>
+            <td id="capital-assets-total-7" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.12}}</td>
+            <td id="capital-assets-total-8" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.01}}</td>
+            <td id="capital-assets-total-9" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.02}}</td>
+            <td id="capital-assets-total-10" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.03}}</td>
+            <td id="capital-assets-total-11" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.04}}</td>
+            <td id="capital-assets-total-12" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.05}}</td>
+            <td id="capital-assets-total-13" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.06}}</td>
+            <td id="capital-assets-total-14" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.07}}</td>
+            <td id="capital-assets-total-15" class="collapsed right-align-td top-border"></td>
+            <td id="capital-assets-total-16" class="right-align-td top-border"></td>
+            <td id="capital-assets-total-17" class="right-align-td top-border">{{totals_bs.total_capital_assets.07}}</td>
         </tr>
 
         <tr id="total-assets-total-row" class="ttl-lr-row">
           <td class="firstcolumn"></td>
           <td></td>
           <td ><strong>Total Assets</strong></td>
-          <script>
-            for (var i = 3; i <= 17; i++) {
-              if (i >= 4 && i <= 15) {
-                document.write(`<td id="total-assets-total-${i}" class="collapsed right-align-td" ></td>`);
-              } else {
-                document.write(`<td id="total-assets-total-${i}" class="right-align-td"></td>`);
-              }
-            }
-          </script>
+          <td id="total-assets-total-3" class="right-align-td">{{totals_bs.total_assets_fye}}</td>
+          <td id="total-assets-total-4" class="collapsed right-align-td"  >{{totals_bs.total_assets.09}}</td>
+          <td id="total-assets-total-5" class="collapsed right-align-td"  >{{totals_bs.total_assets.10}}</td>
+          <td id="total-assets-total-6" class="collapsed right-align-td"  >{{totals_bs.total_assets.11}}</td>
+          <td id="total-assets-total-7" class="collapsed right-align-td"  >{{totals_bs.total_assets.12}}</td>
+          <td id="total-assets-total-8" class="collapsed right-align-td"  >{{totals_bs.total_assets.01}}</td>
+          <td id="total-assets-total-9" class="collapsed right-align-td"  >{{totals_bs.total_assets.02}}</td>
+          <td id="total-assets-total-10" class="collapsed right-align-td" >{{totals_bs.total_assets.03}}</td>
+          <td id="total-assets-total-11" class="collapsed right-align-td" >{{totals_bs.total_assets.04}}</td>
+          <td id="total-assets-total-12" class="collapsed right-align-td" >{{totals_bs.total_assets.05}}</td>
+          <td id="total-assets-total-13" class="collapsed right-align-td" >{{totals_bs.total_assets.06}}</td>
+          <td id="total-assets-total-14" class="collapsed right-align-td" >{{totals_bs.total_assets.07}}</td>
+          <td id="total-assets-total-15" class="collapsed right-align-td" ></td>
+          <td id="total-assets-total-16" class="right-align-td"></td>
+          <td id="total-assets-total-17" class="right-align-td">{{totals_bs.total_assets.07}}</td>
+       
       </tr>
 
       <tr id="ttl-row" class="ttl-lr-row">
@@ -2142,15 +2161,22 @@ function expandColumns() {
     <td class="firstcolumn"></td>
      <td></td>
      <td class="space-before-total"><strong>Total Current Liabilities</strong></td>
-     <script>
-    for (var i = 3; i <= 17; i++) {
-      if (i >= 4 && i <= 15) {
-        document.write(`<td id="current-liabilities-total-${i}" class="collapsed right-align-td top-border" ></td>`);
-      } else {
-        document.write(`<td id="current-liabilities-total-${i}" class="right-align-td top-border"></td>`);
-      }
-    }
-  </script>
+     <td id="current-liabilities-total-3" class="right-align-td top-border">{{totals_bs.total_current_liabilities_fye}}</td>
+     <td id="current-liabilities-total-4" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.09}}</td>
+     <td id="current-liabilities-total-5" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.10}}</td>
+     <td id="current-liabilities-total-6" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.11}}</td>
+     <td id="current-liabilities-total-7" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.12}}</td>
+     <td id="current-liabilities-total-8" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.01}}</td>
+     <td id="current-liabilities-total-9" class="collapsed right-align-td top-border"  >{{totals_bs.total_current_liabilities.02}}</td>
+     <td id="current-liabilities-total-10" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.03}}</td>
+     <td id="current-liabilities-total-11" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.04}}</td>
+     <td id="current-liabilities-total-12" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.05}}</td>
+     <td id="current-liabilities-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.06}}</td>
+     <td id="current-liabilities-total-14" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.07}}</td>
+     <td id="current-liabilities-total-15" class="collapsed right-align-td top-border" ></td>
+     <td id="current-liabilities-total-16" class="right-align-td top-border"></td>
+     <td id="current-liabilities-total-17" class="right-align-td top-border">{{totals_bs.total_current_liabilities.07}}</td>
+     
 </tr>
 
 
@@ -2293,15 +2319,24 @@ function expandColumns() {
         <td class="firstcolumn"></td>
         <td></td>
         <td ><strong>Total Liabilities</strong></td>
-        <script>
-          for (var i = 3; i <= 17; i++) {
-            if (i >= 4 && i <= 15) {
-              document.write(`<td id="total-liabilities-total-${i}" class="collapsed right-align-td" ></td>`);
-            } else {
-              document.write(`<td id="total-liabilities-total-${i}" class="right-align-td"></td>`);
-            }
-          }
-        </script>
+        <td id="total-liabilities-total-3" class="right-align-td">{{totals_bs.total_liabilities_fye}}</td>
+        <td id="total-liabilities-total-4" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.09}}</td>
+        <td id="total-liabilities-total-5" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.10}}</td>
+        <td id="total-liabilities-total-6" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.11}}</td>
+        <td id="total-liabilities-total-7" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.12}}</td>
+        <td id="total-liabilities-total-8" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.01}}</td>
+        <td id="total-liabilities-total-9" class="collapsed right-align-td"  >{{totals_bs.total_liabilities.02}}</td>
+        <td id="total-liabilities-total-10" class="collapsed right-align-td" >{{totals_bs.total_liabilities.03}}</td>
+        <td id="total-liabilities-total-11" class="collapsed right-align-td" >{{totals_bs.total_liabilities.04}}</td>
+        <td id="total-liabilities-total-12" class="collapsed right-align-td" >{{totals_bs.total_liabilities.05}}</td>
+        <td id="total-liabilities-total-13" class="collapsed right-align-td" >{{totals_bs.total_liabilities.06}}</td>
+        <td id="total-liabilities-total-14" class="collapsed right-align-td" >{{totals_bs.total_liabilities.07}}</td>
+        <td id="total-liabilities-total-15" class="collapsed right-align-td" ></td>
+        <td id="total-liabilities-total-16" class="right-align-td"></td>
+        <td id="total-liabilities-total-17" class="right-align-td">{{totals_bs.total_liabilities.07}}</td>
+
+
+       
       </tr>
 
     {% for row in data_balancesheet %}
@@ -2392,15 +2427,24 @@ function expandColumns() {
           <td></td>
           <td></td>
           <td class="space-before-total"><strong>Total Liabilities and Net Assets</strong></td>
-          <script>
-            for (var i = 3; i <= 17; i++) {
-              if (i >= 4 && i <= 15) {
-                document.write(`<td id="liabilitiesandnet-total-${i}" class="collapsed right-align-td top-border" ></td>`);
-              } else {
-                document.write(`<td id="liabilitiesandnet-total-${i}" class="right-align-td top-border"></td>`);
-              }
-            }
-          </script>
+          <td id="liabilitiesandnet-total-3" class="right-align-td top-border">{{totals_bs.total_LNA_fye}}</td>
+          <td id="liabilitiesandnet-total-4" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.09}}</td>
+          <td id="liabilitiesandnet-total-5" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.10}}</td>
+          <td id="liabilitiesandnet-total-6" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.11}}</td>
+          <td id="liabilitiesandnet-total-7" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.12}}</td>
+          <td id="liabilitiesandnet-total-8" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.01}}</td>
+          <td id="liabilitiesandnet-total-9" class="collapsed right-align-td top-border"  >{{totals_bs.total_LNA.02}}</td>
+          <td id="liabilitiesandnet-total-10" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.03}}</td>
+          <td id="liabilitiesandnet-total-11" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.04}}</td>
+          <td id="liabilitiesandnet-total-12" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.05}}</td>
+          <td id="liabilitiesandnet-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.06}}</td>
+          <td id="liabilitiesandnet-total-14" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.07}}</td>
+          <td id="liabilitiesandnet-total-15" class="collapsed right-align-td top-border" ></td>
+          <td id="liabilitiesandnet-total-16" class="right-align-td top-border"></td>
+          <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>
+
+
+          
       </tr>
           
 </tbody>

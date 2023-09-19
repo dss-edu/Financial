@@ -1031,31 +1031,31 @@ function hideRowsOnLoad() {
   window.addEventListener('DOMContentLoaded', () => {
     hideRowsOnLoad();
   
-      const editableCells = document.querySelectorAll('.current-assets-row td[contenteditable]');
+      // const editableCells = document.querySelectorAll('.current-assets-row td[contenteditable]');
       
-      editableCells.forEach(cell => {
-        cell.addEventListener('input', () => {
-          calculateCurrentAssets();
-          calculateCapitalAssets();
-          calculateTotalAssets();
-          calculateCurrentLiabilities();
-          calculateTotalLiabilities();
-          calculateTotalLiabilitiesAndNetAssets();
+      // editableCells.forEach(cell => {
+      //   cell.addEventListener('input', () => {
+      //     calculateCurrentAssets();
+      //     calculateCapitalAssets();
+      //     calculateTotalAssets();
+      //     calculateCurrentLiabilities();
+      //     calculateTotalLiabilities();
+      //     calculateTotalLiabilitiesAndNetAssets();
           calculateFYTD();
           
         
           
           
-        });
-      });
+      //   });
+      // });
       
       
-      calculateCurrentAssets();
-      calculateCapitalAssets();
-      calculateTotalAssets();
-      calculateCurrentLiabilities();
-      calculateTotalLiabilities();
-      calculateTotalLiabilitiesAndNetAssets();
+      // calculateCurrentAssets();
+      // calculateCapitalAssets();
+      // calculateTotalAssets();
+      // calculateCurrentLiabilities();
+      // calculateTotalLiabilities();
+      // calculateTotalLiabilitiesAndNetAssets();
       calculateFYTD();
       
   });
