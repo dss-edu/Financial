@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         "red-circle": "R",
     };
     StatusChecker();
+    commaSeparator();
 
     function StatusChecker() {
         test("indicator", criteriaPassFail);
@@ -133,5 +134,33 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         p.classList.toggle(status);
         p.textContent = circles[status];
+    }
+
+    function commaSeparator() {
+        // ytd_income
+        const netIncomeYTD = $("#net-income-ytd").text().trim();
+        // net_earnings
+        const netEarnings = $("#net-earnings-td").text().trim();
+        // initialize comma separated variables
+        let commaYTD, commaEarnings;
+        commaYTD = numFormatter(netIncomeYTD);
+        commaEarnings = numFormatter(netEarnings);
+        $("#net-income-ytd").text(commaYTD);
+        $("#net-earnings-td").text(commaEarnings);
+
+        function numFormatter(str) {
+            const matchNumber = str.match(/\d+/);
+            let commaStr;
+            if (matchNumber) {
+                const number = parseInt(matchNumber[0], 10); // Convert the extracted string to a number
+                const formattedNumber = number.toLocaleString(); // Add commas
+                if (str.includes("(")) {
+                    commaStr = `$(${formattedNumber})`; // Format the result
+                } else {
+                    commaStr = `$${formattedNumber}`; // Format the result
+                }
+            }
+            return commaStr;
+        }
     }
 });
