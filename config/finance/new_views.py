@@ -255,4 +255,69 @@ def add_adjustments(request):
 
         cursor.close()
         cnxn.close()
-    return redirect(f"/manual-adjustments/{school}")
+    # return redirect(f"/manual-adjustments/{school}")
+    return HttpResponse(status=200)
+
+
+def delete_adjustments(request):
+    if request.method == "POST":
+        rows = json.loads(request.POST.get("adjustments"))
+        school = request.POST.get("school")
+        floats = ["est", "acct-real", "appr", "expend", "bal"]
+
+        for row in rows:
+            for key, val in row.items():
+                if key in floats:
+                    row[key] = float(val)
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        # columns = "fund, func, obj, org, fscl_yr, pgm, edSpan, projDtl, AcctDescr, Number, Date, AcctPer, Real, Expend, Bal, WorkDescr, Type, School"
+        columns = [
+            "fund",
+            "func",
+            "obj",
+            "org",
+            "fscl_yr",
+            "pgm",
+            "edSpan",
+            "projDtl",
+            "AcctDescr",
+            "Number",
+            "Date",
+            "AcctPer",
+            "Real",
+            "Expend",
+            "Bal",
+            "WorkDescr",
+            "Type",
+            "School",
+        ]
+
+        delete_query = f"DELETE FROM [dbo].[Adjustment] WHERE { ' AND '.join([col + ' = ?' for col in columns]) };"
+
+        for row in rows:
+            if row["Date"] == "None":
+                temp_delete_query = delete_query.replace("Date = ?", "Date IS NULL")
+                del row["Date"]
+
+                cursor.execute(temp_delete_query, tuple(row.values()))
+                cnxn.commit()
+                continue
+
+            input_string = row["Date"]
+            input_format = "%m-%d-%Y"
+            datetime_obj = datetime.strptime(input_string, input_format)
+            row["Date"] = datetime_obj
+
+            cursor.execute(delete_query, tuple(row.values()))
+            cnxn.commit()
+
+        cursor.close()
+        cnxn.close()
+    return HttpResponse(status=200)
+
+
+def update_adjustments(request):
+    pass

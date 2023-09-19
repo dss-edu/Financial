@@ -18,7 +18,6 @@ urlpatterns = [
     path("updatedb/", views.updatedb, name="updatedb"),
     path("insert_row/", views.insert_row, name="insert-row"),
     path("update_row/<str:school>", views.update_row, name="update_row"),
- 
     path("delete/<str:fund>/<str:obj>/", views.delete, name="delete"),
     path("insert_bs_advantage/", views.insert_bs_advantage, name="insert_bs_advantage"),
     path(
@@ -74,4 +73,10 @@ urlpatterns = [
     path("general-ledger/<str:school>", new_views.general_ledger),
     path("manual-adjustments/<str:school>", new_views.manual_adjustments),
     path("add-adjustments/", new_views.add_adjustments, name="add_adjustments"),
+    path(
+        "update-adjustments/", new_views.update_adjustments, name="update_adjustments"
+    ),
+    path(
+        "delete-adjustments/", new_views.delete_adjustments, name="delete_adjustments"
+    ),
 ]
