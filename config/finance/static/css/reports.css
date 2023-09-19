@@ -90,7 +90,8 @@
 }
 
 .logo {
-  height: 6rem;
+  width: 100px;
+  height: 100px;
 }
 
 #bottom-legend span {
