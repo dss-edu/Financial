@@ -1761,17 +1761,18 @@ def balance_sheet(school):
         if subcategory == 'Current Assets':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_current_assets[acct_per] += row[f"difference_{i}"]
-                total_current_assets_fytd += row["fytd"]
+            total_current_assets_fytd += row["fytd"]
+            print(row["fytd"])
             total_current_assets_fye +=  fye
         if subcategory == 'Capital Assets, Net':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_capital_assets[acct_per] += row[f"difference_{i}"]
-                total_capital_assets_fytd += row["fytd"]
+            total_capital_assets_fytd += row["fytd"]
             total_capital_assets_fye +=  fye
         if subcategory == 'Current Liabilities':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_current_liabilities[acct_per] += row[f"debt_{i}"]
-                total_current_liabilities_fytd += row["debt_fytd"]
+            total_current_liabilities_fytd += row["debt_fytd"]
             total_current_liabilities_fye +=  fye
 
     
@@ -1782,7 +1783,7 @@ def balance_sheet(school):
         if subcategory == 'Long Term Debt':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
-                total_liabilities_fytd += row["debt_fytd"]
+            total_liabilities_fytd += row["debt_fytd"]
             total_liabilities_fye +=  + total_current_liabilities_fye + fye
     
     for row in data_balancesheet:
