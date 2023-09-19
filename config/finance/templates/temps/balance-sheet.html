@@ -1625,7 +1625,7 @@ function expandColumns() {
           <td id="total-assets-total-13" class="collapsed right-align-td" >{{totals_bs.total_assets.06}}</td>
           <td id="total-assets-total-14" class="collapsed right-align-td" >{{totals_bs.total_assets.07}}</td>
           <td id="total-assets-total-15" class="collapsed right-align-td" ></td>
-          <td id="total-assets-total-16" class="right-align-td"></td>
+          <td id="total-assets-total-16" class="right-align-td">{{totals_bs.total_assets_fye_fytd}}</td>
           <td id="total-assets-total-17" class="right-align-td">{{totals_bs.total_assets.07}}</td>
        
       </tr>
@@ -2354,7 +2354,7 @@ function expandColumns() {
               <td><strong>Net Assets<strong></td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-                {{row.FYE}}
+                {{row.FYE}}{{totals.ytd_netsurplus}}
               
               </td>
               <td class="collapsed right-align-td">{{row.net_assets9}}</td>
@@ -2370,51 +2370,51 @@ function expandColumns() {
               <td class="collapsed right-align-td">{{row.net_assets7}}</td>
               {% if last_month_number == 1 %}
               <td class="collapsed right-align-td"></td>
-                <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+                <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
                 <td class="right-align-td">{{ row.net_assets1 }}</td>
               {% elif last_month_number == 2 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets2 }}</td>
               {% elif last_month_number == 3 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets3 }}</td>
               {% elif last_month_number == 4 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets4 }}</td>
               {% elif last_month_number == 5 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets5 }}</td>
               {% elif last_month_number == 6 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets6 }}</td>
               {% elif last_month_number == 7 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets7 }}</td>
               {% elif last_month_number == 8 %}
               <td class="collapsed right-align-td">{{ row.net_assets8 }}</td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets8 }}</td>
               {% elif last_month_number == 9 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets9 }}</td>
               {% elif last_month_number == 10 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets10 }}</td>
               {% elif last_month_number == 11 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets11 }}</td>
               {% elif last_month_number == 12 %}
               <td class="collapsed right-align-td"></td>
-              <td class="right-align-td">{{row.ytd_netsurplus}}</td>
+              <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
               <td class="right-align-td">{{ row.net_assets12 }}</td>
               {% endif %}
             </tr>
@@ -2440,7 +2440,7 @@ function expandColumns() {
           <td id="liabilitiesandnet-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.06}}</td>
           <td id="liabilitiesandnet-total-14" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.07}}</td>
           <td id="liabilitiesandnet-total-15" class="collapsed right-align-td top-border" ></td>
-          <td id="liabilitiesandnet-total-16" class="right-align-td top-border"></td>
+          <td id="liabilitiesandnet-total-16" class="right-align-td top-border">{{totals_bs.total_LNA_fytd}}</td>
           <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>
 
 

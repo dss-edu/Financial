@@ -1425,6 +1425,9 @@ def balance_sheet(school):
     #         }
     #         data3.append(row_dict)
 
+    with open(os.path.join(json_path, "totals.json"), "r") as f:
+        totals = json.load(f)
+
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
     rows = cursor.fetchall()
 
@@ -1747,11 +1750,17 @@ def balance_sheet(school):
 
     total_assets = {acct_per: 0 for acct_per in acct_per_values}
     total_assets_fye = 0
+    total_assets_fye_fytd = 0
+    
 
     total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
     total_LNA_fye = 0
+    total_LNA_fytd = 0
+
 
     
+    total_net_assets_fytd = 0
+    total_net_assets_fytd = totals["ytd_netsurplus"]    #assign the value coming from profitloss totals
     
 
     for row in data_balancesheet:
@@ -1762,7 +1771,7 @@ def balance_sheet(school):
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_current_assets[acct_per] += row[f"difference_{i}"]
             total_current_assets_fytd += row["fytd"]
-            print(row["fytd"])
+            
             total_current_assets_fye +=  fye
         if subcategory == 'Capital Assets, Net':
             for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -1791,7 +1800,7 @@ def balance_sheet(school):
         if  row["Category"] == "Net Assets":
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
-
+            
             total_LNA_fye += total_liabilities_fye + fye
 
     
@@ -1801,6 +1810,13 @@ def balance_sheet(school):
 
     }
     total_assets_fye = total_current_assets_fye + total_capital_assets_fye
+    total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
+
+    net = float(total_net_assets_fytd.replace("$", "").replace(",", "").replace("(", "-").replace(")", "")) if total_net_assets_fytd else 0
+    total_LNA_fytd = net + total_liabilities_fytd
+    print(total_LNA_fytd)
+
+    
 
 
     total_current_assets_fye = format_value(total_current_assets_fye)
@@ -1814,6 +1830,8 @@ def balance_sheet(school):
     total_capital_assets_fytd = format_value(total_capital_assets_fytd)
     total_current_liabilities_fytd = format_value(total_current_liabilities_fytd)
     total_liabilities_fytd = format_value(total_liabilities_fytd)
+    total_assets_fye_fytd = format_value(total_assets_fye_fytd)
+    total_LNA_fytd = format_value(total_LNA_fytd)
 
     total_current_assets = {acct_per: format_value(value) for acct_per, value in total_current_assets.items() if value != 0}
     total_capital_assets = {acct_per: format_value(value) for acct_per, value in total_capital_assets.items() if value != 0}
@@ -1991,6 +2009,9 @@ def balance_sheet(school):
             "total_capital_assets_fytd":total_capital_assets_fytd,
             "total_current_liabilities_fytd":total_current_liabilities_fytd,
             "total_liabilities_fytd":total_liabilities_fytd,
+            "total_assets_fye_fytd":total_assets_fye_fytd,
+            "total_net_assets_fytd":total_net_assets_fytd,
+            "total_LNA_fytd":total_LNA_fytd,
 
 
 
