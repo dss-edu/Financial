@@ -91,13 +91,13 @@ db = {
 
 
 def update_db():
-    # profit_loss("advantage")
-    # balance_sheet("advantage")
+    profit_loss("advantage")
+    balance_sheet("advantage")
     # cashflow("advantage")
-    for school, name in SCHOOLS.items():
-        profit_loss(school) #should always be the first to update
-        balance_sheet(school)
-        cashflow(school)
+    # for school, name in SCHOOLS.items():
+    #     profit_loss(school) #should always be the first to update
+    #     balance_sheet(school)
+    #     cashflow(school)
 
 
 
@@ -1496,6 +1496,7 @@ def balance_sheet(school):
                 for entry in adjustment
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
+
             item[f"total_bal{i}"] = total_data3 + total_adjustment
             
 
@@ -1729,21 +1730,28 @@ def balance_sheet(school):
 
     total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
     total_current_assets_fye = 0
+    total_current_assets_fytd = 0 
+    
 
     total_capital_assets = {acct_per: 0 for acct_per in acct_per_values}
     total_capital_assets_fye = 0
+    total_capital_assets_fytd = 0 
 
     total_current_liabilities = {acct_per: 0 for acct_per in acct_per_values}
     total_current_liabilities_fye = 0
+    total_current_liabilities_fytd = 0
 
     total_liabilities = {acct_per: 0 for acct_per in acct_per_values}
     total_liabilities_fye = 0
+    total_liabilities_fytd = 0
 
     total_assets = {acct_per: 0 for acct_per in acct_per_values}
     total_assets_fye = 0
 
     total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
     total_LNA_fye = 0
+
+    
     
 
     for row in data_balancesheet:
@@ -1753,14 +1761,17 @@ def balance_sheet(school):
         if subcategory == 'Current Assets':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_current_assets[acct_per] += row[f"difference_{i}"]
+                total_current_assets_fytd += row["fytd"]
             total_current_assets_fye +=  fye
         if subcategory == 'Capital Assets, Net':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_capital_assets[acct_per] += row[f"difference_{i}"]
+                total_capital_assets_fytd += row["fytd"]
             total_capital_assets_fye +=  fye
         if subcategory == 'Current Liabilities':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_current_liabilities[acct_per] += row[f"debt_{i}"]
+                total_current_liabilities_fytd += row["debt_fytd"]
             total_current_liabilities_fye +=  fye
 
     
@@ -1771,7 +1782,7 @@ def balance_sheet(school):
         if subcategory == 'Long Term Debt':
             for i, acct_per in enumerate(acct_per_values,start = 1):
                 total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
-
+                total_liabilities_fytd += row["debt_fytd"]
             total_liabilities_fye +=  + total_current_liabilities_fye + fye
     
     for row in data_balancesheet:
@@ -1798,6 +1809,10 @@ def balance_sheet(school):
     total_assets_fye = format_value_dollars(total_assets_fye)
     total_LNA_fye = format_value_dollars(total_LNA_fye)
 
+    total_current_assets_fytd = format_value(total_current_assets_fytd)
+    total_capital_assets_fytd = format_value(total_capital_assets_fytd)
+    total_current_liabilities_fytd = format_value(total_current_liabilities_fytd)
+    total_liabilities_fytd = format_value(total_liabilities_fytd)
 
     total_current_assets = {acct_per: format_value(value) for acct_per, value in total_current_assets.items() if value != 0}
     total_capital_assets = {acct_per: format_value(value) for acct_per, value in total_capital_assets.items() if value != 0}
@@ -1971,6 +1986,11 @@ def balance_sheet(school):
             "total_assets_fye":total_assets_fye,
             "total_LNA_fye":total_LNA_fye,
             "total_LNA":total_LNA,
+            "total_current_assets_fytd":total_current_assets_fytd,
+            "total_capital_assets_fytd":total_capital_assets_fytd,
+            "total_current_liabilities_fytd":total_current_liabilities_fytd,
+            "total_liabilities_fytd":total_liabilities_fytd,
+
 
 
         }
