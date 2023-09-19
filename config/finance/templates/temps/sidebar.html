@@ -1,8 +1,7 @@
-<ul class="sidebar navbar-nav ">
-        <span>
-            &nbsp;
-            &nbsp;
-        </span>
+<nav id="sidebarMenu" class="sidebar navbar-nav">
+    <!-- <ul class="sidebar navbar-nav "> -->
+    <ul class="sidebar navbar-nav">
+        <span> &nbsp; &nbsp; </span>
         <form>
             <div class="mx-3">
                 <select class="w-100" name="" id="school-select">
@@ -16,92 +15,91 @@
                 </select>
             </div>
         </form>
-        <span>
-            &nbsp;
-            &nbsp;
-        </span>
+        <span> &nbsp; &nbsp; </span>
         <li class="nav-item active">
-            <a id="dashboard-link" class="nav-link" href="/dashboard/{{ school }}" data-placement="right" >
+            <a id="dashboard-link" class="nav-link" href="/dashboard/{{ school }}" data-placement="right">
                 <!-- <div class="d-flex flex-row align-items-center justify-content-center"> -->
                 <!--     <div class="col-1"> -->
-                        <i class="fa-solid fa-house"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col sb-label"> -->
-                        <span class="text-center"style="color: white">Dashboard</span>
+                <i class="fa-solid fa-house"></i>
+                <!-- </div> -->
+                <!-- <div class="col sb-label"> -->
+                <span class="text-center" style="color: white">Dashboard</span>
                 <!--     </div> -->
                 <!-- </div> -->
             </a>
         </li>
 
         <span>
-            <hr style="background-color:gray;width:80%;margin:auto;height:2px;">
+            <hr style="background-color: gray; width: 80%; margin: auto; height: 2px" />
         </span>
 
-
         <li class="nav-item">
-            <a class="nav-link" href="/charter-first/{{ school }}"  data-toggle="tooltip" data-placement="right" title="Charter FIRST">
+            <a class="nav-link" href="/charter-first/{{ school }}" data-toggle="tooltip" data-placement="right"
+                title="Charter FIRST">
                 <!-- <div class="row"> -->
                 <!--     <div class="col-1"> -->
-                        <i class="fa-solid fa-trophy"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col"> -->
-                        <span style="color: white">Charter FIRST</span>
+                <i class="fa-solid fa-trophy"></i>
+                <!-- </div> -->
+                <!-- <div class="col"> -->
+                <span style="color: white">Charter FIRST</span>
                 <!--     </div> -->
                 <!-- </div> -->
             </a>
         </li>
 
-
         <li class="nav-item">
-            <a id="PL-link" class="nav-link" href="/profit-loss/{{ school }}" data-toggle="tooltip" data-placement="right" title="Profit and Loss">
+            <a id="PL-link" class="nav-link" href="/profit-loss/{{ school }}" data-toggle="tooltip"
+                data-placement="right" title="Profit and Loss">
                 <!-- <div class="row"> -->
                 <!--     <div class="col-1"> -->
-                        <i class="fas fa-sack-dollar"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col"> -->
-                        <span style="color: white">Profit and Loss</span>
+                <i class="fas fa-sack-dollar"></i>
+                <!-- </div> -->
+                <!-- <div class="col"> -->
+                <span style="color: white">Profit and Loss</span>
                 <!--     </div> -->
                 <!-- </div> -->
             </a>
         </li>
 
-
         <li class="nav-item">
-            <a class="nav-link" href="/balance-sheet/{{ school }}" data-toggle="tooltip" data-placement="right" title="Balance Sheet">
+            <a class="nav-link" href="/balance-sheet/{{ school }}" data-toggle="tooltip" data-placement="right"
+                title="Balance Sheet">
                 <!-- <div class="row"> -->
                 <!--     <div class="col-1"> -->
-                        <i class="fa-solid fa-scale-balanced"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col"> -->
-                        <span style="color: white">Balance Sheet</span>
-                <!--     </div> -->
+                <i class="fa-solid fa-scale-balanced"></i>
                 <!-- </div> -->
-
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="/cashflow-statement/{{ school }}" data-toggle="tooltip" data-placement="right" title="Cash Flow Statement">
-                <!-- <div class="row"> -->
-                <!--     <div class="col-1"> -->
-                            <i class="fa-solid fa-hand-holding-dollar"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col"> -->
-                        <span style="color: white">Cash Flow Statement</span>
+                <!-- <div class="col"> -->
+                <span style="color: white">Balance Sheet</span>
                 <!--     </div> -->
                 <!-- </div> -->
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" href="/general-ledger/{{ school }}"  data-toggle="tooltip" data-placement="right" title="General Ledger">
+            <a class="nav-link" href="/cashflow-statement/{{ school }}" data-toggle="tooltip" data-placement="right"
+                title="Cash Flow Statement">
                 <!-- <div class="row"> -->
                 <!--     <div class="col-1"> -->
-                        <i class="fa-solid fa-file-invoice-dollar"></i>
-                    <!-- </div> -->
-                    <!-- <div class="col"> -->
-                        <span style="color: white">General Ledger</span>
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+                <!-- </div> -->
+                <!-- <div class="col"> -->
+                <span style="color: white">Cash Flow Statement</span>
+                <!--     </div> -->
+                <!-- </div> -->
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/general-ledger/{{ school }}" data-toggle="tooltip" data-placement="right"
+                title="General Ledger">
+                <!-- <div class="row"> -->
+                <!--     <div class="col-1"> -->
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <!-- </div> -->
+                <!-- <div class="col"> -->
+                <span style="color: white">General Ledger</span>
                 <!--     </div> -->
                 <!-- </div> -->
             </a>
         </li>
     </ul>
+</nav>

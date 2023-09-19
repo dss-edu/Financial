@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
         "red-circle": "R",
     };
     StatusChecker();
+    commaSeparator();
 
     function StatusChecker() {
         test("days-coh", cohCriteria);
@@ -100,41 +101,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-    // document
-    //     .getElementById("financial-form")
-    //     .addEventListener("submit", function(event) {
-    //         event.preventDefault();
-    //         const csrfToken = $("#financial-form")
-    //             .find('input[name="csrfmiddlewaretoken"]')
-    //             .val();
-    //         const school = this.dataset.school;
-    //         const noteElements = document.querySelectorAll("td[name='notes']");
-    //         function getNotes(noteElements) {
-    //             const notes = [];
-    //             noteElements.forEach((note) => {
-    //                 notes.push(note.textContent);
-    //             });
-    //             return notes;
-    //         }
-    //         const notes = getNotes(noteElements);
-    //         const formData = {
-    //             csrfmiddlewaretoken: csrfToken,
-    //             notesList: notes,
-    //         };
-    //
-    //         fetch("/dashboard/notes/" + school, {
-    //             method: "POST",
-    //             body: formData,
-    //         })
-    //             .then((response) => response.json())
-    //             .then((data) => {
-    //                 console.log(data); // Handle the response from the server
-    //             })
-    //             .catch((error) => {
-    //                 console.error(error); // Handle errors
-    //             });
-    //     });
-    // edit saveBtn
     saveBtn.addEventListener("click", function(event) {
         const csrfToken = $("input[name='csrfmiddlewaretoken']").val();
         const school = this.dataset.school;
@@ -181,8 +147,31 @@ document.addEventListener("DOMContentLoaded", function() {
         resetEditNotes();
     });
 
-    function getCookie(name) {
-        let cookie = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
-        return cookie ? cookie[2] : null;
+    function commaSeparator() {
+        // ytd_income
+        const netIncomeYTD = $("#ytd td:eq(1) p:eq(0)").text().trim();
+        // net_earnings
+        const netEarnings = $("#ytd td:eq(1) p:eq(1)").text().trim();
+        // initialize comma separated variables
+        let commaYTD, commaEarnings;
+        commaYTD = numFormatter(netIncomeYTD);
+        commaEarnings = numFormatter(netEarnings);
+        $("#ytd td:eq(1) p:eq(0)").text(commaYTD);
+        $("#ytd td:eq(1) p:eq(1)").text(commaEarnings);
+
+        function numFormatter(str) {
+            const matchNumber = str.match(/\d+/);
+            let commaStr;
+            if (matchNumber) {
+                const number = parseInt(matchNumber[0], 10); // Convert the extracted string to a number
+                const formattedNumber = number.toLocaleString(); // Add commas
+                if (str.includes("(")) {
+                    commaStr = `$(${formattedNumber})`; // Format the result
+                } else {
+                    commaStr = `$${formattedNumber}`; // Format the result
+                }
+            }
+            return commaStr;
+        }
     }
 });
