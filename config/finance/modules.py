@@ -416,8 +416,6 @@ def manual_adjustments(school):
         "Number": [],
         # "Date": date_str,""
         "AcctPer": [
-            "10",
-            "11",
             "00",
             "01",
             "02",
@@ -428,6 +426,9 @@ def manual_adjustments(school):
             "07",
             "08",
             "09",
+            "10",
+            "11",
+            "12",
         ],
         # "Est": row[13],
         # "Real": row[14],
