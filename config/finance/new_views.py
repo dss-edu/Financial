@@ -249,7 +249,7 @@ def add_adjustments(request):
         cnxn = connect()
         cursor = cnxn.cursor()
 
-        insert_query = f"INSERT INTO [dbo].[Adjustment] (fund, func, obj, org, fscl_yr, pgm, edSpan, projDtl, AcctDescr, Number, Date, AcctPer, Est, Real, Appr, Expend, Bal, WorkDescr, Type, School) VALUES ({','.join(['?' for i in range(len(request.POST.keys())-1)])})"
+        insert_query = f"INSERT INTO [dbo].[Adjustment] (fund, func, obj, org, fscl_yr, pgm, edSpan, projDtl, AcctDescr, Number, Date, AcctPer, Real, Expend, Bal, WorkDescr, Type, School) VALUES ({','.join(['?' for i in range(len(request.POST.keys())-1)])})"
         cursor.execute(insert_query, tuple(values))
         cnxn.commit()
 
