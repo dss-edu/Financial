@@ -372,6 +372,7 @@ def profit_loss(school):
                     if entry["fund"] == fund
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
+                    and entry["School"] == school
                 )
             item[f"total_check{i}"] = total_real + total_adjustment
 
@@ -550,11 +551,11 @@ def profit_loss(school):
                     if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
                 )
                 total_adjustment = 0
-                # sum(
-                #     entry[expend_key]
-                #     for entry in adjustment
-                #     if entry["func"] == func and entry["AcctPer"] == acct_per
-                # )
+                sum(
+                    entry[expend_key]
+                    for entry in adjustment
+                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
+                )
                 item[f"total_func{i}"] = total_func + total_adjustment
                 first_total_months[acct_per] += item[f"total_func{i}"]
 
@@ -1543,6 +1544,7 @@ def balance_sheet(school):
                     if entry["fund"] == fund
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
+                    and entry["School"] == school
                 )
             item[f"total_real{i}"] = total_real + total_adjustment
             # if i == last_month_number and (item[f"total_real{i}"] == 0):
@@ -1573,14 +1575,14 @@ def balance_sheet(school):
                 total_func = sum(
                     entry[expend_key]
                     for entry in data3
-                    if entry["func"] == func and entry["AcctPer"] == acct_per
+                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
                 )
                 total_adjustment = 0
-                # sum(
-                #     entry[expend_key]
-                #     for entry in adjustment
-                #     if entry["func"] == func and entry["AcctPer"] == acct_per
-                # )
+                sum(
+                    entry[expend_key]
+                    for entry in adjustment
+                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
+                )
                 item[f"total_func{i}"] = total_func + total_adjustment
                 total_surplus[acct_per] += item[f"total_func{i}"]
 
@@ -1610,6 +1612,9 @@ def balance_sheet(school):
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
+                    and entry["School"] == school
+                    
+
                 )
                 item[f"total_func2_{i}"] = total_func + total_adjustment
                 total_DnA[acct_per] += item[f"total_func2_{i}"]
@@ -1622,6 +1627,7 @@ def balance_sheet(school):
         acct_per: total_SBD[acct_per] - total_DnA[acct_per]
         for acct_per in acct_per_values
     }
+  
 
 
     
