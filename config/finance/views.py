@@ -31,6 +31,7 @@ from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
 from .backend import update_db
 from openpyxl.drawing.image import Image
+from . import modules
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -1194,47 +1195,58 @@ def logoutView(request):
 
 def update_row(request,school):
     if request.method == 'POST':
-        print(request.POST)
+        
         try:
             cnxn = connect()
             cursor = cnxn.cursor()
-            updatefye = request.POST.getlist('updatefye[]')  
-            print(updatefye)
+            updatefyes = request.POST.getlist('updatefye[]')  
+            updateids = request.POST.getlist('updateID[]') 
+         
+            
+             
+            
             
 
             
             
 
-            # updatedata_list = []
+            updatedata_list = []
 
-            # for updatefund,updatevalue,updateobj in zip(updatefunds, updatevalues,updateobjs):
-            #     if updatefund.strip() and updatevalue.strip() :
-            #         updatedata_list.append({
-            #             'updatefund': updatefund,
-            #             'updateobj':updateobj,
+            
+            for updatefye,updateid in zip(updatefyes, updateids):
+                if updatefye.strip() and updateid.strip() :
+                    updatefye = float(updatefye.replace(",", "").replace("(", "-").replace(")", ""))
+                    updatedata_list.append({
+                       
+                        'updatefye': updatefye,
+                        'updateid':updateid,
                         
-            #             'updatevalue': updatevalue,
                         
-            #         })
-            # for data in updatedata_list:
-            #     updatefund= data['updatefund']
-            #     updateobj=data['updateobj']
+                      
+                        
+                    })
+            for data in updatedata_list:
                 
-            #     updatevalue = data['updatevalue']
+                updatefye= data['updatefye']
+                updateid=data['updateid']
+               
+                
+          
 
-            #     try:
-            #         query = "UPDATE [dbo].[AscenderData_Advantage_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
-            #         cursor.execute(query, (updatevalue, updatefund,updateobj))
-            #         cnxn.commit()
-            #         print(f"Rows affected for fund={updatefund}: {cursor.rowcount}")
-            #     except Exception as e:
-            #         print(f"Error updating fund={updatefund}: {str(e)}")
+                try:
+                    query = "UPDATE [dbo].[Balancesheet_FYE] SET FYE = ? WHERE BS_id = ? and school = ? "
+                    cursor.execute(query, (updatefye, updateid,school))
+                    cnxn.commit()
+                   
+                except Exception as e:
+                    print(f"Error updating bs_id={updateid}: {str(e)}")
             
             
             cursor.close()
             cnxn.close()
-
-            return redirect('dashboard/advantage')
+            
+            context = modules.balance_sheet(school)
+            return render(request, "temps/balance-sheet.html", context)
 
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})

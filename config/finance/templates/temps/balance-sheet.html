@@ -309,8 +309,31 @@ function expandColumns() {
         var valueCells = document.querySelectorAll("[id^='value-cell-']");
         valueCells.forEach(function(cell) {
             cell.contentEditable = "true";
+            
         });
 
+
+      
+          var editableTds = document.querySelectorAll('td[contenteditable="true"]');
+          editableTds.forEach(function (td) {
+              td.addEventListener('input', function() {
+                    var rowId = td.getAttribute('data-row-id');  
+                    var newValue = td.textContent.replace(/[\r\n\s]+/g, '');             
+                    if (!newValue) {
+                      newValue = '';
+                  }
+                    console.log("Row ID:", rowId);
+                    console.log("New Value:", newValue);
+                 
+                    document.querySelector('#hidden-fye-' + rowId).value = newValue;
+                    
+                    console.log("Hidden input value:", document.querySelector('#hidden-fye-' + rowId).value);
+  
+    
+                  
+              });
+          });
+ 
 
         
     });
@@ -482,18 +505,16 @@ function expandColumns() {
             
             <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td class="firstcolumn">
-               
                 <button id="row4" class="expand-button"  type="button" onclick="toggleRow(4)" >+</button>
               </td>
               <td>
-                <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-                <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
               </td>
               <td class="space-before">{{row.Description}}</td>
-              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }}">
-                {{row.FYE}}
-              
+              <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+                
+                <div >{{row.FYE}}</div>
               </td>
               <td class="collapsed right-align-td">{{row.difference_9}} </td>
               <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -620,14 +641,13 @@ function expandColumns() {
         <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" >+</button>
       </td>
       <td >
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -743,14 +763,13 @@ function expandColumns() {
         <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)">+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -865,14 +884,13 @@ function expandColumns() {
         <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" >+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+  
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -988,14 +1006,13 @@ function expandColumns() {
         <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" >+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -1110,14 +1127,13 @@ function expandColumns() {
         <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" >+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -1281,14 +1297,13 @@ function expandColumns() {
                 <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" >+</button>
               </td>
               <td>
-                <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-                <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
               </td>
               <td class="space-before">{{row.Description}}</td>
-              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-                {{row.FYE}}
-              
+              <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+ 
+                <div>{{row.FYE}}</div>
               </td>
               <td class="collapsed right-align-td">{{row.difference_9}}</td>
               <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -1405,14 +1420,13 @@ function expandColumns() {
         <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}} </td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -1528,14 +1542,13 @@ function expandColumns() {
         <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
       </td>
       <td>
-        <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-        <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+        <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+        <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
       </td>
       <td class="space-before">{{row.Description}}</td>
-      <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-        <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-        {{row.FYE}}
-      
+      <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+   
+        <div>{{row.FYE}}</div>
       </td>
       <td class="collapsed right-align-td">{{row.difference_9}}</td>
       <td class="collapsed right-align-td">{{row.difference_10}}</td>
@@ -1673,9 +1686,9 @@ function expandColumns() {
       <script>
         for (var i = 3; i <= 17; i++) {
           if (i >= 4 && i <= 15) {
-            document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            document.write(`<td  class="collapsed" ></td>`);
           } else {
-            document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            document.write(`<td  ></td>`);
           }
         }
       </script>
@@ -1726,14 +1739,13 @@ function expandColumns() {
                 <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)">+</button>
               </td>
               <td>
-                <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-                <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
               </td>
               <td class="space-before">{{row.Description}} </td>
-              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-                {{row.FYE}}
-              
+              <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+                <div>{{row.FYE}}</div>
               </td>
               <td class="collapsed right-align-td">{{row.debt_9}}</td>
               <td class="collapsed right-align-td">{{row.debt_10}}</td>
@@ -1853,14 +1865,13 @@ function expandColumns() {
               <button id="row14" class="expand-button"  type="button" onclick="toggleRow(14)" >+</button>
             </td>
             <td>
-              <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-              <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+              <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+              <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
             </td>
             <td class="space-before">{{row.Description}} </td>
-            <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-              <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value=" {{row.BS_id}}">
-              {{row.FYE}}
-            
+            <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+ 
+              <div>{{row.FYE}}</div>
             </td>
             <td class="collapsed right-align-td">{{row.debt_9}}</td>
             <td class="collapsed right-align-td">{{row.debt_10}}</td>
@@ -1976,14 +1987,13 @@ function expandColumns() {
             <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" >+</button>
           </td>
           <td>
-            <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-            <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+            <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+            <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
           </td>
           <td class="space-before">{{row.Description}}</td>
-          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-            {{row.FYE}}
-          
+          <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+  
+            <div>{{row.FYE}}</div>
           </td>
           <td class="collapsed right-align-td">{{row.debt_9}}</td>
           <td class="collapsed right-align-td">{{row.debt_10}}</td>
@@ -2106,14 +2116,13 @@ function expandColumns() {
 
           </td>
           <td>
-            <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-            <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+            <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+            <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
           </td>
           <td class="space-before">{{row.Description}}</td>
-          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-            {{row.FYE}}
-          
+          <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+         
+            <div>{{row.FYE}}</div>
           </td>
           <td class="collapsed right-align-td">{{row.debt_9}}</td>
           <td class="collapsed right-align-td">{{row.debt_10}}</td>
@@ -2266,14 +2275,13 @@ function expandColumns() {
                 <button id="row17" class="expand-button"  type="button" onclick="toggleRow(17)" >+</button>
               </td>
               <td>
-                <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-                <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
               </td>
               <td class="space-before">{{row.Description}}</td>
-              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-                {{row.FYE}}
-              
+              <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+    
+                <div>{{row.FYE}}</div>
               </td>
               <td class="collapsed right-align-td">{{row.debt_9}}</td>
               <td class="collapsed right-align-td">{{row.debt_10}}</td>
@@ -2377,15 +2385,14 @@ function expandColumns() {
              
               </td>
               <td>
-                <input type="hidden" class="form-control" name="updatesub[]"  value="{{row.Subcategory}}">
-                <input type="hidden" class="form-control" name="updatedesc[]"  value="{{row.Description}}">
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
               </td>
               <td><strong>Net Assets<strong></td>
-              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                <input type="hidden" class="form-control" id="updatefye-{{ forloop.counter }}" name="updatefye[]" placeholder="Description"  value="{{ row.FYE }} + {{row.BS_id}}">
-                {{row.FYE}}
-              
-              </td>
+                <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+            
+                  <div>{{row.FYE}}</div>
+                </td>
               <td class="collapsed right-align-td">{{row.net_assets9}}</td>
               <td class="collapsed right-align-td">{{row.net_assets10}}</td>
               <td class="collapsed right-align-td">{{row.net_assets11}}</td>
@@ -2482,7 +2489,9 @@ function expandColumns() {
 </form>
 </div>
 
+<script>
 
+</script>
 
 <script>
   var last_month = "{{last_month}}";
