@@ -473,6 +473,7 @@ def profit_loss(school):
                     if entry["fund"] == fund
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
+                    and entry["School"] == school
                 )
             item[f"total_real{i}"] = total_real + total_adjustment          
             total_revenue[acct_per] += (item[f"total_real{i}"])
@@ -550,11 +551,10 @@ def profit_loss(school):
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
                 )
-                total_adjustment = 0
-                sum(
+                total_adjustment = sum(
                     entry[expend_key]
                     for entry in adjustment
-                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
+                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
                 )
                 item[f"total_func{i}"] = total_func + total_adjustment
                 first_total_months[acct_per] += item[f"total_func{i}"]
@@ -597,6 +597,7 @@ def profit_loss(school):
                     if entry["func"] == func
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
+                    and entry["School"] == school
                 )
                
                 item[f"total_func2_{i}"] = total_func + total_adjustment
@@ -694,7 +695,7 @@ def profit_loss(school):
             total_adjustment = sum(
                 entry[expense_key]
                 for entry in adjustment
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                if entry["obj"] == obj and entry["AcctPer"] == acct_per and entry["School"] == school
             )
             item[f"total_activities{i}"] = total_activities + total_adjustment
 
@@ -1500,7 +1501,7 @@ def balance_sheet(school):
             total_adjustment = sum(
                 entry[bal_key]
                 for entry in adjustment
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                if entry["obj"] == obj and entry["AcctPer"] == acct_per and entry["School"] == school
             )
 
             item[f"total_bal{i}"] = total_data3 + total_adjustment
@@ -1579,8 +1580,7 @@ def balance_sheet(school):
                     for entry in data3
                     if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
                 )
-                total_adjustment = 0
-                sum(
+                total_adjustment = sum(
                     entry[expend_key]
                     for entry in adjustment
                     if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
