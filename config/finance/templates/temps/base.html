@@ -16,18 +16,37 @@
     <!-- Custom fonts for this template-->
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" /> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet">
+        <!-- <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet"> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css"> -->
 
     <!-- Add jQuery (required by DataTables) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <!-- Add the DataTables JS file -->
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css"> -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+        <!-- this stylesheet causes the tables to look weird-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
+        <!-- datatables select row-->
+        <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+
+        <!-- datatables buttons -->
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
     <!-- Add the Bootstrap JS file (required by DataTables with Bootstrap 4) -->
-        <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+        <!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script> -->
 
     <!-- Page level plugin CSS-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -119,90 +138,90 @@
             </div> <!-- end of div wrapper -->
 
             <!-- Need to edit this again this is just a bandaid solution -->
-            <div class="flex-grow-1" style="overflow-x:auto;">
-                <div
+            <div class="flex-grow-1">
+                <div>
                     {% block body %}{% endblock %}
-                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="modal" id="page-load-spinner" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-                <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
-                    <div class="modal-content  p-0 w-auto h-auto">
-                        <div class="modal-body text-center">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">loading...</span>
-                            </div>
+        <div class="modal" id="page-load-spinner" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+                <div class="modal-content  p-0 w-auto h-auto">
+                    <div class="modal-body text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">loading...</span>
                         </div>
                     </div>
                 </div>
-            </div> <!-- end of spinner modal -->
+            </div>
+        </div> <!-- end of spinner modal -->
 
 
 <!-- /#wrapper -->
 
 <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fas fa-angle-up"></i>
-            </a>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
 <!-- Logout Modal-->
-            <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="/logout">Logout</a>
-                        </div>
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/logout">Logout</a>
                     </div>
                 </div>
             </div>
+        </div>
 
-            {% block content %}
-            {% endblock %}
+        {% block content %}
+        {% endblock %}
 
-            <script>
-                $(document).ready(function(){
-                    $('[data-toggle="tooltip"]').tooltip();
-                });
-            </script>
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
 
 <!-- Add the Bootstrap bundle, which includes both Bootstrap's JavaScript and Popper.js -->
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <!-- loading.js -->
-            <script src="{% static 'js/loading.js' %}"></script>
+        <script src="{% static 'js/loading.js' %}"></script>
 
 <!-- Custom scripts for all pages-->
-            <script src="{% static 'js/sb-admin.min.js' %}"></script>
-            <script>
-                $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
-                    $(".alert-success").slideUp(500);
-                });
-                $(".alert-error").fadeTo(2000, 500).slideUp(500, function(){
-                    $(".alert-error").slideUp(500);
-                });
-            </script>
+        <script src="{% static 'js/sb-admin.min.js' %}"></script>
+        <script>
+            $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-success").slideUp(500);
+            });
+            $(".alert-error").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-error").slideUp(500);
+            });
+        </script>
 <!-- for pdf-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- for xls-->
-            <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.1/dist/xlsx.full.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.1/dist/xlsx.full.min.js"></script>
 
 <!-- page-loading -->
-            <script src="{% static 'js/loading.js' %}"></script>
+        <script src="{% static 'js/loading.js' %}"></script>
 
 <!-- for searching other schools-->
-            <script src="{% static 'js/search.js' %}"></script>
-            {% block javascript %}
-            {% endblock %}
-        </body>
-    </html>
+        <script src="{% static 'js/search.js' %}"></script>
+        {% block javascript %}
+        {% endblock %}
+    </body>
+</html>
