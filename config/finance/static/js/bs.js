@@ -1041,7 +1041,7 @@ function hideRowsOnLoad() {
       //     calculateCurrentLiabilities();
       //     calculateTotalLiabilities();
       //     calculateTotalLiabilitiesAndNetAssets();
-          calculateFYTD();
+          // calculateFYTD();
           
         
           
@@ -1056,7 +1056,7 @@ function hideRowsOnLoad() {
       // calculateCurrentLiabilities();
       // calculateTotalLiabilities();
       // calculateTotalLiabilitiesAndNetAssets();
-      calculateFYTD();
+      // calculateFYTD();
       
   });
 
