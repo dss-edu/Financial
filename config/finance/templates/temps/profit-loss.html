@@ -1449,7 +1449,53 @@
         <td id="netincome-total-18" class="right-align-td top-border">{{totals.variances_net_income}}</td>
         <td id="netincome-total-19" class="right-align-td">{{totals.var_net_income}}</td>
       </tr>
+      <script>
 
+        document.addEventListener("DOMContentLoaded", function (){
+          var missingColumns = []; 
+          var today = new Date();
+          var currentMonthIndex = today.getMonth();
+          console.log(currentMonthIndex);
+      
+          var monthNames = [
+            "September", "October", "November", "December",
+            "January", "February", "March", "April",
+            "May", "June", "July", "August"
+          ];
+      
+          
+          for (var i = 6 + currentMonthIndex; i <= 17; i++) { 
+              var columnCells = document.querySelectorAll(".local-revenue-row td:nth-child(" + i + "), .spr-row td:nth-child(" + i + "), .fpr-row td:nth-child(" + i + ")");
+        
+              var allEmpty = true;
+        
+              columnCells.forEach(function(cell) {
+                  if (cell.innerText.trim()) {
+                      allEmpty = false;
+                  }
+              });
+        
+              if (allEmpty) {
+                missingColumns.push(monthNames[i-6 ]);
+              }
+          }
+        
+          if (missingColumns.length > 0) {
+              var missingColumnsText = missingColumns.join(", ");
+              var missingDataMessage = "The following columns have no data: " + missingColumnsText;
+              document.getElementById("missingDataMessage").textContent = missingDataMessage;
+              $('#missingDataModal').modal('show');
+          }
+        });
+      </script>
+      
+      
+      <script>
+        function formatNumberWithCommas(number) {
+          return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+      
+      </script>
       {% endif %} 
 
 
@@ -2426,53 +2472,7 @@
   </div>
 </div>
 
-<script>
 
-  document.addEventListener("DOMContentLoaded", function (){
-    var missingColumns = []; 
-    var today = new Date();
-    var currentMonthIndex = today.getMonth();
-    console.log(currentMonthIndex);
-
-    var monthNames = [
-      "September", "October", "November", "December",
-      "January", "February", "March", "April",
-      "May", "June", "July", "August"
-    ];
-
-    
-    for (var i = 6 + currentMonthIndex; i <= 17; i++) { 
-        var columnCells = document.querySelectorAll(".local-revenue-row td:nth-child(" + i + "), .spr-row td:nth-child(" + i + "), .fpr-row td:nth-child(" + i + ")");
-  
-        var allEmpty = true;
-  
-        columnCells.forEach(function(cell) {
-            if (cell.innerText.trim()) {
-                allEmpty = false;
-            }
-        });
-  
-        if (allEmpty) {
-          missingColumns.push(monthNames[i-6 ]);
-        }
-    }
-  
-    if (missingColumns.length > 0) {
-        var missingColumnsText = missingColumns.join(", ");
-        var missingDataMessage = "The following columns have no data: " + missingColumnsText;
-        document.getElementById("missingDataMessage").textContent = missingDataMessage;
-        $('#missingDataModal').modal('show');
-    }
-  });
-</script>
-
-
-<script>
-  function formatNumberWithCommas(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-</script>
 
 
 <script>

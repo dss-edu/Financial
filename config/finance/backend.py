@@ -318,8 +318,15 @@ def profit_loss(school):
     last_month_name = last_month.strftime("%B")
     formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
-    ytd_budget = ytd_budget_test / 12
+    if school == 'manara' or school == 'prepschool':
+            ytd_budget_test = last_month_number - 6             
+    else:
+        if last_month_number >= 9:
+
+            ytd_budget_test = last_month_number - 8
+        else:
+            ytd_budget_test = last_month_number + 4
+        ytd_budget = abs(ytd_budget_test) / 12
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
@@ -389,7 +396,7 @@ def profit_loss(school):
         date_str = item["Date"]
         if date_str:
             if school == 'manara' or school == 'prepschool':
-                print(school)
+               
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 if date_obj > july_date: # if date is higher than july 1 this year
                   FY_year_1 = current_year
@@ -412,8 +419,16 @@ def profit_loss(school):
         last_month_name = last_2months.strftime("%B")
         formatted_last_month = last_2months.strftime('%B %d, %Y')
         last_month_number = last_2months.month
-        ytd_budget_test = last_month_number + 4
-        ytd_budget = ytd_budget_test / 12
+        if school == 'manara' or school == 'prepschool':
+                ytd_budget_test = last_month_number - 6             
+        else:
+            if last_month_number >= 9:
+
+                ytd_budget_test = last_month_number - 8
+            else:
+                ytd_budget_test = last_month_number + 4
+        ytd_budget = abs(ytd_budget_test) / 12
+        
         formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
         )
