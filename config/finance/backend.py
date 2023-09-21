@@ -309,6 +309,10 @@ def profit_loss(school):
 
     
     current_date = datetime.today().date()
+    
+    current_year = current_date.year
+    next_year = current_date.year + 1
+    last_year = current_date.year - 1
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
     last_month_name = last_month.strftime("%B")
@@ -375,6 +379,29 @@ def profit_loss(school):
                     and entry["School"] == school
                 )
             item[f"total_check{i}"] = total_real + total_adjustment
+
+
+    july_date  = datetime(current_year, 7, 1).date()
+    september_date  = datetime(current_year, 9, 1).date()
+    FY_year_1 = last_year
+    FY_year_2 = current_year
+    for item in data3:
+        date_str = item["Date"]
+        if date_str:
+            if school == 'manara' or school == 'prepschool':
+                print(school)
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+                if date_obj > july_date: # if date is higher than july 1 this year
+                  FY_year_1 = current_year
+                  FY_year_2 = next_year
+            else:
+                date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+                if date_obj > september_date: # if date is higher than july 1 this year
+                  FY_year_1 = current_year
+                  FY_year_2 = next_year
+                
+           
+            
 
 
     #checks if the last month column is empty. if empty. last month will be set to  last two months.
@@ -1160,7 +1187,10 @@ def profit_loss(school):
             "last_month_number": last_month_number,
             "last_month_name": last_month_name,
             "format_ytd_budget": formatted_ytd_budget,
-            "ytd_budget": ytd_budget
+            "ytd_budget": ytd_budget,
+            "FY_year_1":FY_year_1,
+            "FY_year_2":FY_year_2,
+
             },
         "totals":{
             #FOR REVENUES
@@ -1815,7 +1845,7 @@ def balance_sheet(school):
 
                 total_LNA_fye += total_liabilities_fye + fye
 
-    print(school)
+ 
     total_assets = {
         acct_per: total_current_assets[acct_per] + total_capital_assets[acct_per]
         for acct_per in acct_per_values
@@ -1826,7 +1856,7 @@ def balance_sheet(school):
 
     net = float(total_net_assets_fytd.replace("$", "").replace(",", "").replace("(", "-").replace(")", "")) if total_net_assets_fytd else 0
     total_LNA_fytd = net + total_liabilities_fytd
-    print(total_LNA_fytd)
+   
 
     
 
