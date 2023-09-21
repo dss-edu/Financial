@@ -526,7 +526,7 @@
 
               }
               else if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); " >+</button></th>`);
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
               }
               else if(i>=6 && i<=16){
                 document.write(`<td  class="collapsed"></td>`);
@@ -540,7 +540,29 @@
         </tr>
 
         {% if  school != 'manara' and school != 'prepschool' %}
- 
+        <script>
+          var last_month_number = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
+           // Add 11 to it
+           console.log(last_month_number)
+           if (last_month_number >= 9) {
+            last_month_number -= 3;
+            
+        } 
+        else {
+            last_month_number +=10;
+            
+        }
+          
+          function hide17thColumn() {
+            for (var i = last_month_number; i <= 17; i++) {
+              var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+          
+              for (var j = 0; j < columnsToHide.length; j++) {
+                  columnsToHide[j].style.display = "none";
+              }
+          }
+        }
+        </script> 
         <tr class="header">
           <th class="firstcolumn" ></th>
           <th class="collapsed" ></th>
@@ -1455,7 +1477,7 @@
           var missingColumns = []; 
           var today = new Date();
           var currentMonthIndex = today.getMonth();
-          console.log(currentMonthIndex);
+          
       
           var monthNames = [
             "September", "October", "November", "December",
@@ -1496,13 +1518,32 @@
       }
       
       </script>
-      {% endif %} 
+      {% else %} 
 
 
 
 
       <!-- START OF MANARA OR PREPPP-->
+      <script>
+        var last_month_number = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
+         // Add 11 to it
+         console.log(last_month_number)
+         if (last_month_number <= 6) {
+          last_month_number += 12;
+          
+      } 
 
+        
+        function hide17thColumn() {
+          for (var i = last_month_number; i <= 17; i++) {
+            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+        
+            for (var j = 0; j < columnsToHide.length; j++) {
+                columnsToHide[j].style.display = "none";
+            }
+        }
+      }
+      </script> 
 
 
       <tr class="header">
@@ -2439,6 +2480,8 @@
       <td id="netincome-total-18" class="right-align-td top-border">{{totals.variances_net_income}}</td>
       <td id="netincome-total-19" class="right-align-td">{{totals.var_net_income}}</td>
     </tr>
+
+    {%endif%}
 
 
      

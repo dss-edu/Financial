@@ -322,12 +322,11 @@ function expandColumns() {
                     if (!newValue) {
                       newValue = '';
                   }
-                    console.log("Row ID:", rowId);
-                    console.log("New Value:", newValue);
+                   
                  
                     document.querySelector('#hidden-fye-' + rowId).value = newValue;
                     
-                    console.log("Hidden input value:", document.querySelector('#hidden-fye-' + rowId).value);
+                
   
     
                   
@@ -363,7 +362,7 @@ function expandColumns() {
   {% csrf_token %}
     <table id="data-table" class="table table-hover">
         <thead>
-          <tr>
+           <tr>
             <th class="firstcolumn"></th>
             <th></th>
            
@@ -374,7 +373,7 @@ function expandColumns() {
             </th>
            
             
-        </tr>
+        </tr> 
         <tr>
           <script>
             for (var i = 0; i <= 17; i++){
@@ -383,7 +382,7 @@ function expandColumns() {
                 
               }
               else if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns();  " >+</button></th>`);
+                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn(); " >+</button></th>`);
               }
               else if(i>=3 && i<=15){
                 document.write(`<td  class="collapsed"></td>`);
@@ -396,19 +395,32 @@ function expandColumns() {
           </script>
         </tr>
 
-        <script>
-          function hide17thColumn() {
-            var columnsToHide = document.querySelectorAll("th:nth-child(16), td:nth-child(16)");
-        
-            for (var i = 0; i < columnsToHide.length; i++) {
-                columnsToHide[i].style.display = "none";
-            }
-        }
-        </script> 
+
     </thead>
     <tbody id="data-table-body">
 
       {% if  school != 'manara' and school != 'prepschool' %}
+
+      <script>
+        var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
+         // Add 11 to it
+        if (last_month_number >= 9) {
+          last_month_number -= 3;
+      } 
+      else {
+          last_month_number += 9;
+      }
+        console.log(last_month_number)
+        function hide17thColumn() {
+          for (var i = last_month_number; i <= 16; i++) {
+            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+        
+            for (var j = 0; j < columnsToHide.length; j++) {
+                columnsToHide[j].style.display = "none";
+            }
+        }
+      }
+      </script> 
         <tr class="header">
             <th class="firstcolumn"></th>
             <th></th>
@@ -2483,11 +2495,30 @@ function expandColumns() {
           <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>         
       </tr>
 
-      {%endif%}
+      {%else%}
           
 
       <!-- START OF MANARA AND PREPSCHOOL-->
-
+      <script>
+        var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
+         // Add 11 to it
+        if (last_month_number <= 6 ) {
+          last_month_number += 10
+      } 
+      else {
+          last_month_number -= 1;
+      }
+        
+        function hide17thColumn() {
+          for (var i = last_month_number; i <= 16; i++) {
+            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+        
+            for (var j = 0; j < columnsToHide.length; j++) {
+                columnsToHide[j].style.display = "none";
+            }
+        }
+      }
+      </script> 
       <tr class="header">
         <th class="firstcolumn"></th>
         <th></th>
@@ -4466,6 +4497,7 @@ function expandColumns() {
       <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>         
   </tr>
   
+  {%endif%}
 </tbody>
 </table>
 </form>
@@ -4482,8 +4514,7 @@ function expandColumns() {
     var missingColumns = []; 
     var today = new Date();
     var currentMonthIndex = today.getMonth();
-    console.log(currentMonthIndex);
-    console.log(last_month)
+
 
     var monthNames = [
       "September", "October", "November", "December",
@@ -4525,7 +4556,7 @@ function expandColumns() {
 {% block javascript %}
 <script>
   var school = "{{ school }}"; 
-  console.log(school);
+  
 </script>
 <script src="{% static 'js/bs2.js' %}"></script>
 <script src="{% static 'js/bs.js' %}"></script>
