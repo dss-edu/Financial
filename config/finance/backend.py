@@ -326,7 +326,7 @@ def profit_loss(school):
             ytd_budget_test = last_month_number - 8
         else:
             ytd_budget_test = last_month_number + 4
-        ytd_budget = abs(ytd_budget_test) / 12
+    ytd_budget = abs(ytd_budget_test) / 12
     formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
     )
@@ -1477,6 +1477,9 @@ def balance_sheet(school):
     with open(os.path.join(json_path, "totals.json"), "r") as f:
         totals = json.load(f)
 
+    with open(os.path.join(json_path, "months.json"), "r") as f:
+        months = json.load(f)
+
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
     rows = cursor.fetchall()
 
@@ -1740,49 +1743,97 @@ def balance_sheet(school):
             total_sum7_value = float(row["total_sum7"])
             total_sum8_value = float(row["total_sum8"])
 
+            if school != 'manara' or school != 'prepschool':
+                # Calculate the differences and store them in the row dictionary
+                row["difference_9"] = (FYE_value + total_sum9_value)
+                row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                row["difference_7"] = (row["difference_6"] + total_sum7_value )
+                row["difference_8"] = (row["difference_7"] + total_sum8_value )
 
-            # Calculate the differences and store them in the row dictionary
-            row["difference_9"] = (FYE_value + total_sum9_value)
-            row["difference_10"] =(row["difference_9"] + total_sum10_value)
-            row["difference_11"] =(row["difference_10"] + total_sum11_value)
-            row["difference_12"] =(row["difference_11"]  + total_sum12_value )
-            row["difference_1"] = (row["difference_12"] + total_sum1_value )
-            row["difference_2"] = (row["difference_1"] + total_sum2_value )
-            row["difference_3"] = (row["difference_2"] + total_sum3_value )
-            row["difference_4"] = (row["difference_3"] + total_sum4_value )
-            row["difference_5"] = (row["difference_4"] + total_sum5_value )
-            row["difference_6"] = (row["difference_5"] + total_sum6_value )
-            row["difference_7"] = (row["difference_6"] + total_sum7_value )
-            row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
 
-            row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
+                row["debt_9"]  = (FYE_value - total_sum9_value)
+                row["debt_10"] = (row["debt_9"] - total_sum10_value)
+                row["debt_11"] = (row["debt_10"] - total_sum11_value)
+                row["debt_12"] = (row["debt_11"] - total_sum12_value)
+                row["debt_1"] = (row["debt_12"] - total_sum1_value)
+                row["debt_2"] = (row["debt_1"] - total_sum2_value)
+                row["debt_3"] = (row["debt_2"] - total_sum3_value)
+                row["debt_4"] = (row["debt_3"]- total_sum4_value)
+                row["debt_5"] = (row["debt_4"]  - total_sum5_value )
+                row["debt_6"] = (row["debt_5"]- total_sum6_value)
+                row["debt_7"] = (row["debt_6"] - total_sum7_value)
+                row["debt_8"] = (row["debt_7"] - total_sum8_value)
+                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
-            row["debt_9"]  = (FYE_value - total_sum9_value)
-            row["debt_10"] = (row["debt_9"] - total_sum10_value)
-            row["debt_11"] = (row["debt_10"] - total_sum11_value)
-            row["debt_12"] = (row["debt_11"] - total_sum12_value)
-            row["debt_1"] = (row["debt_12"] - total_sum1_value)
-            row["debt_2"] = (row["debt_1"] - total_sum2_value)
-            row["debt_3"] = (row["debt_2"] - total_sum3_value)
-            row["debt_4"] = (row["debt_3"]- total_sum4_value)
-            row["debt_5"] = (row["debt_4"]  - total_sum5_value )
-            row["debt_6"] = (row["debt_5"]- total_sum6_value)
-            row["debt_7"] = (row["debt_6"] - total_sum7_value)
-            row["debt_8"] = (row["debt_7"] - total_sum8_value)
-            row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+                row["net_assets9"] = (FYE_value + total_netsurplus["09"])
+                row["net_assets10"] = (row["net_assets9"] + total_netsurplus["10"])
+                row["net_assets11"] = (row["net_assets10"]+ total_netsurplus["11"])
+                row["net_assets12"] = (row["net_assets11"]+ total_netsurplus["12"])
+                row["net_assets1"] = (row["net_assets12"] + total_netsurplus["01"])
+                row["net_assets2"] = (row["net_assets1"] + total_netsurplus["02"])
+                row["net_assets3"] = (row["net_assets2"]+ total_netsurplus["03"])
+                row["net_assets4"] = (row["net_assets3"] + total_netsurplus["04"])
+                row["net_assets5"] = (row["net_assets4"] + total_netsurplus["05"])
+                row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
+                row["net_assets7"] = (row["net_assets6"] + total_netsurplus["07"])
+                row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
+            else:
+                                # Calculate the differences and store them in the row dictionary
+                row["difference_7"] = (FYE_value + total_sum7_value )
+                row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                row["difference_9"] = (row["difference_8"]  + total_sum9_value)
+                row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                
 
-            row["net_assets9"] = (FYE_value + total_netsurplus["09"])
-            row["net_assets10"] = (row["net_assets9"] + total_netsurplus["10"])
-            row["net_assets11"] = (row["net_assets10"]+ total_netsurplus["11"])
-            row["net_assets12"] = (row["net_assets11"]+ total_netsurplus["12"])
-            row["net_assets1"] = (row["net_assets12"] + total_netsurplus["01"])
-            row["net_assets2"] = (row["net_assets1"] + total_netsurplus["02"])
-            row["net_assets3"] = (row["net_assets2"]+ total_netsurplus["03"])
-            row["net_assets4"] = (row["net_assets3"] + total_netsurplus["04"])
-            row["net_assets5"] = (row["net_assets4"] + total_netsurplus["05"])
-            row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
-            row["net_assets7"] = (row["net_assets6"] + total_netsurplus["07"])
-            row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
+                row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
+
+
+                row["debt_7"] = (FYE_value - total_sum7_value)
+                row["debt_8"] = (row["debt_7"] - total_sum8_value)
+                row["debt_9"]  = (row["debt_8"] - total_sum9_value)
+                row["debt_10"] = (row["debt_9"] - total_sum10_value)
+                row["debt_11"] = (row["debt_10"] - total_sum11_value)
+                row["debt_12"] = (row["debt_11"] - total_sum12_value)
+                row["debt_1"] = (row["debt_12"] - total_sum1_value)
+                row["debt_2"] = (row["debt_1"] - total_sum2_value)
+                row["debt_3"] = (row["debt_2"] - total_sum3_value)
+                row["debt_4"] = (row["debt_3"]- total_sum4_value)
+                row["debt_5"] = (row["debt_4"]  - total_sum5_value )
+                row["debt_6"] = (row["debt_5"]- total_sum6_value)
+  
+                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+
+                row["net_assets7"] = (FYE_value + total_netsurplus["07"])
+                row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
+                row["net_assets9"] = (row["net_assets8"]  + total_netsurplus["09"])
+                row["net_assets10"] = (row["net_assets9"] + total_netsurplus["10"])
+                row["net_assets11"] = (row["net_assets10"]+ total_netsurplus["11"])
+                row["net_assets12"] = (row["net_assets11"]+ total_netsurplus["12"])
+                row["net_assets1"] = (row["net_assets12"] + total_netsurplus["01"])
+                row["net_assets2"] = (row["net_assets1"] + total_netsurplus["02"])
+                row["net_assets3"] = (row["net_assets2"]+ total_netsurplus["03"])
+                row["net_assets4"] = (row["net_assets3"] + total_netsurplus["04"])
+                row["net_assets5"] = (row["net_assets4"] + total_netsurplus["05"])
+                row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
+                
 
 
     total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
@@ -1816,6 +1867,8 @@ def balance_sheet(school):
     total_net_assets_fytd = 0
     total_net_assets_fytd = totals["ytd_netsurplus"]    #assign the value coming from profitloss totals
     
+    FY_year_1 = months["FY_year_1"] 
+    FY_year_2 = months["FY_year_2"]
 
     for row in data_balancesheet:
         if row["school"] == school:
@@ -2051,6 +2104,8 @@ def balance_sheet(school):
         "last_month": formatted_last_month,
         "last_month_number": last_month_number,
         "last_month_name": last_month_name,
+        "FY_year_1":FY_year_1,
+        "FY_year_2":FY_year_2,
         "totals_bs":{
             "total_current_assets":total_current_assets,
             "total_current_assets_fye":total_current_assets_fye,
