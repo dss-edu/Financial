@@ -49,7 +49,7 @@
 <div class="table-container"  >
     <div id="json-response"></div>
     <form  id="insert-row-form" action="#" method="POST">
-        <div id="edit-container">
+        {% comment %} <div id="edit-container">
             <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
         </div>
 
@@ -111,7 +111,7 @@
         document.getElementById("add-row-fpr-button").style.display = "none";
         document.getElementById("add-row-func-button").style.display = "none";
     });
-</script> 
+</script>  {% endcomment %}
 
     {% csrf_token %}
     <input type="hidden" name="hey">
