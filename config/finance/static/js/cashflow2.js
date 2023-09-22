@@ -199,7 +199,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
       }
   
-    console.log(rowTotal);
     //   if (row.classList.contains('EOC-total-row')) {
     //     cells[17].textContent = rowTotal !== 0 ? '$' + rowTotal.toLocaleString() : '';
     //   } else {
