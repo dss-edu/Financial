@@ -341,11 +341,15 @@ def profit_loss(school):
     est_key = "Est"
     expense_key = "Expend"
     real_key = "Real"
+    appr_key = "Appr"
+    encum_key = "Encum"
     if school == "village-tech":
         expense_key = "Amount"
         expend_key = "Amount"
         est_key = "Amount"
         real_key = "Amount"
+        appr_key = "Amount"
+        encum_key = "Amount"
 
     
     acct_per_values = [
@@ -602,6 +606,22 @@ def profit_loss(school):
             obj = item["obj"]
             budget = float(item["budget"].replace(",",""))
             ytd_total = 0
+
+
+            
+            total_func_func = sum(
+                    entry[appr_key]
+                    for entry in data3
+                    if entry["func"] == func  and entry["obj"] != '6449'
+                )
+            total_adjustment_func = sum(
+                    entry[appr_key]
+                    for entry in adjustment
+                    if entry["func"] == func  and entry["obj"] != '6449' and entry["School"] == school
+                )
+            item['total_budget'] = total_func_func + total_adjustment_func
+ 
+
             
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
@@ -621,13 +641,13 @@ def profit_loss(school):
                 ytd_total += (item[f"total_func{month_number}"])
            
             item["ytd_total"] = ytd_total
-            first_total += budget
+            first_total += item['total_budget']
             first_ytd_total += item["ytd_total"]
-            item[f"ytd_budget"] = budget * ytd_budget
+            item[f"ytd_budget"] = item['total_budget'] * ytd_budget
 
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_first_total += item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(budget / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
     
     ytd_ammended_total_first = first_total * ytd_budget
     var_ytd_first_total = "{:d}%".format(abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
@@ -946,10 +966,12 @@ def profit_loss(school):
         ytd_budget =float(row[f"ytd_budget"])
         ytd_total = float(row["ytd_total"])
         variances = float(row["variances"])
+        
+        
         if ytd_budget is None or ytd_budget == 0:
             row[f"ytd_budget"] = ""
         else:
-            row[f"ytd_budget"] = format_value(ytd_budget)
+            row[f"ytd_budget"] = format_value_negative(ytd_budget)
         if ytd_total is None or ytd_total == 0:
             row[f"ytd_total"] = ""
         else:
@@ -958,6 +980,16 @@ def profit_loss(school):
             row[f"variances"] = ""
         else:
             row[f"variances"] = format_value(variances)
+        if row["category"] != "Depreciation and Amortization":
+            budget = row["total_budget"]
+            if budget is None or budget == 0:
+                row[f"total_budget"] = ""
+            else:
+                row[f"total_budget"] = format_value_negative(budget)
+            if ytd_budget is None or ytd_budget == 0:
+                row[f"ytd_budget"] = ""
+            else:
+                row[f"ytd_budget"] = format_value_negative(ytd_budget)
 
 
     #FORMAT SURPLUS BEFORE DEFICIT   
