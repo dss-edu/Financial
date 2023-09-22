@@ -1,5 +1,4 @@
 # Financial
 Install 
-Ubuntu
-sudo apt install unixodbc
-sudo apt install msodbcsql17
+  sudo apt install unixodbc
+  sudo apt install msodbcsql17
