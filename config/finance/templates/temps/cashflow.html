@@ -528,7 +528,8 @@
           <td class="collapsed"></td>
           <td></td>
         </tr>
-        {% for row in data_balancesheet %}
+        {% for row in data_balancesheet %}]
+        {% if row.school == school %}
         
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Current Assets' %}
@@ -553,7 +554,7 @@
         </tr>
         {% endif %}    
         {% endif %} 
-          
+        {% endif %}  
     {% endif %}
   {% endfor %}
         <tr class="local-revenue-row">
@@ -575,7 +576,7 @@
           <td></td>
         </tr>
         {% for row in data_balancesheet %}
-       
+        {% if row.school == school %}
         {% if row.Category == 'Assets' %}
         {% if row.Subcategory == 'Current Assets' %}
         {% if row.Activity == 'Cash' %}
@@ -599,7 +600,7 @@
         </tr>
         {% endif %} 
         {% endif %}    
-        
+        {% endif %} 
     {% endif %}
   {% endfor %}
           
