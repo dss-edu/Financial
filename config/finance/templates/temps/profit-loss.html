@@ -852,7 +852,9 @@
       </tr>
 
     {% for row in data2 %}
+   
     {% if row.category != 'Depreciation and Amortization' %}
+    {% if row.total_func9 >= '0' %}
       
       <tr id="row11-{{ forloop.counter }}" class="total-row1">
           <td class="firstcolumn"></td>
@@ -884,6 +886,7 @@
           <td class="right-align-td">{{row.variances}}</td>
           <td class="right-align-td">{{row.var_ytd}}</td>
       </tr>
+    {% endif %}
     {% endif %}
     {% endfor %}
 
@@ -1842,6 +1845,7 @@
     </tr>
 
   {% for row in data2 %}
+  {% if row.total_func7 >= '0' %}
   {% if row.category != 'Depreciation and Amortization' %}
     
     <tr id="row11-{{ forloop.counter }}" class="total-row1">
@@ -1875,6 +1879,7 @@
         <td class="right-align-td">{{row.variances}}</td>
         <td class="right-align-td">{{row.var_ytd}}</td>
     </tr>
+    {% endif %}
   {% endif %}
   {% endfor %}
 

@@ -858,6 +858,7 @@ def profit_loss(school):
 
 
     budget_net_income = totals["total_ammended"] - total_expense
+   
     ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
     ytd_net_income = ytd_total_revenue - total_expense_ytd
     variances_net_income = variances_revenue - variances_total_expense
@@ -1187,6 +1188,8 @@ def profit_loss(school):
             if row[key] != "":
                 row[key] = "{:,.0f}".format(row[key])
 
+
+
     # if not school == "village-tech":
     #     lr_funds = list(set(row["fund"] for row in data3 if "fund" in row))
     #     lr_funds_sorted = sorted(lr_funds)
@@ -1205,10 +1208,11 @@ def profit_loss(school):
     # ytd_budget_test = last_month_number + 4
     # ytd_budget = ytd_budget_test / 12
     
-
+    sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
+    sorted_data = sorted(data, key=lambda x: x['obj'])
     context = {
-        "data": data,
-        "data2": data2,
+        "data": sorted_data,
+        "data2": sorted_data2,
         "data3": data3,
         "data_expensebyobject": data_expensebyobject,
         "data_activities": data_activities,
