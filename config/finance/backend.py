@@ -968,10 +968,7 @@ def profit_loss(school):
         variances = float(row["variances"])
         
         
-        if ytd_budget is None or ytd_budget == 0:
-            row[f"ytd_budget"] = ""
-        else:
-            row[f"ytd_budget"] = format_value_negative(ytd_budget)
+
         if ytd_total is None or ytd_total == 0:
             row[f"ytd_total"] = ""
         else:
@@ -990,6 +987,12 @@ def profit_loss(school):
                 row[f"ytd_budget"] = ""
             else:
                 row[f"ytd_budget"] = format_value_negative(ytd_budget)
+        else:
+            if ytd_budget is None or ytd_budget == 0:
+                row[f"ytd_budget"] = ""
+            else:
+                row[f"ytd_budget"] = format_value_negative(ytd_budget)
+
 
 
     #FORMAT SURPLUS BEFORE DEFICIT   
