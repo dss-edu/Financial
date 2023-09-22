@@ -6,15 +6,18 @@ window.addEventListener('DOMContentLoaded', () => {
     // calculateYTD2();
   });
 
+  
   function extractNumericValue(content) {
-    const match = content.match(/-?\$?\(?([\d,.]+)\)?/);
+    const match = content.match(/\(([^)]+)\)/);
     if (match) {
-      const numericValue = parseFloat(match[1].replace(/,/g, '').trim());
-      return isNaN(numericValue) ? 0 : (content.includes('(') ? -numericValue : numericValue);
+      const numericValue = parseFloat(match[1].replace(/[$,]/g, '').trim());
+      return isNaN(numericValue) ? 0 : -numericValue;
     } else {
-      return 0;
+      const numericValue = parseFloat(content.replace(/[$,]/g, '').trim());
+      return isNaN(numericValue) ? 0 : numericValue;
     }
   }
+  
 
     /* NET CASH FLOWS FROM OPEARTING ACTIVITIES TOTAL*/
   function calculateNetCashTotal() {
@@ -193,7 +196,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const cells = row.cells;
       let rowTotal = 0;
       for (let i = 5; i <= 15; i++) {
-        const cellValue = parseFloat(cells[i].textContent.trim().replace('$', '').replace(/,/g, ''));
+        const cellValue = extractNumericValue(cells[i].textContent);
         if (!isNaN(cellValue)) {
           rowTotal += cellValue;
         }
@@ -202,7 +205,11 @@ window.addEventListener('DOMContentLoaded', () => {
     //   if (row.classList.contains('EOC-total-row')) {
     //     cells[17].textContent = rowTotal !== 0 ? '$' + rowTotal.toLocaleString() : '';
     //   } else {
-    cells[15].textContent = rowTotal !== 0 ? rowTotal.toLocaleString() : '';
+      if (rowTotal < 0) {
+        cells[15].textContent = `(${Math.abs(rowTotal).toLocaleString()})`;
+      } else {
+        cells[15].textContent = rowTotal !== 0 ? rowTotal.toLocaleString() : '';
+      }
    
     //   }
     });

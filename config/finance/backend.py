@@ -2309,20 +2309,21 @@ def cashflow(school):
             value = float(row[key])
             if value == 0:
                 row[key] = ""
-            elif value < 0:
+            elif value > 0:
                 row[key] = "({:,.0f})".format(abs(float(row[key])))
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+            else:
+                row[key] = "{:,.0f}".format(abs(float(row[key])))
+        
 
     for row in data_cashflow:
         for key in keys_to_check_cashflow2:
             value = float(row[key])
             if value == 0:
                 row[key] = ""
-            elif value < 0:
+            elif value > 0:
                 row[key] = "({:,.0f})".format(abs(float(row[key])))
-            elif value != "":
-                row[key] = "{:,.0f}".format(float(row[key]))
+            else:
+                row[key] = "{:,.0f}".format(abs(float(row[key])))
 
     # --- total revenue
     # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
