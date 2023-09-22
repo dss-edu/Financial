@@ -470,22 +470,39 @@ def profit_loss(school):
 
         #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
         if school == "village-tech":
-            
-            item["total_budget"] = sum(
+               
+            total_budget = sum(
                 entry[est_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
-                           
+                              
             )
+            total_adjustment_budget = sum(
+                entry[est_key]
+                for entry in adjustment
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                and entry["School"] == school 
+                              
+            )
+            item["total_budget"] = total_adjustment_budget + total_budget
         else:
-            item["total_budget"] = sum(
+            total_budget = sum(
                 entry[est_key]
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
                 and entry["Type"] == "GJ"                
             )
+            total_adjustment_budget = sum(
+                entry[est_key]
+                for entry in adjustment
+                if entry["fund"] == fund
+                and entry["obj"] == obj
+                and entry["School"] == school               
+            )
+            item["total_budget"] = total_adjustment_budget + total_budget
 
         totals["total_ammended"] += item["total_budget"]
         item[f"ytd_budget"] = item["total_budget"] * ytd_budget
