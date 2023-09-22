@@ -966,10 +966,10 @@
             {{row.obj}}
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
+            {% if row.total_budget == 0.0 or row.total_budget == None %}
             <input type="hidden" class="form-control" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
             {% else %}
-            <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
+            <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">{{row.total_budget}}
             {% endif %} 
           </td>
           
@@ -1962,10 +1962,10 @@
           {{row.obj}}
         </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-          {% if row.budget == 0.0 or row.budget == None %}
+          {% if row.total_budget == 0.0 or row.total_budget == None %}
           <input type="hidden" class="form-control" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
           {% else %}
-          <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
+          <input type="hidden" class="form-control"  placeholder="Description"  value="{{ row.budget }}">{{row.total_budget}}
           {% endif %} 
         </td>
         

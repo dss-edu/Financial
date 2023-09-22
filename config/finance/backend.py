@@ -660,6 +660,17 @@ def profit_loss(school):
             ytd_total = 0
             budget = float(item["budget"].replace(",",""))
            
+            total_func_func = sum(
+                    entry[appr_key]
+                    for entry in data3
+                    if entry["func"] == func  and entry["obj"] == '6449'
+                )
+            total_adjustment_func = sum(
+                    entry[appr_key]
+                    for entry in adjustment
+                    if entry["func"] == func  and entry["obj"] == '6449' and entry["School"] == school
+                )
+            item['total_budget'] = total_func_func + total_adjustment_func
             
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
@@ -687,12 +698,12 @@ def profit_loss(school):
                 ytd_total += (item[f"total_func2_{month_number}"])
         
             item["ytd_total"] = ytd_total
-            dna_total += budget
+            dna_total += item['total_budget']
             dna_ytd_total += item["ytd_total"]
-            item[f"ytd_budget"] = budget * ytd_budget
+            item[f"ytd_budget"] = item['total_budget'] * ytd_budget
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(budget / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
     ytd_ammended_dna = first_total * ytd_budget
     var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
