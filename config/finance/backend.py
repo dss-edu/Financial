@@ -958,11 +958,11 @@ def profit_loss(school):
 
 
     #FORMAT FIRST TOTAL AND DEPRECIATION AND AMORTIZATION(DNA)
-    dna_total = format_value_dollars(dna_total)
-    first_total = format_value_dollars(first_total)
+    dna_total = format_value_dollars_negative(dna_total)
+    first_total = format_value_dollars_negative(first_total)
 
-    ytd_ammended_dna = format_value_dollars(ytd_ammended_dna)
-    ytd_ammended_total_first = format_value_dollars(ytd_ammended_total_first)
+    ytd_ammended_dna = format_value_dollars_negative(ytd_ammended_dna)
+    ytd_ammended_total_first = format_value_dollars_negative(ytd_ammended_total_first)
     
     dna_ytd_total = format_value_dollars(dna_ytd_total)
     first_ytd_total = format_value_dollars(first_ytd_total)
@@ -977,32 +977,29 @@ def profit_loss(school):
         ytd_budget =float(row[f"ytd_budget"])
         ytd_total = float(row["ytd_total"])
         variances = float(row["variances"])
+        budget = row["total_budget"]
         
         
 
         if ytd_total is None or ytd_total == 0:
             row[f"ytd_total"] = ""
         else:
-            row[f"ytd_total"] = format_value(ytd_total) 
+            row[f"ytd_total"] = format_value_negative(ytd_total) 
         if var_ytd is None or var_ytd == 0:
             row[f"variances"] = ""
         else:
-            row[f"variances"] = format_value(variances)
-        if row["category"] != "Depreciation and Amortization":
-            budget = row["total_budget"]
-            if budget is None or budget == 0:
-                row[f"total_budget"] = ""
-            else:
-                row[f"total_budget"] = format_value_negative(budget)
-            if ytd_budget is None or ytd_budget == 0:
-                row[f"ytd_budget"] = ""
-            else:
-                row[f"ytd_budget"] = format_value_negative(ytd_budget)
+            row[f"variances"] = format_value_negative(variances)
+        
+            
+        if budget is None or budget == 0:
+            row[f"total_budget"] = ""
         else:
-            if ytd_budget is None or ytd_budget == 0:
-                row[f"ytd_budget"] = ""
-            else:
-                row[f"ytd_budget"] = format_value_negative(ytd_budget)
+            row[f"total_budget"] = format_value_negative(budget)
+        if ytd_budget is None or ytd_budget == 0:
+            row[f"ytd_budget"] = ""
+        else:
+            row[f"ytd_budget"] = format_value_negative(ytd_budget)
+ 
 
 
 
