@@ -721,8 +721,8 @@ def profit_loss(school):
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
             item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
-    ytd_ammended_dna = first_total * ytd_budget
-    var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
+            ytd_ammended_dna = first_total * ytd_budget
+            var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
 
@@ -2572,6 +2572,9 @@ def cashflow(school):
 
     cursor.close()
     cnxn.close()
+
+
+
 
 if __name__ == "__main__":
     update_db()
