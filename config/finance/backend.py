@@ -487,7 +487,9 @@ def profit_loss(school):
                 for entry in adjustment
                 if entry["fund"] == fund
                 and entry["obj"] == obj
-                and entry["School"] == school 
+                and entry["School"] == school
+                and entry[est_key] is not None 
+                and not isinstance(entry[est_key], str) 
                               
             )
             item["total_budget"] = total_adjustment_budget + total_budget
@@ -504,7 +506,9 @@ def profit_loss(school):
                 for entry in adjustment
                 if entry["fund"] == fund
                 and entry["obj"] == obj
-                and entry["School"] == school               
+                and entry["School"] == school 
+                and entry[est_key] is not None 
+                and not isinstance(entry[est_key], str)              
             )
             item["total_budget"] = total_adjustment_budget + total_budget
 
@@ -536,6 +540,8 @@ def profit_loss(school):
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                     and entry["School"] == school
+                    and entry[real_key] is not None 
+                    and not isinstance(entry[real_key], str) 
                 )
             item[f"total_real{i}"] = total_real + total_adjustment          
             total_revenue[acct_per] += (item[f"total_real{i}"])
@@ -617,7 +623,11 @@ def profit_loss(school):
             total_adjustment_func = sum(
                     entry[appr_key]
                     for entry in adjustment
-                    if entry["func"] == func  and entry["obj"] != '6449' and entry["School"] == school
+                    if entry["func"] == func  
+                    and entry["obj"] != '6449' 
+                    and entry["School"] == school
+                    and entry[appr_key] is not None 
+                    and not isinstance(entry[appr_key], str)  
                 )
             item['total_budget'] = total_func_func + total_adjustment_func
  
@@ -660,6 +670,7 @@ def profit_loss(school):
             ytd_total = 0
             budget = float(item["budget"].replace(",",""))
            
+            
             total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
@@ -668,7 +679,11 @@ def profit_loss(school):
             total_adjustment_func = sum(
                     entry[appr_key]
                     for entry in adjustment
-                    if entry["func"] == func  and entry["obj"] == '6449' and entry["School"] == school
+                    if entry["func"] == func  
+                    and entry["obj"] == '6449' 
+                    and entry["School"] == school
+                    and entry[appr_key] is not None 
+                    and not isinstance(entry[appr_key], str)
                 )
             item['total_budget'] = total_func_func + total_adjustment_func
             
@@ -687,6 +702,8 @@ def profit_loss(school):
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                     and entry["School"] == school
+                    and entry[expend_key] is not None 
+                    and not isinstance(entry[expend_key], str)
                 )
                
                 item[f"total_func2_{i}"] = total_func + total_adjustment
@@ -784,7 +801,11 @@ def profit_loss(school):
             total_adjustment = sum(
                 entry[expense_key]
                 for entry in adjustment
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per and entry["School"] == school
+                if entry["obj"] == obj 
+                and entry["AcctPer"] == acct_per 
+                and entry["School"] == school
+                and entry[expense_key] is not None 
+                and not isinstance(entry[expense_key], str)
             )
             item[f"total_activities{i}"] = total_activities + total_adjustment
 
@@ -1412,9 +1433,15 @@ def balance_sheet(school):
         if fye == 0:
             fyeformat = ""
         else:
-            fyeformat = (
-                "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
-            )
+            if row[0] == 'Cash':
+                fyeformat = (
+                    "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+                )
+            else:
+                fyeformat = (
+                    "${:,.0f}".format(abs(fye)) if fye >= 0 else "$({:,.0f})".format(abs(fye))
+                )
+
         row_dict = {
             "Activity": row[0],
             "Description": row[1],
@@ -1607,12 +1634,17 @@ def balance_sheet(school):
             total_data3 = sum(
                 entry[bal_key]
                 for entry in data3
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                if entry["obj"] == obj 
+                and entry["AcctPer"] == acct_per
             )
             total_adjustment = sum(
                 entry[bal_key]
                 for entry in adjustment
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per and entry["School"] == school
+                if entry["obj"] == obj
+                and entry["AcctPer"] == acct_per 
+                and entry["School"] == school
+                and entry[bal_key] is not None 
+                and not isinstance(entry[bal_key], str)
             )
 
             item[f"total_bal{i}"] = total_data3 + total_adjustment
@@ -1659,6 +1691,8 @@ def balance_sheet(school):
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                     and entry["School"] == school
+                    and entry[real_key] is not None 
+                    and not isinstance(entry[real_key], str)
                 )
             item[f"total_real{i}"] = total_real + total_adjustment
             # if i == last_month_number and (item[f"total_real{i}"] == 0):
@@ -1694,7 +1728,12 @@ def balance_sheet(school):
                 total_adjustment = sum(
                     entry[expend_key]
                     for entry in adjustment
-                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
+                    if entry["func"] == func 
+                    and entry["AcctPer"] == acct_per 
+                    and entry["obj"] != '6449' 
+                    and entry["School"] == school
+                    and entry[expend_key] is not None 
+                    and not isinstance(entry[expend_key], str)
                 )
                 item[f"total_func{i}"] = total_func + total_adjustment
                 total_surplus[acct_per] += item[f"total_func{i}"]
@@ -1726,6 +1765,8 @@ def balance_sheet(school):
                     and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                     and entry["School"] == school
+                    and entry[expend_key] is not None 
+                    and not isinstance(entry[expend_key], str)
                     
 
                 )
@@ -1789,7 +1830,7 @@ def balance_sheet(school):
 
     for row in data_balancesheet:
         if row["school"] == school:
-            FYE_value = (float(row["FYE"].replace(",", "").replace("(", "-").replace(")", ""))
+            FYE_value = (float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", ""))
                 if row["FYE"]
                 else 0
             )
@@ -1936,7 +1977,7 @@ def balance_sheet(school):
     for row in data_balancesheet:
         if row["school"] == school:
             subcategory =  row["Subcategory"]
-            fye =  float(row["FYE"].replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+            fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
 
             if subcategory == 'Current Assets':
                 for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -1960,7 +2001,7 @@ def balance_sheet(school):
     for row in data_balancesheet:
         if row["school"] == school:
             subcategory =  row["Subcategory"]
-            fye =  float(row["FYE"].replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+            fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
             if subcategory == 'Long Term Debt':
                 for i, acct_per in enumerate(acct_per_values,start = 1):
                     total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
@@ -1969,7 +2010,7 @@ def balance_sheet(school):
     
     for row in data_balancesheet:
         if row["school"] == school:
-            fye =  float(row["FYE"].replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+            fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
             if  row["Category"] == "Net Assets":
                 for i, acct_per in enumerate(acct_per_values,start = 1):
                     total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
