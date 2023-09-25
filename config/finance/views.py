@@ -1215,7 +1215,7 @@ def update_row(request,school):
             
             for updatefye,updateid in zip(updatefyes, updateids):
                 if updatefye.strip() and updateid.strip() :
-                    updatefye = float(updatefye.replace(",", "").replace("(", "-").replace(")", ""))
+                    updatefye = float(updatefye.replace("$", "").replace(",", "").replace("(", "-").replace(")", ""))
                     updatedata_list.append({
                        
                         'updatefye': updatefye,
@@ -3953,34 +3953,34 @@ def generate_excel(request,school):
 
     adjustment = []
 
-    if school != "village-tech":
-        for row in rows:
-            expend = float(row[17])
-            row_dict = {
-                "fund": row[0],
-                "func": row[1],
-                "obj": row[2],
-                "sobj": row[3],
-                "org": row[4],
-                "fscl_yr": row[5],
-                "pgm": row[6],
-                "edSpan": row[7],
-                "projDtl": row[8],
-                "AcctDescr": row[9],
-                "Number": row[10],
-                "Date": row[11],
-                "AcctPer": row[12],
-                "Est": row[13],
-                "Real": row[14],
-                "Appr": row[15],
-                "Encum": row[16],
-                "Expend": expend,
-                "Bal": row[18],
-                "WorkDescr": row[19],
-                "Type": row[20],
-                "School": row[21],
-            }
-            adjustment.append(row_dict)
+    
+    for row in rows:
+        expend = float(row[17])
+        row_dict = {
+            "fund": row[0],
+            "func": row[1],
+            "obj": row[2],
+            "sobj": row[3],
+            "org": row[4],
+            "fscl_yr": row[5],
+            "pgm": row[6],
+            "edSpan": row[7],
+            "projDtl": row[8],
+            "AcctDescr": row[9],
+            "Number": row[10],
+            "Date": row[11],
+            "AcctPer": row[12],
+            "Est": row[13],
+            "Real": row[14],
+            "Appr": row[15],
+            "Encum": row[16],
+            "Expend": expend,
+            "Bal": row[18],
+            "WorkDescr": row[19],
+            "Type": row[20],
+            "School": row[21],
+        }
+        adjustment.append(row_dict)
 
     
 
@@ -4474,7 +4474,7 @@ def generate_excel(request,school):
             lr_row_end = start_row
             
             for var in total_vars:
-                totals[var] += row_data.get(var, 0)
+                totals[var] += float(row_data.get(var, 0))
             
             start_row += 1
 
