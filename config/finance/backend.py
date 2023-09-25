@@ -2566,7 +2566,7 @@ def cashflow(school):
     if not os.path.exists(cashflow_path):
         os.makedirs(cashflow_path)
 
-    cashflow_file = os.path.join(cashflow_path, "data_cashflow")
+    cashflow_file = os.path.join(cashflow_path, "data_cashflow.json")
     with open(cashflow_file, "w") as f:
         json.dump(data_cashflow, f)
 
