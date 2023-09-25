@@ -1637,6 +1637,7 @@ def balance_sheet(school):
 
     for item in data_activitybs:
         obj = item["obj"]
+        item["fytd"] = 0
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             total_data3 = sum(
@@ -1656,6 +1657,7 @@ def balance_sheet(school):
             )
 
             item[f"total_bal{i}"] = total_data3 + total_adjustment
+            item["fytd"] += item[f"total_bal{i}"]
             
 
     
@@ -2151,6 +2153,7 @@ def balance_sheet(school):
         "total_bal10",
         "total_bal11",
         "total_bal12",
+        "fytd",
     ]
 
     for row in data_activitybs:
