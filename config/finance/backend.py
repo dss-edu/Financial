@@ -1433,13 +1433,13 @@ def balance_sheet(school):
         if fye == 0:
             fyeformat = ""
         else:
-            if row[0] == 'Cash':
+            if row[0] == 'Cash' or row[0] == 'AP':
                 fyeformat = (
-                    "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+                    "${:,.0f}".format(abs(fye)) if fye >= 0 else "$({:,.0f})".format(abs(fye))
                 )
             else:
                 fyeformat = (
-                    "${:,.0f}".format(abs(fye)) if fye >= 0 else "$({:,.0f})".format(abs(fye))
+                    "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
                 )
 
         row_dict = {
@@ -2057,34 +2057,64 @@ def balance_sheet(school):
    
     for row in data_balancesheet:
         if row["school"] == school:
+            if row["Activity"] == 'Cash':
+                row["difference_9"] = format_value_dollars(row["difference_9"]) 
+                row["difference_10"]= format_value_dollars(row["difference_10"])
+                row["difference_11"]= format_value_dollars(row["difference_11"])
+                row["difference_12"]= format_value_dollars(row["difference_12"])
+                row["difference_1"] = format_value_dollars(row["difference_1"] )
+                row["difference_2"] = format_value_dollars(row["difference_2"] )
+                row["difference_3"] = format_value_dollars(row["difference_3"] )
+                row["difference_4"] = format_value_dollars(row["difference_4"] )
+                row["difference_5"] = format_value_dollars(row["difference_5"] )
+                row["difference_6"] = format_value_dollars(row["difference_6"] )
+                row["difference_7"] = format_value_dollars(row["difference_7"] )
+                row["difference_8"] = format_value_dollars(row["difference_8"] )
+                row["fytd"] = format_value_dollars(row["fytd"])
+            else:
+                row["difference_9"] = format_value(row["difference_9"]) 
+                row["difference_10"]= format_value(row["difference_10"])
+                row["difference_11"]= format_value(row["difference_11"])
+                row["difference_12"]= format_value(row["difference_12"])
+                row["difference_1"] = format_value(row["difference_1"] )
+                row["difference_2"] = format_value(row["difference_2"] )
+                row["difference_3"] = format_value(row["difference_3"] )
+                row["difference_4"] = format_value(row["difference_4"] )
+                row["difference_5"] = format_value(row["difference_5"] )
+                row["difference_6"] = format_value(row["difference_6"] )
+                row["difference_7"] = format_value(row["difference_7"] )
+                row["difference_8"] = format_value(row["difference_8"] )
+                row["fytd"] = format_value(row["fytd"])
+            
+            if row['Activity'] == 'AP':
+                row["debt_9"] =  format_value_dollars(row["debt_9"] )
+                row["debt_10"]=  format_value_dollars(row["debt_10"])
+                row["debt_11"]=  format_value_dollars(row["debt_11"])
+                row["debt_12"]=  format_value_dollars(row["debt_12"])
+                row["debt_1"] =  format_value_dollars(row["debt_1"] )
+                row["debt_2"] =  format_value_dollars(row["debt_2"] )
+                row["debt_3"] =  format_value_dollars(row["debt_3"] )
+                row["debt_4"] =  format_value_dollars(row["debt_4"] )
+                row["debt_5"] =  format_value_dollars(row["debt_5"] )
+                row["debt_6"] =  format_value_dollars(row["debt_6"] )
+                row["debt_7"] =  format_value_dollars(row["debt_7"] )
+                row["debt_8"] =  format_value_dollars(row["debt_8"] )
+                row["debt_fytd"]=format_value_dollars(row["debt_fytd"])
 
-            row["difference_9"] = format_with_parentheses(row["difference_9"]) 
-            row["difference_10"]= format_with_parentheses(row["difference_10"])
-            row["difference_11"]= format_with_parentheses(row["difference_11"])
-            row["difference_12"]= format_with_parentheses(row["difference_12"])
-            row["difference_1"] = format_with_parentheses(row["difference_1"] )
-            row["difference_2"] = format_with_parentheses(row["difference_2"] )
-            row["difference_3"] = format_with_parentheses(row["difference_3"] )
-            row["difference_4"] = format_with_parentheses(row["difference_4"] )
-            row["difference_5"] = format_with_parentheses(row["difference_5"] )
-            row["difference_6"] = format_with_parentheses(row["difference_6"] )
-            row["difference_7"] = format_with_parentheses(row["difference_7"] )
-            row["difference_8"] = format_with_parentheses(row["difference_8"] )
-            row["fytd"] = format_with_parentheses(row["fytd"])
-    
-            row["debt_9"] =  format_with_parentheses(row["debt_9"] )
-            row["debt_10"]=  format_with_parentheses(row["debt_10"])
-            row["debt_11"]=  format_with_parentheses(row["debt_11"])
-            row["debt_12"]=  format_with_parentheses(row["debt_12"])
-            row["debt_1"] =  format_with_parentheses(row["debt_1"] )
-            row["debt_2"] =  format_with_parentheses(row["debt_2"] )
-            row["debt_3"] =  format_with_parentheses(row["debt_3"] )
-            row["debt_4"] =  format_with_parentheses(row["debt_4"] )
-            row["debt_5"] =  format_with_parentheses(row["debt_5"] )
-            row["debt_6"] =  format_with_parentheses(row["debt_6"] )
-            row["debt_7"] =  format_with_parentheses(row["debt_7"] )
-            row["debt_8"] =  format_with_parentheses(row["debt_8"] )
-            row["debt_fytd"]=format_with_parentheses(row["debt_fytd"])
+            else:    
+                row["debt_9"] =  format_value(row["debt_9"] )
+                row["debt_10"]=  format_value(row["debt_10"])
+                row["debt_11"]=  format_value(row["debt_11"])
+                row["debt_12"]=  format_value(row["debt_12"])
+                row["debt_1"] =  format_value(row["debt_1"] )
+                row["debt_2"] =  format_value(row["debt_2"] )
+                row["debt_3"] =  format_value(row["debt_3"] )
+                row["debt_4"] =  format_value(row["debt_4"] )
+                row["debt_5"] =  format_value(row["debt_5"] )
+                row["debt_6"] =  format_value(row["debt_6"] )
+                row["debt_7"] =  format_value(row["debt_7"] )
+                row["debt_8"] =  format_value(row["debt_8"] )
+                row["debt_fytd"]=format_value(row["debt_fytd"])
     
             row["net_assets9"]  = format_value(row["net_assets9"])
             row["net_assets10"] = format_value(row["net_assets10"])
