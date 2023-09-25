@@ -1353,6 +1353,75 @@
     {% endif %}
     {%endfor%}
 
+    {% for row in data_activities %}
+    {% if row.Category == 'Other Expenses' %}
+      
+      <tr id="row13-{{ forloop.counter }}" class="ooe-row">
+          <td class="firstcolumn"></td>
+          <td class="collapsed"></td>
+          <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td class="right-align-td"></td>
+          <td ></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="04">{{row.total_activities4}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="05">{{row.total_activities5}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
+          <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
+          <td class="right-align-td">{{row.ytd_total}}</td>
+          <td class="right-align-td"></td>
+          <td class="right-align-td"></td>
+      </tr>
+      {%endif%}
+      {%endfor%}
+
+      {% for row in data_expensebyobject %}
+      {% if row.obj == '6449' %}
+      
+      <tr id="row5-{{ forloop.counter }}" class="EOC-row">
+          <td class="firstcolumn">
+            <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)" style=" float: left;">+</button>
+          </td>
+          <td class="collapsed"></td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+            {{ row.obj }} - {{ row.Description }}
+            </td>
+          <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
+            
+
+            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
+          
+          </td>
+          
+          
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_oe.09}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_oe.10}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_oe.11}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.total_EOC_oe.12}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.total_EOC_oe.01}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-10">{{totals.total_EOC_oe.02}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-11">{{totals.total_EOC_oe.03}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-12">{{totals.total_EOC_oe.04}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-13">{{totals.total_EOC_oe.05}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-14">{{totals.total_EOC_oe.06}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_oe.07}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_oe.08}}</td>
+          <td class="right-align-td">{{totals.ytd_EOC_oe}}</td>
+          <td class="right-align-td">{{row.variances}}</td>
+          <td class="right-align-td">{{row.var_EOC}}</td>
+      </tr>
+
+      
+    {% endif %}
+    {%endfor%}
+
 
             <!-- END OF Other Operating Expenses-->
 
@@ -1385,6 +1454,9 @@
       {%endif%}
       {%endfor%}
 
+
+      
+
       {% for row in data_expensebyobject %}
       {% if row.obj == '6500'%}
           <tr id="row5-{{ forloop.counter }}" class="EOC-row">
@@ -1398,12 +1470,12 @@
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
          
-            {{totals.budget_for_6500}}
+            {{row.budget}}
           
           </td>
           
           
-          <td  class="right-align-td">{{totals.ytd_budget_for_6500}}</td>
+          <td  class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" id="oe-total-5" >{{totals.total_EOC_te.09}}</td>
           <td class="collapsed right-align-td" id="oe-total-6" >{{totals.total_EOC_te.10}}</td>
           <td class="collapsed right-align-td" id="oe-total-7" >{{totals.total_EOC_te.11}}</td>
@@ -2364,6 +2436,80 @@
           <!-- END OF Other Operating Expenses-->
 
 
+          {% for row in data_activities %}
+          {% if row.Category == 'Other Expenses' %}
+          
+          <tr id="row16-{{ forloop.counter }}" class="ooe-row">
+              <td class="firstcolumn"></td>
+              <td class="collapsed"></td>
+              <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+              <td class="right-align-td"></td>
+              <td ></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="12">{{row.total_activities12}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="01">{{row.total_activities1}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="02">{{row.total_activities2}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="03">{{row.total_activities3}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="04">{{row.total_activities4}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="05">{{row.total_activities5}}</a></td>
+              <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="06">{{row.total_activities6}}</a></td>
+      
+              <td class="right-align-td">{{row.ytd_total}}</td>
+              <td class="right-align-td"></td>
+              <td class="right-align-td"></td>
+          </tr>
+          {%endif%}
+          {%endfor%}
+      
+          {% for row in data_expensebyobject %}
+          {% if row.obj == '6449' %}
+          
+          <tr id="row5-{{ forloop.counter }}" class="EOC-row">
+              <td class="firstcolumn">
+                <button id="row16" class="expand-button"  type="button" onclick="toggleRow(16)" style=" float: left;">+</button>
+              </td>
+              <td class="collapsed"></td>
+              <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
+                {{ row.obj }} - {{ row.Description }}
+                </td>
+              <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
+                {% if row.budget == 0.0 or row.budget == None %}
+                <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
+                {% else %}
+                <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
+                {% endif %} 
+              </td>
+              
+              
+              <td  class="right-align-td">{{row.ytd_budget}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_oe.07}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_oe.08}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_oe.09}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_oe.10}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_oe.11}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.total_EOC_oe.12}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.total_EOC_oe.01}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-10">{{totals.total_EOC_oe.02}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-11">{{totals.total_EOC_oe.03}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-12">{{totals.total_EOC_oe.04}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-13">{{totals.total_EOC_oe.05}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-14">{{totals.total_EOC_oe.06}}</td>
+      
+              <td class="right-align-td">{{totals.ytd_EOC_oe}}</td>
+              <td class="right-align-td">{{row.variances}}</td>
+              <td class="right-align-td">{{row.var_EOC}}</td>
+          </tr>
+      
+          
+        {% endif %}
+        {%endfor%}
+
+
+
     {% for row in data_activities %}
     {% if row.Category == 'Total Expense' %}
     
@@ -2406,12 +2552,12 @@
         </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
        
-          {{totals.budget_for_6500}}
+          {{row.budget}}
         
         </td>
         
         
-        <td  class="right-align-td">{{totals.ytd_budget_for_6500}}</td>
+        <td  class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td" id="oe-total-15">{{totals.total_EOC_te.07}}</td>
         <td class="collapsed right-align-td" id="oe-total-16">{{totals.total_EOC_te.08}}</td>
         <td class="collapsed right-align-td" id="oe-total-5" >{{totals.total_EOC_te.09}}</td>

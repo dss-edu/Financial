@@ -775,11 +775,13 @@ def profit_loss(school):
     total_EOC_sm =  {acct_per: 0 for acct_per in acct_per_values}#Supplies and Materials
     total_EOC_ooe =  {acct_per: 0 for acct_per in acct_per_values}#Other Operating Expenses
     total_EOC_te =  {acct_per: 0 for acct_per in acct_per_values}#Total Expense
+    total_EOC_oe =  {acct_per: 0 for acct_per in acct_per_values}#Other expenses 6449
     ytd_EOC_pc   = 0
     ytd_EOC_pcs  = 0
     ytd_EOC_sm   = 0
     ytd_EOC_ooe  = 0
     ytd_EOC_te   = 0
+    ytd_EOC_oe = 0
 
     #FOR TOTAL EXPENSE
     total_expense = 0 
@@ -822,6 +824,10 @@ def profit_loss(school):
             if category == "Other Operating Expenses":
                 total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
 
+            if category == "Other Expenses":
+                total_EOC_oe[acct_per] += item[f"total_activities{i}"]
+                print(total_EOC_oe[acct_per])
+
             if category == "Total Expense":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
 
@@ -836,6 +842,7 @@ def profit_loss(school):
     ytd_EOC_sm  = sum(total_EOC_sm.values())
     ytd_EOC_ooe = sum(total_EOC_ooe.values())
     ytd_EOC_te  = sum(total_EOC_te.values())
+    ytd_EOC_oe  = sum(total_EOC_oe.values())
 
     
     
@@ -855,14 +862,7 @@ def profit_loss(school):
     
         
         
-        if obj == '6500' or obj =='6449':
-            budget_for_6500 += budget
-        ytd_budget_for_6500 = budget_for_6500 * ytd_budget
-            
-        
-
-        
-            
+    
 
 
         if obj == "6100":
@@ -881,6 +881,10 @@ def profit_loss(school):
             category = "Other Operating Expenses"
             item["variances"] = item[f"ytd_budget"] - ytd_EOC_ooe
             item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_ooe / budget*100))) if budget != 0 else ""
+        elif obj == "6449":
+            category = "Other Expenses"
+            item["variances"] = item[f"ytd_budget"] - ytd_EOC_oe
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_oe / budget*100))) if budget != 0 else ""
         else:
             category = "Total Expense"
             item["variances"] = item[f"ytd_budget"] - ytd_EOC_te
@@ -1071,13 +1075,15 @@ def profit_loss(school):
     total_EOC_pcs = {acct_per: format_value(value) for acct_per, value in total_EOC_pcs.items() if value != 0} 
     total_EOC_sm = {acct_per: format_value(value) for acct_per, value in total_EOC_sm.items() if value != 0} 
     total_EOC_ooe = {acct_per: format_value(value) for acct_per, value in total_EOC_ooe.items() if value != 0} 
-    total_EOC_te = {acct_per: format_value(value) for acct_per, value in total_EOC_te.items() if value != 0} 
+    total_EOC_te = {acct_per: format_value(value) for acct_per, value in total_EOC_te.items() if value != 0}
+    total_EOC_oe = {acct_per: format_value(value) for acct_per, value in total_EOC_oe.items() if value != 0} 
 
     ytd_EOC_pc  = format_value(ytd_EOC_pc)
     ytd_EOC_pcs = format_value(ytd_EOC_pcs)
     ytd_EOC_sm  = format_value(ytd_EOC_sm)
     ytd_EOC_ooe = format_value(ytd_EOC_ooe)
     ytd_EOC_te  = format_value(ytd_EOC_te)
+    ytd_EOC_oe  = format_value(ytd_EOC_oe)
 
     #EXPENSE OBJECT FOR FIX
     budget_for_6500 = format_value(budget_for_6500)
@@ -1356,11 +1362,13 @@ def profit_loss(school):
             "total_EOC_sm":total_EOC_sm,
             "total_EOC_ooe":total_EOC_ooe,
             "total_EOC_te":total_EOC_te,
+            "total_EOC_oe":total_EOC_oe,
             "ytd_EOC_pc":ytd_EOC_pc,
             "ytd_EOC_pcs":ytd_EOC_pcs,
             "ytd_EOC_sm":ytd_EOC_sm,
             "ytd_EOC_ooe":ytd_EOC_ooe,
             "ytd_EOC_te":ytd_EOC_te,
+            "ytd_EOC_oe":ytd_EOC_oe,
             #FIX SOON
             "budget_for_6500":budget_for_6500,
             "ytd_budget_for_6500": ytd_budget_for_6500,
