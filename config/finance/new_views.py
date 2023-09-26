@@ -39,7 +39,7 @@ def dashboard_notes(request, school):
     return HttpResponse(status=200)
 
 
-def dashboard(request, school):
+def dashboard(request, school, anchor_year=""):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
 
     cnxn = connect()
@@ -130,10 +130,11 @@ def dashboard(request, school):
 
     context["form"] = form
     context["data"] = data
+    context["anchor_year"] = anchor_year
     return render(request, "temps/dashboard.html", context)
 
 
-def charter_first(request, school):
+def charter_first(request, school, anchor_year=""):
     context = modules.charter_first(school)
     net_ytd = context["net_income_ytd"]
     net_earnings = context["net_earnings"]
@@ -156,6 +157,7 @@ def charter_first(request, school):
     next_month = datetime(year, month + 1, 1)
     this_month = next_month - relativedelta(days=1)
     context["date"] = this_month
+    context["anchor_year"] = anchor_year
 
     # current_date = datetime.today().date()
     # current_year = current_date.year
@@ -188,8 +190,8 @@ def charter_first_charts(request, school):
     return render(request, "temps/charter-first-charts.html", context)
 
 
-def profit_loss(request, school):
-    context = modules.profit_loss(school)
+def profit_loss(request, school, anchor_year=""):
+    context = modules.profit_loss(school, anchor_year)
     return render(request, "temps/profit-loss.html", context)
 
 
@@ -199,8 +201,8 @@ def profit_loss_charts(request, school):
     return render(request, "temps/profit-loss-charts.html", context)
 
 
-def balance_sheet(request, school):
-    context = modules.balance_sheet(school)
+def balance_sheet(request, school, anchor_year=""):
+    context = modules.balance_sheet(school, anchor_year)
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -209,8 +211,8 @@ def balance_sheet_charts(request, school):
     return render(request, "temps/profit-loss-charts.html", context)
 
 
-def cashflow(request, school):
-    context = modules.cashflow(school)
+def cashflow(request, school, anchor_year=""):
+    context = modules.cashflow(school, anchor_year)
 
     return render(request, "temps/cashflow.html", context)
 

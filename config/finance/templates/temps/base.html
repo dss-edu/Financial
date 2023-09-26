@@ -94,42 +94,52 @@
 
     <body id="page-top">
 <!-- headers-->
-        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand mr-1 text-primary" href="">TEST</a>
-            <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-                <i class="fas fa-bars"></i>
-            </button>
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top d-flex justify-content-between">
+            <div>
+                <a class="navbar-brand mr-1 text-primary" href="">TEST</a>
+                <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <select name="fyear" id="year-select">
+                    <option value="" selected>select FY</option>
+                    <option value="default">default</option>
+                    <option value="2022">2022-2023</option>
+                </select>
+                <input type="hidden" id="hidden-school" value="{{ school }}">
+                <input type="hidden" id="hidden-year" value="{{ anchor_year }}">
+            </div>
 
     <!-- Navbar Search -->
             <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"> -->
             <!---->
             <!-- </form> -->
-            <a class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-
-            </a>
+            <!-- <a class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"> -->
+            <!---->
+            <!-- </a> -->
     <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-circle fa-fw text-primary"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item">
-                    <form method="post" action="{% url 'updatedb' %}">
-                        {% csrf_token %}
-                        <button type="submit">Update Database</button>
-                    </form>
+            <div>
 
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                <ul class="navbar-nav ml-auto ml-md-0">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-fw text-primary"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            <a class="dropdown-item">
+                                <form method="post" action="{% url 'updatedb' %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Update Database</button>
+                                </form>
+
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+
             </div>
-        </li>
-    </ul>
-
-
         </nav>
-
 
         <div style="width:100%;height:60px;">
         </div>
@@ -225,6 +235,10 @@
 
 <!-- for searching other schools-->
         <script src="{% static 'js/search.js' %}"></script>
+
+<!--  for the links in sidebar -->
+        <script src="{% static 'js/sidebar.js' %}"></script>
+
         {% block javascript %}
         {% endblock %}
     </body>
