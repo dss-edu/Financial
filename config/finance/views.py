@@ -3880,56 +3880,56 @@ def generate_excel(request,school):
 
 
     #----------------- BS DATA
-    # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}") 
-    # rows = cursor.fetchall()
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}") 
+    rows = cursor.fetchall()
     
-    # data_balancesheet=[]
+    data_balancesheet=[]
     
     
-    # for row in rows:
+    for row in rows:
        
-    #     row_dict = {
-    #         'Activity':row[0],
-    #         'Description':row[1],
-    #         'Category':row[2],
-    #         'Subcategory':row[3],
-    #         'FYE':row[4],
+        row_dict = {
+            'Activity':row[0],
+            'Description':row[1],
+            'Category':row[2],
+            'Subcategory':row[3],
+            'FYE':row[4],
             
             
-    #         }
+            }
         
-    #     data_balancesheet.append(row_dict)
+        data_balancesheet.append(row_dict)
     
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
-    # rows = cursor.fetchall()
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
+    rows = cursor.fetchall()
     
-    # data_activitybs=[]
+    data_activitybs=[]
     
     
-    # for row in rows:
-    #     row_dict = {
-    #         'Activity':row[0],
-    #         'obj':row[1],
-    #         'Description2':row[2],
-    #         }
+    for row in rows:
+        row_dict = {
+            'Activity':row[0],
+            'obj':row[1],
+            'Description2':row[2],
+            }
         
-    #     data_activitybs.append(row_dict)
+        data_activitybs.append(row_dict)
 
-    #NOT YET DONE
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};") 
-    # rows = cursor.fetchall()
+   # NOT YET DONE
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};") 
+    rows = cursor.fetchall()
 
-    # data_cashflow = []
+    data_cashflow = []
 
-    # for row in rows:
-    #     row_dict = {
-    #         "Category": row[0],
-    #         "Activity": row[1],
-    #         "Description": row[2],
-    #         "obj": str(row[3]),
-    #     }
+    for row in rows:
+        row_dict = {
+            "Category": row[0],
+            "Activity": row[1],
+            "Description": row[2],
+            "obj": str(row[3]),
+        }
 
-    #     data_cashflow.append(row_dict)
+        data_cashflow.append(row_dict)
 
     with open(os.path.join(JSON_DIR, "data_charterfirst.json"), "r") as f:
         data_charterfirst = json.load(f)
@@ -3965,39 +3965,39 @@ def generate_excel(request,school):
 
     #     data_charterfirst.append(row_dict)
 
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
-    # rows = cursor.fetchall()
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
+    rows = cursor.fetchall()
 
-    # adjustment = []
+    adjustment = []
 
     
-    # for row in rows:
-    #     expend = float(row[17])
-    #     row_dict = {
-    #         "fund": row[0],
-    #         "func": row[1],
-    #         "obj": row[2],
-    #         "sobj": row[3],
-    #         "org": row[4],
-    #         "fscl_yr": row[5],
-    #         "pgm": row[6],
-    #         "edSpan": row[7],
-    #         "projDtl": row[8],
-    #         "AcctDescr": row[9],
-    #         "Number": row[10],
-    #         "Date": row[11],
-    #         "AcctPer": row[12],
-    #         "Est": row[13],
-    #         "Real": row[14],
-    #         "Appr": row[15],
-    #         "Encum": row[16],
-    #         "Expend": expend,
-    #         "Bal": row[18],
-    #         "WorkDescr": row[19],
-    #         "Type": row[20],
-    #         "School": row[21],
-    #     }
-    #     adjustment.append(row_dict)
+    for row in rows:
+        expend = float(row[17])
+        row_dict = {
+            "fund": row[0],
+            "func": row[1],
+            "obj": row[2],
+            "sobj": row[3],
+            "org": row[4],
+            "fscl_yr": row[5],
+            "pgm": row[6],
+            "edSpan": row[7],
+            "projDtl": row[8],
+            "AcctDescr": row[9],
+            "Number": row[10],
+            "Date": row[11],
+            "AcctPer": row[12],
+            "Est": row[13],
+            "Real": row[14],
+            "Appr": row[15],
+            "Encum": row[16],
+            "Expend": expend,
+            "Bal": row[18],
+            "WorkDescr": row[19],
+            "Type": row[20],
+            "School": row[21],
+        }
+        adjustment.append(row_dict)
 
     
 
@@ -4009,6 +4009,8 @@ def generate_excel(request,school):
 
     school_name = SCHOOLS[school]
 
+
+    
 
 
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
@@ -4501,29 +4503,30 @@ def generate_excel(request,school):
     
         for row_data in data2: #1st TOTAL
             if row_data["category"] != 'Depreciation and Amortization':
-                for col in range(4, 22):  # Columns G to U
-                    cell = pl_sheet.cell(row=start_row, column=col)
-                    cell.style = normal_cell 
-                pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-                pl_sheet[f'D{start_row}'] = row_data['total_budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-                pl_sheet[f'G{start_row}'] = row_data['total_func9']
-                pl_sheet[f'H{start_row}'] = row_data['total_func10']
-                pl_sheet[f'I{start_row}'] = row_data['total_func11']
-                pl_sheet[f'J{start_row}'] = row_data['total_func12']
-                pl_sheet[f'K{start_row}'] = row_data['total_func1']
-                pl_sheet[f'L{start_row}'] = row_data['total_func2']
-                pl_sheet[f'M{start_row}'] = row_data['total_func3']
-                pl_sheet[f'N{start_row}'] = row_data['total_func4']
-                pl_sheet[f'O{start_row}'] = row_data['total_func5']
-                pl_sheet[f'P{start_row}'] = row_data['total_func6']
-                pl_sheet[f'Q{start_row}'] = row_data['total_func7']
-                pl_sheet[f'R{start_row}'] = row_data['total_func8']
-                pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-                pl_sheet[f'U{start_row}'] = row_data['variances']
-                pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
-                first_total_end = start_row
-                start_row += 1
+                if row_data["total_func9"] > 0 and row_data["total_func10"] > 0 and row_data["total_func11"] > 0:
+                    for col in range(4, 22):  # Columns G to U
+                        cell = pl_sheet.cell(row=start_row, column=col)
+                        cell.style = normal_cell 
+                    pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+                    pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                    pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                    pl_sheet[f'G{start_row}'] = row_data['total_func9']
+                    pl_sheet[f'H{start_row}'] = row_data['total_func10']
+                    pl_sheet[f'I{start_row}'] = row_data['total_func11']
+                    pl_sheet[f'J{start_row}'] = row_data['total_func12']
+                    pl_sheet[f'K{start_row}'] = row_data['total_func1']
+                    pl_sheet[f'L{start_row}'] = row_data['total_func2']
+                    pl_sheet[f'M{start_row}'] = row_data['total_func3']
+                    pl_sheet[f'N{start_row}'] = row_data['total_func4']
+                    pl_sheet[f'O{start_row}'] = row_data['total_func5']
+                    pl_sheet[f'P{start_row}'] = row_data['total_func6']
+                    pl_sheet[f'Q{start_row}'] = row_data['total_func7']
+                    pl_sheet[f'R{start_row}'] = row_data['total_func8']
+                    pl_sheet[f'T{start_row}'] = row_data['ytd_total']
+                    pl_sheet[f'U{start_row}'] = row_data['variances']
+                    pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
+                    first_total_end = start_row
+                    start_row += 1
         for row in range(first_total_start, first_total_end+1):
             try:
                 pl_sheet.row_dimensions[row].outline_level = 1
@@ -5374,29 +5377,30 @@ def generate_excel(request,school):
     
         for row_data in data2: #1st TOTAL
             if row_data["category"] != 'Depreciation and Amortization':
-                for col in range(4, 22):  # Columns G to U
-                    cell = pl_sheet.cell(row=start_row, column=col)
-                    cell.style = normal_cell 
-                pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-                pl_sheet[f'D{start_row}'] = row_data['total_budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-                pl_sheet[f'G{start_row}'] = row_data['total_func7']
-                pl_sheet[f'H{start_row}'] = row_data['total_func8']
-                pl_sheet[f'I{start_row}'] = row_data['total_func9']
-                pl_sheet[f'J{start_row}'] = row_data['total_func10']
-                pl_sheet[f'K{start_row}'] = row_data['total_func11']
-                pl_sheet[f'L{start_row}'] = row_data['total_func12']
-                pl_sheet[f'M{start_row}'] = row_data['total_func1']
-                pl_sheet[f'N{start_row}'] = row_data['total_func2']
-                pl_sheet[f'O{start_row}'] = row_data['total_func3']
-                pl_sheet[f'P{start_row}'] = row_data['total_func4']
-                pl_sheet[f'Q{start_row}'] = row_data['total_func5']
-                pl_sheet[f'R{start_row}'] = row_data['total_func6']
-                pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-                pl_sheet[f'U{start_row}'] = row_data['variances']
-                pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
-                first_total_end = start_row
-                start_row += 1
+                if row_data["total_func7"] > 0 and row_data["total_func8"] > 0 and row_data["total_func9"] > 0:
+                    for col in range(4, 22):  # Columns G to U
+                        cell = pl_sheet.cell(row=start_row, column=col)
+                        cell.style = normal_cell 
+                    pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
+                    pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                    pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                    pl_sheet[f'G{start_row}'] = row_data['total_func7']
+                    pl_sheet[f'H{start_row}'] = row_data['total_func8']
+                    pl_sheet[f'I{start_row}'] = row_data['total_func9']
+                    pl_sheet[f'J{start_row}'] = row_data['total_func10']
+                    pl_sheet[f'K{start_row}'] = row_data['total_func11']
+                    pl_sheet[f'L{start_row}'] = row_data['total_func12']
+                    pl_sheet[f'M{start_row}'] = row_data['total_func1']
+                    pl_sheet[f'N{start_row}'] = row_data['total_func2']
+                    pl_sheet[f'O{start_row}'] = row_data['total_func3']
+                    pl_sheet[f'P{start_row}'] = row_data['total_func4']
+                    pl_sheet[f'Q{start_row}'] = row_data['total_func5']
+                    pl_sheet[f'R{start_row}'] = row_data['total_func6']
+                    pl_sheet[f'T{start_row}'] = row_data['ytd_total']
+                    pl_sheet[f'U{start_row}'] = row_data['variances']
+                    pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
+                    first_total_end = start_row
+                    start_row += 1
         for row in range(first_total_start, first_total_end+1):
             try:
                 pl_sheet.row_dimensions[row].outline_level = 1
@@ -5966,7 +5970,7 @@ def generate_excel(request,school):
     
         start_row += 4 #Total expense and Net income
  
-    # BS DESIGN
+    #BS DESIGN
     # for col in range(7, 19):
     #     col_letter = get_column_letter(col)
     #     bs_sheet.column_dimensions[col_letter].outline_level = 1
@@ -6006,10 +6010,10 @@ def generate_excel(request,school):
     # indent_style2 = NamedStyle(name="indent_style2", alignment=Alignment(indent=4))
 
     # start_bs = 1
-    # bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY2022-2023 Balance Sheet as of {formatted_last_month}'
+    # bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY2022-2023 Balance Sheet as of {months["last_month"]}'
     # #--- BS INSERT
     # header_bs = 3
-    # bs_sheet[f'U{header_bs}'] = f'As of {last_month_name}'
+    # bs_sheet[f'U{header_bs}'] = f'As of {months["last_month"]}'
     # start_row_bs = 6
     
     # bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
@@ -6840,7 +6844,7 @@ def generate_excel(request,school):
     # start += 1
     # cashflow_sheet[f'A{start}'] = 'Statement of Cash Flows'
     # start += 1
-    # cashflow_sheet[f'A{start}'] = f'for the period ended of {formatted_last_month}'
+    # cashflow_sheet[f'A{start}'] = f'for the period ended of {months["last_month"]}'
 
     # cashflow_start_row = 7
     # operating_start_row = cashflow_start_row
