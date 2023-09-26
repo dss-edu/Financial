@@ -2855,6 +2855,93 @@
   });
 
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+   
+    var modal = document.getElementById("myModal3");
+
+      var modalTableBody = document.getElementById("modal3-table-body");
+
+      function populateModal(data) {
+   
+        modalTableBody.innerHTML = "";
+      
+    
+        data.glfunc_data.forEach(function (row) {
+          var newRow = document.createElement("tr");
+          newRow.innerHTML = `
+            <td class="right-align-td">${row.fund}</td>
+            <td class="right-align-td">${row.func}</td>
+            <td class="right-align-td"> ${row.obj}</td>
+            <td class="right-align-td">${row.org}</td>
+            <td class="right-align-td">${row.fscl_yr}</td>
+            <td class="right-align-td">${row.pgm}</td>
+            <td class="right-align-td">${row.projDtl}</td>
+            <td class="right-align-td">${row.AcctDescr}</td>
+            <td class="right-align-td">${row.Number}</td>
+            <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
+            <td class="right-align-td">${row.AcctPer}</td>
+            <td class="right-align-td">${row.Real}</td>
+            <td class="right-align-td">${row.Expend}</td>
+            <td class="right-align-td">${row.Bal}</td>
+            <td class="right-align-td" style="white-space: nowrap;">${row.WorkDescr}</td>
+            <td class="right-align-td">${row.Type}</td>
+            
+          `;
+          modalTableBody.appendChild(newRow);
+        });
+        var totalRow = document.createElement("tr");
+        totalRow.innerHTML = `
+          <td colspan="12" style="text-align: right;">Total Balance</td>
+          <td>${data.total_bal}</td>
+          <td colspan="3"></td>
+        `;
+        modalTableBody.appendChild(totalRow);
+      }
+
+    // Function to fetch the data from the server when modal is shown
+    function fetchDataAndPopulateModal(func, yr,school) {
+      fetch(`/viewglexpense/${func}/${yr}/${school}`)
+        .then(function (response) {
+           
+          return response.json();
+        })
+        .then(function (data) {
+          console.log(data);
+          if (data.status === "success") {
+            // Populate the modal with the fetched data
+            populateModal(data.data,data.total_bal);
+            // Show the modal
+            modal.style.display = "block";
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+        });
+    }
+
+    // Add click event listeners to all "a" elements inside the table
+    var viewGLexpenseLinks = document.querySelectorAll(".viewglexpense-link");
+    viewGLexpenseLinks.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        var obj = link.dataset.obj;
+    
+        var yr = link.dataset.yr;
+        fetchDataAndPopulateModal(obj, yr,school);
+      });
+    });
+
+    // Close the modal when the close button is clicked
+    var closeButton = modal.querySelector(".modal3-footer button");
+    closeButton.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+  });
+</script>
 <script src="{% static 'js/pl1.js' %}"></script>
 <script src="{% static 'js/pl.js' %}"></script> 
 <script src="{% static 'js/excel.js' %}"></script>

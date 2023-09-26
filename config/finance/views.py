@@ -3007,15 +3007,14 @@ def viewglfunc_cumberland(request,func,yr):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewglexpense(request,obj,yr):
+def viewglexpense(request,obj,yr,school):
     print(request)
     try:
         
         cnxn = connect()
         cursor = cnxn.cursor()
-        
 
-        cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_ExpensesbyObjectCode];") 
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['code']};")
         rows = cursor.fetchall()
 
         data_expensebyobject=[]
@@ -3033,7 +3032,7 @@ def viewglexpense(request,obj,yr):
 
             data_expensebyobject.append(row_dict)
 
-        cursor.execute("SELECT * FROM [dbo].[AscenderData_Advantage_PL_Activities];") 
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['activities']};")
         rows = cursor.fetchall()
 
         data_activities=[]
@@ -3055,8 +3054,10 @@ def viewglexpense(request,obj,yr):
 
             
         
-        
-        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE obj = ? and AcctPer = ? "
+ 
+ 
+
+        query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
         cursor.execute(query, (obj,yr))
         
         rows = cursor.fetchall()

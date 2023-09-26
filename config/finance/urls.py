@@ -36,7 +36,7 @@ urlpatterns = [
         name="viewgl_activitybs",
     ),
     path(
-        "viewglexpense/<str:obj>/<str:yr>/", views.viewglexpense, name="viewglexpense"
+        "viewglexpense/<str:obj>/<str:yr>/<str:school>", views.viewglexpense, name="viewglexpense"
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
     path(
