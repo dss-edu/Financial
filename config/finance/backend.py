@@ -93,6 +93,7 @@ def update_db():
     # profit_loss("advantage")
     # balance_sheet("advantage")
     # cashflow("advantage")
+    # excel("advantage")
     for school, name in SCHOOLS.items():
         profit_loss(school) #should always be the first to update
         balance_sheet(school)
@@ -826,7 +827,7 @@ def profit_loss(school):
 
             if category == "Other Expenses":
                 total_EOC_oe[acct_per] += item[f"total_activities{i}"]
-                print(total_EOC_oe[acct_per])
+                
 
             if category == "Total Expense":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
@@ -2007,7 +2008,7 @@ def balance_sheet(school):
                 total_current_liabilities_fye +=  fye
 
     
-
+    total_liabilities_fytd_2 = 0
     for row in data_balancesheet:
         if row["school"] == school:
             subcategory =  row["Subcategory"]
@@ -2015,9 +2016,11 @@ def balance_sheet(school):
             if subcategory == 'Long Term Debt':
                 for i, acct_per in enumerate(acct_per_values,start = 1):
                     total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
-                total_liabilities_fytd += row["debt_fytd"]
+                total_liabilities_fytd_2 += row["debt_fytd"]
                 total_liabilities_fye +=  + total_current_liabilities_fye + fye
-    
+    total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
+    print(total_liabilities_fytd_2, total_current_liabilities_fye)
+    print(school)
     for row in data_balancesheet:
         if row["school"] == school:
             fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
@@ -2153,7 +2156,7 @@ def balance_sheet(school):
         "total_bal10",
         "total_bal11",
         "total_bal12",
-        "fytd",
+        "fytd"
     ]
 
     for row in data_activitybs:
