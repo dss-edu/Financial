@@ -1582,13 +1582,13 @@ def delete_bsa(request, obj, Activity):
 # def pl_cumberlandchart(request):
 #     return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
 
-def viewgl(request,fund,obj,yr):
-    
+def viewgl(request,fund,obj,yr,school):
+    print(request)
     try:
         
         cnxn = connect()
         cursor = cnxn.cursor()
-        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE fund = ? and obj = ? and AcctPer = ?"
+        query = f"SELECT * FROM [dbo].{db[school]['db']} where fund = ? and obj = ? and AcctPer = ? "
         cursor.execute(query, (fund,obj,yr))
         
         rows = cursor.fetchall()
@@ -2835,7 +2835,7 @@ def viewgl_activitybs_cumberland(request,obj,yr):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewglfunc(request,func,yr):
+def viewglfunc(request,func,yr,school):
     print(request)
     try:
         
@@ -2843,7 +2843,7 @@ def viewglfunc(request,func,yr):
         cursor = cnxn.cursor()
 
         
-        query = "SELECT * FROM [dbo].[AscenderData_Advantage] WHERE func = ? and AcctPer = ?"
+        query = f"SELECT * FROM [dbo].{db[school]['db']} where func = ? and AcctPer = ? "
         cursor.execute(query, (func,yr))
         
         rows = cursor.fetchall()
@@ -2852,9 +2852,7 @@ def viewglfunc(request,func,yr):
     
     
         for row in rows:
-            date_str=row[11]
-        
-            
+            date_str=row[11]            
             expend = float(row[17]) if row[17] else 0
             if expend == 0:
                 expendformat = ""
@@ -4010,7 +4008,179 @@ def generate_excel(request,school):
     school_name = SCHOOLS[school]
 
 
+    # acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
+    # expend_key = "Expend"
+    # real_key = "Real"
+    # bal_key = "Bal"
+    # est_key = "Est"
+    # if school == "village-tech":
+    #     expend_key = "Amount"
+    #     real_key = "Amount"
+    #     bal_key = "Amount"
+    #     est_key = "Amount"
+
+    # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+    # for item in data:
+    #     fund = item['fund']
+    #     obj = item['obj']
+    #     total_real = 0
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         total_real = sum(
+    #             entry[real_key] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
+    #         )
+    #         total_revenue[acct_per] += abs(total_real)
+
+    # for item in data_activitybs:
+        
+    #     obj = item['obj']
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f'total_bal{i}'] = sum(
+    #             entry[bal_key] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
+    #         )
+
+    # keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
+  
+    # activity_sum_dict = {} 
+    # for item in data_activitybs:
+    #     Activity = item['Activity']
+    #     for i in range(1, 13):
+    #         total_sum_i = sum(
+    #             int(entry[f'total_bal{i}']) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
+    #             for entry in data_activitybs
+    #         )
+    #         activity_sum_dict[(Activity, i)] = total_sum_i
     
+    # for row in data_balancesheet:
+    
+    #     activity = row['Activity']
+    #     for i in range(1, 13):
+    #         key = (activity, i)
+    #         row[f'total_sum{i}'] = activity_sum_dict.get(key, 0)
+    
+
+    
+    # for row in data_balancesheet:
+    
+    #     FYE_value = int(row['FYE']) if row['FYE'] else 0
+    #     total_sum9_value = int(row['total_sum9']) if row['total_sum9'] else 0
+    #     total_sum10_value = int(row['total_sum10']) if row['total_sum10'] else 0
+    #     total_sum11_value = int(row['total_sum11']) if row['total_sum11'] else 0
+    #     total_sum12_value = int(row['total_sum12']) if row['total_sum12'] else 0
+    #     total_sum1_value = int(row['total_sum1']) if row['total_sum1'] else 0
+    #     total_sum2_value = int(row['total_sum2']) if row['total_sum2'] else 0
+    #     total_sum3_value = int(row['total_sum3']) if row['total_sum3'] else 0
+    #     total_sum4_value = int(row['total_sum4']) if row['total_sum4'] else 0
+    #     total_sum5_value = int(row['total_sum5']) if row['total_sum5'] else 0
+    #     total_sum6_value = int(row['total_sum6']) if row['total_sum6'] else 0
+    #     total_sum7_value = int(row['total_sum7']) if row['total_sum7'] else 0
+    #     total_sum8_value = int(row['total_sum8']) if row['total_sum8'] else 0
+    
+    #     # Calculate the differences and store them in the row dictionary
+    #     row['difference_9'] = float(FYE_value + total_sum9_value)
+    #     row['difference_10'] = float(FYE_value + total_sum9_value + total_sum10_value)
+    #     row['difference_11'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
+    #     row['difference_12'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
+    #     row['difference_1'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
+    #     row['difference_2'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
+    #     row['difference_3'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
+    #     row['difference_4'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
+    #     row['difference_5'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
+    #     row['difference_6'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
+    #     row['difference_7'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
+    #     row['difference_8'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+    
+    #     row['fytd'] = float(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+    
+
+    # total_surplus = {acct_per: 0 for acct_per in acct_per_values}
+
+    # for item in data2:
+    #     if item['category'] != 'Depreciation and Amortization':
+    #         func = item['func_func']
+
+    #         for i, acct_per in enumerate(acct_per_values, start=1):
+    #             total_func = sum(
+    #                 entry[expend_key]
+    #                 for entry in data3
+    #                 if entry["func"] == func and entry["AcctPer"] == acct_per
+    #             )
+    #             total_adjustment = 0
+    #             # sum(
+    #             #     entry[expend_key]
+    #             #     for entry in adjustment
+    #             #     if entry["func"] == func and entry["AcctPer"] == acct_per
+    #             # )
+    #             item[f"total_func{i}"] = total_func + total_adjustment
+    #             total_surplus[acct_per] += item[f'total_func{i}']
+   
+
+    # # ---- Depreciation and ammortization total
+    # total_DnA = {acct_per: 0 for acct_per in acct_per_values}
+
+    # for item in data2:
+    #     if item['category'] == 'Depreciation and Amortization':
+    #         func = item['func_func']
+    #         obj =  item['obj']
+
+    #         for i, acct_per in enumerate(acct_per_values, start=1):
+    #             total_func = sum(
+    #                 entry[expend_key]
+    #                 for entry in data3
+    #                 if entry["func"] == func
+    #                 and entry["AcctPer"] == acct_per
+    #                 and entry["obj"] == obj
+    #             )
+    #             total_adjustment = sum(
+    #                 entry[expend_key]
+    #                 for entry in adjustment
+    #                 if entry["func"] == func
+    #                 and entry["AcctPer"] == acct_per
+    #                 and entry["obj"] == obj
+    #             )
+    #             item[f"total_func2_{i}"] = total_func + total_adjustment
+    #             total_DnA[acct_per] += item[f"total_func2_{i}"]
+                
+
+    # total_SBD = {
+    #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
+    #     for acct_per in acct_per_values
+    # }
+    # total_netsurplus = {
+    #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
+    #     for acct_per in acct_per_values
+    # }
+
+
+    # for item in data_cashflow:
+    #     activity = item["Activity"]
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         key = f"total_bal{i}"
+    #         item[f"total_operating{i}"] = sum(
+    #             entry[key] for entry in data_activitybs if entry["Activity"] == activity
+    #         )
+
+    # for item in data_cashflow:
+    #     obj = item["obj"]
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f"total_investing{i}"] = sum(
+    #             entry[bal_key]
+    #             for entry in data3
+    #             if entry["obj"] == obj and entry["AcctPer"] == acct_per
+    #         )
+
+    # for item in data_activities:
+    #     obj = item["obj"]
+
+    #     for i, acct_per in enumerate(acct_per_values, start=1):
+    #         item[f"total_activities{i}"] = sum(
+    #             entry[expend_key]
+    #             for entry in data3
+    #             if entry["obj"] == obj and entry["AcctPer"] == acct_per)
+
 
 
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')

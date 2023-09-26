@@ -28,8 +28,8 @@ urlpatterns = [
     path("delete_bsa/<str:obj>/<str:Activity>/", views.delete_bsa, name="delete_bsa"),
     path("generate_excel/<str:school>", views.generate_excel, name="generate_excel"),
     path("delete_func/<str:func>/", views.delete_func, name="delete_func"),
-    path("viewgl/<str:fund>/<str:obj>/<str:yr>/", views.viewgl, name="viewgl"),
-    path("viewglfunc/<str:func>/<str:yr>/", views.viewglfunc, name="viewglfunc"),
+    path("viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>", views.viewgl, name="viewgl"),
+    path("viewglfunc/<str:func>/<str:yr>/<str:school>", views.viewglfunc, name="viewglfunc"),
     path(
         "viewgl_activitybs/<str:obj>/<str:yr>/",
         views.viewgl_activitybs,
