@@ -854,7 +854,7 @@
     {% for row in data2 %}
    
     {% if row.category != 'Depreciation and Amortization' %}
-    {% if row.total_func9 >= '0' %}
+    {% if row.total_func9 > '0' %}
       
       <tr id="row11-{{ forloop.counter }}" class="total-row1">
           <td class="firstcolumn"></td>

@@ -114,7 +114,7 @@
 </script>  {% endcomment %}
 
     {% csrf_token %}
-    <input type="hidden" name="hey">
+    
     <table id="data-table" class="table table-hover">
         <thead>
         <tr>
@@ -140,9 +140,34 @@
             <th class="collapsed"></th>
             <th class="collapsed"></th>
             <th class="collapsed"></th>
-            <th><button id="toggle-button" type="button" class="expand-button">+</button></th>
+            <th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();">+</button></th>
         </tr>
     </thead>
+    {% if  school != 'manara' and school != 'prepschool' %}
+    <script>
+      var last_month_number = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
+       // Add 11 to it
+       console.log(last_month_number)
+       if (last_month_number >= 9) {
+        last_month_number -= 4;
+        
+    } 
+    else {
+        last_month_number +=8;
+        
+    }
+      
+      function hide17thColumn() {
+        for (var i = last_month_number; i <= 15; i++) {
+          var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+      
+          for (var j = 0; j < columnsToHide.length; j++) {
+              columnsToHide[j].style.display = "none";
+          }
+      }
+    }
+    </script> 
+
     <tbody id="data-table-body">
         <tr class="header">
             <th></th>
@@ -207,18 +232,19 @@
           <td></td>
           <td>&nbsp;&nbsp;Depreciation and Amortization</td>
           <td></td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.09 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.10 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.11 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.12 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.01 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.02 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.03 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.04 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.05 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.06 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.07 }} </td>
-          <td class="collapsed right-align-td" >  {{ total_DnA.08 }} </td>
+
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.09}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.10}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.11}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.12}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.01}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.02}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.03}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.04}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.05}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.06}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.07}}</td>
+          <td class="collapsed right-align-td" >  {{totals.dna_total_months.08}}</td>
           <td class="right-align-td"> 
           </td>
         </tr>
@@ -602,6 +628,501 @@
         {% endif %} 
     {% endif %}
   {% endfor %}
+
+  {%else%}
+
+  <script>
+    var last_month_number = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
+     // Add 11 to it
+     
+     console.log(last_month_number)
+     if (last_month_number >= 7) {
+      last_month_number += -2;
+      
+  }else{
+    last_month_number += 9;
+  }
+    
+    function hide17thColumn() {
+      for (var i = last_month_number; i <= 15; i++) {
+        var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+    
+        for (var j = 0; j < columnsToHide.length; j++) {
+            columnsToHide[j].style.display = "none";
+        }
+    }
+  }
+  </script> 
+  <tbody id="data-table-body">
+    <tr class="header">
+        <th></th>
+        <th></th>
+        <th></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">July          </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">August        </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">September     </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">October       </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">November      </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">December      </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">January       </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">February      </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">March         </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">April         </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">May           </div></th>
+        <th class="collapsed" style="text-align: center;"> <div style="width: 100px">June          </div></th>
+        
+        <th style="text-align: center;">YTD FY 2023</th>
+       
+    </tr>
+    <tr class="local-revenue-row">
+        <td></td>
+        <td><strong>CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
+        <td></td>
+        <td class="collapsed" ></td>
+        <td class="collapsed" ></td>
+        <td class="collapsed" ></td>
+        <td class="collapsed" ></td>
+        <td class="collapsed" ></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td class="collapsed"></td>
+        <td></td>
+    </tr>
+   
+    <tr class="netcash-row">
+      <td> </td>
+      <td>&nbsp;&nbsp;Change in Net Assets</td>
+       <td></td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.07 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.08 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.09 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.10 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.11 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.12 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.01 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.02 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.03 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.04 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.05 }} </td>
+      <td class="collapsed right-align-td" >{{ total_netsurplus.06 }} </td>
+
+      <td class="right-align-td"> {{totals.ytd_netsurplus}}
+      </td>
+    </tr>
+   
+ 
+    <tr class="netcash-row">
+      <td></td>
+      <td>&nbsp;&nbsp;Depreciation and Amortization</td>
+      <td></td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.07}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.08}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.09}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.10}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.11}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.12}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.01}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.02}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.03}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.04}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.05}} </td>
+      <td class="collapsed right-align-td" >  {{totals.dna_total_months.06}} </td>
+ 
+      <td class="right-align-td"> 
+        {{totals.dna_ytd_total}}
+      </td>
+    </tr>
+    {% for row in data_cashflow %}
+    {% if row.Category == 'Operating' %}
+    <tr class="netcash-row">
+      <td></td>
+      <td>&nbsp;&nbsp;{{ row.Description }}</td>
+      <td></td>
+      <td class="collapsed right-align-td" >{{row.total_operating7}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating8}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating9}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating10}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating11}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating12}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating1}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating2}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating3}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating4}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating5}}</td>
+      <td class="collapsed right-align-td" >{{row.total_operating6}}</td>
+
+      <td class="right-align-td"> {{row.fytd_1}}</td>
+    </tr>
+              
+    {% endif %}
+    {% endfor %}
+
+    
+
+    <tr class="netcash-row-total">
+      <td></td>
+      <td><strong>NET CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
+      <td></td>
+      <td id="netcash-total-3" class="collapsed right-align-td" ></td>
+      <td id="netcash-total-4" class="collapsed right-align-td" ></td>
+      <td id="netcash-total-5" class="collapsed right-align-td" ></td>
+      <td id="netcash-total-6" class="collapsed right-align-td" ></td>
+      <td id="netcash-total-7" class="collapsed right-align-td" ></td>
+      <td id="netcash-total-8" class="collapsed right-align-td"></td>
+      <td id="netcash-total-9" class="collapsed right-align-td"></td>
+      <td id="netcash-total-10"class="collapsed right-align-td"></td>
+      <td id="netcash-total-11"class="collapsed right-align-td"></td>
+      <td id="netcash-total-12"class="collapsed right-align-td"></td>
+      <td id="netcash-total-13"class="collapsed right-align-td"></td>
+      <td id="netcash-total-14"class="collapsed right-align-td"></td>
+      <td id="netcash-total-15"class="right-align-td"> 
+      </td>
+    </tr>
+    <tr class="">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="local-revenue-row">
+      <td></td>
+      <td><strong>CASH FLOWS FROM INVESTING ACTIVITIES</strong></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    {% for row in data_cashflow %}
+    {% if row.Category == 'Investing' %}
+    <tr class="investing-row">
+      <td></td>
+      <td>&nbsp;&nbsp;{{ row.Description }}</td>
+      <td></td>
+      <td class="collapsed right-align-td" >{{row.total_investing7}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing8}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing9}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing10}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing11}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing12}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing1}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing2}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing3}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing4}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing5}}</td>
+      <td class="collapsed right-align-td" >{{row.total_investing6}}</td>
+
+      <td class="right-align-td">{{row.fytd_2}}</td>
+    </tr>
+              
+    {% endif %}
+    {% endfor %}
+
+  
+    <tr class="investing-row-total">
+      <td></td>
+      <td><strong>NET CASH FLOWS FROM INVESTING ACTIVITIES</strong></td>
+      <td></td>
+      <td id="investing-total-3" class="collapsed right-align-td" ></td>
+      <td id="investing-total-4" class="collapsed right-align-td" ></td>
+      <td id="investing-total-5" class="collapsed right-align-td" ></td>
+      <td id="investing-total-6" class="collapsed right-align-td" ></td>
+      <td id="investing-total-7" class="collapsed right-align-td" ></td>
+      <td id="investing-total-8" class="collapsed right-align-td"></td>
+      <td id="investing-total-9" class="collapsed right-align-td"></td>
+      <td id="investing-total-10"class="collapsed right-align-td"></td>
+      <td id="investing-total-11"class="collapsed right-align-td"></td>
+      <td id="investing-total-12"class="collapsed right-align-td"></td>
+      <td id="investing-total-13"class="collapsed right-align-td"></td>
+      <td id="investing-total-14"class="collapsed right-align-td"></td>
+      <td id="investing-total-15"class="right-align-td"> 
+      </td>
+    </tr>
+    <tr class="local-revenue-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="finacing-row">
+      <td></td>
+      <td><strong>CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="finacing-row">
+      <td></td>
+      <td>&nbsp;&nbsp;Increase (Decrease) in Short Term Notes Payable, Bond</td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="finacing-row">
+      <td></td>
+      <td>&nbsp;&nbsp;Increase (Decrease) in Long Term Liabilities</td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="finacing-row">
+      <td></td>
+      <td>&nbsp;&nbsp;Decrease (Increase) Restricted Cash (Constr.)</td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="finacing-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="local-revenue-row">
+      <td></td>
+      <td><strong>NET CASH FLOWS FROM FINANCING ACTIVITIES</strong></td>
+      <td></td>
+      <td id="financing-total-3"  class="collapsed"></td>
+      <td id="financing-total-4"  class="collapsed"></td>
+      <td id="financing-total-5"  class="collapsed"></td>
+      <td id="financing-total-6"  class="collapsed"></td>
+      <td id="financing-total-7"  class="collapsed"></td>
+      <td id="financing-total-8"  class="collapsed"></td>
+      <td id="financing-total-9"  class="collapsed"></td>
+      <td id="financing-total-10" class="collapsed"></td>
+      <td id="financing-total-11" class="collapsed"></td>
+      <td id="financing-total-12" class="collapsed"></td>
+      <td id="financing-total-13" class="collapsed"></td>
+      <td id="financing-total-14" class="collapsed"></td>
+      <td id="financing-total-15" ></td>
+    </tr>
+    <tr class="local-revenue-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    <tr class="NIC-row-total">
+      <td></td>
+      <td><strong>NET INCREASE (DECREASE) IN CASH</strong></td>
+      <td></td>
+      <td id="NIC-total-3" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-4" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-5" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-6" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-7" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-8" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-9" class="collapsed right-align-td" ></td>
+      <td id="NIC-total-10"class="collapsed right-align-td" ></td>
+      <td id="NIC-total-11"class="collapsed right-align-td" ></td>
+      <td id="NIC-total-12"class="collapsed right-align-td" ></td>
+      <td id="NIC-total-13"class="collapsed right-align-td" ></td>
+      <td id="NIC-total-14"class="collapsed right-align-td" ></td>
+      <td id="NIC-total-15"class="right-align-td"></td>
+    </tr>
+    <tr class="local-revenue-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    {% for row in data_balancesheet %}
+    {% if row.school == school %}
+    
+    {% if row.Category == 'Assets' %}
+    {% if row.Subcategory == 'Current Assets' %}
+    {% if row.Activity == 'Cash' %}
+    <tr class="CBP-row">
+      <td></td>
+      <td><strong>Cash at Beginning of Period</strong></td>
+      <td></td>
+      <td class="collapsed right-align-td" > {{row.FYE}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_7}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_8}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_9}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_10}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_11}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_12}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_1}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_2}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_3}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_4}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_5}}</td>
+      
+      <td class="right-align-td"> {{row.FYE}}</td>
+    </tr>
+    {% endif %}    
+    {% endif %} 
+    {% endif %}  
+{% endif %}
+{% endfor %}
+    <tr class="local-revenue-row">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed" ></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td class="collapsed"></td>
+      <td></td>
+    </tr>
+    {% for row in data_balancesheet %}
+    {% if row.school == school %}
+    {% if row.Category == 'Assets' %}
+    {% if row.Subcategory == 'Current Assets' %}
+    {% if row.Activity == 'Cash' %}
+    <tr class="CEP-row">
+      <td></td>
+      <td><strong>Cash at End of Period</strong></td>
+      <td></td>
+      <td class="collapsed right-align-td" > {{row.difference_7}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_8}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_9}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_10}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_11}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_12}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_1}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_2}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_3}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_4}}</td>
+      <td class="collapsed right-align-td" > {{row.difference_5}}</td>
+      
+      <td class="collapsed right-align-td" > {{row.difference_6}}</td>
+      <td class="right-align-td">{{row.difference_7}}</td>
+    </tr>
+    {% endif %} 
+    {% endif %}    
+    {% endif %} 
+{% endif %}
+{% endfor %}
+
+
+{%endif%}
           
         </tbody>
     </table>
@@ -627,9 +1148,30 @@
 {% block javascript %}
 <script>
   var school = "{{ school }}"; 
+  
+var columnsCollapsed = false;
+function toggleColumns() {
+  var toggleButton = document.getElementById("toggle-button");
+  var collapsedColumns = document.getElementsByClassName("collapsed");
+  
+  for (var i = 0; i < collapsedColumns.length; i++) {
+    if (columnsCollapsed) {
+      collapsedColumns[i].style.display = "table-cell";
+      toggleButton.innerHTML = "-";
+    } else {
+      collapsedColumns[i].style.display = "none";
+      toggleButton.innerHTML = "+";
+    }
+  }
+  
+  // Toggle the state
+  columnsCollapsed = !columnsCollapsed;
+}
 </script>
 <script src="{% static 'js/cashflow2.js' %}"></script>
-<script src="{% static 'js/cashflow.js' %}"></script>
+{% comment %} <script src="{% static 'js/cashflow.js' %}"></script> {% endcomment %}
+
+
 <script src="{% static 'js/excel.js' %}"></script>
 {% endblock %}
 

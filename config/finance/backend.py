@@ -2020,8 +2020,7 @@ def balance_sheet(school):
                 total_liabilities_fytd_2 += row["debt_fytd"]
                 total_liabilities_fye +=  + total_current_liabilities_fye + fye
     total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
-    print(total_liabilities_fytd_2, total_current_liabilities_fye)
-    print(school)
+
     for row in data_balancesheet:
         if row["school"] == school:
             fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
@@ -2321,8 +2320,14 @@ def cashflow(school):
     with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
         data_expensebyobject = json.load(f)
 
-    with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
+    with open(os.path.join(json_path, "data_activities.json"), "r") as f:
         data_activities = json.load(f)
+
+    with open(os.path.join(json_path, "totals.json"), "r") as f:
+        totals = json.load(f)
+
+    with open(os.path.join(json_path, "months.json"), "r") as f:
+        months = json.load(f)
 
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
     rows = cursor.fetchall()
@@ -2386,6 +2391,7 @@ def cashflow(school):
 
     for item in data_cashflow:
         activity = item["Activity"]
+        item["fytd_1"] = 0
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             key = f"total_bal{i}"
@@ -2394,9 +2400,12 @@ def cashflow(school):
                 for entry in data_activitybs
                 if entry["Activity"] == activity
             )
+            item["fytd_1"] += item[f"total_operating{i}"] 
+            
 
     for item in data_cashflow:
         obj = item["obj"]
+        item["fytd_2"] = 0
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_investing{i}"] = sum(
@@ -2404,6 +2413,8 @@ def cashflow(school):
                 for entry in data3
                 if entry["obj"] == obj and entry["AcctPer"] == acct_per
             )
+            item["fytd_2"] += item[f"total_investing{i}"] 
+            
 
     data_key = "Expend"
     if school == "village-tech":
@@ -2422,6 +2433,7 @@ def cashflow(school):
         "total_operating10",
         "total_operating11",
         "total_operating12",
+        
     ]
     keys_to_check_cashflow2 = [
         "total_investing1",
@@ -2436,6 +2448,7 @@ def cashflow(school):
         "total_investing10",
         "total_investing11",
         "total_investing12",
+        
     ]
     for row in data_cashflow:
         for key in keys_to_check_cashflow:
