@@ -39,26 +39,26 @@ urlpatterns = [
         "viewglexpense/<str:obj>/<str:yr>/<str:school>", views.viewglexpense, name="viewglexpense"
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
-    path(
-        "viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/",
-        views.viewgl_cumberland,
-        name="viewgl_cumberland",
-    ),
-    path(
-        "viewglfunc_cumberland/<str:func>/<str:yr>/",
-        views.viewglfunc_cumberland,
-        name="viewglfunc_cumberland",
-    ),
-    path(
-        "viewgl_activitybs_cumberland/<str:obj>/<str:yr>/",
-        views.viewgl_activitybs_cumberland,
-        name="viewgl_activitybs_cumberland",
-    ),
-    path(
-        "viewglexpense_cumberland/<str:obj>/<str:yr>/",
-        views.viewglexpense_cumberland,
-        name="viewglexpense_cumberland",
-    ),
+    # path(
+    #     "viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/",
+    #     views.viewgl_cumberland,
+    #     name="viewgl_cumberland",
+    # ),
+    # path(
+    #     "viewglfunc_cumberland/<str:func>/<str:yr>/",
+    #     views.viewglfunc_cumberland,
+    #     name="viewglfunc_cumberland",
+    # ),
+    # path(
+    #     "viewgl_activitybs_cumberland/<str:obj>/<str:yr>/",
+    #     views.viewgl_activitybs_cumberland,
+    #     name="viewgl_activitybs_cumberland",
+    # ),
+    # path(
+    #     "viewglexpense_cumberland/<str:obj>/<str:yr>/",
+    #     views.viewglexpense_cumberland,
+    #     name="viewglexpense_cumberland",
+    # ),
     # refactored urls
     path("dashboard/<str:school>", new_views.dashboard),
     path("dashboard/notes/<str:school>", new_views.dashboard_notes),
