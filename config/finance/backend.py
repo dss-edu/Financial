@@ -95,9 +95,9 @@ def update_db():
     # cashflow("advantage")
     # excel("advantage")
     for school, name in SCHOOLS.items():
-        # profit_loss(school) #should always be the first to update
-        # balance_sheet(school)
-        # cashflow(school)
+        profit_loss(school) #should always be the first to update
+        balance_sheet(school)
+        cashflow(school)
         excel(school)
 
 
