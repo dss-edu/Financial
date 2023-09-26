@@ -150,7 +150,7 @@ def charter_first(school):
     return context
 
 
-def profit_loss(school):
+def profit_loss(school, anchor_year):
     current_date = datetime.today().date()
     # current_year = current_date.year
     # last_year = current_date - timedelta(days=365)
@@ -173,7 +173,12 @@ def profit_loss(school):
     }
 
     BASE_DIR = os.getcwd()
+    # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
+    if anchor_year:  # anchor_year is by default = ""
+        JSON_DIR = os.path.join(
+            BASE_DIR, "finance", str(anchor_year), "profit-loss", school
+        )
     files = os.listdir(JSON_DIR)
 
     for file in files:
@@ -195,11 +200,12 @@ def profit_loss(school):
         context["lr_funds"] = lr_funds_sorted
         context["lr_obj"] = lr_obj_sorted
         context["func_choice"] = func_choice_sorted
+        context["anchor_year"] = anchor_year
 
     return context
 
 
-def balance_sheet(school):
+def balance_sheet(school, anchor_year):
     current_date = datetime.today().date()
     current_month = current_date.replace(day=1)
     last_month = current_month - relativedelta(days=1)
@@ -226,6 +232,10 @@ def balance_sheet(school):
 
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "balance-sheet", school)
+    if anchor_year:
+        JSON_DIR = os.path.join(
+            BASE_DIR, "finance", str(anchor_year), "balance-sheet", school
+        )
     files = os.listdir(JSON_DIR)
 
     for file in files:
@@ -233,10 +243,11 @@ def balance_sheet(school):
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
 
+    context["anchor_year"] = anchor_year
     return context
 
 
-def cashflow(school):
+def cashflow(school, anchor_year):
     current_date = datetime.today().date()
     current_year = current_date.year
     last_year = current_date - timedelta(days=365)
@@ -260,10 +271,13 @@ def cashflow(school):
         "last_month_number": last_month_number,
         "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
+        "anchor_year": anchor_year,
     }
 
     # all  of profit loss
     JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
+    if anchor_year:
+        JSON_DIR = os.path.join(os.getcwd(), "finance", str(anchor_year))
     PL_DIR = os.path.join(JSON_DIR, "profit-loss", school)
     files = os.listdir(PL_DIR)
 
