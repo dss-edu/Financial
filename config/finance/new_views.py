@@ -224,6 +224,8 @@ def cashflow_charts(request, school):
 
 def general_ledger(request, school):
     context = modules.general_ledger(school)
+    if school == "village-tech":
+        return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
 
 
