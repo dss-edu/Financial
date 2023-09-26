@@ -323,44 +323,81 @@ def cashflow(school, anchor_year):
 def general_ledger(school):
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute(
-        f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC"
-    )
+    query = f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC"
+    if school == "village-tech":
+        query = (
+            f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY PostingDate DESC"
+        )
+    cursor.execute(query)
     rows = cursor.fetchall()
 
     data3 = []
-    for row in rows:
-        date_str = row[11]
-        # if date_str is not None:
-        #         date_without_time = date_str.strftime('%b. %d, %Y')
-        # else:
-        #         date_without_time = None
-        row_dict = {
-            "fund": row[0],
-            "func": row[1],
-            "obj": row[2],
-            "sobj": row[3],
-            "org": row[4],
-            "fscl_yr": row[5],
-            "pgm": row[6],
-            "edSpan": row[7],
-            "projDtl": row[8],
-            "AcctDescr": row[9],
-            "Number": row[10],
-            "Date": date_str,
-            "AcctPer": row[12],
-            "Est": row[13],
-            "Real": row[14],
-            "Appr": row[15],
-            "Encum": row[16],
-            "Expend": row[17],
-            "Bal": row[18],
-            "WorkDescr": row[19],
-            "Type": row[20],
-            # "Contr": row[21],
-        }
+    if school != "village-tech":
+        for row in rows:
+            date_str = row[11]
+            # if date_str is not None:
+            #         date_without_time = date_str.strftime('%b. %d, %Y')
+            # else:
+            #         date_without_time = None
+            row_dict = {
+                "fund": row[0],
+                "func": row[1],
+                "obj": row[2],
+                "sobj": row[3],
+                "org": row[4],
+                "fscl_yr": row[5],
+                "pgm": row[6],
+                "edSpan": row[7],
+                "projDtl": row[8],
+                "AcctDescr": row[9],
+                "Number": row[10],
+                "Date": date_str,
+                "AcctPer": row[12],
+                "Est": row[13],
+                "Real": row[14],
+                "Appr": row[15],
+                "Encum": row[16],
+                "Expend": row[17],
+                "Bal": row[18],
+                "WorkDescr": row[19],
+                "Type": row[20],
+                # "Contr": row[21],
+            }
 
-        data3.append(row_dict)
+            data3.append(row_dict)
+    else:
+        for row in rows:
+            date_str = row[11]
+            # if date_str is not None:
+            #         date_without_time = date_str.strftime('%b. %d, %Y')
+            # else:
+            #         date_without_time = None
+            row_dict = {
+                "fund": row[0],
+                "T": row[1],
+                "func": row[2],
+                "obj": row[3],
+                "sobj": row[4],
+                "org": row[5],
+                "fscl_yr": row[6],
+                "PI": row[7],
+                "LOC": row[8],
+                "PostingDate": row[9],
+                "Month": row[10],
+                "Source": date_str,
+                "SubSource": row[12],
+                "Batch": row[13],
+                "Vendor": row[14],
+                "TransactionDescr": row[15],
+                "InvoiceDate": row[16],
+                "CheckNumber": row[17],
+                "CheckDate": row[18],
+                "Amount": row[19],
+                "Budget": row[20],
+                # "Contr": row[21],
+            }
+
+            data3.append(row_dict)
 
     context = {
         "data3": data3,

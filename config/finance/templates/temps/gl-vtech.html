@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+{% block title %}
+    {{ school_name }}
+{% endblock %}
+{% block body %}
+    <div class="content-wrapper">
+        <div class="container-fluid">
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fas fa-table"></i>
+                            General Ledger
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/manual-adjustments/{{ school }}">
+                            <i class="fa-solid fa-sliders"></i>
+                            Manual Adjustments
+                        </a>
+                    </li>
+                </ul>
+            <!-- ... Add your other buttons here if needed ... -->
+            </div>
+            <table class="table table-hover" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr class="table-dark">
+                        <th>fund</th>
+                        <th>T</th>
+                        <th>func</th>
+                        <th>obj</th>
+                        <th>sobj</th>
+                        <th>org</th>
+                        <th>fscl_yr</th>
+                        <th>PI</th>
+                        <th>LOC</th>
+                        <th>PostingDate</th>
+                        <th>Month</th>
+                        <th>Source</th>
+                        <th>SubSource</th>
+                        <th>Batch</th>
+                        <th>Vendor</th>
+                        <th>TransactionDescr</th>
+                        <th>InvoiceDate</th>
+                        <th>CheckNumber</th>
+                        <th>CheckDate</th>
+                        <th>Amount</th>
+                        <th>Budget</th>
+                    </tr>
+                    <tr>
+                        <th>fund</th>
+                        <th>T</th>
+                        <th>func</th>
+                        <th>obj</th>
+                        <th>sobj</th>
+                        <th>org</th>
+                        <th>fscl_yr</th>
+                        <th>PI</th>
+                        <th>LOC</th>
+                        <th>PostingDate</th>
+                        <th>Month</th>
+                        <th>Source</th>
+                        <th>SubSource</th>
+                        <th>Batch</th>
+                        <th>Vendor</th>
+                        <th>TransactionDescr</th>
+                        <th>InvoiceDate</th>
+                        <th>CheckNumber</th>
+                        <th>CheckDate</th>
+                        <th>Amount</th>
+                        <th>Budget</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data3 %}
+                        <tr class="table-row">
+                            <td>{{row.fund}}</td>
+                            <td>{{row.T}}</td>
+                            <td>{{row.func}}</td>
+                            <td>{{row.obj}}</td>
+                            <td>{{row.sobj}}</td>
+                            <td>{{row.org}}</td>
+                            <td>{{row.fscl_yr}}</td>
+                            <td>{{row.PI}}</td>
+                            <td>{{row.LOC}}</td>
+                            <td>{{row.PostingDate}}</td>
+                            <td>{{row.Month}}</td>
+                            <td>{{row.Source}}</td>
+                            <td>{{row.SubSource}}</td>
+                            <td>{{row.Batch}}</td>
+                            <td>{{row.Vendor}}</td>
+                            <td>{{row.TransactionDescr}}</td>
+                            <td>{{row.InvoiceDate}}</td>
+                            <td>{{row.CheckNumber}}</td>
+                            <td>{{row.CheckDate}}</td>
+                            <td>{{row.Amount}}</td>
+                            <td>{{row.Budget}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+        // Initialize DataTables
+            var table = $("#dataTable").DataTable({
+                ordering: false,
+                dom: "lrtip",
+            });
+
+        // Add select dropdowns for each column except the first column (index 0)
+            $("#dataTable thead tr:nth-child(2) th").each(function (index) {
+                var column = table.column(index);
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo($(this).empty())
+                    .on("change", function () {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        column.search(val ? val : "", true, false).draw(); // Updated search method
+                    });
+
+            // Populate the select dropdown with unique values from the column
+                column
+                    .data()
+                    .unique()
+                    .each(function (d) {
+                        select.append('<option value="' + d + '">' + d + "</option>");
+                    });
+            });
+        });
+    </script>
+
+{% endblock %}
