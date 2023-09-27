@@ -599,7 +599,7 @@
         <!-- LOCAL REVENUE COLUMN START-->
       {% for row in data %}
         {% if row.category == 'Local Revenue' %}
-       
+      
             <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
                 <td class="firstcolumn"><a href=" {% url 'delete' row.fund row.obj  %}"  style="display:none;"><i class="fas fa-times"></i></a></td>
          
@@ -632,8 +632,7 @@
             </tr>
 
             
-            
-         
+      
         {% endif %}
       {% endfor %}
       
@@ -1079,7 +1078,7 @@
       <tr id="row6-{{ forloop.counter }}" class="payroll-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td  class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td  >{{ row.obj }} - {{ row.Description }}</td>
           <td class="right-align-td">{{row.total_budget}}</td>
           <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -1146,7 +1145,7 @@
       <tr id="row7-{{ forloop.counter }}" class="PCS-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td>{{ row.obj }} - {{ row.Description }}</td>
           <td class="right-align-td">{{row.total_budget}}</td>
           <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -1215,7 +1214,7 @@
       <tr id="row8-{{ forloop.counter }}" class="sm-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td >{{ row.obj }} - {{ row.Description }}</td>
           <td class="right-align-td">{{row.total_budget}}</td>
           <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -1283,7 +1282,7 @@
       <tr id="row9-{{ forloop.counter }}" class="ooe-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td>{{ row.obj }} - {{ row.Description }}</td>
           <td class="right-align-td">{{row.total_budget}}</td>
           <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -1422,7 +1421,7 @@
       <tr id="row10-{{ forloop.counter }}" class="expense-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+          <td >{{ row.obj }} - {{ row.Description }}</td>
           <td class="right-align-td">{{row.total_budget}} </td>
           <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2138,7 +2137,7 @@
     <tr id="row6-{{ forloop.counter }}" class="payroll-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td  class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+        <td  >{{ row.obj }} - {{ row.Description }}</td>
         <td class="right-align-td">{{row.total_budget}}</td>
         <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
@@ -2206,7 +2205,7 @@
     <tr id="row7-{{ forloop.counter }}" class="PCS-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+        <td>{{ row.obj }} - {{ row.Description }}</td>
         <td class="right-align-td">{{row.total_budget}}</td>
         <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
@@ -2277,7 +2276,7 @@
     <tr id="row8-{{ forloop.counter }}" class="sm-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+        <td >{{ row.obj }} - {{ row.Description }}</td>
         <td class="right-align-td">{{row.total_budget}}</td>
         <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
@@ -2316,7 +2315,7 @@
         </td>
         
         
-        <td class="right-align-td">{{totals.ytd_budget_sm}}</td>
+        <td class="right-align-td">{{totals.ytd_bugdet_sm}}</td>
         <td class="collapsed right-align-td" id="sm-total-15">{{totals.total_EOC_sm.07}}</td>
         <td class="collapsed right-align-td" id="sm-total-16">{{totals.total_EOC_sm.08}}</td>
         <td class="collapsed right-align-td" id="sm-total-5" >{{totals.total_EOC_sm.09}}</td>
@@ -2347,7 +2346,7 @@
     <tr id="row9-{{ forloop.counter }}" class="ooe-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+        <td>{{ row.obj }} - {{ row.Description }}</td>
         <td class="right-align-td">{{row.total_budget}}</td>
         <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
@@ -2490,7 +2489,7 @@
     <tr id="row10-{{ forloop.counter }}" class="expense-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
+        <td >{{ row.obj }} - {{ row.Description }}</td>
         <td class="right-align-td">{{row.total_budget}} </td>
         <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>

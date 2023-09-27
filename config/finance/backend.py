@@ -206,6 +206,7 @@ def profit_loss(school):
                 "Date": date,
                 "AcctPer": row[10],
                 "Amount": amount,
+                "Budget":row[20],
             }
 
             data3.append(row_dict)
@@ -352,9 +353,9 @@ def profit_loss(school):
     if school == "village-tech":
         expense_key = "Amount"
         expend_key = "Amount"
-        est_key = "Amount"
+        est_key = "Budget"
         real_key = "Amount"
-        appr_key = "Amount"
+        appr_key = "Budget"
         encum_key = "Amount"
 
     
@@ -1377,6 +1378,7 @@ def profit_loss(school):
     
     sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
     sorted_data = sorted(data, key=lambda x: x['obj'])
+    data_activities = sorted(data_activities, key=lambda x: x['obj'])
     context = {
         "data": sorted_data,
         "data2": sorted_data2,
