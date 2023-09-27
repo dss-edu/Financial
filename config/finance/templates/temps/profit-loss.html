@@ -527,6 +527,7 @@
               }
               else if (i === 5 ) {
                 document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
+                // document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns();hideEmptyColumns();" >+</button></th>`);
               }
               else if(i>=6 && i<=16){
                 document.write(`<td  class="collapsed"></td>`);
@@ -1611,13 +1612,13 @@
         
         function hide17thColumn() {
           for (var i = last_month_number; i <= 17; i++) {
-            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+            var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "), #data-table td:nth-child(" + i + ")");
         
             for (var j = 0; j < columnsToHide.length; j++) {
                 columnsToHide[j].style.display = "none";
             }
+          }
         }
-      }
       </script> 
 
 
@@ -2945,6 +2946,7 @@
 <script src="{% static 'js/pl1.js' %}"></script>
 <script src="{% static 'js/pl.js' %}"></script> 
 <script src="{% static 'js/excel.js' %}"></script>
+<script src="{% static 'js/plHideCols.js' %}"></script>
 
 {% endblock %}
 
