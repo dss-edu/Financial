@@ -279,33 +279,33 @@
 </script>
 
 <div class="modal" id="myModal2">
-  <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+  <div class="modal-dialog modal-dialog-centered" style="width: 90%; height: 80%; max-width: none; max-height: none;">
     <div class="modal-content" style="height: 80%;">
       <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
         <!-- Modify the table to display the data from the viewgl function -->
         <table class="table table-hover" id="balancesheet-data-table2">
           <thead>
             <tr>
-            <th>fund</th>
-            <th>func</th>
-            <th>obj</th>
-            <th>org</th>
-            <th>fscl_yr</th>
-            <th>pgm</th>
+            <th style="text-align: center;">fund</th>
+            <th style="text-align: center;">func</th>
+            <th style="text-align: center;">obj</th>
+            <th style="text-align: center;">org</th>
+            <th style="text-align: center;">fscl_yr</th>
+            <th style="text-align: center;">pgm</th>
             
-            <th>projDtl</th>
-            <th>AcctDescr</th>
-            <th>Number</th>
-            <th>Date</th>
-            <th>AcctPer</th>
+            <th style="text-align: center;">projDtl</th>
+            <th style="text-align: center;">AcctDescr</th>
+            <th style="text-align: center;">Number</th>
+            <th style="text-align: center;">Date</th>
+            <th style="text-align: center;">AcctPer</th>
            
-            <th>Real</th>
+            <th style="text-align: center;">Real</th>
        
            
-            <th>Expend</th>
-            <th>Bal</th>
-            <th>WorkDescr</th>
-            <th>Type</th>
+            <th style="text-align: center;">Expend</th>
+            <th style="text-align: center;">Bal</th>
+            <th style="text-align: center;">WorkDescr</th>
+            <th style="text-align: center;">Type</th>
          
             </tr>
           </thead>
@@ -2682,7 +2682,7 @@
         });
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="11" style="text-align: right;">Total Balance</td>
+          <td colspan="11" style="text-align: right;">Total</td>
           <td>$${data.total_bal}</td>
           <td colspan="4"></td>
         `;
@@ -2763,7 +2763,7 @@
             <td class="right-align-td">${row.fscl_yr}</td>
             <td class="right-align-td">${row.pgm}</td>
             <td class="right-align-td">${row.projDtl}</td>
-            <td class="right-align-td">${row.AcctDescr}</td>
+            <td class="right-align-td" style="white-space: nowrap;">${row.AcctDescr}</td>
             <td class="right-align-td">${row.Number}</td>
             <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
             <td class="right-align-td">${row.AcctPer}</td>
@@ -2778,7 +2778,7 @@
         });
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="12" style="text-align: right;">Total Balance</td>
+          <td colspan="12" style="text-align: right;">Total</td>
           <td>${data.total_bal}</td>
           <td colspan="3"></td>
         `;
@@ -2865,7 +2865,7 @@
         });
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="12" style="text-align: right;">Total Balance</td>
+          <td colspan="12" style="text-align: right;">Total</td>
           <td>${data.total_bal}</td>
           <td colspan="3"></td>
         `;
