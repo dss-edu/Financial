@@ -1073,14 +1073,14 @@
       </tr>
 
       {% for row in data_activities %}
-      {% if row.Category == 'Payroll Costs' %}
+      {% if row.Category == 'Payroll and Benefits' %}
       
       <tr id="row6-{{ forloop.counter }}" class="payroll-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td  class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td></td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}}</td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1112,10 +1112,10 @@
             {{ row.obj }} - {{ row.Description }}
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-           {{row.budget}}
+           {{totals.total_budget_pc}}
             
           </td>      
-          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td  class="right-align-td"> {{totals.ytd_budget_pc}}</td>
           <td class="collapsed right-align-td" id="payroll-row-total-5" >{{totals.total_EOC_pc.09}}</td>
           <td class="collapsed right-align-td" id="payroll-row-total-6" >{{totals.total_EOC_pc.10}}</td>
           <td class="collapsed right-align-td" id="payroll-row-total-7" >{{totals.total_EOC_pc.11}}</td>
@@ -1140,14 +1140,14 @@
 
       <!-- END OF PAYROLL -->
       {% for row in data_activities %}
-      {% if row.Category == 'Professional and Cont Svcs' %}
+      {% if row.Category == 'Professional and Contract Services' %}
       
       <tr id="row7-{{ forloop.counter }}" class="PCS-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td class="right-align-td"></td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}}</td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1180,15 +1180,11 @@
             {{ row.obj }} - {{ row.Description }}
             </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-            {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-            {% endif %} 
+            {{totals.total_budget_pcs}}
           </td>
           
           
-          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td  class="right-align-td">{{totals.ytd_budget_pcs}}</td>
           <td class="collapsed right-align-td" id="pcs-total-5" >{{totals.total_EOC_pcs.09}}</td>
           <td class="collapsed right-align-td" id="pcs-total-6" >{{totals.total_EOC_pcs.10}}</td>
           <td class="collapsed right-align-td" id="pcs-total-7" >{{totals.total_EOC_pcs.11}}</td>
@@ -1213,14 +1209,14 @@
       <!-- END OF Professional and Cont Svcs-->
 
       {% for row in data_activities %}
-      {% if row.Category == 'Supplies and Materials' %}
+      {% if row.Category == 'Materials and Supplies' %}
       
       <tr id="row8-{{ forloop.counter }}" class="sm-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td class="right-align-td"></td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}}</td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1252,15 +1248,11 @@
             {{ row.obj }} - {{ row.Description }}
             </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-            {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-            {% endif %} 
+            {{totals.total_budget_sm}}
           </td>
           
           
-          <td class="right-align-td">{{row.ytd_budget}}</td>
+          <td class="right-align-td">{{totals.ytd_budget_sm}}</td>
           <td class="collapsed right-align-td" id="sm-total-5" >{{totals.total_EOC_sm.09}}</td>
           <td class="collapsed right-align-td" id="sm-total-6" >{{totals.total_EOC_sm.10}}</td>
           <td class="collapsed right-align-td" id="sm-total-7" >{{totals.total_EOC_sm.11}}</td>
@@ -1285,14 +1277,14 @@
       <!-- END OF Supplies and Materials-->
 
       {% for row in data_activities %}
-      {% if row.Category == 'Other Operating Expenses' %}
+      {% if row.Category == 'Other Operating Costs' %}
       
       <tr id="row9-{{ forloop.counter }}" class="ooe-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td class="right-align-td"></td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}}</td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1324,15 +1316,11 @@
             {{ row.obj }} - {{ row.Description }}
             </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-            {% if row.budget == 0.0 or row.budget == None %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-            {% else %}
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-            {% endif %} 
+            {{totals.total_budget_ooe}}
           </td>
           
           
-          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td  class="right-align-td">{{totals.ytd_budget_ooe}}</td>
           <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_ooe.09}}</td>
           <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_ooe.10}}</td>
           <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_ooe.11}}</td>
@@ -1354,15 +1342,15 @@
     {% endif %}
     {%endfor%}
 
-    {% for row in data_activities %}
-    {% if row.Category == 'Other Expenses' %}
+    {% comment %} {% for row in data_activities %}
+    {% if row.Category == 'Depreciation' %}
       
       <tr id="row13-{{ forloop.counter }}" class="ooe-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td class="right-align-td"></td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}}</td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1380,14 +1368,14 @@
           <td class="right-align-td"></td>
       </tr>
       {%endif%}
-      {%endfor%}
+      {%endfor%} {% endcomment %}
 
       {% for row in data_expensebyobject %}
       {% if row.obj == '6449' %}
       
       <tr id="row5-{{ forloop.counter }}" class="EOC-row">
           <td class="firstcolumn">
-            <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)" style=" float: left;">+</button>
+            {% comment %} <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)" style=" float: left;">+</button> {% endcomment %}
           </td>
           <td class="collapsed"></td>
           <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
@@ -1396,27 +1384,27 @@
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             
 
-            <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
+            {{totals.dna_total_6449}}
           
           </td>
           
           
-          <td  class="right-align-td">{{row.ytd_budget}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_oe.09}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_oe.10}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_oe.11}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.total_EOC_oe.12}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.total_EOC_oe.01}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-10">{{totals.total_EOC_oe.02}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-11">{{totals.total_EOC_oe.03}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-12">{{totals.total_EOC_oe.04}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-13">{{totals.total_EOC_oe.05}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-14">{{totals.total_EOC_oe.06}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_oe.07}}</td>
-          <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_oe.08}}</td>
-          <td class="right-align-td">{{totals.ytd_EOC_oe}}</td>
-          <td class="right-align-td">{{row.variances}}</td>
-          <td class="right-align-td">{{row.var_EOC}}</td>
+          <td  class="right-align-td">{{totals.ytd_ammended_dna_6449}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.dna_total_months_6449.09}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.dna_total_months_6449.10}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.dna_total_months_6449.11}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.dna_total_months_6449.12}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.dna_total_months_6449.01}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-10">{{totals.dna_total_months_6449.02}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-11">{{totals.dna_total_months_6449.03}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-12">{{totals.dna_total_months_6449.04}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-13">{{totals.dna_total_months_6449.05}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-14">{{totals.dna_total_months_6449.06}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-15">{{totals.dna_total_months_6449.07}}</td>
+          <td class="collapsed right-align-td" id="ooe-total-16">{{totals.dna_total_months_6449.08}}</td>
+          <td class="right-align-td">{{totals.dna_ytd_total_6449}}</td>
+          <td class="right-align-td">{{totals.variances_dna_6449}}</td>
+          <td class="right-align-td">{{totals.var_netsurplus}}</td>
       </tr>
 
       
@@ -1428,14 +1416,14 @@
 
 
       {% for row in data_activities %}
-      {% if row.Category == 'Total Expense' %}
+      {% if row.Category == 'Debt Services' %}
       
       <tr id="row10-{{ forloop.counter }}" class="expense-row">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
           <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-          <td class="right-align-td"> </td>
-          <td ></td>
+          <td class="right-align-td">{{row.total_budget}} </td>
+          <td class="right-align-td">{{row.ytd_budget}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="10">{{row.total_activities10}}</a></td>
           <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="11">{{row.total_activities11}}</a></td>
@@ -1471,12 +1459,12 @@
           </td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
          
-            {{row.budget}}
+            {{totals.total_budget_te}}
           
           </td>
           
           
-          <td  class="right-align-td">{{row.ytd_budget}}</td>
+          <td  class="right-align-td">{{totals.ytd_budget_te}}</td>
           <td class="collapsed right-align-td" id="oe-total-5" >{{totals.total_EOC_te.09}}</td>
           <td class="collapsed right-align-td" id="oe-total-6" >{{totals.total_EOC_te.10}}</td>
           <td class="collapsed right-align-td" id="oe-total-7" >{{totals.total_EOC_te.11}}</td>
@@ -1920,7 +1908,7 @@
   {% for row in data2 %}
   
   {% if row.category != 'Depreciation and Amortization' %}
-  {% if row.total_func7 >= '0' %}
+  
     
     <tr id="row11-{{ forloop.counter }}" class="total-row1">
         <td class="firstcolumn"></td>
@@ -1954,7 +1942,7 @@
         <td class="right-align-td">{{row.var_ytd}}</td>
     </tr>
     {% endif %}
-  {% endif %}
+
   {% endfor %}
 
 
@@ -2144,14 +2132,14 @@
     </tr>
 
     {% for row in data_activities %}
-    {% if row.Category == 'Payroll Costs' %}
+    {% if row.Category == 'Payroll and Benefits' %}
     
     <tr id="row6-{{ forloop.counter }}" class="payroll-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td  class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-        <td></td>
-        <td ></td>
+        <td class="right-align-td">{{row.total_budget}}</td>
+        <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2184,10 +2172,9 @@
           {{ row.obj }} - {{ row.Description }}
         </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-         {{row.budget}}
-          
+          {{totals.total_budget_pc}}          
         </td>      
-        <td  class="right-align-td">{{row.ytd_budget}}</td>
+        <td  class="right-align-td">{{totals.ytd_budget_pc}}</td>
         <td class="collapsed right-align-td" id="payroll-row-total-15">{{totals.total_EOC_pc.07}}</td>
         <td class="collapsed right-align-td" id="payroll-row-total-16">{{totals.total_EOC_pc.08}}</td>
         <td class="collapsed right-align-td" id="payroll-row-total-5" >{{totals.total_EOC_pc.09}}</td>
@@ -2213,14 +2200,14 @@
 
     <!-- END OF PAYROLL -->
     {% for row in data_activities %}
-    {% if row.Category == 'Professional and Cont Svcs' %}
+    {% if row.Category == 'Professional and Contract Services' %}
     
     <tr id="row7-{{ forloop.counter }}" class="PCS-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-        <td class="right-align-td"></td>
-        <td ></td>
+        <td class="right-align-td">{{row.total_budget}}</td>
+        <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2254,15 +2241,11 @@
           {{ row.obj }} - {{ row.Description }}
           </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-          {% if row.budget == 0.0 or row.budget == None %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-          {% else %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-          {% endif %} 
+          {{totals.total_budget_pcs}}
         </td>
         
         
-        <td  class="right-align-td">{{row.ytd_budget}}</td>
+        <td  class="right-align-td">{{totals.ytd_budget_pcs}}</td>
         <td class="collapsed right-align-td" id="pcs-total-15">{{totals.total_EOC_pcs.07}}</td>
         <td class="collapsed right-align-td" id="pcs-total-16">{{totals.total_EOC_pcs.08}}</td>
         <td class="collapsed right-align-td" id="pcs-total-5" >{{totals.total_EOC_pcs.09}}</td>
@@ -2288,14 +2271,14 @@
     <!-- END OF Professional and Cont Svcs-->
 
     {% for row in data_activities %}
-    {% if row.Category == 'Supplies and Materials' %}
+    {% if row.Category == 'Materials and Supplies' %}
     
     <tr id="row8-{{ forloop.counter }}" class="sm-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-        <td class="right-align-td"></td>
-        <td ></td>
+        <td class="right-align-td">{{row.total_budget}}</td>
+        <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2328,15 +2311,11 @@
           {{ row.obj }} - {{ row.Description }}
           </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-          {% if row.budget == 0.0 or row.budget == None %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-          {% else %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-          {% endif %} 
+          {{totals.total_budget_sm}}
         </td>
         
         
-        <td class="right-align-td">{{row.ytd_budget}}</td>
+        <td class="right-align-td">{{totals.ytd_budget_sm}}</td>
         <td class="collapsed right-align-td" id="sm-total-15">{{totals.total_EOC_sm.07}}</td>
         <td class="collapsed right-align-td" id="sm-total-16">{{totals.total_EOC_sm.08}}</td>
         <td class="collapsed right-align-td" id="sm-total-5" >{{totals.total_EOC_sm.09}}</td>
@@ -2362,14 +2341,14 @@
     <!-- END OF Supplies and Materials-->
 
     {% for row in data_activities %}
-    {% if row.Category == 'Other Operating Expenses' %}
+    {% if row.Category == 'Other Operating Costs' %}
     
     <tr id="row9-{{ forloop.counter }}" class="ooe-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-        <td class="right-align-td"></td>
-        <td ></td>
+        <td class="right-align-td">{{row.total_budget}}</td>
+        <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
         <td class="collapsed right-align-td" ><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2402,15 +2381,11 @@
           {{ row.obj }} - {{ row.Description }}
           </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-          {% if row.budget == 0.0 or row.budget == None %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-          {% else %}
-          <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-          {% endif %} 
+          {{totals.total_budget_ooe}}
         </td>
         
         
-        <td  class="right-align-td">{{row.ytd_budget}}</td>
+        <td  class="right-align-td">{{totals.ytd_budget_ooe}}</td>
         <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_ooe.07}}</td>
         <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_ooe.08}}</td>
         <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_ooe.09}}</td>
@@ -2437,7 +2412,7 @@
           <!-- END OF Other Operating Expenses-->
 
 
-          {% for row in data_activities %}
+          {% comment %} {% for row in data_activities %}
           {% if row.Category == 'Other Expenses' %}
           
           <tr id="row16-{{ forloop.counter }}" class="ooe-row">
@@ -2464,45 +2439,42 @@
               <td class="right-align-td"></td>
           </tr>
           {%endif%}
-          {%endfor%}
+          {%endfor%} {% endcomment %}
       
           {% for row in data_expensebyobject %}
           {% if row.obj == '6449' %}
           
           <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button id="row16" class="expand-button"  type="button" onclick="toggleRow(16)" style=" float: left;">+</button>
+                {% comment %} <button id="row16" class="expand-button"  type="button" onclick="toggleRow(16)" style=" float: left;">+</button> {% endcomment %}
               </td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">
                 {{ row.obj }} - {{ row.Description }}
                 </td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-                {% if row.budget == 0.0 or row.budget == None %}
-                <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
-                {% else %}
-                <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">{{row.budget}}
-                {% endif %} 
+
+                {{totals.dna_total_6449}}
               </td>
               
               
-              <td  class="right-align-td">{{row.ytd_budget}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-15">{{totals.total_EOC_oe.07}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-16">{{totals.total_EOC_oe.08}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.total_EOC_oe.09}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.total_EOC_oe.10}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.total_EOC_oe.11}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.total_EOC_oe.12}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.total_EOC_oe.01}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-10">{{totals.total_EOC_oe.02}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-11">{{totals.total_EOC_oe.03}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-12">{{totals.total_EOC_oe.04}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-13">{{totals.total_EOC_oe.05}}</td>
-              <td class="collapsed right-align-td" id="ooe-total-14">{{totals.total_EOC_oe.06}}</td>
+              <td  class="right-align-td">{{totals.ytd_ammended_dna_6449}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-15">{{totals.dna_total_months_6449.07}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-16">{{totals.dna_total_months_6449.08}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-5" >{{totals.dna_total_months_6449.09}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-6" >{{totals.dna_total_months_6449.10}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-7" >{{totals.dna_total_months_6449.11}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-8" >{{totals.dna_total_months_6449.12}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-9" >{{totals.dna_total_months_6449.01}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-10">{{totals.dna_total_months_6449.02}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-11">{{totals.dna_total_months_6449.03}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-12">{{totals.dna_total_months_6449.04}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-13">{{totals.dna_total_months_6449.05}}</td>
+              <td class="collapsed right-align-td" id="ooe-total-14">{{totals.dna_total_months_6449.06}}</td>
       
-              <td class="right-align-td">{{totals.ytd_EOC_oe}}</td>
-              <td class="right-align-td">{{row.variances}}</td>
-              <td class="right-align-td">{{row.var_EOC}}</td>
+              <td class="right-align-td">{{totals.dna_ytd_total_6449}}</td>
+              <td class="right-align-td">{{totals.variances_dna_6449}}</td>
+              <td class="right-align-td">{{totals.var_netsurplus}}</td>
           </tr>
       
           
@@ -2512,14 +2484,14 @@
 
 
     {% for row in data_activities %}
-    {% if row.Category == 'Total Expense' %}
+    {% if row.Category == 'Debt Services' %}
     
     <tr id="row10-{{ forloop.counter }}" class="expense-row">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
         <td class="right-align-td">{{ row.obj }} - {{ row.Description }}</td>
-        <td class="right-align-td"> </td>
-        <td ></td>
+        <td class="right-align-td">{{row.total_budget}} </td>
+        <td class="right-align-td">{{row.ytd_budget}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="07">{{row.total_activities7}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="08">{{row.total_activities8}}</a></td>
         <td class="collapsed right-align-td"><a href="#" class="viewglexpense-link" data-func="{{row.obj}}"  data-yr="09">{{row.total_activities9}}</a></td>
@@ -2552,13 +2524,12 @@
           
         </td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
-       
-          {{row.budget}}
+          {{totals.total_budget_te}}
         
         </td>
         
         
-        <td  class="right-align-td">{{row.ytd_budget}}</td>
+        <td  class="right-align-td">{{totals.ytd_budget_te}}</td>
         <td class="collapsed right-align-td" id="oe-total-15">{{totals.total_EOC_te.07}}</td>
         <td class="collapsed right-align-td" id="oe-total-16">{{totals.total_EOC_te.08}}</td>
         <td class="collapsed right-align-td" id="oe-total-5" >{{totals.total_EOC_te.09}}</td>
