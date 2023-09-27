@@ -27,11 +27,11 @@ SCHOOLS = {
 
 db = {
     "advantage": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Advantage]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
@@ -39,11 +39,11 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
     },
     "cumberland": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Cumberland]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
@@ -51,11 +51,11 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
     },
     "village-tech": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[Skyward_VillageTech]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
@@ -63,11 +63,11 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
     },
     "prepschool": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
@@ -75,11 +75,11 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
     },
     "manara": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Manara]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
@@ -98,7 +98,7 @@ def update_db():
         profit_loss(school) #should always be the first to update
         balance_sheet(school)
         cashflow(school)
-        excel(school)
+        # excel(school)
 
 
 
@@ -114,17 +114,17 @@ def profit_loss(school):
 
     data = []
     for row in rows:
-        if row[4] is None:
-            row[4] = ""
-        valueformat = "{:,.0f}".format(float(row[4])) if row[4] else ""
-        row_dict = {
-            "fund": row[0],
-            "obj": row[1],
-            "description": row[2],
-            "category": row[3],
-            "value": valueformat,
-        }
-        data.append(row_dict)
+        if row[5] == school:
+
+            row_dict = {
+                "fund": row[0],
+                "obj": row[1],
+                "description": row[2],
+                "category": row[3],
+                "value": row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                "school":row[5],
+            }
+            data.append(row_dict)
 
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
 
@@ -132,15 +132,17 @@ def profit_loss(school):
 
     data2 = []
     for row in rows:
-        budgetformat = "{:,.0f}".format(float(row[3])) if row[3] else ""
-        row_dict = {
-            "func_func": row[0],
-            "desc": row[1],
-            "category": row[2],
-            "obj": row[4],
-            "budget": budgetformat,
-        }
-        data2.append(row_dict)
+        if row[5] == school:        
+            row_dict = {
+                "func_func": row[0],
+                "obj": row[1],
+                "desc": row[2],
+                "category": row[3],
+                "budget":row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                "school": row[5],
+
+            }
+            data2.append(row_dict)
 
     #
     if not school == "village-tech":
@@ -263,13 +265,15 @@ def profit_loss(school):
     data_activities = []
 
     for row in rows:
-        row_dict = {
-            "obj": row[0],
-            "Description": row[1],
-            "Category": row[2],
-        }
+        if row[3] == school:
+            row_dict = {
+                "obj": row[0],
+                "Description": row[1],
+                "Category": row[2],
+                "school": row[3],
+            }
 
-        data_activities.append(row_dict)
+            data_activities.append(row_dict)
 
    
 
@@ -612,7 +616,7 @@ def profit_loss(school):
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
-            budget = float(item["budget"].replace(",",""))
+            
             ytd_total = 0
 
 
@@ -670,7 +674,7 @@ def profit_loss(school):
             func = item["func_func"]
             obj = item["obj"]
             ytd_total = 0
-            budget = float(item["budget"].replace(",",""))
+            
            
             
             total_func_func = sum(
@@ -824,22 +828,22 @@ def profit_loss(school):
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
         total_expense += item["total_budget"]  
         total_expense_ytd_budget += item[f"ytd_budget"]
-        if category == "Payroll Costs":
+        if category == "Payroll and Benefits":
             total_budget_pc += item["total_budget"]                
 
-        if category == "Professional and Cont Svcs":          
+        if category == "Professional and Contract Services":          
             total_budget_pcs += item["total_budget"] 
 
-        if category == "Supplies and Materials":       
+        if category == "Materials and Supplies":       
             total_budget_sm += item["total_budget"]     
             
-        if category == "Other Operating Expenses":
+        if category == "Other Operating Costs":
             total_budget_ooe += item["total_budget"]  
 
-        if category == "Other Expenses":  
+        if category == "Depreciation":  
             total_budget_oe += item["total_budget"]     
             
-        if category == "Total Expense": 
+        if category == "Debt Services": 
             total_budget_te += item["total_budget"]         
 
         for i, acct_per in enumerate(acct_per_values, start=1):
@@ -862,32 +866,41 @@ def profit_loss(school):
 
 
             
-            if category == "Payroll Costs":
+            if category == "Payroll and Benefits":
                 total_EOC_pc[acct_per] += item[f"total_activities{i}"]
                
 
-            if category == "Professional and Cont Svcs":
+            if category == "Professional and Contract Services":
                 total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Supplies and Materials":
+            if category == "Materials and Supplies":
                 total_EOC_sm[acct_per] += item[f"total_activities{i}"]
                 
 
-            if category == "Other Operating Expenses":
+            if category == "Other Operating Costs":
                 total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Other Expenses":
+            if category == "Depreciation":
                 total_EOC_oe[acct_per] += item[f"total_activities{i}"]
                 
 
-            if category == "Total Expense":
+            if category == "Debt Services":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
 
-            total_expense_months[acct_per] += item[f"total_activities{i}"]
+            total_expense_months[acct_per] += item[f"total_activities{i}"]  
 
         for month_number in range(1, 13):
             ytd_total += (item[f"total_activities{month_number}"])
         item["ytd_total"] = ytd_total
+
+
+    total_expense += dna_total
+    total_expense_ytd_budget += ytd_ammended_dna
+    for acct_per, dna_value in dna_total_months.items():
+   
+        if acct_per in total_expense_months:
+           
+            total_expense_months[acct_per] += dna_value
 
     ytd_EOC_pc  = sum(total_EOC_pc.values())
     ytd_EOC_pcs = sum(total_EOC_pcs.values())
@@ -907,6 +920,7 @@ def profit_loss(school):
     
     
     
+    
 
         
     #temporarily for 6500
@@ -915,9 +929,9 @@ def profit_loss(school):
 
     for item in data_expensebyobject:
         obj = item["obj"]
-        budget = float(item["budget"].replace(",",""))
+       
 
-        item[f"ytd_budget"] = budget * ytd_budget
+
 
     
         
@@ -926,29 +940,29 @@ def profit_loss(school):
 
 
         if obj == "6100":
-            category = "Payroll Costs"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_pc
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pc / budget*100))) if budget != 0 else ""
+            category = "Payroll and Benefits"
+            item["variances"] = ytd_budget_pc - ytd_EOC_pc
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pc / total_budget_pc*100))) if total_budget_pc != 0 else ""
         elif obj == "6200":
-            category = "Professional and Cont Svcs"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_pcs
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pcs / budget*100))) if budget != 0 else ""
+            category = "Professional and Contract Services"
+            item["variances"] = ytd_budget_pcs - ytd_EOC_pcs
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pcs / total_budget_pcs*100))) if total_budget_pcs != 0 else ""
         elif obj == "6300":
-            category = "Supplies and Materials"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_sm
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_sm / budget*100))) if budget != 0 else ""
+            category = "Materials and Supplies"
+            item["variances"] = ytd_budget_sm - ytd_EOC_sm
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_sm / total_budget_sm*100))) if total_budget_sm != 0 else ""
         elif obj == "6400":
-            category = "Other Operating Expenses"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_ooe
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_ooe / budget*100))) if budget != 0 else ""
+            category = "Other Operating Costs"
+            item["variances"] = ytd_budget_ooe - ytd_EOC_ooe
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_ooe / total_budget_ooe*100))) if total_budget_ooe != 0 else ""
         elif obj == "6449":
-            category = "Other Expenses"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_oe
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_oe / budget*100))) if budget != 0 else ""
+            category = "Depreciation"
+            item["variances"] = ytd_budget_oe - ytd_EOC_oe
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_oe / total_budget_oe*100))) if total_budget_oe != 0 else ""
         else:
-            category = "Total Expense"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_te
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_te / budget*100))) if budget != 0 else ""
+            category = "Debt Services"
+            item["variances"] = ytd_budget_te - ytd_EOC_te
+            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_expense{i}"] = sum(
@@ -959,7 +973,7 @@ def profit_loss(school):
 
         
     #CONTINUATION COMPUTATION TOTAL EXPENSE
-    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe,ytd_EOC_oe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc])
+    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
     variances_total_expense = total_expense_ytd_budget - total_expense_ytd
     var_total_expense = "{:d}%".format(abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
         
@@ -1040,6 +1054,12 @@ def profit_loss(school):
         else:
             row["variances"] = format_value_negative(variances)
 
+    # FOR EXPENSE BY OBJECT DEPRECIATION ONLY        
+    dna_total_6449 = format_value(dna_total)
+    ytd_ammended_dna_6449 = format_value(ytd_ammended_dna)
+    dna_ytd_total_6449 = format_value(dna_ytd_total)
+    variances_dna_6449 = format_value(variances_dna)   
+    dna_total_months_6449 = {acct_per: format_value(value) for acct_per, value in dna_total_months.items() if value != 0}    
 
 
     #FORMAT FIRST TOTAL AND DEPRECIATION AND AMORTIZATION(DNA)
@@ -1130,14 +1150,11 @@ def profit_loss(school):
     
     for row in data_expensebyobject:
       
-        ytd_budget = float(row["ytd_budget"])
+
         variances = float(row["variances"])
        
        
-        if ytd_budget is None or ytd_budget == 0:
-            row[f"ytd_budget"] = ""
-        else:
-            row[f"ytd_budget"] = format_value(ytd_budget)
+
         if variances is None or variances == 0:
             row[f"variances"] = ""
         else:
@@ -1169,7 +1186,10 @@ def profit_loss(school):
     ytd_budget_sm = format_value(ytd_budget_sm)
     ytd_budget_ooe = format_value(ytd_budget_ooe)
     ytd_budget_oe = format_value(ytd_budget_oe)
-    ytd_budget_te = format_value(ytd_budget_te)    
+    ytd_budget_te = format_value(ytd_budget_te)
+
+
+
 
     #EXPENSE OBJECT FOR FIX
     budget_for_6500 = format_value(budget_for_6500)
@@ -1467,6 +1487,13 @@ def profit_loss(school):
             "ytd_budget_ooe":ytd_budget_ooe,
             "ytd_budget_oe":ytd_budget_oe,
             "ytd_budget_te":ytd_budget_te,
+            #EXPENSE BY OBJECT FOR DEPRECIATION AND AMORTIZATION
+            "dna_total_6449":dna_total_6449,
+            "ytd_ammended_dna_6449":ytd_ammended_dna_6449,
+            "dna_ytd_total_6449":dna_ytd_total_6449,
+            "variances_dna_6449":variances_dna_6449,
+            "dna_total_months_6449":dna_total_months_6449,
+
 
 
 
