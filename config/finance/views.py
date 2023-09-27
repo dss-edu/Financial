@@ -44,63 +44,66 @@ SCHOOLS = {
 
 db = {
     "advantage": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Advantage]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "cumberland": {
-        "object": "[AscenderData_Cumberland_Definition_obj]",
-        "function": "[AscenderData_Cumberland_Definition_func]",
-        # "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Cumberland]",
-        "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Cumberland_PL_Activities]",
-        "bs": "[AscenderData_Cumberland_Balancesheet]",
-        "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "village-tech": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[Skyward_VillageTech]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "prepschool": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "manara": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Manara]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
         "bs_activity": "[AscenderData_Advantage_ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
 }
-
 
 def updatedb(request):
     if request.method == 'POST':
@@ -4860,11 +4863,13 @@ def generate_excel(request,school):
         start_row += 1
         payroll_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Payroll Costs':
+            if row_data['Category'] == 'Payroll and Benefits':
                 for col in range(4, 22):  # Columns G to U
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell 
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
 
                 pl_sheet[f'G{start_row}'] = row_data['total_activities9']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities10']
@@ -4895,8 +4900,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell 
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
+                pl_sheet[f'D{start_row}'] = totals["total_budget_pc"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_pc"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_pc"]["09"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_pc"]["10"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_pc"]["11"]
@@ -4916,11 +4921,13 @@ def generate_excel(request,school):
 
         pcs_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Professional and Cont Svcs':
+            if row_data['Category'] == 'Professional and Contract Services':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
                 pl_sheet[f'G{start_row}'] = row_data['total_activities9']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities10']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities11']
@@ -4951,8 +4958,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals["total_budget_pcs"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_pcs"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_pcs"]["09"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_pcs"]["10"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_pcs"]["11"]
@@ -4973,11 +4980,13 @@ def generate_excel(request,school):
 
         sm_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Supplies and Materials':
+            if row_data['Category'] == 'Materials and Supplies':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
                 pl_sheet[f'G{start_row}'] = row_data['total_activities9']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities10']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities11']
@@ -5008,8 +5017,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals["total_budget_sm"] 
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_sm"] 
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_sm"]["09"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_sm"]["10"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_sm"]["11"]
@@ -5030,11 +5039,13 @@ def generate_excel(request,school):
 
         ooe_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Other Operating Expenses':
+            if row_data['Category'] == 'Other Operating Costs':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = totals["total_budget_sm"] 
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_sm"] 
                 pl_sheet[f'G{start_row}'] = row_data['total_activities9']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities10']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities11']
@@ -5065,8 +5076,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals["total_budget_ooe"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_ooe"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_ooe"]["09"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_ooe"]["10"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_ooe"]["11"]
@@ -5086,35 +5097,8 @@ def generate_excel(request,school):
 
                 start_row += 1
 
-        oe_row_start = start_row
-        for row_data in data_activities: 
-            if row_data['Category'] == 'Other Expenses':
-                for col in range(4, 22):  
-                    cell = pl_sheet.cell(row=start_row, column=col)
-                    cell.style = normal_cell
-                pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'G{start_row}'] = row_data['total_activities9']
-                pl_sheet[f'H{start_row}'] = row_data['total_activities10']
-                pl_sheet[f'I{start_row}'] = row_data['total_activities11']
-                pl_sheet[f'J{start_row}'] = row_data['total_activities12']
-                pl_sheet[f'K{start_row}'] = row_data['total_activities1']
-                pl_sheet[f'L{start_row}'] = row_data['total_activities2']
-                pl_sheet[f'M{start_row}'] = row_data['total_activities3']
-                pl_sheet[f'N{start_row}'] = row_data['total_activities4']
-                pl_sheet[f'O{start_row}'] = row_data['total_activities5']
-                pl_sheet[f'P{start_row}'] = row_data['total_activities6']
-                pl_sheet[f'Q{start_row}'] = row_data['total_activities7']
-                pl_sheet[f'R{start_row}'] = row_data['total_activities8']
-                pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-                oe_row_end = start_row
-                start_row += 1
 
-        for row in range(oe_row_start, oe_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+
 
         oe_row = start_row
         for row_data in data_expensebyobject: 
@@ -5123,23 +5107,23 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-                pl_sheet[f'G{start_row}'] = totals["total_EOC_oe"]["09"]
-                pl_sheet[f'H{start_row}'] = totals["total_EOC_oe"]["10"]
-                pl_sheet[f'I{start_row}'] = totals["total_EOC_oe"]["11"]
-                pl_sheet[f'J{start_row}'] = totals["total_EOC_oe"]["12"]
-                pl_sheet[f'K{start_row}'] = totals["total_EOC_oe"]["01"]
-                pl_sheet[f'L{start_row}'] = totals["total_EOC_oe"]["02"]
-                pl_sheet[f'M{start_row}'] = totals["total_EOC_oe"]["03"]
-                pl_sheet[f'N{start_row}'] = totals["total_EOC_oe"]["04"]
-                pl_sheet[f'O{start_row}'] = totals["total_EOC_oe"]["05"]
-                pl_sheet[f'P{start_row}'] = totals["total_EOC_oe"]["06"]
-                pl_sheet[f'Q{start_row}'] = totals["total_EOC_oe"]["07"]
-                pl_sheet[f'R{start_row}'] = totals["total_EOC_oe"]["08"]
-                pl_sheet[f'T{start_row}'] = totals["ytd_EOC_ooe"]
+                pl_sheet[f'D{start_row}'] = totals["dna_total"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_ammended_dna"]
+                pl_sheet[f'G{start_row}'] = totals["dna_total_months"]["09"]
+                pl_sheet[f'H{start_row}'] = totals["dna_total_months"]["10"]
+                pl_sheet[f'I{start_row}'] = totals["dna_total_months"]["11"]
+                pl_sheet[f'J{start_row}'] = totals["dna_total_months"]["12"]
+                pl_sheet[f'K{start_row}'] = totals["dna_total_months"]["01"]
+                pl_sheet[f'L{start_row}'] = totals["dna_total_months"]["02"]
+                pl_sheet[f'M{start_row}'] = totals["dna_total_months"]["03"]
+                pl_sheet[f'N{start_row}'] = totals["dna_total_months"]["04"]
+                pl_sheet[f'O{start_row}'] = totals["dna_total_months"]["05"]
+                pl_sheet[f'P{start_row}'] = totals["dna_total_months"]["06"]
+                pl_sheet[f'Q{start_row}'] = totals["dna_total_months"]["07"]
+                pl_sheet[f'R{start_row}'] = totals["dna_total_months"]["08"]
+                pl_sheet[f'T{start_row}'] = totals["dna_ytd_total"]
 
-                pl_sheet[f'U{start_row}'] = row_data['variances']  
+                pl_sheet[f'U{start_row}'] = totals["variances_dna"]
                 pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
 
                 start_row += 1
@@ -5147,11 +5131,13 @@ def generate_excel(request,school):
 
         total_expense_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Total Expense':
+            if row_data['Category'] == 'Debt Services':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data["total_budget"]
+                pl_sheet[f'E{start_row}'] = row_data["ytd_budget"]
                 pl_sheet[f'G{start_row}'] = row_data['total_activities9']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities10']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities11']
@@ -5184,8 +5170,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals["total_budget_te"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_te"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_te"]["09"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_te"]["10"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_te"]["11"]
@@ -5734,11 +5720,14 @@ def generate_excel(request,school):
         start_row += 1
         payroll_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Payroll Costs':
+            if row_data['Category'] == 'Payroll and Benefits':
                 for col in range(4, 22):  # Columns G to U
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell 
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
                 
                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
@@ -5769,8 +5758,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell 
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
+                pl_sheet[f'D{start_row}'] = totals["total_budget_pc"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_pc"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_pc"]["07"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_pc"]["08"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_pc"]["09"]
@@ -5790,11 +5779,13 @@ def generate_excel(request,school):
     
         pcs_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Professional and Cont Svcs':
+            if row_data['Category'] == 'Professional and Contract Services':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
@@ -5825,8 +5816,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals["total_budget_pcs"]
+                pl_sheet[f'E{start_row}'] = totals["ytd_budget_pcs"]
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_pcs"]["07"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_pcs"]["08"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_pcs"]["09"]
@@ -5847,11 +5838,13 @@ def generate_excel(request,school):
     
         sm_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Supplies and Materials':
+            if row_data['Category'] == 'Materials and Supplies':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
@@ -5882,8 +5875,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals['total_budget_sm']
+                pl_sheet[f'E{start_row}'] = totals['ytd_bugdet_sm'] 
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_sm"]["07"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_sm"]["08"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_sm"]["09"]
@@ -5904,11 +5897,13 @@ def generate_excel(request,school):
             
         ooe_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Other Operating Expenses':
+            if row_data['Category'] == 'Other Operating Costs':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
@@ -5939,8 +5934,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals['total_budget_ooe']
+                pl_sheet[f'E{start_row}'] = totals['ytd_budget_ooe'] 
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_ooe"]["07"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_ooe"]["08"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_ooe"]["09"]
@@ -5960,35 +5955,7 @@ def generate_excel(request,school):
                 
                 start_row += 1
     
-        oe_row_start = start_row
-        for row_data in data_activities: 
-            if row_data['Category'] == 'Other Expenses':
-                for col in range(4, 22):  
-                    cell = pl_sheet.cell(row=start_row, column=col)
-                    cell.style = normal_cell
-                pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-                pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-                pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-                pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-                pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-                pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-                pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-                pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-                pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-                pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-                pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-                pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-                pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-                oe_row_end = start_row
-                start_row += 1
-    
-        for row in range(oe_row_start, oe_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+        
     
         oe_row = start_row
         for row_data in data_expensebyobject: 
@@ -5997,23 +5964,22 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-                pl_sheet[f'G{start_row}'] = totals["total_EOC_oe"]["07"]
-                pl_sheet[f'H{start_row}'] = totals["total_EOC_oe"]["08"]
-                pl_sheet[f'I{start_row}'] = totals["total_EOC_oe"]["09"]
-                pl_sheet[f'J{start_row}'] = totals["total_EOC_oe"]["10"]
-                pl_sheet[f'K{start_row}'] = totals["total_EOC_oe"]["11"]
-                pl_sheet[f'L{start_row}'] = totals["total_EOC_oe"]["12"]
-                pl_sheet[f'M{start_row}'] = totals["total_EOC_oe"]["01"]
-                pl_sheet[f'N{start_row}'] = totals["total_EOC_oe"]["02"]
-                pl_sheet[f'O{start_row}'] = totals["total_EOC_oe"]["03"]
-                pl_sheet[f'P{start_row}'] = totals["total_EOC_oe"]["04"]
-                pl_sheet[f'Q{start_row}'] = totals["total_EOC_oe"]["05"]
-                pl_sheet[f'R{start_row}'] = totals["total_EOC_oe"]["06"]
-                pl_sheet[f'T{start_row}'] = totals["ytd_EOC_ooe"]
-               
-                pl_sheet[f'U{start_row}'] = row_data['variances']  
+                pl_sheet[f'D{start_row}'] = totals['dna_total']
+                pl_sheet[f'E{start_row}'] = totals['ytd_ammended_dna'] 
+                pl_sheet[f'G{start_row}'] = totals["dna_total_months"]["07"]
+                pl_sheet[f'H{start_row}'] = totals["dna_total_months"]["08"]
+                pl_sheet[f'I{start_row}'] = totals["dna_total_months"]["09"]
+                pl_sheet[f'J{start_row}'] = totals["dna_total_months"]["10"]
+                pl_sheet[f'K{start_row}'] = totals["dna_total_months"]["11"]
+                pl_sheet[f'L{start_row}'] = totals["dna_total_months"]["12"]
+                pl_sheet[f'M{start_row}'] = totals["dna_total_months"]["01"]
+                pl_sheet[f'N{start_row}'] = totals["dna_total_months"]["02"]
+                pl_sheet[f'O{start_row}'] = totals["dna_total_months"]["03"]
+                pl_sheet[f'P{start_row}'] = totals["dna_total_months"]["04"]
+                pl_sheet[f'Q{start_row}'] = totals["dna_total_months"]["05"]
+                pl_sheet[f'R{start_row}'] = totals["dna_total_months"]["06"]
+                pl_sheet[f'T{start_row}'] = totals["dna_ytd_total"]               
+                pl_sheet[f'U{start_row}'] = totals['variances_dna']  
                 pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
                 
                 start_row += 1
@@ -6021,11 +5987,13 @@ def generate_excel(request,school):
     
         total_expense_row_start = start_row
         for row_data in data_activities: 
-            if row_data['Category'] == 'Total Expense':
+            if row_data['Category'] == 'Debt Services':
                 for col in range(4, 22):  
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
+                pl_sheet[f'D{start_row}'] = row_data['total_budget']
+                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
@@ -6058,8 +6026,8 @@ def generate_excel(request,school):
                     cell = pl_sheet.cell(row=start_row, column=col)
                     cell.style = normal_cell
                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-                pl_sheet[f'D{start_row}'] = row_data['budget']
-                pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
+                pl_sheet[f'D{start_row}'] = totals['total_budget_te']
+                pl_sheet[f'E{start_row}'] = totals['ytd_budget_te'] 
                 pl_sheet[f'G{start_row}'] = totals["total_EOC_te"]["07"]
                 pl_sheet[f'H{start_row}'] = totals["total_EOC_te"]["08"]
                 pl_sheet[f'I{start_row}'] = totals["total_EOC_te"]["09"]

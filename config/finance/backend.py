@@ -98,7 +98,7 @@ def update_db():
         profit_loss(school) #should always be the first to update
         balance_sheet(school)
         cashflow(school)
-        # excel(school)
+        excel(school)
 
 
 
@@ -930,15 +930,6 @@ def profit_loss(school):
     for item in data_expensebyobject:
         obj = item["obj"]
        
-
-
-
-    
-        
-        
-    
-
-
         if obj == "6100":
             category = "Payroll and Benefits"
             item["variances"] = ytd_budget_pc - ytd_EOC_pc
@@ -2737,34 +2728,34 @@ def excel(school):
     
     data = []
     for row in rows:
-        if row[4] is None:
-            row[4] = ''
-       
-        
-        row_dict = {
-            'fund': row[0],
-            'obj': row[1],
-            'description': row[2],
-            'category': row[3],
-            'value': row[4]
-        }
-        data.append(row_dict)
+        if row[5] == school:
+
+            row_dict = {
+                "fund": row[0],
+                "obj": row[1],
+                "description": row[2],
+                "category": row[3],
+                "value": row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                "school":row[5],
+            }
+            data.append(row_dict)
 
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
     rows = cursor.fetchall()
 
-    data2=[]
+    data2 = []
     for row in rows:
-       
-        row_dict = {
-            'func_func': row[0],
-            'desc': row[1],
-            'category': row[2],
-            'budget': row[3],
-            'obj': row[4],
-            
-        }
-        data2.append(row_dict)
+        if row[5] == school:        
+            row_dict = {
+                "func_func": row[0],
+                "obj": row[1],
+                "desc": row[2],
+                "category": row[3],
+                "budget":row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                "school": row[5],
+
+            }
+            data2.append(row_dict)
 
     #
     if not school == "village-tech":
@@ -2886,13 +2877,15 @@ def excel(school):
     data_activities = []
 
     for row in rows:
-        row_dict = {
-            "obj": row[0],
-            "Description": row[1],
-            "Category": row[2],
-        }
+        if row[3] == school:
+            row_dict = {
+                "obj": row[0],
+                "Description": row[1],
+                "Category": row[2],
+                "school": row[3],
+            }
 
-        data_activities.append(row_dict)
+            data_activities.append(row_dict)
 
 
 
@@ -2932,41 +2925,41 @@ def excel(school):
         data_charterfirst.append(row_dict)
     #BS START
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
-    rows = cursor.fetchall()
+    # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+    # rows = cursor.fetchall()
 
-    data_balancesheet = []
+    # data_balancesheet = []
 
-    for row in rows:
-        fye = float(row[7]) if row[7] else 0
+    # for row in rows:
+    #     fye = float(row[7]) if row[7] else 0
        
 
-        row_dict = {
-            "Activity": row[0],
-            "Description": row[1],
-            "Category": row[2],
-            "Subcategory": row[3],
-            "FYE": fye,
-            "BS_id": row[5],
-            "school": row[8],
+    #     row_dict = {
+    #         "Activity": row[0],
+    #         "Description": row[1],
+    #         "Category": row[2],
+    #         "Subcategory": row[3],
+    #         "FYE": fye,
+    #         "BS_id": row[5],
+    #         "school": row[8],
 
-        }
+    #     }
 
-        data_balancesheet.append(row_dict)
+    #     data_balancesheet.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
-    rows = cursor.fetchall()
+    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
+    # rows = cursor.fetchall()
 
-    data_activitybs = []
+    # data_activitybs = []
 
-    for row in rows:
-        row_dict = {
-            "Activity": row[0],
-            "obj": row[1],
-            "Description2": row[2],
-        }
+    # for row in rows:
+    #     row_dict = {
+    #         "Activity": row[0],
+    #         "obj": row[1],
+    #         "Description2": row[2],
+    #     }
 
-        data_activitybs.append(row_dict)
+    #     data_activitybs.append(row_dict)
 
    
     
@@ -3273,7 +3266,7 @@ def excel(school):
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
-            budget = float(item["budget"])
+            
             ytd_total = 0
 
 
@@ -3331,7 +3324,7 @@ def excel(school):
             func = item["func_func"]
             obj = item["obj"]
             ytd_total = 0
-            budget = float(item["budget"])
+     
            
             
             total_func_func = sum(
@@ -3384,7 +3377,7 @@ def excel(school):
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
             item["var_ytd"] = (abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
-            ytd_ammended_dna = first_total * ytd_budget
+            ytd_ammended_dna = dna_total * ytd_budget
             var_ytd_dna = (abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
@@ -3452,10 +3445,53 @@ def excel(school):
     total_expense_months =  {acct_per: 0 for acct_per in acct_per_values}
     total_expense_ytd = 0
 
+    total_budget_pc  = 0
+    total_budget_pcs = 0
+    total_budget_sm = 0
+    total_budget_ooe = 0
+    total_budget_oe = 0
+    total_budget_te = 0
+
+    ytd_budget_pc = 0
+    ytd_budget_pcs = 0
+    ytd_budget_sm = 0
+    ytd_budget_ooe = 0 
+    ytd_budget_oe = 0 
+    ytd_budget_te = 0
+
     for item in data_activities:
         obj = item["obj"]
         category = item["Category"]
         ytd_total = 0
+        
+        item["total_budget"] = 0
+
+        item["total_budget"] = sum(
+            entry[appr_key]
+            for entry in data3
+            if entry["obj"] == obj 
+            )
+        
+        item["ytd_budget"] =  item["total_budget"] * ytd_budget
+        total_expense += item["total_budget"]  
+        total_expense_ytd_budget += item[f"ytd_budget"]
+        if category == "Payroll and Benefits":
+            total_budget_pc += item["total_budget"]                
+
+        if category == "Professional and Contract Services":          
+            total_budget_pcs += item["total_budget"] 
+
+        if category == "Materials and Supplies":       
+            total_budget_sm += item["total_budget"]     
+            
+        if category == "Other Operating Costs":
+            total_budget_ooe += item["total_budget"]  
+
+        if category == "Depreciation":  
+            total_budget_oe += item["total_budget"]     
+            
+        if category == "Debt Services": 
+            total_budget_te += item["total_budget"]         
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             total_activities = sum(
@@ -3472,32 +3508,46 @@ def excel(school):
                 and entry[expense_key] is not None 
                 and not isinstance(entry[expense_key], str)
             )
+
             item[f"total_activities{i}"] = total_activities + total_adjustment
 
-            if category == "Payroll Costs":
-                total_EOC_pc[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Professional and Cont Svcs":
+            
+            if category == "Payroll and Benefits":
+                total_EOC_pc[acct_per] += item[f"total_activities{i}"]
+               
+
+            if category == "Professional and Contract Services":
                 total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Supplies and Materials":
+            if category == "Materials and Supplies":
                 total_EOC_sm[acct_per] += item[f"total_activities{i}"]
                 
 
-            if category == "Other Operating Expenses":
+            if category == "Other Operating Costs":
                 total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Other Expenses":
+            if category == "Depreciation":
                 total_EOC_oe[acct_per] += item[f"total_activities{i}"]
- 
-            if category == "Total Expense":
+                
+
+            if category == "Debt Services":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
 
-            total_expense_months[acct_per] += item[f"total_activities{i}"]
+            total_expense_months[acct_per] += item[f"total_activities{i}"]  
 
         for month_number in range(1, 13):
             ytd_total += (item[f"total_activities{month_number}"])
         item["ytd_total"] = ytd_total
+
+
+    total_expense += dna_total
+    total_expense_ytd_budget += ytd_ammended_dna
+    for acct_per, dna_value in dna_total_months.items():
+   
+        if acct_per in total_expense_months:
+           
+            total_expense_months[acct_per] += dna_value
 
     ytd_EOC_pc  = sum(total_EOC_pc.values())
     ytd_EOC_pcs = sum(total_EOC_pcs.values())
@@ -3507,7 +3557,12 @@ def excel(school):
     ytd_EOC_oe  = sum(total_EOC_oe.values())
 
     
-    
+    ytd_budget_pc = total_budget_pc * ytd_budget
+    ytd_budget_pcs = total_budget_pcs * ytd_budget
+    ytd_budget_sm = total_budget_sm * ytd_budget
+    ytd_budget_ooe = total_budget_ooe  * ytd_budget
+    ytd_budget_oe = total_budget_oe * ytd_budget
+    ytd_budget_te = total_budget_te * ytd_budget
 
         
     #temporarily for 6500
@@ -3516,41 +3571,31 @@ def excel(school):
 
     for item in data_expensebyobject:
         obj = item["obj"]
-        budget = float(item["budget"])
-
-        item[f"ytd_budget"] = budget * ytd_budget
-        total_expense += budget
-        total_expense_ytd_budget += item[f"ytd_budget"]
-    
-        
-        
-    
-
-
+       
         if obj == "6100":
-            category = "Payroll Costs"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_pc
-            item["var_EOC"] = (abs(int(ytd_EOC_pc / budget*100))) 
+            category = "Payroll and Benefits"
+            item["variances"] = ytd_budget_pc - ytd_EOC_pc
+           
         elif obj == "6200":
-            category = "Professional and Cont Svcs"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_pcs
-            item["var_EOC"] = (abs(int(ytd_EOC_pcs / budget*100))) 
+            category = "Professional and Contract Services"
+            item["variances"] = ytd_budget_pcs - ytd_EOC_pcs
+           
         elif obj == "6300":
-            category = "Supplies and Materials"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_sm
-            item["var_EOC"] = (abs(int(ytd_EOC_sm / budget*100)))
+            category = "Materials and Supplies"
+            item["variances"] = ytd_budget_sm - ytd_EOC_sm
+            
         elif obj == "6400":
-            category = "Other Operating Expenses"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_ooe
-            item["var_EOC"] = (abs(int(ytd_EOC_ooe / budget*100)))
+            category = "Other Operating Costs"
+            item["variances"] = ytd_budget_ooe - ytd_EOC_ooe
+            
         elif obj == "6449":
-            category = "Other Expenses"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_oe
-            item["var_EOC"] = (abs(int(ytd_EOC_oe / budget*100)))
-        elif obj == "6500": 
-            category = "Total Expense"
-            item["variances"] = item[f"ytd_budget"] - ytd_EOC_te
-            item["var_EOC"] = (abs(int(ytd_EOC_te / budget*100))) 
+            category = "Depreciation"
+            item["variances"] = ytd_budget_oe - ytd_EOC_oe
+            
+        else:
+            category = "Debt Services"
+            item["variances"] = ytd_budget_te - ytd_EOC_te
+            
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_expense{i}"] = sum(
@@ -3561,7 +3606,7 @@ def excel(school):
 
         
     #CONTINUATION COMPUTATION TOTAL EXPENSE
-    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc])
+    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
     variances_total_expense = total_expense_ytd_budget - total_expense_ytd
     var_total_expense = (abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
         
@@ -3686,6 +3731,18 @@ def excel(school):
             "ytd_EOC_ooe":ytd_EOC_ooe,
             "ytd_EOC_te":ytd_EOC_te,
             "ytd_EOC_oe":ytd_EOC_oe,
+            "total_budget_pc":total_budget_pc,
+            "total_budget_pcs":total_budget_pcs,
+            "total_budget_sm":total_budget_sm,
+            "total_budget_ooe":total_budget_ooe,
+            "total_budget_oe":total_budget_oe,
+            "total_budget_te":total_budget_te,
+            "ytd_budget_pc":ytd_budget_pc,
+            "ytd_budget_pcs":ytd_budget_pcs,
+            "ytd_budget_sm":ytd_budget_sm,
+            "ytd_budget_ooe":ytd_budget_ooe,
+            "ytd_budget_oe":ytd_budget_oe,
+            "ytd_budget_te":ytd_budget_te,
             #FIX SOON
             "budget_for_6500":budget_for_6500,
             "ytd_budget_for_6500": ytd_budget_for_6500,
