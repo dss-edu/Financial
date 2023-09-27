@@ -599,6 +599,7 @@
         <!-- LOCAL REVENUE COLUMN START-->
       {% for row in data %}
         {% if row.category == 'Local Revenue' %}
+       
             <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
                 <td class="firstcolumn"><a href=" {% url 'delete' row.fund row.obj  %}"  style="display:none;"><i class="fas fa-times"></i></a></td>
          
@@ -632,7 +633,7 @@
 
             
             
-            
+         
         {% endif %}
       {% endfor %}
       
@@ -860,7 +861,7 @@
       <tr id="row11-{{ forloop.counter }}" class="total-row1">
           <td class="firstcolumn"></td>
           <td class="collapsed"></td>
-          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">{{ row.func_func }}-{{ row.desc }}</td>
+          <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">{{ row.func_func }} - {{ row.desc }}</td>
           <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
             {% if row.total_budget == 0.0 or row.total_budget == None %}
             <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
@@ -1913,7 +1914,7 @@
     <tr id="row11-{{ forloop.counter }}" class="total-row1">
         <td class="firstcolumn"></td>
         <td class="collapsed"></td>
-        <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">{{ row.func_func }}-{{ row.desc }}</td>
+        <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}">{{ row.func_func }} - {{ row.desc }}</td>
         <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
           {% if row.total_budget == 0.0 or row.total_budget == None %}
           <input type="hidden" class="form-control" id="updatevalue-func-{{ forloop.counter }}" name="updatefuncbudget[]" placeholder="Description"  value="{{ row.budget }}">
