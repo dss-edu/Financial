@@ -723,7 +723,7 @@ def profit_loss(school):
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
             item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
-            ytd_ammended_dna = first_total * ytd_budget
+            ytd_ammended_dna = dna_total * ytd_budget
             var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
@@ -791,10 +791,56 @@ def profit_loss(school):
     total_expense_months =  {acct_per: 0 for acct_per in acct_per_values}
     total_expense_ytd = 0
 
+    
+    total_budget_pc  = 0
+    total_budget_pcs = 0
+    total_budget_sm = 0
+    total_budget_ooe = 0
+    total_budget_oe = 0
+    total_budget_te = 0
+
+    ytd_budget_pc = 0
+    ytd_budget_pcs = 0
+    ytd_budget_sm = 0
+    ytd_budget_ooe = 0 
+    ytd_budget_oe = 0 
+    ytd_budget_te = 0
+
+       
+        
     for item in data_activities:
         obj = item["obj"]
         category = item["Category"]
         ytd_total = 0
+        
+        item["total_budget"] = 0
+
+        item["total_budget"] = sum(
+            entry[appr_key]
+            for entry in data3
+            if entry["obj"] == obj 
+            )
+        
+        item["ytd_budget"] =  item["total_budget"] * ytd_budget
+        total_expense += item["total_budget"]  
+        total_expense_ytd_budget += item[f"ytd_budget"]
+        if category == "Payroll Costs":
+            total_budget_pc += item["total_budget"]                
+
+        if category == "Professional and Cont Svcs":          
+            total_budget_pcs += item["total_budget"] 
+
+        if category == "Supplies and Materials":       
+            total_budget_sm += item["total_budget"]     
+            
+        if category == "Other Operating Expenses":
+            total_budget_ooe += item["total_budget"]  
+
+        if category == "Other Expenses":  
+            total_budget_oe += item["total_budget"]     
+            
+        if category == "Total Expense": 
+            total_budget_te += item["total_budget"]         
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             total_activities = sum(
@@ -811,10 +857,14 @@ def profit_loss(school):
                 and entry[expense_key] is not None 
                 and not isinstance(entry[expense_key], str)
             )
+
             item[f"total_activities{i}"] = total_activities + total_adjustment
 
+
+            
             if category == "Payroll Costs":
                 total_EOC_pc[acct_per] += item[f"total_activities{i}"]
+               
 
             if category == "Professional and Cont Svcs":
                 total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
@@ -846,6 +896,15 @@ def profit_loss(school):
     ytd_EOC_te  = sum(total_EOC_te.values())
     ytd_EOC_oe  = sum(total_EOC_oe.values())
 
+
+    
+    ytd_budget_pc = total_budget_pc * ytd_budget
+    ytd_budget_pcs = total_budget_pcs * ytd_budget
+    ytd_budget_sm = total_budget_sm * ytd_budget
+    ytd_budget_ooe = total_budget_ooe  * ytd_budget
+    ytd_budget_oe = total_budget_oe * ytd_budget
+    ytd_budget_te = total_budget_te * ytd_budget
+    
     
     
 
@@ -859,8 +918,7 @@ def profit_loss(school):
         budget = float(item["budget"].replace(",",""))
 
         item[f"ytd_budget"] = budget * ytd_budget
-        total_expense += budget
-        total_expense_ytd_budget += item[f"ytd_budget"]
+
     
         
         
@@ -901,7 +959,7 @@ def profit_loss(school):
 
         
     #CONTINUATION COMPUTATION TOTAL EXPENSE
-    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc])
+    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe,ytd_EOC_oe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc])
     variances_total_expense = total_expense_ytd_budget - total_expense_ytd
     var_total_expense = "{:d}%".format(abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
         
@@ -1051,12 +1109,24 @@ def profit_loss(school):
     for row in data_activities:
       
         ytd_total = float(row["ytd_total"])
+        total_expense_budget = row["total_budget"]
+        ytd_budget = row["ytd_budget"]
        
        
         if ytd_total is None or ytd_total == 0:
             row[f"ytd_total"] = ""
         else:
             row[f"ytd_total"] = format_value(ytd_total)
+
+        if total_expense_budget is None or total_expense_budget == 0:
+            row[f"total_budget"] = ""
+        else:
+            row[f"total_budget"] = format_value(total_expense_budget)
+
+        if ytd_budget is None or ytd_budget == 0:
+            row[f"ytd_budget"] = ""
+        else:
+            row[f"ytd_budget"] = format_value(ytd_budget)
     
     for row in data_expensebyobject:
       
@@ -1086,6 +1156,20 @@ def profit_loss(school):
     ytd_EOC_ooe = format_value(ytd_EOC_ooe)
     ytd_EOC_te  = format_value(ytd_EOC_te)
     ytd_EOC_oe  = format_value(ytd_EOC_oe)
+
+    total_budget_pc = format_value(total_budget_pc)
+    total_budget_pcs = format_value(total_budget_pcs)
+    total_budget_sm = format_value(total_budget_sm)
+    total_budget_ooe = format_value(total_budget_ooe)
+    total_budget_oe = format_value(total_budget_oe)   
+    total_budget_te = format_value(total_budget_te)
+
+    ytd_budget_pc = format_value(ytd_budget_pc)
+    ytd_budget_pcs =format_value(ytd_budget_pcs)
+    ytd_budget_sm = format_value(ytd_budget_sm)
+    ytd_budget_ooe = format_value(ytd_budget_ooe)
+    ytd_budget_oe = format_value(ytd_budget_oe)
+    ytd_budget_te = format_value(ytd_budget_te)    
 
     #EXPENSE OBJECT FOR FIX
     budget_for_6500 = format_value(budget_for_6500)
@@ -1371,6 +1455,21 @@ def profit_loss(school):
             "ytd_EOC_ooe":ytd_EOC_ooe,
             "ytd_EOC_te":ytd_EOC_te,
             "ytd_EOC_oe":ytd_EOC_oe,
+            "total_budget_pc":total_budget_pc,
+            "total_budget_pcs":total_budget_pcs,
+            "total_budget_sm":total_budget_sm,
+            "total_budget_ooe":total_budget_ooe,
+            "total_budget_oe":total_budget_oe,
+            "total_budget_te":total_budget_te,
+            "ytd_budget_pc":ytd_budget_pc,
+            "ytd_budget_pcs":ytd_budget_pcs,
+            "ytd_budget_sm":ytd_budget_sm,
+            "ytd_budget_ooe":ytd_budget_ooe,
+            "ytd_budget_oe":ytd_budget_oe,
+            "ytd_budget_te":ytd_budget_te,
+
+
+
             #FIX SOON
             "budget_for_6500":budget_for_6500,
             "ytd_budget_for_6500": ytd_budget_for_6500,
