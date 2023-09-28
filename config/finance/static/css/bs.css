@@ -1,8 +1,8 @@
  
 
 
-    th:nth-child(2),
-    td:nth-child(2) {
+    #data-table th:nth-child(2),
+    #data-table td:nth-child(2) {
         display: none;
     }
 /*th:first-child,

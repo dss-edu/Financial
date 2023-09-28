@@ -25,20 +25,54 @@ function checkValuesMatch() {
     return match;
   }
 
+  function checkforMissingActivities(){
+    const table = document.getElementById('settings-table');
+    const tBody = document.getElementsByTagName('tbody')[0];
+    const tRows = tBody.getElementsByTagName('tr');
+    if (tRows.length > 0){
+      return false;
+
+    }
+      return true;
+
+  }
  
   function showModal(match) {
     const modal = document.getElementById("myModal2");
     const modalText = document.getElementById("modal-text");
+    const missingActivites = checkforMissingActivities();
     
     if (!modal || !modalText) {
       return; 
     }
 
+    let template = ``
     if (match) {
-      modalText.innerHTML  = "Total Assets and Total Liablities and Net Assets are Balanced ";
+      template = `Total Assets and Total Liabilities and Net Assets are Balanced`;
     } else {
-      modalText.innerHTML  = "Total Assets and Total Liablities and Net Assets are not Balanced";
+      template  = `Total Assets and Total Liabilities and Net Assets are not Balanced`;
     }
+
+    if (missingActivites){
+      template += `\n\nMissing tags for activities. Click <a id="settings-link" href="#">here</a> to set tags.`
+
+    }
+
+    modalText.innerHTML  = template
+
+    const settingsLink = document.getElementById('settings-link')
+    settingsLink.addEventListener('click', function(event){
+      event.preventDefault()
+      $('#myModal2').modal('hide')
+
+      $('#settings-modal').modal('show')
+    })
+
+    // if (match) {
+    //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are Balanced ";
+    // } else {
+    //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are not Balanced";
+    // }
 
     modal.style.display = "block";
   }

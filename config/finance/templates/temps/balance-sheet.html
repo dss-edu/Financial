@@ -26,6 +26,12 @@
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
       
     </form>
+
+    <a class="navbar-brand mr-1 text-primary " id="settings-nav" href="#" data-toggle="tooltip" title="settings"><i class="fa-solid fa-gear"></i></a>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    &nbsp;
     <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/fd891db5-908a-4463-9807-eece4c2c2f76/ReportSection6c18d619620bd9b8337e?experience=power-bi" data-toggle="tooltip" title="view in powerbi" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a>
     <!-- Navbar -->
     &nbsp;
@@ -4864,6 +4870,55 @@ function expandColumns() {
 </script>
 
 
+<div id="settings-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Settings</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table id="settings-table" class="table">
+          <thead>
+            <tr>
+              <th scope="col">Activity</th>
+              <th scope="col">obj</th>
+              <th scope="col">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <form action="">
+              {% csrf_token %}
+
+              {% for missing_items in missing_activities %}
+              <tr>
+                <td>
+                  <select name="missing-activity" id="">
+                    <option value=""></option>
+                    {% for option in activity_options %}
+                    <option value="{{ option }}"> {{option}} </option>
+                    {% endfor %}
+                  </select>
+                </td>
+                <td>{{ missing_items.obj }}</td>
+                <td contenteditable="true">{{ missing_items.Description }}</td>
+              </tr>
+              {% endfor %}
+            </form>
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button id="save-settings-btn" type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 
@@ -4876,4 +4931,5 @@ function expandColumns() {
 <script src="{% static 'js/bs.js' %}"></script>
 
 <script src="{% static 'js/excel.js' %}"></script>
+<script src="{% static 'js/bs-settings.js' %}"></script>
 {% endblock %}
