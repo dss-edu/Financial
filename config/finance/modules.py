@@ -248,7 +248,7 @@ def balance_sheet(school, anchor_year):
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    query = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL or Activity = ''"
+    query = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL or Activity = '';"
 
     rows = cursor.execute(query)
     missing_act_list = []
@@ -261,6 +261,21 @@ def balance_sheet(school, anchor_year):
         missing_act_list.append(data)
 
     context["missing_activities"] = missing_act_list
+
+
+    query_notmissing = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NOT NULL or Activity != '';"
+
+    rows = cursor.execute(query_notmissing)
+    not_missing = []
+    for row in rows:
+        data = {
+            "Activity": row[0],
+            "obj": row[1],
+            "Description": row[2]
+        }
+        not_missing.append(data)
+
+    context["not_missing"] = not_missing
 
     query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
     opts = cursor.execute(query)
