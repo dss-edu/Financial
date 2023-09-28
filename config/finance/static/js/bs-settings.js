@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function(){
   $('#save-settings-btn').on('click', async function(event){
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value
     event.preventDefault()
-    console.log(school)
 
 
     const data = getSettingsData()
@@ -58,20 +57,20 @@ document.addEventListener('DOMContentLoaded', function(){
   function getSettingsData(){
     const table = document.getElementById('settings-table')
     const tBody = table.getElementsByTagName('tbody')[0]
-    const tRows = tBody.getElementsByTagName('tr')
+    const tRows = $('#settings-table .no-act')
     // get all the select values
     const selectedValues = []
-    $('select[name="missing-activity"]').each(function(){
+    $('#settings-table .no-act select[name="missing-activity"]').each(function(){
       const selectValue = $(this).val()
       selectedValues.push(selectValue)
     })
 
     let data = []
-    tRows.forEach((row, index, arr)=>{
-      const td = row.getElementsByTagName('td')
+    tRows.each(function(index){
+      const td= $(this).find('td')
       let activity = selectedValues[index].trim()
-      let obj =  td[1].textContent.trim()
-      let description =  td[2].textContent.trim()
+      let obj =  td.eq(1).text().trim()
+      let description =  td.eq(2).text().trim() 
       data.push(
         {
           activity: activity,
@@ -80,6 +79,19 @@ document.addEventListener('DOMContentLoaded', function(){
         }
       )
     })
+    // tRows.forEach((row, index, arr)=>{
+    //   const td = row.getElementsByTagName('td')
+    //   let activity = selectedValues[index].trim()
+    //   let obj =  td[1].textContent.trim()
+    //   let description =  td[2].textContent.trim()
+    //   data.push(
+    //     {
+    //       activity: activity,
+    //       obj: obj,
+    //       description: description,
+    //     }
+    //   )
+    // })
 
     return data
   }
