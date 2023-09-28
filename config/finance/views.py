@@ -5326,7 +5326,7 @@ def generate_excel(request,school):
         start_pl = 1
         pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY2022-2023 Statement of\nActivities as of {months["last_month"]}'
         start_pl += 2
-        pl_sheet[f'E{start_pl}'] = f'{months["format_ytd_budget"]}% YTD BUDGET'
+        pl_sheet[f'E{start_pl}'] = f'{months["format_ytd_budget"]}% YTD \nBUDGET'
         pl_sheet[f'G{start_pl}'] = 'July'
         pl_sheet[f'H{start_pl}'] = 'August'
         pl_sheet[f'I{start_pl}'] = 'September'
@@ -6202,10 +6202,7 @@ def generate_excel(request,school):
         start_row += 4 #Total expense and Net income
  
     #BS DESIGN
-    for col in range(7, 19):
-        col_letter = get_column_letter(col)
-        bs_sheet.column_dimensions[col_letter].outline_level = 1
-        bs_sheet.column_dimensions[col_letter].hidden = True
+
     for row in range(2,200):
         bs_sheet.row_dimensions[row].height = 19
     # bs_sheet.row_dimensions[17].height = 26 #local revenue
@@ -6248,6 +6245,28 @@ def generate_excel(request,school):
 
 
     if  school != 'manara' and school != 'prepschool':
+        
+        
+        for col in range(7, 20 ):
+            col_letter = get_column_letter(col)
+            bs_sheet.column_dimensions[col_letter].outline_level = 1
+            bs_sheet.column_dimensions[col_letter].hidden = True
+
+        last_number = months["last_month_number"]
+        # PL START OF DESIGN
+        if last_number <= 8:
+            last_number += 11
+        else:
+            last_number -= 1
+
+        print(last_number)
+        for col in range(last_number,19):
+            col_letter = get_column_letter(col)
+
+      
+            bs_sheet.column_dimensions[col_letter].outline_level = 2
+            bs_sheet.column_dimensions[col_letter].hidden = True
+
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
@@ -7429,31 +7448,50 @@ def generate_excel(request,school):
     
     
     else:
+        for col in range(7, 20 ):
+            col_letter = get_column_letter(col)
+            bs_sheet.column_dimensions[col_letter].outline_level = 1
+            bs_sheet.column_dimensions[col_letter].hidden = True
+
+        last_number = months["last_month_number"]
+        # PL START OF DESIGN
+        if last_number <= 6:
+            last_number += 13
+        else:
+            last_number += 1
+
+        print(last_number)
+        for col in range(last_number,19):
+            col_letter = get_column_letter(col)     
+            bs_sheet.column_dimensions[col_letter].outline_level = 2
+            bs_sheet.column_dimensions[col_letter].hidden = True
+
+
         header_bs = 3
         bs_sheet[f'G{header_bs}'] = 'July'
-        header_bs += 1
+
         bs_sheet[f'H{header_bs}'] = 'August'
-        header_bs += 1
+
         bs_sheet[f'I{header_bs}'] = 'September'
-        header_bs += 1
+
         bs_sheet[f'J{header_bs}'] = 'October'
-        header_bs += 1
+
         bs_sheet[f'K{header_bs}'] = 'November'
-        header_bs += 1
+
         bs_sheet[f'L{header_bs}'] = 'December'
-        header_bs += 1
+
         bs_sheet[f'M{header_bs}'] = 'January'
-        header_bs += 1
+
         bs_sheet[f'N{header_bs}'] = 'February'
-        header_bs += 1
+
         bs_sheet[f'O{header_bs}'] = 'March'
-        header_bs += 1
+
         bs_sheet[f'P{header_bs}'] = 'April'
-        header_bs += 1
+
         bs_sheet[f'Q{header_bs}'] = 'May'
-        header_bs += 1
+
         bs_sheet[f'R{header_bs}'] = 'June'
-        header_bs += 1
+
 
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
