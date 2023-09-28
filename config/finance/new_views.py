@@ -325,3 +325,15 @@ def delete_adjustments(request):
 
 def update_adjustments(request):
     pass
+
+
+def activity_edits(request, school):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        status = modules.activity_edits(school, body)
+
+    if status:
+        return HttpResponse(status=200)
+    else:
+        return HttpResponse(status=400)
+

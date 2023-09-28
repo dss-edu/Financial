@@ -244,6 +244,34 @@ def balance_sheet(school, anchor_year):
             context[basename] = json.load(f)
 
     context["anchor_year"] = anchor_year
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    query = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL or Activity = ''"
+
+    rows = cursor.execute(query)
+    missing_act_list = []
+    for row in rows:
+        data = {
+            "Activity": row[0],
+            "obj": row[1],
+            "Description": row[2]
+        }
+        missing_act_list.append(data)
+
+    context["missing_activities"] = missing_act_list
+
+    query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
+    opts = cursor.execute(query)
+
+    options = []
+    for opt in opts:
+        if opt[0] not in [None, '']:
+            options.append(opt[0])
+
+    context["activity_options"] = options
+
     return context
 
 
@@ -530,3 +558,20 @@ def manual_adjustments(school):
         "options": options,
     }
     return context
+
+def activity_edits(school, body):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    # delete the empties first
+    del_query = f"DELETE FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL OR Activity = '';"
+    cursor.execute(del_query)
+    cnxn.commit()
+
+    ins_query = f"INSERT INTO [dbo].{db[school]['bs_activity']} (Activity, obj, Description) VALUES (?, ?, ?)"
+    for item in body:
+        cursor.execute(ins_query, tuple(item.values()))
+        cnxn.commit()
+
+    cursor.close()
+    cnxn.close()
+    return True
