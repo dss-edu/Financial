@@ -4880,6 +4880,7 @@ function expandColumns() {
         </button>
       </div>
       <div class="modal-body">
+        <div style="max-height:500px; overflow-y:auto;">
         <table id="settings-table" class="table">
           <thead>
             <tr>
@@ -4893,7 +4894,7 @@ function expandColumns() {
               {% csrf_token %}
 
               {% for missing_items in missing_activities %}
-              <tr>
+              <tr class="no-act">
                 <td>
                   <select name="missing-activity" id="">
                     <option value=""></option>
@@ -4906,10 +4907,27 @@ function expandColumns() {
                 <td contenteditable="true">{{ missing_items.Description }}</td>
               </tr>
               {% endfor %}
+
+              {% for item in not_missing %}
+              <tr>
+                <td>
+                  <select name="missing-activity" id="">
+                    <option value="{{ item.Activity }}" selected>{{ item.Activity }}</option>
+                    {% for option in activity_options %}
+                    <option value="{{ option }}"> {{ option }} </option>
+                    {% endfor %}
+                  </select>
+                </td>
+                <td>{{ item.obj }}</td>
+                <td contenteditable="true">{{ item.Description }}</td>
+              </tr>
+              {% endfor %}
+
             </form>
             
           </tbody>
         </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button id="save-settings-btn" type="button" class="btn btn-primary">Save changes</button>

@@ -28,13 +28,14 @@ function checkValuesMatch() {
   function checkforMissingActivities(){
     const table = document.getElementById('settings-table');
     const tBody = document.getElementsByTagName('tbody')[0];
-    const tRows = tBody.getElementsByTagName('tr');
-    if (tRows.length > 0){
-      return false;
+    // const tRows = tBody.getElementsByTagName('tr');
+    const tRows = $('#settings-table .no-act')
 
-    }
+    if (tRows.length > 0){
       return true;
 
+    }
+    return false;
   }
  
   function showModal(match) {
@@ -60,13 +61,15 @@ function checkValuesMatch() {
 
     modalText.innerHTML  = template
 
-    const settingsLink = document.getElementById('settings-link')
-    settingsLink.addEventListener('click', function(event){
-      event.preventDefault()
-      $('#myModal2').modal('hide')
+    if (missingActivites){
+      const settingsLink = document.getElementById('settings-link')
+      settingsLink.addEventListener('click', function(event){
+        event.preventDefault()
+        $('#myModal2').modal('hide')
 
-      $('#settings-modal').modal('show')
-    })
+        $('#settings-modal').modal('show')
+      })
+    }
 
     // if (match) {
     //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are Balanced ";
