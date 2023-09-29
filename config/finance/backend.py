@@ -94,13 +94,13 @@ def update_db():
     # balance_sheet("advantage")
     # cashflow("advantage")
     # excel("advantage")]
-    # balance_sheet("manara")
-    # profit_loss("manara")
-    for school, name in SCHOOLS.items():
-        profit_loss(school) 
-        balance_sheet(school)
-        cashflow(school)
-        # excel(school)
+    balance_sheet("village-tech")
+    profit_loss("village-tech")
+    # for school, name in SCHOOLS.items():
+    #     profit_loss(school) 
+    #     balance_sheet(school)
+    #     cashflow(school)
+    #     # excel(school)
 
 
 
@@ -624,14 +624,24 @@ def profit_loss(school):
             ytd_total = 0
 
 
-            
-            total_func_func = sum(
-                    entry[appr_key]
-                    for entry in data3
-                    if entry["func"] == func  
-                    and entry["obj"] != '6449' 
-                    and (school != 'village-tech' and entry["Type"] == 'GJ')
-                )
+            if school == 'village-tech':
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] != '6449'
+
+
+                    )
+            else:
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] != '6449'
+                        and entry["Type"] == 'GJ' 
+                     
+                    )
             total_adjustment_func = sum(
                     entry[appr_key]
                     for entry in adjustment
@@ -682,13 +692,21 @@ def profit_loss(school):
             ytd_total = 0
             
            
-            
-            total_func_func = sum(
+            if school == 'village-tech':
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] == '6449'
+                       
+                    )
+            else:
+                total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
                     if entry["func"] == func  
                     and entry["obj"] == '6449'
-                    and (school != 'village-tech' and entry["Type"] == 'GJ')
+                     and entry["Type"] == 'GJ'
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
@@ -2116,6 +2134,7 @@ def balance_sheet(school):
 
     
     total_net_assets_fytd = 0
+    
     total_net_assets_fytd = totals["ytd_netsurplus"]    #assign the value coming from profitloss totals
     
     FY_year_1 = months["FY_year_1"] 
@@ -2173,8 +2192,10 @@ def balance_sheet(school):
     }
     total_assets_fye = total_current_assets_fye + total_capital_assets_fye
     total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
+    print(school,total_assets_fye_fytd)
 
     net = float(total_net_assets_fytd.replace("$", "").replace(",", "").replace("(", "-").replace(")", "")) if total_net_assets_fytd else 0
+    
     total_LNA_fytd = net + total_liabilities_fytd
    
 
