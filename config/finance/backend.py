@@ -100,7 +100,7 @@ def update_db():
         profit_loss(school) 
         balance_sheet(school)
         cashflow(school)
-        excel(school)
+        # excel(school)
 
 
 
@@ -1055,8 +1055,8 @@ def profit_loss(school):
             row["variances"] = format_value_negative(variances)
 
     # FOR EXPENSE BY OBJECT DEPRECIATION ONLY        
-    dna_total_6449 = format_value(dna_total)
-    ytd_ammended_dna_6449 = format_value(ytd_ammended_dna)
+    dna_total_6449 = format_value_negative(dna_total)
+    ytd_ammended_dna_6449 = format_value_negative(ytd_ammended_dna)
     dna_ytd_total_6449 = format_value(dna_ytd_total)
     variances_dna_6449 = format_value(variances_dna)   
     dna_total_months_6449 = {acct_per: format_value(value) for acct_per, value in dna_total_months.items() if value != 0}    
@@ -1141,12 +1141,12 @@ def profit_loss(school):
         if total_expense_budget is None or total_expense_budget == 0:
             row[f"total_budget"] = ""
         else:
-            row[f"total_budget"] = format_value(total_expense_budget)
+            row[f"total_budget"] = format_value_negative(total_expense_budget)
 
         if ytd_budget is None or ytd_budget == 0:
             row[f"ytd_budget"] = ""
         else:
-            row[f"ytd_budget"] = format_value(ytd_budget)
+            row[f"ytd_budget"] = format_value_negative(ytd_budget)
     
     for row in data_expensebyobject:
       
@@ -1167,26 +1167,26 @@ def profit_loss(school):
     total_EOC_te = {acct_per: format_value(value) for acct_per, value in total_EOC_te.items() if value != 0}
     total_EOC_oe = {acct_per: format_value(value) for acct_per, value in total_EOC_oe.items() if value != 0} 
 
-    ytd_EOC_pc  = format_value(ytd_EOC_pc)
-    ytd_EOC_pcs = format_value(ytd_EOC_pcs)
-    ytd_EOC_sm  = format_value(ytd_EOC_sm)
-    ytd_EOC_ooe = format_value(ytd_EOC_ooe)
-    ytd_EOC_te  = format_value(ytd_EOC_te)
-    ytd_EOC_oe  = format_value(ytd_EOC_oe)
+    ytd_EOC_pc  = format_value_negative(ytd_EOC_pc)
+    ytd_EOC_pcs = format_value_negative(ytd_EOC_pcs)
+    ytd_EOC_sm  = format_value_negative(ytd_EOC_sm)
+    ytd_EOC_ooe = format_value_negative(ytd_EOC_ooe)
+    ytd_EOC_te  = format_value_negative(ytd_EOC_te)
+    ytd_EOC_oe  = format_value_negative(ytd_EOC_oe)
 
-    total_budget_pc = format_value(total_budget_pc)
-    total_budget_pcs = format_value(total_budget_pcs)
-    total_budget_sm = format_value(total_budget_sm)
-    total_budget_ooe = format_value(total_budget_ooe)
-    total_budget_oe = format_value(total_budget_oe)   
-    total_budget_te = format_value(total_budget_te)
+    total_budget_pc = format_value_negative(total_budget_pc)
+    total_budget_pcs = format_value_negative(total_budget_pcs)
+    total_budget_sm = format_value_negative(total_budget_sm)
+    total_budget_ooe = format_value_negative(total_budget_ooe)
+    total_budget_oe = format_value_negative(total_budget_oe)   
+    total_budget_te = format_value_negative(total_budget_te)
 
-    ytd_budget_pc = format_value(ytd_budget_pc)
-    ytd_budget_pcs =format_value(ytd_budget_pcs)
-    ytd_budget_sm = format_value(ytd_budget_sm)
-    ytd_budget_ooe = format_value(ytd_budget_ooe)
-    ytd_budget_oe = format_value(ytd_budget_oe)
-    ytd_budget_te = format_value(ytd_budget_te)
+    ytd_budget_pc = format_value_negative(ytd_budget_pc)
+    ytd_budget_pcs =format_value_negative(ytd_budget_pcs)
+    ytd_budget_sm = format_value_negative(ytd_budget_sm)
+    ytd_budget_ooe = format_value_negative(ytd_budget_ooe)
+    ytd_budget_oe = format_value_negative(ytd_budget_oe)
+    ytd_budget_te = format_value_negative(ytd_budget_te)
 
 
 
@@ -1196,8 +1196,8 @@ def profit_loss(school):
     ytd_budget_for_6500 = format_value(ytd_budget_for_6500)
 
     #FORMAT TOTAL EXPENSE
-    total_expense = format_value_dollars(total_expense)
-    total_expense_ytd_budget = format_value_dollars(total_expense_ytd_budget)
+    total_expense = format_value_dollars_negative(total_expense)
+    total_expense_ytd_budget = format_value_dollars_negative(total_expense_ytd_budget)
     total_expense_months = {acct_per: format_value_dollars(value) for acct_per, value in total_expense_months.items() if value != 0} 
     total_expense_ytd = format_value_dollars(total_expense_ytd)
     variances_total_expense =format_value_dollars(variances_total_expense)
@@ -2020,7 +2020,7 @@ def balance_sheet(school):
                 row["debt_6"] = (row["debt_5"]- total_sum6_value)
                 row["debt_7"] = (row["debt_6"] - total_sum7_value)
                 row["debt_8"] = (row["debt_7"] - total_sum8_value)
-                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
                 row["net_assets9"] = (FYE_value + total_netsurplus["09"])
                 row["net_assets10"] = (row["net_assets9"] + total_netsurplus["10"])
@@ -2069,7 +2069,7 @@ def balance_sheet(school):
                 row["debt_5"] = (row["debt_4"]  - total_sum5_value )
                 row["debt_6"] = (row["debt_5"]- total_sum6_value)
   
-                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
 
                 row["net_assets7"] = (FYE_value + total_netsurplus["07"])
