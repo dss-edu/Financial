@@ -94,13 +94,13 @@ def update_db():
     # balance_sheet("advantage")
     # cashflow("advantage")
     # excel("advantage")]
-    balance_sheet("village-tech")
-    profit_loss("village-tech")
-    # for school, name in SCHOOLS.items():
-    #     profit_loss(school) 
-    #     balance_sheet(school)
-    #     cashflow(school)
-    #     # excel(school)
+    # balance_sheet("manara")
+    # profit_loss("manara")
+    for school, name in SCHOOLS.items():
+        profit_loss(school) 
+        balance_sheet(school)
+        cashflow(school)
+        # excel(school)
 
 
 
@@ -797,6 +797,7 @@ def profit_loss(school):
     ammended_budget_netsurplus = ammended_budget_SBD - dna_total
     ytd_ammended_netsurplus = ytd_ammended_SBD - ytd_ammended_dna
     ytd_netsurplus =  ytd_SBD - dna_ytd_total 
+    bs_ytd_netsurplus = ytd_netsurplus
     variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
     var_netsurplus = "{:d}%".format(abs(int(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
 
@@ -1536,6 +1537,9 @@ def profit_loss(school):
             "ytd_net_income": ytd_net_income,
             "var_net_income":var_net_income,
 
+            #FOR BS
+            "bs_ytd_netsurplus":bs_ytd_netsurplus,
+
 
             
         }
@@ -2135,7 +2139,7 @@ def balance_sheet(school):
     
     total_net_assets_fytd = 0
     
-    total_net_assets_fytd = totals["ytd_netsurplus"]    #assign the value coming from profitloss totals
+    total_net_assets_fytd = totals["bs_ytd_netsurplus"]    #assign the value coming from profitloss totals
     
     FY_year_1 = months["FY_year_1"] 
     FY_year_2 = months["FY_year_2"]
@@ -2194,11 +2198,11 @@ def balance_sheet(school):
     total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
     print(school,total_assets_fye_fytd)
 
-    net = float(total_net_assets_fytd.replace("$", "").replace(",", "").replace("(", "-").replace(")", "")) if total_net_assets_fytd else 0
-    
-    total_LNA_fytd = net + total_liabilities_fytd
-   
 
+    
+    total_LNA_fytd = total_net_assets_fytd + total_liabilities_fytd
+   
+    total_net_assets_fytd = format_value(total_net_assets_fytd)
     
 
 
