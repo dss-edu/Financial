@@ -264,7 +264,9 @@ def balance_sheet(school, anchor_year):
                 "Description": row[2]
             }
             missing_act_list.append(data)
+    
 
+    missing_act_list = sorted(missing_act_list, key=lambda x: x['obj'])
     context["missing_activities"] = missing_act_list
 
 
@@ -280,7 +282,9 @@ def balance_sheet(school, anchor_year):
                 "Description": row[2]
             }
             not_missing.append(data)
-
+            
+    
+    not_missing = sorted(not_missing, key=lambda x: x['obj'])
     context["not_missing"] = not_missing
 
     query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
