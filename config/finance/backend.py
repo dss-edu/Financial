@@ -828,7 +828,8 @@ def profit_loss(school):
         item["total_budget"] = sum(
             entry[appr_key]
             for entry in data3
-            if entry["obj"] == obj 
+            if entry["obj"] == obj
+            and (school != 'village-tech' and entry["Type"] == 'GJ') 
             )
         
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
