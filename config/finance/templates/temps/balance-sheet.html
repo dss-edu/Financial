@@ -457,9 +457,9 @@ function expandColumns() {
           <script>
             for (var i = 3; i <= 17; i++) {
               if (i >= 4 && i <= 15) {
-                document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+                document.write(`<td class="collapsed" ></td>`);
               } else {
-                document.write(`<td id="local-revenue-total-${i}" ></td>`);
+                document.write(`<td ></td>`);
               }
             }
           </script>
@@ -2347,9 +2347,9 @@ function expandColumns() {
         <script>
           for (var i = 3; i <= 17; i++) {
             if (i >= 4 && i <= 15) {
-              document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+              document.write(`<td class="collapsed" ></td>`);
             } else {
-              document.write(`<td id="local-revenue-total-${i}" ></td>`);
+              document.write(`<td  ></td>`);
             }
           }
         </script>
@@ -2642,9 +2642,9 @@ function expandColumns() {
       <script>
         for (var i = 3; i <= 17; i++) {
           if (i >= 4 && i <= 15) {
-            document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+            document.write(`<td  class="collapsed" ></td>`);
           } else {
-            document.write(`<td id="local-revenue-total-${i}" ></td>`);
+            document.write(`<td ></td>`);
           }
         }
       </script>
@@ -4570,9 +4570,9 @@ function expandColumns() {
     <script>
       for (var i = 3; i <= 17; i++) {
         if (i >= 4 && i <= 15) {
-          document.write(`<td id="local-revenue-total-${i}" class="collapsed" ></td>`);
+          document.write(`<td  class="collapsed" ></td>`);
         } else {
-          document.write(`<td id="local-revenue-total-${i}" ></td>`);
+          document.write(`<td ></td>`);
         }
       }
     </script>
@@ -4950,5 +4950,9 @@ function expandColumns() {
 
 <script src="{% static 'js/excel.js' %}"></script>
 <script src="{% static 'js/bs-settings.js' %}"></script>
-<script src="{% static 'js/plHideCols.js' %}"></script>
+
+
+
+<script src="{% static 'js/bsHideCols.js' %}"></script> 
 {% endblock %}
+<

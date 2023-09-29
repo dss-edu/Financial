@@ -111,11 +111,16 @@ $(document).ready(function() {
     const tBody = table.getElementsByTagName('tbody')[0]
 
     const rows = tBody.querySelectorAll('tr')
+    
 
-    rows.forEach(function(row){
+    rows.forEach(function(row,index){
       const data = row.getElementsByTagName('td')
-
+      
+      if (index < 3) {
+        return;
+      }
       // check if all data has content
+      if (data.length > 3) {
       let toDelete = true
       for (let i = 3; i < data.length; i++){
         if (data[i].textContent.trim() !== ''){
@@ -125,8 +130,11 @@ $(document).ready(function() {
       }
       
       if (toDelete){
+        
         row.remove()
       }
+    }
+
     })
   }
 });
