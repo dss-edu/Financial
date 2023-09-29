@@ -22,60 +22,64 @@ SCHOOLS = {
 
 db = {
     "advantage": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Advantage]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "cumberland": {
-        "object": "[AscenderData_Cumberland_Definition_obj]",
-        "function": "[AscenderData_Cumberland_Definition_func]",
-        # "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Cumberland]",
-        "code": "[AscenderData_Cumberland_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Cumberland_PL_Activities]",
-        "bs": "[AscenderData_Cumberland_Balancesheet]",
-        "bs_activity": "[AscenderData_Cumberland_ActivityBS]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "village-tech": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[Skyward_VillageTech]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "prepschool": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
     "manara": {
-        "object": "[AscenderData_Advantage_Definition_obj]",
-        "function": "[AscenderData_Advantage_Definition_func]",
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
         "db": "[AscenderData_Manara]",
-        "code": "[AscenderData_Advantage_PL_ExpensesbyObjectCode]",
-        "activities": "[AscenderData_Advantage_PL_Activities]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
     },
 }
 
@@ -253,12 +257,13 @@ def balance_sheet(school, anchor_year):
     rows = cursor.execute(query)
     missing_act_list = []
     for row in rows:
-        data = {
-            "Activity": row[0],
-            "obj": row[1],
-            "Description": row[2]
-        }
-        missing_act_list.append(data)
+        if row[3] == school:
+            data = {
+                "Activity": row[0],
+                "obj": row[1],
+                "Description": row[2]
+            }
+            missing_act_list.append(data)
 
     context["missing_activities"] = missing_act_list
 
@@ -268,12 +273,13 @@ def balance_sheet(school, anchor_year):
     rows = cursor.execute(query_notmissing)
     not_missing = []
     for row in rows:
-        data = {
-            "Activity": row[0],
-            "obj": row[1],
-            "Description": row[2]
-        }
-        not_missing.append(data)
+        if row[3] == school:
+            data = {
+                "Activity": row[0],
+                "obj": row[1],
+                "Description": row[2]
+            }
+            not_missing.append(data)
 
     context["not_missing"] = not_missing
 
@@ -582,8 +588,9 @@ def activity_edits(school, body):
     cursor.execute(del_query)
     cnxn.commit()
 
-    ins_query = f"INSERT INTO [dbo].{db[school]['bs_activity']} (Activity, obj, Description) VALUES (?, ?, ?)"
+    ins_query = f"INSERT INTO [dbo].{db[school]['bs_activity']} (Activity, obj, Description,school) VALUES (?, ?, ?, ?)"
     for item in body:
+        item["school"] = school
         cursor.execute(ins_query, tuple(item.values()))
         cnxn.commit()
 

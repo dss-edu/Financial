@@ -12,18 +12,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     const data = getSettingsData()
-    let proceed = true
-    data.forEach((row) => {
-      if (row["activity"].trim() === '') {
-        alert("There are still activities without tags please select a tag first")
-        proceed = false
-        return
-      }
-    })
+    // let proceed = true
+    // data.forEach((row) => {
+    //   if (row["activity"].trim() === '') {
+    //     alert("There are still activities without tags please select a tag first")
+    //     proceed = false
+    //     return
+    //   }
+    // })
 
-    if (!proceed) {
-      return
-    }
+    // if (!proceed) {
+    //   return
+    // }
 
     try {
       $("#settings-modal").modal("hide");

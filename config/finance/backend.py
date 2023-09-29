@@ -33,7 +33,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -45,7 +45,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -57,7 +57,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -69,7 +69,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -81,7 +81,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -1635,13 +1635,15 @@ def balance_sheet(school):
     data_activitybs = []
 
     for row in rows:
-        row_dict = {
-            "Activity": row[0],
-            "obj": row[1],
-            "Description2": row[2],
-        }
-
-        data_activitybs.append(row_dict)
+        if row[3] == school:
+            row_dict = {
+                "Activity": row[0],
+                "obj": row[1],
+                "Description2": row[2],
+                "school": row[3],
+            }
+    
+            data_activitybs.append(row_dict)
 
     with open(os.path.join(json_path, "data3.json"), "r") as f:
         data3 = json.load(f)
