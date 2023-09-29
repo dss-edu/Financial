@@ -330,6 +330,7 @@ def update_adjustments(request):
 def activity_edits(request, school):
     if request.method == "POST":
         body = json.loads(request.body)
+        
         status = modules.activity_edits(school, body)
 
     if status:

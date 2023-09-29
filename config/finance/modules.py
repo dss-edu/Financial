@@ -584,14 +584,15 @@ def activity_edits(school, body):
     cnxn = connect()
     cursor = cnxn.cursor()
     # delete the empties first
-    del_query = f"DELETE FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL OR Activity = '';"
-    cursor.execute(del_query)
-    cnxn.commit()
 
-    ins_query = f"INSERT INTO [dbo].{db[school]['bs_activity']} (Activity, obj, Description,school) VALUES (?, ?, ?, ?)"
+
+    ins_query = f"UPDATE [dbo].{db[school]['bs_activity']} SET Activity = ? , Description = ? where obj = ? and school = ?"
     for item in body:
+       
         item["school"] = school
-        cursor.execute(ins_query, tuple(item.values()))
+        values = (item["activity"], item["description"], item["obj"], item["school"])
+        print(values)
+        cursor.execute(ins_query, values)
         cnxn.commit()
 
     cursor.close()

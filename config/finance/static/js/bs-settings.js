@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     const data = getSettingsData()
+    // console.log(data)
     // let proceed = true
     // data.forEach((row) => {
     //   if (row["activity"].trim() === '') {
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const tRows = $('#settings-table .no-act')
     // get all the select values
     const selectedValues = []
+    console.log(tBody)
     $('#settings-table .no-act select[name="missing-activity"]').each(function(){
       const selectValue = $(this).val()
       selectedValues.push(selectValue)
@@ -92,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function(){
     //     }
     //   )
     // })
-
+    
     return data
   }
 
