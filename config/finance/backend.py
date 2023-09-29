@@ -93,7 +93,9 @@ def update_db():
     # profit_loss("advantage")
     # balance_sheet("advantage")
     # cashflow("advantage")
-    # excel("advantage")
+    # excel("advantage")]
+    # balance_sheet("manara")
+    # profit_loss("manara")
     for school, name in SCHOOLS.items():
         profit_loss(school) 
         balance_sheet(school)
@@ -1998,6 +2000,9 @@ def balance_sheet(school):
                 row["difference_6"] = (row["difference_5"] + total_sum6_value )
                 row["difference_7"] = (row["difference_6"] + total_sum7_value )
                 row["difference_8"] = (row["difference_7"] + total_sum8_value )
+ 
+                total_sum_value = totals.get(f"total_sum{last_month_number + 1}_value", 0)
+                row["last_month_difference"] = row[f"difference_{last_month_number}"] + total_sum_value
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
 
@@ -2041,6 +2046,9 @@ def balance_sheet(school):
                 row["difference_4"] = (row["difference_3"] + total_sum4_value )
                 row["difference_5"] = (row["difference_4"] + total_sum5_value )
                 row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                
+                total_sum_value = totals.get(f"total_sum{last_month_number}_value", 0)
+                row["last_month_difference"] = row[f"difference_{last_month_number-1}"] + total_sum_value
                 
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
@@ -2208,6 +2216,8 @@ def balance_sheet(school):
                 row["difference_6"] = format_value_dollars(row["difference_6"] )
                 row["difference_7"] = format_value_dollars(row["difference_7"] )
                 row["difference_8"] = format_value_dollars(row["difference_8"] )
+                
+                row["last_month_difference"] = format_value_dollars(row["last_month_difference"] )
                 row["fytd"] = format_value_dollars(row["fytd"])
             else:
                 row["difference_9"] = format_value(row["difference_9"]) 

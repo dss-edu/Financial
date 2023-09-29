@@ -574,7 +574,7 @@
           <td class="collapsed right-align-td" > {{row.difference_4}}</td>
           <td class="collapsed right-align-td" > {{row.difference_5}}</td>
           <td class="collapsed right-align-td" > {{row.difference_6}}</td>
-          <td class="collapsed right-align-td" > </td>
+          <td class="collapsed right-align-td" > {{row.difference_7}}</td>
           <td class="right-align-td"> {{row.FYE}}</td>
         </tr>
         {% endif %}    
@@ -620,8 +620,8 @@
           <td class="collapsed right-align-td" > {{row.difference_5}}</td>
           <td class="collapsed right-align-td" > {{row.difference_6}}</td>
           <td class="collapsed right-align-td" > {{row.difference_7}}</td>
-          <td class="collapsed right-align-td" > </td>
-          <td class="right-align-td">{{row.difference_7}}</td>
+          <td class="collapsed right-align-td" > {{row.difference_8}}</td>
+          <td class="right-align-td">{{row.last_month_difference}}</td>
         </tr>
         {% endif %} 
         {% endif %}    
@@ -1113,7 +1113,10 @@
       <td class="collapsed right-align-td" > {{row.difference_5}}</td>
       
       <td class="collapsed right-align-td" > {{row.difference_6}}</td>
-      <td class="right-align-td">{{row.difference_7}}</td>
+
+      <td class="right-align-td">{{row.last_month_difference}}</td>
+
+    
     </tr>
     {% endif %} 
     {% endif %}    
