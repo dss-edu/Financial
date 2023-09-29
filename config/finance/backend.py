@@ -95,9 +95,9 @@ def update_db():
     # cashflow("advantage")
     # excel("advantage")
     for school, name in SCHOOLS.items():
-        # profit_loss(school) #should always be the first to update
-        # balance_sheet(school)
-        # cashflow(school)
+        profit_loss(school) 
+        balance_sheet(school)
+        cashflow(school)
         excel(school)
 
 
@@ -613,6 +613,7 @@ def profit_loss(school):
     variances_dna = 0
     var_ytd_dna = 0
 
+    print(school)
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
@@ -625,7 +626,9 @@ def profit_loss(school):
             total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
-                    if entry["func"] == func  and entry["obj"] != '6449'
+                    if entry["func"] == func  
+                    and entry["obj"] != '6449' 
+                    and (school != 'village-tech' and entry["Type"] == 'GJ')
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
@@ -681,7 +684,9 @@ def profit_loss(school):
             total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
-                    if entry["func"] == func  and entry["obj"] == '6449'
+                    if entry["func"] == func  
+                    and entry["obj"] == '6449'
+                    and (school != 'village-tech' and entry["Type"] == 'GJ')
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
@@ -3279,7 +3284,9 @@ def excel(school):
             total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
-                    if entry["func"] == func  and entry["obj"] != '6449'
+                    if entry["func"] == func  
+                    and entry["obj"] != '6449'
+                    and (school != 'village-tech' and entry["Type"] == 'GJ')
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
@@ -3336,6 +3343,7 @@ def excel(school):
                     entry[appr_key]
                     for entry in data3
                     if entry["func"] == func  and entry["obj"] == '6449'
+                    and (school != 'village-tech' and entry["Type"] == 'GJ')
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
