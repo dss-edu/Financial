@@ -1108,11 +1108,11 @@ def profit_loss(school):
         if ytd_total is None or ytd_total == 0:
             row[f"ytd_total"] = ""
         else:
-            row[f"ytd_total"] = format_value_negative(ytd_total) 
+            row[f"ytd_total"] = format_value(ytd_total) 
         if var_ytd is None or var_ytd == 0:
             row[f"variances"] = ""
         else:
-            row[f"variances"] = format_value_negative(variances)
+            row[f"variances"] = format_value(variances)
         
             
         if budget is None or budget == 0:
@@ -1147,7 +1147,7 @@ def profit_loss(school):
     #FORMAT EXPENSE BY OBJECT CODES
     for row in data_activities:
       
-        ytd_total = float(row["ytd_total"])
+        ytd_total = (row["ytd_total"])
         total_expense_budget = row["total_budget"]
         ytd_budget = row["ytd_budget"]
        
