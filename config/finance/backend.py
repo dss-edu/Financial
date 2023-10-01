@@ -100,7 +100,7 @@ def update_db():
         profit_loss(school) 
         balance_sheet(school)
         cashflow(school)
-        # excel(school)
+        excel(school)
 
 
 
@@ -846,11 +846,20 @@ def profit_loss(school):
         
         item["total_budget"] = 0
 
-        item["total_budget"] = sum(
+        if school == 'village-tech':
+            item["total_budget"] = sum(
+                entry[appr_key]
+                for entry in data3
+                if entry["obj"] == obj
+
+                )
+        else:
+            item["total_budget"] = sum(
             entry[appr_key]
             for entry in data3
             if entry["obj"] == obj
-            and (school != 'village-tech' and entry["Type"] == 'GJ') 
+            and entry["Type"] == 'GJ'
+       
             )
         
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
@@ -3319,13 +3328,24 @@ def excel(school):
 
 
             
-            total_func_func = sum(
-                    entry[appr_key]
-                    for entry in data3
-                    if entry["func"] == func  
-                    and entry["obj"] != '6449'
-                    and (school != 'village-tech' and entry["Type"] == 'GJ')
-                )
+            if school == 'village-tech':
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] != '6449'
+
+
+                    )
+            else:
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] != '6449'
+                        and entry["Type"] == 'GJ' 
+                     
+                    )
             total_adjustment_func = sum(
                     entry[appr_key]
                     for entry in adjustment
@@ -3377,11 +3397,21 @@ def excel(school):
      
            
             
-            total_func_func = sum(
+            if school == 'village-tech':
+                total_func_func = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["func"] == func  
+                        and entry["obj"] == '6449'
+                       
+                    )
+            else:
+                total_func_func = sum(
                     entry[appr_key]
                     for entry in data3
-                    if entry["func"] == func  and entry["obj"] == '6449'
-                    and (school != 'village-tech' and entry["Type"] == 'GJ')
+                    if entry["func"] == func  
+                    and entry["obj"] == '6449'
+                     and entry["Type"] == 'GJ'
                 )
             total_adjustment_func = sum(
                     entry[appr_key]
@@ -3517,11 +3547,20 @@ def excel(school):
         
         item["total_budget"] = 0
 
-        item["total_budget"] = sum(
+        if school == 'village-tech':
+            item["total_budget"] = sum(
+                entry[appr_key]
+                for entry in data3
+                if entry["obj"] == obj
+
+                )
+        else:
+            item["total_budget"] = sum(
             entry[appr_key]
             for entry in data3
             if entry["obj"] == obj
-            and (school != 'village-tech' and entry["Type"] == 'GJ') 
+            and entry["Type"] == 'GJ'
+       
             )
         
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
