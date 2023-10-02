@@ -91,7 +91,7 @@ db = {
 
 def update_db():
     # profit_loss("advantage")
-    # balance_sheet("advantage")
+    # balance_sheet("cumberland")
     # cashflow("advantage")
     # excel("advantage")]
     # balance_sheet("manara")
@@ -335,13 +335,19 @@ def profit_loss(school):
         else:
             ytd_budget_test = last_month_number + 4
     ytd_budget = abs(ytd_budget_test) / 12
-    formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
 
-    
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+    print(ytd_budget_test)
+    if ytd_budget_test == 1 or ytd_budget_test == 12:
+        formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+       
+    else:
+        formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+        )
+        if formatted_ytd_budget.startswith("0."):
+            formatted_ytd_budget = formatted_ytd_budget[2:]
+
+
 
 
 
@@ -401,7 +407,7 @@ def profit_loss(school):
 
 
     july_date  = datetime(current_year, 7, 1).date()
-    september_date  = datetime(current_year, 9, 1).date()
+    september_date  = datetime(current_year, 9, 30).date()
     FY_year_1 = last_year
     FY_year_2 = current_year
     for item in data3:
@@ -416,6 +422,7 @@ def profit_loss(school):
             else:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 if date_obj > september_date: # if date is higher than july 1 this year
+                  print(date_obj)
                   FY_year_1 = current_year
                   FY_year_2 = next_year
                 
@@ -439,15 +446,22 @@ def profit_loss(school):
                 ytd_budget_test = last_month_number - 8
             else:
                 ytd_budget_test = last_month_number + 4
-        ytd_budget = abs(ytd_budget_test) / 12
         
-        formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-        )
+        ytd_budget = abs(ytd_budget_test) / 12
 
-    
-        if formatted_ytd_budget.startswith("0."):
-            formatted_ytd_budget = formatted_ytd_budget[2:]
+        if ytd_budget_test == 1 or ytd_budget_test == 12:
+            formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+            
+        else:
+
+            formatted_ytd_budget = (
+            f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+            )
+
+
+            if formatted_ytd_budget.startswith("0."):
+                formatted_ytd_budget = formatted_ytd_budget[2:]
+
 
         
 
