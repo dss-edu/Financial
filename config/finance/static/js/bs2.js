@@ -17,8 +17,10 @@ function checkValuesMatch() {
       const totalAssetsValue = totalAssetsCells[i].textContent.trim();
     
       if (liabilitiesAndNetValue !== totalAssetsValue) {
+        liabilitiesAndNetCells[i].style.backgroundColor = "yellow";
+        totalAssetsCells[i].style.backgroundColor = "yellow";
+
         match = false;
-        break;
       }
     }
     
