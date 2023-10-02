@@ -1,6 +1,6 @@
 from .connect import connect
 from time import strftime
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 from django.views.decorators.cache import cache_control
 import json
@@ -85,6 +85,12 @@ db = {
 
 
 def dashboard(school):
+    # current_date = datetime.today().date()
+    # # current_year = current_date.year
+    # # last_year = current_date - timedelta(days=365)
+    # current_month = current_date.replace(day=1)
+    # last_month = current_month - relativedelta(days=1)
+
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -95,13 +101,10 @@ def dashboard(school):
         cursor.execute(query)
         row = cursor.fetchone()
         if row is not None:
+            last_month = date(curr_year, i + 1, 1)
+            last_month = last_month - relativedelta(days=1)
             break
 
-    current_date = datetime.today().date()
-    # current_year = current_date.year
-    # last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
 
     context = {
         "school": school,
