@@ -93,7 +93,7 @@ def update_db():
     # profit_loss("village-tech")
     # balance_sheet("cumberland")
     # cashflow("advantage")
-    # excel("advantage")]
+    # excel("advantage")
     # balance_sheet("manara")
     # profit_loss("manara")
     for school, name in SCHOOLS.items():
@@ -503,6 +503,7 @@ def profit_loss(school):
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
+          
                               
             )
             total_adjustment_budget = sum(
@@ -3034,6 +3035,22 @@ def excel(school):
 
         data_activitybs.append(row_dict)
 
+    
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
+    rows = cursor.fetchall()
+
+    data_cashflow = []
+
+    for row in rows:
+        row_dict = {
+            "Category": row[0],
+            "Activity": row[1],
+            "Description": row[2],
+            "obj": str(row[3]),
+        }
+
+        data_cashflow.append(row_dict)
+
    
     
     current_date = datetime.today().date()
@@ -3827,6 +3844,8 @@ def excel(school):
                 row["difference_6"] = (row["difference_5"] + total_sum6_value )
                 row["difference_7"] = (row["difference_6"] + total_sum7_value )
                 row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                total_sum_value = totals.get(f"total_sum{last_month_number + 1}_value", 0)
+                row["last_month_difference"] = row[f"difference_{last_month_number}"] + total_sum_value
      
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
@@ -3871,6 +3890,8 @@ def excel(school):
                 row["difference_4"] = (row["difference_3"] + total_sum4_value )
                 row["difference_5"] = (row["difference_4"] + total_sum5_value )
                 row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                total_sum_value = totals.get(f"total_sum{last_month_number}_value", 0)
+                row["last_month_difference"] = row[f"difference_{last_month_number-1}"] + total_sum_value
                 
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
@@ -3994,6 +4015,30 @@ def excel(school):
     net = float(total_net_assets_fytd) if total_net_assets_fytd else 0
     total_LNA_fytd = net + total_liabilities_fytd
 
+
+    # FOR CASHFLOW
+
+    for item in data_cashflow:
+        activity = item["Activity"]
+        item["fytd_1"] = 0
+        obj = item["obj"]
+        item["fytd_2"] = 0
+
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            total_bal_key = f"total_bal{i}"
+            item[f"total_operating{i}"] = sum(
+                entry[total_bal_key]
+                for entry in data_activitybs
+                if entry["Activity"] == activity
+            )
+            item["fytd_1"] += item[f"total_operating{i}"]
+        for i, acct_per in enumerate(acct_per_values, start=1):
+            item[f"total_investing{i}"] = sum(
+                entry[bal_key]
+                for entry in data3
+                if entry["obj"] == obj and entry["AcctPer"] == acct_per
+            )
+            item["fytd_2"] += item[f"total_investing{i}"]  
     
     sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
     sorted_data = sorted(data, key=lambda x: x['obj'])
@@ -4006,6 +4051,7 @@ def excel(school):
         "data_charterfirst":data_charterfirst,
         "data_balancesheet":data_balancesheet,
         "data_activitybs":data_activitybs,
+        "data_cashflow":data_cashflow,
 
 
         "months":

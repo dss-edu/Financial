@@ -3920,7 +3920,9 @@ def generate_excel(request,school):
         
     #     data_activitybs.append(row_dict)
 
-#    # NOT YET DONE
+
+    with open(os.path.join(JSON_DIR, "data_cashflow.json"), "r") as f:
+        data_cashflow = json.load(f)
 #     cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};") 
 #     rows = cursor.fetchall()
 
@@ -8676,217 +8678,394 @@ def generate_excel(request,school):
 
 
 
-    # #CASHFLOW DESIGN
-    # for row in range(2,181):
-    #     cashflow_sheet.row_dimensions[row].height = 19
+    #CASHFLOW DESIGN
+    for row in range(2,181):
+        cashflow_sheet.row_dimensions[row].height = 19
     # cashflow_sheet.row_dimensions[17].height = 26 #local revenue
     # cashflow_sheet.row_dimensions[20].height = 26 #spr
     # cashflow_sheet.row_dimensions[33].height = 26 #fpr
     # cashflow_sheet.row_dimensions[34].height = 26 
-    # cashflow_sheet.column_dimensions['A'].width = 8
-    # cashflow_sheet.column_dimensions['B'].width = 46
-    # cashflow_sheet.column_dimensions['C'].width = 10
-    # cashflow_sheet.column_dimensions['D'].width = 14
-    # cashflow_sheet.column_dimensions['E'].width = 14
-    # cashflow_sheet.column_dimensions['F'].hidden = True
-    # cashflow_sheet.column_dimensions['G'].width = 14
-    # cashflow_sheet.column_dimensions['H'].width = 14
-    # cashflow_sheet.column_dimensions['I'].width = 14
-    # cashflow_sheet.column_dimensions['J'].width = 14
-    # cashflow_sheet.column_dimensions['K'].width = 14
-    # cashflow_sheet.column_dimensions['L'].width = 14
-    # cashflow_sheet.column_dimensions['M'].width = 14
-    # cashflow_sheet.column_dimensions['N'].width = 14
-    # cashflow_sheet.column_dimensions['O'].width = 14
-    # cashflow_sheet.column_dimensions['P'].width = 3
-    # cashflow_sheet.column_dimensions['Q'].width = 14
-    # cashflow_sheet.column_dimensions['R'].width = 14
-    # cashflow_sheet.column_dimensions['S'].width = 3
-    # cashflow_sheet.column_dimensions['T'].width = 17
-    # cashflow_sheet.column_dimensions['U'].width = 17
-    # cashflow_sheet.column_dimensions['V'].width = 14
+    cashflow_sheet.column_dimensions['A'].width = 8
+    cashflow_sheet.column_dimensions['B'].width = 46
+    cashflow_sheet.column_dimensions['C'].width = 10
+    cashflow_sheet.column_dimensions['D'].width = 14
+    cashflow_sheet.column_dimensions['E'].width = 14
+    cashflow_sheet.column_dimensions['F'].hidden = True
+    cashflow_sheet.column_dimensions['G'].width = 14
+    cashflow_sheet.column_dimensions['H'].width = 14
+    cashflow_sheet.column_dimensions['I'].width = 14
+    cashflow_sheet.column_dimensions['J'].width = 14
+    cashflow_sheet.column_dimensions['K'].width = 14
+    cashflow_sheet.column_dimensions['L'].width = 14
+    cashflow_sheet.column_dimensions['M'].width = 14
+    cashflow_sheet.column_dimensions['N'].width = 14
+    cashflow_sheet.column_dimensions['O'].width = 14
+    cashflow_sheet.column_dimensions['P'].width = 3
+    cashflow_sheet.column_dimensions['Q'].width = 14
+    cashflow_sheet.column_dimensions['R'].width = 14
+    cashflow_sheet.column_dimensions['S'].width = 3
+    cashflow_sheet.column_dimensions['T'].width = 17
+    cashflow_sheet.column_dimensions['U'].width = 17
+    cashflow_sheet.column_dimensions['V'].width = 14
 
-    # for col in range(4, 16):
-    #     col_letter = get_column_letter(col)
-    #     cashflow_sheet.column_dimensions[col_letter].outline_level = 1
-    #     cashflow_sheet.column_dimensions[col_letter].hidden = True
+    for col in range(4, 16):
+        col_letter = get_column_letter(col)
+        cashflow_sheet.column_dimensions[col_letter].outline_level = 1
+        cashflow_sheet.column_dimensions[col_letter].hidden = True
 
 
-    # start = 1 
-    # cashflow_sheet[f'A{start}'] = school_name
-    # start += 1
-    # cashflow_sheet[f'A{start}'] = 'Statement of Cash Flows'
-    # start += 1
-    # cashflow_sheet[f'A{start}'] = f'for the period ended of {months["last_month"]}'
+    start = 1 
+    cashflow_sheet[f'A{start}'] = school_name
+    start += 1
+    cashflow_sheet[f'A{start}'] = 'Statement of Cash Flows'
+    start += 1
+    cashflow_sheet[f'A{start}'] = f'for the period ended of {months["last_month"]}'
 
-    # cashflow_start_row = 7
-    # operating_start_row = cashflow_start_row
-    # cashflow_sheet[f'D{cashflow_start_row}'] = total_netsurplus['09']
-    # cashflow_sheet[f'E{cashflow_start_row}'] = total_netsurplus['10']
-    # cashflow_sheet[f'F{cashflow_start_row}'] = total_netsurplus['11']
-    # cashflow_sheet[f'G{cashflow_start_row}'] = total_netsurplus['12']
-    # cashflow_sheet[f'H{cashflow_start_row}'] = total_netsurplus['01']
-    # cashflow_sheet[f'I{cashflow_start_row}'] = total_netsurplus['02']
-    # cashflow_sheet[f'J{cashflow_start_row}'] = total_netsurplus['03']
-    # cashflow_sheet[f'K{cashflow_start_row}'] = total_netsurplus['04']
-    # cashflow_sheet[f'L{cashflow_start_row}'] = total_netsurplus['05']
-    # cashflow_sheet[f'M{cashflow_start_row}'] = total_netsurplus['06']
-    # cashflow_sheet[f'N{cashflow_start_row}'] = total_netsurplus['07']
-    # cashflow_sheet[f'O{cashflow_start_row}'] = total_netsurplus['08']
-    # cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
-  
-    # cashflow_start_row += 2
-    # cashflow_sheet[f'D{cashflow_start_row}'] = total_DnA['09']
-    # cashflow_sheet[f'E{cashflow_start_row}'] = total_DnA['10']
-    # cashflow_sheet[f'F{cashflow_start_row}'] = total_DnA['11']
-    # cashflow_sheet[f'G{cashflow_start_row}'] = total_DnA['12']
-    # cashflow_sheet[f'H{cashflow_start_row}'] = total_DnA['01']
-    # cashflow_sheet[f'I{cashflow_start_row}'] = total_DnA['02']
-    # cashflow_sheet[f'J{cashflow_start_row}'] = total_DnA['03']
-    # cashflow_sheet[f'K{cashflow_start_row}'] = total_DnA['04']
-    # cashflow_sheet[f'L{cashflow_start_row}'] = total_DnA['05']
-    # cashflow_sheet[f'M{cashflow_start_row}'] = total_DnA['06']
-    # cashflow_sheet[f'N{cashflow_start_row}'] = total_DnA['07']
-    # cashflow_sheet[f'O{cashflow_start_row}'] = total_DnA['08']
-    # cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
-   
-    #  #CASHFLOW FROM OPERATING ACTIVITIES
-    # for row in data_cashflow:
-    #     if row['Category'] == 'Operating':
-    #         cashflow_start_row += 1
-    #         cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
-    #         cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
-    #         cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
-    #         cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating12']
-    #         cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating1']
-    #         cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating2']
-    #         cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating3']
-    #         cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating4']
-    #         cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating5']
-    #         cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating6']
-    #         cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating7']
-    #         cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating8']
-    #         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
-    # operating_end_row = cashflow_start_row
-    # cashflow_start_row += 5
-    # net_operating_total_row = cashflow_start_row
+    if  school != 'manara' and school != 'prepschool':
+        cashflow_start_row = 7
+        operating_start_row = cashflow_start_row
+        cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
+        cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["10"]
+        cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"]["11"]
+        cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"]["12"]
+        cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"]["01"]
+        cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"]["02"]
+        cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"]["03"]
+        cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"]["04"]
+        cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"]["05"]
+        cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"]["06"]
+        cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"]["07"]
+        cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"]["08"]
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
     
-    # # NET OPERATING TOTAL
-    # cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{operating_start_row}:D{operating_end_row})'  
-    # cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{operating_start_row}:E{operating_end_row})'
-    # cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{operating_start_row}:F{operating_end_row})' 
-    # cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{operating_start_row}:G{operating_end_row})' 
-    # cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{operating_start_row}:H{operating_end_row})' 
-    # cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{operating_start_row}:I{operating_end_row})' 
-    # cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{operating_start_row}:J{operating_end_row})' 
-    # cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{operating_start_row}:K{operating_end_row})' 
-    # cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{operating_start_row}:L{operating_end_row})' 
-    # cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{operating_start_row}:M{operating_end_row})' 
-    # cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{operating_start_row}:N{operating_end_row})' 
-    # cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{operating_start_row}:O{operating_end_row})' 
-    # cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{operating_start_row}:Q{operating_end_row})' 
+        cashflow_start_row += 2
+        cashflow_sheet[f'D{cashflow_start_row}'] = totals["dna_total_months"]["09"]
+        cashflow_sheet[f'E{cashflow_start_row}'] = totals["dna_total_months"]["10"]
+        cashflow_sheet[f'F{cashflow_start_row}'] = totals["dna_total_months"]["11"]
+        cashflow_sheet[f'G{cashflow_start_row}'] = totals["dna_total_months"]["12"]
+        cashflow_sheet[f'H{cashflow_start_row}'] = totals["dna_total_months"]["01"]
+        cashflow_sheet[f'I{cashflow_start_row}'] = totals["dna_total_months"]["02"]
+        cashflow_sheet[f'J{cashflow_start_row}'] = totals["dna_total_months"]["03"]
+        cashflow_sheet[f'K{cashflow_start_row}'] = totals["dna_total_months"]["04"]
+        cashflow_sheet[f'L{cashflow_start_row}'] = totals["dna_total_months"]["05"]
+        cashflow_sheet[f'M{cashflow_start_row}'] = totals["dna_total_months"]["06"]
+        cashflow_sheet[f'N{cashflow_start_row}'] = totals["dna_total_months"]["07"]
+        cashflow_sheet[f'O{cashflow_start_row}'] = totals["dna_total_months"]["08"]
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
-
-    # cashflow_start_row += 3
-
-    # investing_row_start = cashflow_start_row
-    # #CASHFLOW FROM INVESTING ACTIVITIES
-    # for row in data_cashflow:
-    #     if row['Category'] == 'Investing':
-    #         cashflow_start_row += 1
-            
-    #         cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
-    #         cashflow_sheet[f'C{cashflow_start_row}'] = row['obj']
-    #         cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing9']
-    #         cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing10']
-    #         cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing11']
-    #         cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing12']
-    #         cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing1']
-    #         cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing2']
-    #         cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing3']
-    #         cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing4']
-    #         cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing5']
-    #         cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing6']
-    #         cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing7']
-    #         cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing8']
-    #         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
-
-    # investing_row_end = cashflow_start_row
-    # cashflow_start_row += 3
     
-    # #NET INVESTING TOTAL
-    # net_investing_total_row = cashflow_start_row
-    # cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{investing_row_start}:D{investing_row_end})'  
-    # cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{investing_row_start}:E{investing_row_end})'
-    # cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{investing_row_start}:F{investing_row_end})' 
-    # cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{investing_row_start}:G{investing_row_end})' 
-    # cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{investing_row_start}:H{investing_row_end})' 
-    # cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{investing_row_start}:I{investing_row_end})' 
-    # cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{investing_row_start}:J{investing_row_end})' 
-    # cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{investing_row_start}:K{investing_row_end})' 
-    # cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{investing_row_start}:L{investing_row_end})' 
-    # cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{investing_row_start}:M{investing_row_end})' 
-    # cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{investing_row_start}:N{investing_row_end})' 
-    # cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{investing_row_start}:O{investing_row_end})' 
-    # cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{investing_row_start}:Q{investing_row_end})' 
+        #CASHFLOW FROM OPERATING ACTIVITIES
+        for row in data_cashflow:
+            if row['Category'] == 'Operating':
+                cashflow_start_row += 1
+                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
+                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
+                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
+                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating12']
+                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating1']
+                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating2']
+                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating3']
+                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating4']
+                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating5']
+                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating6']
+                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating7']
+                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating8']
+                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
-  
-    # #NET INCREASE Decrease in cash
-    # cashflow_start_row += 10
-    # cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
-    # cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
-    # cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
-    # cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{net_operating_total_row},G{net_investing_total_row})' 
-    # cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{net_operating_total_row},H{net_investing_total_row})' 
-    # cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{net_operating_total_row},I{net_investing_total_row})' 
-    # cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{net_operating_total_row},J{net_investing_total_row})' 
-    # cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{net_operating_total_row},K{net_investing_total_row})' 
-    # cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{net_operating_total_row},L{net_investing_total_row})' 
-    # cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{net_operating_total_row},M{net_investing_total_row})' 
-    # cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{net_operating_total_row},N{net_investing_total_row})' 
-    # cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{net_operating_total_row},O{net_investing_total_row})' 
-    # cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
+        operating_end_row = cashflow_start_row
+        cashflow_start_row += 5
+        net_operating_total_row = cashflow_start_row
+        
+        # NET OPERATING TOTAL
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{operating_start_row}:D{operating_end_row})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{operating_start_row}:E{operating_end_row})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{operating_start_row}:F{operating_end_row})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{operating_start_row}:G{operating_end_row})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{operating_start_row}:H{operating_end_row})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{operating_start_row}:I{operating_end_row})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{operating_start_row}:J{operating_end_row})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{operating_start_row}:K{operating_end_row})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{operating_start_row}:L{operating_end_row})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{operating_start_row}:M{operating_end_row})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{operating_start_row}:N{operating_end_row})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{operating_start_row}:O{operating_end_row})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{operating_start_row}:Q{operating_end_row})' 
 
 
-    # cashflow_start_row += 2
-    # for row in data_balancesheet:
-    #     if row['Category'] == 'Assets':
-    #         if row['Subcategory'] == 'Current Assets':
-    #             if row['Activity'] == 'Cash':
-    #                 cashflow_sheet[f'D{cashflow_start_row}'] = row['FYE']
-    #                 cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_9']
-    #                 cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_10']
-    #                 cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_11']
-    #                 cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_12']
-    #                 cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_1']
-    #                 cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_2']
-    #                 cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_3']
-    #                 cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_4']
-    #                 cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_5']
-    #                 cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_6']
-    #                 cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_7']
-    #                 cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
+        cashflow_start_row += 3
 
-    # cashflow_start_row += 2
-    # for row in data_balancesheet:
-    #     if row['Category'] == 'Assets':
-    #         if row['Subcategory'] == 'Current Assets':
-    #             if row['Activity'] == 'Cash':
-    #                 cashflow_sheet[f'D{cashflow_start_row}'] = row['difference_9']
-    #                 cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_1']
-    #                 cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_11']
-    #                 cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_12']
-    #                 cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_1']
-    #                 cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_2']
-    #                 cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_3']
-    #                 cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_4']
-    #                 cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_5']
-    #                 cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_6']
-    #                 cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_7']
-    #                 cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_8']
-    #                 cashflow_sheet[f'Q{cashflow_start_row}'] = row['difference_7']
+        investing_row_start = cashflow_start_row
+        #CASHFLOW FROM INVESTING ACTIVITIES
+        for row in data_cashflow:
+            if row['Category'] == 'Investing':
+                cashflow_start_row += 1
+                
+                cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
+        
+                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing9']
+                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing10']
+                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing11']
+                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing12']
+                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing1']
+                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing2']
+                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing3']
+                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing4']
+                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing5']
+                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing6']
+                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing7']
+                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing8']
+                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+
+        investing_row_end = cashflow_start_row
+        cashflow_start_row += 3
+        
+        #NET INVESTING TOTAL
+        net_investing_total_row = cashflow_start_row
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{investing_row_start}:D{investing_row_end})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{investing_row_start}:E{investing_row_end})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{investing_row_start}:F{investing_row_end})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{investing_row_start}:G{investing_row_end})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{investing_row_start}:H{investing_row_end})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{investing_row_start}:I{investing_row_end})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{investing_row_start}:J{investing_row_end})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{investing_row_start}:K{investing_row_end})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{investing_row_start}:L{investing_row_end})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{investing_row_start}:M{investing_row_end})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{investing_row_start}:N{investing_row_end})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{investing_row_start}:O{investing_row_end})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{investing_row_start}:Q{investing_row_end})' 
+
+    
+        #NET INCREASE Decrease in cash
+        cashflow_start_row += 10
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{net_operating_total_row},G{net_investing_total_row})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{net_operating_total_row},H{net_investing_total_row})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{net_operating_total_row},I{net_investing_total_row})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{net_operating_total_row},J{net_investing_total_row})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{net_operating_total_row},K{net_investing_total_row})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{net_operating_total_row},L{net_investing_total_row})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{net_operating_total_row},M{net_investing_total_row})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{net_operating_total_row},N{net_investing_total_row})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{net_operating_total_row},O{net_investing_total_row})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
+
+
+        cashflow_start_row += 2
+        for row in data_balancesheet:
+            if row["school"] == school:
+                if row['Category'] == 'Assets':
+                    if row['Subcategory'] == 'Current Assets':
+                        if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'D{cashflow_start_row}'] = row['FYE']
+                            cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_9']
+                            cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_10']
+                            cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_11']
+                            cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_12']
+                            cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_1']
+                            cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_2']
+                            cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_3']
+                            cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_4']
+                            cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_5']
+                            cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_6']
+                            cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_7']
+                            cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
+
+        cashflow_start_row += 2
+        for row in data_balancesheet:
+            if row["school"] == school:
+                if row['Category'] == 'Assets':
+                    if row['Subcategory'] == 'Current Assets':
+                        if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'D{cashflow_start_row}'] = row['difference_9']
+                            cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_1']
+                            cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_11']
+                            cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_12']
+                            cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_1']
+                            cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_2']
+                            cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_3']
+                            cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_4']
+                            cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_5']
+                            cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_6']
+                            cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_7']
+                            cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_8']
+                            cashflow_sheet[f'Q{cashflow_start_row}'] = row['last_month_difference']
+    else:
+        #MANARA CASHFLOW
+        cashflow_start_row = 7
+        operating_start_row = cashflow_start_row
+        cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["07"]
+        cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["08"]
+        cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
+        cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"]["10"]
+        cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"]["11"]
+        cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"]["12"]
+        cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"]["01"]
+        cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"]["02"]
+        cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"]["03"]
+        cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"]["04"]
+        cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"]["05"]
+        cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"]["06"]
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+    
+        cashflow_start_row += 2
+        cashflow_sheet[f'D{cashflow_start_row}'] = totals["dna_total_months"]["07"]
+        cashflow_sheet[f'E{cashflow_start_row}'] = totals["dna_total_months"]["08"]
+        cashflow_sheet[f'F{cashflow_start_row}'] = totals["dna_total_months"]["09"]
+        cashflow_sheet[f'G{cashflow_start_row}'] = totals["dna_total_months"]["10"]
+        cashflow_sheet[f'H{cashflow_start_row}'] = totals["dna_total_months"]["11"]
+        cashflow_sheet[f'I{cashflow_start_row}'] = totals["dna_total_months"]["12"]
+        cashflow_sheet[f'J{cashflow_start_row}'] = totals["dna_total_months"]["01"]
+        cashflow_sheet[f'K{cashflow_start_row}'] = totals["dna_total_months"]["02"]
+        cashflow_sheet[f'L{cashflow_start_row}'] = totals["dna_total_months"]["03"]
+        cashflow_sheet[f'M{cashflow_start_row}'] = totals["dna_total_months"]["04"]
+        cashflow_sheet[f'N{cashflow_start_row}'] = totals["dna_total_months"]["05"]
+        cashflow_sheet[f'O{cashflow_start_row}'] = totals["dna_total_months"]["06"]
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+
+    
+        #CASHFLOW FROM OPERATING ACTIVITIES
+        for row in data_cashflow:
+            if row['Category'] == 'Operating':
+                cashflow_start_row += 1
+                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating7']
+                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating8']
+                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating9']
+                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating10']
+                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating11']
+                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating12']
+                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating1']
+                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating2']
+                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating3']
+                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating4']
+                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating5']
+                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating6']
+                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+
+        operating_end_row = cashflow_start_row
+        cashflow_start_row += 5
+        net_operating_total_row = cashflow_start_row
+        
+        # NET OPERATING TOTAL
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{operating_start_row}:D{operating_end_row})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{operating_start_row}:E{operating_end_row})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{operating_start_row}:F{operating_end_row})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{operating_start_row}:G{operating_end_row})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{operating_start_row}:H{operating_end_row})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{operating_start_row}:I{operating_end_row})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{operating_start_row}:J{operating_end_row})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{operating_start_row}:K{operating_end_row})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{operating_start_row}:L{operating_end_row})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{operating_start_row}:M{operating_end_row})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{operating_start_row}:N{operating_end_row})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{operating_start_row}:O{operating_end_row})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{operating_start_row}:Q{operating_end_row})' 
+
+
+        cashflow_start_row += 3
+
+        investing_row_start = cashflow_start_row
+        #CASHFLOW FROM INVESTING ACTIVITIES
+        for row in data_cashflow:
+            if row['Category'] == 'Investing':
+                cashflow_start_row += 1
+                
+                cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
+        
+                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing7']
+                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing8']
+                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing9']
+                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing10']
+                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing11']
+                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing12']
+                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing1']
+                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing2']
+                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing3']
+                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing4']
+                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing5']
+                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing6']
+                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+
+        investing_row_end = cashflow_start_row
+        cashflow_start_row += 3
+        
+        #NET INVESTING TOTAL
+        net_investing_total_row = cashflow_start_row
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{investing_row_start}:D{investing_row_end})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{investing_row_start}:E{investing_row_end})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{investing_row_start}:F{investing_row_end})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{investing_row_start}:G{investing_row_end})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{investing_row_start}:H{investing_row_end})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{investing_row_start}:I{investing_row_end})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{investing_row_start}:J{investing_row_end})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{investing_row_start}:K{investing_row_end})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{investing_row_start}:L{investing_row_end})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{investing_row_start}:M{investing_row_end})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{investing_row_start}:N{investing_row_end})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{investing_row_start}:O{investing_row_end})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{investing_row_start}:Q{investing_row_end})' 
+
+    
+        #NET INCREASE Decrease in cash
+        cashflow_start_row += 10
+        cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
+        cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
+        cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
+        cashflow_sheet[f'G{cashflow_start_row}'].value = f'=SUM(G{net_operating_total_row},G{net_investing_total_row})' 
+        cashflow_sheet[f'H{cashflow_start_row}'].value = f'=SUM(H{net_operating_total_row},H{net_investing_total_row})' 
+        cashflow_sheet[f'I{cashflow_start_row}'].value = f'=SUM(I{net_operating_total_row},I{net_investing_total_row})' 
+        cashflow_sheet[f'J{cashflow_start_row}'].value = f'=SUM(J{net_operating_total_row},J{net_investing_total_row})' 
+        cashflow_sheet[f'K{cashflow_start_row}'].value = f'=SUM(K{net_operating_total_row},K{net_investing_total_row})' 
+        cashflow_sheet[f'L{cashflow_start_row}'].value = f'=SUM(L{net_operating_total_row},L{net_investing_total_row})' 
+        cashflow_sheet[f'M{cashflow_start_row}'].value = f'=SUM(M{net_operating_total_row},M{net_investing_total_row})' 
+        cashflow_sheet[f'N{cashflow_start_row}'].value = f'=SUM(N{net_operating_total_row},N{net_investing_total_row})' 
+        cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{net_operating_total_row},O{net_investing_total_row})' 
+        cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
+
+
+        cashflow_start_row += 2
+        for row in data_balancesheet:
+            if row["school"] == school:
+                if row['Category'] == 'Assets':
+                    if row['Subcategory'] == 'Current Assets':
+                        if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'D{cashflow_start_row}'] = row['FYE']
+                            cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_7']
+                            cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_8']
+                            cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_9']
+                            cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_10']
+                            cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_11']
+                            cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_12']
+                            cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_1']
+                            cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_2']
+                            cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_3']
+                            cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_4']
+                            cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_5']
+                            cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
+
+        cashflow_start_row += 2
+        for row in data_balancesheet:
+            if row["school"] == school:
+                if row['Category'] == 'Assets':
+                    if row['Subcategory'] == 'Current Assets':
+                        if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'D{cashflow_start_row}'] = row['difference_7']
+                            cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_8']
+                            cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_9']
+                            cashflow_sheet[f'G{cashflow_start_row}'] = row['difference_10']
+                            cashflow_sheet[f'H{cashflow_start_row}'] = row['difference_11']
+                            cashflow_sheet[f'I{cashflow_start_row}'] = row['difference_12']
+                            cashflow_sheet[f'J{cashflow_start_row}'] = row['difference_1']
+                            cashflow_sheet[f'K{cashflow_start_row}'] = row['difference_2']
+                            cashflow_sheet[f'L{cashflow_start_row}'] = row['difference_3']
+                            cashflow_sheet[f'M{cashflow_start_row}'] = row['difference_4']
+                            cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_5']
+                            cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_6']
+                            cashflow_sheet[f'Q{cashflow_start_row}'] = row['last_month_difference']
 
   
 
