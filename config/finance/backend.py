@@ -98,9 +98,9 @@ def update_db():
     # profit_loss("manara")
     for school, name in SCHOOLS.items():
         profit_loss(school) 
-    #     balance_sheet(school)
-    #     cashflow(school)
-    #     excel(school)
+        balance_sheet(school)
+        cashflow(school)
+        excel(school)
 
 
 
