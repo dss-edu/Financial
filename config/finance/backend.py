@@ -90,7 +90,7 @@ db = {
 
 
 def update_db():
-    # profit_loss("advantage")
+    # profit_loss("village-tech")
     # balance_sheet("cumberland")
     # cashflow("advantage")
     # excel("advantage")]
@@ -98,9 +98,9 @@ def update_db():
     # profit_loss("manara")
     for school, name in SCHOOLS.items():
         profit_loss(school) 
-        balance_sheet(school)
-        cashflow(school)
-        excel(school)
+    #     balance_sheet(school)
+    #     cashflow(school)
+    #     excel(school)
 
 
 
@@ -665,7 +665,11 @@ def profit_loss(school):
                     and entry[appr_key] is not None 
                     and not isinstance(entry[appr_key], str)  
                 )
-            item['total_budget'] = total_func_func + total_adjustment_func
+            
+            if school == 'village-tech':
+                item['total_budget'] = total_func_func + total_adjustment_func
+            else:
+                item['total_budget'] = -(total_func_func + total_adjustment_func)
  
 
             
@@ -1141,11 +1145,11 @@ def profit_loss(school):
         if budget is None or budget == 0:
             row[f"total_budget"] = ""
         else:
-            row[f"total_budget"] = format_value_negative(budget)
+            row[f"total_budget"] = format_value(budget)
         if ytd_budget is None or ytd_budget == 0:
             row[f"ytd_budget"] = ""
         else:
-            row[f"ytd_budget"] = format_value_negative(ytd_budget)
+            row[f"ytd_budget"] = format_value(ytd_budget)
  
 
 
@@ -3372,7 +3376,10 @@ def excel(school):
                     and entry[appr_key] is not None 
                     and not isinstance(entry[appr_key], str)  
                 )
-            item['total_budget'] = total_func_func + total_adjustment_func
+            if school == 'village-tech':
+                item['total_budget'] = total_func_func + total_adjustment_func
+            else:
+                item['total_budget'] = -(total_func_func + total_adjustment_func)
  
 
             
