@@ -336,7 +336,7 @@ def profit_loss(school):
             ytd_budget_test = last_month_number + 4
     ytd_budget = abs(ytd_budget_test) / 12
 
-    print(ytd_budget_test)
+
     if ytd_budget_test == 1 or ytd_budget_test == 12:
         formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
        
@@ -3051,13 +3051,15 @@ def excel(school):
         else:
             ytd_budget_test = last_month_number + 4
     ytd_budget = abs(ytd_budget_test) / 12
-    formatted_ytd_budget = (
+    if ytd_budget_test == 1 or ytd_budget_test == 12:
+        formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+       
+    else:
+        formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
-
-    
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+        )
+        if formatted_ytd_budget.startswith("0."):
+            formatted_ytd_budget = formatted_ytd_budget[2:]
 
 
 
@@ -3159,14 +3161,15 @@ def excel(school):
                 ytd_budget_test = last_month_number + 4
         ytd_budget = abs(ytd_budget_test) / 12
         
+    if ytd_budget_test == 1 or ytd_budget_test == 12:
+        formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+       
+    else:
         formatted_ytd_budget = (
         f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
         )
-
-    
         if formatted_ytd_budget.startswith("0."):
             formatted_ytd_budget = formatted_ytd_budget[2:]
-
         
 
 

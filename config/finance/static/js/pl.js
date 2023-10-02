@@ -74,7 +74,7 @@ function toggleColumns() {
     hideRowsByClass('.expense-row');
     hideRowsByClass('.payroll-row');
     // hideRowsByClass('.total-row1');
-    // hideRowsByClass('.DnA-row');
+    hideRowsByClass('.DnA-row');
    
   }
 
