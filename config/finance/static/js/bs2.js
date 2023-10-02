@@ -49,27 +49,28 @@ function checkValuesMatch() {
 
     let template = ``
     if (match) {
-      template = `Total Assets and Total Liabilities and Net Assets are Balanced`;
+      // template = `Total Assets and Total Liabilities and Net Assets are Balanced`;
+      return;
     } else {
       template  = `Total Assets and Total Liabilities and Net Assets are not Balanced`;
     }
 
-    if (missingActivites){
-      template += `\n\nMissing tags for activities. Click <a id="settings-link" href="#">here</a> to set tags.`
-
-    }
+    // if (missingActivites){
+    //   template += `\n\nMissing tags for activities. Click <a id="settings-link" href="#">here</a> to set tags.`
+    //
+    // }
 
     modalText.innerHTML  = template
 
-    if (missingActivites){
-      const settingsLink = document.getElementById('settings-link')
-      settingsLink.addEventListener('click', function(event){
-        event.preventDefault()
-        $('#myModal2').modal('hide')
-
-        $('#settings-modal').modal('show')
-      })
-    }
+    // if (missingActivites){
+    //   const settingsLink = document.getElementById('settings-link')
+    //   settingsLink.addEventListener('click', function(event){
+    //     event.preventDefault()
+    //     $('#myModal2').modal('hide')
+    //
+    //     $('#settings-modal').modal('show')
+    //   })
+    // }
 
     // if (match) {
     //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are Balanced ";

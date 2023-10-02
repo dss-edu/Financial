@@ -124,11 +124,14 @@ def charter_first(school):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
-    query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
-                WHERE school = '{school}' \
-                AND month = {month_number - 1};"
-    cursor.execute(query)
-    row = cursor.fetchone()
+    for i in range(month_number-1, 0, -1):
+        query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}' \
+                    AND month = {i};"
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row is not None:
+            break
 
     context = {
         "school": school,
