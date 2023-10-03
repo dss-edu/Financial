@@ -46,11 +46,11 @@ db = {
     "advantage": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage]",
+        "db": "[AscenderData_Advantage_new]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -58,11 +58,11 @@ db = {
     "cumberland": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland]",
+        "db": "[AscenderData_Cumberland_new]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -74,7 +74,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -86,7 +86,7 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
@@ -98,13 +98,12 @@ db = {
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[AscenderData_Advantage_ActivityBS]",
+        "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
     },
 }
-
 def updatedb(request):
     if request.method == 'POST':
         update_db()
@@ -4453,6 +4452,7 @@ def generate_excel(request,school):
         pl_sheet[f'E{start_pl}'] = f'{months["format_ytd_budget"]}% YTD \nBUDGET'
         pl_sheet[f'V{start_pl}'] = f'Var. {months["format_ytd_budget"]}'
         start_row = 5
+        lr_row_end = None
         lr_row_start = start_row
         for row_data in data:
             if row_data['category'] == 'Local Revenue':
@@ -4482,23 +4482,31 @@ def generate_excel(request,school):
                     lr_row_end = start_row
                     start_row += 1
 
-        for col in range(4, 22):  
-            cell = pl_sheet.cell(row=lr_row_end, column=col)
+        if lr_row_end is not None:
+            for col in range(4, 22):
+                try:
 
-            cell.style = normal_cell_bottom_border
+                    cell = pl_sheet.cell(row=lr_row_end, column=col)
 
-        for row in range(lr_row_start, lr_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
+                    cell.style = normal_cell_bottom_border
+                except KeyError as e:
+                    print(f"Error hiding row {col}: {e}") 
 
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")           
+            for row in range(lr_row_start, lr_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")           
         lr_end = start_row
         #local revenue total
-        for col in range(2, 22):  
-            cell = pl_sheet.cell(row=start_row, column=col)
-            cell.font = fontbold
+        for col in range(2, 22):
+            try:  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
         for col in range(4, 22):  
             cell = pl_sheet.cell(row=start_row, column=col)
 
@@ -4528,7 +4536,7 @@ def generate_excel(request,school):
 
 
         spr_row_start = start_row
-
+        spr_row_end = None
         for row_data in data:
             if row_data['category'] == 'State Program Revenue':
                 all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
@@ -4564,18 +4572,19 @@ def generate_excel(request,school):
                     start_row += 1
 
 
-        for col in range(4, 22):  # Columns G to U
-            cell = pl_sheet.cell(row=spr_row_end, column=col)
+        if spr_row_end is not None:
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=spr_row_end, column=col)
 
-            cell.style = normal_cell_bottom_border
+                cell.style = normal_cell_bottom_border
 
-        for row in range(spr_row_start, spr_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
+            for row in range(spr_row_start, spr_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
 
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
 
 
         spr_end = start_row
@@ -4608,7 +4617,7 @@ def generate_excel(request,school):
 
         start_row += 1
 
-
+        fpr_row_end = None
         fpr_row_start = start_row
         for row_data in data:
             if row_data['category'] == 'Federal Program Revenue':
@@ -4644,11 +4653,14 @@ def generate_excel(request,school):
 
         fpr_end = start_row
 
-        for col in range(4, 22):  # Columns G to U
-            cell = pl_sheet.cell(row=fpr_row_end, column=col)
+        if fpr_row_end is not None:
+            for col in range(4, 22): 
+                try:
 
-            cell.style = normal_cell_bottom_border
-
+                    cell = pl_sheet.cell(row=fpr_row_end, column=col)
+                    cell.style = normal_cell_bottom_border
+                except KeyError as e:
+                    print(f"Error hiding row {col}: {e}") 
         for row in range(fpr_row_start, fpr_end):
             try:
                 pl_sheet.row_dimensions[row].outline_level = 1
@@ -4657,12 +4669,21 @@ def generate_excel(request,school):
             except KeyError as e:
                 print(f"Error hiding row {row}: {e}") 
             # FEDERAL PROGRAM REVENUE TOTAL
-        for col in range(2, 22):  
-            cell = pl_sheet.cell(row=start_row, column=col)
-            cell.font = fontbold
+        for col in range(2, 22):
+            try:  
+                cell = pl_sheet.cell(row=start_row, column=col)
+                cell.font = fontbold
+
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+
         for col in range(4, 22):  # Columns G to U
-            cell = pl_sheet.cell(row=start_row, column=col)        
-            cell.style = currency_style_noborder
+            try:
+
+                cell = pl_sheet.cell(row=start_row, column=col)        
+                cell.style = currency_style_noborder
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
         pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
         pl_sheet[f'D{start_row}'] = totals["total_ammended_fpr"]    
         pl_sheet[f'E{start_row}'] =  totals["ytd_ammended_total_fpr"]
@@ -4713,7 +4734,7 @@ def generate_excel(request,school):
 
         start_row += 1   
         first_total_start = start_row
-    
+        first_total_end = None
         for row_data in data2: #1st TOTAL
             if row_data["category"] != 'Depreciation and Amortization':
                 all_zeros = all(row_data[f'total_func{i}'] == 0 for i in range(1, 12))
@@ -4741,13 +4762,15 @@ def generate_excel(request,school):
                     pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
                     first_total_end = start_row
                     start_row += 1
-        for row in range(first_total_start, first_total_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
+
+        if first_total_end is not None:
+            for row in range(first_total_start, first_total_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
 
 
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")   
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")   
     
         first_total_row = start_row
         for col in range(2, 22):  
@@ -4808,6 +4831,7 @@ def generate_excel(request,school):
         start_row += 2
 
         dna_row_start = start_row
+        dna_row_end = None
         for row_data in data2: #Depreciation and amortization
             if row_data["category"] == 'Depreciation and Amortization':
                 all_zeros = all(row_data[f'total_func2_{i}'] == 0 for i in range(1, 12))
@@ -4904,6 +4928,7 @@ def generate_excel(request,school):
 
         start_row += 1
         payroll_row_start = start_row
+        payroll_row_end = None 
         for row_data in data_activities: 
             if row_data['Category'] == 'Payroll and Benefits':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -4930,12 +4955,14 @@ def generate_excel(request,school):
                     pl_sheet[f'T{start_row}'] = row_data['ytd_total']
                     payroll_row_end = start_row
                     start_row += 1
-        for row in range(payroll_row_start, payroll_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+
+        if payroll_row_end is not None:
+            for row in range(payroll_row_start, payroll_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
 
         payroll_row = start_row
         for row_data in data_expensebyobject: 
@@ -4965,6 +4992,7 @@ def generate_excel(request,school):
                 start_row += 1
 
         pcs_row_start = start_row
+        pcs_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Professional and Contract Services':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -4991,12 +5019,13 @@ def generate_excel(request,school):
                     pcs_row_end = start_row
                     start_row += 1
 
-        for row in range(pcs_row_start, pcs_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+        if pcs_row_end is not None:
+            for row in range(pcs_row_start, pcs_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
 
         pcs_row = start_row
         for row_data in data_expensebyobject: 
@@ -5026,6 +5055,7 @@ def generate_excel(request,school):
                 start_row += 1
 
         sm_row_start = start_row
+        sm_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Materials and Supplies':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5052,12 +5082,13 @@ def generate_excel(request,school):
                     sm_row_end = start_row
                     start_row += 1
 
-        for row in range(sm_row_start, sm_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")   
+        if sm_row_end is not None:
+            for row in range(sm_row_start, sm_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")   
 
         sm_row = start_row
         for row_data in data_expensebyobject: 
@@ -5087,6 +5118,7 @@ def generate_excel(request,school):
                 start_row += 1
 
         ooe_row_start = start_row
+        ooe_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Other Operating Costs':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5113,12 +5145,13 @@ def generate_excel(request,school):
                     ooe_row_end = start_row
                     start_row += 1
 
-        for row in range(ooe_row_start, ooe_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+        if ooe_row_end is not None:
+            for row in range(ooe_row_start, ooe_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")  
 
         ooe_row = start_row
         for row_data in data_expensebyobject: 
@@ -5179,8 +5212,9 @@ def generate_excel(request,school):
 
                 start_row += 1
 
-
+        total_expense_row_end = None
         total_expense_row_start = start_row
+        
         for row_data in data_activities: 
             if row_data['Category'] == 'Debt Services':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5208,13 +5242,14 @@ def generate_excel(request,school):
     
                     total_expense_row_end = start_row
                     start_row += 1
-
-        for row in range(total_expense_row_start, total_expense_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+        if total_expense_row_end is not None:
+            for row in range(total_expense_row_start, total_expense_row_end+1):
+                try:
+                    
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")  
 
         total_expense_row = start_row
         for row_data in data_expensebyobject: 
@@ -5349,6 +5384,7 @@ def generate_excel(request,school):
         pl_sheet[f'V{start_pl}'] = f'Var. {months["format_ytd_budget"]}'
         start_row = 5
         lr_row_start = start_row
+        lr_row_end = None
         for row_data in data:
             if row_data['category'] == 'Local Revenue':
                 all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
@@ -5380,7 +5416,7 @@ def generate_excel(request,school):
 
                     start_row += 1
         lr_row_end = 0
-        if lr_row_end != 0:
+        if lr_row_end is not None:
             for col in range(4, 22):
                 try:  # Columns G to U
                     cell = pl_sheet.cell(row=lr_row_end, column=col)
@@ -5430,7 +5466,7 @@ def generate_excel(request,school):
         
     
         spr_row_start = start_row
-        
+        spr_row_end = None
         for row_data in data:
             if row_data['category'] == 'State Program Revenue':
                 all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
@@ -5465,19 +5501,19 @@ def generate_excel(request,school):
 
                     start_row += 1
     
-        
-        for col in range(4, 22):  # Columns G to U
-            cell = pl_sheet.cell(row=spr_row_end, column=col)
-            
-            cell.style = normal_cell_bottom_border
-    
-        for row in range(spr_row_start, spr_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-                
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+        if spr_row_end is not None:
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=spr_row_end, column=col)
+
+                cell.style = normal_cell_bottom_border
+
+            for row in range(spr_row_start, spr_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
                 
                
         spr_end = start_row
@@ -5512,6 +5548,7 @@ def generate_excel(request,school):
         
         
         fpr_row_start = start_row
+        fpr_row_end = None
         for row_data in data:
             if row_data['category'] == 'Federal Program Revenue':
                 all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
@@ -5546,18 +5583,19 @@ def generate_excel(request,school):
                 
         fpr_end = start_row
         
-        for col in range(4, 22):  # Columns G to U
-            cell = pl_sheet.cell(row=fpr_row_end, column=col)
-            
-            cell.style = normal_cell_bottom_border
-    
-        for row in range(fpr_row_start, fpr_end):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
+        if fpr_row_end is not None:
+            for col in range(4, 22):  # Columns G to U
+                cell = pl_sheet.cell(row=fpr_row_end, column=col)
+
+                cell.style = normal_cell_bottom_border
+
+            for row in range(fpr_row_start, fpr_end):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
                 
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}") 
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}") 
             # FEDERAL PROGRAM REVENUE TOTAL
         for col in range(2, 22):  
             cell = pl_sheet.cell(row=start_row, column=col)
@@ -5615,6 +5653,7 @@ def generate_excel(request,school):
     
         start_row += 1   
         first_total_start = start_row
+        first_total_end = None
     
         for row_data in data2: #1st TOTAL
             if row_data["category"] != 'Depreciation and Amortization':
@@ -5645,13 +5684,15 @@ def generate_excel(request,school):
                     first_total_end = start_row
                     start_row += 1
 
-        for row in range(first_total_start, first_total_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-               
-                
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")   
+
+        if first_total_end is not None:
+            for row in range(first_total_start, first_total_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+
+
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")   
     
         first_total_row = start_row
         for col in range(2, 22):  
@@ -5712,6 +5753,7 @@ def generate_excel(request,school):
         start_row += 2
     
         dna_row_start = start_row
+        dna_row_end = None
         for row_data in data2: #Depreciation and amortization
             if row_data["category"] == 'Depreciation and Amortization':
                 all_zeros = all(row_data[f'total_func2_{i}'] == 0 for i in range(1, 12))
@@ -5744,6 +5786,7 @@ def generate_excel(request,school):
     
     
         dna_row = start_row
+        
         for col in range(4, 22):  # Columns D to U
             cell = pl_sheet.cell(row=start_row, column=col)
             
@@ -5808,6 +5851,7 @@ def generate_excel(request,school):
     
         start_row += 1
         payroll_row_start = start_row
+        payroll_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Payroll and Benefits':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5835,12 +5879,16 @@ def generate_excel(request,school):
                     pl_sheet[f'T{start_row}'] = row_data['ytd_total']
                     payroll_row_end = start_row
                     start_row += 1
-        for row in range(payroll_row_start, payroll_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+
+
+        if payroll_row_end is not None:
+
+            for row in range(payroll_row_start, payroll_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
     
         payroll_row = start_row
         for row_data in data_expensebyobject: 
@@ -5869,6 +5917,7 @@ def generate_excel(request,school):
                 start_row += 1
     
         pcs_row_start = start_row
+        pcs_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Professional and Contract Services':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5895,12 +5944,14 @@ def generate_excel(request,school):
                     pcs_row_end = start_row
                     start_row += 1
     
-        for row in range(pcs_row_start, pcs_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")    
+
+        if pcs_row_end is not None:
+            for row in range(pcs_row_start, pcs_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")    
     
         pcs_row = start_row
         for row_data in data_expensebyobject: 
@@ -5930,6 +5981,7 @@ def generate_excel(request,school):
                 start_row += 1
     
         sm_row_start = start_row
+        sm_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Materials and Supplies':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -5956,13 +6008,15 @@ def generate_excel(request,school):
                     sm_row_end = start_row
                     start_row += 1
     
-        for row in range(sm_row_start, sm_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")   
-    
+
+        if sm_row_end is not None:
+            for row in range(sm_row_start, sm_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")   
+
         sm_row = start_row
         for row_data in data_expensebyobject: 
             if row_data['obj'] == '6300':
@@ -5991,6 +6045,7 @@ def generate_excel(request,school):
                 start_row += 1
             
         ooe_row_start = start_row
+        ooe_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Other Operating Costs':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -6017,12 +6072,13 @@ def generate_excel(request,school):
                     ooe_row_end = start_row
                     start_row += 1
     
-        for row in range(ooe_row_start, ooe_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+        if ooe_row_end is not None:
+            for row in range(ooe_row_start, ooe_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")  
     
         ooe_row = start_row
         for row_data in data_expensebyobject: 
@@ -6083,6 +6139,7 @@ def generate_excel(request,school):
     
     
         total_expense_row_start = start_row
+        total_expense_row_end = None
         for row_data in data_activities: 
             if row_data['Category'] == 'Debt Services':
                 all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
@@ -6111,12 +6168,13 @@ def generate_excel(request,school):
                     total_expense_row_end = start_row
                     start_row += 1
     
-        for row in range(total_expense_row_start, total_expense_row_end+1):
-            try:
-                pl_sheet.row_dimensions[row].outline_level = 1
-                pl_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")  
+        if total_expense_row_end is not None:
+            for row in range(total_expense_row_start, total_expense_row_end+1):
+                try:
+                    pl_sheet.row_dimensions[row].outline_level = 1
+                    pl_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")  
     
         total_expense_row = start_row
         for row_data in data_expensebyobject: 
@@ -6276,6 +6334,7 @@ def generate_excel(request,school):
 
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
+        hide_row_bs_end= None
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
         for row in data_activitybs:
             if row['Activity'] == 'Cash':
@@ -6304,13 +6363,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for col in range(5, 22):  
             cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -6348,7 +6408,7 @@ def generate_excel(request,school):
                             cash_row_bs = start_row_bs
 
 
-        
+        hide_row_bs_end = None
         hide_row_bs_start = start_row_bs
         for row in data_activitybs:
             if row['Activity'] == 'Restr':
@@ -6376,12 +6436,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-            try:
-                bs_sheet.row_dimensions[row].outline_level = 1
-                bs_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")
+
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                try:
+                    bs_sheet.row_dimensions[row].outline_level = 1
+                    bs_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -6415,7 +6477,7 @@ def generate_excel(request,school):
                             restr_row_bs = start_row_bs
 
 
-
+        hide_row_bs_end = None
         hide_row_bs_start = start_row_bs
         for row in data_activitybs: 
             if row['Activity'] == 'DFS+F':
@@ -6443,13 +6505,15 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -6480,7 +6544,8 @@ def generate_excel(request,school):
                             dfs_row_bs = start_row_bs
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs 
+        hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'OTHR':
                 start_row_bs += 1
@@ -6509,13 +6574,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
                 
 
@@ -6547,6 +6613,7 @@ def generate_excel(request,school):
                             othr_row_bs = start_row_bs
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Inventory':
                 start_row_bs += 1
@@ -6572,13 +6639,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -6609,6 +6677,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'PPD':
                 start_row_bs += 1
@@ -6634,13 +6703,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -6705,6 +6775,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'FA-L':
                 start_row_bs += 1
@@ -6730,13 +6801,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -6766,7 +6838,8 @@ def generate_excel(request,school):
 
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'FA-BFE':
                 start_row_bs += 1
@@ -6792,13 +6865,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -6829,6 +6903,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'FA-AD':
                 start_row_bs += 1
@@ -6854,13 +6929,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -6962,6 +7038,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'AP':
                 start_row_bs += 1
@@ -6987,13 +7064,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
     
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")      
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")      
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -7022,7 +7100,8 @@ def generate_excel(request,school):
                             ap_row_bs = start_row_bs
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs 
+        hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'Acc-Exp':
                 start_row_bs += 1
@@ -7049,13 +7128,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -7085,7 +7165,8 @@ def generate_excel(request,school):
                             accexp_row_bs = start_row_bs
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'OtherLiab':
                 start_row_bs += 1
@@ -7111,13 +7192,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -7148,6 +7230,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Debt-C':
                 start_row_bs += 1
@@ -7174,13 +7257,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -7209,7 +7293,8 @@ def generate_excel(request,school):
                             bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                             debtc_row_bs = start_row_bs
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs 
+        hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'ACC-Int':
                 start_row_bs += 1
@@ -7235,14 +7320,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         
@@ -7308,7 +7393,8 @@ def generate_excel(request,school):
         bs_sheet[f'D{start_row_bs}'] ='Long Term Debt'
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'LTD':
                 start_row_bs += 1
@@ -7335,13 +7421,15 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
+
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
 
@@ -7502,6 +7590,7 @@ def generate_excel(request,school):
 
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
         for row in data_activitybs:
             if row['Activity'] == 'Cash':
@@ -7529,14 +7618,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for col in range(5, 22):  
             cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -7576,6 +7665,7 @@ def generate_excel(request,school):
 
         
         hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None
         for row in data_activitybs:
             if row['Activity'] == 'Restr':
                 start_row_bs += 1
@@ -7602,12 +7692,13 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-            try:
-                bs_sheet.row_dimensions[row].outline_level = 1
-                bs_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                try:
+                    bs_sheet.row_dimensions[row].outline_level = 1
+                    bs_sheet.row_dimensions[row].hidden = True
+                except KeyError as e:
+                    print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -7643,6 +7734,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'DFS+F':
                 start_row_bs += 1
@@ -7669,13 +7761,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -7706,7 +7799,8 @@ def generate_excel(request,school):
                             dfs_row_bs = start_row_bs
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs 
+        hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'OTHR':
                 start_row_bs += 1
@@ -7735,13 +7829,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
                 
 
@@ -7772,7 +7867,8 @@ def generate_excel(request,school):
                             bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                             othr_row_bs = start_row_bs
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'Inventory':
                 start_row_bs += 1
@@ -7798,13 +7894,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -7834,7 +7931,8 @@ def generate_excel(request,school):
 
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs
+        hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'PPD':
                 start_row_bs += 1
@@ -7860,13 +7958,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -7930,7 +8029,8 @@ def generate_excel(request,school):
 
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'FA-L':
                 start_row_bs += 1
@@ -7956,13 +8056,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -7992,7 +8093,8 @@ def generate_excel(request,school):
 
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'FA-BFE':
                 start_row_bs += 1
@@ -8018,13 +8120,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -8054,7 +8157,8 @@ def generate_excel(request,school):
 
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs 
+        hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'FA-AD':
                 start_row_bs += 1
@@ -8080,13 +8184,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -8187,7 +8292,8 @@ def generate_excel(request,school):
         bs_sheet[f'D{start_row_bs}'] = 'Current Liabilities'
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'AP':
                 start_row_bs += 1
@@ -8213,13 +8319,15 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
     
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")      
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
+
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")      
 
         for row in data_balancesheet:
             if row['school'] == school:
@@ -8249,6 +8357,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Acc-Exp':
                 start_row_bs += 1
@@ -8275,13 +8384,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -8312,6 +8422,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'OtherLiab':
                 start_row_bs += 1
@@ -8337,13 +8448,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -8373,7 +8485,8 @@ def generate_excel(request,school):
                             otherlab_row_bs = start_row_bs
 
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'Debt-C':
                 start_row_bs += 1
@@ -8400,13 +8513,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         for row in data_balancesheet:
@@ -8435,7 +8549,8 @@ def generate_excel(request,school):
                             bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                             debtc_row_bs = start_row_bs
 
-        hide_row_bs_start = start_row_bs   
+        hide_row_bs_start = start_row_bs  
+        hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'ACC-Int':
                 start_row_bs += 1
@@ -8461,14 +8576,14 @@ def generate_excel(request,school):
                 last_month_row_bal =f'total_bal{months["last_month_number"]}'
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
         
@@ -8535,6 +8650,7 @@ def generate_excel(request,school):
 
 
         hide_row_bs_start = start_row_bs   
+        hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'LTD':
                 start_row_bs += 1
@@ -8561,13 +8677,14 @@ def generate_excel(request,school):
                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
+        if hide_row_bs_end is not None:
+            for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                    try:
+                        bs_sheet.row_dimensions[row].outline_level = 1
+                        bs_sheet.row_dimensions[row].hidden = True
 
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
 
 
 
