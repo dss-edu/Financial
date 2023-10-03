@@ -29,7 +29,7 @@ from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
 from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
-from .backend import update_db
+from .backend import update_db,update_school
 from openpyxl.drawing.image import Image
 from . import modules
 
@@ -109,6 +109,11 @@ def updatedb(request):
     if request.method == 'POST':
         update_db()
     return redirect('/dashboard/advantage')
+
+def updateschool(request,school):
+    if request.method == 'POST':
+        update_school(school)
+    return redirect(f'/dashboard/{school}')
 
 
 

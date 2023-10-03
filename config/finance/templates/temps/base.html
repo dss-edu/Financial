@@ -130,6 +130,11 @@
                                     {% csrf_token %}
                                     <button type="submit">Update Database</button>
                                 </form>
+                                &nbsp;
+                                <form method="post" action="{% url 'updateschool' school %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Update School</button>
+                                </form>
 
                             </a>
                             <div class="dropdown-divider"></div>

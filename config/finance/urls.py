@@ -16,6 +16,7 @@ urlpatterns = [
     # path('cashflow_advantage/', views.cashflow_advantage, name='cashflow_advantage'),
     # path('dashboard_advantage/', views.dashboard_advantage, name='dashboard_advantage'),
     path("updatedb/", views.updatedb, name="updatedb"),
+    path("updateschool/<str:school>", views.updateschool, name="updateschool"),
     path("insert_row/", views.insert_row, name="insert-row"),
     path("update_row/<str:school>", views.update_row, name="update_row"),
     path("delete/<str:fund>/<str:obj>/", views.delete, name="delete"),

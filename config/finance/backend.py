@@ -101,6 +101,13 @@ def update_db():
         balance_sheet(school)
         cashflow(school)
         excel(school)
+        
+def update_school(school):
+    profit_loss(school) 
+    balance_sheet(school)
+    cashflow(school)
+    excel(school)
+
 
 
 
