@@ -638,7 +638,7 @@ def profit_loss(school):
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
-            print(func)
+        
             
             ytd_total = 0
 
@@ -702,8 +702,10 @@ def profit_loss(school):
 
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_first_total += item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
-    
+   
+         
+            item["var_ytd"] =  "{:d}%".format(abs(int(item["ytd_total"] /item['total_budget'] *100))) if item['total_budget'] != 0 else ""
+         
     ytd_ammended_total_first = first_total * ytd_budget
     var_ytd_first_total = "{:d}%".format(abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
 
@@ -775,7 +777,7 @@ def profit_loss(school):
             item[f"ytd_budget"] = item['total_budget'] * ytd_budget
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget'] != 0 else ""
             ytd_ammended_dna = dna_total * ytd_budget
             var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
