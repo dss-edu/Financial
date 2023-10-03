@@ -707,7 +707,7 @@ def profit_loss(school):
             item["var_ytd"] =  "{:d}%".format(abs(int(item["ytd_total"] /item['total_budget'] *100))) if item['total_budget'] != 0 else ""
          
     ytd_ammended_total_first = first_total * ytd_budget
-    var_ytd_first_total = "{:d}%".format(abs(int( ytd_ammended_total_first /first_ytd_total*100))) if first_ytd_total != 0 else ""
+    var_ytd_first_total = "{:d}%".format(abs(int( first_ytd_total/first_total*100))) if first_total != 0 else ""
 
 
     for item in data2:
@@ -803,7 +803,8 @@ def profit_loss(school):
 
     ytd_SBD = ytd_total_revenue - first_ytd_total
     variances_SBD =  ytd_SBD - ytd_ammended_SBD
-    var_SBD = "{:d}%".format(abs(int(  ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+    var_SBD = "{:d}%".format(abs(int( ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+
     #CALCULATION END SURPLUS BEFORE DEFICIT
 
 
