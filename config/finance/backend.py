@@ -101,6 +101,7 @@ def update_db():
         balance_sheet(school)
         cashflow(school)
         excel(school)
+        charter_first(school)
         
 def update_school(school):
     profit_loss(school) 
@@ -109,13 +110,7 @@ def update_school(school):
     excel(school)
 
 
-
-
 def profit_loss(school):
-
-
-    
-    
     cnxn = connect()
     cursor = cnxn.cursor()
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
@@ -4210,6 +4205,37 @@ def excel(school):
         with open(file, "w") as f:
             json.dump(val, f)
 
+def charter_first(school):
+    # first check if previous month is in database already
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year}"
+    cursor.execute(prev_query)
+    rows = cursor.fetchone()
+
+    if rows is not None:
+        print("no need to update charter_first")
+        return
+
+    first_columns = [
+        "school", "year", "month", "net_income_ytd", "indicators", "net_assets", 
+        "days_coh", "current_assets", "net_earnings", "budget_vs_revenue", "total_assets", 
+        "debt_service", "debt_capitalization", "ratio_administrative", "ratio_student_teacher", 
+        "estimated_actual_ada", "reporting_peims", "annual_audit", "post_financial_info", 
+        "approved_geo_boundaries", "estimated_first_rating" 
+    ]
+    # if None then create one
+    insert_query = f"INSERT INTO [dbo].[AscenderData_CharterFirst] \
+    ({', '.join(first_columns)}) \
+    VALUES ({', '.join(['?'] * 21)})"
+
+    school
+
+
+
+
 
 if __name__ == "__main__":
-    update_db()
+    # update_db()
+    charter_first("advantage")

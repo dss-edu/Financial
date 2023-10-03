@@ -115,7 +115,7 @@ def dashboard(request, school, anchor_year=""):
     if net_ytd < 0:
         context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
     else:
-        context["net_income_ytd"] = f"${net_ytd:.f}"
+        context["net_income_ytd"] = f"${net_ytd:.0f}"
 
     if net_earnings < 0:
         context["net_earnings"] = f"$({net_earnings * -1:.0f})"
@@ -142,7 +142,7 @@ def charter_first(request, school, anchor_year=""):
     if net_ytd < 0:
         context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
     else:
-        context["net_income_ytd"] = f"${net_ytd:.f}"
+        context["net_income_ytd"] = f"${net_ytd:.0f}"
 
     if net_earnings < 0:
         context["net_earnings"] = f"$({net_earnings * -1:.0f})"
@@ -157,6 +157,20 @@ def charter_first(request, school, anchor_year=""):
     next_month = datetime(year, month + 1, 1)
     this_month = next_month - relativedelta(days=1)
     context["date"] = this_month
+
+    # for FY
+    fiscal_year = year
+    if school in ["advantage", "cumberland", "village-tech"]: 
+        if month < 9:
+            fiscal_year = year - 1
+
+    if school in ["manara", "prepschool"]:
+        if month < 7:
+            fiscal_year = year - 1
+
+    context["fiscal_year"] = fiscal_year
+    context["next_fiscal_year"] = fiscal_year + 1
+
     context["anchor_year"] = anchor_year
 
     # current_date = datetime.today().date()
