@@ -6324,7 +6324,7 @@ def generate_excel(request,school):
         else:
             last_number -= 1
 
-        print(last_number)
+
         for col in range(last_number,19):
             col_letter = get_column_letter(col)
 
@@ -6338,29 +6338,31 @@ def generate_excel(request,school):
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
         for row in data_activitybs:
             if row['Activity'] == 'Cash':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22):  # Columns G to U
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] =  row['Description2']
-                bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] =  row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22):  # Columns G to U
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] =  row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         
         if hide_row_bs_end is not None:
@@ -6412,29 +6414,31 @@ def generate_excel(request,school):
         hide_row_bs_start = start_row_bs
         for row in data_activitybs:
             if row['Activity'] == 'Restr':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -6481,29 +6485,31 @@ def generate_excel(request,school):
         hide_row_bs_start = start_row_bs
         for row in data_activitybs: 
             if row['Activity'] == 'DFS+F':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         
         if hide_row_bs_end is not None:
@@ -6548,30 +6554,32 @@ def generate_excel(request,school):
         hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'OTHR':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -6616,28 +6624,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Inventory':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -6680,28 +6690,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'PPD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -6778,28 +6790,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'FA-L':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -6842,28 +6856,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'FA-BFE':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -6906,28 +6922,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'FA-AD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7041,28 +7059,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'AP':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
     
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7104,28 +7124,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'Acc-Exp':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -7169,28 +7191,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'OtherLiab':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7233,28 +7257,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Debt-C':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -7297,28 +7323,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'ACC-Int':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7397,28 +7425,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'LTD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
 
@@ -7594,29 +7624,31 @@ def generate_excel(request,school):
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
         for row in data_activitybs:
             if row['Activity'] == 'Cash':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22):  # Columns G to U
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] =  row['Description2']
-                bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] =  row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22):  # Columns G to U
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] =  row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7668,29 +7700,31 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs:
             if row['Activity'] == 'Restr':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7737,29 +7771,31 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'DFS+F':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7803,30 +7839,32 @@ def generate_excel(request,school):
         hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'OTHR':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
 
-                
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                    
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -7871,28 +7909,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'Inventory':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
             
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -7935,28 +7975,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None   
         for row in data_activitybs: 
             if row['Activity'] == 'PPD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -8033,28 +8075,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'FA-L':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros: 
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -8097,28 +8141,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'FA-BFE':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -8161,28 +8207,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None  
         for row in data_activitybs: 
             if row['Activity'] == 'FA-AD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -8296,28 +8344,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'AP':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
     
 
         if hide_row_bs_end is not None:
@@ -8360,28 +8410,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'Acc-Exp':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -8425,29 +8477,31 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'OtherLiab':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-            
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
                     try:
@@ -8489,28 +8543,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'Debt-C':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -8553,28 +8609,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None 
         for row in data_activitybs: 
             if row['Activity'] == 'ACC-Int':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
         if hide_row_bs_end is not None:
             for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
@@ -8653,28 +8711,30 @@ def generate_excel(request,school):
         hide_row_bs_end = None
         for row in data_activitybs: 
             if row['Activity'] == 'LTD':
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['Description2']
-                bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    start_row_bs += 1
+                    hide_row_bs_end = start_row_bs
+                    for col in range(5, 22): 
+                        cell = bs_sheet.cell(row=start_row_bs, column=col)
+                        cell.style = normal_cell 
+                    bs_sheet[f'D{start_row_bs}'].style = indent_style
+                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
+                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
+                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
+                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
+                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
+                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
+                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
+                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
+                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
+                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                    bs_sheet[f'T{start_row_bs}'] = row['fytd']
+                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
 
         if hide_row_bs_end is not None:
@@ -8881,20 +8941,22 @@ def generate_excel(request,school):
         #CASHFLOW FROM OPERATING ACTIVITIES
         for row in data_cashflow:
             if row['Category'] == 'Operating':
-                cashflow_start_row += 1
-                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
-                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
-                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
-                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating12']
-                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating1']
-                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating2']
-                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating3']
-                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating4']
-                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating5']
-                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating6']
-                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating7']
-                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating8']
-                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+                all_zeros = all(row[f'total_operating{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    cashflow_start_row += 1
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating12']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating1']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating2']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating3']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating4']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating5']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating6']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating7']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating8']
+                    cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
         cashflow_start_row += 5
@@ -8922,23 +8984,25 @@ def generate_excel(request,school):
         #CASHFLOW FROM INVESTING ACTIVITIES
         for row in data_cashflow:
             if row['Category'] == 'Investing':
-                cashflow_start_row += 1
-                
-                cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
-        
-                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing9']
-                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing10']
-                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing11']
-                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing12']
-                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing1']
-                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing2']
-                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing3']
-                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing4']
-                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing5']
-                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing6']
-                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing7']
-                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing8']
-                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+                all_zeros = all(row[f'total_investing{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    cashflow_start_row += 1
+                    
+                    cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
+            
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing9']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing10']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing11']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing12']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing1']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing2']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing3']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing4']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing5']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing6']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing7']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing8']
+                    cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         investing_row_end = cashflow_start_row
         cashflow_start_row += 3
@@ -9053,20 +9117,22 @@ def generate_excel(request,school):
         #CASHFLOW FROM OPERATING ACTIVITIES
         for row in data_cashflow:
             if row['Category'] == 'Operating':
-                cashflow_start_row += 1
-                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating7']
-                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating8']
-                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating9']
-                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating10']
-                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating11']
-                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating12']
-                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating1']
-                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating2']
-                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating3']
-                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating4']
-                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating5']
-                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating6']
-                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+                all_zeros = all(row[f'total_operating{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    cashflow_start_row += 1
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating7']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating8']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating9']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating10']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating11']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating12']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating1']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating2']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating3']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating4']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating5']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating6']
+                    cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
         cashflow_start_row += 5
@@ -9094,23 +9160,25 @@ def generate_excel(request,school):
         #CASHFLOW FROM INVESTING ACTIVITIES
         for row in data_cashflow:
             if row['Category'] == 'Investing':
-                cashflow_start_row += 1
-                
-                cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
-        
-                cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing7']
-                cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing8']
-                cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing9']
-                cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing10']
-                cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing11']
-                cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing12']
-                cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing1']
-                cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing2']
-                cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing3']
-                cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing4']
-                cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing5']
-                cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing6']
-                cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
+                all_zeros = all(row[f'total_investing{i}'] == 0 for i in range(1, 12))
+                if not all_zeros:
+                    cashflow_start_row += 1
+                    
+                    cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
+            
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing7']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing8']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing9']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing10']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing11']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing12']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing1']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing2']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing3']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing4']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing5']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing6']
+                    cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         investing_row_end = cashflow_start_row
         cashflow_start_row += 3
