@@ -90,7 +90,7 @@ db = {
 
 
 def update_db():
-    # profit_loss("village-tech")
+    # profit_loss("advantage")
     # balance_sheet("cumberland")
     # cashflow("advantage")
     # excel("advantage")
@@ -407,7 +407,7 @@ def profit_loss(school):
 
 
     july_date  = datetime(current_year, 7, 1).date()
-    september_date  = datetime(current_year, 9, 30).date()
+    september_date  = datetime(current_year, 9, 1).date()
     FY_year_1 = last_year
     FY_year_2 = current_year
     for item in data3:
@@ -421,8 +421,9 @@ def profit_loss(school):
                   FY_year_2 = next_year
             else:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+                
                 if date_obj > september_date: # if date is higher than july 1 this year
-                  print(date_obj)
+                  
                   FY_year_1 = current_year
                   FY_year_2 = next_year
                 
