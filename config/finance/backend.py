@@ -643,6 +643,7 @@ def profit_loss(school):
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
+            print(func)
             
             ytd_total = 0
 
