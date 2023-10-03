@@ -101,7 +101,7 @@ def update_db():
         balance_sheet(school)
         cashflow(school)
         excel(school)
-        charter_first(school)
+        # charter_first(school)
         
 def update_school(school):
     profit_loss(school) 
