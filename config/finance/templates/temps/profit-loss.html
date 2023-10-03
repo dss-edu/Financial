@@ -525,8 +525,8 @@
                 document.write(`<td  class="collapsed"></td>`);
 
               }
-              else if (i === 5 ) {
-                document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
+              else if (i === 4 ) {
+                document.write(`<th style="text-align:right;"><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
                  // document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns();" >+</button></th>`);
               }
               else if(i>=6 && i<=16){
@@ -540,20 +540,22 @@
           </script>
         </tr>
 
+
+
         {% if  school != 'manara' and school != 'prepschool' %}
         <script>
           var last_month_number = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
            // Add 11 to it
-           console.log(last_month_number)
+          
            if (last_month_number >= 9) {
-            last_month_number -= 3;
+            last_month_number -= 2;
             
         } 
         else {
             last_month_number +=10;
             
         }
-          
+        console.log(last_month_number)
           function hide17thColumn() {
             for (var i = last_month_number; i <= 17; i++) {
               var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
