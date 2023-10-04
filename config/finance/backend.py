@@ -1,4 +1,5 @@
 from .connect import connect
+# from connect import connect
 from time import strftime
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
@@ -101,7 +102,7 @@ def update_db():
         balance_sheet(school)
         cashflow(school)
         excel(school)
-        # charter_first(school)
+        charter_first(school)
         
 def update_school(school):
     profit_loss(school) 
@@ -638,8 +639,6 @@ def profit_loss(school):
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
-        
-            
             ytd_total = 0
 
 
@@ -4213,11 +4212,13 @@ def excel(school):
             json.dump(val, f)
 
 def charter_first(school):
+    context = {}
     # first check if previous month is in database already
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year}"
+    # fix this query or else there will always be duplicates
+    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={int(month_number)} AND year={int(curr_year)} AND school='{school}'"
     cursor.execute(prev_query)
     rows = cursor.fetchone()
 
@@ -4237,7 +4238,130 @@ def charter_first(school):
     ({', '.join(first_columns)}) \
     VALUES ({', '.join(['?'] * 21)})"
 
-    school
+    context["school"] = school
+    context["year"] = int(curr_year)
+    context["month"] = int(month_number - 1)
+
+
+    totals_file = os.path.join(JSON_DIR, "profit-loss", school, "totals.json")
+    with open(totals_file, "r") as f:
+        pl_totals = json.load(f)
+    context["net_income_ytd"] = dollar_parser(pl_totals["ytd_netsurplus"])
+
+    # get cash equivalents
+    bs_file = os.path.join(JSON_DIR, "balance-sheet", school, "data_balancesheet.json")
+    with open(bs_file, "r") as f:
+        balance_sheet = json.load(f)
+
+    cash_equivalents = ""
+    for item in balance_sheet:
+        if item["Activity"].strip().lower() == "cash" and item["Description"].strip().lower() == "cash and cash equivalents" and item["school"].strip().lower() == school:
+            cash_equivalents = dollar_parser(item["last_month_difference"])
+            break
+
+    pl_activities_file = os.path.join(JSON_DIR, "profit-loss", school, "data_activities.json")
+    with open(pl_activities_file, "r") as f:
+        pl_activities = json.load(f)
+
+
+    ytd_total = dollar_parser(pl_totals["total_expense_ytd"])
+    debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
+
+    # get fy start
+    pl_months_file = os.path.join(JSON_DIR, "profit-loss", school, "months.json")
+    with open(pl_months_file, "r") as f:
+        pl_months = json.load(f)
+    date_string = pl_months["last_month"]
+    date_format = "%B %d, %Y"
+    fy_curr = datetime.strptime(date_string, date_format)
+
+    fy_start = ""
+    if school in ["advantage", "cumberland", "village-tech"]: 
+        if int(pl_months["last_month_number"]) < 9:
+            fy_start = datetime(curr_year, 1, 1)
+        else:
+            fy_start = datetime(curr_year, 9, 1)
+
+    if school in ["manara", "prepschool"]:
+        if int(pl_months["last_month_number"]) < 7:
+            fy_start = datetime(curr_year, 1, 1)
+        else:
+            fy_start = datetime(curr_year, 7, 1)
+    fy_diff = fy_curr - fy_start
+    days = fy_diff.days
+
+    expense_per_day = (ytd_total - debt_services) // days
+
+    context["days_coh"] = cash_equivalents // expense_per_day
+
+    # current assets
+    bs_totals_file = os.path.join(JSON_DIR, "balance-sheet", school, "totals_bs.json")
+    with open(bs_totals_file, "r") as f:
+        bs_totals = json.load(f)
+    pl_lmn = pl_months["last_month_number"]
+    key_month = "0" + str(pl_lmn) if pl_lmn < 10 else str(pl_lmn)
+
+    total_current_assets = dollar_parser(bs_totals["total_current_assets"][key_month])
+    total_current_liabilities = dollar_parser(bs_totals["total_current_liabilities"][key_month])
+
+    current_ratio = total_current_assets / total_current_liabilities
+    context["current_assets"] = round(current_ratio, 1)
+
+
+    # net earnings 
+    context["net_earnings"] = dollar_parser(pl_totals["ytd_SBD"])
+
+
+    # LT liabilities
+    total_assets = dollar_parser(bs_totals["total_assets"][key_month])
+    total_liabilities = dollar_parser(bs_totals["total_liabilities"][key_month])
+    lt_ratio = total_liabilities / total_assets
+    context["total_assets"] = round(lt_ratio, 2)
+
+    # debt_capitalization
+    # skipped because there is no loan payable
+
+    # administrative ratio
+    # skipped because instructions are unclear
+
+    context["indicators"] = "Pass"
+    context["net_assets"] = "projected"
+    context["budget_vs_revenue"] = "projected"
+    context["debt_service"] = -1.21
+    context["debt_capitalization"] = 0.70
+    context["ratio_administrative"] = "11%/9.2%"
+    context["ratio_student_teacher"] = "Not measured by DSS"
+    context["estimated_actual_ada"] = "projected"
+    context["reporting_peims"] = "projected"
+    context["annual_audit"] = "projected"
+    context["post_financial_info"] = "projected"
+    context["approved_geo_boundaries"] = "Not measured by DSS"
+    context["estimated_first_rating"] = 88
+
+    # print(list((context[key] for key in first_columns)))
+    cursor.execute(insert_query, tuple((context[key] for key in first_columns)))
+    cnxn.commit()
+
+    cursor.close()
+    cnxn.close()
+
+
+
+
+def dollar_parser(dollar):
+    if dollar.strip() == "":
+        return 0
+    if "(" in dollar:
+        formatted = "".join(dollar.strip().replace("$", "").replace("(", "").replace(")", "").split(","))
+        if "." in formatted:
+            return float(formatted) * -1
+        return int(formatted) * -1
+    
+    formatted = "".join(dollar.strip().replace("$", "").split(","))
+
+    if "." in formatted:
+        return float(formatted) * -1
+    return int(formatted)
 
 
 
