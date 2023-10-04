@@ -2980,37 +2980,7 @@ def excel(school):
     #END OF PL DATA
 
     #CHARTER FIRST
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
-    rows = cursor.fetchall()
 
-    data_charterfirst = []
-
-    for row in rows:
-        row_dict = {
-            "school": row[0],
-            "year": row[1],
-            "month": row[2],
-            "net_income_ytd":row[3],
-            "indicators": row[4],
-            "net_assets": row[5],
-            "days_coh": row[6],
-            "current_assets": row[7],
-            "net_earnings": row[8],
-            "budget_vs_revenue": row[9],
-            "total_assets": row[10],
-            "debt_service": row[11],
-            "debt_capitalization": row[12],
-            "ratio_administrative": row[13],
-            "ratio_student_teacher": row[14],
-            "estimated_actual_ada": row[15],
-            "reporting_peims": row[16],
-            "annual_audit": row[17],
-            "post_financial_info": row[18],
-            "approved_geo_boundaries": row[19],
-            "estimated_first_rating": row[20],
-        }
-
-        data_charterfirst.append(row_dict)
     #BS START
 
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
@@ -4058,6 +4028,42 @@ def excel(school):
     
     sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
     sorted_data = sorted(data, key=lambda x: x['obj'])
+
+
+    cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
+    rows = cursor.fetchall()
+
+    data_charterfirst = []
+
+    for row in rows:
+        if row[0] == school and row[2]==last_month_number:
+            row_dict = {
+                "school": row[0],
+                "year": row[1],
+                "month": row[2],
+                "net_income_ytd":row[3],
+                "indicators": row[4],
+                "net_assets": row[5],
+                "days_coh": row[6],
+                "current_assets": row[7],
+                "net_earnings": row[8],
+                "budget_vs_revenue": row[9],
+                "total_assets": row[10],
+                "debt_service": row[11],
+                "debt_capitalization": row[12],
+                "ratio_administrative": row[13],
+                "ratio_student_teacher": row[14],
+                "estimated_actual_ada": row[15],
+                "reporting_peims": row[16],
+                "annual_audit": row[17],
+                "post_financial_info": row[18],
+                "approved_geo_boundaries": row[19],
+                "estimated_first_rating": row[20],
+            }
+
+            data_charterfirst.append(row_dict)
+
+
     context = {
         "data": sorted_data,
         "data2": sorted_data2,
@@ -4216,6 +4222,7 @@ def excel(school):
         with open(file, "w") as f:
             json.dump(val, f)
 
+    
 def charter_first(school):
     context = {}
     # first check if previous month is in database already

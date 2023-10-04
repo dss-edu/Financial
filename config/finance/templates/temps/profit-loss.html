@@ -6,6 +6,50 @@
 {% endblock %}
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/profit-loss.css' %}">
+
+<style>
+  table.dataTable>thead .sorting::before,
+  table.dataTable>thead .sorting_asc::before,
+  table.dataTable>thead .sorting_desc::before,
+  table.dataTable>thead .sorting_asc_disabled::before,
+  table.dataTable>thead .sorting_desc_disabled::before {
+      right: 0 !important;
+      content: "" !important;
+  }
+    
+   table.dataTable>thead .sorting::after,
+   table.dataTable>thead .sorting_asc::after,
+   table.dataTable>thead .sorting_desc::after,
+   table.dataTable>thead .sorting_asc_disabled::after,
+   table.dataTable>thead .sorting_desc_disabled::after {
+      right: 0 !important;
+      content: "" !important;
+  }
+    
+   table.dataTable>thead>tr>th:not(.sorting_disabled),
+   table.dataTable>thead>tr>td:not(.sorting_disabled) {
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+  }
+    
+   table.dataTable>thead>tr>th,
+   table.dataTable>thead>tr>td {
+      padding-right: 0px !important;
+      padding-left: 0px !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button::before {
+
+    padding: .em 1em  !important;
+
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button::after {
+
+  padding: .em 1em  !important;
+
+}
+</style>
 {% endblock %}
 
 {% block body %}
@@ -188,8 +232,8 @@
         <table class="table table-hover" id="balancesheet-data-table1">
           <thead>
             <tr>
-            <th>fund</th>
-            <th>func</th>
+            <th >fund</th>
+            <th >func</th>
             <th>obj</th>
             <th>org</th>
             <th>fscl_yr</th>
@@ -211,8 +255,13 @@
       
           </tbody>
         </table>
+
       </div>
       <div class="modal-footer">
+
+        <table id="myModalFooter">
+        </table>
+        <br>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         &nbsp;
         &nbsp;
@@ -228,6 +277,8 @@
     </div>
   </div>
 </div>
+
+
 <script>
   document.getElementById('exportmodal1-pdf-button').addEventListener('click', function (event) {
     event.preventDefault(); 
@@ -313,8 +364,11 @@
             <!-- The data from the viewgl function will be populated here -->
           </tbody>
         </table>
+    
       </div>
       <div class="modal2-footer">
+        <table id="myModalFooter2">
+        </table>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         &nbsp;
         &nbsp;
@@ -387,6 +441,9 @@
         </table>
       </div>
       <div class="modal3-footer">
+        <table id="myModalFooter3">
+        </table>
+
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         &nbsp;
         &nbsp;
@@ -599,7 +656,7 @@
         console.log(last_month_number)
           function hide17thColumn() {
             for (var i = last_month_number; i <= 17; i++) {
-              var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+              var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "), #data-table td:nth-child(" + i + ")");
           
               for (var j = 0; j < columnsToHide.length; j++) {
                   columnsToHide[j].style.display = "none";
@@ -1602,16 +1659,15 @@
           
       } 
 
-        
-        function hide17thColumn() {
-          for (var i = last_month_number; i <= 17; i++) {
-            var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "), #data-table td:nth-child(" + i + ")");
-        
-            for (var j = 0; j < columnsToHide.length; j++) {
-                columnsToHide[j].style.display = "none";
-            }
+      function hide17thColumn() {
+        for (var i = last_month_number; i <= 17; i++) {
+          var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "), #data-table td:nth-child(" + i + ")");
+      
+          for (var j = 0; j < columnsToHide.length; j++) {
+              columnsToHide[j].style.display = "none";
           }
-        }
+      }
+    }
       </script> 
 
 
@@ -2655,11 +2711,20 @@
 
       
       var modalTableBody = document.getElementById("modal-table-body");
+      var mdfooter = document.getElementById("myModalFooter");
+      
 
      
       function populateModal(data) {
+        var existingDataTable = $('#balancesheet-data-table1').DataTable();
+
+        if (existingDataTable) {
+          existingDataTable.destroy();
+        }
      
         modalTableBody.innerHTML = "";
+        mdfooter.innerHTML = "";
+
       
        
         data.gl_data.forEach(function (row) {
@@ -2672,7 +2737,7 @@
             <td class="right-align-td">${row.fscl_yr}</td>
             <td class="right-align-td">${row.pgm}</td>
             <td class="right-align-td">${row.projDtl}</td>
-            <td class="right-align-td">${row.AcctDescr}</td>
+            <td class="right-align-td " >${row.AcctDescr}</td>
             <td class="right-align-td">${row.Number}</td>
             <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
             <td class="right-align-td">${row.AcctPer}</td>
@@ -2685,13 +2750,24 @@
           `;
           modalTableBody.appendChild(newRow);
         });
+
+
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="11" style="text-align: right;">Total</td>
-          <td>$${data.total_bal}</td>
+          <td colspan="11"><div style="width:800px"></div></td>
+          <td style="text-align: right;"><strong>Total: </strong></td>
+          <td> $ ${data.total_bal}</td>
           <td colspan="4"></td>
         `;
-        modalTableBody.appendChild(totalRow);
+        mdfooter.appendChild(totalRow);
+
+
+        
+        
+        $('#balancesheet-data-table1').DataTable({
+          dom: 'lrtip',
+          
+        });
       }
 
     
@@ -2706,6 +2782,7 @@
           if (data.status === "success") {
           
             populateModal(data.data , data.total_bal);
+            
         
             modal.style.display = "block";
           } else {
@@ -2729,6 +2806,8 @@
       });
     });
 
+    
+
     // Close the modal when the close button is clicked
     var closeButton = modal.querySelector(".modal-footer button");
     closeButton.addEventListener("click", function () {
@@ -2751,12 +2830,18 @@
 
      
       var modalTableBody = document.getElementById("modal2-table-body");
+      var modalTableFooter = document.getElementById("myModalFooter2");
 
     
       function populateModal(data) {
+        var existingDataTable = $('#balancesheet-data-table2').DataTable();
+
+        if (existingDataTable) {
+          existingDataTable.destroy();
+        }
       
         modalTableBody.innerHTML = "";
-      
+        modalTableFooter.innerHTML = "";      
      
         data.glfunc_data.forEach(function (row) {
           var newRow = document.createElement("tr");
@@ -2783,11 +2868,19 @@
         });
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="12" style="text-align: right;">Total</td>
-          <td>${data.total_bal}</td>
-          <td colspan="3"></td>
+        <td colspan="11"><div style="width:800px"></div></td>
+        <td style="text-align: right;"><strong>Total: </strong></td>
+        <td> $ ${data.total_bal}</td>
+        <td colspan="4"></td>
         `;
-        modalTableBody.appendChild(totalRow);
+        modalTableFooter.appendChild(totalRow);
+
+        $('#balancesheet-data-table2').DataTable({
+          dom: 'lrtip',
+          
+          
+        });
+
       }
 
    
@@ -2839,11 +2932,16 @@
     var modal = document.getElementById("myModal3");
 
       var modalTableBody = document.getElementById("modal3-table-body");
+      var modalTablFeooter3 = document.getElementById("myModalFooter3");
 
       function populateModal(data) {
-   
+        var existingDataTable = $('#balancesheet-data-table3').DataTable();
+
+        if (existingDataTable) {
+          existingDataTable.destroy();
+        }
         modalTableBody.innerHTML = "";
-      
+        modalTablFeooter3.innerHTML = "";      
     
         data.glfunc_data.forEach(function (row) {
           var newRow = document.createElement("tr");
@@ -2870,11 +2968,18 @@
         });
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="12" style="text-align: right;">Total</td>
-          <td>${data.total_bal}</td>
-          <td colspan="3"></td>
+        <td colspan="11"><div style="width:800px"></div></td>
+        <td style="text-align: right;"><strong>Total: </strong></td>
+        <td> $ ${data.total_bal}</td>
+        <td colspan="4"></td>
         `;
-        modalTableBody.appendChild(totalRow);
+        modalTablFeooter3.appendChild(totalRow);
+        $('#balancesheet-data-table3').DataTable({
+          dom: 'lrtip',
+          
+          
+        });
+
       }
 
     // Function to fetch the data from the server when modal is shown

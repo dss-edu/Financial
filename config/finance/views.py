@@ -4259,7 +4259,7 @@ def generate_excel(request,school):
     image_list_r = []
     image_list_y = []
 
-    for i in range(1, 30):
+    for i in range(1, 20):
         img_g = Image(image_path)
         img_gy = Image(image_path2)
         img_r = Image(image_path3)
