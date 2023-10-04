@@ -420,14 +420,14 @@ def profit_loss(school):
             if school == 'manara' or school == 'prepschool':
                
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                if date_obj > july_date: # if date is higher than july 1 this year
+                if date_obj >= july_date:
                   FY_year_1 = current_year
                   FY_year_2 = next_year
             else:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 
-                if date_obj > september_date: # if date is higher than july 1 this year
-                  
+                if date_obj >= september_date:
+
                   FY_year_1 = current_year
                   FY_year_2 = next_year
                 
@@ -572,7 +572,8 @@ def profit_loss(school):
                     and entry[real_key] is not None 
                     and not isinstance(entry[real_key], str) 
                 )
-            item[f"total_real{i}"] = total_real + total_adjustment          
+            item[f"total_real{i}"] = total_real + total_adjustment 
+
             total_revenue[acct_per] += (item[f"total_real{i}"])
 
             
@@ -1443,6 +1444,7 @@ def profit_loss(school):
     sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
     sorted_data = sorted(data, key=lambda x: x['obj'])
     data_activities = sorted(data_activities, key=lambda x: x['obj'])
+   
     context = {
         "data": sorted_data,
         "data2": sorted_data2,
@@ -3436,7 +3438,7 @@ def excel(school):
 
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_first_total += item["variances"]
-            item["var_ytd"] =  (abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] =  (abs(int(item["ytd_total"] /  item['total_budget']*100))) if item['total_budget'] != 0 else ""
     
     ytd_ammended_total_first = first_total * ytd_budget
     var_ytd_first_total = (abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
@@ -3475,7 +3477,7 @@ def excel(school):
                     and entry[appr_key] is not None 
                     and not isinstance(entry[appr_key], str)
                 )
-            item['total_budget'] = total_func_func + total_adjustment_func
+            item['total_budget'] = -(total_func_func + total_adjustment_func)
             
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
@@ -3510,7 +3512,7 @@ def excel(school):
             item[f"ytd_budget"] = item['total_budget'] * ytd_budget
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
-            item["var_ytd"] = (abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] = (abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget']  != 0 else ""
             ytd_ammended_dna = dna_total * ytd_budget
             var_ytd_dna = (abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
@@ -3601,20 +3603,22 @@ def excel(school):
         item["total_budget"] = 0
 
         if school == 'village-tech':
-            item["total_budget"] = sum(
+            total_budget_data_activities = sum(
                 entry[appr_key]
                 for entry in data3
                 if entry["obj"] == obj
 
                 )
         else:
-            item["total_budget"] = sum(
+            total_budget_data_activities = sum(
             entry[appr_key]
             for entry in data3
             if entry["obj"] == obj
             and entry["Type"] == 'GJ'
        
             )
+
+        item["total_budget"] = -(total_budget_data_activities)
         
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
         total_expense += item["total_budget"]  
