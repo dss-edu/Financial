@@ -109,6 +109,7 @@ def update_school(school):
     balance_sheet(school)
     cashflow(school)
     excel(school)
+    charter_first(school)
 
 
 def profit_loss(school):
@@ -4218,7 +4219,7 @@ def charter_first(school):
     cursor = cnxn.cursor()
 
     # fix this query or else there will always be duplicates
-    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={int(month_number)} AND year={int(curr_year)} AND school='{school}'"
+    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
     cursor.execute(prev_query)
     rows = cursor.fetchone()
 
