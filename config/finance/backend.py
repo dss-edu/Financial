@@ -634,7 +634,7 @@ def profit_loss(school):
     variances_dna = 0
     var_ytd_dna = 0
 
-    print(school)
+  
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
             func = item["func_func"]
@@ -701,10 +701,12 @@ def profit_loss(school):
 
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_first_total += item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
-    
+   
+         
+            item["var_ytd"] =  "{:d}%".format(abs(int(item["ytd_total"] /item['total_budget'] *100))) if item['total_budget'] != 0 else ""
+         
     ytd_ammended_total_first = first_total * ytd_budget
-    var_ytd_first_total = "{:d}%".format(abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
+    var_ytd_first_total = "{:d}%".format(abs(int( first_ytd_total/first_total*100))) if first_total != 0 else ""
 
 
     for item in data2:
@@ -774,7 +776,7 @@ def profit_loss(school):
             item[f"ytd_budget"] = item['total_budget'] * ytd_budget
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int(item['total_budget'] / item["ytd_total"]*100))) if item["ytd_total"] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget'] != 0 else ""
             ytd_ammended_dna = dna_total * ytd_budget
             var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
@@ -800,7 +802,8 @@ def profit_loss(school):
 
     ytd_SBD = ytd_total_revenue - first_ytd_total
     variances_SBD =  ytd_SBD - ytd_ammended_SBD
-    var_SBD = "{:d}%".format(abs(int(  ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+    var_SBD = "{:d}%".format(abs(int( ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+
     #CALCULATION END SURPLUS BEFORE DEFICIT
 
 
@@ -2026,6 +2029,7 @@ def balance_sheet(school):
 
     for row in data_balancesheet:
         if row["school"] == school:
+            
             FYE_value = (float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", ""))
                 if row["FYE"]
                 else 0
@@ -2043,7 +2047,8 @@ def balance_sheet(school):
             total_sum7_value = float(row["total_sum7"])
             total_sum8_value = float(row["total_sum8"])
 
-            if school != 'manara' or school != 'prepschool':
+            if school != 'manara' and school != 'prepschool':
+               
                 # Calculate the differences and store them in the row dictionary
                 row["difference_9"] = (FYE_value + total_sum9_value)
                 row["difference_10"] =(row["difference_9"] + total_sum10_value)
@@ -2092,6 +2097,7 @@ def balance_sheet(school):
             else:
                                 # Calculate the differences and store them in the row dictionary
                 row["difference_7"] = (FYE_value + total_sum7_value )
+                print(school)
                 row["difference_8"] = (row["difference_7"] + total_sum8_value )
                 row["difference_9"] = (row["difference_8"]  + total_sum9_value)
                 row["difference_10"] =(row["difference_9"] + total_sum10_value)
@@ -2229,7 +2235,7 @@ def balance_sheet(school):
     }
     total_assets_fye = total_current_assets_fye + total_capital_assets_fye
     total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
-    print(school,total_assets_fye_fytd)
+   
 
 
     
