@@ -1592,6 +1592,14 @@ def delete_bsa(request, obj, Activity):
 def viewgl(request,fund,obj,yr,school):
     print(request)
     try:
+        def format_value(value):
+            if value > 0:
+                return "{:,.0f}".format(round(value))
+            elif value < 0:
+                return "({:,.0f})".format(abs(round(value)))
+            else:
+                return ""
+
         
         cnxn = connect()
         cursor = cnxn.cursor()
@@ -1610,10 +1618,6 @@ def viewgl(request,fund,obj,yr,school):
 
 
             real = float(row[14]) if row[14] else 0
-            if real == 0:
-                realformat = ""
-            else:
-                realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
 
             
             row_dict = {
@@ -1631,7 +1635,7 @@ def viewgl(request,fund,obj,yr,school):
                 'Date':date_str,
                 'AcctPer':row[12],
                 'Est':row[13],
-                'Real':realformat,
+                'Real':real,
                 'Appr':row[15],
                 'Encum':row[16],
                 'Expend':row[17],
@@ -1643,8 +1647,9 @@ def viewgl(request,fund,obj,yr,school):
 
             gl_data.append(row_dict)
         
-        total_bal = sum(float(row['Real'].replace(',', '').replace('(', '-').replace(')', '')) for row in gl_data)
-        total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
+        total_bal = sum(float(row['Real']) for row in gl_data)
+        total_bal = format_value(total_bal)
+
 
         context = { 
             'gl_data':gl_data,
@@ -2845,6 +2850,13 @@ def viewgl_activitybs_cumberland(request,obj,yr):
 def viewglfunc(request,func,yr,school):
     print(request)
     try:
+        def format_value(value):
+            if value > 0:
+                return "{:,.0f}".format(round(value))
+            elif value < 0:
+                return "({:,.0f})".format(abs(round(value)))
+            else:
+                return ""
         
         cnxn = connect()
         cursor = cnxn.cursor()
@@ -2861,10 +2873,7 @@ def viewglfunc(request,func,yr,school):
         for row in rows:
             date_str=row[11]            
             expend = float(row[17]) if row[17] else 0
-            if expend == 0:
-                expendformat = ""
-            else:
-                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
+
 
             
             
@@ -2886,7 +2895,7 @@ def viewglfunc(request,func,yr,school):
                 'Real':row[14],
                 'Appr':row[15],
                 'Encum':row[16],
-                'Expend':expendformat,
+                'Expend':expend,
                 'Bal':row[18],
                 'WorkDescr':row[19],
                 'Type':row[20],
@@ -2899,7 +2908,7 @@ def viewglfunc(request,func,yr,school):
 
         total_expend = 0 
         for row in gl_data:
-            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            expend_str = row['Expend']
             try:
                 expend_value = float(expend_str)
                 total_expend += expend_value
@@ -2907,10 +2916,10 @@ def viewglfunc(request,func,yr,school):
             except ValueError:
                 pass
             
-        
+
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
-        total_bal = "{:,}".format(total_expend)
+        total_bal = format_value(total_expend)
         
        
         context = { 
@@ -3017,7 +3026,14 @@ def viewglfunc_cumberland(request,func,yr):
 def viewglexpense(request,obj,yr,school):
     print(request)
     try:
-        
+        def format_value(value):
+            if value > 0:
+                return "{:,.0f}".format(round(value))
+            elif value < 0:
+                return "({:,.0f})".format(abs(round(value)))
+            else:
+                return ""
+                
         cnxn = connect()
         cursor = cnxn.cursor()
 
@@ -3029,11 +3045,10 @@ def viewglexpense(request,obj,yr,school):
 
         for row in rows:
 
-            budgetformat = "{:,.0f}".format(float(row[2])) if row[2] else ""
             row_dict = {
                 'obj':row[0],
                 'Description':row[1],
-                'budget':budgetformat,
+                'budget':row[2],
 
                 }
 
@@ -3077,13 +3092,7 @@ def viewglexpense(request,obj,yr,school):
         
             
             expend = float(row[17]) if row[17] else 0
-            if expend == 0:
-                expendformat = ""
-            else:
-                expendformat = "{:,.0f}".format(abs(expend)) if expend >= 0 else "({:,.0f})".format(abs(expend))
-
-            
-            
+                     
             row_dict = {
                 'fund':row[0],
                 'func':row[1],
@@ -3102,7 +3111,7 @@ def viewglexpense(request,obj,yr,school):
                 'Real':row[14],
                 'Appr':row[15],
                 'Encum':row[16],
-                'Expend':expendformat,
+                'Expend':expend,
                 'Bal':row[18],
                 'WorkDescr':row[19],
                 'Type':row[20],
@@ -3115,7 +3124,7 @@ def viewglexpense(request,obj,yr,school):
 
         total_expend = 0 
         for row in gl_data:
-            expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
+            expend_str = row['Expend']
             try:
                 expend_value = float(expend_str)
                 total_expend += expend_value
@@ -3126,9 +3135,9 @@ def viewglexpense(request,obj,yr,school):
         
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
-        total_bal = "{:,}".format(total_expend)
+        total_bal = format_value(total_expend)
         
-       
+
         context = { 
             'gl_data':gl_data,
             'total_bal':total_bal
