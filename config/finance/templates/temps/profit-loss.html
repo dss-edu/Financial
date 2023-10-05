@@ -2550,6 +2550,7 @@
 
      
       function populateModal(data) {
+       
         var existingDataTable = $('#balancesheet-data-table1').DataTable();
 
         if (existingDataTable) {
@@ -2607,6 +2608,7 @@
     
 
     // REVENUE TOTAL 
+   
     function fetchDataAndPopulateModal(fund, obj, yr,school) {
       fetch(`/viewgl/${fund}/${obj}/${yr}/${school}`)
         .then(function (response) {
@@ -2616,7 +2618,7 @@
         .then(function (data) {
           
           if (data.status === "success") {
-          
+            $('#spinner-modal').modal('hide');
             populateModal(data.data , data.total_bal);
             
         
@@ -2634,6 +2636,7 @@
     var viewGLLinks = document.querySelectorAll(".viewgl-link");
     viewGLLinks.forEach(function (link) {
       link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
         event.preventDefault();
         var fund = link.dataset.fund;
         var obj = link.dataset.obj;
@@ -2669,6 +2672,7 @@
     var viewGLLinks2 = document.querySelectorAll(".viewglfunc-link");
     viewGLLinks2.forEach(function (link) {
       link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
         event.preventDefault();
         var func = link.dataset.func;
     
@@ -2705,6 +2709,7 @@
     var viewGLexpenseLinks3 = document.querySelectorAll(".viewglexpense-link");
     viewGLexpenseLinks3.forEach(function (link) {
       link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
         event.preventDefault();
         var obj = link.dataset.obj;
     
