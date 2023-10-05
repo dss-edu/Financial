@@ -2855,7 +2855,7 @@ def viewglfunc(request,func,yr,school):
         
         rows = cursor.fetchall()
     
-        glfunc_data=[]
+        gl_data=[]
     
     
         for row in rows:
@@ -2893,12 +2893,12 @@ def viewglfunc(request,func,yr,school):
                 'Contr':row[21]
             }
 
-            glfunc_data.append(row_dict)
+            gl_data.append(row_dict)
 
 
 
         total_expend = 0 
-        for row in glfunc_data:
+        for row in gl_data:
             expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
             try:
                 expend_value = float(expend_str)
@@ -2914,7 +2914,7 @@ def viewglfunc(request,func,yr,school):
         
        
         context = { 
-            'glfunc_data':glfunc_data,
+            'gl_data':gl_data,
             'total_bal':total_bal
             }
 
@@ -3069,7 +3069,7 @@ def viewglexpense(request,obj,yr,school):
         
         rows = cursor.fetchall()
     
-        glfunc_data=[]
+        gl_data=[]
     
     
         for row in rows:
@@ -3109,12 +3109,12 @@ def viewglexpense(request,obj,yr,school):
                 'Contr':row[21]
             }
 
-            glfunc_data.append(row_dict)
+            gl_data.append(row_dict)
 
 
 
         total_expend = 0 
-        for row in glfunc_data:
+        for row in gl_data:
             expend_str = row['Expend'].replace(',','').replace('(','-').replace(')','')
             try:
                 expend_value = float(expend_str)
@@ -3130,7 +3130,7 @@ def viewglexpense(request,obj,yr,school):
         
        
         context = { 
-            'glfunc_data':glfunc_data,
+            'gl_data':gl_data,
             'total_bal':total_bal
             }
 

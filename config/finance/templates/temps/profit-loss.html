@@ -329,172 +329,6 @@
 
 </script>
 
-<div class="modal" id="myModal2">
-  <div class="modal-dialog modal-dialog-centered" style="width: 90%; height: 80%; max-width: none; max-height: none;">
-    <div class="modal-content" style="height: 80%;">
-      <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
-        <!-- Modify the table to display the data from the viewgl function -->
-        <table class="table table-hover" id="balancesheet-data-table2">
-          <thead>
-            <tr>
-            <th style="text-align: center;">fund</th>
-            <th style="text-align: center;">func</th>
-            <th style="text-align: center;">obj</th>
-            <th style="text-align: center;">org</th>
-            <th style="text-align: center;">fscl_yr</th>
-            <th style="text-align: center;">pgm</th>
-            
-            <th style="text-align: center;">projDtl</th>
-            <th style="text-align: center;">AcctDescr</th>
-            <th style="text-align: center;">Number</th>
-            <th style="text-align: center;">Date</th>
-            <th style="text-align: center;">AcctPer</th>
-           
-            <th style="text-align: center;">Real</th>
-       
-           
-            <th style="text-align: center;">Expend</th>
-            <th style="text-align: center;">Bal</th>
-            <th style="text-align: center;">WorkDescr</th>
-            <th style="text-align: center;">Type</th>
-         
-            </tr>
-          </thead>
-          <tbody id="modal2-table-body">
-            <!-- The data from the viewgl function will be populated here -->
-          </tbody>
-        </table>
-    
-      </div>
-      <div class="modal2-footer">
-        <table id="myModalFooter2">
-        </table>
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <a id="exportmodal2-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></i></a>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.getElementById('exportmodal2-pdf-button').addEventListener('click', function (event) {
-    event.preventDefault(); 
-
-    var element = document.getElementById('balancesheet-data-table2');
-
-    
-    var options = {
-      margin: 2,
-      filename: 'exported_table.pdf',
-      image: { type: 'png', quality: 0.98 },
-      html2canvas: {  scale: 1, 
-        scrollX: 0,
-        scrollY: 0,},
-      jsPDF: { unit: 'mm', format: [600,600], orientation: 'portrait' },
-    };
-
-   
-    html2pdf().set(options).from(element).save();
-  });
-</script>
-
-
-<div class="modal" id="myModal3">
-  <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
-    <div class="modal-content" style="height: 80%;">
-      <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
-        <!-- Modify the table to display the data from the viewgl function -->
-        <table class="table table-hover" id="balancesheet-data-table3">
-          <thead>
-            <tr>
-            <th>fund</th>
-            <th>func</th>
-            <th>obj</th>
-            <th>org</th>
-            <th>fscl_yr</th>
-            <th>pgm</th>
-            
-            <th>projDtl</th>
-            <th>AcctDescr</th>
-            <th>Number</th>
-            <th>Date</th>
-            <th>AcctPer</th>
-           
-            <th>Real</th>
-       
-           
-            <th>Expend</th>
-            <th>Bal</th>
-            <th>WorkDescr</th>
-            <th>Type</th>
-         
-            </tr>
-          </thead>
-          <tbody id="modal3-table-body">
-            <!-- The data from the viewgl function will be populated here -->
-          </tbody>
-        </table>
-      </div>
-      <div class="modal3-footer">
-        <table id="myModalFooter3">
-        </table>
-
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        &nbsp;
-        <a id="exportmodal3-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></i></a>
-        
-      </div>
-    </div>
-  </div>
-</div>
-<script>
-  document.getElementById('exportmodal3-pdf-button').addEventListener('click', function (event) {
-    event.preventDefault(); 
-
-    var element = document.getElementById('balancesheet-data-table3');
-
-    
-    var options = {
-      margin: 2,
-      filename: 'exported_table.pdf',
-      image: { type: 'png', quality: 0.98 },
-      html2canvas: {  scale: 1, 
-        scrollX: 0,
-        scrollY: 0,},
-      jsPDF: { unit: 'mm', format: [600,600], orientation: 'portrait' },
-    };
-
-   
-    html2pdf().set(options).from(element).save();
-  });
-</script>
-
-{% comment %} <div id="dataCheckModal" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content" style="height: 80%;">
-
-      <div class="modal-body">
-         
-        <p id="modal-text"></p>
-      </div>
-      <div class="modal-footer">
-     
-        <button type="button" class="close" class="btn btn-secondary" data-dismiss="modal">OK</button>
-      </div>
-    </div>
-  </div>
-</div> {% endcomment %}
-
-
-
 
 <div class="table-container"  >
 <form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
@@ -2737,7 +2571,7 @@
             <td class="right-align-td">${row.fscl_yr}</td>
             <td class="right-align-td">${row.pgm}</td>
             <td class="right-align-td">${row.projDtl}</td>
-            <td class="right-align-td " >${row.AcctDescr}</td>
+            <td class="right-align-td">${row.AcctDescr}</td>
             <td class="right-align-td">${row.Number}</td>
             <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
             <td class="right-align-td">${row.AcctPer}</td>
@@ -2771,6 +2605,8 @@
       }
 
     
+
+    // REVENUE TOTAL 
     function fetchDataAndPopulateModal(fund, obj, yr,school) {
       fetch(`/viewgl/${fund}/${obj}/${yr}/${school}`)
         .then(function (response) {
@@ -2806,85 +2642,9 @@
       });
     });
 
-    
 
-    // Close the modal when the close button is clicked
-    var closeButton = modal.querySelector(".modal-footer button");
-    closeButton.addEventListener("click", function () {
-      modal.style.display = "none";
-    });
-  });
-</script>
-
-{% endblock %}
-
-{% block javascript %}
-<script>
-  var school = "{{ school }}"; 
-</script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-  
-  
-    var modal = document.getElementById("myModal2");
-
-     
-      var modalTableBody = document.getElementById("modal2-table-body");
-      var modalTableFooter = document.getElementById("myModalFooter2");
-
-    
-      function populateModal(data) {
-        var existingDataTable = $('#balancesheet-data-table2').DataTable();
-
-        if (existingDataTable) {
-          existingDataTable.destroy();
-        }
-      
-        modalTableBody.innerHTML = "";
-        modalTableFooter.innerHTML = "";      
-     
-        data.glfunc_data.forEach(function (row) {
-          var newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td class="right-align-td">${row.fund}</td>
-            <td class="right-align-td">${row.func}</td>
-            <td class="right-align-td"> ${row.obj}</td>
-            <td class="right-align-td">${row.org}</td>
-            <td class="right-align-td">${row.fscl_yr}</td>
-            <td class="right-align-td">${row.pgm}</td>
-            <td class="right-align-td">${row.projDtl}</td>
-            <td class="right-align-td" style="white-space: nowrap;">${row.AcctDescr}</td>
-            <td class="right-align-td">${row.Number}</td>
-            <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
-            <td class="right-align-td">${row.AcctPer}</td>
-            <td class="right-align-td">${row.Real}</td>
-            <td class="right-align-td">${row.Expend}</td>
-            <td class="right-align-td">${row.Bal}</td>
-            <td class="right-align-td" style="white-space: nowrap;">${row.WorkDescr}</td>
-            <td class="right-align-td">${row.Type}</td>
-            
-          `;
-          modalTableBody.appendChild(newRow);
-        });
-        var totalRow = document.createElement("tr");
-        totalRow.innerHTML = `
-        <td colspan="11"><div style="width:800px"></div></td>
-        <td style="text-align: right;"><strong>Total: </strong></td>
-        <td> $ ${data.total_bal}</td>
-        <td colspan="4"></td>
-        `;
-        modalTableFooter.appendChild(totalRow);
-
-        $('#balancesheet-data-table2').DataTable({
-          dom: 'lrtip',
-          
-          
-        });
-
-      }
-
-   
-    function fetchDataAndPopulateModal(func, yr,school) {
+    // FIRST TOTAL
+    function fetchDataAndPopulateModal2(func, yr,school) {
       fetch(`/viewglfunc/${func}/${yr}/${school}`)
         .then(function (response) {
           
@@ -2906,84 +2666,20 @@
         });
     }
 
-    var viewGLLinks = document.querySelectorAll(".viewglfunc-link");
-    viewGLLinks.forEach(function (link) {
+    var viewGLLinks2 = document.querySelectorAll(".viewglfunc-link");
+    viewGLLinks2.forEach(function (link) {
       link.addEventListener("click", function (event) {
         event.preventDefault();
         var func = link.dataset.func;
     
         var yr = link.dataset.yr;
-        fetchDataAndPopulateModal(func, yr,school);
+        fetchDataAndPopulateModal2(func, yr,school);
       });
     });
+ 
 
-    // Close the modal when the close button is clicked
-    var closeButton = modal.querySelector(".modal2-footer button");
-    closeButton.addEventListener("click", function () {
-      modal.style.display = "none";
-    });
-  });
-
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-   
-    var modal = document.getElementById("myModal3");
-
-      var modalTableBody = document.getElementById("modal3-table-body");
-      var modalTablFeooter3 = document.getElementById("myModalFooter3");
-
-      function populateModal(data) {
-        var existingDataTable = $('#balancesheet-data-table3').DataTable();
-
-        if (existingDataTable) {
-          existingDataTable.destroy();
-        }
-        modalTableBody.innerHTML = "";
-        modalTablFeooter3.innerHTML = "";      
-    
-        data.glfunc_data.forEach(function (row) {
-          var newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td class="right-align-td">${row.fund}</td>
-            <td class="right-align-td">${row.func}</td>
-            <td class="right-align-td"> ${row.obj}</td>
-            <td class="right-align-td">${row.org}</td>
-            <td class="right-align-td">${row.fscl_yr}</td>
-            <td class="right-align-td">${row.pgm}</td>
-            <td class="right-align-td">${row.projDtl}</td>
-            <td class="right-align-td">${row.AcctDescr}</td>
-            <td class="right-align-td">${row.Number}</td>
-            <td class="right-align-td" style="white-space: nowrap;">${row.Date}</td>
-            <td class="right-align-td">${row.AcctPer}</td>
-            <td class="right-align-td">${row.Real}</td>
-            <td class="right-align-td">${row.Expend}</td>
-            <td class="right-align-td">${row.Bal}</td>
-            <td class="right-align-td" style="white-space: nowrap;">${row.WorkDescr}</td>
-            <td class="right-align-td">${row.Type}</td>
-            
-          `;
-          modalTableBody.appendChild(newRow);
-        });
-        var totalRow = document.createElement("tr");
-        totalRow.innerHTML = `
-        <td colspan="11"><div style="width:800px"></div></td>
-        <td style="text-align: right;"><strong>Total: </strong></td>
-        <td> $ ${data.total_bal}</td>
-        <td colspan="4"></td>
-        `;
-        modalTablFeooter3.appendChild(totalRow);
-        $('#balancesheet-data-table3').DataTable({
-          dom: 'lrtip',
-          
-          
-        });
-
-      }
-
-    // Function to fetch the data from the server when modal is shown
-    function fetchDataAndPopulateModal(func, yr,school) {
+    //FOR EXPENSE BY Object
+    function fetchDataAndPopulateModal3(func, yr,school) {
       fetch(`/viewglexpense/${func}/${yr}/${school}`)
         .then(function (response) {
            
@@ -3006,24 +2702,34 @@
     }
 
     // Add click event listeners to all "a" elements inside the table
-    var viewGLexpenseLinks = document.querySelectorAll(".viewglexpense-link");
-    viewGLexpenseLinks.forEach(function (link) {
+    var viewGLexpenseLinks3 = document.querySelectorAll(".viewglexpense-link");
+    viewGLexpenseLinks3.forEach(function (link) {
       link.addEventListener("click", function (event) {
         event.preventDefault();
         var obj = link.dataset.obj;
     
         var yr = link.dataset.yr;
-        fetchDataAndPopulateModal(obj, yr,school);
+        fetchDataAndPopulateModal3(obj, yr,school);
       });
     });
+    
 
     // Close the modal when the close button is clicked
-    var closeButton = modal.querySelector(".modal3-footer button");
+    var closeButton = modal.querySelector(".modal-footer button");
     closeButton.addEventListener("click", function () {
       modal.style.display = "none";
     });
   });
 </script>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+  var school = "{{ school }}"; 
+</script>
+
+
 
 <script src="{% static 'js/pl.js' %}"></script> 
 <script src="{% static 'js/excel.js' %}"></script>
