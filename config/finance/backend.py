@@ -421,15 +421,16 @@ def profit_loss(school):
                
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 if date_obj >= july_date:
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
+
+                    FY_year_1 = current_year
+                    FY_year_2 = next_year
             else:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 
                 if date_obj >= september_date:
-
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
+                    september_date = datetime(next_year, 9, 1).date()
+                    FY_year_1 = current_year
+                    FY_year_2 = next_year
                 
            
             
@@ -528,7 +529,7 @@ def profit_loss(school):
                 for entry in data3
                 if entry["fund"] == fund
                 and entry["obj"] == obj
-                and entry["Type"] == "GJ"                
+                and entry["Type"] == "GJ"           
             )
             total_adjustment_budget = sum(
                 entry[est_key]
@@ -540,6 +541,7 @@ def profit_loss(school):
                 and not isinstance(entry[est_key], str)              
             )
             item["total_budget"] = total_adjustment_budget + total_budget
+            
 
         totals["total_ammended"] += item["total_budget"]
         item[f"ytd_budget"] = item["total_budget"] * ytd_budget
@@ -554,14 +556,26 @@ def profit_loss(school):
             totals["total_ammended_fpr"] += item["total_budget"]
         
 
+        
         for i, acct_per in enumerate(acct_per_values, start=1):
-            total_real = sum(
-                entry[real_key]
-                for entry in data3
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["AcctPer"] == acct_per
-            )
+            if school == 'manara' and school == 'prepschool':
+                total_real = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                    and entry["AcctPer"] == acct_per
+                    
+                )
+            else:
+                total_real = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                    and entry["AcctPer"] == acct_per
+                   
+                )
             total_adjustment = sum(
                     entry[real_key]
                     for entry in adjustment
@@ -573,7 +587,7 @@ def profit_loss(school):
                     and not isinstance(entry[real_key], str) 
                 )
             item[f"total_real{i}"] = total_real + total_adjustment 
-
+           
             total_revenue[acct_per] += (item[f"total_real{i}"])
 
             
@@ -881,6 +895,7 @@ def profit_loss(school):
                 if entry["obj"] == obj
 
                 )
+            item["total_budget"] = total_budget_data_activities
         else:
             total_budget_data_activities = sum(
             entry[appr_key]
@@ -889,7 +904,7 @@ def profit_loss(school):
             and entry["Type"] == 'GJ'
        
             )
-        item["total_budget"] = -(total_budget_data_activities)
+            item["total_budget"] = -(total_budget_data_activities)
         
         item["ytd_budget"] =  item["total_budget"] * ytd_budget
         total_expense += item["total_budget"]  
@@ -1104,7 +1119,7 @@ def profit_loss(school):
         if ytd_total is None or ytd_total == 0:
             row["ytd_total"] = ""
         else:
-            row["ytd_total"] = format_value(ytd_total)
+            row["ytd_total"] = format_value_negative(ytd_total)
 
         if variances is None or variances == 0:
             row["variances"] = ""

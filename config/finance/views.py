@@ -3741,290 +3741,43 @@ def viewglexpense_cumberland(request,obj,yr):
 # def cashflow_cumberland(request):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
-def generate_excel(request,school):
+def generate_excel(request,school,year):
     cnxn = connect()
     cursor = cnxn.cursor()
 
+    print(year)
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
     print(JSON_DIR)
     with open(os.path.join(JSON_DIR, "data.json"), "r") as f:
         data = json.load(f)
     
-    # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
-    # rows = cursor.fetchall()
-
-    
-    # data = []
-    # for row in rows:
-    #     if row[4] is None:
-    #         row[4] = ''
-       
-        
-    #     row_dict = {
-    #         'fund': row[0],
-    #         'obj': row[1],
-    #         'description': row[2],
-    #         'category': row[3],
-    #         'value': row[4]
-    #     }
-    #     data.append(row_dict)
 
 
     with open(os.path.join(JSON_DIR, "data2.json"), "r") as f:
         data2 = json.load(f)
-    # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
-    # rows = cursor.fetchall()
-
-
-    # data2=[]
-    # for row in rows:
-       
-    #     row_dict = {
-    #         'func_func': row[0],
-    #         'desc': row[1],
-    #         'category': row[2],
-    #         'budget': row[3],
-    #         'obj': row[4],
-            
-    #     }
-    #     data2.append(row_dict)
-
-
-
-
+    
     with open(os.path.join(JSON_DIR, "data3.json"), "r") as f:
         data3 = json.load(f)
-    # if not school == "village-tech":
-    #     cursor.execute(
-    #         f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
-    #     )
-    # else:
-    #     cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")  
-    # rows = cursor.fetchall()
     
-    # data3=[]
-    
-    
-    # if not school == "village-tech":
-    #     for row in rows:
-    #         expend = float(row[17])
-    #         date = row[11]
-    #         if isinstance(row[11], datetime):
-    #             date = row[11].strftime("%Y-%m-%d")
-
-    #         row_dict = {
-    #             "fund": row[0],
-    #             "func": row[1],
-    #             "obj": row[2],
-    #             "sobj": row[3],
-    #             "org": row[4],
-    #             "fscl_yr": row[5],
-    #             "pgm": row[6],
-    #             "edSpan": row[7],
-    #             "projDtl": row[8],
-    #             "AcctDescr": row[9],
-    #             "Number": row[10],
-    #             "Date": date,
-    #             "AcctPer": row[12],
-    #             "Est": row[13],
-    #             "Real": row[14],
-    #             "Appr": row[15],
-    #             "Encum": row[16],
-    #             "Expend": expend,
-    #             "Bal": row[18],
-    #             "WorkDescr": row[19],
-    #             "Type": row[20],
-    #             "Contr": row[21],
-    #         }
-
-    #         data3.append(row_dict)
-
-    # else:
-    #     for row in rows:
-    #         amount = float(row[19])
-    #         date = row[9]
-    #         if isinstance(row[9], datetime):
-    #             date = row[9].strftime("%Y-%m-%d")
-    #         row_dict = {
-    #             "fund": row[0],
-    #             "func": row[2],
-    #             "obj": row[3],
-    #             "sobj": row[4],
-    #             "org": row[5],
-    #             "fscl_yr": row[6],
-    #             "Date": date,
-    #             "AcctPer": row[10],
-    #             "Amount": amount,
-    #         }
-
-    #         data3.append(row_dict)
-
     with open(os.path.join(JSON_DIR, "data_expensebyobject.json"), "r") as f:
         data_expensebyobject = json.load(f)
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
-    # rows = cursor.fetchall()
-
-    # data_expensebyobject = []
-
-    # for row in rows:
-        
-    #     row_dict = {
-    #         "obj": row[0],
-    #         "Description": row[1],
-    #         "budget": row[2],
-    #     }
-
-    #     data_expensebyobject.append(row_dict)
+    
     with open(os.path.join(JSON_DIR, "data_activities.json"), "r") as f:
         data_activities = json.load(f)
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
-    # rows = cursor.fetchall()
-
-    # data_activities = []
-
-    # for row in rows:
-    #     row_dict = {
-    #         "obj": row[0],
-    #         "Description": row[1],
-    #         "Category": row[2],
-    #     }
-
-    #     data_activities.append(row_dict)
-    #----------------------------------------END OF PL DATA
 
     with open(os.path.join(JSON_DIR, "data_balancesheet.json"), "r") as f:
         data_balancesheet = json.load(f)
-    #----------------- BS DATA
-    # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']}") 
-    # rows = cursor.fetchall()
-    
-    # data_balancesheet=[]
-    
-    
-    # for row in rows:
-       
-    #     row_dict = {
-    #         'Activity':row[0],
-    #         'Description':row[1],
-    #         'Category':row[2],
-    #         'Subcategory':row[3],
-    #         'FYE':row[4],
-            
-            
-    #         }
-        
-    #     data_balancesheet.append(row_dict)
-    
+  
     with open(os.path.join(JSON_DIR, "data_activitybs.json"), "r") as f:
         data_activitybs = json.load(f)
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
-    # rows = cursor.fetchall()
-    
-    # data_activitybs=[]
-    
-    
-    # for row in rows:
-    #     row_dict = {
-    #         'Activity':row[0],
-    #         'obj':row[1],
-    #         'Description2':row[2],
-    #         }
-        
-    #     data_activitybs.append(row_dict)
-
-
+  
     with open(os.path.join(JSON_DIR, "data_cashflow.json"), "r") as f:
         data_cashflow = json.load(f)
-#     cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};") 
-#     rows = cursor.fetchall()
-
-#     data_cashflow = []
-
-#     for row in rows:
-#         row_dict = {
-#             "Category": row[0],
-#             "Activity": row[1],
-#             "Description": row[2],
-#             "obj": str(row[3]),
-#         }
-
-#         data_cashflow.append(row_dict)
 
     with open(os.path.join(JSON_DIR, "data_charterfirst.json"), "r") as f:
         data_charterfirst = json.load(f)
-    # cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
-    # rows = cursor.fetchall()
-
-    # data_charterfirst = []
-
-    # for row in rows:
-    #     row_dict = {
-    #         "school": row[0],
-    #         "year": row[1],
-    #         "month": row[2],
-    #         "net_income_ytd":row[3],
-    #         "indicators": row[4],
-    #         "net_assets": row[5],
-    #         "days_coh": row[6],
-    #         "current_assets": row[7],
-    #         "net_earnings": row[8],
-    #         "budget_vs_revenue": row[9],
-    #         "total_assets": row[10],
-    #         "debt_service": row[11],
-    #         "debt_capitalization": row[12],
-    #         "ratio_administrative": row[13],
-    #         "ratio_student_teacher": row[14],
-    #         "estimated_actual_ada": row[15],
-    #         "reporting_peims": row[16],
-    #         "annual_audit": row[17],
-    #         "post_financial_info": row[18],
-    #         "approved_geo_boundaries": row[19],
-    #         "estimated_first_rating": row[20],
-    #     }
-
-    #     data_charterfirst.append(row_dict)
-
-
-
-    ##NOT NEEDED ALREADY IN BS AND PL BACKEND CALCULATIONS
-    # cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
-    # rows = cursor.fetchall()
-
-    # adjustment = []
-
-    
-    # for row in rows:
-    #     expend = float(row[17])
-    #     row_dict = {
-    #         "fund": row[0],
-    #         "func": row[1],
-    #         "obj": row[2],
-    #         "sobj": row[3],
-    #         "org": row[4],
-    #         "fscl_yr": row[5],
-    #         "pgm": row[6],
-    #         "edSpan": row[7],
-    #         "projDtl": row[8],
-    #         "AcctDescr": row[9],
-    #         "Number": row[10],
-    #         "Date": row[11],
-    #         "AcctPer": row[12],
-    #         "Est": row[13],
-    #         "Real": row[14],
-    #         "Appr": row[15],
-    #         "Encum": row[16],
-    #         "Expend": expend,
-    #         "Bal": row[18],
-    #         "WorkDescr": row[19],
-    #         "Type": row[20],
-    #         "School": row[21],
-    #     }
-    #     adjustment.append(row_dict)
-
-    
-
-
+ 
     with open(os.path.join(JSON_DIR, "months.json"), "r") as f:
         months = json.load(f)
     with open(os.path.join(JSON_DIR, "totals.json"), "r") as f: #FOR PL
@@ -4033,182 +3786,6 @@ def generate_excel(request,school):
         total_bs = json.load(f)
 
     school_name = SCHOOLS[school]
-
-
-    # acct_per_values = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
-    # expend_key = "Expend"
-    # real_key = "Real"
-    # bal_key = "Bal"
-    # est_key = "Est"
-    # if school == "village-tech":
-    #     expend_key = "Amount"
-    #     real_key = "Amount"
-    #     bal_key = "Amount"
-    #     est_key = "Amount"
-
-    # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-    # for item in data:
-    #     fund = item['fund']
-    #     obj = item['obj']
-    #     total_real = 0
-
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         total_real = sum(
-    #             entry[real_key] for entry in data3 if entry['fund'] == fund and entry['obj'] == obj and entry['AcctPer'] == acct_per
-    #         )
-    #         total_revenue[acct_per] += abs(total_real)
-
-    # for item in data_activitybs:
-        
-    #     obj = item['obj']
-
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         item[f'total_bal{i}'] = sum(
-    #             entry[bal_key] for entry in data3 if entry['obj'] == obj and entry['AcctPer'] == acct_per
-    #         )
-
-    # keys_to_check = ['total_bal1', 'total_bal2', 'total_bal3', 'total_bal4', 'total_bal5','total_bal6','total_bal7','total_bal8','total_bal9','total_bal10','total_bal11','total_bal12']
-  
-    # activity_sum_dict = {} 
-    # for item in data_activitybs:
-    #     Activity = item['Activity']
-    #     for i in range(1, 13):
-    #         total_sum_i = sum(
-    #             int(entry[f'total_bal{i}']) if entry[f'total_bal{i}'] and entry['Activity'] == Activity else 0
-    #             for entry in data_activitybs
-    #         )
-    #         activity_sum_dict[(Activity, i)] = total_sum_i
-    
-    # for row in data_balancesheet:
-    
-    #     activity = row['Activity']
-    #     for i in range(1, 13):
-    #         key = (activity, i)
-    #         row[f'total_sum{i}'] = activity_sum_dict.get(key, 0)
-    
-
-    
-    # for row in data_balancesheet:
-    
-    #     FYE_value = int(row['FYE']) if row['FYE'] else 0
-    #     total_sum9_value = int(row['total_sum9']) if row['total_sum9'] else 0
-    #     total_sum10_value = int(row['total_sum10']) if row['total_sum10'] else 0
-    #     total_sum11_value = int(row['total_sum11']) if row['total_sum11'] else 0
-    #     total_sum12_value = int(row['total_sum12']) if row['total_sum12'] else 0
-    #     total_sum1_value = int(row['total_sum1']) if row['total_sum1'] else 0
-    #     total_sum2_value = int(row['total_sum2']) if row['total_sum2'] else 0
-    #     total_sum3_value = int(row['total_sum3']) if row['total_sum3'] else 0
-    #     total_sum4_value = int(row['total_sum4']) if row['total_sum4'] else 0
-    #     total_sum5_value = int(row['total_sum5']) if row['total_sum5'] else 0
-    #     total_sum6_value = int(row['total_sum6']) if row['total_sum6'] else 0
-    #     total_sum7_value = int(row['total_sum7']) if row['total_sum7'] else 0
-    #     total_sum8_value = int(row['total_sum8']) if row['total_sum8'] else 0
-    
-    #     # Calculate the differences and store them in the row dictionary
-    #     row['difference_9'] = float(FYE_value + total_sum9_value)
-    #     row['difference_10'] = float(FYE_value + total_sum9_value + total_sum10_value)
-    #     row['difference_11'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value)
-    #     row['difference_12'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value)
-    #     row['difference_1'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value)
-    #     row['difference_2'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value)
-    #     row['difference_3'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value)
-    #     row['difference_4'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value)
-    #     row['difference_5'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value)
-    #     row['difference_6'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value)
-    #     row['difference_7'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value)
-    #     row['difference_8'] = float(FYE_value + total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-    
-    #     row['fytd'] = float(total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-    
-
-    # total_surplus = {acct_per: 0 for acct_per in acct_per_values}
-
-    # for item in data2:
-    #     if item['category'] != 'Depreciation and Amortization':
-    #         func = item['func_func']
-
-    #         for i, acct_per in enumerate(acct_per_values, start=1):
-    #             total_func = sum(
-    #                 entry[expend_key]
-    #                 for entry in data3
-    #                 if entry["func"] == func and entry["AcctPer"] == acct_per
-    #             )
-    #             total_adjustment = 0
-    #             # sum(
-    #             #     entry[expend_key]
-    #             #     for entry in adjustment
-    #             #     if entry["func"] == func and entry["AcctPer"] == acct_per
-    #             # )
-    #             item[f"total_func{i}"] = total_func + total_adjustment
-    #             total_surplus[acct_per] += item[f'total_func{i}']
-   
-
-    # # ---- Depreciation and ammortization total
-    # total_DnA = {acct_per: 0 for acct_per in acct_per_values}
-
-    # for item in data2:
-    #     if item['category'] == 'Depreciation and Amortization':
-    #         func = item['func_func']
-    #         obj =  item['obj']
-
-    #         for i, acct_per in enumerate(acct_per_values, start=1):
-    #             total_func = sum(
-    #                 entry[expend_key]
-    #                 for entry in data3
-    #                 if entry["func"] == func
-    #                 and entry["AcctPer"] == acct_per
-    #                 and entry["obj"] == obj
-    #             )
-    #             total_adjustment = sum(
-    #                 entry[expend_key]
-    #                 for entry in adjustment
-    #                 if entry["func"] == func
-    #                 and entry["AcctPer"] == acct_per
-    #                 and entry["obj"] == obj
-    #             )
-    #             item[f"total_func2_{i}"] = total_func + total_adjustment
-    #             total_DnA[acct_per] += item[f"total_func2_{i}"]
-                
-
-    # total_SBD = {
-    #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
-    #     for acct_per in acct_per_values
-    # }
-    # total_netsurplus = {
-    #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
-    #     for acct_per in acct_per_values
-    # }
-
-
-    # for item in data_cashflow:
-    #     activity = item["Activity"]
-
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         key = f"total_bal{i}"
-    #         item[f"total_operating{i}"] = sum(
-    #             entry[key] for entry in data_activitybs if entry["Activity"] == activity
-    #         )
-
-    # for item in data_cashflow:
-    #     obj = item["obj"]
-
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         item[f"total_investing{i}"] = sum(
-    #             entry[bal_key]
-    #             for entry in data3
-    #             if entry["obj"] == obj and entry["AcctPer"] == acct_per
-    #         )
-
-    # for item in data_activities:
-    #     obj = item["obj"]
-
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         item[f"total_activities{i}"] = sum(
-    #             entry[expend_key]
-    #             for entry in data3
-    #             if entry["obj"] == obj and entry["AcctPer"] == acct_per)
-
-
 
     template_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'template.xlsx')
 
@@ -4443,7 +4020,6 @@ def generate_excel(request,school):
         else:
             last_number -= 1
 
-        print(last_number)
         for col in range(last_number,19):
             col_letter = get_column_letter(col)
 
@@ -5368,7 +4944,7 @@ def generate_excel(request,school):
         else:
             last_number += 1
 
-        print(last_number)
+     
         for col in range(last_number,19):
             col_letter = get_column_letter(col)     
             pl_sheet.column_dimensions[col_letter].outline_level = 2
@@ -7594,7 +7170,7 @@ def generate_excel(request,school):
         else:
             last_number += 1
 
-        print(last_number)
+
         for col in range(last_number,19):
             col_letter = get_column_letter(col)     
             bs_sheet.column_dimensions[col_letter].outline_level = 2
