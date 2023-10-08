@@ -22,38 +22,37 @@
                 <div class="card">
                     <div class="card-header">
                         <center><strong><h3>Sign In</h3><strong><center>
-                        
-                    </div>
-                    <div class="card-body">
-                        <form action="{% url 'login' %}" method="POST">
-                            {% csrf_token %}
-                            <label for="user" class="label" >Username</label>
-                            <div class="input-group form-group">
-                                
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                </div>
-                                <input type="text" class="form-control" placeholder="username" name="username" required>
-                                
-                            </div>
-                            <label for="pass" class="label">Password</label>
-                            <div class="input-group form-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                </div>
-                                <input type="password" class="form-control" placeholder="password" name="password" required>
-                            </div>
-                            &nbsp;
 
-                            <div class="form-group">
-                                <input type="submit" value="Login" class="btn float-right login_btn">
-                            </div>
-                        </form>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+                        </div>
+                            <div class="card-body">
+                                <form action="{% url 'login' %}" method="post">
+                                    {% csrf_token %}
+                                    <label for="user" class="label" >Username</label>
+                                    <div class="input-group form-group">
 
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="username" name="username" required>
+
+                                    </div>
+                                    <label for="pass" class="label">Password</label>
+                                    <div class="input-group form-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                        </div>
+                                        <input type="password" class="form-control" placeholder="password" name="password" required>
+                                    </div>
+                                    &nbsp;
+
+                                    <div class="form-group">
+                                        <input type="submit" value="Login" class="btn float-right login_btn">
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        </div>
+                        </div>
+                    </body>
+                </html>

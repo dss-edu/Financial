@@ -5,7 +5,6 @@ from . import new_views
 
 urlpatterns = [
     path("login/", views.loginView, name="login"),
-    path("login_form/", views.login_form, name="login_form"),
     path("logout/", views.logoutView, name="logout"),
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
@@ -27,17 +26,29 @@ urlpatterns = [
         name="delete_bs",
     ),
     path("delete_bsa/<str:obj>/<str:Activity>/", views.delete_bsa, name="delete_bsa"),
-    path("generate_excel/<str:school>/<str:year>", views.generate_excel, name="generate_excel"),
+    path(
+        "generate_excel/<str:school>/<str:year>",
+        views.generate_excel,
+        name="generate_excel",
+    ),
     path("delete_func/<str:func>/", views.delete_func, name="delete_func"),
-    path("viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>", views.viewgl, name="viewgl"),
-    path("viewglfunc/<str:func>/<str:yr>/<str:school>", views.viewglfunc, name="viewglfunc"),
+    path(
+        "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>", views.viewgl, name="viewgl"
+    ),
+    path(
+        "viewglfunc/<str:func>/<str:yr>/<str:school>",
+        views.viewglfunc,
+        name="viewglfunc",
+    ),
     path(
         "viewgl_activitybs/<str:obj>/<str:yr>/",
         views.viewgl_activitybs,
         name="viewgl_activitybs",
     ),
     path(
-        "viewglexpense/<str:obj>/<str:yr>/<str:school>", views.viewglexpense, name="viewglexpense"
+        "viewglexpense/<str:obj>/<str:yr>/<str:school>",
+        views.viewglexpense,
+        name="viewglexpense",
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
     # path(
