@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 from .connect import connect
 from . import modules
 from django.views.decorators.csrf import requires_csrf_token, csrf_exempt
+from django.contrib.auth.decorators import login_required
 import calendar
 import json
 
@@ -20,6 +21,7 @@ SCHOOLS = {
 }
 
 
+@login_required
 def dashboard_notes(request, school):
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -39,6 +41,7 @@ def dashboard_notes(request, school):
     return HttpResponse(status=200)
 
 
+@login_required
 def dashboard(request, school, anchor_year=""):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
 
@@ -134,6 +137,7 @@ def dashboard(request, school, anchor_year=""):
     return render(request, "temps/dashboard.html", context)
 
 
+@login_required
 def charter_first(request, school, anchor_year=""):
     context = modules.charter_first(school)
     net_ytd = context["net_income_ytd"]
@@ -160,7 +164,7 @@ def charter_first(request, school, anchor_year=""):
 
     # for FY
     fiscal_year = year
-    if school in ["advantage", "cumberland", "village-tech"]: 
+    if school in ["advantage", "cumberland", "village-tech"]:
         if month < 9:
             fiscal_year = year - 1
 
@@ -198,44 +202,52 @@ def charter_first(request, school, anchor_year=""):
     return render(request, "temps/charter-first.html", context)
 
 
+@login_required
 def charter_first_charts(request, school):
     # if school = "advantage":
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/charter-first-charts.html", context)
 
 
+@login_required
 def profit_loss(request, school, anchor_year=""):
     context = modules.profit_loss(school, anchor_year)
     return render(request, "temps/profit-loss.html", context)
 
 
+@login_required
 def profit_loss_charts(request, school):
     # if school = "advantage":
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 
+@login_required
 def balance_sheet(request, school, anchor_year=""):
     context = modules.balance_sheet(school, anchor_year)
     return render(request, "temps/balance-sheet.html", context)
 
 
+@login_required
 def balance_sheet_charts(request, school):
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 
+@login_required
 def cashflow(request, school, anchor_year=""):
     context = modules.cashflow(school, anchor_year)
 
     return render(request, "temps/cashflow.html", context)
 
 
+@login_required
 def cashflow_charts(request, school):
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 
+@login_required
 def general_ledger(request, school):
     context = modules.general_ledger(school)
     if school == "village-tech":
@@ -243,11 +255,13 @@ def general_ledger(request, school):
     return render(request, "temps/general-ledger.html", context)
 
 
+@login_required
 def manual_adjustments(request, school):
     context = modules.manual_adjustments(school)
     return render(request, "temps/manual-adjustments.html", context)
 
 
+@login_required
 def add_adjustments(request):
     if request.method == "POST":
         school = request.POST.get("school")
@@ -277,6 +291,7 @@ def add_adjustments(request):
     return HttpResponse(status=200)
 
 
+@login_required
 def delete_adjustments(request):
     if request.method == "POST":
         rows = json.loads(request.POST.get("adjustments"))
@@ -337,18 +352,19 @@ def delete_adjustments(request):
     return HttpResponse(status=200)
 
 
+@login_required
 def update_adjustments(request):
     pass
 
 
+@login_required
 def activity_edits(request, school):
     if request.method == "POST":
         body = json.loads(request.body)
-        
+
         status = modules.activity_edits(school, body)
 
     if status:
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
-

@@ -6,6 +6,7 @@ from .models import User, Item
 from django.contrib import auth
 from django.contrib.auth import login, authenticate
 from django.contrib.auth import logout
+# from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.utils.safestring import mark_safe
 import sys
@@ -31,7 +32,9 @@ from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
 from .backend import update_db,update_school
 from openpyxl.drawing.image import Image
+from django.contrib.auth.decorators import login_required
 from . import modules
+
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -104,24 +107,26 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
     },
 }
+
+
+@login_required
 def updatedb(request):
     if request.method == 'POST':
         update_db()
     return redirect('/dashboard/advantage')
 
+
+@login_required
 def updateschool(request,school):
     if request.method == 'POST':
         update_school(school)
     return redirect(f'/dashboard/{school}')
 
 
-
-
-
 def loginView(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
             if user.is_admin or user.is_superuser:
@@ -130,21 +135,18 @@ def loginView(request):
             elif user is not None and user.is_employee:
                 auth.login(request, user)
                 return redirect('/dashboard/advantage')
-            
             else:
-                return redirect('login_form')
+                return redirect('login')
         else:
-            
-            return redirect('login_form')
+            return redirect('login')
 
-def login_form(request):
-    return render(request,'login.html')
-
+    elif request.method == "GET":
+        return render(request, 'login.html')
 
 
 def logoutView(request):
-	logout(request)
-	return redirect('login_form')
+    logout(request)
+    return redirect('login')
 
 # def pl_advantage(request):
     
@@ -3741,6 +3743,7 @@ def viewglexpense_cumberland(request,obj,yr):
 # def cashflow_cumberland(request):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
+@login_required
 def generate_excel(request,school,year):
     cnxn = connect()
     cursor = cnxn.cursor()
