@@ -21,13 +21,6 @@ am5.ready(function() {
   }));
 
 
-  // Add legend
-  // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-  var legend = chart.children.push(am5.Legend.new(root, {
-    centerX: am5.p50,
-    x: am5.p50
-  }))
-
 
   // Data
   var data = [{
@@ -69,7 +62,7 @@ am5.ready(function() {
       categoryYField: "netIncome",
       sequencedInterpolation: true,
       tooltip: am5.Tooltip.new(root, {
-        pointerOrientation: "horizontal",
+        pointerOrientation: "vertical",
         labelText: "[bold]{name}[/]\n \({valueX}\)"
       })
     }));

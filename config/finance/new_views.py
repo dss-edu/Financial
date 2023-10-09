@@ -223,11 +223,10 @@ def profit_loss(request, school, anchor_year=""):
 
 @login_required
 @permission_required
-def profit_loss_charts(request, school):
-    # if school = "advantage":
-    context = {"school": school, "school_name": SCHOOLS[school]}
+def profit_loss_charts(request, school, anchor_year=""):
+    context = modules.profit_loss_chart(school, anchor_year)
+    # context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
-
 
 @login_required
 @permission_required
