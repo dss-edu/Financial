@@ -1,13 +1,14 @@
 $(document).ready(function(){
     document.getElementById('export-excel-button').addEventListener('click', function() {
         generateExcel(school);
-        
+        console.log(year);
     });
 
     function generateExcel(school) {
         $('#spinner-modal').modal('show');
-        fetch('/generate_excel/' + school)
+        fetch('/generate_excel/' + school + '/' + year)
             .then(function(response) {
+                console.log(year);
                 return response.blob();
             })
             .then(function(blob) {

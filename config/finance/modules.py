@@ -218,6 +218,36 @@ def profit_loss(school, anchor_year):
     return context
 
 
+def profit_loss_chart(school, anchor_year):
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+        # "last_month": formatted_last_month,
+        # "last_month_number": last_month_number,
+        # "format_ytd_budget": formatted_ytd_budget,
+        # "ytd_budget": ytd_budget,
+    }
+
+    BASE_DIR = os.getcwd()
+    # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
+    JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
+    if anchor_year:  # anchor_year is by default = ""
+        JSON_DIR = os.path.join(
+            BASE_DIR, "finance", str(anchor_year), "profit-loss", school
+        )
+    files = os.listdir(JSON_DIR)
+
+    for file in files:
+        with open(os.path.join(JSON_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    
+        context["anchor_year"] = anchor_year
+
+    return context
+
 def balance_sheet(school, anchor_year):
     current_date = datetime.today().date()
     current_month = current_date.replace(day=1)
