@@ -34,13 +34,14 @@ from .backend import update_db,update_school
 from openpyxl.drawing.image import Image
 from django.contrib.auth.decorators import login_required
 from . import modules
+from .decorators import permission_required
 
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
     "cumberland": "CUMBERLAND ACADEMY",
     "village-tech": "VILLAGE TECH",
-    "prepschool": "LEADERSHIP PREP SCHOOL",
+    "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
 }
 
@@ -82,7 +83,7 @@ db = {
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
     },
-    "prepschool": {
+    "leadership": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
@@ -117,6 +118,7 @@ def updatedb(request):
 
 
 @login_required
+@permission_required
 def updateschool(request,school):
     if request.method == 'POST':
         update_school(school)
@@ -129,16 +131,19 @@ def loginView(request):
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
         if user is not None and user.is_active:
-            if user.is_admin or user.is_superuser:
+            user_group = None
+            if user.groups.exists():
+                user_group = user.groups.all()[0].name
+            # if user.is_admin or user.is_superuser:
+            if user_group == 'admin':
                 auth.login(request, user)
                 return redirect('/dashboard/advantage')
-            elif user is not None and user.is_employee:
+            # elif user is not None and user.is_employee:
+            elif user_group is not None:
                 auth.login(request, user)
-                return redirect('/dashboard/advantage')
-            else:
-                return redirect('login')
-        else:
-            return redirect('login')
+                return redirect(f'/dashboard/{user_group}')
+
+        return redirect('login')
 
     elif request.method == "GET":
         return render(request, 'login.html')
@@ -4008,7 +4013,7 @@ def generate_excel(request,school,year):
 
 
 
-    if  school != 'manara' and school != 'prepschool':
+    if  school != 'manara' and school != 'leadership':
 
 
         for col in range(7, 20 ):
@@ -5897,7 +5902,7 @@ def generate_excel(request,school,year):
     bs_sheet[f'U{header_bs}'] = f'As of {months["last_month_name"]}'
 
 
-    if  school != 'manara' and school != 'prepschool':
+    if  school != 'manara' and school != 'leadership':
         
         
         for col in range(7, 20 ):
@@ -8493,7 +8498,7 @@ def generate_excel(request,school,year):
 
 
 
-    if  school != 'manara' and school != 'prepschool':
+    if  school != 'manara' and school != 'leadership':
         cashflow_start_row = 7
         operating_start_row = cashflow_start_row
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
