@@ -16,7 +16,7 @@ SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
     "cumberland": "CUMBERLAND ACADEMY",
     "village-tech": "VILLAGE TECH",
-    "prepschool": "LEADERSHIP PREP SCHOOL",
+    "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
 }
 
@@ -31,7 +31,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye": "[Balancesheet_FYE]",
     },
     "cumberland": {
         "object": "[PL_Definition_obj]",
@@ -43,7 +43,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye": "[Balancesheet_FYE]",
     },
     "village-tech": {
         "object": "[PL_Definition_obj]",
@@ -55,9 +55,9 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye": "[Balancesheet_FYE]",
     },
-    "prepschool": {
+    "leadership": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
@@ -67,7 +67,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye": "[Balancesheet_FYE]",
     },
     "manara": {
         "object": "[PL_Definition_obj]",
@@ -79,7 +79,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye": "[Balancesheet_FYE]",
     },
 }
 
@@ -105,7 +105,6 @@ def dashboard(school):
             last_month = last_month - relativedelta(days=1)
             break
 
-
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
@@ -127,7 +126,7 @@ def charter_first(school):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
-    for i in range(month_number-1, 0, -1):
+    for i in range(month_number - 1, 0, -1):
         query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                     WHERE school = '{school}' \
                     AND month = {i};"
@@ -297,17 +296,11 @@ def balance_sheet(school, anchor_year):
     missing_act_list = []
     for row in rows:
         if row[3] == school:
-            data = {
-                "Activity": row[0],
-                "obj": row[1],
-                "Description": row[2]
-            }
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
             missing_act_list.append(data)
-    
 
-    missing_act_list = sorted(missing_act_list, key=lambda x: x['obj'])
+    missing_act_list = sorted(missing_act_list, key=lambda x: x["obj"])
     context["missing_activities"] = missing_act_list
-
 
     query_notmissing = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NOT NULL or Activity != '';"
 
@@ -315,15 +308,10 @@ def balance_sheet(school, anchor_year):
     not_missing = []
     for row in rows:
         if row[3] == school:
-            data = {
-                "Activity": row[0],
-                "obj": row[1],
-                "Description": row[2]
-            }
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
             not_missing.append(data)
-            
-    
-    not_missing = sorted(not_missing, key=lambda x: x['obj'])
+
+    not_missing = sorted(not_missing, key=lambda x: x["obj"])
     context["not_missing"] = not_missing
 
     query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
@@ -331,7 +319,7 @@ def balance_sheet(school, anchor_year):
 
     options = []
     for opt in opts:
-        if opt[0] not in [None, '']:
+        if opt[0] not in [None, ""]:
             options.append(opt[0])
 
     context["activity_options"] = options
@@ -623,15 +611,14 @@ def manual_adjustments(school):
     }
     return context
 
+
 def activity_edits(school, body):
     cnxn = connect()
     cursor = cnxn.cursor()
     # delete the empties first
 
-
     ins_query = f"UPDATE [dbo].{db[school]['bs_activity']} SET Activity = ? , Description = ? where obj = ? and school = ?"
     for item in body:
-       
         item["school"] = school
         values = (item["activity"], item["description"], item["obj"], item["school"])
         print(values)

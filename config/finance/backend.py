@@ -22,7 +22,7 @@ SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
     "cumberland": "CUMBERLAND ACADEMY",
     "village-tech": "VILLAGE TECH",
-    "prepschool": "LEADERSHIP PREP SCHOOL",
+    "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
 }
 
@@ -63,7 +63,7 @@ db = {
         "adjustment": "[Adjustment]",
         "bs_fye":"[Balancesheet_FYE]",
     },
-    "prepschool": {
+    "leadership": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
         "db": "[AscenderData_Leadership]",
@@ -330,7 +330,7 @@ def profit_loss(school):
     last_month_name = last_month.strftime("%B")
     formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
-    if school == 'manara' or school == 'prepschool':
+    if school == 'manara' or school == 'leadership':
             ytd_budget_test = last_month_number - 6             
     else:
         if last_month_number >= 9:
@@ -417,7 +417,7 @@ def profit_loss(school):
     for item in data3:
         date_str = item["Date"]
         if date_str:
-            if school == 'manara' or school == 'prepschool':
+            if school == 'manara' or school == 'leadership':
                
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 if date_obj >= july_date:
@@ -444,7 +444,7 @@ def profit_loss(school):
         last_month_name = last_2months.strftime("%B")
         formatted_last_month = last_2months.strftime('%B %d, %Y')
         last_month_number = last_2months.month
-        if school == 'manara' or school == 'prepschool':
+        if school == 'manara' or school == 'leadership':
                 ytd_budget_test = last_month_number - 6             
         else:
             if last_month_number >= 9:
@@ -558,7 +558,7 @@ def profit_loss(school):
 
         
         for i, acct_per in enumerate(acct_per_values, start=1):
-            if school == 'manara' and school == 'prepschool':
+            if school == 'manara' and school == 'leadership':
                 total_real = sum(
                     entry[real_key]
                     for entry in data3
@@ -2065,7 +2065,7 @@ def balance_sheet(school):
             total_sum7_value = float(row["total_sum7"])
             total_sum8_value = float(row["total_sum8"])
 
-            if school != 'manara' and school != 'prepschool':
+            if school != 'manara' and school != 'leadership':
                
                 # Calculate the differences and store them in the row dictionary
                 row["difference_9"] = (FYE_value + total_sum9_value)
@@ -3062,7 +3062,7 @@ def excel(school):
     last_month_name = last_month.strftime("%B")
     formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
-    if school == 'manara' or school == 'prepschool':
+    if school == 'manara' or school == 'leadership':
             ytd_budget_test = last_month_number - 6             
     else:
         if last_month_number >= 9:
@@ -3147,7 +3147,7 @@ def excel(school):
     for item in data3:
         date_str = item["Date"]
         if date_str:
-            if school == 'manara' or school == 'prepschool':
+            if school == 'manara' or school == 'leadership':
                
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
                 if date_obj > july_date: # if date is higher than july 1 this year
@@ -3171,7 +3171,7 @@ def excel(school):
         last_month_name = last_2months.strftime("%B")
         formatted_last_month = last_2months.strftime('%B %d, %Y')
         last_month_number = last_2months.month
-        if school == 'manara' or school == 'prepschool':
+        if school == 'manara' or school == 'leadership':
                 ytd_budget_test = last_month_number - 6             
         else:
             if last_month_number >= 9:
@@ -3831,7 +3831,7 @@ def excel(school):
             total_sum7_value = float(row["total_sum7"])
             total_sum8_value = float(row["total_sum8"])
 
-            if school != 'manara' or school != 'prepschool':
+            if school != 'manara' or school != 'leadership':
                 # Calculate the differences and store them in the row dictionary
                 row["difference_9"] = (FYE_value + total_sum9_value)
                 row["difference_10"] =(row["difference_9"] + total_sum10_value)
@@ -4309,7 +4309,7 @@ def charter_first(school):
         else:
             fy_start = datetime(curr_year, 9, 1)
 
-    if school in ["manara", "prepschool"]:
+    if school in ["manara", "leadership"]:
         if int(pl_months["last_month_number"]) < 7:
             fy_start = datetime(curr_year, 1, 1)
         else:

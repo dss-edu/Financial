@@ -11,17 +11,19 @@ from django.views.decorators.csrf import requires_csrf_token, csrf_exempt
 from django.contrib.auth.decorators import login_required
 import calendar
 import json
+from .decorators import permission_required
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
     "cumberland": "CUMBERLAND ACADEMY",
     "village-tech": "VILLAGE TECH",
-    "prepschool": "Leadership Prep School",
+    "leadership": "Leadership Prep School",
     "manara": "MANARA ACADEMY",
 }
 
 
 @login_required
+@permission_required
 def dashboard_notes(request, school):
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -42,6 +44,7 @@ def dashboard_notes(request, school):
 
 
 @login_required
+@permission_required
 def dashboard(request, school, anchor_year=""):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
 
@@ -138,6 +141,7 @@ def dashboard(request, school, anchor_year=""):
 
 
 @login_required
+@permission_required
 def charter_first(request, school, anchor_year=""):
     context = modules.charter_first(school)
     net_ytd = context["net_income_ytd"]
@@ -168,7 +172,7 @@ def charter_first(request, school, anchor_year=""):
         if month < 9:
             fiscal_year = year - 1
 
-    if school in ["manara", "prepschool"]:
+    if school in ["manara", "leadership"]:
         if month < 7:
             fiscal_year = year - 1
 
@@ -203,6 +207,7 @@ def charter_first(request, school, anchor_year=""):
 
 
 @login_required
+@permission_required
 def charter_first_charts(request, school):
     # if school = "advantage":
     context = {"school": school, "school_name": SCHOOLS[school]}
@@ -210,30 +215,35 @@ def charter_first_charts(request, school):
 
 
 @login_required
+@permission_required
 def profit_loss(request, school, anchor_year=""):
     context = modules.profit_loss(school, anchor_year)
     return render(request, "temps/profit-loss.html", context)
 
 
 @login_required
+@permission_required
 def profit_loss_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
     # context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 @login_required
+@permission_required
 def balance_sheet(request, school, anchor_year=""):
     context = modules.balance_sheet(school, anchor_year)
     return render(request, "temps/balance-sheet.html", context)
 
 
 @login_required
+@permission_required
 def balance_sheet_charts(request, school):
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 
 @login_required
+@permission_required
 def cashflow(request, school, anchor_year=""):
     context = modules.cashflow(school, anchor_year)
 
@@ -241,12 +251,14 @@ def cashflow(request, school, anchor_year=""):
 
 
 @login_required
+@permission_required
 def cashflow_charts(request, school):
     context = {"school": school, "school_name": SCHOOLS[school]}
     return render(request, "temps/profit-loss-charts.html", context)
 
 
 @login_required
+@permission_required
 def general_ledger(request, school):
     context = modules.general_ledger(school)
     if school == "village-tech":
@@ -255,12 +267,14 @@ def general_ledger(request, school):
 
 
 @login_required
+@permission_required
 def manual_adjustments(request, school):
     context = modules.manual_adjustments(school)
     return render(request, "temps/manual-adjustments.html", context)
 
 
 @login_required
+@permission_required
 def add_adjustments(request):
     if request.method == "POST":
         school = request.POST.get("school")
@@ -291,6 +305,7 @@ def add_adjustments(request):
 
 
 @login_required
+@permission_required
 def delete_adjustments(request):
     if request.method == "POST":
         rows = json.loads(request.POST.get("adjustments"))
@@ -352,11 +367,13 @@ def delete_adjustments(request):
 
 
 @login_required
+@permission_required
 def update_adjustments(request):
     pass
 
 
 @login_required
+@permission_required
 def activity_edits(request, school):
     if request.method == "POST":
         body = json.loads(request.body)
