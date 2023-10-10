@@ -230,7 +230,7 @@ def profit_loss_chart(school,anchor_year):
 
     BASE_DIR = os.getcwd()
     # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
-    JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss-chart", school)
+    JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
   
         
     if anchor_year:  # anchor_year is by default = ""
