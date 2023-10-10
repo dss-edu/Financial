@@ -3040,7 +3040,7 @@ def excel(school):
 
         data_expensebyobject.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['activities']};")
     rows = cursor.fetchall()
 
     data_activities = []
@@ -4462,7 +4462,7 @@ def profit_loss_chart(school):
         
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
+    cursor.execute(f"SELECT  * FROM [dbo].{db2[school]['object']};")
     rows = cursor.fetchall()
 
     
@@ -4480,7 +4480,7 @@ def profit_loss_chart(school):
             }
             data.append(row_dict)
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
+    cursor.execute(f"SELECT  * FROM [dbo].{db2[school]['function']};")
     rows = cursor.fetchall()
 
     data2 = []
@@ -4500,10 +4500,10 @@ def profit_loss_chart(school):
     #
     if not school == "village-tech":
         cursor.execute(
-            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+            f"SELECT * FROM [dbo].{db2[school]['db']}  as AA where AA.Number != 'BEGBAL';"
         )
     else:
-        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+        cursor.execute(f"SELECT * FROM [dbo].{db2[school]['db']};")
 
     rows = cursor.fetchall()
     data3 = []
@@ -4563,7 +4563,7 @@ def profit_loss_chart(school):
 
             data3.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['adjustment']} ")
     rows = cursor.fetchall()
 
     adjustment = []
@@ -4597,7 +4597,7 @@ def profit_loss_chart(school):
             }
             adjustment.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['code']};")
     rows = cursor.fetchall()
 
     data_expensebyobject = []
@@ -4612,7 +4612,7 @@ def profit_loss_chart(school):
 
         data_expensebyobject.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['activities']};")
     rows = cursor.fetchall()
 
     data_activities = []
@@ -4636,7 +4636,7 @@ def profit_loss_chart(school):
 
     #BS START
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+    cursor.execute(f"SELECT  * FROM [dbo].{db2[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
     rows = cursor.fetchall()
 
     data_balancesheet = []
@@ -4658,7 +4658,7 @@ def profit_loss_chart(school):
 
         data_balancesheet.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['bs_activity']}")
     rows = cursor.fetchall()
 
     data_activitybs = []
@@ -4673,7 +4673,7 @@ def profit_loss_chart(school):
         data_activitybs.append(row_dict)
 
     
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['cashflow']};")
     rows = cursor.fetchall()
 
     data_cashflow = []
