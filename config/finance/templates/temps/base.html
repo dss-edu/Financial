@@ -67,6 +67,8 @@
 
     <!-- loading stylsheet -->
         <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+        <link rel="stylesheet" href="{% static 'css/body-navs.css' %}">
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
 
         {% block stylesheet %}
             <style>
@@ -92,21 +94,24 @@
         {% endblock %}
     </head>
 
-    <body id="page-top">
+    <body id="page-top" class="sidebar-toggled">
 <!-- headers-->
-        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top d-flex justify-content-between">
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top d-flex justify-content-between" style="height:40px;">
             <div>
-                <a class="navbar-brand mr-1 text-primary" href="">TEST</a>
                 <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
                     <i class="fas fa-bars"></i>
                 </button>
-                <select name="fyear" id="year-select">
-                    <option value="" selected>select FY</option>
-                    <option value="default">default</option>
-                    <option value="2022">2022-2023</option>
-                </select>
+
+                <!-- <select name="fyear" id="year-select"> -->
+                <!--     <option value="" selected>select FY</option> -->
+                <!--     <option value="default">default</option> -->
+                <!--     <option value="2022">2022-2023</option> -->
+                <!-- </select> -->
                 <input type="hidden" id="hidden-school" value="{{ school }}">
                 <input type="hidden" id="hidden-year" value="{{ anchor_year }}">
+            </div>
+            <div>
+                <a class="navbar-brand mr-1 text-primary" href="">dynamic support  solutions</a>
             </div>
 
     <!-- Navbar Search -->
@@ -118,7 +123,6 @@
             <!-- </a> -->
     <!-- Navbar -->
             <div>
-
                 <ul class="navbar-nav ml-auto ml-md-0">
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -130,8 +134,8 @@
                                     {% csrf_token %}
                                     <button type="submit">Update Database</button>
                                 </form>
-                            
-                       
+
+
 
                             </a>
                             <div class="dropdown-divider"></div>
@@ -150,7 +154,7 @@
             </div>
         </nav>
 
-        <div style="width:100%;height:60px;">
+        <div style="width:100%;height:40px;">
         </div>
 
         <div class="d-flex flex-row">
@@ -161,10 +165,8 @@
             </div> <!-- end of div wrapper -->
 
             <!-- Need to edit this again this is just a bandaid solution -->
-            <div class="flex-grow-1">
-                <div>
-                    {% block body %}{% endblock %}
-                </div>
+            <div class="flex-grow-1" id="body-block">
+                {% block body %}{% endblock %}
             </div>
         </div>
 

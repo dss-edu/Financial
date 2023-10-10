@@ -1,0 +1,11 @@
+/* Initially, all table columns are visible */
+#data-table th,
+#data-table td {
+  display: table-cell;
+}
+
+/* Hide empty columns */
+#data-table th:empty,
+#data-table td:empty {
+  display: none;
+}
