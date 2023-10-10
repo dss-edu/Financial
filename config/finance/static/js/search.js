@@ -2,6 +2,7 @@ $(document).ready(function() {
     const schoolSelect = $("#school-select").select2({
         placeholder: "Select a school",
         allowClear: true,
+        dropdownCssClass: "side-search",
     });
 
     schoolSelect.on("select2:select", function(e) {

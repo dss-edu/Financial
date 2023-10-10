@@ -1,145 +1,145 @@
 {% load custom_filters %}
-<nav id="sidebarMenu" class="sidebar navbar-nav">
+<nav id="sidebarMenu" class="sidebar navbar-nav toggled">
   <!-- <ul class="sidebar navbar-nav "> -->
-  <ul class="sidebar navbar-nav">
-    <span> &nbsp; &nbsp; </span>
-    {% if request.user|has_group:"admin" %}
-    <form>
-      <div class="mx-3">
-        <select class="w-100" name="" id="school-select">
-          <option value=""></option>
-          <option value="advantage">Advantage Academy</option>
-          <option value="cumberland">Cumberland Academy</option>
-          <option value="village-tech">Village Tech</option>
-          <option value="leadership">Leadership Prep School</option>
-          <option value="manara">Manara Academy</option>
-          <!-- Add more options here as needed -->
-        </select>
-      </div>
-    </form>
-    {% endif %}
-    <span> &nbsp; &nbsp; </span>
-    <li class="nav-item active">
-      <a
-        id="dashboard-link"
-        class="nav-link"
-        href="/dashboard/{{ school }}"
-        data-placement="right"
-      >
+    <ul class="sidebar navbar-nav toggled">
+        {% if request.user|has_group:"admin" %}
+            <span> &nbsp; &nbsp; </span>
+            <form>
+                <div class="d-flex flex-row justify-content-center">
+                    <select class="d-flex" id="school-select">
+                        <option value=""></option>
+                        <option value="advantage">Advantage Academy</option>
+                        <option value="cumberland">Cumberland Academy</option>
+                        <option value="village-tech">Village Tech</option>
+                        <option value="leadership">Leadership Prep School</option>
+                        <option value="manara">Manara Academy</option>
+                            <!-- Add more options here as needed -->
+                    </select>
+                </div>
+            </form>
+        {% endif %}
+        <span> &nbsp; &nbsp; </span>
+        <li class="nav-item active">
+            <a
+                id="dashboard-link"
+                class="nav-link"
+                href="/dashboard/{{ school }}"
+                data-placement="right"
+            >
         <!-- <div class="d-flex flex-row align-items-center justify-content-center"> -->
         <!--     <div class="col-1"> -->
-        <i class="fa-solid fa-house"></i>
+                <i class="fa-solid fa-house"></i>
         <!-- </div> -->
         <!-- <div class="col sb-label"> -->
-        <span class="text-center" style="color: white">Dashboard</span>
+                <span class="text-center" style="color: white">Dashboard</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
+            </a>
+        </li>
 
-    <span>
-      <hr
-        style="background-color: gray; width: 80%; margin: auto; height: 2px"
-      />
-    </span>
+        <span>
+            <hr
+                style="background-color: gray; width: 80%; margin: auto; height: 2px"
+            />
+        </span>
 
-    <li class="nav-item">
-      <a
-        id="first-link"
-        class="nav-link"
-        href=""
-        data-toggle="tooltip"
-        data-placement="right"
-        title="Charter FIRST"
-      >
+        <li class="nav-item">
+            <a
+                id="first-link"
+                class="nav-link"
+                href=""
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Charter FIRST"
+            >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
-        <i class="fa-solid fa-trophy"></i>
+                <i class="fa-solid fa-trophy"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-        <span style="color: white">Charter FIRST</span>
+                <span style="color: white">Charter FIRST</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
+            </a>
+        </li>
 
-    <li class="nav-item">
-      <a
-        id="pl-link"
-        class="nav-link"
-        href=""
-        data-toggle="tooltip"
-        data-placement="right"
-        title="Profit and Loss"
-      >
+        <li class="nav-item">
+            <a
+                id="pl-link"
+                class="nav-link"
+                href=""
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Profit and Loss"
+            >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
-        <i class="fas fa-sack-dollar"></i>
+                <i class="fas fa-sack-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-        <span style="color: white">Profit and Loss</span>
+                <span style="color: white">Profit and Loss</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
+            </a>
+        </li>
 
-    <li class="nav-item">
-      <a
-        id="bs-link"
-        class="nav-link"
-        href=""
-        data-toggle="tooltip"
-        data-placement="right"
-        title="Balance Sheet"
-      >
+        <li class="nav-item">
+            <a
+                id="bs-link"
+                class="nav-link"
+                href=""
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Balance Sheet"
+            >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
-        <i class="fa-solid fa-scale-balanced"></i>
+                <i class="fa-solid fa-scale-balanced"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-        <span style="color: white">Balance Sheet</span>
+                <span style="color: white">Balance Sheet</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
+            </a>
+        </li>
 
-    <li class="nav-item">
-      <a
-        id="cs-link"
-        class="nav-link"
-        href=""
-        data-toggle="tooltip"
-        data-placement="right"
-        title="Cash Flow Statement"
-      >
+        <li class="nav-item">
+            <a
+                id="cs-link"
+                class="nav-link"
+                href=""
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Cash Flow Statement"
+            >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
-        <i class="fa-solid fa-hand-holding-dollar"></i>
+                <i class="fa-solid fa-hand-holding-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-        <span style="color: white">Cash Flow Statement</span>
+                <span style="color: white">Cash Flow Statement</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
-    <li class="nav-item">
-      <a
-        id="gl-link"
-        class="nav-link"
-        href=""
-        data-toggle="tooltip"
-        data-placement="right"
-        title="General Ledger"
-      >
+            </a>
+        </li>
+        <li class="nav-item">
+            <a
+                id="gl-link"
+                class="nav-link"
+                href=""
+                data-toggle="tooltip"
+                data-placement="right"
+                title="General Ledger"
+            >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
-        <i class="fa-solid fa-file-invoice-dollar"></i>
+                <i class="fa-solid fa-file-invoice-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-        <span style="color: white">General Ledger</span>
+                <span style="color: white">General Ledger</span>
         <!--     </div> -->
         <!-- </div> -->
-      </a>
-    </li>
-  </ul>
+            </a>
+        </li>
+    </ul>
 </nav>
