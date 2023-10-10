@@ -5008,7 +5008,7 @@ def generate_excel(request,school,year):
 
 
                     start_row += 1
-        lr_row_end = 0
+       
         if lr_row_end is not None:
             for col in range(4, 22):
                 try:  # Columns G to U
