@@ -170,11 +170,11 @@ def update_db():
         profit_loss_chart(school)
         
 def update_school(school):
-    profit_loss(school) 
-    balance_sheet(school)
-    cashflow(school)
-    excel(school)
-    charter_first(school)
+    # profit_loss(school) 
+    # balance_sheet(school)
+    # cashflow(school)
+    # excel(school)
+    # charter_first(school)
     profit_loss_chart(school)
 
 
@@ -4780,23 +4780,27 @@ def profit_loss_chart(school):
 
     july_date  = datetime(current_year, 7, 1).date()
     september_date  = datetime(current_year, 9, 1).date()
+
     FY_year_1 = last_year
     FY_year_2 = current_year
     for item in data3:
         date_str = item["Date"]
         if date_str:
-            if school == 'manara' or school == 'leadership':
-               
+            try:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                if date_obj > july_date: # if date is higher than july 1 this year
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
-            else:
-                date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                if date_obj > september_date: # if date is higher than july 1 this year
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
                 
+                if school == 'manara' or school == 'leadership':
+                    if date_obj > july_date:  # if date is higher than July 1 this year
+                        FY_year_1 = current_year
+                        FY_year_2 = next_year
+                else:
+                    if date_obj > september_date:  # if date is higher than September 1 this year
+                        FY_year_1 = current_year
+                        FY_year_2 = next_year
+
+            except ValueError as e:
+                # Handle the exception (e.g., invalid date format) or log it
+                print(f"Error parsing date: {date_str}. Exception: {e}")
            
             
 
