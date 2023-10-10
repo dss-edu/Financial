@@ -81,6 +81,7 @@ urlpatterns = [
     path("profit-loss/<str:school>", new_views.profit_loss),
     path("profit-loss/<str:school>/<int:anchor_year>", new_views.profit_loss),
     path("profit-loss-charts/<str:school>", new_views.profit_loss_charts),
+    path("profit-loss-charts/<str:school>/<int:anchor_year>", new_views.profit_loss_charts),
     path("bs/activity-edits/<str:school>", new_views.activity_edits),
     path("balance-sheet/<str:school>", new_views.balance_sheet),
     path("balance-sheet/<str:school>/<int:anchor_year>", new_views.balance_sheet),
