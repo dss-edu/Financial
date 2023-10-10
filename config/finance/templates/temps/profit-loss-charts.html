@@ -42,6 +42,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
 &nbsp;
 &nbsp;
 &nbsp;
+
 {% comment %} <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
   <h1>Total Revenue</h1>
   <div id="totalrevenue" style="width: 100%; height: 400px;"></div>
@@ -60,143 +61,115 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
 
 
 </div>
+
 <div class="container">
-  <div class="insights">
-      <!--START rating-->
-      <div class="rating">
-          <div class="top">
-              <h1>100</h1>
-              <h3>A- Superior</h3>
-          </div><!--end top-->
-          <small><b>Estimated First Rating</b> SY2022-2023</small>
-      </div>
-      <!--END rating-->
-
-      <div class="ratios">
-          <h3>Solvency Ratio</h3>
-          <!--debt to cap-->
-          <span><span class="material-symbols-outlined check-circle">
-                  check_circle
-              </span>
-              <h1>17:1</h1>
-          </span>
-          <small>DEBT TO CAP RATIO: &gt;95% = 0 pts; &lt;95% = 5 pts</small>
-
-          <!--LT LIAB-->
-          <span><span class="material-symbols-outlined error-circle">
-                  error
-              </span>
-              <h1>16:1</h1>
-          </span>
-          <small>LT LIAB/TOTAL ASSETS: &lt;0.6 = 10 pts; &gt;1.0 = 0 pts</small>
-          <!--ADMIN-->
-          <span><span class="material-symbols-outlined check-circle">
-                  check_circle
-              </span>
-              <h1>1:10</h1>
-          </span>
-          <small>ADMIN RATIO: &lt;=15.61%</small>
-          <!--DSCR-->
-          <span><span class="material-symbols-outlined error-circle">
-                  error
-              </span>
-              <h1>0:1</h1>
-          </span>
-          <small>DSCR: &gt;1.2x = 10 pts; &lt;1.0x = 0 pts</small>
-          <!--Current ratio-->
-          <span><span class="material-symbols-outlined check-circle">
-                  check_circle
-              </span>
-              <h1>4.61</h1>
-          </span>
-          <small>CURRENT RATIO</small>
-          <!--Days on hand-->
-          <span><span class="material-symbols-outlined check-circle">
-                  check_circle
-              </span>
-              <h1>190</h1>
-          </span>
-          <small>DAYS ON HAND RATIO: Preffered benchmark &gt;60 days 10 pts &gt; 60; 0 pts < 20</small>
-      </div><!--END ratios-->
-  </div> <!--END insights-->
 
   <div class="insights">
+    <h1> YTD NET INCOME <h1>
+    <h2 id="formattedTotal"></h2>
+    
+    <!--START rating-->
+    <div class="rating">
+        <div class="top">
+            <h1>100</h1>
+            <h3>A- Superior</h3>
+        </div><!--end top-->
+        <small><b>Estimated First Rating</b> SY2022-2023</small>
+    </div>
+    <!--END rating-->
 
-      <!--START net-income -->
-      <div class="net-income">
-          <h2>NET INCOME YTD</h2>
-        <h2 id="formattedTotal"></h2>
-      </div><!--END net-income-->
-      <div class="projection">
-          <h3>Projection</h3>
-          <table>
-              <tr>
-                  <td class="not-measured">Students to Staff Ratio 15% or declines over 3 years</td>
-                  <td>10</td>
-              </tr>
-              <tr>
-                  <td class="projected">Actual ADA vs Estimated</td>
-                  <td>5</td>
-              </tr>
-              <tr>
-                  <td class="projected">Accurate PEIMS reporting</td>
-                  <td>Ceiling</td>
-              </tr>
-              <tr>
-                  <td class="projected">Annual audit compliance</td>
-                  <td>Ceiling</td>
-              </tr>
-              <tr>
-                  <td class="projected">Annual audit compliance</td>
-                  <td>10</td>
-              </tr>
-              <tr>
-                  <td class="projected">Post finanical info on</td>
-                  <td>5</td>
-              </tr>
-              <tr>
-                  <td class="not-measured">Serves students reside approved geographic</td>
-                  <td>Ceiling</td>
-              </tr>
-          </table>
+    <div class="ratios">
+        <h3>Solvency Ratio</h3>
+        <!--debt to cap-->
+        <span><span class="material-symbols-outlined check-circle">
+                check_circle
+            </span>
+            <h1>17:1</h1>
+        </span>
+        <small>DEBT TO CAP RATIO: &gt;95% = 0 pts; &lt;95% = 5 pts</small>
 
-          <span><span class="material-symbols-outlined check-circle">
-                  crop_square
-              </span>
-              <h3>Projected</h3>
+        <!--LT LIAB-->
+        <span><span class="material-symbols-outlined error-circle">
+                error
+            </span>
+            <h1>16:1</h1>
+        </span>
+        <small>LT LIAB/TOTAL ASSETS: &lt;0.6 = 10 pts; &gt;1.0 = 0 pts</small>
+        <!--ADMIN-->
+        <span><span class="material-symbols-outlined check-circle">
+                check_circle
+            </span>
+            <h1>1:10</h1>
+        </span>
+        <small>ADMIN RATIO: &lt;=15.61%</small>
+        <!--DSCR-->
+        <span><span class="material-symbols-outlined error-circle">
+                error
+            </span>
+            <h1>0:1</h1>
+        </span>
+        <small>DSCR: &gt;1.2x = 10 pts; &lt;1.0x = 0 pts</small>
+        <!--Current ratio-->
+        <span><span class="material-symbols-outlined check-circle">
+                check_circle
+            </span>
+            <h1>4.61</h1>
+        </span>
+        <small>CURRENT RATIO</small>
+        <!--Days on hand-->
+        <span><span class="material-symbols-outlined check-circle">
+                check_circle
+            </span>
+            <h1>190</h1>
+        </span>
+        <small>DAYS ON HAND RATIO: Preffered benchmark &gt;60 days 10 pts &gt; 60; 0 pts < 20</small>
+    </div><!--END ratios-->
+    <div class="projection">
+      <h3>Projection</h3>
+      <table>
+          <tr>
+              <td class="not-measured">Students to Staff Ratio 15% or declines over 3 years</td>
+              <td>10</td>
+          </tr>
+          <tr>
+              <td class="projected">Actual ADA vs Estimated</td>
+              <td>5</td>
+          </tr>
+          <tr>
+              <td class="projected">Accurate PEIMS reporting</td>
+              <td>Ceiling</td>
+          </tr>
+          <tr>
+              <td class="projected">Annual audit compliance</td>
+              <td>Ceiling</td>
+          </tr>
+          <tr>
+              <td class="projected">Annual audit compliance</td>
+              <td>10</td>
+          </tr>
+          <tr>
+              <td class="projected">Post finanical info on</td>
+              <td>5</td>
+          </tr>
+          <tr>
+              <td class="not-measured">Serves students reside approved geographic</td>
+              <td>Ceiling</td>
+          </tr>
+      </table>
+
+      <span><span class="material-symbols-outlined check-circle">
+              crop_square
           </span>
+          <h3>Projected</h3>
+      </span>
 
-          <span><span class="material-symbols-outlined error-circle">
-                  crop_square
-              </span>
-              <h3>Not measured by DSS</h3>
+      <span><span class="material-symbols-outlined error-circle">
+              crop_square
           </span>
-      </div><!--END projection-->
-
-  </div> <!--END insights-->
-</div> <!-- END CONTAINER -->
-
-  <div class="insights " >
-      <!--START rating-->
-      <div class="rating">
-
-      </div>
-      <script>
-        var ytd_total = "{{totals.ytd_total_revenue}}";
-        var formattedTotal = '$' + parseInt(ytd_total).toLocaleString();
-      
-        // Get the div element where you want to display the formatted total
-        var formattedTotalDiv = document.getElementById("formattedTotal");
-      
-        // Update the content of the div with the formatted total
-        formattedTotalDiv.textContent = formattedTotal;
-      </script>
-      <!--END rating-->
-
-      <div class="ratios">
-          
-      </div><!--END ratios-->
-  </div> <!--END insights-->
+          <h3>Not measured by DSS</h3>
+      </span>
+  </div><!--END projection-->
+</div> <!--END insights-->
 
   <div class="insights">
 
@@ -204,21 +177,21 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
       <div class="net-income">
           <div>
               
-              <h1>Revenue</h1>
+              <h2>Revenue</h2>
           </div>
           <div id="chartcontrols"></div>
           <div id="totalrevenue" style="width: 100%; height: 400px;">
           </div>
       </div><!--END totalrevenue-->
       <div id="totalfirst" style="width: 100%; height: 400px;">
-          <h1>Expenses</h1>
+          <h2>Expenses</h2>
          
 
 
       </div><!--END total first-->
 
   </div> <!--END insights-->
-
+</div>
 
 
 </div>
@@ -239,7 +212,16 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
 <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
 <!-- my scripts-->
 
+<script>
+  var ytd_total = "{{totals.ytd_total_revenue}}";
+  var formattedTotal = '$' + parseInt(ytd_total).toLocaleString();
 
+  // Get the div element where you want to display the formatted total
+  var formattedTotalDiv = document.getElementById("formattedTotal");
+
+  // Update the content of the div with the formatted total
+  formattedTotalDiv.textContent = formattedTotal;
+</script>
 <script>
   am5.ready(function() {
 
@@ -454,7 +436,7 @@ function makeSeries(name, fieldName) {
     return am5.Bullet.new(root, {
       sprite: am5.Label.new(root, {
         text: "{valueY}",
-        fontSize: 10,
+        fontSize: 8,
         fill: root.interfaceColors.get("alternativeText"),
         centerY: am5.p50,
         centerX: am5.p50,
@@ -631,7 +613,7 @@ function makeSeries(name, fieldName) {
     return am5.Bullet.new(root, {
       sprite: am5.Label.new(root, {
         text: "{valueY}",
-        fontSize: 10,
+        fontSize: 8,
         fill: root.interfaceColors.get("alternativeText"),
         centerY: am5.p50,
         centerX: am5.p50,
