@@ -4785,7 +4785,7 @@ def profit_loss_chart(school):
     for item in data3:
         date_str = item["Date"]
         if date_str:
-            if school == 'manara' or school == 'leadership:
+            if school == 'manara' or school == 'leadership':
                 date_obj = datetime.strptime(str(date_str), "%Y-%m-%d").date()
                 if date_obj > july_date: # if date is higher than july 1 this year
                   FY_year_1 = current_year
