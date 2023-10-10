@@ -174,7 +174,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
     var ytd_data = {{ totals.ytd_total_revenue|safe }}; // Your data goes here
     var chartData = [];
-    console.log(ytd_data)
+   
     var monthName = "se";
 
 
@@ -184,7 +184,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
         total: ytd_data
       });
 
-    console.log(chartData)
+
     series.data.setAll(chartData);
     
     series.appear(1000, 100);
@@ -204,230 +204,38 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
     ]);
     
     
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {
-      panX: true,
-      panY: true,
-      wheelX: "panX",
-      wheelY: "zoomX",
-      pinchZoomX: true
-    }));
     
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-    cursor.lineY.set("visible", false);
-    
-    
-    // Create axes
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-    xRenderer.labels.template.setAll({
-      rotation: -90,
-      centerY: am5.p50,
-      centerX: am5.p100,
-      paddingRight: 15
-    });
-    
-    xRenderer.grid.template.setAll({
-      location: 1
-    })
-    
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "month",
-      renderer: xRenderer,
-      tooltip: am5.Tooltip.new(root, {}),
-      min: "09",
- 
-    }));
-    
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "total",
-      renderer: am5xy.AxisRendererY.new(root, {
-        strokeOpacity: 0.1
-      })
-    }));
-    
-    
-    // Create series
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Total Revenue",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: "total",
-      sequencedInterpolation: true,
-      categoryXField: "month",
-      tooltip: am5.Tooltip.new(root, {
-        labelText: "{valueY}"
-      })
-    }));
-    
-    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function(fill, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-    
-    series.columns.template.adapters.add("stroke", function(stroke, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-    
-    
-    // Set data
-    var revenue_data = {{ data|safe }}; // Your data goes here
-  
-    
-    var chartData = [];
-    var monthSums = {};
 
-  for (var i = 1; i <= 12; i++) {
-    monthSums['total_real' + i] = 0;
-  }
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+var chart = root.container.children.push(am5xy.XYChart.new(root, {
+  panX: false,
+  panY: false,
+  wheelX: "panX",
+  wheelY: "zoomX",
+  layout: root.verticalLayout
+}));
 
-  revenue_data.forEach(function(item) {
-    for (var i = 1; i <= 12; i++) {
-      monthSums['total_real' + i] += item['total_real' + i];
-      
-    }
-  });
-
-  for (var i = 1; i <= 12; i++) {
-    monthSums['total_real' + i] = monthSums['total_real' + i] * -1
-  }
+// Add scrollbar
+// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+chart.set("scrollbarX", am5.Scrollbar.new(root, {
+  orientation: "horizontal"
+}));
 
 
 
-   var monthNames = {
-      "1": "January",
-      "2": "February",
-      "3": "March",
-      "4": "April",
-      "5": "May",
-      "6": "June",
-      "7": "July",
-      "8": "August",
-      "9": "September",
-      "10": "October",
-      "11": "November",
-      "12": "December"
-    };
-    for (var month in monthSums) {
-      parsed_month = month.replace("total_real","")
-      var monthName = monthNames[parsed_month] || parsed_month; // Use the month name from the mapping, or the numeric value if not found
-      chartData.push({
-        month: monthName,
-        total: monthSums[month]
-      });
-    }
-    
-    // Log the data to the console for debugging
-   
-    xAxis.data.setAll(chartData);
-    series.data.setAll(chartData);
-    
-    
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear(1000);
-    chart.appear(1000, 100);
-    
-    }); // end am5.ready()
+var total_lr = {{ totals.total_lr|safe }};
+var total_spr = {{ totals.total_spr|safe }};
+var total_fpr = {{ totals.total_fpr|safe }};
 
-  
-</script>
+var revenueProperties = {
+  "Local": total_lr,
+  "State": total_spr,
+  "Federal": total_fpr,
+};
 
-<script>
-  
-  am5.ready(function() {
-    var root = am5.Root.new("totalfirst");
-    
-    
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
-    
-    
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {
-      panX: true,
-      panY: true,
-      wheelX: "panX",
-      wheelY: "zoomX",
-      pinchZoomX: true
-    }));
-    
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-    cursor.lineY.set("visible", false);
-    
-    
-    // Create axes
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-    xRenderer.labels.template.setAll({
-      rotation: -90,
-      centerY: am5.p50,
-      centerX: am5.p100,
-      paddingRight: 15
-    });
-    
-    xRenderer.grid.template.setAll({
-      location: 1
-    })
-    
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "month",
-      renderer: xRenderer,
-      tooltip: am5.Tooltip.new(root, {}),
-      min: "09",
- 
-    }));
-    
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      maxDeviation: 0.3,
-      categoryField: "total",
-      renderer: am5xy.AxisRendererY.new(root, {
-        strokeOpacity: 0.1
-      })
-    }));
-    
-    
-    // Create series
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Total Revenue",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: "total",
-      sequencedInterpolation: true,
-      categoryXField: "month",
-      tooltip: am5.Tooltip.new(root, {
-        labelText: "{valueY}"
-      })
-    }));
-    
-    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function(fill, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-    
-    series.columns.template.adapters.add("stroke", function(stroke, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-    
-    
-    // Set data
-    var monthTotals = {{ totals.total_expense_months|safe }}; // Your data goes here
+var dataCharts = [];
 
-// Create a mapping of month numbers to month names
 var monthNames = {
   "01": "January",
   "02": "February",
@@ -443,29 +251,293 @@ var monthNames = {
   "12": "December"
 };
 
-// Convert the data to an array of objects with month names
-var chartData = [];
-
-for (var month in monthTotals) {
+for (var month in total_lr) {
   var monthName = monthNames[month] || month; // Use the month name from the mapping, or the numeric value if not found
-  chartData.push({
-    month: monthName,
-    total: monthTotals[month]
-  });
-}
-    
-    // Log the data to the console for debugging
+  var entry = {
+    month: monthName
+  };
 
-    xAxis.data.setAll(chartData);
-    series.data.setAll(chartData);
+  for (var revenueType in revenueProperties) {
+    entry["revenue" + revenueType] = revenueProperties[revenueType][month] * -1;
+  }
+
+  dataCharts.push(entry);
+}
+
+
+
+
+
+
+// Create axes
+// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+xRenderer.labels.template.setAll({
+  rotation: -90,
+  centerY: am5.p50,
+  centerX: am5.p100,
+  paddingRight: 15
+});
+var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+  maxDeviation: 0.3,
+  categoryField: "month",
+  renderer: xRenderer,
+  tooltip: am5.Tooltip.new(root, {})
+}));
+
+xRenderer.grid.template.setAll({
+  location: 1
+})
+
+xAxis.data.setAll(dataCharts);
+
+var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+  maxDeviation: 0.3,
+  min: 0,
+  renderer: am5xy.AxisRendererY.new(root, {
+    strokeOpacity: 0.1
+  })
+}));
+
+
+// Add legend
+// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+var legend = chart.children.push(am5.Legend.new(root, {
+  centerX: am5.p50,
+  x: am5.p50
+}));
+
+
+// Add series
+// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+function makeSeries(name, fieldName) {
+  var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+    name: name,
+    stacked: true,
+    xAxis: xAxis,
+    yAxis: yAxis,
+    sequencedInterpolation: true,
+    valueYField: fieldName,
+    categoryXField: "month"
+  }));
+
+  series.columns.template.setAll({
+    tooltipText: "{name}, {categoryX}: {valueY}",
+    tooltipY: am5.percent(10)
+  });
+  series.data.setAll(dataCharts);
+
+  // Make stuff animate on load
+  // https://www.amcharts.com/docs/v5/concepts/animations/
+  series.appear();
+
+  series.bullets.push(function() {
+    return am5.Bullet.new(root, {
+      sprite: am5.Label.new(root, {
+        text: "{valueY}",
+        fontSize: 8,
+        fill: root.interfaceColors.get("alternativeText"),
+        centerY: am5.p50,
+        centerX: am5.p50,
+        populateText: true
+      })
+    });
+  });
+
+  legend.data.push(series);
+}
+
+makeSeries("Local Revenue", "revenueLocal");
+makeSeries("State Program Revenue", "revenueState");
+makeSeries("Federal Program Revenue", "revenueFederal");
+
+
+
+// Make stuff animate on load
+// https://www.amcharts.com/docs/v5/concepts/animations/
+chart.appear(1000, 100);
+
+}); // end am5.ready()
+
+  
+</script>
+
+<script>
+  
+  am5.ready(function() {
+
+
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    var root = am5.Root.new("totalfirst");
     
-    
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear(1000);
-    chart.appear(1000, 100);
-    
-    }); // end am5.ready()
+    // Set themes
+// https://www.amcharts.com/docs/v5/concepts/themes/
+root.setThemes([
+  am5themes_Animated.new(root),
+
+]);
+
+
+// Create chart
+// https://www.amcharts.com/docs/v5/charts/xy-chart/
+var chart = root.container.children.push(am5xy.XYChart.new(root, {
+  panX: false,
+  panY: false,
+  wheelX: "panX",
+  wheelY: "zoomX",
+  layout: root.verticalLayout
+}));
+
+// Add scrollbar
+// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+chart.set("scrollbarX", am5.Scrollbar.new(root, {
+  orientation: "horizontal"
+}));
+
+
+
+var expense6100 = {{ totals.total_EOC_pc|safe }};
+var expense6200 = {{ totals.total_EOC_pcs|safe }};
+var expense6300 = {{ totals.total_EOC_sm|safe }};
+var expense6400 = {{ totals.total_EOC_ooe|safe }};
+var expense6449 = {{ totals.dna_total_months|safe }};
+var expense6500 = {{ totals.total_EOC_te|safe }};
+var expenseProperties = {
+  "6100": expense6100,
+  "6200": expense6200,
+  "6300": expense6300,
+  "6400": expense6400,
+  "6449": expense6449,
+  "6500": expense6500
+};
+
+var dataChart = [];
+
+var monthNames = {
+  "01": "January",
+  "02": "February",
+  "03": "March",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "August",
+  "09": "September",
+  "10": "October",
+  "11": "November",
+  "12": "December"
+};
+
+for (var month in expense6100) {
+  var monthName = monthNames[month] || month; // Use the month name from the mapping, or the numeric value if not found
+  var entry = {
+    month: monthName
+  };
+
+  for (var expenseType in expenseProperties) {
+    entry["expense" + expenseType] = expenseProperties[expenseType][month];
+  }
+
+  dataChart.push(entry);
+}
+
+console.log(dataChart);
+
+
+
+
+// Create axes
+// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+xRenderer.labels.template.setAll({
+  rotation: -90,
+  centerY: am5.p50,
+  centerX: am5.p100,
+  paddingRight: 15
+});
+var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+  maxDeviation: 0.3,
+  categoryField: "month",
+  renderer: xRenderer,
+  tooltip: am5.Tooltip.new(root, {})
+}));
+
+xRenderer.grid.template.setAll({
+  location: 1
+})
+
+xAxis.data.setAll(dataChart);
+
+var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+  maxDeviation: 0.3,
+  min: 0,
+  renderer: am5xy.AxisRendererY.new(root, {
+    strokeOpacity: 0.1
+  })
+}));
+
+
+// Add legend
+// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+var legend = chart.children.push(am5.Legend.new(root, {
+  centerX: am5.p50,
+  x: am5.p50
+}));
+
+
+// Add series
+// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+function makeSeries(name, fieldName) {
+  var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+    name: name,
+    stacked: true,
+    xAxis: xAxis,
+    yAxis: yAxis,
+    sequencedInterpolation: true,
+    valueYField: fieldName,
+    categoryXField: "month"
+  }));
+
+  series.columns.template.setAll({
+    tooltipText: "{name}, {categoryX}: {valueY}",
+    tooltipY: am5.percent(10)
+  });
+  series.data.setAll(dataChart);
+
+  // Make stuff animate on load
+  // https://www.amcharts.com/docs/v5/concepts/animations/
+  series.appear();
+
+  series.bullets.push(function() {
+    return am5.Bullet.new(root, {
+      sprite: am5.Label.new(root, {
+        text: "{valueY}",
+        fontSize: 8,
+        fill: root.interfaceColors.get("alternativeText"),
+        centerY: am5.p50,
+        centerX: am5.p50,
+        populateText: true
+      })
+    });
+  });
+
+  legend.data.push(series);
+}
+
+makeSeries("6100 - Payroll and Benefits", "expense6100");
+makeSeries("6200 - Professional and Contract Services", "expense6200");
+makeSeries("6300 - Materials and Supplies", "expense6300");
+makeSeries("6400 - Other Operating Costs", "expense6400");
+makeSeries("6449 - Depreciation", "expense6449");
+makeSeries("6500 - Debt Services", "expense6500");
+
+
+// Make stuff animate on load
+// https://www.amcharts.com/docs/v5/concepts/animations/
+chart.appear(1000, 100);
+
+}); // end am5.ready()
 
   
 </script>
