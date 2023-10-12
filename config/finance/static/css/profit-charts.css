@@ -249,17 +249,22 @@ b {
 .box{
     background: white;
     padding-left: 10px;
+    margin-bottom: 500px;
 }
 .box2{
     background: white;
     padding-left: 10px;
-   
+    margin-bottom: 30px!important;
+    margin-right: 20px;
+    padding-bottom:50px;
+    padding-top: 10px;
 }
 .box3{
     background: white;
     padding-left: 10px;
     margin-bottom: 30px!important;
-   
+    margin-right: 20px;
+    padding-top: 10px;
 }
 .header{
     background:grey!important;
