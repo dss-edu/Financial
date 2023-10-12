@@ -219,13 +219,42 @@ def profit_loss(school, anchor_year):
 
 def profit_loss_chart(school,anchor_year):
 
+
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    for i in range(month_number - 1, 0, -1):
+        query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}' \
+                    AND month = {i};"
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row is not None:
+            break
+
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        # "last_month": formatted_last_month,
-        # "last_month_number": last_month_number,
-        # "format_ytd_budget": formatted_ytd_budget,
-        # "ytd_budget": ytd_budget,
+        "year": row[1],
+        "month": row[2],
+        "net_income_ytd": row[3],  ###
+        "indicators": row[4],
+        "net_assets": row[5],
+        "days_coh": row[6],  ###
+        "current_assets": row[7],
+        "net_earnings": row[8],  ###
+        "budget_vs_revenue": row[9],
+        "total_assets": row[10],
+        "debt_service": row[11],  ###
+        "debt_capitalization": row[12],
+        "ratio_administrative": row[13],  ###
+        "ratio_student_teacher": row[14],
+        "estimated_actual_ada": row[15],
+        "reporting_peims": row[16],
+        "annual_audit": row[17],
+        "post_financial_info": row[18],
+        "approved_geo_boundaries": row[19],
+        "estimated_first_rating": row[20],
     }
 
     BASE_DIR = os.getcwd()

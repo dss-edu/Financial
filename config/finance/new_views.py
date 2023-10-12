@@ -226,6 +226,14 @@ def profit_loss(request, school, anchor_year=""):
 def profit_loss_charts(request, school,anchor_year=""):
     context = modules.profit_loss_chart(school,anchor_year)
     # context = {"school": school, "school_name": SCHOOLS[school]}
+    net_ytd = context["net_income_ytd"]
+  
+
+    if net_ytd < 0:
+        context["net_income_ytd"] = f"${net_ytd * -1:,.0f}"
+    else:
+        context["net_income_ytd"] = f"${net_ytd:,.0f}"
+
     return render(request, "temps/profit-loss-charts.html", context)
 
 @login_required
