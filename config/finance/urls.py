@@ -4,6 +4,7 @@ from . import new_views
 
 
 urlpatterns = [
+    path("", views.loginView, name="login"),
     path("login/", views.loginView, name="login"),
     path("logout/", views.logoutView, name="logout"),
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),

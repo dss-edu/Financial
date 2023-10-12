@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -96,11 +97,27 @@
 
     <body id="page-top" class="sidebar-toggled">
 <!-- headers-->
-        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top d-flex justify-content-between" style="height:40px;">
-            <div>
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between" style="height:40px;">
+            <div class="d-flex flex-row">
                 <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
                     <i class="fas fa-bars"></i>
                 </button>
+
+                {% if request.user|has_group:"admin" %}
+                    <form>
+                        <div class="d-flex flex-row justify-content-center">
+                            <select class="d-flex" id="school-select">
+                                <option value=""></option>
+                                <option value="advantage">Advantage Academy</option>
+                                <option value="cumberland">Cumberland Academy</option>
+                                <option value="village-tech">Village Tech</option>
+                                <option value="leadership">Leadership Prep School</option>
+                                <option value="manara">Manara Academy</option>
+                                    <!-- Add more options here as needed -->
+                            </select>
+                        </div>
+                    </form>
+                {% endif %}
 
                 <!-- <select name="fyear" id="year-select"> -->
                 <!--     <option value="" selected>select FY</option> -->
@@ -111,7 +128,7 @@
                 <input type="hidden" id="hidden-year" value="{{ anchor_year }}">
             </div>
             <div>
-                <a class="navbar-brand mr-1 text-primary" href="">dynamic support  solutions</a>
+                <a class="navbar-brand mr-1 text-white" href=""><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
             </div>
 
     <!-- Navbar Search -->
