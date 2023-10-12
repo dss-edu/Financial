@@ -122,52 +122,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
             </span>
             <h1>190</h1>
         </span>
-        <small>DAYS ON HAND RATIO: Preffered benchmark &gt;60 days 10 pts &gt; 60; 0 pts < 20</small>
-    </div><!--END ratios-->
-    <div class="projection">
-      <h3>Projection</h3>
-      <table>
-          <tr>
-              <td class="not-measured">Students to Staff Ratio 15% or declines over 3 years</td>
-              <td>10</td>
-          </tr>
-          <tr>
-              <td class="projected">Actual ADA vs Estimated</td>
-              <td>5</td>
-          </tr>
-          <tr>
-              <td class="projected">Accurate PEIMS reporting</td>
-              <td>Ceiling</td>
-          </tr>
-          <tr>
-              <td class="projected">Annual audit compliance</td>
-              <td>Ceiling</td>
-          </tr>
-          <tr>
-              <td class="projected">Annual audit compliance</td>
-              <td>10</td>
-          </tr>
-          <tr>
-              <td class="projected">Post finanical info on</td>
-              <td>5</td>
-          </tr>
-          <tr>
-              <td class="not-measured">Serves students reside approved geographic</td>
-              <td>Ceiling</td>
-          </tr>
-      </table>
-
-      <span><span class="material-symbols-outlined check-circle">
-              crop_square
-          </span>
-          <h3>Projected</h3>
-      </span>
-
-      <span><span class="material-symbols-outlined error-circle">
-              crop_square
-          </span>
-          <h3>Not measured by DSS</h3>
-      </span>
+       
   </div><!--END projection-->
 </div> <!--END insights-->
 
@@ -222,74 +177,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
   // Update the content of the div with the formatted total
   formattedTotalDiv.textContent = formattedTotal;
 </script>
-<script>
-  am5.ready(function() {
 
-    // Create root element
-    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    var root = am5.Root.new("chartdiv");
-    
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([
-      am5themes_Kelly.new(root)
-    ]);
-    
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
-    // start and end angle must be set both for chart and series
-    var chart = root.container.children.push(am5percent.PieChart.new(root, {
-      startAngle: 180,
-      endAngle: 360,
-      layout: root.verticalLayout,
-      innerRadius: am5.percent(50)
-    }));
-    
-    // Create series
-    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
-    // start and end angle must be set both for chart and series
-    var series = chart.series.push(am5percent.PieSeries.new(root, {
-      startAngle: 180,
-      endAngle: 360,
-      valueField: "total",
-      categoryField: "total",
-      alignLabels: false
-    }));
-    
-    series.states.create("hidden", {
-      startAngle: 180,
-      endAngle: 180
-    });
-    
-    series.slices.template.setAll({
-      cornerRadius: 5
-    });
-    
-    series.ticks.template.setAll({
-      forceHidden: true
-    });
-    
-    // Set data
-    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Setting_data
-    var ytd_data = {{ totals.ytd_total_revenue|safe }}; // Your data goes here
-    var chartData = [];
-   
-    var monthName = "se";
-
-
-    
-      chartData.push({
-        month: monthName,
-        total: ytd_data
-      });
-
-
-    series.data.setAll(chartData);
-
-    series.appear(1000, 100);
-    
-    }); // end am5.ready()
-</script>
 <script>
   
   am5.ready(function() {
@@ -323,15 +211,8 @@ chart.set("scrollbarX", am5.Scrollbar.new(root, {
 
 
 
-var total_lr = {{ totals.total_lr|safe }};
-var total_spr = {{ totals.total_spr|safe }};
-var total_fpr = {{ totals.total_fpr|safe }};
+var data_chart = {{ data_chart|safe }};
 
-var revenueProperties = {
-  "Local": total_lr,
-  "State": total_spr,
-  "Federal": total_fpr,
-};
 
 var dataCharts = [];
 
@@ -350,21 +231,28 @@ var monthNames = {
   "12": "December"
 };
 
-for (var month in total_lr) {
-  var monthName = monthNames[month] || month; // Use the month name from the mapping, or the numeric value if not found
-  var entry = {
-    month: monthName
-  };
 
-  for (var revenueType in revenueProperties) {
-    entry["revenue" + revenueType] = revenueProperties[revenueType][month] * -1;
+data_chart.forEach(function(item) {
+  var jsonData = item.data.replace(/None/g, "null");
+  var data = JSON.parse(jsonData);
+  var localRevenue = data.localRevenue.total;
+  var stateprogramRevenue = data.stateprogramRevenue.total;
+  var federalprogramRevenue = data.federalprogramRevenue.total;
+  var date = item.date
+  var [year, month] = date.split('-');
+
+  var entry={
+     month:monthNames[month],
+     year:year,
+     LR_total:localRevenue,
+     SPR_total: stateprogramRevenue,
+     FPR_total: federalprogramRevenue,
+     
+
   }
-
   dataCharts.push(entry);
-}
-
-
-
+  console.log(data)
+});
 
 
 
@@ -448,9 +336,9 @@ function makeSeries(name, fieldName) {
   legend.data.push(series);
 }
 
-makeSeries("Local Revenue", "revenueLocal" );
-makeSeries("State Program Revenue", "revenueState");
-makeSeries("Federal Program Revenue", "revenueFederal");
+makeSeries("Local Revenue", "LR_total" );
+makeSeries("State Program Revenue", "SPR_total" );
+makeSeries("Federal Program Revenue", "FPR_total" );
 
 
 
@@ -498,20 +386,8 @@ chart.set("scrollbarX", am5.Scrollbar.new(root, {
 
 
 
-var expense6100 = {{ totals.total_EOC_pc|safe }};
-var expense6200 = {{ totals.total_EOC_pcs|safe }};
-var expense6300 = {{ totals.total_EOC_sm|safe }};
-var expense6400 = {{ totals.total_EOC_ooe|safe }};
-var expense6449 = {{ totals.dna_total_months|safe }};
-var expense6500 = {{ totals.total_EOC_te|safe }};
-var expenseProperties = {
-  "6100": expense6100,
-  "6200": expense6200,
-  "6300": expense6300,
-  "6400": expense6400,
-  "6449": expense6449,
-  "6500": expense6500
-};
+var data_chart = {{ data_chart|safe }};
+
 
 var dataChart = [];
 
@@ -530,18 +406,41 @@ var monthNames = {
   "12": "December"
 };
 
-for (var month in expense6100) {
-  var monthName = monthNames[month] || month; // Use the month name from the mapping, or the numeric value if not found
-  var entry = {
-    month: monthName
-  };
+//professionalandcontractServices
+//payrollandBenefits
+//otheroperatingCosts
+//materialsandSupplies
+//debtServices
+//depreciation
 
-  for (var expenseType in expenseProperties) {
-    entry["expense" + expenseType] = expenseProperties[expenseType][month];
+data_chart.forEach(function(item) {
+  var jsonData = item.data.replace(/None/g, "null");
+  var data = JSON.parse(jsonData);
+  var professionalandcontractServices = data.professionalandcontractServices.total;
+  var payrollandBenefits = data.payrollandBenefits.total;
+  var otheroperatingCosts = data.otheroperatingCosts.total;
+  var materialsandSupplies = data.materialsandSupplies.total;
+  var debtServices = data.debtServices.total;
+  var depreciation = data.depreciation.total;
+
+  var date = item.date
+  var [year, month] = date.split('-');
+
+  var entry={
+     month:monthNames[month],
+     year:year,
+     expense6100: payrollandBenefits,
+     expense6200: professionalandcontractServices,
+     expense6300: materialsandSupplies,
+     expense6400: otheroperatingCosts,
+     expense6449: depreciation,
+     expense6500: debtServices,
+     
+
   }
-
   dataChart.push(entry);
-}
+  console.log(data)
+});
 
 
 
