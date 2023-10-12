@@ -185,7 +185,7 @@ main {
 
 .container{
   display: grid;
-  background: var(--color-background);
+  background: grey;
   gap: 1.8rem;
   grid-template-columns: 20rem auto;
   padding-left: 10px;
@@ -246,7 +246,31 @@ b {
   color: var(--color-warning);
 }
 
+.box{
+    background: white;
+    padding-left: 10px;
+}
+.box2{
+    background: white;
+    padding-left: 10px;
+   
+}
+.box3{
+    background: white;
+    padding-left: 10px;
+    margin-bottom: 30px!important;
+   
+}
+.header{
+    background:grey!important;
+}
 
+.margin0{
+    margin-bottom: 0rem!important;
+}
+.flex-grow-1{
+    background: grey!important;
+}
   
 
 
