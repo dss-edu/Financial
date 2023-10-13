@@ -3753,10 +3753,10 @@ def generate_excel(request,school,year):
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    print(year)
+    
     BASE_DIR = os.getcwd()
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
-    print(JSON_DIR)
+
     with open(os.path.join(JSON_DIR, "data.json"), "r") as f:
         data = json.load(f)
     
@@ -4036,7 +4036,7 @@ def generate_excel(request,school,year):
             pl_sheet.column_dimensions[col_letter].hidden = True
            
 
-
+        
             
 
         start_pl = 1
@@ -5925,6 +5925,9 @@ def generate_excel(request,school,year):
             bs_sheet.column_dimensions[col_letter].outline_level = 2
             bs_sheet.column_dimensions[col_letter].hidden = True
 
+
+
+        start_bs_for_hiding = 7
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
         hide_row_bs_end= None
@@ -5956,6 +5959,8 @@ def generate_excel(request,school,year):
 
                     last_month_row_bal =f'total_bal{months["last_month_number"]}'
                     bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+
+                                
 
         
         if hide_row_bs_end is not None:
@@ -6001,6 +6006,11 @@ def generate_excel(request,school,year):
                             last_month_row = f'difference_{months["last_month_number"]}'
                             bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                             cash_row_bs = start_row_bs
+
+                            for col in range(last_number,19):
+                                col_letter = get_column_letter(col)
+                                cell = bs_sheet.cell(row=start_row_bs, column=col)
+                                cell.value = None
 
 
         hide_row_bs_end = None
@@ -7164,7 +7174,16 @@ def generate_excel(request,school,year):
         last_month_row_total = f'0{months["last_month_number"]}'
         bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][last_month_row_total]
     
-    
+
+
+        while start_bs_for_hiding <= start_row_bs:
+            for col in range(last_number,19):
+                col_letter = get_column_letter(col)
+                cell = bs_sheet.cell(row=start_bs_for_hiding, column=col)
+                cell.value = None
+            start_bs_for_hiding += 1   
+
+
     else:
         for col in range(7, 20 ):
             col_letter = get_column_letter(col)
@@ -7211,6 +7230,8 @@ def generate_excel(request,school,year):
         bs_sheet[f'R{header_bs}'] = 'June'
 
 
+
+        start_bs_for_hiding  = 7  
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
         hide_row_bs_end = None
@@ -8449,7 +8470,12 @@ def generate_excel(request,school,year):
         last_month_row_total = f'0{months["last_month_number"]}'
         bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][last_month_row_total]
         
-
+        while start_bs_for_hiding <= start_row_bs:
+            for col in range(last_number,19):
+                col_letter = get_column_letter(col)
+                cell = bs_sheet.cell(row=start_bs_for_hiding, column=col)
+                cell.value = None
+            start_bs_for_hiding += 1 
 
 
 
@@ -8497,9 +8523,23 @@ def generate_excel(request,school,year):
     cashflow_sheet[f'A{start}'] = f'for the period ended of {months["last_month"]}'
 
 
-
+          
+    
     if  school != 'manara' and school != 'leadership':
+
+        last_number = months["last_month_number"]
+        
+        # PL START OF DESIGN
+        if last_number <= 8:
+            last_number += 11
+        else:
+            last_number -= 1
+   
+
+
+        cashflow_start_hiding = 7
         cashflow_start_row = 7
+        
         operating_start_row = cashflow_start_row
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["10"]
@@ -8552,7 +8592,7 @@ def generate_excel(request,school,year):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
-        cashflow_start_row += 5
+        cashflow_start_row += 7
         net_operating_total_row = cashflow_start_row
         
         # NET OPERATING TOTAL
@@ -8618,7 +8658,7 @@ def generate_excel(request,school,year):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row += 10
+        cashflow_start_row += 17
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8673,9 +8713,22 @@ def generate_excel(request,school,year):
                             cashflow_sheet[f'N{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_8']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['last_month_difference']
+
+
     else:
         #MANARA CASHFLOW
+
+
+        last_number = months["last_month_number"]
+        # PL START OF DESIGN
+        if last_number <= 6:
+            last_number += 13
+        else:
+            last_number += 1
+
+
         cashflow_start_row = 7
+        cashflow_start_hiding = 7
         operating_start_row = cashflow_start_row
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["07"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["08"]
@@ -8794,7 +8847,7 @@ def generate_excel(request,school,year):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row += 10
+        cashflow_start_row += 17
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8850,6 +8903,13 @@ def generate_excel(request,school,year):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_6']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['last_month_difference']
 
+        while cashflow_start_hiding <= cashflow_start_row:
+            for col in range(last_number-3,16):
+                col_letter = get_column_letter(col)
+                print(col_letter)
+                cell = cashflow_sheet.cell(row=cashflow_start_hiding, column=col)
+                cell.value = None
+            cashflow_start_hiding += 1
   
 
 
