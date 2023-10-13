@@ -11,16 +11,21 @@ function checkValuesMatch() {
     const totalAssetsCells = totalAssetsRow.cells;
     
     let match = true;
+    console.log(match)
     
-    for (let i = 3; i <= 17; i++) {
+    for (let i = 3; i <= 15; i++) {
       const liabilitiesAndNetValue = liabilitiesAndNetCells[i].textContent.trim();
       const totalAssetsValue = totalAssetsCells[i].textContent.trim();
-    
+      
+      console.log("assets" ,totalAssetsValue)
+      console.log("liabitlities" ,liabilitiesAndNetValue)
+      console.log(i)
       if (liabilitiesAndNetValue !== totalAssetsValue) {
         liabilitiesAndNetCells[i].style.backgroundColor = "yellow";
         totalAssetsCells[i].style.backgroundColor = "yellow";
-
+        
         match = false;
+       
       }
     }
     
@@ -51,7 +56,8 @@ function checkValuesMatch() {
 
     let template = ``
     if (match) {
-      // template = `Total Assets and Total Liabilities and Net Assets are Balanced`;
+        template = `Total Assets and Total Liabilities and Net Assets are Balanced`;
+        console.log(template)
       return;
     } else {
       template  = `Total Assets and Total Liabilities and Net Assets are not Balanced`;
@@ -63,7 +69,7 @@ function checkValuesMatch() {
     // }
 
     modalText.innerHTML  = template
-
+   
     // if (missingActivites){
     //   const settingsLink = document.getElementById('settings-link')
     //   settingsLink.addEventListener('click', function(event){
@@ -95,6 +101,7 @@ function checkValuesMatch() {
 
   window.addEventListener("load", function() {
     const match = checkValuesMatch();
+    
     showModal(match);
   });
 
