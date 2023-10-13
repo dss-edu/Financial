@@ -95,68 +95,6 @@ db = {
     },
 }
 
-db2 = {
-    "advantage": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage4]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "cumberland": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland_new]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "village-tech": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[Skyward_VillageTech]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "leadership": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Leadership]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "manara": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Manara]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-}
 
 
 
@@ -176,11 +114,11 @@ def update_db():
         profit_loss_chart(school)
         
 def update_school(school):
-    # profit_loss(school) 
-    # balance_sheet(school)
-    # cashflow(school)
-    # excel(school)
-    # charter_first(school)
+    profit_loss(school) 
+    balance_sheet(school)
+    cashflow(school)
+    excel(school)
+    charter_first(school)
     profit_loss_chart(school)
 
 
@@ -700,10 +638,10 @@ def profit_loss(school):
     variances_revenue_spr = (ytd_total_spr + ytd_ammended_total_spr)
     variances_revenue_fpr = (ytd_total_fpr + ytd_ammended_total_fpr)
 
-    var_ytd = "{:d}%".format(abs(int(ytd_total_revenue / totals["total_ammended"]*100))) if totals["total_ammended"] != 0 else ""
-    var_ytd_lr = "{:d}%".format(abs(int(ytd_total_lr / totals["total_ammended_lr"]*100))) if totals["total_ammended_lr"] != 0 else ""
-    var_ytd_spr = "{:d}%".format(abs(int(ytd_total_spr / totals["total_ammended_spr"]*100))) if totals["total_ammended_spr"] != 0 else ""
-    var_ytd_fpr = "{:d}%".format(abs(int(ytd_total_fpr / totals["total_ammended_fpr"]*100))) if totals["total_ammended_fpr"] != 0 else ""
+    var_ytd = "{:d}%".format(round(abs(ytd_total_revenue / totals["total_ammended"]*100))) if totals["total_ammended"] != 0 else ""
+    var_ytd_lr = "{:d}%".format(round(abs(ytd_total_lr / totals["total_ammended_lr"]*100))) if totals["total_ammended_lr"] != 0 else ""
+    var_ytd_spr = "{:d}%".format(round(abs(ytd_total_spr / totals["total_ammended_spr"]*100))) if totals["total_ammended_spr"] != 0 else ""
+    var_ytd_fpr = "{:d}%".format(round(abs(ytd_total_fpr / totals["total_ammended_fpr"]*100))) if totals["total_ammended_fpr"] != 0 else ""
     #REVENUES CALCULATIONS END
     
     
@@ -791,10 +729,10 @@ def profit_loss(school):
             variances_first_total += item["variances"]
    
          
-            item["var_ytd"] =  "{:d}%".format(abs(int(item["ytd_total"] /item['total_budget'] *100))) if item['total_budget'] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(round(abs(item["ytd_total"] /item['total_budget'] *100))) if item['total_budget'] != 0 else ""
          
     ytd_ammended_total_first = first_total * ytd_budget
-    var_ytd_first_total = "{:d}%".format(abs(int( first_ytd_total/first_total*100))) if first_total != 0 else ""
+    var_ytd_first_total = "{:d}%".format(round(abs( first_ytd_total/first_total*100))) if first_total != 0 else ""
 
 
     for item in data2:
@@ -864,9 +802,9 @@ def profit_loss(school):
             item[f"ytd_budget"] = item['total_budget'] * ytd_budget
             item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
             variances_dna+= item["variances"]
-            item["var_ytd"] =  "{:d}%".format(abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget'] != 0 else ""
+            item["var_ytd"] =  "{:d}%".format(round(abs( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget'] != 0 else ""
             ytd_ammended_dna = dna_total * ytd_budget
-            var_ytd_dna = "{:d}%".format(abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
+            var_ytd_dna = "{:d}%".format(round(abs(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
 
@@ -890,7 +828,7 @@ def profit_loss(school):
 
     ytd_SBD = ytd_total_revenue - first_ytd_total
     variances_SBD =  ytd_SBD - ytd_ammended_SBD
-    var_SBD = "{:d}%".format(abs(int( ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+    var_SBD = "{:d}%".format(round(abs( ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
 
     #CALCULATION END SURPLUS BEFORE DEFICIT
 
@@ -912,7 +850,7 @@ def profit_loss(school):
     ytd_netsurplus =  ytd_SBD - dna_ytd_total 
     bs_ytd_netsurplus = ytd_netsurplus
     variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
-    var_netsurplus = "{:d}%".format(abs(int(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
+    var_netsurplus = "{:d}%".format(round(abs(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
 
     #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
 
@@ -1086,27 +1024,27 @@ def profit_loss(school):
         if obj == "6100":
             category = "Payroll and Benefits"
             item["variances"] = ytd_budget_pc - ytd_EOC_pc
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pc / total_budget_pc*100))) if total_budget_pc != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_pc / total_budget_pc*100))) if total_budget_pc != 0 else ""
         elif obj == "6200":
             category = "Professional and Contract Services"
             item["variances"] = ytd_budget_pcs - ytd_EOC_pcs
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_pcs / total_budget_pcs*100))) if total_budget_pcs != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_pcs / total_budget_pcs*100))) if total_budget_pcs != 0 else ""
         elif obj == "6300":
             category = "Materials and Supplies"
             item["variances"] = ytd_budget_sm - ytd_EOC_sm
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_sm / total_budget_sm*100))) if total_budget_sm != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_sm / total_budget_sm*100))) if total_budget_sm != 0 else ""
         elif obj == "6400":
             category = "Other Operating Costs"
             item["variances"] = ytd_budget_ooe - ytd_EOC_ooe
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_ooe / total_budget_ooe*100))) if total_budget_ooe != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_ooe / total_budget_ooe*100))) if total_budget_ooe != 0 else ""
         elif obj == "6449":
             category = "Depreciation"
             item["variances"] = ytd_budget_oe - ytd_EOC_oe
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_oe / total_budget_oe*100))) if total_budget_oe != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_oe / total_budget_oe*100))) if total_budget_oe != 0 else ""
         else:
             category = "Debt Services"
             item["variances"] = ytd_budget_te - ytd_EOC_te
-            item["var_EOC"] = "{:d}%".format(abs(int(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_expense{i}"] = sum(
@@ -1119,7 +1057,7 @@ def profit_loss(school):
     #CONTINUATION COMPUTATION TOTAL EXPENSE
     total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
     variances_total_expense = total_expense_ytd_budget - total_expense_ytd
-    var_total_expense = "{:d}%".format(abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
+    var_total_expense = "{:d}%".format(round(abs(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
         
 
     #CALCULATIONS START NET INCOME
@@ -1136,9 +1074,8 @@ def profit_loss(school):
     ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
     ytd_net_income = ytd_total_revenue - total_expense_ytd
     variances_net_income = variances_revenue - variances_total_expense
-    var_net_income = "{:d}%".format(abs(int(ytd_net_income / net_income_budget*100))) if net_income_budget != 0 else ""
-
-
+    var_net_income = "{:d}%".format(round(abs(ytd_net_income / budget_net_income * 100))) if budget_net_income != 0 else ""
+ 
     
     total_net_income_months = {
         acct_per: abs(total_revenue[acct_per]) - total_expense_months[acct_per]
@@ -2187,7 +2124,7 @@ def balance_sheet(school):
             else:
                                 # Calculate the differences and store them in the row dictionary
                 row["difference_7"] = (FYE_value + total_sum7_value )
-                print(school)
+           
                 row["difference_8"] = (row["difference_7"] + total_sum8_value )
                 row["difference_9"] = (row["difference_8"]  + total_sum9_value)
                 row["difference_10"] =(row["difference_9"] + total_sum10_value)
@@ -3046,7 +2983,7 @@ def excel(school):
 
         data_expensebyobject.append(row_dict)
 
-    cursor.execute(f"SELECT * FROM [dbo].{db2[school]['activities']};")
+    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
     rows = cursor.fetchall()
 
     data_activities = []
@@ -3098,13 +3035,14 @@ def excel(school):
     data_activitybs = []
 
     for row in rows:
-        row_dict = {
-            "Activity": row[0],
-            "obj": row[1],
-            "Description2": row[2],
-        }
+        if row[3] == school:
+            row_dict = {
+                "Activity": row[0],
+                "obj": row[1],
+                "Description2": row[2],
+            }
 
-        data_activitybs.append(row_dict)
+            data_activitybs.append(row_dict)
 
     
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
@@ -3935,8 +3873,9 @@ def excel(school):
                 row["debt_6"] = (row["debt_5"]- total_sum6_value)
                 row["debt_7"] = (row["debt_6"] - total_sum7_value)
                 row["debt_8"] = (row["debt_7"] - total_sum8_value)
-                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
+           
                 row["net_assets9"] = (FYE_value + total_netsurplus_months["09"])
                 row["net_assets10"] = (row["net_assets9"] + total_netsurplus_months["10"])
                 row["net_assets11"] = (row["net_assets10"]+ total_netsurplus_months["11"])
@@ -3983,7 +3922,7 @@ def excel(school):
                 row["debt_5"] = (row["debt_4"]  - total_sum5_value )
                 row["debt_6"] = (row["debt_5"]- total_sum6_value)
   
-                row["debt_fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
 
 
                 row["net_assets7"] = (FYE_value + total_netsurplus_months["07"])
@@ -4474,7 +4413,7 @@ def profit_loss_chart(school):
     data_chart = []
     for row in rows:
         if row[2] == school:
-            print(row[1])
+           
             row_dict = {
                 "date": row[0],
                 "data":row[1],

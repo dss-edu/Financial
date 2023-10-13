@@ -3749,7 +3749,7 @@ def viewglexpense_cumberland(request,obj,yr):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
 @login_required
-def generate_excel(request,school,year):
+def generate_excel(request,school):
     cnxn = connect()
     cursor = cnxn.cursor()
 
@@ -3872,7 +3872,7 @@ def generate_excel(request,school,year):
     
             first_sheet[f'A{start}'] = school_name
             start += 1
-            first_sheet[f'A{start}'] = f'FY2022-2023 Charter FIRST Forecasts of {months["last_month"]}'
+            first_sheet[f'A{start}'] = f'FY{months["FY_year_1"]}-{months["FY_year_2"]} Charter FIRST Forecasts of {months["last_month"]}'
 
 
 
@@ -4037,10 +4037,10 @@ def generate_excel(request,school,year):
            
 
         
-            
+        print(months["FY_year_1"])
 
         start_pl = 1
-        pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY2022-2023 Statement of\nActivities as of {months["last_month"]}'
+        pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY{months["FY_year_1"]}-FY{months["FY_year_2"]} Statement of\nActivities as of {months["last_month"]}'
         start_pl += 2
         pl_sheet[f'E{start_pl}'] = f'{months["format_ytd_budget"]}% YTD \nBUDGET'
         pl_sheet[f'V{start_pl}'] = f'Var. {months["format_ytd_budget"]}'
@@ -5896,7 +5896,7 @@ def generate_excel(request,school,year):
     indent_style2 = NamedStyle(name="indent_style2", alignment=Alignment(indent=4))
 
     start_bs = 1
-    bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY2022-2023 Balance Sheet as of {months["last_month"]}'
+    bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY{months["FY_year_1"]}-{months["FY_year_2"]} Balance Sheet as of {months["last_month"]}'
     #--- BS INSERT
     header_bs = 3
     bs_sheet[f'U{header_bs}'] = f'As of {months["last_month_name"]}'
@@ -5934,31 +5934,29 @@ def generate_excel(request,school,year):
         bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
         for row in data_activitybs:
             if row['Activity'] == 'Cash':
-                all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-                if not all_zeros:
-                    start_row_bs += 1
-                    hide_row_bs_end = start_row_bs
-                    for col in range(5, 22):  # Columns G to U
-                        cell = bs_sheet.cell(row=start_row_bs, column=col)
-                        cell.style = normal_cell 
-                    bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] =  row['Description2']
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'T{start_row_bs}'] =  row['fytd']
-
-                    last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                    bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+      
+                start_row_bs += 1
+                hide_row_bs_end = start_row_bs
+                for col in range(5, 22):  # Columns G to U
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.style = normal_cell 
+                bs_sheet[f'D{start_row_bs}'].style = indent_style
+                bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+                bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
+                bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
+                bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
+                bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
+                bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
+                bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
+                bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
+                bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
+                bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
+                bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
+                bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
+                bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
+                bs_sheet[f'T{start_row_bs}'] =  row['fytd']
+                last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
 
                                 
 

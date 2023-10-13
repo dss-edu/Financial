@@ -27,8 +27,9 @@ urlpatterns = [
         name="delete_bs",
     ),
     path("delete_bsa/<str:obj>/<str:Activity>/", views.delete_bsa, name="delete_bsa"),
+
     path(
-        "generate_excel/<str:school>/<str:year>",
+        "generate_excel/<str:school>",
         views.generate_excel,
         name="generate_excel",
     ),
