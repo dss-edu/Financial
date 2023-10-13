@@ -1073,7 +1073,7 @@ def profit_loss(school):
    
     ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
     ytd_net_income = ytd_total_revenue - total_expense_ytd
-    variances_net_income = variances_revenue - variances_total_expense
+    variances_net_income = ytd_net_income - ytd_budget_net_income
     var_net_income = "{:d}%".format(round(abs(ytd_net_income / budget_net_income * 100))) if budget_net_income != 0 else ""
  
     
@@ -3767,7 +3767,7 @@ def excel(school):
    
     ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
     ytd_net_income = ytd_total_revenue - total_expense_ytd
-    variances_net_income = variances_revenue - variances_total_expense
+    variances_net_income = ytd_net_income - ytd_budget_net_income
     var_net_income = (abs(int(ytd_net_income / net_income_budget*100))) if net_income_budget != 0 else ""
 
 
