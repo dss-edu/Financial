@@ -168,7 +168,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
 <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
 <!-- my scripts-->
 
-<script>
+{% comment %} <script>
   var ytd_total = "{{totals.ytd_total_revenue}}";
   var formattedTotal = '$' + parseInt(ytd_total).toLocaleString();
 
@@ -177,7 +177,7 @@ href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wg
 
   // Update the content of the div with the formatted total
   formattedTotalDiv.textContent = formattedTotal;
-</script>
+</script> {% endcomment %}
 
 <script>
   
@@ -252,7 +252,7 @@ data_chart.forEach(function(item) {
 
   }
   dataCharts.push(entry);
-  console.log(data)
+  console.log(dataCharts)
 });
 
 
@@ -268,7 +268,7 @@ xRenderer.labels.template.setAll({
 });
 var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
   maxDeviation: 0.3,
-  categoryField: "month",
+  categoryField: "yearMonth",
   renderer: xRenderer,
   tooltip: am5.Tooltip.new(root, {})
 }));
@@ -276,6 +276,10 @@ var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
 xRenderer.grid.template.setAll({
   location: 1
 })
+
+dataCharts.forEach(function (item) {
+  item.yearMonth = item.year + "-" + item.month;
+});
 
 xAxis.data.setAll(dataCharts);
 
@@ -307,7 +311,7 @@ function makeSeries(name, fieldName) {
     yAxis: yAxis,
     sequencedInterpolation: true,
     valueYField: fieldName,
-    categoryXField: "month"
+    categoryXField: "yearMonth"
   }));
 
   series.columns.template.setAll({
@@ -440,7 +444,7 @@ data_chart.forEach(function(item) {
 
   }
   dataChart.push(entry);
-  console.log(data)
+
 });
 
 
@@ -458,7 +462,7 @@ xRenderer.labels.template.setAll({
 });
 var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
   maxDeviation: 0.3,
-  categoryField: "month",
+  categoryField: "yearMonth",
   renderer: xRenderer,
   tooltip: am5.Tooltip.new(root, {})
 }));
@@ -467,6 +471,9 @@ xRenderer.grid.template.setAll({
   location: 1
 })
 
+dataChart.forEach(function (item) {
+  item.yearMonth = item.year + "-" + item.month;
+});
 xAxis.data.setAll(dataChart);
 
 var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
@@ -496,7 +503,7 @@ function makeSeries(name, fieldName) {
     yAxis: yAxis,
     sequencedInterpolation: true,
     valueYField: fieldName,
-    categoryXField: "month"
+    categoryXField: "yearMonth"
   }));
 
   series.columns.template.setAll({
