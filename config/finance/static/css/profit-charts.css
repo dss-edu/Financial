@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 /* ROOT VAriables*/
 
@@ -12,7 +11,7 @@
   --color-info-dark: #7d8da1;
   --color-info-light: #dce1eb;
   --color-dark: #363949;
-  --color-light: rgba(132,139,200,0.18);
+  --color-light: rgba(132, 139, 200, 0.18);
   --color-primary-variant: #111e88;
   --color-dark-variant: #566483;
   --color-background: #f6f6f9;
@@ -28,7 +27,6 @@
   --box-shadow: 0 2rem 3rem var(--color-light);
 }
 
-
 * {
   margin: 0;
   padding: 0;
@@ -37,11 +35,11 @@
   border: 0;
   text-decoration: none;
   list-style: none;
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
-html{
-  font-size:14px;
+html {
+  font-size: 14px;
 }
 
 body {
@@ -58,7 +56,7 @@ body {
 main {
   margin-top: 1.4rem;
 }
-main .insights {
+.insights {
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -76,7 +74,11 @@ main .insights > div {
 main .insights > .rating {
   width: 100%;
   padding: 30px;
-  background: linear-gradient(to bottom, var(--color-success) 70%, var(--color-dark-variant) 30%);
+  background: linear-gradient(
+    to bottom,
+    var(--color-success) 70%,
+    var(--color-dark-variant) 30%
+  );
 }
 
 main .insights > div:hover {
@@ -90,10 +92,10 @@ main .insights > div .top {
 }
 main .insights h3 {
   margin: 1 rem 0 0.6rem;
-  font-size: 1rem
+  font-size: 1rem;
 }
 
-main.insights h1{
+main.insights h1 {
   text-align: center;
 }
 
@@ -106,26 +108,26 @@ main .insights b {
   color: var(--color-white);
 }
 main .insights .net-income {
-  width:100%;
+  width: 100%;
   display: flex;
   align-items: start;
 }
-main .insights .net-income > div > h1{
+main .insights .net-income > div > h1 {
   color: var(--color-primary-variant);
 }
-main .insights > .ratios{
-  display:flex;
+main .insights > .ratios {
+  display: flex;
   flex-direction: column;
-  gap: 0.8rem
+  gap: 0.8rem;
 }
 
-main .insights > .ratios > span{
-  display:flex;
-  align-items:center;
+main .insights > .ratios > span {
+  display: flex;
+  align-items: center;
   position: relative;
-  gap: 0.8rem
+  gap: 0.8rem;
 }
-main .insights > .ratios > small{
+main .insights > .ratios > small {
   text-align: start;
 }
 .check-circle {
@@ -135,20 +137,20 @@ main .insights > .ratios > small{
   color: var(--color-danger);
 }
 
-main .insights > .ratios h1{
+main .insights > .ratios h1 {
   font-weight: bold;
 }
 
 main .insights > .projection {
   width: 100%;
-  height :100%;
+  height: 100%;
 }
 
-main .insights > .projection > span{
-  display:flex;
-  align-items:center;
+main .insights > .projection > span {
+  display: flex;
+  align-items: center;
   position: relative;
-  gap: 0.8rem
+  gap: 0.8rem;
 }
 
 main .insights > .projection h3 {
@@ -162,12 +164,12 @@ table {
 td {
   border: 1px;
   text-align: start;
-  padding: .5em;
+  padding: 0.5em;
 }
-.not-measured{
+.not-measured {
   background-color: var(--color-danger);
 }
-.projected{
+.projected {
   background-color: var(--color-success);
 }
 #chartdiv {
@@ -183,7 +185,7 @@ main {
   padding-bottom: 80px;
 }
 
-.container{
+.container {
   display: grid;
   background: grey;
   gap: 1.8rem;
@@ -230,9 +232,9 @@ small {
 p {
   color: var(--color-dark-variant);
 }
-b {
-  color: var(--color-dark);
-}
+/* b { */
+/*   color: var(--color-dark); */
+/* } */
 .primary {
   color: var(--color-primary);
 }
@@ -246,37 +248,39 @@ b {
   color: var(--color-warning);
 }
 
-.box{
-    background: white;
-    padding-left: 10px;
-    margin-bottom: 500px;
+.box {
+  background: white;
+  padding-left: 10px;
+  margin-bottom: 500px;
 }
-.box2{
-    background: white;
-    padding-left: 10px;
-    margin-bottom: 30px!important;
-    margin-right: 20px;
-    padding-bottom:50px;
-    padding-top: 10px;
+.box2 {
+  background: white;
+  padding-left: 10px;
+  margin-bottom: 30px !important;
+  margin-right: 20px;
+  padding-bottom: 50px;
+  padding-top: 10px;
 }
-.box3{
-    background: white;
-    padding-left: 10px;
-    margin-bottom: 30px!important;
-    margin-right: 20px;
-    padding-top: 10px;
+.box3 {
+  background: white;
+  padding-left: 10px;
+  margin-bottom: 30px !important;
+  margin-right: 20px;
+  padding-top: 10px;
 }
-.header{
-    background:grey!important;
+.header {
+  background: grey !important;
 }
 
-.margin0{
-    margin-bottom: 0rem!important;
+.margin0 {
+  margin-bottom: 0rem !important;
 }
-.flex-grow-1{
-    background: grey!important;
+.flex-grow-1 {
+  background: grey !important;
 }
-  
-
-
-
+#rating-top {
+  background-color: var(--color-success);
+}
+#rating-bottom {
+  background-color: var(--color-dark-variant);
+}

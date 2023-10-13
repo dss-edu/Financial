@@ -146,23 +146,25 @@
                             <i class="fas fa-user-circle fa-fw text-primary"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                            <a class="dropdown-item">
-                                <form method="post" action="{% url 'updatedb' %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Update Database</button>
-                                </form>
+                            {% if request.user|has_group:"admin" %}
+                                <a class="dropdown-item">
+                                    <form method="post" action="{% url 'updatedb' %}">
+                                        {% csrf_token %}
+                                        <button type="submit">Update Database</button>
+                                    </form>
 
 
 
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" >
-                                <form method="post" action="{% url 'updateschool' school %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Update School</button>
-                                </form>
-                            </a>
-                            <div class="dropdown-divider"></div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" >
+                                    <form method="post" action="{% url 'updateschool' school %}">
+                                        {% csrf_token %}
+                                        <button type="submit">Update School</button>
+                                    </form>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            {% endif %}
                             <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
                         </div>
                     </li>

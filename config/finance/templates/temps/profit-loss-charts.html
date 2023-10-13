@@ -1,607 +1,624 @@
 <!DOCTYPE html>
 {% extends 'temps/base.html' %}
 {% load static %}
-
 {% block title %}
-{{ school_name }}
+    {{ school_name }}
 {% endblock %}
-
 {% block stylesheet %}
-<link rel="stylesheet" href="{% static 'css/profit-charts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profit-charts.css' %}" />
 
 <!--  Material icons -->
-<link rel="stylesheet"
-href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
 {% endblock %}
-
 {% block body %}
-<div id="content-wrapper">
-
-<nav class="navbar navbar-expand navbar-dark bg-dark ">
-
-    <a class="navbar-brand mr-1 text-primary " href="" ></a>
-    
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand mr-1 text-primary" href=""></a>
 
     <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-      
-    </form>
-    <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi" ><i class="fas fa-file-powerpoint"></i></a>
+            <form
+                class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
+            ></form>
+            <a
+                class="navbar-brand mr-1 text-primary"
+                href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi"
+            ><i class="fas fa-file-powerpoint"></i
+                ></a>
     <!-- Navbar -->
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    &nbsp;
-    <a class="navbar-brand mr-1 text-primary " href="/profit-loss/{{ school }}" ><i class="fas fa-table"></i></a>
-    
-      
-  
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                <a class="navbar-brand mr-1 text-primary" href="/profit-loss/{{ school }}"
+                ><i class="fas fa-table"></i
+                    ></a>
+                </nav>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+  {% comment %}
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    "
+  >
+    <h1>Total Revenue</h1>
+    <div id="totalrevenue" style="width: 100%; height: 400px"></div>
+  </div>
 
-</nav>
-&nbsp;
-&nbsp;
-&nbsp;
-&nbsp;
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    "
+  >
+    <h1>Total Expense</h1>
+    <div id="totalfirst" style="width: 100%; height: 400px"></div>
+  </div>
+  {% endcomment %}
 
-{% comment %} <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-  <h1>Total Revenue</h1>
-  <div id="totalrevenue" style="width: 100%; height: 400px;"></div>
-</div>
+                <div class="header margin0" style="width: 100%; text-align: center">
+                    <div class="top">
+                        <h1 class="margin0">Financial Perfomance Dashboard</h1>
+                    </div>
+    <!--end top-->
+                </div>
 
+                <div class="container">
+                    <div class="d-flex flex-column rounded bg-white p-3">
+                        <div class="mb-4">
+                            <h1>YTD NET INCOME</h1>
+                            <h2 style="font-size: 40px;">{{net_income_ytd}}</h2>
+                            <!--     <input type="hidden" name="" id="ytd_net_income" value="{{ net_income_ytd }}"> -->
+                            <!-- <div id="chartdiv"> -->
+                            <!-- </div> -->
+                        </div>
 
-<div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-  <h1>Total Expense</h1>
-  <div id="totalfirst" style="width: 100%; height: 400px;"></div>
-</div> {% endcomment %}
-<div class="header margin0" style="width: 100%; text-align: center">
-  <div class="top">
-    <h1 class="margin0">Financial Perfomance Dashboard</h1>
- 
-</div><!--end top-->
+      <!--START rating-->
+                        <div class="d-flex flex-column mb-4">
+                            <div id="rating-top" class="justify-content-center align-items-center text-center rounded-top mb-0">
+                                <h1 id="rating-value">{{ first_context.estimated_first_rating }}</h1>
+                                <h3 id="rating-grade"></h3>
+                            </div>
+                            <div id="rating-bottom" class="justify-content-center align-items-center text-center text-white rounded-bottom mt-0">
+                                <small><b>Estimated First Rating</b> SY{{ first_context.fiscal_year }}-{{ first_context.next_fiscal_year }}</small>
+                            </div>
+        <!--end top-->
+                        </div>
+      <!--END rating-->
 
-
-</div>
-
-<div class="container" >
-
-  <div class="insights box">
-    <h1> YTD NET INCOME </h1>
-    <h2 >{{net_income_ytd}}</h2>
-    
-    <!--START rating-->
-    <div class="rating">
-        <div class="top">
-            <h1>100</h1>
-            <h3>A- Superior</h3>
-        </div><!--end top-->
-        <small><b>Estimated First Rating</b> SY2022-2023</small>
-    </div>
-    <!--END rating-->
-
-    <div class="ratios">
-        <h3>Solvency Ratio</h3>
+                        <div class="ratios">
+                            <h1>Solvency Ratios</h1>
         <!--debt to cap-->
-        <span><span class="material-symbols-outlined check-circle">
-                check_circle
-            </span>
-            <h1>17:1</h1>
-        </span>
-        <small>DEBT TO CAP RATIO: &gt;95% = 0 pts; &lt;95% = 5 pts</small>
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="dtcCircle" class="material-symbols-outlined mr-3">
+                                    </span>
+                                    <h1 id="dtcRatio" class="mb-0">{{ first_context.debt_capitalization }}</h1>
+                                </span>
+                                <small>DEBT TO CAP RATIO: &gt;95% = 0 pts; &lt;95% = 5 pts</small>
+                            </div>
 
         <!--LT LIAB-->
-        <span><span class="material-symbols-outlined error-circle">
-                error
-            </span>
-            <h1>16:1</h1>
-        </span>
-        <small>LT LIAB/TOTAL ASSETS: &lt;0.6 = 10 pts; &gt;1.0 = 0 pts</small>
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="liabCircle" class="material-symbols-outlined mr-3"></span>
+                                    <h1 id="liabRatio" class="mb-0">{{ first_context.total_assets }}</h1>
+                                </span>
+                                <small>LT LIAB/TOTAL ASSETS: &lt;0.6 = 10 pts; &gt;1.0 = 0 pts</small>
+                            </div>
         <!--ADMIN-->
-        <span><span class="material-symbols-outlined check-circle">
-                check_circle
-            </span>
-            <h1>1:10</h1>
-        </span>
-        <small>ADMIN RATIO: &lt;=15.61%</small>
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="adminCircle" class="material-symbols-outlined mr-3"></span>
+                                    <h1 id="adminRatio" class="mb-0">{{ first_context.ratio_administrative }}</h1>
+                                </span>
+                                <small>ADMIN RATIO: &lt;=15.61%</small>
+                            </div>
         <!--DSCR-->
-        <span><span class="material-symbols-outlined error-circle">
-                error
-            </span>
-            <h1>0:1</h1>
-        </span>
-        <small>DSCR: &gt;1.2x = 10 pts; &lt;1.0x = 0 pts</small>
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="dscrCircle" class="material-symbols-outlined mr-3"></span>
+                                    <h1 id="dscr" class="mb-0">{{ first_context.debt_service }}</h1>
+                                </span>
+                                <small>DSCR: &gt;1.2x = 10 pts; &lt;1.0x = 0 pts</small>
+                            </div>
         <!--Current ratio-->
-        <span><span class="material-symbols-outlined check-circle">
-                check_circle
-            </span>
-            <h1>4.61</h1>
-        </span>
-        <small>CURRENT RATIO</small>
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="currentCircle" class="material-symbols-outlined mr-3"></span>
+                                    <h1 id="currentRatio" class="mb-0">{{ first_context.current_assets }}</h1>
+                                </span>
+                                <small>CURRENT RATIO</small>
+                            </div>
         <!--Days on hand-->
-        <span><span class="material-symbols-outlined check-circle">
-                check_circle
-            </span>
-            <h1>190</h1>
-        </span>
-       
-  </div><!--END projection-->
-</div> <!--END insights-->
+                            <div class="mb-3">
+                                <span class="d-flex flex-row align-items-center">
+                                    <span id="cohCircle" class="material-symbols-outlined check-circle mr-3">
+                                        check_circle
+                                    </span>
+                                    <h1 id="daysCOH" class="mb-0">{{ first_context.days_coh }}</h1>
+                                </span>
+                                <small>DAYS CASH ON HAND</small>
+                            </div>
+                        </div>
+      <!--END projection-->
+                    </div>
+    <!--END insights-->
 
-  <div class="insights">
-
+                    <div>
       <!--START totalrevenue -->
-      <div class="box3">
-          <div>
-              
-              <h2>Revenue</h2>
-          </div>
-          <div id="chartcontrols"></div>
-          <div id="totalrevenue" style="width: 100%; height: 600px;">
-          </div>
-      </div><!--END totalrevenue-->
-      <div class="box2">
-      <div id="totalfirst" style="width: 100%; height: 600px;">
-          <h2>Expenses</h2>
-         
+                        <div class="box3 rounded">
+                            <div>
+                                <h2>Revenue</h2>
+                            </div>
+                            <div id="chartcontrols"></div>
+                            <div id="totalrevenue" style="width: 100%; height: 600px"></div>
+                        </div>
+      <!--END totalrevenue-->
+                        <div class="box2 rounded">
+                            <div id="totalfirst" style="width: 100%; height: 600px">
+                                <h2>Expenses</h2>
+                            </div>
+                            <div><!--END total first--></div>
+        <!--END insights-->
+                        </div>
+                    </div>
 
-
-      </div>
-      <div><!--END total first-->
-  </div> <!--END insights-->
-</div>
-
-
-</div>
-
-
-
+                </div>
+            </div>
 {% endblock %}
 {% block javascript %}
 
-<!--AM Charts-->
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-<script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
-<!-- my scripts-->
-
-{% comment %} <script>
-  var ytd_total = "{{totals.ytd_total_revenue}}";
-  var formattedTotal = '$' + parseInt(ytd_total).toLocaleString();
-
-  // Get the div element where you want to display the formatted total
-  var formattedTotalDiv = document.getElementById("formattedTotal");
-
-  // Update the content of the div with the formatted total
-  formattedTotalDiv.textContent = formattedTotal;
-</script> {% endcomment %}
-
-<script>
-  
-  am5.ready(function() {
-    var root = am5.Root.new("totalrevenue");
-    
-    
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([
-      am5themes_Kelly.new(root)
-    ]);
-    
-    
-    
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-var chart = root.container.children.push(am5xy.XYChart.new(root, {
-  panX: false,
-  panY: false,
-  wheelX: "panX",
-  wheelY: "zoomX",
-  layout: root.verticalLayout
-}));
-
-// Add scrollbar
-// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-chart.set("scrollbarX", am5.Scrollbar.new(root, {
-  orientation: "horizontal"
-}));
-
-
-
-var data_chart = {{ data_chart|safe }};
-
-
-var dataCharts = [];
-
-var monthNames = {
-  "01": "January",
-  "02": "February",
-  "03": "March",
-  "04": "April",
-  "05": "May",
-  "06": "June",
-  "07": "July",
-  "08": "August",
-  "09": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December"
-};
-
-
-data_chart.forEach(function(item) {
-  var jsonData = item.data.replace(/None/g, "null");
-  var data = JSON.parse(jsonData);
-  var localRevenue = data.localRevenue.total;
-  var stateprogramRevenue = data.stateprogramRevenue.total;
-  var federalprogramRevenue = data.federalprogramRevenue.total;
-  var date = item.date
-  var [year, month] = date.split('-');
-
-  
-  var entry={
-     month:monthNames[month],
-     year:year,
-     LR_total:localRevenue,
-     SPR_total: stateprogramRevenue,
-     FPR_total: federalprogramRevenue,
-     
-
-  }
-  dataCharts.push(entry);
-
-
-});
-
-var monthOrder = {
-  "January": 1,
-  "February": 2,
-  "March": 3,
-  "April": 4,
-  "May": 5,
-  "June": 6,
-  "July": 7,
-  "August": 8,
-  "September": 9,
-  "October": 10,
-  "November": 11,
-  "December": 12
-};
-
-// Sort dataCharts by year and month
-dataCharts.sort(function (a, b) {
-  if (a.year < b.year) return -1;
-  if (a.year > b.year) return 1;
-  if (a.year === b.year) {
-    // Compare numerical month values using the map
-    const monthA = monthOrder[a.month];
-    const monthB = monthOrder[b.month];
-    if (monthA < monthB) return -1;
-    if (monthA > monthB) return 1;
-  }
-  return 0;
-});
-console.log(dataCharts)
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-xRenderer.labels.template.setAll({
-  rotation: -90,
-  centerY: am5.p50,
-  centerX: am5.p100,
-  paddingRight: 15
-});
-var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-  maxDeviation: 0.3,
-  categoryField: "yearMonth",
-  renderer: xRenderer,
-  tooltip: am5.Tooltip.new(root, {})
-}));
-
-xRenderer.grid.template.setAll({
-  location: 1
-})
-
-dataCharts.forEach(function (item) {
-  item.yearMonth = item.year + "-" + item.month;
-});
-
-xAxis.data.setAll(dataCharts);
-
-var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-  maxDeviation: 0.3,
-  min: 0,
-  renderer: am5xy.AxisRendererY.new(root, {
-    strokeOpacity: 0.1
-  })
-}));
-
-
-// Add legend
-// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-var legend = chart.children.push(am5.Legend.new(root, {
-  centerX: am5.p50,
-  x: am5.p50
-}));
-
-
-
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-function makeSeries(name, fieldName) {
-  var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-    name: name,
-    stacked: true,
-    xAxis: xAxis,
-    yAxis: yAxis,
-    sequencedInterpolation: true,
-    valueYField: fieldName,
-    categoryXField: "yearMonth"
-  }));
-
-  series.columns.template.setAll({
-    tooltipText: "{name}, {categoryX}: {valueY}",
-    tooltipY: am5.percent(10),
-    
-  });
-  series.data.setAll(dataCharts);
-
-  // Make stuff animate on load
-  // https://www.amcharts.com/docs/v5/concepts/animations/
-  series.appear();
-
-  series.bullets.push(function() {
-    return am5.Bullet.new(root, {
-      sprite: am5.Label.new(root, {
-        text: "{valueY}",
-        fontSize: 8,
-        fill: root.interfaceColors.get("alternativeText"),
-        centerY: am5.p50,
-        centerX: am5.p50,
-        populateText: true
-      })
-    });
-  });
-
-  legend.data.push(series);
-}
-
-makeSeries("Local Revenue", "LR_total" );
-makeSeries("State Program Revenue", "SPR_total" );
-makeSeries("Federal Program Revenue", "FPR_total" );
-
-
-
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-chart.appear(1000, 100);
-
-}); // end am5.ready()
-
-  
-</script>
-
-<script>
-  
-  am5.ready(function() {
-
-
-    // Create root element
-    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-    var root = am5.Root.new("totalfirst");
-    
-    // Set themes
-// https://www.amcharts.com/docs/v5/concepts/themes/
-root.setThemes([
-  am5themes_Animated.new(root),
-
-]);
-
-
-// Create chart
-// https://www.amcharts.com/docs/v5/charts/xy-chart/
-var chart = root.container.children.push(am5xy.XYChart.new(root, {
-  panX: false,
-  panY: false,
-  wheelX: "panX",
-  wheelY: "zoomX",
-  layout: root.verticalLayout
-}));
-
-// Add scrollbar
-// https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-chart.set("scrollbarX", am5.Scrollbar.new(root, {
-  orientation: "horizontal"
-}));
-
-
-
-var data_chart = {{ data_chart|safe }};
-
-
-var dataChart = [];
-
-var monthNames = {
-  "01": "January",
-  "02": "February",
-  "03": "March",
-  "04": "April",
-  "05": "May",
-  "06": "June",
-  "07": "July",
-  "08": "August",
-  "09": "September",
-  "10": "October",
-  "11": "November",
-  "12": "December"
-};
-
-//professionalandcontractServices
-//payrollandBenefits
-//otheroperatingCosts
-//materialsandSupplies
-//debtServices
-//depreciation
-
-data_chart.forEach(function(item) {
-  var jsonData = item.data.replace(/None/g, "null");
-  var data = JSON.parse(jsonData);
-  var professionalandcontractServices = data.professionalandcontractServices.total;
-  var payrollandBenefits = data.payrollandBenefits.total;
-  var otheroperatingCosts = data.otheroperatingCosts.total;
-  var materialsandSupplies = data.materialsandSupplies.total;
-  var debtServices = data.debtServices.total;
-  var depreciation = data.depreciation.total;
-
-  var date = item.date
-  var [year, month] = date.split('-');
-
-  var entry={
-     month:monthNames[month],
-     year:year,
-     expense6100: payrollandBenefits,
-     expense6200: professionalandcontractServices,
-     expense6300: materialsandSupplies,
-     expense6400: otheroperatingCosts,
-     expense6449: depreciation,
-     expense6500: debtServices,
-     
-
-  }
-  dataChart.push(entry);
-
-
-});
-
-
-
-var monthOrder = {
-  "January": 1,
-  "February": 2,
-  "March": 3,
-  "April": 4,
-  "May": 5,
-  "June": 6,
-  "July": 7,
-  "August": 8,
-  "September": 9,
-  "October": 10,
-  "November": 11,
-  "December": 12
-};
-
-dataChart.sort(function (a, b) {
-  if (a.year < b.year) return -1;
-  if (a.year > b.year) return 1;
-  if (a.year === b.year) {
-    // Compare numerical month values using the map
-    const monthA = monthOrder[a.month];
-    const monthB = monthOrder[b.month];
-    if (monthA < monthB) return -1;
-    if (monthA > monthB) return 1;
-  }
-  return 0;
-});
-
-// Create axes
-// https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
-xRenderer.labels.template.setAll({
-  rotation: -90,
-  centerY: am5.p50,
-  centerX: am5.p100,
-  paddingRight: 15
-});
-var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-  maxDeviation: 0.3,
-  categoryField: "yearMonth",
-  renderer: xRenderer,
-  tooltip: am5.Tooltip.new(root, {})
-}));
-
-xRenderer.grid.template.setAll({
-  location: 1
-})
-
-dataChart.forEach(function (item) {
-  item.yearMonth = item.year + "-" + item.month;
-});
-xAxis.data.setAll(dataChart);
-
-var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-  maxDeviation: 0.3,
-  min: 0,
-  renderer: am5xy.AxisRendererY.new(root, {
-    strokeOpacity: 0.1
-  })
-}));
-
-
-// Add legend
-// https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-var legend = chart.children.push(am5.Legend.new(root, {
-  centerX: am5.p50,
-  x: am5.p50
-}));
-
-
-// Add series
-// https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-function makeSeries(name, fieldName) {
-  var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-    name: name,
-    stacked: true,
-    xAxis: xAxis,
-    yAxis: yAxis,
-    sequencedInterpolation: true,
-    valueYField: fieldName,
-    categoryXField: "yearMonth"
-  }));
-
-  series.columns.template.setAll({
-    tooltipText: "{name}, {categoryX}: {valueY}",
-    tooltipY: am5.percent(10)
-  });
-  series.data.setAll(dataChart);
-
-  // Make stuff animate on load
-  // https://www.amcharts.com/docs/v5/concepts/animations/
-  series.appear();
-
-  series.bullets.push(function() {
-    return am5.Bullet.new(root, {
-      sprite: am5.Label.new(root, {
-        text: "{valueY}",
-        fontSize: 8,
-        fill: root.interfaceColors.get("alternativeText"),
-        centerY: am5.p50,
-        centerX: am5.p50,
-        populateText: true
-      })
-    });
-  });
-
-  legend.data.push(series);
-}
-
-makeSeries("6100 - Payroll and Benefits", "expense6100");
-makeSeries("6200 - Professional and Contract Services", "expense6200");
-makeSeries("6300 - Materials and Supplies", "expense6300");
-makeSeries("6400 - Other Operating Costs", "expense6400");
-makeSeries("6449 - Depreciation", "expense6449");
-makeSeries("6500 - Debt Services", "expense6500");
-
-
-// Make stuff animate on load
-// https://www.amcharts.com/docs/v5/concepts/animations/
-chart.appear(1000, 100);
-
-}); // end am5.ready()
-
-  
-</script>
+    <!--AM Charts-->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/locales/de_DE.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/germanyLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/fonts/notosans-sc.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="//cdn.amcharts.com/lib/5/themes/Kelly.js"></script>
+    <!-- my scripts-->
+
+    {% comment %}
+    <script>
+      var ytd_total = "{{totals.ytd_total_revenue}}";
+      var formattedTotal = "$" + parseInt(ytd_total).toLocaleString();
+
+      // Get the div element where you want to display the formatted total
+      var formattedTotalDiv = document.getElementById("formattedTotal");
+
+      // Update the content of the div with the formatted total
+      formattedTotalDiv.textContent = formattedTotal;
+    </script>
+    {% endcomment %}
+
+    <script>
+
+        am5.ready(function() {
+            var root = am5.Root.new("totalrevenue");
+
+
+          // Set themes
+          // https://www.amcharts.com/docs/v5/concepts/themes/
+            root.setThemes([
+                am5themes_Kelly.new(root)
+            ]);
+
+
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout
+            }));
+
+      // Add scrollbar
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+            chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                orientation: "horizontal"
+            }));
+
+
+
+            var data_chart = {{ data_chart|safe }};
+
+
+            var dataCharts = [];
+
+            var monthNames = {
+                "01": "January",
+                "02": "February",
+                "03": "March",
+                "04": "April",
+                "05": "May",
+                "06": "June",
+                "07": "July",
+                "08": "August",
+                "09": "September",
+                "10": "October",
+                "11": "November",
+                "12": "December"
+            };
+
+
+            data_chart.forEach(function(item) {
+                var jsonData = item.data.replace(/None/g, "null");
+                var data = JSON.parse(jsonData);
+                var localRevenue = data.localRevenue.total;
+                var stateprogramRevenue = data.stateprogramRevenue.total;
+                var federalprogramRevenue = data.federalprogramRevenue.total;
+                var date = item.date
+                var [year, month] = date.split('-');
+
+
+                var entry={
+                    month:monthNames[month],
+                    year:year,
+                    LR_total:localRevenue,
+                    SPR_total: stateprogramRevenue,
+                    FPR_total: federalprogramRevenue,
+
+
+                }
+                dataCharts.push(entry);
+
+
+            });
+
+            var monthOrder = {
+                "January": 1,
+                "February": 2,
+                "March": 3,
+                "April": 4,
+                "May": 5,
+                "June": 6,
+                "July": 7,
+                "August": 8,
+                "September": 9,
+                "October": 10,
+                "November": 11,
+                "December": 12
+            };
+
+      // Sort dataCharts by year and month
+            dataCharts.sort(function (a, b) {
+                if (a.year < b.year) return -1;
+                if (a.year > b.year) return 1;
+                if (a.year === b.year) {
+          // Compare numerical month values using the map
+                    const monthA = monthOrder[a.month];
+                    const monthB = monthOrder[b.month];
+                    if (monthA < monthB) return -1;
+                    if (monthA > monthB) return 1;
+                }
+                return 0;
+            });
+            console.log(dataCharts)
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+            var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+            xRenderer.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "yearMonth",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            dataCharts.forEach(function (item) {
+                item.yearMonth = item.year + "-" + item.month;
+            });
+
+            xAxis.data.setAll(dataCharts);
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                min: 0,
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+            }));
+
+
+      // Add legend
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            }));
+
+
+
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+            function makeSeries(name, fieldName) {
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: name,
+                    stacked: true,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    sequencedInterpolation: true,
+                    valueYField: fieldName,
+                    categoryXField: "yearMonth"
+                }));
+
+                series.columns.template.setAll({
+                    tooltipText: "{name}, {categoryX}: {valueY}",
+                    tooltipY: am5.percent(10),
+
+                });
+                series.data.setAll(dataCharts);
+
+        // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+                series.appear();
+
+                series.bullets.push(function() {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Label.new(root, {
+                            text: "{valueY}",
+                            fontSize: 8,
+                            fill: root.interfaceColors.get("alternativeText"),
+                            centerY: am5.p50,
+                            centerX: am5.p50,
+                            populateText: true
+                        })
+                    });
+                });
+
+                legend.data.push(series);
+            }
+
+            makeSeries("Local Revenue", "LR_total" );
+            makeSeries("State Program Revenue", "SPR_total" );
+            makeSeries("Federal Program Revenue", "FPR_total" );
+
+
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+            chart.appear(1000, 100);
+
+        }); // end am5.ready()
+    </script>
+
+    <script>
+
+        am5.ready(function() {
+
+
+          // Create root element
+          // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+            var root = am5.Root.new("totalfirst");
+
+          // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+            root.setThemes([
+                am5themes_Animated.new(root),
+
+            ]);
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout
+            }));
+
+      // Add scrollbar
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+            chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                orientation: "horizontal"
+            }));
+
+
+
+            var data_chart = {{ data_chart|safe }};
+
+
+            var dataChart = [];
+
+            var monthNames = {
+                "01": "January",
+                "02": "February",
+                "03": "March",
+                "04": "April",
+                "05": "May",
+                "06": "June",
+                "07": "July",
+                "08": "August",
+                "09": "September",
+                "10": "October",
+                "11": "November",
+                "12": "December"
+            };
+
+      //professionalandcontractServices
+      //payrollandBenefits
+      //otheroperatingCosts
+      //materialsandSupplies
+      //debtServices
+      //depreciation
+
+            data_chart.forEach(function(item) {
+                var jsonData = item.data.replace(/None/g, "null");
+                var data = JSON.parse(jsonData);
+                var professionalandcontractServices = data.professionalandcontractServices.total;
+                var payrollandBenefits = data.payrollandBenefits.total;
+                var otheroperatingCosts = data.otheroperatingCosts.total;
+                var materialsandSupplies = data.materialsandSupplies.total;
+                var debtServices = data.debtServices.total;
+                var depreciation = data.depreciation.total;
+
+                var date = item.date
+                var [year, month] = date.split('-');
+
+                var entry={
+                    month:monthNames[month],
+                    year:year,
+                    expense6100: payrollandBenefits,
+                    expense6200: professionalandcontractServices,
+                    expense6300: materialsandSupplies,
+                    expense6400: otheroperatingCosts,
+                    expense6449: depreciation,
+                    expense6500: debtServices,
+
+
+                }
+                dataChart.push(entry);
+
+
+            });
+
+
+
+            var monthOrder = {
+                "January": 1,
+                "February": 2,
+                "March": 3,
+                "April": 4,
+                "May": 5,
+                "June": 6,
+                "July": 7,
+                "August": 8,
+                "September": 9,
+                "October": 10,
+                "November": 11,
+                "December": 12
+            };
+
+            dataChart.sort(function (a, b) {
+                if (a.year < b.year) return -1;
+                if (a.year > b.year) return 1;
+                if (a.year === b.year) {
+          // Compare numerical month values using the map
+                    const monthA = monthOrder[a.month];
+                    const monthB = monthOrder[b.month];
+                    if (monthA < monthB) return -1;
+                    if (monthA > monthB) return 1;
+                }
+                return 0;
+            });
+
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+            var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+            xRenderer.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "yearMonth",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            dataChart.forEach(function (item) {
+                item.yearMonth = item.year + "-" + item.month;
+            });
+            xAxis.data.setAll(dataChart);
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                min: 0,
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+            }));
+
+
+      // Add legend
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            }));
+
+
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+            function makeSeries(name, fieldName) {
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: name,
+                    stacked: true,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    sequencedInterpolation: true,
+                    valueYField: fieldName,
+                    categoryXField: "yearMonth"
+                }));
+
+                series.columns.template.setAll({
+                    tooltipText: "{name}, {categoryX}: {valueY}",
+                    tooltipY: am5.percent(10)
+                });
+                series.data.setAll(dataChart);
+
+        // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+                series.appear();
+
+                series.bullets.push(function() {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Label.new(root, {
+                            text: "{valueY}",
+                            fontSize: 8,
+                            fill: root.interfaceColors.get("alternativeText"),
+                            centerY: am5.p50,
+                            centerX: am5.p50,
+                            populateText: true
+                        })
+                    });
+                });
+
+                legend.data.push(series);
+            }
+
+            makeSeries("6100 - Payroll and Benefits", "expense6100");
+            makeSeries("6200 - Professional and Contract Services", "expense6200");
+            makeSeries("6300 - Materials and Supplies", "expense6300");
+            makeSeries("6400 - Other Operating Costs", "expense6400");
+            makeSeries("6449 - Depreciation", "expense6449");
+            makeSeries("6500 - Debt Services", "expense6500");
+
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+            chart.appear(1000, 100);
+
+        }); // end am5.ready()
+    </script>
+
+    <!-- <script src="{% static 'js/charts.js' %}"></script> -->
+    <script src="{% static 'js/plChartInsights.js' %}"></script>
 {% endblock %}

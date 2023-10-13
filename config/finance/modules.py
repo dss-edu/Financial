@@ -5,6 +5,8 @@ from dateutil.relativedelta import relativedelta
 from django.views.decorators.cache import cache_control
 import json
 import os
+import re
+import math
 
 # Get the current date
 current_date = datetime.now()
@@ -121,6 +123,44 @@ def dashboard(school):
     cnxn.close()
     return context
 
+def float_to_ratio(float_number):
+    if float_number < 0:
+        sign = '-'
+        float_number = abs(float_number)
+    else:
+        sign = ''
+
+    # Multiply the float by a power of 10 to make it an integer
+    numerator = int(float_number * 100)
+    denominator = 100
+
+    # Find the greatest common divisor (GCD) and divide both numerator and denominator
+    gcd = math.gcd(numerator, denominator)
+    numerator //= gcd
+    denominator //= gcd
+
+    return f"{sign}{numerator}:{denominator}"
+
+def percent_to_ratio(percentage):
+    # Use regular expressions to extract the numeric part of the percentage string
+    match = re.match(r"(\d+)%", percentage)
+
+    if match:
+        # Extract the numeric part and convert it to an integer
+        percent = int(match.group(1))
+
+        # Calculate the ratio
+        numerator = percent
+        denominator = 100
+        # Find the greatest common divisor (GCD) and divide both numerator and denominator
+        gcd = math.gcd(numerator, denominator)
+        numerator //= gcd
+        denominator //= gcd
+
+        return f"{numerator}:{denominator}"
+    else:
+        return "Invalid input"
+
 
 def charter_first(school):
     # need to validate and sanitize school to avoid SQLi
@@ -159,6 +199,41 @@ def charter_first(school):
         "approved_geo_boundaries": row[19],
         "estimated_first_rating": row[20],
     }
+
+    net_ytd = context["net_income_ytd"]
+    net_earnings = context["net_earnings"]
+
+    if net_ytd < 0:
+        context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
+    else:
+        context["net_income_ytd"] = f"${net_ytd:.0f}"
+
+    if net_earnings < 0:
+        context["net_earnings"] = f"$({net_earnings * -1:.0f})"
+    else:
+        context["net_earnings"] = f"${net_earnings:.0f}"
+
+    context["debt_capitalization"] = f"{context['debt_capitalization']:.0f}%"
+
+    # turn int into month name
+    month = context["month"]
+    year = context["year"]
+    next_month = datetime(year, month + 1, 1)
+    this_month = next_month - relativedelta(days=1)
+    context["date"] = this_month
+
+    # for FY
+    fiscal_year = year
+    if school in ["advantage", "cumberland", "village-tech"]:
+        if month < 9:
+            fiscal_year = year - 1
+
+    if school in ["manara", "leadership"]:
+        if month < 7:
+            fiscal_year = year - 1
+
+    context["fiscal_year"] = fiscal_year
+    context["next_fiscal_year"] = fiscal_year + 1
     return context
 
 
@@ -217,10 +292,7 @@ def profit_loss(school, anchor_year):
     return context
 
 
-def profit_loss_chart(school,anchor_year):
-
-
-
+def profit_loss_chart(school, anchor_year):
     cnxn = connect()
     cursor = cnxn.cursor()
     for i in range(month_number - 1, 0, -1):
@@ -260,8 +332,7 @@ def profit_loss_chart(school,anchor_year):
     BASE_DIR = os.getcwd()
     # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss-chart", school)
-  
-        
+
     if anchor_year:  # anchor_year is by default = ""
         JSON_DIR = os.path.join(
             BASE_DIR, "finance", str(anchor_year), "profit-loss", school
@@ -274,6 +345,7 @@ def profit_loss_chart(school,anchor_year):
             context[basename] = json.load(f)
 
     return context
+
 
 def balance_sheet(school, anchor_year):
     current_date = datetime.today().date()

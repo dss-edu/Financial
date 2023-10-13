@@ -144,40 +144,40 @@ def dashboard(request, school, anchor_year=""):
 @permission_required
 def charter_first(request, school, anchor_year=""):
     context = modules.charter_first(school)
-    net_ytd = context["net_income_ytd"]
-    net_earnings = context["net_earnings"]
+    # net_ytd = context["net_income_ytd"]
+    # net_earnings = context["net_earnings"]
 
-    if net_ytd < 0:
-        context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
-    else:
-        context["net_income_ytd"] = f"${net_ytd:.0f}"
+    # if net_ytd < 0:
+    #     context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
+    # else:
+    #     context["net_income_ytd"] = f"${net_ytd:.0f}"
 
-    if net_earnings < 0:
-        context["net_earnings"] = f"$({net_earnings * -1:.0f})"
-    else:
-        context["net_earnings"] = f"${net_earnings:.0f}"
+    # if net_earnings < 0:
+    #     context["net_earnings"] = f"$({net_earnings * -1:.0f})"
+    # else:
+    #     context["net_earnings"] = f"${net_earnings:.0f}"
 
-    context["debt_capitalization"] = f"{context['debt_capitalization']:.0f}%"
+    # context["debt_capitalization"] = f"{context['debt_capitalization']:.0f}%"
 
-    # turn int into month name
-    month = context["month"]
-    year = context["year"]
-    next_month = datetime(year, month + 1, 1)
-    this_month = next_month - relativedelta(days=1)
-    context["date"] = this_month
+    # # turn int into month name
+    # month = context["month"]
+    # year = context["year"]
+    # next_month = datetime(year, month + 1, 1)
+    # this_month = next_month - relativedelta(days=1)
+    # context["date"] = this_month
 
-    # for FY
-    fiscal_year = year
-    if school in ["advantage", "cumberland", "village-tech"]:
-        if month < 9:
-            fiscal_year = year - 1
+    # # for FY
+    # fiscal_year = year
+    # if school in ["advantage", "cumberland", "village-tech"]:
+    #     if month < 9:
+    #         fiscal_year = year - 1
 
-    if school in ["manara", "leadership"]:
-        if month < 7:
-            fiscal_year = year - 1
+    # if school in ["manara", "leadership"]:
+    #     if month < 7:
+    #         fiscal_year = year - 1
 
-    context["fiscal_year"] = fiscal_year
-    context["next_fiscal_year"] = fiscal_year + 1
+    # context["fiscal_year"] = fiscal_year
+    # context["next_fiscal_year"] = fiscal_year + 1
 
     context["anchor_year"] = anchor_year
 
@@ -223,18 +223,34 @@ def profit_loss(request, school, anchor_year=""):
 
 @login_required
 @permission_required
-def profit_loss_charts(request, school,anchor_year=""):
-    context = modules.profit_loss_chart(school,anchor_year)
+def profit_loss_charts(request, school, anchor_year=""):
+    context = modules.profit_loss_chart(school, anchor_year)
     # context = {"school": school, "school_name": SCHOOLS[school]}
     net_ytd = context["net_income_ytd"]
-  
+
+    first_context = modules.charter_first(school)
+    # first_context["debt_capitalization"] = modules.percent_to_ratio(
+    #     first_context["debt_capitalization"]
+    # )
+    # first_context["total_assets"] = modules.float_to_ratio(
+    #     first_context["total_assets"]
+    # )
+    # first_context["debt_service"] = modules.float_to_ratio(
+    #     first_context["debt_service"]
+    # )
+    # first_context["current_assets"] = modules.float_to_ratio(
+    #     first_context["current_assets"]
+    # )
 
     if net_ytd < 0:
         context["net_income_ytd"] = f"${net_ytd * -1:,.0f}"
     else:
         context["net_income_ytd"] = f"${net_ytd:,.0f}"
 
+    context["first_context"] = first_context
+
     return render(request, "temps/profit-loss-charts.html", context)
+
 
 @login_required
 @permission_required
