@@ -242,6 +242,7 @@ data_chart.forEach(function(item) {
   var date = item.date
   var [year, month] = date.split('-');
 
+  
   var entry={
      month:monthNames[month],
      year:year,
@@ -252,11 +253,39 @@ data_chart.forEach(function(item) {
 
   }
   dataCharts.push(entry);
-  console.log(dataCharts)
+
+
 });
 
+var monthOrder = {
+  "January": 1,
+  "February": 2,
+  "March": 3,
+  "April": 4,
+  "May": 5,
+  "June": 6,
+  "July": 7,
+  "August": 8,
+  "September": 9,
+  "October": 10,
+  "November": 11,
+  "December": 12
+};
 
-
+// Sort dataCharts by year and month
+dataCharts.sort(function (a, b) {
+  if (a.year < b.year) return -1;
+  if (a.year > b.year) return 1;
+  if (a.year === b.year) {
+    // Compare numerical month values using the map
+    const monthA = monthOrder[a.month];
+    const monthB = monthOrder[b.month];
+    if (monthA < monthB) return -1;
+    if (monthA > monthB) return 1;
+  }
+  return 0;
+});
+console.log(dataCharts)
 // Create axes
 // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
 var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
@@ -445,11 +474,38 @@ data_chart.forEach(function(item) {
   }
   dataChart.push(entry);
 
+
 });
 
 
 
+var monthOrder = {
+  "January": 1,
+  "February": 2,
+  "March": 3,
+  "April": 4,
+  "May": 5,
+  "June": 6,
+  "July": 7,
+  "August": 8,
+  "September": 9,
+  "October": 10,
+  "November": 11,
+  "December": 12
+};
 
+dataChart.sort(function (a, b) {
+  if (a.year < b.year) return -1;
+  if (a.year > b.year) return 1;
+  if (a.year === b.year) {
+    // Compare numerical month values using the map
+    const monthA = monthOrder[a.month];
+    const monthB = monthOrder[b.month];
+    if (monthA < monthB) return -1;
+    if (monthA > monthB) return 1;
+  }
+  return 0;
+});
 
 // Create axes
 // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
