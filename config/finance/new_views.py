@@ -261,8 +261,31 @@ def balance_sheet(request, school, anchor_year=""):
 
 @login_required
 @permission_required
-def balance_sheet_charts(request, school):
-    context = {"school": school, "school_name": SCHOOLS[school]}
+def balance_sheet_charts(request, school, anchor_year=""):
+    context = modules.profit_loss_chart(school, anchor_year)
+    # context = {"school": school, "school_name": SCHOOLS[school]}
+    net_ytd = context["net_income_ytd"]
+
+    first_context = modules.charter_first(school)
+    # first_context["debt_capitalization"] = modules.percent_to_ratio(
+    #     first_context["debt_capitalization"]
+    # )
+    # first_context["total_assets"] = modules.float_to_ratio(
+    #     first_context["total_assets"]
+    # )
+    # first_context["debt_service"] = modules.float_to_ratio(
+    #     first_context["debt_service"]
+    # )
+    # first_context["current_assets"] = modules.float_to_ratio(
+    #     first_context["current_assets"]
+    # )
+
+    if net_ytd < 0:
+        context["net_income_ytd"] = f"${net_ytd * -1:,.0f}"
+    else:
+        context["net_income_ytd"] = f"${net_ytd:,.0f}"
+
+    context["first_context"] = first_context
     return render(request, "temps/profit-loss-charts.html", context)
 
 
@@ -276,8 +299,31 @@ def cashflow(request, school, anchor_year=""):
 
 @login_required
 @permission_required
-def cashflow_charts(request, school):
-    context = {"school": school, "school_name": SCHOOLS[school]}
+def cashflow_charts(request, school, anchor_year=""):
+    context = modules.profit_loss_chart(school, anchor_year)
+    # context = {"school": school, "school_name": SCHOOLS[school]}
+    net_ytd = context["net_income_ytd"]
+
+    first_context = modules.charter_first(school)
+    # first_context["debt_capitalization"] = modules.percent_to_ratio(
+    #     first_context["debt_capitalization"]
+    # )
+    # first_context["total_assets"] = modules.float_to_ratio(
+    #     first_context["total_assets"]
+    # )
+    # first_context["debt_service"] = modules.float_to_ratio(
+    #     first_context["debt_service"]
+    # )
+    # first_context["current_assets"] = modules.float_to_ratio(
+    #     first_context["current_assets"]
+    # )
+
+    if net_ytd < 0:
+        context["net_income_ytd"] = f"${net_ytd * -1:,.0f}"
+    else:
+        context["net_income_ytd"] = f"${net_ytd:,.0f}"
+
+    context["first_context"] = first_context
     return render(request, "temps/profit-loss-charts.html", context)
 
 
