@@ -114,12 +114,12 @@ def update_db():
         profit_loss_chart(school)
         
 def update_school(school):
-    # profit_loss(school) 
-    # balance_sheet(school)
-    # cashflow(school)
+    profit_loss(school) 
+    balance_sheet(school)
+    cashflow(school)
     excel(school)
-    # charter_first(school)
-    # profit_loss_chart(school)
+    charter_first(school)
+    profit_loss_chart(school)
 
 
 def profit_loss(school):
@@ -2090,8 +2090,8 @@ def balance_sheet(school):
                 row["difference_7"] = (row["difference_6"] + total_sum7_value )
                 row["difference_8"] = (row["difference_7"] + total_sum8_value )
  
-                total_sum_value = totals.get(f"total_sum{last_month_number + 1}_value", 0)
-                row["last_month_difference"] = row[f"difference_{last_month_number}"] + total_sum_value
+            
+                row["last_month_difference"] = row[f"difference_{last_month_number}"] 
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
 
@@ -2122,6 +2122,7 @@ def balance_sheet(school):
                 row["net_assets7"] = (row["net_assets6"] + total_netsurplus["07"])
                 row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
             else:
+                print(school)
                                 # Calculate the differences and store them in the row dictionary
                 row["difference_7"] = (FYE_value + total_sum7_value )
            
@@ -2137,8 +2138,7 @@ def balance_sheet(school):
                 row["difference_5"] = (row["difference_4"] + total_sum5_value )
                 row["difference_6"] = (row["difference_5"] + total_sum6_value )
                 
-                total_sum_value = totals.get(f"total_sum{last_month_number}_value", 0)
-                row["last_month_difference"] = row[f"difference_{last_month_number-1}"] + total_sum_value
+                row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                 
 
                 row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
@@ -3807,7 +3807,7 @@ def excel(school):
     activity_sum_dict = {}
     for item in data_activitybs:
         Activity = item["Activity"]
-        print(Activity)
+        
         for i in range(1, 13):
             total_sum_i = sum(
                 float(entry[f"total_bal{i}"])
