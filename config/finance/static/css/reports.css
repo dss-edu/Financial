@@ -64,8 +64,8 @@
 }
 
 #export-content {
-  max-width: 1120px;
-  min-width: 1120px;
+  max-width: 100%;
+  min-width: 100%;
   max-height: 1587px;
   max-height: 1220px;
 }

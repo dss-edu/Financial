@@ -114,12 +114,12 @@ def update_db():
         profit_loss_chart(school)
         
 def update_school(school):
-    profit_loss(school) 
-    balance_sheet(school)
-    cashflow(school)
+    # profit_loss(school) 
+    # balance_sheet(school)
+    # cashflow(school)
     excel(school)
-    charter_first(school)
-    profit_loss_chart(school)
+    # charter_first(school)
+    # profit_loss_chart(school)
 
 
 def profit_loss(school):
@@ -3040,8 +3040,9 @@ def excel(school):
                 "Activity": row[0],
                 "obj": row[1],
                 "Description2": row[2],
+                "school": row[3]
             }
-
+            
             data_activitybs.append(row_dict)
 
     
@@ -3806,6 +3807,7 @@ def excel(school):
     activity_sum_dict = {}
     for item in data_activitybs:
         Activity = item["Activity"]
+        print(Activity)
         for i in range(1, 13):
             total_sum_i = sum(
                 float(entry[f"total_bal{i}"])
