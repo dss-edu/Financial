@@ -50,303 +50,204 @@
             padding: .em 1em  !important;
 
         }
+        .table th {
+            background-color: #212529;
+            color: white;
+            padding: 18px 25px;
+            text-align: center;
+            margin-top:20px;
+        }
+        
+
+
+        .table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .table td {
+            padding: 15px 25px;
+            text-align: center;
+        }
+        
+        .table tr:last-child td {
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        
+        }
+        
+
     </style>
 {% endblock %}
 
 {% block body %}
-    <div id="content-wrapper">
-
-        <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
-
-            <a class="navbar-brand mr-1 text-primary " href="" ></a>
 
 
-    <!-- <!-- Navbar Search --> -->
-    <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"> -->
-    <!--    -->
-    <!-- </form> -->
-    <!-- <a class="navbar-brand mr-1 text-primary " href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/fd891db5-908a-4463-9807-eece4c2c2f76/ReportSection6c18d619620bd9b8337e?experience=power-bi" data-toggle="tooltip" title="view in powerbi" target="_blank"><i class="fas fa-file-powerpoint"  ></i></a> -->
-    <!-- <!-- Navbar --> -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-            <a class="navbar-brand mr-1 text-primary " href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="view as chart"><i class="fas fa-chart-bar" ></i></a>
+<div class="modal" id="confirmation-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="height: 80%;">
 
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to pdf"><i class="fas fa-file-pdf"></i></a> -->
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
-        </nav>
-  {% comment %} <script>
-      document.getElementById('export-pdf-button').addEventListener('click', function (event) {
-      event.preventDefault(); 
+            <div class="modal-body">
+                <h4>Export Confirmation</h4>
+                <p>Do you want the detailed view?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirm-yes" class="btn btn-primary">Yes</button>
+                <button type="button" id="confirm-no" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // Show the confirmation modal
-      var confirmationModal = document.getElementById("confirmation-modal");
-      var confirmYes = document.getElementById("confirm-yes");
-      var confirmNo = document.getElementById("confirm-no");
+<div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content  p-0 w-auto h-auto">
+            <div class="modal-body text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End of spinner modal -->
 
-      
-      confirmYes.addEventListener("click", function () {
-        var element = document.getElementById('data-table');
-      var rows = element.getElementsByTagName('tr');
-      for (var i = 0; i < rows.length; i++) {
-        var cells = rows[i].getElementsByTagName('td');
-        var headerCells = rows[i].getElementsByTagName('th');
 
-        if (cells.length > 0) {
-          rows[i].removeChild(cells[0]);
-          
-        }
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+        <div class="modal-content" style="height: 80%;">
+            <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
 
-        if (headerCells.length > 0) {
-          rows[i].removeChild(headerCells[0]);
-          
-        }
+                <table class="table table-hover" id="balancesheet-data-table1">
+                    <thead>
+                        <tr>
+                            <th><div style="width: 50px; text-align: center;">fund</div></th>
+                            <th><div style="width: 50px; text-align: center;">func</div></th>
+                            <th><div style="width: 50px; text-align: center;">obj</div></th>
+                            <th><div style="width: 50px; text-align: center;">org</div></th>
+                            <th><div style="width: 50px; text-align: center;">fscl_yr</div></th>
+                            <th><div style="width: 50px; text-align: center;">pgm</div></th>
+                            <th><div style="width: 50px; text-align: center;">projDtl</div></th>
+                            <th><div style="width: 100px; text-align: center;">AcctDescr</div></th>
+                            <th><div style="width: 100px; text-align: center;">Number</div></th>
+                            <th><div style="width: 100px; text-align: center;">Date</div></th>
+                            <th><div style="width: 100px; text-align: center;">AcctPer</div></th>
+                            <th><div style="width: 100px; text-align: center;">Real</div></th>
+                            <th><div style="width: 100px; text-align: center;">Expend</div></th>
+                            <th><div style="width: 100px; text-align: center;">Bal</div></th>
+                            <th><div style="width: 100px; text-align: center;">WorkDescr</div></th>
+                            <th><div style="width: 100px; text-align: center;">Type</div></th>
 
-      }
+                        </tr>
+                    </thead>
+                    <tbody id="modal-table-body">
 
-      
-      expandColumns();
-      for (var rowId = 1; rowId <= 100; rowId++) {
-        expandRow(rowId);
-      }
+                    </tbody>
+                </table>
 
-      var options = {
-        margin: 2,
-        filename: 'exported_table.pdf',
-        image: { type: 'png', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: [700,700], orientation: 'portrait' },
-      };
+            </div>
+            <div class="modal-footer">
 
-      confirmationModal.style.display = "none";
+                <table id="myModalFooter">
+                </table>
+                <br>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <a id="exportmodal1-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                &nbsp;
+                <a id="export-excel2-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="EXCEL"><i class="fas fa-file-excel"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
 
-      $('#spinner-modal').modal('show');
-      html2pdf().set(options).from(element).outputPdf().then(function(pdf){
-          $('#spinner-modal').modal('hide');
-      }).save();
-      
-      });
 
-      confirmNo.addEventListener("click", function () {
-        var element = document.getElementById('data-table');
-        hideRowsOnLoad();
-              var rows = element.getElementsByTagName('tr');
-      for (var i = 0; i < rows.length; i++) {
-        var cells = rows[i].getElementsByTagName('td');
-        var headerCells = rows[i].getElementsByTagName('th');
+<script>
+    document.getElementById('exportmodal1-pdf-button').addEventListener('click', function (event) {
+        event.preventDefault();
 
-        if (cells.length > 0) {
-          rows[i].removeChild(cells[0]);
-          
-        }
+        var element = document.getElementById('balancesheet-data-table1');
 
-        if (headerCells.length > 0) {
-          rows[i].removeChild(headerCells[0]);
-          
-        }
-
-      }
 
         var options = {
-          margin: 2,
-          filename: 'exported_table.pdf',
-          image: { type: 'png', quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: 'mm', format: [700,700], orientation: 'portrait' },
+            margin: 2,
+            filename: 'exported_table.pdf',
+            image: { type: 'png', quality: 0.98 },
+            html2canvas: {  scale: 1,
+                scrollX: 0,
+                scrollY: 0,},
+            jsPDF: { unit: 'mm', format: [600,600], orientation: 'portrait' },
         };
 
-      $('#spinner-modal').modal('show');
-      html2pdf().set(options).from(element).outputPdf().then(function(pdf){
-          $('#spinner-modal').modal('hide');
-      }).save();
-        
-      confirmationModal.style.display = "none";
 
-      });
-      
-      confirmationModal.style.display = "block";
+        html2pdf().set(options).from(element).save();
+    });
+</script>
+
+<script>
+
+    document.getElementById('export-excel2-button').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        var table = document.getElementById("balancesheet-data-table1"); // Use the table containing the headers
+
+
+        var wb = XLSX.utils.book_new();
+
+        var ws = XLSX.utils.table_to_sheet(table);
+
+        XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+
+        var wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+
+        var blob = new Blob([wbout], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+
+        var link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "data.xlsx";
+        link.click();
     });
 
-    function expandRow(rowId) {
-      for (var i = 0; i <= 100; i++) {
-        var row = document.getElementById("row" + rowId + "-" + i);
-        if (row) {
-          row.style.display = "table-row";
-        }
-      }
-    }
+</script>
 
-    function expandColumns() {
-      var collapsedColumns = document.getElementsByClassName("collapsed");
-      for (var i = 0; i < collapsedColumns.length; i++) {
-        collapsedColumns[i].style.display = "table-cell";
-      }
-    }
-
-
-  </script> {% endcomment %}
-
-
-        <div class="modal" id="confirmation-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="height: 80%;">
-
-                    <div class="modal-body">
-                        <h4>Export Confirmation</h4>
-                        <p>Do you want the detailed view?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="confirm-yes" class="btn btn-primary">Yes</button>
-                        <button type="button" id="confirm-no" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    </div>
-                </div>
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                <h5 class="text-center" style="color: white;">{{ school_name }}</h5>
             </div>
-        </div>
-
-        <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
-                <div class="modal-content  p-0 w-auto h-auto">
-                    <div class="modal-body text-center">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
+                
+                <a id="export-excel-button" class="navbar-brand mr-4 text-primary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
             </div>
-        </div> <!-- End of spinner modal -->
-
-
-        <div class="modal" id="myModal">
-            <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
-                <div class="modal-content" style="height: 80%;">
-                    <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
-
-                        <table class="table table-hover" id="balancesheet-data-table1">
-                            <thead>
-                                <tr>
-                                    <th><div style="width: 50px; text-align: center;">fund</div></th>
-                                    <th><div style="width: 50px; text-align: center;">func</div></th>
-                                    <th><div style="width: 50px; text-align: center;">obj</div></th>
-                                    <th><div style="width: 50px; text-align: center;">org</div></th>
-                                    <th><div style="width: 50px; text-align: center;">fscl_yr</div></th>
-                                    <th><div style="width: 50px; text-align: center;">pgm</div></th>
-                                    <th><div style="width: 50px; text-align: center;">projDtl</div></th>
-                                    <th><div style="width: 100px; text-align: center;">AcctDescr</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Number</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Date</div></th>
-                                    <th><div style="width: 100px; text-align: center;">AcctPer</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Real</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Expend</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Bal</div></th>
-                                    <th><div style="width: 100px; text-align: center;">WorkDescr</div></th>
-                                    <th><div style="width: 100px; text-align: center;">Type</div></th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="modal-table-body">
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer">
-
-                        <table id="myModalFooter">
-                        </table>
-                        <br>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <a id="exportmodal1-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        <a id="export-excel2-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="EXCEL"><i class="fas fa-file-excel"></i></a>
-                    </div>
-                </div>
+            <div id="edit-container" class="mr-2">
+                <button id="edit-button" class="btn btn-sm btn-primary" type="button" style=" float: right; color: #212529;">Edit</button>
             </div>
-        </div>
+
+            <div id="cancel-container" style="display: none;" class="mr-2">
+                <button id="cancel-button" class="btn btn-sm btn-primary" type="button" style=" float: right; margin-left: 10px; color: #212529;" >Cancel</button>
+            </div>
 
 
-        <script>
-            document.getElementById('exportmodal1-pdf-button').addEventListener('click', function (event) {
-                event.preventDefault();
 
-                var element = document.getElementById('balancesheet-data-table1');
+        </nav>
+  
 
-
-                var options = {
-                    margin: 2,
-                    filename: 'exported_table.pdf',
-                    image: { type: 'png', quality: 0.98 },
-                    html2canvas: {  scale: 1,
-                        scrollX: 0,
-                        scrollY: 0,},
-                    jsPDF: { unit: 'mm', format: [600,600], orientation: 'portrait' },
-                };
-
-
-                html2pdf().set(options).from(element).save();
-            });
-        </script>
-
-        <script>
-
-            document.getElementById('export-excel2-button').addEventListener('click', function (event) {
-                event.preventDefault();
-
-                var table = document.getElementById("balancesheet-data-table1"); // Use the table containing the headers
-
-
-                var wb = XLSX.utils.book_new();
-
-                var ws = XLSX.utils.table_to_sheet(table);
-
-                XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-
-
-                var wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
-
-                var blob = new Blob([wbout], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-
-
-                var link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "data.xlsx";
-                link.click();
-            });
-
-        </script>
 
 
         <div class="table-container"  >
             <form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
-
-                <!-- {% if request.user|has_group:"admin" %} -->
-                <div id="edit-container" >
-                    <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
-                </div>
-
-                <div id="cancel-container" style="display: none;">
-                    <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
-                </div>
-
                 <div id="save-container" style="display: none; ">
-                    <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
+                    <button id="save-button" class="btn btn-sm btn-primary" style="float: right; margin-left: 10px; " type="submit" >Save</button>
                 </div>
-
+                <!-- {% if request.user|has_group:"admin" %} -->
+   
 
                 <script>
                     document.getElementById("edit-button").addEventListener("click", function() {
@@ -395,39 +296,38 @@
                 <!-- {% endif %} -->
 
                 {% csrf_token %}
-                <table id="data-table" class="table table-hover" width="100%">
-                    <thead>
-                        <tr>
-                            <th class="firstcolumn"></th>
+                <table id="data-table" class="table table-hover" width="100%" >
+                    <thead >
+                        <tr >
+                            <th class="firstcolumn" style="border-top-left-radius: 20px;"></th>
                             <th class="collapsed"></th>
 
-                            <th colspan="17" style="white-space: nowrap;">
-                                <h2 style="text-align: center;">{{ school_name }}</h2><br>
-                                <h2 style="text-align: center;">FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of Activities as of {{months.last_month}}</h2><br>
+                            <th colspan="17" style="white-space: nowrap;  border-top-right-radius: 20px;" >
+                                <h5 style="text-align: center;">FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of Activities as of {{months.last_month}}</h5>
                             </th>
 
 
                         </tr>
-                        <tr>
+                        <tr >
                             <script>
                                 for (var i = 0; i <= 18; i++){
                                     if (i === 0){
-                                        document.write(`<td  class="firstcolumn"></td>`);
+                                        document.write(`<td  class="firstcolumn" style="background: white;"></td>`);
 
                                     }
                                     else if (i === 1){
-                                        document.write(`<td  class="collapsed"></td>`);
+                                        document.write(`<td  class="collapsed" style="background: white;"></td>`);
 
                                     }
                                     else if (i === 4 ) {
-                                        document.write(`<th style="text-align:right;"><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></th>`);
+                                        document.write(`<td style="text-align:right; background: white;" ><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" >+</button></td>`);
                  // document.write(`<th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns();" >+</button></th>`);
                                     }
-                                    else if(i>=6 && i<=16){
-                                        document.write(`<td  class="collapsed"></td>`);
+                                    else if(i>=5 && i<=15){
+                                        document.write(`<td  class="collapsed" style="background: white;"></td>`);
                                     }
                                     else{
-                                        document.write(`<td  ></td>`);
+                                        document.write(`<td style="background: white;" ></td>`);
                                     }
                                 }
 
@@ -1522,8 +1422,9 @@
                                     <td id="EOC-total-19" class="right-align-td strong">{{totals.var_total_expense}}</td>
                                 </tr>
 
+                            
                                 <tr id="" class="netincome-total-row">
-                                    <td class="firstcolumn"></td>
+                                    <td class="firstcolumn" ></td>
                                     <td class="collapsed"></td>
                                     <td  ><strong>Net Income</strong></td>
                                     <td id="netincome-total-3" class=" right-align-td top-border strong" >{{totals.budget_net_income}}</td>
@@ -1542,7 +1443,7 @@
                                     <td id="netincome-total-16" class="collapsed right-align-td top-border strong">{{totals.total_net_income_months.08}}</td>
                                     <td id="netincome-total-17" class="right-align-td top-border strong">{{totals.ytd_net_income}}</td>
                                     <td id="netincome-total-18" class="right-align-td top-border strong">{{totals.variances_net_income}}</td>
-                                    <td id="netincome-total-19" class="right-align-td strong">{{totals.var_net_income}}</td>
+                                    <td id="netincome-total-19" class="right-align-td strong" >{{totals.var_net_income}}</td>
                                 </tr>
 
 
@@ -2697,4 +2598,5 @@
     <script src="{% static 'js/pl.js' %}"></script>
     <script src="{% static 'js/excel.js' %}"></script>
     <script src="{% static 'js/plHideCols.js' %}"></script>
+   
 {% endblock %}
