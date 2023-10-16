@@ -16,50 +16,18 @@
 {% block body %}
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand mr-1 text-primary" href=""></a>
+      
 
     <!-- Navbar Search -->
-            <form
-                class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"
-            ></form>
-            <a
-                class="navbar-brand mr-1 text-primary"
-                href="https://app.powerbi.com/groups/031634b4-01f7-4358-856c-e48f6f5fcaca/reports/61085bf2-1355-4ac4-adfd-c41d2ede3d1a/ReportSection3e1e5b586b7d627ce437?experience=power-bi"
-            ><i class="fas fa-file-powerpoint"></i
-                ></a>
-    <!-- Navbar -->
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                <a class="navbar-brand mr-1 text-primary" href="/profit-loss/{{ school }}"
-                ><i class="fas fa-table"></i
-                    ></a>
+            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0" ></form>
+
+            <div>
+                <a class="navbar-brand mr-4 text-primary" href="/profit-loss/{{ school }}"><i class="fas fa-table"></i></a>
+            </div>
                 </nav>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-  {% comment %}
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    "
-  >
-    <h1>Total Revenue</h1>
-    <div id="totalrevenue" style="width: 100%; height: 400px"></div>
-  </div>
-
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    "
-  >
-    <h1>Total Expense</h1>
-    <div id="totalfirst" style="width: 100%; height: 400px"></div>
-  </div>
-  {% endcomment %}
-
+              
+ 
+            
                 <div class="header margin0" style="width: 100%; text-align: center">
                     <div class="top">
                         <h1 class="margin0">Financial Perfomance Dashboard</h1>
@@ -299,7 +267,7 @@
 
                 }
              
-                console.log(entry)
+                console.log(data_chart)
                 dataCharts.push(entry);
 
 

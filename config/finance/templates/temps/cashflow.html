@@ -18,90 +18,23 @@
 
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
-            <a class="navbar-brand mr-1 text-primary " href="/charter-first/{{ school }}" ><i class="fas fa-table"></i></a>
-
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- &nbsp; -->
-    <!-- <a id="export-pdf-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></i></a> -->
-
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="export to excel"><i class="fas fa-file-excel"></i></a>
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                <h5 class="text-center" style="color: white;">{{ school_name }}</h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
+                
+                <a id="export-excel-button" class="navbar-brand mr-2 text-primary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
+            </div>
         </nav> <!-- End of nav -->
 
 
 
 
         <div class="table-container"  >
-            <div id="json-response"></div>
+         
             <form  id="insert-row-form" action="#" method="POST">
-        {% comment %} <div id="edit-container">
-            <button id="edit-button" class="btn btn-sm btn-success" type="button" style=" float: right;">Edit</button>
-        </div>
-
-        <div id="cancel-container" style="display: none;">
-              <button id="cancel-button" class="btn btn-sm btn-success" type="button" style=" float: right; margin-left: 10px;" >Cancel</button>
-        </div>
-
-        <div id="save-container" style="display: none;">
-            <button id="save-button" class="btn btn-sm btn-success" style="float: right; margin-left: 10px; " >Save</button>
-        </div> 
-
-<script>
-    document.getElementById("edit-button").addEventListener("click", function() {
-        // Hide the "Edit" container
-        document.getElementById("edit-container").style.display = "none";
-
-        // Show the "Save" container
-        document.getElementById("save-container").style.display = "block";
-        document.getElementById("cancel-container").style.display = "block";
         
-        
-        
-        var valueCells = document.querySelectorAll("[id^='value-cell-']");
-        valueCells.forEach(function(cell) {
-            cell.contentEditable = "true";
-        });
-        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
-        deleteLinks.forEach(function(link) {
-            link.style.display = "block";
-        });
-        document.getElementById("add-row-button").style.display = "block";
-        document.getElementById("add-row-spr-button").style.display = "block";
-        document.getElementById("add-row-fpr-button").style.display = "block";
-        document.getElementById("add-row-func-button").style.display = "block";
-        
-        
-    });
-
-    document.getElementById("cancel-button").addEventListener("click", function() {
-        // Hide the "Save" container
-        document.getElementById("save-container").style.display = "none";
-        document.getElementById("cancel-container").style.display = "none";
-        
-    
-        
-
-        // Show the "Edit" container
-        document.getElementById("edit-container").style.display = "block";
-        var valueCells = document.querySelectorAll("[id^='value-cell-']");
-        valueCells.forEach(function(cell) {
-            cell.contentEditable = "false";
-        });
-        var deleteLinks = document.querySelectorAll("[id^='delete-container']");
-        deleteLinks.forEach(function(link) {
-            link.style.display = "none";
-        });
-        document.getElementById("add-row-button").style.display = "none";
-        document.getElementById("add-row-spr-button").style.display = "none";
-        document.getElementById("add-row-fpr-button").style.display = "none";
-        document.getElementById("add-row-func-button").style.display = "none";
-    });
-</script>  {% endcomment %}
 
                 {% csrf_token %}
 
@@ -110,7 +43,7 @@
                         <tr>
                             <th class="firstcolumn"></th>
                             <th colspan="18" style="white-space: nowrap;">
-                                <h2 style="text-align: center;">{{ school_name }}</h2><br>
+                           
                                 <h2 style="text-align: center;">Statement of Cash Flows for the period ended {{last_month}}</h2><br>
                             </th>
                         </tr>
