@@ -116,23 +116,29 @@ $(document).ready(function() {
       rows.forEach(function(row,index){
         const data = row.getElementsByTagName('td')
         
-        if (index < 3) {
+        if (index < 1) {
           return;
         }
+
         // check if all data has content
         if (data.length > 3) {
-        let toDelete = true
-        for (let i = 3; i < data.length; i++){
-          if (data[i].textContent.trim() !== ''){
-            toDelete = false
-            break
+          let toDelete = true
+
+          for (let i = 3; i < data.length; i++){
+            if (data[i])
+            console.log(i)
+            console.log(data[i].textContent.trim())
+            if (data[i].textContent.trim() !== ''){
+              toDelete = false
+              console.log(toDelete)
+              break
+            }
+            console.log(toDelete)
           }
-        }
-        
-        if (toDelete){
           
-          row.remove()
-        }
+          if (toDelete){
+            row.remove()
+          }
       }
   
       })
