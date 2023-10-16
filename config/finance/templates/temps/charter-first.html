@@ -37,7 +37,7 @@
         .table th,
         .table td {
             padding: 0.1rem !important;
-            font-size: 11px;
+            font-size: 13.5px;
             vertical-align: middle!important;
             height: 24px;
         }
@@ -91,19 +91,15 @@
 
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
-     
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <a class="navbar-brand mr-1 text-primary " href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar" ></i></a>
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to Excel" ><i class="fas fa-file-excel"></i></a>
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                <h5 class="text-center" style="color: white;">{{ school_name }}</h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
+                
+                <a id="export-excel-button" class="navbar-brand mr-2 text-primary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
+            </div>
+      
         </nav>
 
         <div class="table-container" >
@@ -111,10 +107,10 @@
                 {% csrf_token %}
                 <table id="data-table" class="table table-hover">
                     <thead>
-                        <tr>
-                            <th colspan="19" style="white-space: nowrap;  margin-top: 5px;">
-                                <h4 style="text-align: center;">{{school_name}}</h4><br>
-                                <h4 style="text-align: center;">FY{{ fiscal_year }}-{{ next_fiscal_year }} Charter First Forecast of {{ date|date:"F j, Y" }}</h3><br>
+                        <tr  style = "vertical-align: middle; height: 50px;">
+                            <th colspan="19" style="white-space: nowrap; ">
+                              
+                                <h4 style="text-align: center; vertical-align: middle; ">FY{{ fiscal_year }}-{{ next_fiscal_year }} Charter First Forecast of {{ date|date:"F j, Y" }}</h4>
                             </th>
                         </tr>
                         <tr class="green-header " style="background-color: #212529; color:white;">
@@ -341,6 +337,9 @@
 {% endblock %}
 
 {% block javascript %}
+<script>
+    var school = "{{ school }}";
+</script>
     <script src="{% static 'js/excel.js' %}"></script>
     <script src="{% static 'js/charter.js' %}"></script>
 {% endblock %}
