@@ -55,11 +55,17 @@
         }
         .table th,
         .table td {
-            padding: 0.1rem !important;
+            padding: 0rem !important;
+            font-size: 11px;
 
         }
         td:nth-child(4) {
             text-align: center;
+        }
+        .table-container {
+            display: flex;
+            justify-content: center;
+            height: 100vh;
         }
     </style>
 
@@ -95,7 +101,7 @@
             <a id="export-excel-button" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
         </nav>
 
-        <div class="table-container"  >
+        <div class="table-container" >
             <form  id="insert-row-form" action="{% url 'insert-row' %}" method="post">
 
   {% comment %} <div id="edit-container" >
@@ -175,13 +181,13 @@
 
                             <th colspan="19" style="white-space: nowrap;">
                                 <h2 style="text-align: center;">{{school_name}}</h2><br>
-                                <h2 style="text-align: center;">FY{{ fiscal_year }}-{{ next_fiscal_year }} Statement of Activities as of {{ date|date:"F j, Y" }}</h2><br>
+                                <h2 style="text-align: center;">FY{{ fiscal_year }}-{{ next_fiscal_year }} Charter First Forecast of {{ date|date:"F j, Y" }}</h2><br>
                             </th>
 
 
 
                         </tr>
-                        <tr class="green-header" style="height: 50px">
+                        <tr class="green-header">
                             <th style="text-align: center;">FIRST Rating Indicators </th>
                             <th style="text-align: center;">Expected Results</th>
                             <th style="text-align: center;">Points</th>

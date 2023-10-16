@@ -44,11 +44,13 @@
       margin: 0; 
       padding: 0; 
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       table-layout: fixed;
      
   
     }
+
+
     .header {
       position: sticky;
       top: 0;
