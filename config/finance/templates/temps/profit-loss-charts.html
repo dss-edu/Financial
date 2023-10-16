@@ -255,24 +255,57 @@
                 var localRevenue = data.localRevenue.total;
                 var stateprogramRevenue = data.stateprogramRevenue.total;
                 var federalprogramRevenue = data.federalprogramRevenue.total;
+                var data_lr =  data.localRevenue;
+                var data_spr = data.stateprogramRevenuel;
+                var data_fpr = data.federalprogramRevenue;
+                
+                if ('total' in data_lr) {
+                    delete data_lr.total;
+                  }
+
+                  var sum_lr = 0;
+                  for (var key in data_lr) {
+                    if (data_lr.hasOwnProperty(key)) {
+                        sum_lr += data_lr[key];
+                    }
+                  }
+                  
+   
                 var date = item.date
                 var [year, month] = date.split('-');
 
 
+                if(localRevenue == 0){
+                    localRevenue = "";
+                }
+                if(stateprogramRevenue == 0){
+                    stateprogramRevenue = "";
+                }
+                if(federalprogramRevenue == 0){
+                    federalprogramRevenue = "";
+                }
+               
                 var entry={
                     month:monthNames[month],
                     year:year,
                     LR_total:localRevenue,
                     SPR_total: stateprogramRevenue,
                     FPR_total: federalprogramRevenue,
+                    data_lr: data_lr,
+                    data_spr: data_spr,
+                    data_fpr: data_fpr,
+                    
 
 
                 }
+             
+                console.log(entry)
                 dataCharts.push(entry);
 
 
             });
 
+ 
             var monthOrder = {
                 "January": 1,
                 "February": 2,
@@ -301,7 +334,8 @@
                 }
                 return 0;
             });
-            console.log(dataCharts)
+            
+
       // Create axes
       // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
             var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
@@ -313,6 +347,7 @@
             });
             var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
                 maxDeviation: 0.3,
+              
                 categoryField: "yearMonth",
                 renderer: xRenderer,
                 tooltip: am5.Tooltip.new(root, {})
@@ -322,21 +357,25 @@
                 location: 1
             })
 
+
             dataCharts.forEach(function (item) {
                 item.yearMonth = item.year + "-" + item.month;
             });
 
+              
             xAxis.data.setAll(dataCharts);
 
             var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.3,
-                min: 0,
+          
                 renderer: am5xy.AxisRendererY.new(root, {
                     strokeOpacity: 0.1
                 })
             }));
 
+ 
 
+  
       // Add legend
       // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
             var legend = chart.children.push(am5.Legend.new(root, {
@@ -348,7 +387,7 @@
 
       // Add series
       // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-            function makeSeries(name, fieldName) {
+            function makeSeries(name, fieldName, data) {
                 var series = chart.series.push(am5xy.ColumnSeries.new(root, {
                     name: name,
                     stacked: true,
@@ -356,24 +395,31 @@
                     yAxis: yAxis,
                     sequencedInterpolation: true,
                     valueYField: fieldName,
-                    categoryXField: "yearMonth"
+                    categoryXField: "yearMonth",
+  
+       
                 }));
+
 
                 series.columns.template.setAll({
                     tooltipText: "{name}, {categoryX}: {valueY}",
                     tooltipY: am5.percent(10),
 
                 });
+
+          
+           
                 series.data.setAll(dataCharts);
 
         // Make stuff animate on load
         // https://www.amcharts.com/docs/v5/concepts/animations/
                 series.appear();
 
+                
                 series.bullets.push(function() {
                     return am5.Bullet.new(root, {
                         sprite: am5.Label.new(root, {
-                            text: "{valueY}",
+                            text:"{valueY}",
                             fontSize: 8,
                             fill: root.interfaceColors.get("alternativeText"),
                             centerY: am5.p50,
@@ -385,10 +431,11 @@
 
                 legend.data.push(series);
             }
-
-            makeSeries("Local Revenue", "LR_total" );
-            makeSeries("State Program Revenue", "SPR_total" );
-            makeSeries("Federal Program Revenue", "FPR_total" );
+            
+         
+            makeSeries("Local Revenue", "LR_total" ,dataCharts);
+            makeSeries("State Program Revenue", "SPR_total",  dataCharts );
+            makeSeries("Federal Program Revenue", "FPR_total", dataCharts);
 
 
 
@@ -474,6 +521,31 @@
                 var date = item.date
                 var [year, month] = date.split('-');
 
+                if(payrollandBenefits == 0){
+                    payrollandBenefits = "";
+
+                }
+                if(professionalandcontractServices == 0){
+                    professionalandcontractServices = "";
+
+                }
+                if(materialsandSupplies == 0){
+                    materialsandSupplies = "";
+
+                }
+                if(otheroperatingCosts == 0){
+                    otheroperatingCosts = "";
+
+                }
+                if(depreciation == 0){
+                    depreciation = "";
+
+                }
+                if(debtServices == 0){
+                    debtServices = "";
+
+                }
+
                 var entry={
                     month:monthNames[month],
                     year:year,
@@ -521,6 +593,8 @@
                 return 0;
             });
 
+
+            
       // Create axes
       // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
             var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
