@@ -860,12 +860,15 @@ def profit_loss(school):
     total_EOC_ooe =  {acct_per: 0 for acct_per in acct_per_values}#Other Operating Expenses
     total_EOC_te =  {acct_per: 0 for acct_per in acct_per_values}#Total Expense
     total_EOC_oe =  {acct_per: 0 for acct_per in acct_per_values}#Other expenses 6449
+    total_EOC_cpa =  {acct_per: 0 for acct_per in acct_per_values}#FOR FIXED/CAPITAL ASSETS
+
     ytd_EOC_pc   = 0
     ytd_EOC_pcs  = 0
     ytd_EOC_sm   = 0
     ytd_EOC_ooe  = 0
     ytd_EOC_te   = 0
     ytd_EOC_oe = 0
+    ytd_EOC_cpa = 0 
 
     #FOR TOTAL EXPENSE
     total_expense = 0 
@@ -880,6 +883,7 @@ def profit_loss(school):
     total_budget_ooe = 0
     total_budget_oe = 0
     total_budget_te = 0
+    total_budget_cpa = 0
 
     ytd_budget_pc = 0
     ytd_budget_pcs = 0
@@ -887,6 +891,9 @@ def profit_loss(school):
     ytd_budget_ooe = 0 
     ytd_budget_oe = 0 
     ytd_budget_te = 0
+    ytd_budget_cpa = 0
+
+    
 
        
     
@@ -935,7 +942,10 @@ def profit_loss(school):
             total_budget_oe += item["total_budget"]     
             
         if category == "Debt Services": 
-            total_budget_te += item["total_budget"]         
+            total_budget_te += item["total_budget"]     
+
+        if category == "FIXED/CAPITAL ASSETS": 
+            total_budget_cpa += item["total_budget"]      
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             total_activities = sum(
@@ -978,6 +988,10 @@ def profit_loss(school):
             if category == "Debt Services":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
 
+            
+            if category == "FIXED/CAPITAL ASSETS":
+                total_EOC_cpa[acct_per] += item[f"total_activities{i}"]
+
             total_expense_months[acct_per] += item[f"total_activities{i}"]  
 
         for month_number in range(1, 13):
@@ -999,6 +1013,7 @@ def profit_loss(school):
     ytd_EOC_ooe = sum(total_EOC_ooe.values())
     ytd_EOC_te  = sum(total_EOC_te.values())
     ytd_EOC_oe  = sum(total_EOC_oe.values())
+    ytd_EOC_cpa  = sum(total_EOC_cpa.values())
 
 
     
@@ -1008,6 +1023,7 @@ def profit_loss(school):
     ytd_budget_ooe = total_budget_ooe  * ytd_budget
     ytd_budget_oe = total_budget_oe * ytd_budget
     ytd_budget_te = total_budget_te * ytd_budget
+    ytd_budget_cpa = total_budget_cpa * ytd_budget
     
     
     
@@ -1021,6 +1037,7 @@ def profit_loss(school):
     for item in data_expensebyobject:
         obj = item["obj"]
        
+        print(obj)
         if obj == "6100":
             category = "Payroll and Benefits"
             item["variances"] = ytd_budget_pc - ytd_EOC_pc
@@ -1041,10 +1058,14 @@ def profit_loss(school):
             category = "Depreciation"
             item["variances"] = ytd_budget_oe - ytd_EOC_oe
             item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_oe / total_budget_oe*100))) if total_budget_oe != 0 else ""
-        else:
+        elif obj == "6500":
             category = "Debt Services"
             item["variances"] = ytd_budget_te - ytd_EOC_te
             item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
+        else:
+            category = "FIXED/CAPITAL ASSETS"
+            item["variances"] = ytd_budget_cpa - ytd_EOC_cpa
+            item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_cpa / total_budget_cpa*100))) if total_budget_cpa != 0 else ""
 
         for i, acct_per in enumerate(acct_per_values, start=1):
             item[f"total_expense{i}"] = sum(
@@ -1055,7 +1076,7 @@ def profit_loss(school):
 
         
     #CONTINUATION COMPUTATION TOTAL EXPENSE
-    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
+    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total,ytd_EOC_cpa])
     variances_total_expense = total_expense_ytd_budget - total_expense_ytd
     var_total_expense = "{:d}%".format(round(abs(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
         
@@ -1246,7 +1267,8 @@ def profit_loss(school):
     total_EOC_sm = {acct_per: format_value(value) for acct_per, value in total_EOC_sm.items() if value != 0} 
     total_EOC_ooe = {acct_per: format_value(value) for acct_per, value in total_EOC_ooe.items() if value != 0} 
     total_EOC_te = {acct_per: format_value(value) for acct_per, value in total_EOC_te.items() if value != 0}
-    total_EOC_oe = {acct_per: format_value(value) for acct_per, value in total_EOC_oe.items() if value != 0} 
+    total_EOC_oe = {acct_per: format_value(value) for acct_per, value in total_EOC_oe.items() if value != 0}
+    total_EOC_cpa = {acct_per: format_value(value) for acct_per, value in total_EOC_cpa.items() if value != 0}  
 
     ytd_EOC_pc  = format_value(ytd_EOC_pc)
     ytd_EOC_pcs = format_value(ytd_EOC_pcs)
@@ -1254,6 +1276,7 @@ def profit_loss(school):
     ytd_EOC_ooe = format_value(ytd_EOC_ooe)
     ytd_EOC_te  = format_value(ytd_EOC_te)
     ytd_EOC_oe  = format_value(ytd_EOC_oe)
+    ytd_EOC_cpa  = format_value(ytd_EOC_cpa)
 
     total_budget_pc =  format_value(total_budget_pc)
     total_budget_pcs = format_value(total_budget_pcs)
@@ -1261,6 +1284,7 @@ def profit_loss(school):
     total_budget_ooe = format_value(total_budget_ooe)
     total_budget_oe =  format_value(total_budget_oe)   
     total_budget_te =  format_value(total_budget_te)
+    total_budget_cpa =  format_value(total_budget_cpa)
 
     ytd_budget_pc = format_value(ytd_budget_pc)
     ytd_budget_pcs =format_value(ytd_budget_pcs)
@@ -1268,6 +1292,7 @@ def profit_loss(school):
     ytd_budget_ooe =format_value(ytd_budget_ooe)
     ytd_budget_oe = format_value(ytd_budget_oe)
     ytd_budget_te = format_value(ytd_budget_te)
+    ytd_budget_cpa = format_value(ytd_budget_cpa)
 
 
 
@@ -1552,24 +1577,28 @@ def profit_loss(school):
             "total_EOC_ooe":total_EOC_ooe,
             "total_EOC_te":total_EOC_te,
             "total_EOC_oe":total_EOC_oe,
+            "total_EOC_cpa":total_EOC_cpa,
             "ytd_EOC_pc":ytd_EOC_pc,
             "ytd_EOC_pcs":ytd_EOC_pcs,
             "ytd_EOC_sm":ytd_EOC_sm,
             "ytd_EOC_ooe":ytd_EOC_ooe,
             "ytd_EOC_te":ytd_EOC_te,
             "ytd_EOC_oe":ytd_EOC_oe,
+            "ytd_EOC_cpa":ytd_EOC_cpa,
             "total_budget_pc":total_budget_pc,
             "total_budget_pcs":total_budget_pcs,
             "total_budget_sm":total_budget_sm,
             "total_budget_ooe":total_budget_ooe,
             "total_budget_oe":total_budget_oe,
             "total_budget_te":total_budget_te,
+            "total_budget_cpa":total_budget_cpa,
             "ytd_budget_pc":ytd_budget_pc,
             "ytd_budget_pcs":ytd_budget_pcs,
             "ytd_budget_sm":ytd_budget_sm,
             "ytd_budget_ooe":ytd_budget_ooe,
             "ytd_budget_oe":ytd_budget_oe,
             "ytd_budget_te":ytd_budget_te,
+            "ytd_budget_cpa":ytd_budget_cpa,
             #EXPENSE BY OBJECT FOR DEPRECIATION AND AMORTIZATION
             "dna_total_6449":dna_total_6449,
             "ytd_ammended_dna_6449":ytd_ammended_dna_6449,
