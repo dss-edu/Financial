@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [
     "ec2-54-199-141-147.ap-northeast-1.compute.amazonaws.com",
     "ec2-35-78-202-130.ap-northeast-1.compute.amazonaws.com",
     "financialreport.dssedu.com",
+    "localhost"
 ]
 
 # Application definition
@@ -163,4 +164,99 @@ CKEDITOR_CONFIGS = {
         "removePlugins": "stylesheetparser",
         "allowedContent": True,
     },
+}
+
+SCHOOLS = {
+    "advantage": "ADVANTAGE ACADEMY",
+    "cumberland": "CUMBERLAND ACADEMY",
+    "village-tech": "VILLAGE TECH",
+    "leadership": "LEADERSHIP PREP SCHOOL",
+    "manara": "MANARA ACADEMY",
+    "legacy": "LEGACY PREP SCHOOL",
+}
+
+db = {
+    "advantage": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Advantage_new]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
+    "cumberland": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Cumberland_new]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
+    "village-tech": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_VillageTech]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
+    "leadership": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Leadership]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
+    "manara": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Manara]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"        
+    },
+    "legacy": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_Legacy]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
+}
+
+schoolCategory = {
+    "ascender": ["advantage", "manara", "leadership", "cumberland"],
+    "skyward": ["village-tech", "legacy"]
 }

@@ -7,6 +7,7 @@ import json
 import os
 import re
 import math
+from config import settings
 
 # Get the current date
 current_date = datetime.now()
@@ -14,77 +15,8 @@ current_date = datetime.now()
 month_number = current_date.month
 curr_year = current_date.year
 
-SCHOOLS = {
-    "advantage": "ADVANTAGE ACADEMY",
-    "cumberland": "CUMBERLAND ACADEMY",
-    "village-tech": "VILLAGE TECH",
-    "leadership": "LEADERSHIP PREP SCHOOL",
-    "manara": "MANARA ACADEMY",
-}
-
-db = {
-    "advantage": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye": "[Balancesheet_FYE]",
-    },
-    "cumberland": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye": "[Balancesheet_FYE]",
-    },
-    "village-tech": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[Skyward_VillageTech]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye": "[Balancesheet_FYE]",
-    },
-    "leadership": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Leadership]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye": "[Balancesheet_FYE]",
-    },
-    "manara": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Manara]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye": "[Balancesheet_FYE]",
-    },
-}
-
+SCHOOLS = settings.SCHOOLS
+db = settings.db
 
 def dashboard(school):
     # current_date = datetime.today().date()

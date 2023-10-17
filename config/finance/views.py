@@ -35,80 +35,10 @@ from openpyxl.drawing.image import Image
 from django.contrib.auth.decorators import login_required
 from . import modules
 from .decorators import permission_required
+from config import settings
 
-
-SCHOOLS = {
-    "advantage": "ADVANTAGE ACADEMY",
-    "cumberland": "CUMBERLAND ACADEMY",
-    "village-tech": "VILLAGE TECH",
-    "leadership": "LEADERSHIP PREP SCHOOL",
-    "manara": "MANARA ACADEMY",
-}
-
-
-db = {
-    "advantage": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage_new]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "cumberland": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland_new]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "village-tech": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[Skyward_VillageTech]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "leadership": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Leadership]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-    "manara": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Manara]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-    },
-}
-
+SCHOOLS = settings.SCHOOLS
+db = settings.db
 
 @login_required
 def updatedb(request):
