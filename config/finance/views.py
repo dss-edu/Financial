@@ -8500,10 +8500,7 @@ def generate_excel(request,school):
     cashflow_sheet.column_dimensions['U'].width = 17
     cashflow_sheet.column_dimensions['V'].width = 14
 
-    for col in range(4, 16):
-        col_letter = get_column_letter(col)
-        cashflow_sheet.column_dimensions[col_letter].outline_level = 1
-        cashflow_sheet.column_dimensions[col_letter].hidden = True
+
 
 
     start = 1 
@@ -8518,6 +8515,10 @@ def generate_excel(request,school):
     
     if  school != 'manara' and school != 'leadership':
 
+        for col in range(4, 17):
+            col_letter = get_column_letter(col)
+            cashflow_sheet.column_dimensions[col_letter].outline_level = 1
+            cashflow_sheet.column_dimensions[col_letter].hidden = True
         last_number = months["last_month_number"]
         
         # PL START OF DESIGN
@@ -8525,8 +8526,18 @@ def generate_excel(request,school):
             last_number += 11
         else:
             last_number -= 1
-   
 
+
+        for col in range(last_number-3,16):
+            col_letter = get_column_letter(col)
+          
+      
+            cashflow_sheet.column_dimensions[col_letter].outline_level = 2
+            cashflow_sheet.column_dimensions[col_letter].hidden = True
+
+        
+
+       
 
         cashflow_start_hiding = 7
         cashflow_start_row = 7
@@ -8583,7 +8594,7 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
-        cashflow_start_row += 7
+        cashflow_start_row = 19
         net_operating_total_row = cashflow_start_row
         
         # NET OPERATING TOTAL
@@ -8629,7 +8640,7 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         investing_row_end = cashflow_start_row
-        cashflow_start_row += 3
+        cashflow_start_row = 30
         
         #NET INVESTING TOTAL
         net_investing_total_row = cashflow_start_row
@@ -8649,7 +8660,7 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row += 17
+        cashflow_start_row = 40
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8665,7 +8676,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row += 2
+        cashflow_start_row  = 42
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8685,7 +8696,7 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row += 2
+        cashflow_start_row = 44
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8705,13 +8716,34 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_8']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['last_month_difference']
 
+        while cashflow_start_hiding <= cashflow_start_row:
+            for col in range(last_number-3,16):
+                col_letter = get_column_letter(col)
+             
+                cell = cashflow_sheet.cell(row=cashflow_start_hiding, column=col)
+                cell.value = None
+            cashflow_start_hiding += 1
+
 
     else:
         #MANARA CASHFLOW
-
-
+        header_cashflow = 5
+        bs_sheet[f'D{header_cashflow}'] = 'July'
+        bs_sheet[f'E{header_cashflow}'] = 'August'
+        bs_sheet[f'F{header_cashflow}'] = 'September'
+        bs_sheet[f'G{header_cashflow}'] = 'October'
+        bs_sheet[f'H{header_cashflow}'] = 'November'
+        bs_sheet[f'I{header_cashflow}'] = 'December'
+        bs_sheet[f'J{header_cashflow}'] = 'January'
+        bs_sheet[f'K{header_cashflow}'] = 'February'
+        bs_sheet[f'L{header_cashflow}'] = 'March'
+        bs_sheet[f'M{header_cashflow}'] = 'April'
+        bs_sheet[f'N{header_cashflow}'] = 'May'
+        bs_sheet[f'O{header_cashflow}'] = 'June'
         last_number = months["last_month_number"]
         # PL START OF DESIGN
+
+
         if last_number <= 6:
             last_number += 13
         else:
@@ -8772,7 +8804,7 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
-        cashflow_start_row += 5
+        cashflow_start_row = 19
         net_operating_total_row = cashflow_start_row
         
         # NET OPERATING TOTAL
@@ -8791,7 +8823,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{operating_start_row}:Q{operating_end_row})' 
 
 
-        cashflow_start_row += 3
+        cashflow_start_row = 23
 
         investing_row_start = cashflow_start_row
         #CASHFLOW FROM INVESTING ACTIVITIES
@@ -8818,7 +8850,9 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         investing_row_end = cashflow_start_row
-        cashflow_start_row += 3
+
+
+        cashflow_start_row = 30
         
         #NET INVESTING TOTAL
         net_investing_total_row = cashflow_start_row
@@ -8838,7 +8872,7 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row += 17
+        cashflow_start_row = 40
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8854,7 +8888,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row += 2
+        cashflow_start_row = 42
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8874,7 +8908,7 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_5']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row += 2
+        cashflow_start_row = 44
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
