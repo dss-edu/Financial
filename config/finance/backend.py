@@ -8,6 +8,7 @@ import os
 import re
 import pprint
 from collections import defaultdict
+from config import settings
 
 pp = pprint.PrettyPrinter()
 # Get the current date
@@ -17,94 +18,11 @@ month_number = current_date.month
 curr_year = current_date.year
 
 JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
-
-SCHOOLS = {
-    "advantage": "ADVANTAGE ACADEMY",
-    "cumberland": "CUMBERLAND ACADEMY",
-    "village-tech": "VILLAGE TECH",
-    "leadership": "LEADERSHIP PREP SCHOOL",
-    "manara": "MANARA ACADEMY",
-}
-
-db = {
-    "advantage": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage_new]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-        "pl_chart":"[PLData]"
-    },
-    "cumberland": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland_new]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-        "pl_chart":"[PLData]"
-    },
-    "village-tech": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[Skyward_VillageTech]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-        "pl_chart":"[PLData]"
-    },
-    "leadership": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Leadership]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-        "pl_chart":"[PLData]"
-    },
-    "manara": {
-        "object": "[PL_Definition_obj]",
-        "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Manara]",
-        "code": "[PL_ExpensesbyObjectCode]",
-        "activities": "[PL_Activities]",
-        "bs": "[AscenderData_Advantage_Balancesheet]",
-        "bs_activity": "[ActivityBS]",
-        "cashflow": "[AscenderData_Advantage_Cashflow]",
-        "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
-        "pl_chart":"[PLData]"
-        
-    },
-}
-
-
-
+SCHOOLS = settings.SCHOOLS
+db = settings.db
+schoolCategory = settings.schoolCategory
 
 def update_db():
-    # profit_loss("advantage")
-    # balance_sheet("cumberland")
-    # cashflow("advantage")
-    # excel("advantage")
-    # balance_sheet("manara")
-    # profit_loss("manara")
     for school, name in SCHOOLS.items():
         profit_loss(school) 
         balance_sheet(school)
@@ -161,7 +79,7 @@ def profit_loss(school):
             data2.append(row_dict)
 
     #
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         cursor.execute(
             f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
         )
@@ -172,7 +90,7 @@ def profit_loss(school):
 
     data3 = []
 
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         for row in rows:
             expend = float(row[17])
             date = row[11]
@@ -206,7 +124,7 @@ def profit_loss(school):
 
             data3.append(row_dict)
 
-    else:
+    else:        
         for row in rows:
             amount = float(row[19])
             date = row[9]
@@ -232,7 +150,7 @@ def profit_loss(school):
 
     adjustment = []
 
-    if school != "village-tech":
+    if school in schoolCategory["ascender"]:
         for row in rows:
             expend = float(row[17])
             row_dict = {
@@ -291,8 +209,6 @@ def profit_loss(school):
             }
 
             data_activities.append(row_dict)
-
-   
 
     def format_value_dollars(value):
         if value > 0:
@@ -361,25 +277,19 @@ def profit_loss(school):
         if formatted_ytd_budget.startswith("0."):
             formatted_ytd_budget = formatted_ytd_budget[2:]
 
-
-
-
-
-
     expend_key = "Expend"
     est_key = "Est"
     expense_key = "Expend"
     real_key = "Real"
     appr_key = "Appr"
     encum_key = "Encum"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         expense_key = "Amount"
         expend_key = "Amount"
         est_key = "Budget"
         real_key = "Amount"
         appr_key = "Budget"
         encum_key = "Amount"
-
     
     acct_per_values = [
         "01",
@@ -395,7 +305,6 @@ def profit_loss(school):
         "11",
         "12",
     ]
-
 
     for item in data:
         fund = item["fund"]
@@ -436,15 +345,10 @@ def profit_loss(school):
                     FY_year_2 = next_year
             else:
                 date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                
                 if date_obj >= september_date:
                     september_date = datetime(next_year, 9, 1).date()
                     FY_year_1 = current_year
                     FY_year_2 = next_year
-                
-           
-            
-
 
     #checks if the last month column is empty. if empty. last month will be set to  last two months.
     if all(item[f"total_check{last_month_number}"] == 0 for item in data):
@@ -477,11 +381,6 @@ def profit_loss(school):
 
             if formatted_ytd_budget.startswith("0."):
                 formatted_ytd_budget = formatted_ytd_budget[2:]
-
-
-        
-
-
    
     # CALCULATIONS START REVENUES 
     total_lr =  {acct_per: 0 for acct_per in acct_per_values}
@@ -507,12 +406,9 @@ def profit_loss(school):
         obj = item["obj"]
         category = item["category"]
         ytd_total = 0
-        
-        
-
 
         #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
-        if school == "village-tech":
+        if school in schoolCategory["skyward"]:
                
             total_budget = sum(
                 entry[est_key]
@@ -555,18 +451,14 @@ def profit_loss(school):
 
         totals["total_ammended"] += item["total_budget"]
         item[f"ytd_budget"] = item["total_budget"] * ytd_budget
-        
-
-            
+                   
         if category == 'Local Revenue':
             totals["total_ammended_lr"] += item["total_budget"]
         elif category == 'State Program Revenue':
             totals["total_ammended_spr"] += item["total_budget"]
         elif category == 'Federal Program Revenue':
             totals["total_ammended_fpr"] += item["total_budget"]
-        
-
-        
+               
         for i, acct_per in enumerate(acct_per_values, start=1):
             if school == 'manara' and school == 'leadership':
                 total_real = sum(
@@ -600,8 +492,6 @@ def profit_loss(school):
            
             total_revenue[acct_per] += (item[f"total_real{i}"])
 
-            
-
             if category == 'Local Revenue':
                 total_lr[acct_per] += (item[f"total_real{i}"])
                 ytd_total_lr += (item[f"total_real{i}"])
@@ -618,16 +508,10 @@ def profit_loss(school):
             ytd_total += (item[f"total_real{month_number}"])
         
         item["ytd_total"] = ytd_total
-
         item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
-
         item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
     
-
-
-    
     ytd_total_revenue = abs(sum(total_revenue.values()))  
-   
     ytd_ammended_total = totals["total_ammended"] * ytd_budget
     ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
     ytd_ammended_total_spr = totals["total_ammended_spr"] * ytd_budget
@@ -644,7 +528,6 @@ def profit_loss(school):
     var_ytd_fpr = "{:d}%".format(round(abs(ytd_total_fpr / totals["total_ammended_fpr"]*100))) if totals["total_ammended_fpr"] != 0 else ""
     #REVENUES CALCULATIONS END
     
-    
     # CALCULATION START FIRST TOTAL AND DEPRECIATION AND AMORTIZATION (SBD) 
     first_total = 0
     first_ytd_total = 0
@@ -659,7 +542,6 @@ def profit_loss(school):
     ytd_ammended_dna=0
     variances_dna = 0
     var_ytd_dna = 0
-
   
     for item in data2:
         if item["category"] != "Depreciation and Amortization":
@@ -667,15 +549,12 @@ def profit_loss(school):
             obj = item["obj"]
             ytd_total = 0
 
-
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 total_func_func = sum(
                         entry[appr_key]
                         for entry in data3
                         if entry["func"] == func  
                         and entry["obj"] != '6449'
-
-
                     )
             else:
                 total_func_func = sum(
@@ -696,13 +575,11 @@ def profit_loss(school):
                     and not isinstance(entry[appr_key], str)  
                 )
             
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 item['total_budget'] = total_func_func + total_adjustment_func
             else:
                 item['total_budget'] = -(total_func_func + total_adjustment_func)
- 
-
-            
+             
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
                     entry[expend_key]
@@ -739,16 +616,14 @@ def profit_loss(school):
         if item["category"] == "Depreciation and Amortization":
             func = item["func_func"]
             obj = item["obj"]
-            ytd_total = 0
-            
+            ytd_total = 0            
            
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 total_func_func = sum(
                         entry[appr_key]
                         for entry in data3
                         if entry["func"] == func  
-                        and entry["obj"] == '6449'
-                       
+                        and entry["obj"] == '6449'                       
                     )
             else:
                 total_func_func = sum(
@@ -791,8 +666,6 @@ def profit_loss(school):
                 item[f"total_func2_{i}"] = total_func + total_adjustment
                 dna_total_months[acct_per] += item[f"total_func2_{i}"]
             
-            
-
             for month_number in range(1, 13):
                 ytd_total += (item[f"total_func2_{month_number}"])
         
@@ -807,8 +680,6 @@ def profit_loss(school):
             var_ytd_dna = "{:d}%".format(round(abs(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
-
-
     #CALCULATION START SURPLUS BEFORE DEFICIT
     total_SBD =  {acct_per: 0 for acct_per in acct_per_values}
     ammended_budget_SBD = 0
@@ -831,7 +702,6 @@ def profit_loss(school):
     var_SBD = "{:d}%".format(round(abs( ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
 
     #CALCULATION END SURPLUS BEFORE DEFICIT
-
 
     #CALCULATION START NET SURPLUS
     total_netsurplus_months =  {acct_per: 0 for acct_per in acct_per_values}
@@ -892,10 +762,6 @@ def profit_loss(school):
     ytd_budget_oe = 0 
     ytd_budget_te = 0
     ytd_budget_cpa = 0
-
-    
-
-       
     
     for item in data_activities:
         obj = item["obj"]
@@ -905,7 +771,7 @@ def profit_loss(school):
         
         item["total_budget"] = 0
 
-        if school == 'village-tech':
+        if school in schoolCategory["skyward"]:
             total_budget_data_activities = sum(
                 entry[appr_key]
                 for entry in data3
@@ -964,32 +830,26 @@ def profit_loss(school):
             )
 
             item[f"total_activities{i}"] = total_activities + total_adjustment
-
-
             
             if category == "Payroll and Benefits":
                 total_EOC_pc[acct_per] += item[f"total_activities{i}"]
                
-
-            if category == "Professional and Contract Services":
+            elif category == "Professional and Contract Services":
                 total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Materials and Supplies":
+            elif category == "Materials and Supplies":
                 total_EOC_sm[acct_per] += item[f"total_activities{i}"]
-                
-
-            if category == "Other Operating Costs":
+            
+            elif category == "Other Operating Costs":
                 total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
 
-            if category == "Depreciation":
+            elif category == "Depreciation":
                 total_EOC_oe[acct_per] += item[f"total_activities{i}"]
-                
-
-            if category == "Debt Services":
+            
+            elif category == "Debt Services":
                 total_EOC_te[acct_per] += item[f"total_activities{i}"]
 
-            
-            if category == "FIXED/CAPITAL ASSETS":
+            elif category == "FIXED/CAPITAL ASSETS":
                 total_EOC_cpa[acct_per] += item[f"total_activities{i}"]
 
             total_expense_months[acct_per] += item[f"total_activities{i}"]  
@@ -997,7 +857,6 @@ def profit_loss(school):
         for month_number in range(1, 13):
             ytd_total += (item[f"total_activities{month_number}"])
         item["ytd_total"] = ytd_total
-
 
     total_expense += dna_total
     total_expense_ytd_budget += ytd_ammended_dna
@@ -1014,8 +873,6 @@ def profit_loss(school):
     ytd_EOC_te  = sum(total_EOC_te.values())
     ytd_EOC_oe  = sum(total_EOC_oe.values())
     ytd_EOC_cpa  = sum(total_EOC_cpa.values())
-
-
     
     ytd_budget_pc = total_budget_pc * ytd_budget
     ytd_budget_pcs = total_budget_pcs * ytd_budget
@@ -1024,12 +881,7 @@ def profit_loss(school):
     ytd_budget_oe = total_budget_oe * ytd_budget
     ytd_budget_te = total_budget_te * ytd_budget
     ytd_budget_cpa = total_budget_cpa * ytd_budget
-    
-    
-    
-    
 
-        
     #temporarily for 6500
     budget_for_6500 = 0
     ytd_budget_for_6500 = 0 
@@ -1102,10 +954,6 @@ def profit_loss(school):
         acct_per: abs(total_revenue[acct_per]) - total_expense_months[acct_per]
         for acct_per in acct_per_values
     }  
-
-
-
-
 
     #FORMAT FOR REVENUE
     formatted_ammended = format_value_dollars(totals["total_ammended"]) if totals["total_ammended"] != 0 else ""
@@ -1251,12 +1099,7 @@ def profit_loss(school):
             row[f"ytd_budget"] = format_value(ytd_budget)
     
     for row in data_expensebyobject:
-      
-
         variances = float(row["variances"])
-       
-       
-
         if variances is None or variances == 0:
             row[f"variances"] = ""
         else:
@@ -1294,9 +1137,6 @@ def profit_loss(school):
     ytd_budget_te = format_value(ytd_budget_te)
     ytd_budget_cpa = format_value(ytd_budget_cpa)
 
-
-
-
     #EXPENSE OBJECT FOR FIX
     budget_for_6500 = format_value(budget_for_6500)
     ytd_budget_for_6500 = format_value(ytd_budget_for_6500)
@@ -1314,8 +1154,6 @@ def profit_loss(school):
     total_net_income_months = {acct_per: format_value_dollars(value) for acct_per, value in total_net_income_months.items() if value != 0}
     ytd_net_income = format_value_dollars(ytd_net_income)
     variances_net_income = format_value_dollars(variances_net_income)     
-            
-
 
     keys_to_check = [
         "total_real1",
@@ -1415,9 +1253,6 @@ def profit_loss(school):
     #             row[key] = "{:,.0f}".format(row[key])
 
 
-
-
-
     keys_to_check_func = [
         "total_func1",
         "total_func2",
@@ -1469,8 +1304,6 @@ def profit_loss(school):
         for key in keys_to_check_func_2:
             if row[key] != "":
                 row[key] = "{:,.0f}".format(row[key])
-
-
 
     # if not school == "village-tech":
     #     lr_funds = list(set(row["fund"] for row in data3 if "fund" in row))
@@ -1606,9 +1439,6 @@ def profit_loss(school):
             "variances_dna_6449":variances_dna_6449,
             "dna_total_months_6449":dna_total_months_6449,
 
-
-
-
             #FIX SOON
             "budget_for_6500":budget_for_6500,
             "ytd_budget_for_6500": ytd_budget_for_6500,
@@ -1631,13 +1461,9 @@ def profit_loss(school):
 
             #FOR BS
             "bs_ytd_netsurplus":bs_ytd_netsurplus,
-
-
-            
         }
     }
 
-   
     # if not school == "village-tech":
     #     context["total_lr"] = formatted_total_lr,
         # context["total_netsurplus"] = formatted_total_netsurplus
@@ -1669,7 +1495,6 @@ def balance_sheet(school):
     last_month_name = last_month.strftime("%B")
     formatted_last_month = last_month.strftime('%B %d, %Y')
     last_month_number = last_month.month
-
 
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -1828,7 +1653,7 @@ def balance_sheet(school):
 
     adjustment = []
 
-    if school != "village-tech":
+    if not school in schoolCategory["ascender"]:
         for row in rows:
             expend = float(row[17])
             row_dict = {
@@ -1875,7 +1700,7 @@ def balance_sheet(school):
     real_key = "Real"        
     bal_key = "Bal"
     expend_key = "Expend"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         bal_key = "Amount"
         real_key = "Amount"
         expend_key = "Amount"
@@ -1903,10 +1728,7 @@ def balance_sheet(school):
 
             item[f"total_bal{i}"] = total_data3 + total_adjustment
             item["fytd"] += item[f"total_bal{i}"]
-            
-
-    
-
+           
     activity_sum_dict = {}
     for item in data_activitybs:
         Activity = item["Activity"]
@@ -2037,12 +1859,6 @@ def balance_sheet(school):
         for acct_per in acct_per_values
     }
   
-
-
-    
-    
-    
-
     ytd_DnA = sum(total_DnA.values())
     ytd_netsurplus = sum(total_netsurplus.values())
 
@@ -2059,8 +1875,6 @@ def balance_sheet(school):
             return "$({:,.0f})".format(abs(round(value)))
         else:
             return ""
-
-
 
     def format_with_parentheses2(value):
         if value == 0:
@@ -2201,8 +2015,6 @@ def balance_sheet(school):
                 row["net_assets4"] = (row["net_assets3"] + total_netsurplus["04"])
                 row["net_assets5"] = (row["net_assets4"] + total_netsurplus["05"])
                 row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
-                
-
 
     total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
     total_current_assets_fye = 0
@@ -2229,8 +2041,6 @@ def balance_sheet(school):
     total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
     total_LNA_fye = 0
     total_LNA_fytd = 0
-
-
     
     total_net_assets_fytd = 0
     
@@ -2282,7 +2092,6 @@ def balance_sheet(school):
                     total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
 
                 total_LNA_fye += total_liabilities_fye + fye
-
  
     total_assets = {
         acct_per: total_current_assets[acct_per] + total_capital_assets[acct_per]
@@ -2291,16 +2100,8 @@ def balance_sheet(school):
     }
     total_assets_fye = total_current_assets_fye + total_capital_assets_fye
     total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
-   
-
-
-    
     total_LNA_fytd = total_net_assets_fytd + total_liabilities_fytd
-   
     total_net_assets_fytd = format_value(total_net_assets_fytd)
-    
-
-
     total_current_assets_fye = format_value(total_current_assets_fye)
     total_capital_assets_fye = format_value(total_capital_assets_fye)
     total_current_liabilities_fye = format_value(total_current_liabilities_fye)
@@ -2321,7 +2122,6 @@ def balance_sheet(school):
     total_liabilities = {acct_per: format_value(value) for acct_per, value in total_liabilities.items() if value != 0}
     total_assets = {acct_per: format_value_dollars(value) for acct_per, value in total_assets.items() if value != 0}
     total_LNA = {acct_per: format_value_dollars(value) for acct_per, value in total_LNA.items() if value != 0}
-
    
     for row in data_balancesheet:
         if row["school"] == school:
@@ -2399,7 +2199,6 @@ def balance_sheet(school):
             row["net_assets7"]  = format_value(row["net_assets7"])
             row["net_assets8"]  = format_value(row["net_assets8"])
 
-
     keys_to_check = [
         "total_bal1",
         "total_bal2",
@@ -2426,17 +2225,12 @@ def balance_sheet(school):
             elif value != "":
                 row[key] = "{:,.0f}".format(float(row[key]))
 
-
     # for row in data_balancesheet:
     #     subcategory = row["Subcategory"]
     #     fye = float(row["FYE"])
 
     #     row["total_fye"][subcategory] += fye
     #     row["total_fye"] = total_fye[subcategory]
-    
-
-
-        
 
     # for row in data_balancesheet:
     #     row['diffunc9']
@@ -2531,9 +2325,6 @@ def balance_sheet(school):
             "total_assets_fye_fytd":total_assets_fye_fytd,
             "total_net_assets_fytd":total_net_assets_fytd,
             "total_LNA_fytd":total_LNA_fytd,
-
-
-
         }
 
         
@@ -2542,13 +2333,12 @@ def balance_sheet(school):
         # "ytd_budget": ytd_budget,
     }
 
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         context["total_DnA"] = (formatted_total_DnA,)
         context["total_netsurplus"] = formatted_total_netsurplus
         context["total_SBD"] = total_SBD
         context["ytd_netsurplus"] = formated_ytdnetsurplus
     # return context
-
     # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
 
     json_path = os.path.join(JSON_DIR, "balance-sheet", school)
@@ -2624,7 +2414,7 @@ def cashflow(school):
     ]
 
     activity_key = "Bal"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         activity_key = "Amount"
 
     # ---------- FOR EXPENSE TOTAL -------
@@ -2674,7 +2464,7 @@ def cashflow(school):
             
 
     data_key = "Expend"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         data_key = "Amount"
 
     keys_to_check_cashflow = [
@@ -2717,7 +2507,6 @@ def cashflow(school):
             else:
                 row[key] = "{:,.0f}".format(abs(float(row[key])))
         
-
     for row in data_cashflow:
         for key in keys_to_check_cashflow2:
             value = float(row[key])
@@ -2898,7 +2687,7 @@ def excel(school):
             data2.append(row_dict)
 
     #
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         cursor.execute(
             f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
         )
@@ -2908,7 +2697,7 @@ def excel(school):
     rows = cursor.fetchall()
     data3 = []
 
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         for row in rows:
             expend = float(row[17])
             date = row[11]
@@ -2968,7 +2757,7 @@ def excel(school):
 
     adjustment = []
 
-    if school != "village-tech":
+    if school in schoolCategory["ascender"]:
         for row in rows:
             expend = float(row[17])
             row_dict = {
@@ -3122,8 +2911,6 @@ def excel(school):
             formatted_ytd_budget = formatted_ytd_budget[2:]
 
 
-
-
     expend_key = "Expend"
     est_key = "Est"
     expense_key = "Expend"
@@ -3131,7 +2918,7 @@ def excel(school):
     appr_key = "Appr"
     encum_key = "Encum"
     bal_key = "Bal"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         expense_key = "Amount"
         expend_key = "Amount"
         est_key = "Budget"
@@ -3199,9 +2986,6 @@ def excel(school):
                   FY_year_1 = current_year
                   FY_year_2 = next_year
                 
-           
-            
-
 
     #checks if the last month column is empty. if empty. last month will be set to  last two months.
     if all(item[f"total_check{last_month_number}"] == 0 for item in data):
@@ -3231,9 +3015,6 @@ def excel(school):
         if formatted_ytd_budget.startswith("0."):
             formatted_ytd_budget = formatted_ytd_budget[2:]
         
-
-
-   
     # CALCULATIONS START REVENUES 
     total_lr =  {acct_per: 0 for acct_per in acct_per_values}
     total_spr =  {acct_per: 0 for acct_per in acct_per_values}
@@ -3258,12 +3039,10 @@ def excel(school):
         obj = item["obj"]
         category = item["category"]
         ytd_total = 0
-        
-        
 
 
         #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
-        if school == "village-tech":
+        if school in schoolCategory["skyward"]:
                
             total_budget = sum(
                 entry[est_key]
@@ -3359,8 +3138,6 @@ def excel(school):
 
         item[f"ytd_budget"] = (item[f"ytd_budget"])
     
-
-
     
     ytd_total_revenue = abs(sum(total_revenue.values()))  
    
@@ -3402,17 +3179,13 @@ def excel(school):
             obj = item["obj"]
             
             ytd_total = 0
-
-
             
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 total_func_func = sum(
                         entry[appr_key]
                         for entry in data3
                         if entry["func"] == func  
                         and entry["obj"] != '6449'
-
-
                     )
             else:
                 total_func_func = sum(
@@ -3432,13 +3205,11 @@ def excel(school):
                     and entry[appr_key] is not None 
                     and not isinstance(entry[appr_key], str)  
                 )
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 item['total_budget'] = total_func_func + total_adjustment_func
             else:
                 item['total_budget'] = -(total_func_func + total_adjustment_func)
- 
-
-            
+           
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
                     entry[expend_key]
@@ -3474,10 +3245,8 @@ def excel(school):
             func = item["func_func"]
             obj = item["obj"]
             ytd_total = 0
-     
-           
             
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 total_func_func = sum(
                         entry[appr_key]
                         for entry in data3
@@ -3542,8 +3311,6 @@ def excel(school):
             var_ytd_dna = (abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
     #CALCULATION END FIRST TOTAL AND DNA
     
-
-
     #CALCULATION START SURPLUS BEFORE DEFICIT
     total_SBD =  {acct_per: 0 for acct_per in acct_per_values}
     ammended_budget_SBD = 0
@@ -3627,7 +3394,7 @@ def excel(school):
         
         item["total_budget"] = 0
 
-        if school == 'village-tech':
+        if school in schoolCategory["skyward"]:
             total_budget_data_activities = sum(
                 entry[appr_key]
                 for entry in data3
@@ -4345,17 +4112,17 @@ def charter_first(school):
     fy_curr = datetime.strptime(date_string, date_format)
 
     fy_start = ""
-    if school in ["advantage", "cumberland", "village-tech"]: 
+    if school in ["manara", "leadership"]:
+        if int(pl_months["last_month_number"]) < 7:
+            fy_start = datetime(curr_year, 1, 1)
+        else:
+            fy_start = datetime(curr_year, 7, 1)    
+    else: 
         if int(pl_months["last_month_number"]) < 9:
             fy_start = datetime(curr_year, 1, 1)
         else:
             fy_start = datetime(curr_year, 9, 1)
 
-    if school in ["manara", "leadership"]:
-        if int(pl_months["last_month_number"]) < 7:
-            fy_start = datetime(curr_year, 1, 1)
-        else:
-            fy_start = datetime(curr_year, 7, 1)
     fy_diff = fy_curr - fy_start
     days = fy_diff.days
 
@@ -4414,9 +4181,6 @@ def charter_first(school):
     cursor.close()
     cnxn.close()
 
-
-
-
 def dollar_parser(dollar):
     if dollar.strip() == "":
         return 0
@@ -4456,10 +4220,6 @@ def profit_loss_chart(school):
 
     context = {
         "data_chart": data_chart,
- 
-
-
-        
 
     }
     json_path = os.path.join(JSON_DIR, "profit-loss-chart", school)
