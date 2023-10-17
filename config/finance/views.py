@@ -3815,16 +3815,19 @@ def generate_excel(request,school):
             first_sheet[f'B{first_start_row}'] = row['indicators']
             if row['indicators'].upper() == 'PASS':
                 first_sheet.add_image(image_list_track[0],f'D{first_start_row}')
+
             else:
                 first_sheet.add_image(image_list_risk[0],f'D{first_start_row}')
+
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['net_assets']
             if row['net_assets'].upper() == 'PROJECTED':
-               
+    
                 first_sheet.add_image(image_list_track[1],f'D{first_start_row}')
             else:
                 first_sheet.add_image(image_list_risk[1],f'D{first_start_row}')
+    
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['days_coh']
@@ -3933,7 +3936,8 @@ def generate_excel(request,school):
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'C - Meets Standard'
             elif row['estimated_first_rating'] < 90:
-                first_sheet.add_image(image_list_track[15],f'D{first_start_row}')
+ 
+                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'B - Above Standard'
             else:
