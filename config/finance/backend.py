@@ -23,19 +23,13 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 
 def update_db():
-    profit_loss('legacy') 
-    balance_sheet('legacy')
-    cashflow('legacy')
-    excel('legacy')
-    charter_first('legacy')
-    profit_loss_chart('legacy')
-    # for school, name in SCHOOLS.items():
-        # profit_loss(school) 
-        # balance_sheet(school)
-        # cashflow(school)
-        # excel(school)
-        # charter_first(school)
-        # profit_loss_chart(school)
+    for school, name in SCHOOLS.items():
+        profit_loss(school) 
+        balance_sheet(school)
+        cashflow(school)
+        excel(school)
+        charter_first(school)
+        profit_loss_chart(school)
         
 def update_school(school):
     profit_loss(school) 
