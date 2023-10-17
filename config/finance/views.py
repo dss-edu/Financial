@@ -8660,7 +8660,7 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row = 40
+        cashflow_start_row = 32
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8676,7 +8676,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row  = 42
+        cashflow_start_row  = 34
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8696,7 +8696,7 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row = 44
+        cashflow_start_row = 36
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8889,7 +8889,7 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row = 40
+        cashflow_start_row = 32
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8905,7 +8905,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row = 42
+        cashflow_start_row = 34
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
@@ -8925,7 +8925,7 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_5']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row = 44
+        cashflow_start_row = 36
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
