@@ -23,13 +23,19 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 
 def update_db():
-    for school, name in SCHOOLS.items():
-        profit_loss(school) 
-        balance_sheet(school)
-        cashflow(school)
-        excel(school)
-        charter_first(school)
-        profit_loss_chart(school)
+    profit_loss('legacy') 
+    balance_sheet('legacy')
+    cashflow('legacy')
+    excel('legacy')
+    charter_first('legacy')
+    profit_loss_chart('legacy')
+    # for school, name in SCHOOLS.items():
+        # profit_loss(school) 
+        # balance_sheet(school)
+        # cashflow(school)
+        # excel(school)
+        # charter_first(school)
+        # profit_loss_chart(school)
         
 def update_school(school):
     profit_loss(school) 
@@ -4058,9 +4064,9 @@ def charter_first(school):
     cursor.execute(prev_query)
     rows = cursor.fetchone()
 
+    shouldUpdate = False
     if rows is not None:
-        print("no need to update charter_first")
-        return
+        shouldUpdate = True
 
     first_columns = [
         "school", "year", "month", "net_income_ytd", "indicators", "net_assets", 
@@ -4175,8 +4181,17 @@ def charter_first(school):
     context["estimated_first_rating"] = 88
 
     # print(list((context[key] for key in first_columns)))
-    cursor.execute(insert_query, tuple((context[key] for key in first_columns)))
-    cnxn.commit()
+    if shouldUpdate:
+        update_query = f"UPDATE [dbo].[AscenderData_CharterFirst] \
+        SET {', '.join([f'{col} = ?' for col in first_columns])} \
+        WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+
+        cursor.execute(update_query, tuple((context[key] for key in first_columns)))
+        cnxn.commit()
+
+    else:
+        cursor.execute(insert_query, tuple((context[key] for key in first_columns)))
+        cnxn.commit()
 
     cursor.close()
     cnxn.close()
