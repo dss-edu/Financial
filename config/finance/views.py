@@ -39,6 +39,7 @@ from config import settings
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
+schoolCategory = settings.schoolCategory
 
 @login_required
 def updatedb(request):
@@ -3759,7 +3760,7 @@ def generate_excel(request,school):
     first_sheet.column_dimensions['A'].width = 46
     first_sheet.column_dimensions['B'].width = 20
     first_sheet.column_dimensions['C'].width = 9
-    first_sheet.column_dimensions['D'].width = 12
+    first_sheet.column_dimensions['D'].width = 20
     first_sheet.column_dimensions['E'].width = 38
     for row in range(3,26):
         first_sheet.row_dimensions[row].height = 30
@@ -3772,26 +3773,25 @@ def generate_excel(request,school):
     # normal_cell_bottom_border.alignment = Alignment(horizontal='right', vertical='bottom')
     # normal_font_bottom_border = Font(name='Calibri', size=11, bold=False)
     # normal_cell_bottom_border.font = normal_font_bottom_border
-    image_path = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','G2.png' )
-    image_path2 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','GY.png' )
-    image_path3 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','R.png' )
-    image_path4 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','Y.png' )
+
+    image_path1 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','ofconcern.png' )
+    image_path2 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','ontrack.png' )
+    image_path3 = os.path.join(settings.BASE_DIR, 'finance', 'static', 'img','atrisk.png' )
 
 
-    image_list_g = []
-    image_list_gy = []
-    image_list_r = []
-    image_list_y = []
+    image_list_concern = []
+    image_list_track = []
+    image_list_risk = []
 
     for i in range(1, 20):
-        img_g = Image(image_path)
-        img_gy = Image(image_path2)
-        img_r = Image(image_path3)
-        img_y = Image(image_path4)   
-        image_list_g.append(img_g)  
-        image_list_gy.append(img_gy)
-        image_list_r.append(img_r)  
-        image_list_y.append(img_y) 
+  
+        img_concern = Image(image_path1)
+        img_track = Image(image_path2)
+        img_risk = Image(image_path3)   
+
+        image_list_concern.append(img_concern)
+        image_list_track.append(img_track)  
+        image_list_risk.append(img_risk) 
 
     
     start = 1
@@ -3813,74 +3813,134 @@ def generate_excel(request,school):
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['indicators']
-            first_sheet.add_image(image_list_g[0],f'D{first_start_row}')
+            if row['indicators'].upper() == 'PASS':
+                first_sheet.add_image(image_list_track[0],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[0],f'D{first_start_row}')
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['net_assets']
-            first_sheet.add_image(image_list_g[1],f'D{first_start_row}')
+            if row['net_assets'].upper() == 'PROJECTED':
+               
+                first_sheet.add_image(image_list_track[1],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[1],f'D{first_start_row}')
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['days_coh']
-            first_sheet.add_image(image_list_g[2],f'D{first_start_row}')
+            if row['days_coh'] > 60:
+                first_sheet.add_image(image_list_track[2],f'D{first_start_row}')
+            elif row['days_coh'] < 20:
+                first_sheet.add_image(image_list_risk[2],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_concern[2],f'D{first_start_row}')
+                
+
+
+                
          
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['current_assets']
-            first_sheet.add_image(image_list_g[3],f'D{first_start_row}')
+            if row['current_assets'] >= 2:
+                first_sheet.add_image(image_list_track[3],f'D{first_start_row}')
+            elif row['current_assets'] <= 1 :
+                first_sheet.add_image(image_list_risk[3],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_concern[3],f'D{first_start_row}')
+
             
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['net_earnings']
-            first_sheet.add_image(image_list_gy[0],f'D{first_start_row}')
+            #first_sheet.add_image(image_list_track[17],f'D{first_start_row}') comment as of now
             
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['budget_vs_revenue']
-            first_sheet.add_image(image_list_g[4],f'D{first_start_row}')
+            if row['budget_vs_revenue'].upper() == 'PROJECTED':   
+                first_sheet.add_image(image_list_track[4],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[4],f'D{first_start_row}')
             
+
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['total_assets']
-            first_sheet.add_image(image_list_g[5],f'D{first_start_row}')
+            first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
             
             first_start_row += 1
- 
             first_sheet[f'B{first_start_row}'] = row['debt_service']
-            first_sheet.add_image(image_list_g[6],f'D{first_start_row}') 
+            first_sheet.add_image(image_list_risk[6],f'D{first_start_row}') 
             
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
-            first_sheet.add_image(image_list_g[7],f'D{first_start_row}')
+            first_sheet.add_image(image_list_track[7],f'D{first_start_row}')
            
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
-            first_sheet.add_image(image_list_g[8],f'D{first_start_row}')
+            first_sheet.add_image(image_list_track[8],f'D{first_start_row}')
           
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_student_teacher']
-            first_sheet.add_image(image_list_g[9],f'D{first_start_row}')
+            if row['ratio_student_teacher'].lower() == 'not measured by dss':
+                first_sheet.add_image(image_list_track[9],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[9],f'D{first_start_row}')
+                
       
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['estimated_actual_ada']
-            first_sheet.add_image(image_list_g[10],f'D{first_start_row}')
+            if row['estimated_actual_ada'].upper() == 'PROJECTED':   
+                first_sheet.add_image(image_list_track[10],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[10],f'D{first_start_row}')
       
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['reporting_peims']
-            first_sheet.add_image(image_list_g[11],f'D{first_start_row}')
+            if row['reporting_peims'].upper() == 'PROJECTED':   
+                first_sheet.add_image(image_list_track[11],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[11],f'D{first_start_row}')
+      
       
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['annual_audit']
-            first_sheet.add_image(image_list_g[12],f'D{first_start_row}')
+            if row['annual_audit'].upper() == 'PROJECTED':   
+                first_sheet.add_image(image_list_track[12],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[12],f'D{first_start_row}')
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['post_financial_info']
-            first_sheet.add_image(image_list_g[13],f'D{first_start_row}')
+            if row['post_financial_info'].upper() == 'PROJECTED':   
+                first_sheet.add_image(image_list_track[13],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[13],f'D{first_start_row}')
 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['approved_geo_boundaries']
-            first_sheet.add_image(image_list_g[14],f'D{first_start_row}')
+            if row['approved_geo_boundaries'].lower() == 'not measured by dss':
+                first_sheet.add_image(image_list_track[14],f'D{first_start_row}')
+            else:
+                first_sheet.add_image(image_list_risk[14],f'D{first_start_row}')
 
-            first_start_row += 1
-            first_sheet.add_image(image_list_g[15],f'D{first_start_row}')
+
+            first_start_row += 1         
             first_sheet[f'B{first_start_row}'] = row['estimated_first_rating']
-            first_start_row += 1
-            first_sheet.add_image(image_list_g[16],f'D{first_start_row}')
+            if row['estimated_first_rating'] < 69:
+                first_sheet.add_image(image_list_risk[15],f'D{first_start_row}')
+                first_start_row += 1
+                first_sheet[f'B{first_start_row}'] = 'F - Fail'
+            elif row['estimated_first_rating'] < 80:
+                first_sheet.add_image(image_list_concern[15],f'D{first_start_row}')
+                first_start_row += 1
+                first_sheet[f'B{first_start_row}'] = 'C - Meets Standard'
+            elif row['estimated_first_rating'] < 90:
+                first_sheet.add_image(image_list_track[15],f'D{first_start_row}')
+                first_start_row += 1
+                first_sheet[f'B{first_start_row}'] = 'B - Above Standard'
+            else:
+                first_sheet.add_image(image_list_track[15],f'D{first_start_row}')
+                first_start_row += 1
+                first_sheet[f'B{first_start_row}'] = 'A - Superior'
+
             
     
 
@@ -3967,7 +4027,6 @@ def generate_excel(request,school):
            
 
         
-        print(months["FY_year_1"])
 
         start_pl = 1
         pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY{months["FY_year_1"]}-FY{months["FY_year_2"]} Statement of\nActivities as of {months["last_month"]}'
@@ -8834,7 +8893,7 @@ def generate_excel(request,school):
         while cashflow_start_hiding <= cashflow_start_row:
             for col in range(last_number-3,16):
                 col_letter = get_column_letter(col)
-                print(col_letter)
+             
                 cell = cashflow_sheet.cell(row=cashflow_start_hiding, column=col)
                 cell.value = None
             cashflow_start_hiding += 1
