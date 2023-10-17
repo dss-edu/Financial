@@ -79,7 +79,7 @@ def profit_loss(school):
             data2.append(row_dict)
 
     #
-    if not school in schoolCategory["ascender"]:
+    if school in schoolCategory["ascender"]:
         cursor.execute(
             f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
         )
@@ -2414,7 +2414,7 @@ def cashflow(school):
     ]
 
     activity_key = "Bal"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         activity_key = "Amount"
 
     # ---------- FOR EXPENSE TOTAL -------
@@ -2918,7 +2918,7 @@ def excel(school):
     appr_key = "Appr"
     encum_key = "Encum"
     bal_key = "Bal"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         expense_key = "Amount"
         expend_key = "Amount"
         est_key = "Budget"
@@ -3394,7 +3394,7 @@ def excel(school):
         
         item["total_budget"] = 0
 
-        if school == 'village-tech':
+        if school in schoolCategory["skyward"]:
             total_budget_data_activities = sum(
                 entry[appr_key]
                 for entry in data3
@@ -4112,17 +4112,17 @@ def charter_first(school):
     fy_curr = datetime.strptime(date_string, date_format)
 
     fy_start = ""
-    if school in ["advantage", "cumberland", "village-tech"]: 
+    if school in ["manara", "leadership"]:
+        if int(pl_months["last_month_number"]) < 7:
+            fy_start = datetime(curr_year, 1, 1)
+        else:
+            fy_start = datetime(curr_year, 7, 1)    
+    else: 
         if int(pl_months["last_month_number"]) < 9:
             fy_start = datetime(curr_year, 1, 1)
         else:
             fy_start = datetime(curr_year, 9, 1)
 
-    if school in ["manara", "leadership"]:
-        if int(pl_months["last_month_number"]) < 7:
-            fy_start = datetime(curr_year, 1, 1)
-        else:
-            fy_start = datetime(curr_year, 7, 1)
     fy_diff = fy_curr - fy_start
     days = fy_diff.days
 
