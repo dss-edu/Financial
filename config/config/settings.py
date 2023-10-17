@@ -172,7 +172,7 @@ SCHOOLS = {
     "village-tech": "VILLAGE TECH",
     "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
-    "legacy": "LEGACY PREP SCHOOL",
+    "legacy": "LEGACY PREP CHARTER ACADEMY",
 }
 
 db = {
