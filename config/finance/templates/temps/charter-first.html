@@ -81,6 +81,14 @@
     background-color: #ff9f43;
 }
 
+.table td:nth-child(1),
+td:nth-child(5)
+{
+    
+    text-align: left!important;
+    padding-left: 20px!important;
+}
+
       
     </style>
 
@@ -114,16 +122,16 @@
                             </th>
                         </tr>
                         <tr class="green-header " style="background-color: #212529; color:white;">
-                            <th style=""><div style="width:200px; text-align: center;">FIRST Rating Indicators</div> </th>
+                            <th style="text-align: center;"><div style="width:300px;  text-align: center;">FIRST Rating Indicators</div> </th>
                             <th style="text-align: center;"><div style="width:200px; text-align: center;">Expected Results</div> </th>
                             <th style="text-align: center;"><div style="width:200px; text-align: center;">Points</div> </th>
                             <th style="text-align: center;"><div style="width:200px; text-align: center;">Status</div> </th>
-                            <th style="text-align: center;"><div style="width:200px; text-align: center;">Notes</div> </th>
+                            <th style="text-align: center;"><div style="width:300px; text-align: center;">Notes</div> </th>
                         </tr>
                     </thead>
                     <tbody id="data-table-body">
                         <tr>
-                            <td><strong>YTD Net Income </strong></td>
+                            <td  style="text-align:left; padding-left:20px!important;"><strong>YTD Net Income </strong></td>
                             <td id="net-income-ytd" style="text-align:center;">{{ net_income_ytd }}</td>
                             <td colspan="3" style="text-align:center; overflow: auto;">1-AFR filed timely; 2-Unmodified audit opinion; 3-Compliant with debt agreements;<br> 4-TRS/TWC/IRS paid timely; 5-Positive net assets</td>
                         </tr>
@@ -132,7 +140,7 @@
                             <td style="text-align:center;">{{ indicators }}</td>
                             <td style="text-align:center;">n/a</td>
                             <td style="text-align:center;"><p></p></td>
-                            <td style="text-align:center;">Indicator #5 net asset balance at risk if<br> losses continue; growth and new school exceptions do not apply.</td>
+                            <td style="text-align:center;">Indicator #5 net asset balance at risk if losses continue;<br>  growth and new school exceptions do not apply.</td>
                         </tr>
                         <tr id="net-assets">
                             <td><strong>#6 - Net assets over 3 years < 25% decrease<br>
@@ -270,8 +278,8 @@
                                                 <a id="rating-grade"></a>
                                             </td>
 
-                                            <td  style="text-align:center;"><p></p></td>
-                                            <td style="text-align:center;">
+                                            <td  style="text-align:center; "><p></p></td>
+                                            <td style="text-align:left; padding-left:20px!important;">
                                                 F &lt; 69, C Meets Standard = 70-79, <br>
                                                 B Above Standard = 80-89, <br>
                                                 A Superior = 90-100"
