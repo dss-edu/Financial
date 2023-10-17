@@ -8744,12 +8744,29 @@ def generate_excel(request,school):
         # PL START OF DESIGN
 
 
+  
+
+        for col in range(4, 17):
+            col_letter = get_column_letter(col)
+            cashflow_sheet.column_dimensions[col_letter].outline_level = 1
+            cashflow_sheet.column_dimensions[col_letter].hidden = True
+        last_number = months["last_month_number"]
+        
+     
         if last_number <= 6:
             last_number += 13
         else:
             last_number += 1
 
 
+        for col in range(last_number-3,16):
+            col_letter = get_column_letter(col)
+          
+      
+            cashflow_sheet.column_dimensions[col_letter].outline_level = 2
+            cashflow_sheet.column_dimensions[col_letter].hidden = True
+
+        
         cashflow_start_row = 7
         cashflow_start_hiding = 7
         operating_start_row = cashflow_start_row
