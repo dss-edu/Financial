@@ -179,7 +179,7 @@ db = {
     "advantage": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage_new]",
+        "db": "[AscenderData_Advantage]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
@@ -192,7 +192,7 @@ db = {
     "cumberland": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Cumberland_new]",
+        "db": "[AscenderData_Cumberland]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
