@@ -244,7 +244,7 @@ db = {
     "legacy": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[Skyward_Legacy]",
+        "db": "[Skyward_Legacy1]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
