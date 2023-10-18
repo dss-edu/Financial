@@ -14,7 +14,9 @@
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
 
-         
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                <h5 class="text-center" style="color: white; " >{{ school_name }}</h5>
+            </div>
                 <a id="export-pdf-button" class="navbar-brand mr-2 text-primary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
 
                 {% if request.user|has_group:"admin" %}

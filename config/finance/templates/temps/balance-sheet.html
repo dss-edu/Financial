@@ -8,6 +8,15 @@
 
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/bs.css' %}">
+<style>
+  .table thead th {
+      vertical-align: center!important;
+      border-bottom: 0px solid white!important;
+      padding:0px!important;
+      margin:0px!important;
+  }
+
+</style>
 
 {% endblock %}   
    
@@ -143,7 +152,7 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
 
     <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-      <h5 class="text-center" style="color: white;">{{ school_name }}</h5>
+      <h5 class="text-center" style="color: white; padding-left:200px;" >{{ school_name }}</h5>
   </div>
   <div class="d-flex align-items-center">
       <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
@@ -224,40 +233,61 @@
 
     {% endif %}
   {% csrf_token %}
-    <table id="data-table" class="table ">
+    <table id="data-table" class="table table-hover">
         <thead>
            <tr>
-            <th class="firstcolumn"  style="border-top-left-radius: 20px;"></th>
+            <th class="firstcolumn"  ></th>
             <th></th>
            
          
-            <th colspan="16" style="white-space: nowrap; border-top-right-radius: 20px;"">
-              
-                <h5 style="text-align: center;">FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet of {{last_month}}</h5>
+            <th colspan="16" style="white-space: nowrap; text-align: center;">
+
+                <h5 style="text-align: center; display: inline;">FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet <br></h5>
+                <h5 style="text-align: center; display: inline; padding-left:20px;">as of {{last_month}}</h5>
+                <button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn(); " style="float: right;">+</button>
             </th>
            
             
         </tr> 
-        <tr >
-          <script>
+       <!-- <tr >
+           <script>
             for (var i = 0; i <= 17; i++){
               if (i===1){
-                document.write(`<td  class="firstcolumn"></td>`);
+                document.write(`<td  class="firstcolumn" style="color: blue;">{{i}}</td>`);
                 
               }
-              else if (i === 16 ) {
+              else if (i === 17 ) {
                 document.write(`<td style="text-align: right;"><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn(); " >+</button></td>`);
               }
               else if(i>=3 && i<=15){
-                document.write(`<td  class="collapsed"></td>`);
+                document.write(`<td  class="collapsed" style="background-color: blue;"></td>`);
               }
               else{
-                document.write(`<td  ></td>`);
+                document.write(`<td  style="color: blue;">></td>`);
               }
             }
-            
-          </script>
-        </tr>
+            <td class="firstcolumn" style="border-top:0px!important;"></td>
+            <td class="" style="border-top:0px!important;"></td>
+            <td class=""></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class="collapsed"></td>
+            <td class=""></td>
+            <td ></td>
+            <td style="text-align: right;"></td>
+      
+          
+        </tr>-->
 
 
     </thead>
@@ -2445,7 +2475,7 @@
           <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>         
       </tr>
 
-      {%else%}
+      {% else %}
           
 
       <!-- START OF MANARA AND PREPSCHOOL-->
@@ -2468,6 +2498,7 @@
             }
         }
       }
+      
       </script> 
       <tr class="header">
         <th class="firstcolumn"></th>
@@ -4669,7 +4700,7 @@
       <td id="liabilitiesandnet-total-12" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.05}}</td>
       <td id="liabilitiesandnet-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.06}}</td>
       
-      <
+     
       <td id="liabilitiesandnet-total-16" class="right-align-td top-border">{{totals_bs.total_LNA_fytd}}</td>
       <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.total_LNA.07}}</td>         
   </tr>

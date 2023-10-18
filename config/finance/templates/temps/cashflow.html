@@ -10,7 +10,6 @@
 
     <link rel="stylesheet" href="{% static 'css/cashflow.css' %}">
 
-
 {% endblock %}
 
 
@@ -19,7 +18,7 @@
     <div id="content-wrapper">
         <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
             <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-                <h5 class="text-center" style="color: white;">{{ school_name }}</h5>
+                <h5 class="text-center" style="color: white; padding-left:90px;">{{ school_name }}</h5>
             </div>
             <div class="d-flex align-items-center">
                 <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
@@ -40,31 +39,33 @@
 
                 <table id="data-table" class="table table-hover">
                     <thead>
-                        <tr>
+                        <tr >
                             <th class="firstcolumn"></th>
-                            <th colspan="18" style="white-space: nowrap;">
-                           
-                                <h2 style="text-align: center;">Statement of Cash Flows for the period ended {{last_month}}</h2><br>
+                            <th colspan="16" style="white-space: nowrap; text-align: center;" > 
+                                <h5 style="text-align: center; display: inline;">Statement of Cash Flows </h5><br> 
+                                <h5 style="text-align: center; display: inline; padding-left:30px;">as of {{last_month}}</h5>
+                                <button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" style="float: right;">+</button>
                             </th>
+                       
                         </tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th class="collapsed" ></th>
-                            <th class="collapsed" ></th>
-                            <th class="collapsed" ></th>
-                            <th class="collapsed" ></th>
-                            <th class="collapsed" ></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th class="collapsed"></th>
-                            <th><button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();">+</button></th>
-                        </tr>
+                        {% comment %} <tr>
+                            <td></td>
+                            <td ></td>
+                            <td></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td class="collapsed"></td>
+                            <td style="text-align: center;"></th>
+                        </tr> {% endcomment %}
                     </thead>
                     {% if  school != 'manara' and school != 'leadership' %}
                         <script>
@@ -96,18 +97,18 @@
                                 <th></th>
                                 <th></th>
                                 <th></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">September     </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">October       </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">November      </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">December      </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">January       </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">February      </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">March         </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">April         </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">May           </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">June          </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">July          </div></th>
-                                <th class="collapsed" style="text-align: center;"> <div style="width: 100px">August        </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px;">September     </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">October       </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">November      </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">December      </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">January       </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">February      </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">March         </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">April         </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">May           </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">June          </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">July          </div></th>
+                                <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">August        </div></th>
                                 <th style="text-align: center;">YTD FY 2023</th>
 
                             </tr>

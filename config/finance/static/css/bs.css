@@ -57,7 +57,7 @@ td:first-child {
 
     .table th,
     .table td {
-        padding: 0.5rem !important;
+        padding: 0.3rem !important;
 
     }
     td:nth-child(3) {
