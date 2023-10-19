@@ -8477,7 +8477,7 @@ def generate_excel(request,school):
     # cashflow_sheet.row_dimensions[20].height = 26 #spr
     # cashflow_sheet.row_dimensions[33].height = 26 #fpr
     # cashflow_sheet.row_dimensions[34].height = 26 
-    cashflow_sheet.column_dimensions['A'].width = 8
+    cashflow_sheet.column_dimensions['A'].width = 5
     cashflow_sheet.column_dimensions['B'].width = 46
     cashflow_sheet.column_dimensions['C'].width = 10
     cashflow_sheet.column_dimensions['D'].width = 14
@@ -8510,8 +8510,40 @@ def generate_excel(request,school):
     start += 1
     cashflow_sheet[f'A{start}'] = f'for the period ended of {months["last_month"]}'
 
+    thin_border = Border(top=Side(border_style='thin'))
+    currency_style = NamedStyle(name="currency_style", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
+    currency_style.border =Border(top=Side(border_style='thin'))
+    currency_style.alignment = Alignment(horizontal='right', vertical='top')
+    currency_font = Font(name='Calibri', size=11, bold=True)
+    currency_style.font = currency_font
 
+
+    normal_cell_bottom_border = NamedStyle(name="normal_cell_bottom_border", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    normal_cell_bottom_border.border =Border(bottom=Side(border_style='thin'))
+    normal_cell_bottom_border.alignment = Alignment(horizontal='right', vertical='bottom')
+    normal_font_bottom_border = Font(name='Calibri', size=11, bold=False)
+    normal_cell_bottom_border.font = normal_font_bottom_border
+
+    normal_cell = NamedStyle(name="normal_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    normal_cell.alignment = Alignment(horizontal='right', vertical='bottom')
+    normal_font = Font(name='Calibri', size=11, bold=False)
+    normal_cell.font = normal_font
+
+
+    currency_style_noborder = NamedStyle(name="currency_style_noborder", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
+    
+    currency_style_noborder.alignment = Alignment(horizontal='right', vertical='top')
+    currency_font_noborder = Font(name='Calibri', size=11, bold=True)
+    currency_style_noborder.font = currency_font_noborder
           
+
+    thin_border_topdown = Border(top=Side(border_style='thin'), bottom=Side(border_style='thin'))
+    currency_style_topdown_border = NamedStyle(name="currency_style_topdown_border", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
+    currency_style_topdown_border.border = thin_border_topdown
+    currency_style_topdown_border.alignment = Alignment(horizontal='right', vertical='top')
+    currency_font = Font(name='Calibri', size=11, bold=True)
+    currency_style_topdown_border.font = currency_font
+
     
     if  school != 'manara' and school != 'leadership':
 
@@ -8543,6 +8575,8 @@ def generate_excel(request,school):
         cashflow_start_row = 7
         
         operating_start_row = cashflow_start_row
+        
+        cashflow_sheet[f'B{cashflow_start_row}'] = 'Change in Net Assets'
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["10"]
         cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"]["11"]
@@ -8558,6 +8592,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
     
         cashflow_start_row += 2
+        cashflow_sheet[f'B{cashflow_start_row}'] = 'Depreciation and Amortization'
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["dna_total_months"]["09"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["dna_total_months"]["10"]
         cashflow_sheet[f'F{cashflow_start_row}'] = totals["dna_total_months"]["11"]
@@ -8579,6 +8614,7 @@ def generate_excel(request,school):
                 all_zeros = all(row[f'total_operating{i}'] == 0 for i in range(1, 12))
                 if not all_zeros:
                     cashflow_start_row += 1
+                    cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                     cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
                     cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
                     cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
@@ -8594,10 +8630,20 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         operating_end_row = cashflow_start_row
-        cashflow_start_row = 19
+        cashflow_start_row += 1
         net_operating_total_row = cashflow_start_row
         
         # NET OPERATING TOTAL
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET CASH FLOWS FROM OPERATING ACTIVITIES'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{operating_start_row}:D{operating_end_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{operating_start_row}:E{operating_end_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{operating_start_row}:F{operating_end_row})' 
@@ -8612,8 +8658,9 @@ def generate_excel(request,school):
         cashflow_sheet[f'O{cashflow_start_row}'].value = f'=SUM(O{operating_start_row}:O{operating_end_row})' 
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{operating_start_row}:Q{operating_end_row})' 
 
+        
 
-        cashflow_start_row += 3
+        cashflow_start_row += 1
 
         investing_row_start = cashflow_start_row
         #CASHFLOW FROM INVESTING ACTIVITIES
@@ -8640,10 +8687,20 @@ def generate_excel(request,school):
                     cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
 
         investing_row_end = cashflow_start_row
-        cashflow_start_row = 30
-        
+        cashflow_start_row += 1
         #NET INVESTING TOTAL
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}")
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+
         net_investing_total_row = cashflow_start_row
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET CASH FLOWS FROM INVESTING ACTIVITIES'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{investing_row_start}:D{investing_row_end})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{investing_row_start}:E{investing_row_end})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{investing_row_start}:F{investing_row_end})' 
@@ -8660,7 +8717,17 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row = 32
+        cashflow_start_row += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET INCREASE (DECREASE IN CASH)'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8676,12 +8743,22 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row  = 34
+        cashflow_start_row  += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
                     if row['Subcategory'] == 'Current Assets':
                         if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'A{cashflow_start_row}'] = 'Cash At Beginning of Period'
                             cashflow_sheet[f'D{cashflow_start_row}'] = row['FYE']
                             cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_9']
                             cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_10']
@@ -8696,12 +8773,24 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row = 36
+        cashflow_start_row  += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}")
+
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
                     if row['Subcategory'] == 'Current Assets':
                         if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'A{cashflow_start_row}'] = 'Cash At End of Period'
                             cashflow_sheet[f'D{cashflow_start_row}'] = row['difference_9']
                             cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_1']
                             cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_11']
@@ -8770,6 +8859,7 @@ def generate_excel(request,school):
         cashflow_start_row = 7
         cashflow_start_hiding = 7
         operating_start_row = cashflow_start_row
+        cashflow_sheet[f'B{cashflow_start_row}'] = 'Change in Net Assets'
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"]["07"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"]["08"]
         cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"]["09"]
@@ -8785,6 +8875,7 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(D{cashflow_start_row}:O{cashflow_start_row})' 
     
         cashflow_start_row += 2
+        cashflow_sheet[f'B{cashflow_start_row}'] = 'Depreciation and Amortization'
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["dna_total_months"]["07"]
         cashflow_sheet[f'E{cashflow_start_row}'] = totals["dna_total_months"]["08"]
         cashflow_sheet[f'F{cashflow_start_row}'] = totals["dna_total_months"]["09"]
@@ -8806,6 +8897,7 @@ def generate_excel(request,school):
                 all_zeros = all(row[f'total_operating{i}'] == 0 for i in range(1, 12))
                 if not all_zeros:
                     cashflow_start_row += 1
+                    cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                     cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating7']
                     cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating8']
                     cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating9']
@@ -8825,6 +8917,16 @@ def generate_excel(request,school):
         net_operating_total_row = cashflow_start_row
         
         # NET OPERATING TOTAL
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET CASH FLOWS FROM OPERATING ACTIVITIES'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{operating_start_row}:D{operating_end_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{operating_start_row}:E{operating_end_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{operating_start_row}:F{operating_end_row})' 
@@ -8869,10 +8971,21 @@ def generate_excel(request,school):
         investing_row_end = cashflow_start_row
 
 
-        cashflow_start_row = 30
+        cashflow_start_row +1
         
         #NET INVESTING TOTAL
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}")
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+
         net_investing_total_row = cashflow_start_row
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET CASH FLOWS FROM INVESTING ACTIVITIES'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{investing_row_start}:D{investing_row_end})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{investing_row_start}:E{investing_row_end})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{investing_row_start}:F{investing_row_end})' 
@@ -8889,7 +9002,17 @@ def generate_excel(request,school):
 
     
         #NET INCREASE Decrease in cash
-        cashflow_start_row = 32
+        cashflow_start_row += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
+        cashflow_sheet[f'A{cashflow_start_row}'] = 'NET INCREASE (DECREASE IN CASH)'
         cashflow_sheet[f'D{cashflow_start_row}'].value = f'=SUM(D{net_operating_total_row},D{net_investing_total_row})'  
         cashflow_sheet[f'E{cashflow_start_row}'].value = f'=SUM(E{net_operating_total_row},E{net_investing_total_row})'
         cashflow_sheet[f'F{cashflow_start_row}'].value = f'=SUM(F{net_operating_total_row},F{net_investing_total_row})' 
@@ -8905,12 +9028,22 @@ def generate_excel(request,school):
         cashflow_sheet[f'Q{cashflow_start_row}'].value = f'=SUM(Q{net_operating_total_row},Q{net_investing_total_row})' 
 
 
-        cashflow_start_row = 34
+        cashflow_start_row  += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}") 
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
                     if row['Subcategory'] == 'Current Assets':
                         if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'A{cashflow_start_row}'] = 'Cash At Beginning of Period'
                             cashflow_sheet[f'D{cashflow_start_row}'] = row['FYE']
                             cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_8']
@@ -8925,12 +9058,23 @@ def generate_excel(request,school):
                             cashflow_sheet[f'O{cashflow_start_row}'] = row['difference_5']
                             cashflow_sheet[f'Q{cashflow_start_row}'] = row['FYE']
 
-        cashflow_start_row = 36
+        cashflow_start_row  += 2
+        for col in range(1, 22):
+            try:  
+                cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                cell.font = fontbold
+            except KeyError as e:
+                print(f"Error hiding row {col}: {e}")
+
+        for col in range(4, 18):  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.style = currency_style_topdown_border 
         for row in data_balancesheet:
             if row["school"] == school:
                 if row['Category'] == 'Assets':
                     if row['Subcategory'] == 'Current Assets':
                         if row['Activity'] == 'Cash':
+                            cashflow_sheet[f'A{cashflow_start_row}'] = 'Cash At End of Period'
                             cashflow_sheet[f'D{cashflow_start_row}'] = row['difference_7']
                             cashflow_sheet[f'E{cashflow_start_row}'] = row['difference_8']
                             cashflow_sheet[f'F{cashflow_start_row}'] = row['difference_9']
