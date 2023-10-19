@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const circles = {
-        "green-circle": "G",
-        "yellow-circle": "Y",
-        "red-circle": "R",
+        "green-circle": "On Track",
+        "yellow-circle": "Of Concern",
+        "red-circle": "At Risk",
     };
     StatusChecker();
     commaSeparator();

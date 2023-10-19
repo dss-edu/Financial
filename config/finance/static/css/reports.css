@@ -37,6 +37,7 @@
   vertical-align: middle;
   border: 1px solid #566483;
 }
+
 .green-circle {
   background-color: #28a745;
 }
@@ -80,13 +81,14 @@
 }
 
 .legend {
-  display: flex;
-  border-radius: 50%;
+  display:flex;
+  border-radius: 30px;
   text-align: center;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  margin: auto auto;
+  width: 100px; /* Adjust the width */
+  height: 20px; /* Adjust the height */
 }
 
 .logo {

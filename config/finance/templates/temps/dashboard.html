@@ -66,7 +66,7 @@
                                         <tr>
                                             <th>Key Ratio/Indicator</th>
                                             <th>Results</th>
-                                            <th>Status</th>
+                                            <th><div style="width: 100px;">Status</div></th>
                                             <th>Notes</th>
                                         </tr>
                                     </thead>
@@ -82,7 +82,7 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="legend green-circle"> G </div>
+                                                    <div class="legend green-circle"> On Track </div>
                                                 </div>
                                             </td>
                                             <td name="notes">{{ data.notes.0 }}</td>
@@ -105,7 +105,7 @@
                                             <td>{{ ratio_administrative }}</td>
                                             <td>
                                                 <div class="d-flex align-items-center justify-content-center">
-                                                    <div class="legend green-circle"> G </div>
+                                                    <div class="legend green-circle"> On Track </div>
                                                 </div>
                                             </td>
                                             <td name="notes">{{ data.notes.2 }}</td>
@@ -193,22 +193,18 @@
             </div>
 
 
-            <div id="dashboard-footer">
+            {% comment %} <!<div id="dashboard-footer">
                 <div class="d-flex align-items center justify-content-center">
                     <hr class="bottom-line bg-dark">
                 </div>
                 <div id="bottom-legend" class="row d-flex align-items-center justify-content-center p-2">
-                    {% comment %}
-                    <div class="col">
-                        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo">
-                    </div>
-                    {% endcomment %}
+               
 
                     <!-- <div class="col d-flex p-0"> -->
                     <div class="d-flex flex-row align-items-center">
                         <div class="d-flex align-items-center">
                             <div class="legend green-circle">
-                                <span>G</span>
+                                <span>On Track</span>
                             </div>
                         </div>
                         <div class="d-flex align-items-center m-2">
@@ -216,7 +212,7 @@
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="legend yellow-circle">
-                                <span>Y</span>
+                                 <span>Of Concern</span>
                             </div>
                         </div>
                         <div class="d-flex align-items-center m-2">
@@ -242,7 +238,7 @@
                     </div>
                     <!-- </div> -->
                 </div> <!-- End of bottom legend -->
-            </div> <!-- end of dashboard-footer -->
+            </div> <!-- end of dashboard-footer --> {% endcomment %}
         </div> <!-- End of container -->
 
 
