@@ -1764,7 +1764,7 @@ def balance_sheet(school):
         last_month = months["last_month"]
         last_month_number = months["last_month_number"]
         last_month_name = months["last_month_name"]
-        
+        print(last_month)
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
 
@@ -2500,18 +2500,18 @@ def balance_sheet(school):
     # return context
     # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
 
-    if FY_year_1 == FY_year_current:
-        json_path = os.path.join(JSON_DIR, "balance-sheet", school)
-    else:
-        json_path = os.path.join(JSON_DIR,str(FY_year_1), "balance-sheet", school)
-        
-    if not os.path.exists(json_path):
-        os.makedirs(json_path)
+        if FY_year_1 == FY_year_current:
+            json_path = os.path.join(JSON_DIR, "balance-sheet", school)
+        else:
+            json_path = os.path.join(JSON_DIR,str(FY_year_1), "balance-sheet", school)
+            
+        if not os.path.exists(json_path):
+            os.makedirs(json_path)
 
-    for key, val in context.items():
-        file = os.path.join(json_path, f"{key}.json")
-        with open(file, "w") as f:
-            json.dump(val, f)
+        for key, val in context.items():
+            file = os.path.join(json_path, f"{key}.json")
+            with open(file, "w") as f:
+                json.dump(val, f)
 
 def cashflow(school):
     cnxn = connect()

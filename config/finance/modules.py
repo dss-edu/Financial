@@ -308,7 +308,7 @@ def balance_sheet(school, anchor_year):
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "balance-sheet", school)
     if anchor_year:
         JSON_DIR = os.path.join(
-            BASE_DIR, "finance", str(anchor_year), "balance-sheet", school
+            BASE_DIR, "finance", "json", str(anchor_year), "balance-sheet", school
         )
     files = os.listdir(JSON_DIR)
 
