@@ -55,7 +55,7 @@ def profit_loss(school):
 
 
     while start_year <= FY_year_current:
-        print(start_year, FY_year_current)
+     
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         july_date_start  = datetime(FY_year_1, 7, 1).date()
@@ -146,7 +146,7 @@ def profit_loss(school):
                     if date_checker > july_date_start and date_checker < july_date_end:
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
-
+                         
 
                         row_dict = {
                             "fund": row[0],
@@ -175,12 +175,11 @@ def profit_loss(school):
                         data3.append(row_dict)
                 else:
 
-                    if date_checker > september_date_start and date_checker < september_date_end:
-                        if date_checker > current_month:
-                            
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+                        if date_checker >= current_month:
+                    
                             current_month = date_checker.replace(day=1)
                           
-
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -1613,31 +1612,34 @@ def balance_sheet(school):
         data_balancesheet = []
 
         for row in rows:
-            fye = float(row[7]) if row[7] else 0
-            if fye == 0:
-                fyeformat = ""
-            else:
-                if row[0] == 'Cash' or row[0] == 'AP':
-                    fyeformat = (
-                        "${:,.0f}".format(abs(fye)) if fye >= 0 else "$({:,.0f})".format(abs(fye))
-                    )
+            if row[8] == school:
+                fye = float(row[7]) if row[7] else 0
+                if fye == 0:
+                    fyeformat = ""
                 else:
-                    fyeformat = (
-                        "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
-                    )
+                    if row[0] == 'Cash' or row[0] == 'AP':
+                        fyeformat = (
+                            "${:,.0f}".format(abs(fye)) if fye >= 0 else "$({:,.0f})".format(abs(fye))
+                        )
+                    else:
+                        fyeformat = (
+                            "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
+                        )
+                print(fyeformat)
+                print(row[5])
+                row_dict = {
+                    "Activity": row[0],
+                    "Description": row[1],
+                    "Category": row[2],
+                    "Subcategory": row[3],
+                    "FYE": fyeformat,
+                    "BS_id": row[5],
+                    "school": row[8],
+            
 
-            row_dict = {
-                "Activity": row[0],
-                "Description": row[1],
-                "Category": row[2],
-                "Subcategory": row[3],
-                "FYE": fyeformat,
-                "BS_id": row[5],
-                "school": row[8],
+                }
 
-            }
-
-            data_balancesheet.append(row_dict)
+                data_balancesheet.append(row_dict)
 
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
@@ -1764,13 +1766,13 @@ def balance_sheet(school):
         last_month = months["last_month"]
         last_month_number = months["last_month_number"]
         last_month_name = months["last_month_name"]
-        print(last_month)
+     
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
 
         adjustment = []
 
-        if not school in schoolCategory["ascender"]:
+        if school in schoolCategory["ascender"]:
             for row in rows:
                 expend = float(row[17])
                 row_dict = {
@@ -1825,7 +1827,7 @@ def balance_sheet(school):
         for item in data_activitybs:
             obj = item["obj"]
             item["fytd"] = 0
-
+            
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_data3 = sum(
                     entry[bal_key]
@@ -1842,6 +1844,7 @@ def balance_sheet(school):
                     and entry[bal_key] is not None 
                     and not isinstance(entry[bal_key], str)
                 )
+
 
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
                 item["fytd"] += item[f"total_bal{i}"]
@@ -2054,7 +2057,7 @@ def balance_sheet(school):
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     
                     row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
-
+                  
                     row["debt_9"]  = (FYE_value - total_sum9_value)
                     row["debt_10"] = (row["debt_9"] - total_sum10_value)
                     row["debt_11"] = (row["debt_10"] - total_sum11_value)
@@ -2443,7 +2446,8 @@ def balance_sheet(school):
 
         # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
         # func_choice_sorted = sorted(func_choice)
-
+        for row in data_balancesheet:
+            print(row['FYE'])
         #difference_key = "difference_" + str(last_month_number)
         context = {
             "data_balancesheet": data_balancesheet,

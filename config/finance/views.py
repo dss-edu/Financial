@@ -1140,6 +1140,7 @@ def logoutView(request):
 
 def update_row(request,school):
     if request.method == 'POST':
+        print(request)
         
         try:
             cnxn = connect()
@@ -1189,8 +1190,8 @@ def update_row(request,school):
             
             cursor.close()
             cnxn.close()
-            
-            context = modules.balance_sheet(school)
+            anchor_year = ""
+            context = modules.balance_sheet(school,anchor_year)
             return render(request, "temps/balance-sheet.html", context)
 
         except Exception as e:
