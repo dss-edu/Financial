@@ -260,3 +260,8 @@ schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland"],
     "skyward": ["village-tech", "legacy"]
 }
+
+schoolMonths ={
+    "julySchool": ["manara","leadership"],
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy"]
+}

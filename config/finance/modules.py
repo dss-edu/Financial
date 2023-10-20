@@ -196,7 +196,7 @@ def profit_loss(school, anchor_year):
     JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     if anchor_year:  # anchor_year is by default = ""
         JSON_DIR = os.path.join(
-            BASE_DIR, "finance", str(anchor_year), "profit-loss", school
+            BASE_DIR, "finance","json", str(anchor_year), "profit-loss", school
         )
     files = os.listdir(JSON_DIR)
 
