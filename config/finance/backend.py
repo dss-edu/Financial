@@ -37,7 +37,7 @@ def update_school(school):
     balance_sheet(school)
     cashflow(school)
     excel(school)
-    charter_first(school)
+    # charter_first(school)
     profit_loss_chart(school)
 
 
@@ -211,18 +211,19 @@ def profit_loss(school):
         else:        
             for row in rows:
                 amount = float(row[19])
-                date = row[11]
-                if isinstance(row[11], datetime):
-                    date = row[11].strftime("%Y-%m-%d")
+                date = row[9]
+                
+                if isinstance(row[9], datetime):
+                    date = row[9].strftime("%Y-%m-%d")
 
-                if isinstance(row[11], datetime):
-                    date_checker = row[11].date()
+                if isinstance(row[9], datetime):
+                    date_checker = row[9].date()
                 else:
-                    date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+                    date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
 
-                if date_checker > september_date_start and date_checker < september_date_end:
-                    if date_checker > current_month:
+                if date_checker >= september_date_start and date_checker <= september_date_end:
+                    if date_checker >= current_month:
                         current_month = date_checker.replace(day=1)
 
                     row_dict = {
@@ -1625,8 +1626,7 @@ def balance_sheet(school):
                         fyeformat = (
                             "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
                         )
-                print(fyeformat)
-                print(row[5])
+
                 row_dict = {
                     "Activity": row[0],
                     "Description": row[1],
@@ -2446,8 +2446,8 @@ def balance_sheet(school):
 
         # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
         # func_choice_sorted = sorted(func_choice)
-        for row in data_balancesheet:
-            print(row['FYE'])
+    
+
         #difference_key = "difference_" + str(last_month_number)
         context = {
             "data_balancesheet": data_balancesheet,
