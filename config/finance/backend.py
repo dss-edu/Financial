@@ -1770,7 +1770,7 @@ def balance_sheet(school):
 
         adjustment = []
 
-        if not school in schoolCategory["ascender"]:
+        if school in schoolCategory["ascender"]:
             for row in rows:
                 expend = float(row[17])
                 row_dict = {
