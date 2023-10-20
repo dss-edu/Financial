@@ -179,8 +179,7 @@ def profit_loss(school):
                         if date_checker > current_month:
                             
                             current_month = date_checker.replace(day=1)
-                            print(current_month)
-                            
+                          
 
                         row_dict = {
                             "fund": row[0],
@@ -217,8 +216,10 @@ def profit_loss(school):
                 if isinstance(row[11], datetime):
                     date = row[11].strftime("%Y-%m-%d")
 
-                
-                date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+                if isinstance(row[11], datetime):
+                    date_checker = row[11].date()
+                else:
+                    date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
 
 
                 if date_checker > september_date_start and date_checker < september_date_end:
