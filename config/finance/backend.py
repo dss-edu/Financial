@@ -4453,11 +4453,18 @@ def charter_first(school):
         bs_totals = json.load(f)
     pl_lmn = pl_months["last_month_number"]
     key_month = "0" + str(pl_lmn) if pl_lmn < 10 else str(pl_lmn)
+    try:
+        total_current_assets = dollar_parser(bs_totals["total_current_assets"][key_month])
+        total_current_liabilities = dollar_parser(bs_totals["total_current_liabilities"][key_month])
+    except KeyError:
 
-    total_current_assets = dollar_parser(bs_totals["total_current_assets"][key_month])
-    total_current_liabilities = dollar_parser(bs_totals["total_current_liabilities"][key_month])
-
-    current_ratio = total_current_assets / total_current_liabilities
+        total_current_assets = 0
+        total_current_liabilities = 0
+    
+    if total_current_liabilities != 0:
+        current_ratio = total_current_assets / total_current_liabilities
+    else:
+        current_ratio = 0
     context["current_assets"] = round(current_ratio, 1)
 
 
@@ -4466,9 +4473,18 @@ def charter_first(school):
 
 
     # LT liabilities
-    total_assets = dollar_parser(bs_totals["total_assets"][key_month])
-    total_liabilities = dollar_parser(bs_totals["total_liabilities"][key_month])
-    lt_ratio = total_liabilities / total_assets
+    try:
+
+        total_assets = dollar_parser(bs_totals["total_assets"][key_month])
+        total_liabilities = dollar_parser(bs_totals["total_liabilities"][key_month])
+    except KeyError:
+        total_assets = 0
+        total_liabilities = 0
+    
+    if total_assets != 0:
+        lt_ratio = total_liabilities / total_assets
+    else:
+        lt_ratio = 0
     context["total_assets"] = round(lt_ratio, 2)
 
     # debt_capitalization
@@ -4558,5 +4574,5 @@ def profit_loss_chart(school):
             json.dump(val, f)
 
 if __name__ == "__main__":
-    # update_db()
-    charter_first("advantage")
+    update_db()
+    # charter_first("advantage")
