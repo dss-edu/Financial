@@ -3696,7 +3696,7 @@ def generate_excel(request,school,anchor_year):
     
     BASE_DIR = os.getcwd()
     if anchor_year != curr_year :
-        JSON_DIR = os.path.join(BASE_DIR, "finance",str(anchor_year), "json", "excel", school)
+        JSON_DIR = os.path.join(BASE_DIR, "finance","json", str(anchor_year),  "excel", school)
     else:
         JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
     
