@@ -4167,7 +4167,7 @@ def excel(school):
             print(school)
             print(last_month_number)
             print(FY_year_1)
-            if row[0] == school and row[2]==last_month_number and row[1] == FY_year_1:
+            if row[0] == school and row[2]== (last_month_number - 1 ) and row[1] == FY_year_1:
                 
                 row_dict = {
                     "school": row[0],
