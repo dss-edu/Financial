@@ -41,6 +41,14 @@ SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
 
+
+# Get the current date
+current_date = datetime.now()
+# Extract the month number from the current date
+month_number = current_date.month
+curr_year = current_date.year
+
+
 @login_required
 def updatedb(request):
     if request.method == 'POST':
@@ -3681,14 +3689,17 @@ def viewglexpense_cumberland(request,obj,yr):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
 @login_required
-def generate_excel(request,school):
+def generate_excel(request,school,anchor_year):
     cnxn = connect()
     cursor = cnxn.cursor()
 
     
     BASE_DIR = os.getcwd()
-    JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
-
+    if anchor_year != curr_year :
+        JSON_DIR = os.path.join(BASE_DIR, "finance",str(anchor_year), "json", "excel", school)
+    else:
+        JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
+    
     with open(os.path.join(JSON_DIR, "data.json"), "r") as f:
         data = json.load(f)
     
@@ -5919,6 +5930,13 @@ def generate_excel(request,school):
             bs_sheet.column_dimensions[col_letter].outline_level = 2
             bs_sheet.column_dimensions[col_letter].hidden = True
 
+        acc_per = months["last_month_number"]
+        
+        if acc_per >= 10:
+            acc_per = str(acc_per)
+        else:
+            acc_per = str(f'0{acc_per}')
+
 
 
         start_bs_for_hiding = 7
@@ -6372,8 +6390,9 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_assets"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_assets"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_assets_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][last_month_row_total]
+        
+        
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][acc_per]
         
         start_row_bs += 1
         bs_sheet[f'D{start_row_bs}'] = 'Capital Assets , Net'
@@ -6605,8 +6624,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_capital_assets_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"][last_month_row_total]
+        
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"][acc_per]
         
         start_row_bs += 1
         for col in range(2, 22):  
@@ -6636,8 +6655,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_assets_fye_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"][last_month_row_total]
+     
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"][acc_per]
 
         start_row_bs += 1
         bs_sheet.row_dimensions[start_row_bs].height = 37 
@@ -7008,8 +7027,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_liabilities"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_liabilities"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_liabilities_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"][last_month_row_total]
+       
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"][acc_per]
 
         start_row_bs += 1
         bs_sheet.row_dimensions[start_row_bs].height = 37 
@@ -7103,8 +7122,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_liabilities"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_liabilities"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_liabilities_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"][last_month_row_total]
+        
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"][acc_per]
 
 
         for row in data_balancesheet:
@@ -7163,8 +7182,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"]["07"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"]["08"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_LNA_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][last_month_row_total]
+      
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][acc_per]
     
 
 
@@ -7189,6 +7208,12 @@ def generate_excel(request,school):
         else:
             last_number += 1
 
+        acc_per =  months["last_month_number"]
+
+        if acc_per >= 10:
+            print(acc_per)
+        else:
+            acc_per = f'0{acc_per}'
 
         for col in range(last_number,19):
             col_letter = get_column_letter(col)     
@@ -7223,6 +7248,7 @@ def generate_excel(request,school):
 
 
 
+       
         start_bs_for_hiding  = 7  
         start_row_bs = 6
         hide_row_bs_start = start_row_bs
@@ -7668,8 +7694,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_assets"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_assets"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_assets_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][last_month_row_total]
+   
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][acc_per]
         
         start_row_bs += 1
         bs_sheet[f'D{start_row_bs}'] = 'Capital Assets , Net'
@@ -7901,8 +7927,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_capital_assets_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"][last_month_row_total]
+ 
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"][acc_per]
         
         start_row_bs += 1
         for col in range(2, 22):  
@@ -7932,8 +7958,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_assets_fye_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"][last_month_row_total]
+      
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"][acc_per]
 
         start_row_bs += 1
         bs_sheet.row_dimensions[start_row_bs].height = 37 
@@ -8305,8 +8331,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_liabilities"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_liabilities"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_liabilities_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"][last_month_row_total]
+     
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"][acc_per]
 
         start_row_bs += 1
         bs_sheet.row_dimensions[start_row_bs].height = 37 
@@ -8399,8 +8425,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_liabilities"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_liabilities"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_liabilities_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"][last_month_row_total]
+
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"][acc_per]
 
 
         for row in data_balancesheet:
@@ -8459,8 +8485,8 @@ def generate_excel(request,school):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_LNA_fytd"]
-        last_month_row_total = f'0{months["last_month_number"]}'
-        bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][last_month_row_total]
+
+        bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][acc_per]
         
         while start_bs_for_hiding <= start_row_bs:
             for col in range(last_number,19):

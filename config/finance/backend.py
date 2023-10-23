@@ -33,11 +33,12 @@ def update_db():
         profit_loss_chart(school)
         
 def update_school(school):
+
     profit_loss(school) 
     balance_sheet(school)
     cashflow(school)
+    charter_first(school)
     excel(school)
-    # charter_first(school)
     profit_loss_chart(school)
 
 
@@ -559,7 +560,7 @@ def profit_loss(school):
                 totals["total_ammended_fpr"] += item["total_budget"]
                 
             for i, acct_per in enumerate(acct_per_values, start=1):
-                if school == 'manara' and school == 'leadership':
+                if school in schoolMonths['julySchool']:
                     total_real = sum(
                         entry[real_key]
                         for entry in data3
@@ -2037,7 +2038,7 @@ def balance_sheet(school):
                 total_sum7_value = float(row["total_sum7"])
                 total_sum8_value = float(row["total_sum8"])
 
-                if school != 'manara' and school != 'leadership':
+                if school in schoolMonths['septemberSchool']:
                 
                     # Calculate the differences and store them in the row dictionary
                     row["difference_9"] = (FYE_value + total_sum9_value)
@@ -2518,651 +2519,680 @@ def balance_sheet(school):
                 json.dump(val, f)
 
 def cashflow(school):
-    cnxn = connect()
-    cursor = cnxn.cursor()
-
-    json_path = os.path.join(JSON_DIR, "profit-loss", school)
-    with open(os.path.join(json_path, "data.json"), "r") as f:
-        data = json.load(f)
-
-    with open(os.path.join(json_path, "data2.json"), "r") as f:
-        data2 = json.load(f)
-
-    with open(os.path.join(json_path, "data3.json"), "r") as f:
-        data3 = json.load(f)
-
-    with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
-        data_expensebyobject = json.load(f)
-
-    with open(os.path.join(json_path, "data_activities.json"), "r") as f:
-        data_activities = json.load(f)
-
-    with open(os.path.join(json_path, "totals.json"), "r") as f:
-        totals = json.load(f)
-
-    with open(os.path.join(json_path, "months.json"), "r") as f:
-        months = json.load(f)
-
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
-    rows = cursor.fetchall()
-
-    data_cashflow = []
-
-    for row in rows:
-        row_dict = {
-            "Category": row[0],
-            "Activity": row[1],
-            "Description": row[2],
-            "obj": str(row[3]),
-        }
-
-        data_cashflow.append(row_dict)
-
-    json_path = os.path.join(JSON_DIR, "balance-sheet", school)
-    with open(os.path.join(json_path, "data_activitybs.json"), "r") as f:
-        data_activitybs = json.load(f)
-
-    with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
-        data_balancesheet = json.load(f)
-
-    acct_per_values = [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-    ]
-
-    activity_key = "Bal"
-    if school in schoolCategory["skyward"]:
-        activity_key = "Amount"
-
-    # ---------- FOR EXPENSE TOTAL -------
+    start_year = 2021
+    current_date = datetime.today().date()   
+    current_year = current_date.year
+    FY_year_current = current_year
 
 
-    chars_to_remove = r'[(),]'
-    for i, acct_per in enumerate(acct_per_values, start=1):
-        key = f"total_bal{i}"
-        for entry in data_activitybs:
-            sign = 1
-            if '(' in entry[key]:
-                sign = -1
-            try:
-                entry[key] = float(re.sub(chars_to_remove, '', entry[key])) * sign
-            except (TypeError, ValueError):
-                if entry[key] == '':
-                    entry[key] = 0
-                else:
-                    print(entry[key])
+    while start_year <= FY_year_current:
+        FY_year_1 = start_year
+        FY_year_2 = start_year + 1
+        start_year = FY_year_2
+        cnxn = connect()
+        cursor = cnxn.cursor()
 
 
-    for item in data_cashflow:
-        activity = item["Activity"]
-        item["fytd_1"] = 0
+        if FY_year_1 == FY_year_current:
+            json_path = os.path.join(JSON_DIR,"profit-loss", school)
+        else:
+            json_path = os.path.join(JSON_DIR,str(FY_year_1), "profit-loss", school)
+        with open(os.path.join(json_path, "data.json"), "r") as f:
+            data = json.load(f)
 
+        with open(os.path.join(json_path, "data2.json"), "r") as f:
+            data2 = json.load(f)
+
+        with open(os.path.join(json_path, "data3.json"), "r") as f:
+            data3 = json.load(f)
+
+        with open(os.path.join(json_path, "data_expensebyobject.json"), "r") as f:
+            data_expensebyobject = json.load(f)
+
+        with open(os.path.join(json_path, "data_activities.json"), "r") as f:
+            data_activities = json.load(f)
+
+        with open(os.path.join(json_path, "totals.json"), "r") as f:
+            totals = json.load(f)
+
+        with open(os.path.join(json_path, "months.json"), "r") as f:
+            months = json.load(f)
+
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
+        rows = cursor.fetchall()
+
+        data_cashflow = []
+
+        for row in rows:
+            row_dict = {
+                "Category": row[0],
+                "Activity": row[1],
+                "Description": row[2],
+                "obj": str(row[3]),
+            }
+
+            data_cashflow.append(row_dict)
+
+
+        if FY_year_1 == FY_year_current:
+            json_path = os.path.join(JSON_DIR, "balance-sheet", school)
+        else:
+            json_path = os.path.join(JSON_DIR,str(FY_year_1), "balance-sheet", school)
+        with open(os.path.join(json_path, "data_activitybs.json"), "r") as f:
+            data_activitybs = json.load(f)
+
+        with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
+            data_balancesheet = json.load(f)
+
+        acct_per_values = [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+        ]
+
+        activity_key = "Bal"
+        if school in schoolCategory["skyward"]:
+            activity_key = "Amount"
+
+        # ---------- FOR EXPENSE TOTAL -------
+
+
+        chars_to_remove = r'[(),]'
         for i, acct_per in enumerate(acct_per_values, start=1):
             key = f"total_bal{i}"
-            item[f"total_operating{i}"] = sum(
-                entry[key]
-                for entry in data_activitybs
-                if entry["Activity"] == activity
-            )
-            item["fytd_1"] += item[f"total_operating{i}"] 
+            for entry in data_activitybs:
+                sign = 1
+                if '(' in entry[key]:
+                    sign = -1
+                try:
+                    entry[key] = float(re.sub(chars_to_remove, '', entry[key])) * sign
+                except (TypeError, ValueError):
+                    if entry[key] == '':
+                        entry[key] = 0
+                    else:
+                        print(entry[key])
+
+
+        for item in data_cashflow:
+            activity = item["Activity"]
+            item["fytd_1"] = 0
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                key = f"total_bal{i}"
+                item[f"total_operating{i}"] = sum(
+                    entry[key]
+                    for entry in data_activitybs
+                    if entry["Activity"] == activity
+                )
+                item["fytd_1"] += item[f"total_operating{i}"] 
+                
+
+        for item in data_cashflow:
+            obj = item["obj"]
+            item["fytd_2"] = 0
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f"total_investing{i}"] = sum(
+                    entry[activity_key]
+                    for entry in data3
+                    if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                )
+                item["fytd_2"] += item[f"total_investing{i}"] 
+                
+
+        data_key = "Expend"
+        if school in schoolCategory["skyward"]:
+            data_key = "Amount"
+
+        keys_to_check_cashflow = [
+            "total_operating1",
+            "total_operating2",
+            "total_operating3",
+            "total_operating4",
+            "total_operating5",
+            "total_operating6",
+            "total_operating7",
+            "total_operating8",
+            "total_operating9",
+            "total_operating10",
+            "total_operating11",
+            "total_operating12",
             
-
-    for item in data_cashflow:
-        obj = item["obj"]
-        item["fytd_2"] = 0
-
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_investing{i}"] = sum(
-                entry[activity_key]
-                for entry in data3
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
-            )
-            item["fytd_2"] += item[f"total_investing{i}"] 
+        ]
+        keys_to_check_cashflow2 = [
+            "total_investing1",
+            "total_investing2",
+            "total_investing3",
+            "total_investing4",
+            "total_investing5",
+            "total_investing6",
+            "total_investing7",
+            "total_investing8",
+            "total_investing9",
+            "total_investing10",
+            "total_investing11",
+            "total_investing12",
             
+        ]
+        for row in data_cashflow:
+            for key in keys_to_check_cashflow:
+                value = float(row[key])
+                if value == 0:
+                    row[key] = ""
+                elif value > 0:
+                    row[key] = "({:,.0f})".format(abs(float(row[key])))
+                else:
+                    row[key] = "{:,.0f}".format(abs(float(row[key])))
+            
+        for row in data_cashflow:
+            for key in keys_to_check_cashflow2:
+                value = float(row[key])
+                if value == 0:
+                    row[key] = ""
+                elif value > 0:
+                    row[key] = "({:,.0f})".format(abs(float(row[key])))
+                else:
+                    row[key] = "{:,.0f}".format(abs(float(row[key])))
 
-    data_key = "Expend"
-    if school in schoolCategory["skyward"]:
-        data_key = "Amount"
+        # --- total revenue
+        # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+        #
+        # data_key = "Real"
+        # if school == "village-tech":
+        #     data_key = "Amount"
+        #
+        # for item in data:
+        #     fund = item["fund"]
+        #     obj = item["obj"]
+        #
+        #     for i, acct_per in enumerate(acct_per_values, start=1):
+        #         item[f"total_real{i}"] = sum(
+        #             entry[data_key]
+        #             for entry in data3
+        #             if entry["fund"] == fund
+        #             and entry["obj"] == obj
+        #             and entry["AcctPer"] == acct_per
+        #         )
+        #
+        #         total_revenue[acct_per] += abs(item[f"total_real{i}"])
 
-    keys_to_check_cashflow = [
-        "total_operating1",
-        "total_operating2",
-        "total_operating3",
-        "total_operating4",
-        "total_operating5",
-        "total_operating6",
-        "total_operating7",
-        "total_operating8",
-        "total_operating9",
-        "total_operating10",
-        "total_operating11",
-        "total_operating12",
-        
-    ]
-    keys_to_check_cashflow2 = [
-        "total_investing1",
-        "total_investing2",
-        "total_investing3",
-        "total_investing4",
-        "total_investing5",
-        "total_investing6",
-        "total_investing7",
-        "total_investing8",
-        "total_investing9",
-        "total_investing10",
-        "total_investing11",
-        "total_investing12",
-        
-    ]
-    for row in data_cashflow:
-        for key in keys_to_check_cashflow:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value > 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key])))
-            else:
-                row[key] = "{:,.0f}".format(abs(float(row[key])))
-        
-    for row in data_cashflow:
-        for key in keys_to_check_cashflow2:
-            value = float(row[key])
-            if value == 0:
-                row[key] = ""
-            elif value > 0:
-                row[key] = "({:,.0f})".format(abs(float(row[key])))
-            else:
-                row[key] = "{:,.0f}".format(abs(float(row[key])))
+        # keys_to_check = [
+        #     "total_real1",
+        #     "total_real2",
+        #     "total_real3",
+        #     "total_real4",
+        #     "total_real5",
+        #     "total_real6",
+        #     "total_real7",
+        #     "total_real8",
+        #     "total_real9",
+        #     "total_real10",
+        #     "total_real11",
+        #     "total_real12",
+        # ]
+        #
+        # acct_per_values2 = [
+        #     "01",
+        #     "02",
+        #     "03",
+        #     "04",
+        #     "05",
+        #     "06",
+        #     "07",
+        #     "08",
+        #     "09",
+        #     "10",
+        #     "11",
+        #     "12",
+        # ]
 
-    # --- total revenue
-    # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-    #
-    # data_key = "Real"
-    # if school == "village-tech":
-    #     data_key = "Amount"
-    #
-    # for item in data:
-    #     fund = item["fund"]
-    #     obj = item["obj"]
-    #
-    #     for i, acct_per in enumerate(acct_per_values, start=1):
-    #         item[f"total_real{i}"] = sum(
-    #             entry[data_key]
-    #             for entry in data3
-    #             if entry["fund"] == fund
-    #             and entry["obj"] == obj
-    #             and entry["AcctPer"] == acct_per
-    #         )
-    #
-    #         total_revenue[acct_per] += abs(item[f"total_real{i}"])
+        # total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
 
-    # keys_to_check = [
-    #     "total_real1",
-    #     "total_real2",
-    #     "total_real3",
-    #     "total_real4",
-    #     "total_real5",
-    #     "total_real6",
-    #     "total_real7",
-    #     "total_real8",
-    #     "total_real9",
-    #     "total_real10",
-    #     "total_real11",
-    #     "total_real12",
-    # ]
-    #
-    # acct_per_values2 = [
-    #     "01",
-    #     "02",
-    #     "03",
-    #     "04",
-    #     "05",
-    #     "06",
-    #     "07",
-    #     "08",
-    #     "09",
-    #     "10",
-    #     "11",
-    #     "12",
-    # ]
+        # data_key = "Expend"
+        # if school == "village-tech":
+        #     data_key = "Amount"
+        # for item in data2:
+        #     if item["category"] != "Depreciation and Amortization":
+        #         func = item["func_func"]
+        #
+        #         for i, acct_per in enumerate(acct_per_values2, start=1):
+        #             item[f"total_func{i}"] = sum(
+        #                 entry[data_key]
+        #                 for entry in data3
+        #                 if entry["func"] == func and entry["AcctPer"] == acct_per
+        #             )
+        #             total_surplus[acct_per] += item[f"total_func{i}"]
+        #
+        # ---- Depreciation and ammortization total
+        # total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
+        #
+        # data_key = "Expend"
+        # if school == "village-tech":
+        #     data_key = "Amount"
+        # for item in data2:
+        #     func = item["func_func"]
+        #     obj = item["obj"]
+        #
+        #     for i, acct_per in enumerate(acct_per_values2, start=1):
+        #         item[f"total_func2_{i}"] = sum(
+        #             entry[data_key]
+        #             for entry in data3
+        #             if entry["func"] == func
+        #             and entry["AcctPer"] == acct_per
+        #             and entry["obj"] == obj
+        #         )
+        #         total_DnA[acct_per] += item[f"total_func2_{i}"]
+        #
+        # total_SBD = {
+        #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
+        #     for acct_per in acct_per_values
+        # }
+        # total_netsurplus = {
+        #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
+        #     for acct_per in acct_per_values
+        # }
+        # formatted_total_netsurplus = {
+        #     acct_per: "${:,}".format(abs(int(value)))
+        #     if value > 0
+        #     else "(${:,})".format(abs(int(value)))
+        #     if value < 0
+        #     else ""
+        #     for acct_per, value in total_netsurplus.items()
+        #     if value != 0
+        # }
+        # formatted_total_DnA = {
+        #     acct_per: "{:,}".format(abs(int(value)))
+        #     if value >= 0
+        #     else "({:,})".format(abs(int(value)))
+        #     if value < 0
+        #     else ""
+        #     for acct_per, value in total_DnA.items()
+        #     if value != 0
+        # }
+        #
+        # if formatted_ytd_budget.startswith("0."):
+        #     formatted_ytd_budget = formatted_ytd_budget[2:]
+   
+        if FY_year_1 == FY_year_current:
+            cashflow_path = os.path.join(JSON_DIR, 'cashflow', school)
+        else:
+            cashflow_path = os.path.join(JSON_DIR,str(FY_year_1), 'cashflow', school)
+        if not os.path.exists(cashflow_path):
+            os.makedirs(cashflow_path)
 
-    # total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
-
-    # data_key = "Expend"
-    # if school == "village-tech":
-    #     data_key = "Amount"
-    # for item in data2:
-    #     if item["category"] != "Depreciation and Amortization":
-    #         func = item["func_func"]
-    #
-    #         for i, acct_per in enumerate(acct_per_values2, start=1):
-    #             item[f"total_func{i}"] = sum(
-    #                 entry[data_key]
-    #                 for entry in data3
-    #                 if entry["func"] == func and entry["AcctPer"] == acct_per
-    #             )
-    #             total_surplus[acct_per] += item[f"total_func{i}"]
-    #
-    # ---- Depreciation and ammortization total
-    # total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
-    #
-    # data_key = "Expend"
-    # if school == "village-tech":
-    #     data_key = "Amount"
-    # for item in data2:
-    #     func = item["func_func"]
-    #     obj = item["obj"]
-    #
-    #     for i, acct_per in enumerate(acct_per_values2, start=1):
-    #         item[f"total_func2_{i}"] = sum(
-    #             entry[data_key]
-    #             for entry in data3
-    #             if entry["func"] == func
-    #             and entry["AcctPer"] == acct_per
-    #             and entry["obj"] == obj
-    #         )
-    #         total_DnA[acct_per] += item[f"total_func2_{i}"]
-    #
-    # total_SBD = {
-    #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
-    #     for acct_per in acct_per_values
-    # }
-    # total_netsurplus = {
-    #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
-    #     for acct_per in acct_per_values
-    # }
-    # formatted_total_netsurplus = {
-    #     acct_per: "${:,}".format(abs(int(value)))
-    #     if value > 0
-    #     else "(${:,})".format(abs(int(value)))
-    #     if value < 0
-    #     else ""
-    #     for acct_per, value in total_netsurplus.items()
-    #     if value != 0
-    # }
-    # formatted_total_DnA = {
-    #     acct_per: "{:,}".format(abs(int(value)))
-    #     if value >= 0
-    #     else "({:,})".format(abs(int(value)))
-    #     if value < 0
-    #     else ""
-    #     for acct_per, value in total_DnA.items()
-    #     if value != 0
-    # }
-    #
-    # if formatted_ytd_budget.startswith("0."):
-    #     formatted_ytd_budget = formatted_ytd_budget[2:]
-
-    cashflow_path = os.path.join(JSON_DIR, 'cashflow', school)
-    if not os.path.exists(cashflow_path):
-        os.makedirs(cashflow_path)
-
-    cashflow_file = os.path.join(cashflow_path, "data_cashflow.json")
-    with open(cashflow_file, "w") as f:
-        json.dump(data_cashflow, f)
+        cashflow_file = os.path.join(cashflow_path, "data_cashflow.json")
+        with open(cashflow_file, "w") as f:
+            json.dump(data_cashflow, f)
 
     cursor.close()
     cnxn.close()
 
 def excel(school):
-        
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
-    rows = cursor.fetchall()
+    
 
     
-    data = []
-    for row in rows:
-        if row[5] == school:
-
-            row_dict = {
-                "fund": row[0],
-                "obj": row[1],
-                "description": row[2],
-                "category": row[3],
-                "value": row[4], #NOT BEING USED. DATA IS COMING FROM GL
-                "school":row[5],
-            }
-            data.append(row_dict)
-
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
-    rows = cursor.fetchall()
-
-    data2 = []
-    for row in rows:
-        if row[5] == school:        
-            row_dict = {
-                "func_func": row[0],
-                "obj": row[1],
-                "desc": row[2],
-                "category": row[3],
-                "budget":row[4], #NOT BEING USED. DATA IS COMING FROM GL
-                "school": row[5],
-
-            }
-            data2.append(row_dict)
-
-    #
-    if school in schoolCategory["ascender"]:
-        cursor.execute(
-            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
-        )
-    else:
-        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
-
-    rows = cursor.fetchall()
-    data3 = []
-
-    if school in schoolCategory["ascender"]:
-        for row in rows:
-            expend = float(row[17])
-            date = row[11]
-            if isinstance(row[11], datetime):
-                date = row[11].strftime("%Y-%m-%d")
-
-            row_dict = {
-                "fund": row[0],
-                "func": row[1],
-                "obj": row[2],
-                "sobj": row[3],
-                "org": row[4],
-                "fscl_yr": row[5],
-                "pgm": row[6],
-                "edSpan": row[7],
-                "projDtl": row[8],
-                "AcctDescr": row[9],
-                "Number": row[10],
-                "Date": date,
-                "AcctPer": row[12],
-                "Est": row[13],
-                "Real": row[14],
-                "Appr": row[15],
-                "Encum": row[16],
-                "Expend": expend,
-                "Bal": row[18],
-                "WorkDescr": row[19],
-                "Type": row[20],
-                "Contr": row[21],
-            }
-
-            data3.append(row_dict)
-
-    else:
-        for row in rows:
-            amount = float(row[19])
-            date = row[9]
-            if isinstance(row[9], datetime):
-                date = row[9].strftime("%Y-%m-%d")
-            row_dict = {
-                "fund": row[0],
-                "func": row[2],
-                "obj": row[3],
-                "sobj": row[4],
-                "org": row[5],
-                "fscl_yr": row[6],
-                "Date": date,
-                "AcctPer": row[10],
-                "Amount": amount,
-                "Budget":row[20],
-            }
-
-            data3.append(row_dict)
-
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
-    rows = cursor.fetchall()
-
-    adjustment = []
-
-    if school in schoolCategory["ascender"]:
-        for row in rows:
-            expend = float(row[17])
-            row_dict = {
-                "fund": row[0],
-                "func": row[1],
-                "obj": row[2],
-                "sobj": row[3],
-                "org": row[4],
-                "fscl_yr": row[5],
-                "pgm": row[6],
-                "edSpan": row[7],
-                "projDtl": row[8],
-                "AcctDescr": row[9],
-                "Number": row[10],
-                "Date": row[11],
-                "AcctPer": row[12],
-                "Est": row[13],
-                "Real": row[14],
-                "Appr": row[15],
-                "Encum": row[16],
-                "Expend": expend,
-                "Bal": row[18],
-                "WorkDescr": row[19],
-                "Type": row[20],
-                "School": row[21],
-            }
-            adjustment.append(row_dict)
-
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
-    rows = cursor.fetchall()
-
-    data_expensebyobject = []
-
-    for row in rows:
+    start_year = 2021
+    current_date = datetime.today().date()   
+    current_year = current_date.year
+    FY_year_current = current_year
+    while start_year <= FY_year_current:
+     
+        FY_year_1 = start_year
+        FY_year_2 = start_year + 1 
+        july_date_start  = datetime(FY_year_1, 7, 1).date()
         
-        row_dict = {
-            "obj": row[0],
-            "Description": row[1],
-            "budget": row[2],
-        }
+        july_date_end  = datetime(FY_year_2, 6, 30).date()
+        september_date_start  = datetime(FY_year_1, 9, 1).date()
+        september_date_end  = datetime(FY_year_2, 8, 31).date()
+        start_year = FY_year_2
 
-        data_expensebyobject.append(row_dict)
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
+        rows = cursor.fetchall()
 
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
-    rows = cursor.fetchall()
+        
+        data = []
+        for row in rows:
+            if row[5] == school:
 
-    data_activities = []
+                row_dict = {
+                    "fund": row[0],
+                    "obj": row[1],
+                    "description": row[2],
+                    "category": row[3],
+                    "value": row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                    "school":row[5],
+                }
+                data.append(row_dict)
 
-    for row in rows:
-        if row[3] == school:
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
+        rows = cursor.fetchall()
+
+        data2 = []
+        for row in rows:
+            if row[5] == school:        
+                row_dict = {
+                    "func_func": row[0],
+                    "obj": row[1],
+                    "desc": row[2],
+                    "category": row[3],
+                    "budget":row[4], #NOT BEING USED. DATA IS COMING FROM GL
+                    "school": row[5],
+
+                }
+                data2.append(row_dict)
+
+        #
+        if school in schoolCategory["ascender"]:
+            cursor.execute(
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+            )
+        else:
+            cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+
+        rows = cursor.fetchall()
+        data3 = []
+
+        if school in schoolMonths["julySchool"]:
+            current_month = july_date_start
+        else:
+            current_month = september_date_start
+        
+        last_month = ""
+        last_month_name = ""
+        last_month_number = ""
+        formatted_last_month = ""
+
+        if school in schoolCategory["ascender"]:
+            for row in rows:
+                expend = float(row[17])
+                date = row[11]
+                if isinstance(row[11], datetime):
+                    date = row[11].strftime("%Y-%m-%d")
+
+                if isinstance(row[11], datetime):
+                    date_checker = row[11].date()
+                else:
+                    date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+                   
+
+
+                if school in schoolMonths["julySchool"]:
+                    
+                    if date_checker > july_date_start and date_checker < july_date_end:
+                        if date_checker > current_month:
+                            current_month = date_checker.replace(day=1)
+                         
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[1],
+                            "obj": row[2],
+                            "sobj": row[3],
+                            "org": row[4],
+                            "fscl_yr": row[5],
+                            "pgm": row[6],
+                            "edSpan": row[7],
+                            "projDtl": row[8],
+                            "AcctDescr": row[9],
+                            "Number": row[10],
+                            "Date": date,
+                            "AcctPer": row[12],
+                            "Est": row[13],
+                            "Real": row[14],
+                            "Appr": row[15],
+                            "Encum": row[16],
+                            "Expend": expend,
+                            "Bal": row[18],
+                            "WorkDescr": row[19],
+                            "Type": row[20],
+                            "Contr": row[21],
+                        }
+                        data3.append(row_dict)
+                else:
+
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+                        if date_checker >= current_month:
+                    
+                            current_month = date_checker.replace(day=1)
+                          
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[1],
+                            "obj": row[2],
+                            "sobj": row[3],
+                            "org": row[4],
+                            "fscl_yr": row[5],
+                            "pgm": row[6],
+                            "edSpan": row[7],
+                            "projDtl": row[8],
+                            "AcctDescr": row[9],
+                            "Number": row[10],
+                            "Date": date,
+                            "AcctPer": row[12],
+                            "Est": row[13],
+                            "Real": row[14],
+                            "Appr": row[15],
+                            "Encum": row[16],
+                            "Expend": expend,
+                            "Bal": row[18],
+                            "WorkDescr": row[19],
+                            "Type": row[20],
+                            "Contr": row[21],
+                        }
+                        data3.append(row_dict)
+
+        
+
+        else:        
+            for row in rows:
+                amount = float(row[19])
+                date = row[9]
+                
+                if isinstance(row[9], datetime):
+                    date = row[9].strftime("%Y-%m-%d")
+
+                if isinstance(row[9], datetime):
+                    date_checker = row[9].date()
+                else:
+                    date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+
+                if date_checker >= september_date_start and date_checker <= september_date_end:
+                    if date_checker >= current_month:
+                        current_month = date_checker.replace(day=1)
+
+                    row_dict = {
+                        "fund": row[0],
+                        "func": row[2],
+                        "obj": row[3],
+                        "sobj": row[4],
+                        "org": row[5],
+                        "fscl_yr": row[6],
+                        "Date": date,
+                        "AcctPer": row[10],
+                        "Amount": amount,
+                        "Budget":row[20],
+                    }
+
+                    data3.append(row_dict)
+
+            
+        last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+        last_month_name = last_month.strftime("%B")
+        last_month_number = last_month.month
+        formatted_last_month = last_month.strftime('%B %d, %Y')
+
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
+        rows = cursor.fetchall()
+
+        adjustment = []
+
+        if school in schoolCategory["ascender"]:
+            for row in rows:
+                expend = float(row[17])
+                row_dict = {
+                    "fund": row[0],
+                    "func": row[1],
+                    "obj": row[2],
+                    "sobj": row[3],
+                    "org": row[4],
+                    "fscl_yr": row[5],
+                    "pgm": row[6],
+                    "edSpan": row[7],
+                    "projDtl": row[8],
+                    "AcctDescr": row[9],
+                    "Number": row[10],
+                    "Date": row[11],
+                    "AcctPer": row[12],
+                    "Est": row[13],
+                    "Real": row[14],
+                    "Appr": row[15],
+                    "Encum": row[16],
+                    "Expend": expend,
+                    "Bal": row[18],
+                    "WorkDescr": row[19],
+                    "Type": row[20],
+                    "School": row[21],
+                }
+                adjustment.append(row_dict)
+
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['code']};")
+        rows = cursor.fetchall()
+
+        data_expensebyobject = []
+
+        for row in rows:
+            
             row_dict = {
                 "obj": row[0],
                 "Description": row[1],
-                "Category": row[2],
-                "school": row[3],
+                "budget": row[2],
             }
 
-            data_activities.append(row_dict)
+            data_expensebyobject.append(row_dict)
+
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['activities']};")
+        rows = cursor.fetchall()
+
+        data_activities = []
+
+        for row in rows:
+            if row[3] == school:
+                row_dict = {
+                    "obj": row[0],
+                    "Description": row[1],
+                    "Category": row[2],
+                    "school": row[3],
+                }
+
+                data_activities.append(row_dict)
 
 
 
-    #END OF PL DATA
+        #END OF PL DATA
 
-    #CHARTER FIRST
+        #CHARTER FIRST
 
-    #BS START
+        #BS START
 
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
-    rows = cursor.fetchall()
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+        rows = cursor.fetchall()
 
-    data_balancesheet = []
+        data_balancesheet = []
 
-    for row in rows:
-        fye = float(row[7]) if row[7] else 0
-       
-
-        row_dict = {
-            "Activity": row[0],
-            "Description": row[1],
-            "Category": row[2],
-            "Subcategory": row[3],
-            "FYE": fye,
-            "BS_id": row[5],
-            "school": row[8],
-
-        }
-
-        data_balancesheet.append(row_dict)
-
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
-    rows = cursor.fetchall()
-
-    data_activitybs = []
-
-    for row in rows:
-        if row[3] == school:
-            row_dict = {
-                "Activity": row[0],
-                "obj": row[1],
-                "Description2": row[2],
-                "school": row[3]
-            }
+        for row in rows:
+            if row[8] == school:
+                fye = float(row[7]) if row[7] else 0
             
-            data_activitybs.append(row_dict)
 
-    
-    cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
-    rows = cursor.fetchall()
+                row_dict = {
+                    "Activity": row[0],
+                    "Description": row[1],
+                    "Category": row[2],
+                    "Subcategory": row[3],
+                    "FYE": fye,
+                    "BS_id": row[5],
+                    "school": row[8],
 
-    data_cashflow = []
+                }
 
-    for row in rows:
-        row_dict = {
-            "Category": row[0],
-            "Activity": row[1],
-            "Description": row[2],
-            "obj": str(row[3]),
-        }
+                data_balancesheet.append(row_dict)
 
-        data_cashflow.append(row_dict)
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
+        rows = cursor.fetchall()
 
-   
-    
-    current_date = datetime.today().date()
-    
-    current_year = current_date.year
-    next_year = current_date.year + 1
-    last_year = current_date.year - 1
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_name = last_month.strftime("%B")
-    formatted_last_month = last_month.strftime('%B %d, %Y')
-    last_month_number = last_month.month
-    if school == 'manara' or school == 'leadership':
-            ytd_budget_test = last_month_number - 6             
-    else:
-        if last_month_number >= 9:
+        data_activitybs = []
 
-            ytd_budget_test = last_month_number - 8
-        else:
-            ytd_budget_test = last_month_number + 4
-    ytd_budget = abs(ytd_budget_test) / 12
-    if ytd_budget_test == 1 or ytd_budget_test == 12:
-        formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
-       
-    else:
-        formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-        )
-        if formatted_ytd_budget.startswith("0."):
-            formatted_ytd_budget = formatted_ytd_budget[2:]
-
-
-    expend_key = "Expend"
-    est_key = "Est"
-    expense_key = "Expend"
-    real_key = "Real"
-    appr_key = "Appr"
-    encum_key = "Encum"
-    bal_key = "Bal"
-    if school in schoolCategory["skyward"]:
-        expense_key = "Amount"
-        expend_key = "Amount"
-        est_key = "Budget"
-        real_key = "Amount"
-        appr_key = "Budget"
-        encum_key = "Amount"
-        bal_key = "Amount"
-
-    
-    acct_per_values = [
-        "01",
-        "02",
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
-        "09",
-        "10",
-        "11",
-        "12",
-    ]
-
-
-    for item in data:
-        fund = item["fund"]
-        obj = item["obj"]
-        
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            total_real = sum(
-                entry[real_key]
-                for entry in data3
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["AcctPer"] == acct_per
-            )
-            total_adjustment = sum(
-                    entry[real_key]
-                    for entry in adjustment
-                    if entry["fund"] == fund
-                    and entry["AcctPer"] == acct_per
-                    and entry["obj"] == obj
-                    and entry["School"] == school
-                )
-            item[f"total_check{i}"] = total_real + total_adjustment
-
-
-    july_date  = datetime(current_year, 7, 1).date()
-    september_date  = datetime(current_year, 9, 1).date()
-    FY_year_1 = last_year
-    FY_year_2 = current_year
-    for item in data3:
-        date_str = item["Date"]
-        if date_str:
-            if school == 'manara' or school == 'leadership':
-               
-                date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                if date_obj > july_date: # if date is higher than july 1 this year
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
-            else:
-                date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
-                if date_obj > september_date: # if date is higher than july 1 this year
-                  FY_year_1 = current_year
-                  FY_year_2 = next_year
+        for row in rows:
+            if row[3] == school:
+                row_dict = {
+                    "Activity": row[0],
+                    "obj": row[1],
+                    "Description2": row[2],
+                    "school": row[3]
+                }
                 
+                data_activitybs.append(row_dict)
 
-    #checks if the last month column is empty. if empty. last month will be set to  last two months.
-    if all(item[f"total_check{last_month_number}"] == 0 for item in data):
-        last_2months = current_month - relativedelta(months=1)
-        last_2months = last_2months - relativedelta(days=1)
-        last_month_number = last_2months.month
-        last_month_name = last_2months.strftime("%B")
-        formatted_last_month = last_2months.strftime('%B %d, %Y')
-        last_month_number = last_2months.month
-        if school == 'manara' or school == 'leadership':
+        
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['cashflow']};")
+        rows = cursor.fetchall()
+
+        data_cashflow = []
+
+        for row in rows:
+            row_dict = {
+                "Category": row[0],
+                "Activity": row[1],
+                "Description": row[2],
+                "obj": str(row[3]),
+            }
+
+            data_cashflow.append(row_dict)
+
+    
+        
+        # current_date = datetime.today().date()
+        
+        # current_year = current_date.year
+        # next_year = current_date.year + 1
+        # last_year = current_date.year - 1
+        # current_month = current_date.replace(day=1)
+        # last_month = current_month - relativedelta(days=1)
+        # last_month_name = last_month.strftime("%B")
+        # formatted_last_month = last_month.strftime('%B %d, %Y')
+        # last_month_number = last_month.month
+        # if school == 'manara' or school == 'leadership':
+        #         ytd_budget_test = last_month_number - 6             
+        # else:
+        #     if last_month_number >= 9:
+
+        #         ytd_budget_test = last_month_number - 8
+        #     else:
+        #         ytd_budget_test = last_month_number + 4
+        # ytd_budget = abs(ytd_budget_test) / 12
+        # if ytd_budget_test == 1 or ytd_budget_test == 12:
+        #     formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+        
+        # else:
+        #     formatted_ytd_budget = (
+        #     f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+        #     )
+        #     if formatted_ytd_budget.startswith("0."):
+        #         formatted_ytd_budget = formatted_ytd_budget[2:]
+
+        if school in schoolMonths["julySchool"]:
                 ytd_budget_test = last_month_number - 6             
         else:
             if last_month_number >= 9:
@@ -3171,1048 +3201,1162 @@ def excel(school):
             else:
                 ytd_budget_test = last_month_number + 4
         ytd_budget = abs(ytd_budget_test) / 12
+
+
+        if ytd_budget_test == 1 or ytd_budget_test == 12:
+            formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
         
-    if ytd_budget_test == 1 or ytd_budget_test == 12:
-        formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
-       
-    else:
-        formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-        )
-        if formatted_ytd_budget.startswith("0."):
-            formatted_ytd_budget = formatted_ytd_budget[2:]
-        
-    # CALCULATIONS START REVENUES 
-    total_lr =  {acct_per: 0 for acct_per in acct_per_values}
-    total_spr =  {acct_per: 0 for acct_per in acct_per_values}
-    total_fpr =  {acct_per: 0 for acct_per in acct_per_values}
-    total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-    ytd_total_revenue = 0
-    ytd_total_lr  = 0
-    ytd_total_spr = 0
-    ytd_total_fpr = 0
-    variances_revenue = 0
-
-    totals = {
-        "total_ammended": 0,
-        "total_ammended_lr": 0,
-        "total_ammended_spr": 0,
-        "total_ammended_fpr": 0,
-    }
-            
-            
-    for item in data:
-        fund = item["fund"]
-        obj = item["obj"]
-        category = item["category"]
-        ytd_total = 0
-
-
-        #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
-        if school in schoolCategory["skyward"]:
-               
-            total_budget = sum(
-                entry[est_key]
-                for entry in data3
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                              
-            )
-            total_adjustment_budget = sum(
-                entry[est_key]
-                for entry in adjustment
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["School"] == school
-                and entry[est_key] is not None 
-                and not isinstance(entry[est_key], str) 
-                              
-            )
-            item["total_budget"] = total_adjustment_budget + total_budget
         else:
-            total_budget = sum(
-                entry[est_key]
-                for entry in data3
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["Type"] == "GJ"                
+            formatted_ytd_budget = (
+            f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
             )
-            total_adjustment_budget = sum(
-                entry[est_key]
-                for entry in adjustment
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["School"] == school 
-                and entry[est_key] is not None 
-                and not isinstance(entry[est_key], str)              
-            )
-            item["total_budget"] = total_adjustment_budget + total_budget
+            if formatted_ytd_budget.startswith("0."):
+                formatted_ytd_budget = formatted_ytd_budget[2:]
 
-        totals["total_ammended"] += item["total_budget"]
-        item[f"ytd_budget"] = item["total_budget"] * ytd_budget
+        expend_key = "Expend"
+        est_key = "Est"
+        expense_key = "Expend"
+        real_key = "Real"
+        appr_key = "Appr"
+        encum_key = "Encum"
+        bal_key = "Bal"
+        if school in schoolCategory["skyward"]:
+            expense_key = "Amount"
+            expend_key = "Amount"
+            est_key = "Budget"
+            real_key = "Amount"
+            appr_key = "Budget"
+            encum_key = "Amount"
+            bal_key = "Amount"
+
         
+        acct_per_values = [
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+        ]
 
+
+        # for item in data:
+        #     fund = item["fund"]
+        #     obj = item["obj"]
             
-        if category == 'Local Revenue':
-            totals["total_ammended_lr"] += item["total_budget"]
-        elif category == 'State Program Revenue':
-            totals["total_ammended_spr"] += item["total_budget"]
-        elif category == 'Federal Program Revenue':
-            totals["total_ammended_fpr"] += item["total_budget"]
-        
+        #     for i, acct_per in enumerate(acct_per_values, start=1):
+        #         total_real = sum(
+        #             entry[real_key]
+        #             for entry in data3
+        #             if entry["fund"] == fund
+        #             and entry["obj"] == obj
+        #             and entry["AcctPer"] == acct_per
+        #         )
+        #         total_adjustment = sum(
+        #                 entry[real_key]
+        #                 for entry in adjustment
+        #                 if entry["fund"] == fund
+        #                 and entry["AcctPer"] == acct_per
+        #                 and entry["obj"] == obj
+        #                 and entry["School"] == school
+        #             )
+        #         item[f"total_check{i}"] = total_real + total_adjustment
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            total_real = sum(
-                entry[real_key]
-                for entry in data3
-                if entry["fund"] == fund
-                and entry["obj"] == obj
-                and entry["AcctPer"] == acct_per
-            )
-            total_adjustment = sum(
-                    entry[real_key]
+
+        # july_date  = datetime(current_year, 7, 1).date()
+        # september_date  = datetime(current_year, 9, 1).date()
+        # FY_year_1 = last_year
+        # FY_year_2 = current_year
+        # for item in data3:
+        #     date_str = item["Date"]
+        #     if date_str:
+        #         if school == 'manara' or school == 'leadership':
+                
+        #             date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+        #             if date_obj > july_date: # if date is higher than july 1 this year
+        #             FY_year_1 = current_year
+        #             FY_year_2 = next_year
+        #         else:
+        #             date_obj = datetime.strptime(date_str, "%Y-%m-%d").date()
+        #             if date_obj > september_date: # if date is higher than july 1 this year
+        #             FY_year_1 = current_year
+        #             FY_year_2 = next_year
+                    
+
+        # #checks if the last month column is empty. if empty. last month will be set to  last two months.
+        # if all(item[f"total_check{last_month_number}"] == 0 for item in data):
+        #     last_2months = current_month - relativedelta(months=1)
+        #     last_2months = last_2months - relativedelta(days=1)
+        #     last_month_number = last_2months.month
+        #     last_month_name = last_2months.strftime("%B")
+        #     formatted_last_month = last_2months.strftime('%B %d, %Y')
+        #     last_month_number = last_2months.month
+        #     if school == 'manara' or school == 'leadership':
+        #             ytd_budget_test = last_month_number - 6             
+        #     else:
+        #         if last_month_number >= 9:
+
+        #             ytd_budget_test = last_month_number - 8
+        #         else:
+        #             ytd_budget_test = last_month_number + 4
+        #     ytd_budget = abs(ytd_budget_test) / 12
+            
+        # if ytd_budget_test == 1 or ytd_budget_test == 12:
+        #     formatted_ytd_budget = f"{ytd_budget * 100:.0f}"
+        
+        # else:
+        #     formatted_ytd_budget = (
+        #     f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+        #     )
+        #     if formatted_ytd_budget.startswith("0."):
+        #         formatted_ytd_budget = formatted_ytd_budget[2:]
+            
+        # CALCULATIONS START REVENUES 
+        total_lr =  {acct_per: 0 for acct_per in acct_per_values}
+        total_spr =  {acct_per: 0 for acct_per in acct_per_values}
+        total_fpr =  {acct_per: 0 for acct_per in acct_per_values}
+        total_revenue = {acct_per: 0 for acct_per in acct_per_values}
+        ytd_total_revenue = 0
+        ytd_total_lr  = 0
+        ytd_total_spr = 0
+        ytd_total_fpr = 0
+        variances_revenue = 0
+
+        totals = {
+            "total_ammended": 0,
+            "total_ammended_lr": 0,
+            "total_ammended_spr": 0,
+            "total_ammended_fpr": 0,
+        }
+                
+                
+        for item in data:
+            fund = item["fund"]
+            obj = item["obj"]
+            category = item["category"]
+            ytd_total = 0
+
+
+            #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
+            if school in schoolCategory["skyward"]:
+                
+                total_budget = sum(
+                    entry[est_key]
+                    for entry in data3
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                                
+                )
+                total_adjustment_budget = sum(
+                    entry[est_key]
                     for entry in adjustment
                     if entry["fund"] == fund
-                    and entry["AcctPer"] == acct_per
                     and entry["obj"] == obj
                     and entry["School"] == school
-                    and entry[real_key] is not None 
-                    and not isinstance(entry[real_key], str) 
+                    and entry[est_key] is not None 
+                    and not isinstance(entry[est_key], str) 
+                                
                 )
-            item[f"total_real{i}"] = total_real + total_adjustment          
-            total_revenue[acct_per] += (item[f"total_real{i}"])
-
-            
-
-            if category == 'Local Revenue':
-                total_lr[acct_per] += (item[f"total_real{i}"])
-                ytd_total_lr += (item[f"total_real{i}"])
-                
-            if category == 'State Program Revenue':
-                total_spr[acct_per] += (item[f"total_real{i}"])
-                ytd_total_spr += (item[f"total_real{i}"])
-                
-            if category == 'Federal Program Revenue':
-                total_fpr[acct_per] += (item[f"total_real{i}"])
-                ytd_total_fpr += (item[f"total_real{i}"])
-
-        for month_number in range(1, 13):
-            ytd_total += (item[f"total_real{month_number}"])
-        
-        item["ytd_total"] = ytd_total
-
-        item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
-
-        item[f"ytd_budget"] = (item[f"ytd_budget"])
-    
-    
-    ytd_total_revenue = abs(sum(total_revenue.values()))  
-   
-    ytd_ammended_total = totals["total_ammended"] * ytd_budget
-    ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
-    ytd_ammended_total_spr = totals["total_ammended_spr"] * ytd_budget
-    ytd_ammended_total_fpr = totals["total_ammended_fpr"] * ytd_budget
-
-    variances_revenue = (ytd_total_revenue - ytd_ammended_total)
-    variances_revenue_lr = (ytd_total_lr + ytd_ammended_total_lr)
-    variances_revenue_spr = (ytd_total_spr + ytd_ammended_total_spr)
-    variances_revenue_fpr = (ytd_total_fpr + ytd_ammended_total_fpr)
-
-    var_ytd = (abs(int(ytd_total_revenue / totals["total_ammended"]*100))) if totals["total_ammended"] != 0 else ""
-    var_ytd_lr = (abs(int(ytd_total_lr / totals["total_ammended_lr"]*100))) if totals["total_ammended_lr"] != 0 else ""
-    var_ytd_spr = (abs(int(ytd_total_spr / totals["total_ammended_spr"]*100))) if totals["total_ammended_spr"] != 0 else ""
-    var_ytd_fpr = (abs(int(ytd_total_fpr / totals["total_ammended_fpr"]*100))) if totals["total_ammended_fpr"] != 0 else ""
-    #REVENUES CALCULATIONS END
-    
-    
-    # CALCULATION START FIRST TOTAL AND DEPRECIATION AND AMORTIZATION (SBD) 
-    first_total = 0
-    first_ytd_total = 0
-    first_total_months =  {acct_per: 0 for acct_per in acct_per_values}
-    ytd_ammended_total_first=0
-    variances_first_total = 0
-    var_ytd_first_total = 0
-
-    dna_total = 0
-    dna_ytd_total = 0
-    dna_total_months =  {acct_per: 0 for acct_per in acct_per_values}
-    ytd_ammended_dna=0
-    variances_dna = 0
-    var_ytd_dna = 0
-
-    for item in data2:
-        if item["category"] != "Depreciation and Amortization":
-            func = item["func_func"]
-            obj = item["obj"]
-            
-            ytd_total = 0
-            
-            if school in schoolCategory["skyward"]:
-                total_func_func = sum(
-                        entry[appr_key]
-                        for entry in data3
-                        if entry["func"] == func  
-                        and entry["obj"] != '6449'
-                    )
+                item["total_budget"] = total_adjustment_budget + total_budget
             else:
-                total_func_func = sum(
-                        entry[appr_key]
-                        for entry in data3
-                        if entry["func"] == func  
-                        and entry["obj"] != '6449'
-                        and entry["Type"] == 'GJ' 
-                     
-                    )
-            total_adjustment_func = sum(
-                    entry[appr_key]
-                    for entry in adjustment
-                    if entry["func"] == func  
-                    and entry["obj"] != '6449' 
-                    and entry["School"] == school
-                    and entry[appr_key] is not None 
-                    and not isinstance(entry[appr_key], str)  
-                )
-            if school in schoolCategory["skyward"]:
-                item['total_budget'] = total_func_func + total_adjustment_func
-            else:
-                item['total_budget'] = -(total_func_func + total_adjustment_func)
-           
-            for i, acct_per in enumerate(acct_per_values, start=1):
-                total_func = sum(
-                    entry[expend_key]
+                total_budget = sum(
+                    entry[est_key]
                     for entry in data3
-                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                    and entry["Type"] == "GJ"                
+                )
+                total_adjustment_budget = sum(
+                    entry[est_key]
+                    for entry in adjustment
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                    and entry["School"] == school 
+                    and entry[est_key] is not None 
+                    and not isinstance(entry[est_key], str)              
+                )
+                item["total_budget"] = total_adjustment_budget + total_budget
+
+            totals["total_ammended"] += item["total_budget"]
+            item[f"ytd_budget"] = item["total_budget"] * ytd_budget
+            
+
+                
+            if category == 'Local Revenue':
+                totals["total_ammended_lr"] += item["total_budget"]
+            elif category == 'State Program Revenue':
+                totals["total_ammended_spr"] += item["total_budget"]
+            elif category == 'Federal Program Revenue':
+                totals["total_ammended_fpr"] += item["total_budget"]
+            
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                total_real = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund
+                    and entry["obj"] == obj
+                    and entry["AcctPer"] == acct_per
                 )
                 total_adjustment = sum(
-                    entry[expend_key]
-                    for entry in adjustment
-                    if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
-                )
-                item[f"total_func{i}"] = total_func + total_adjustment
-                first_total_months[acct_per] += item[f"total_func{i}"]
+                        entry[real_key]
+                        for entry in adjustment
+                        if entry["fund"] == fund
+                        and entry["AcctPer"] == acct_per
+                        and entry["obj"] == obj
+                        and entry["School"] == school
+                        and entry[real_key] is not None 
+                        and not isinstance(entry[real_key], str) 
+                    )
+                item[f"total_real{i}"] = total_real + total_adjustment          
+                total_revenue[acct_per] += (item[f"total_real{i}"])
+
+                
+
+                if category == 'Local Revenue':
+                    total_lr[acct_per] += (item[f"total_real{i}"])
+                    ytd_total_lr += (item[f"total_real{i}"])
+                    
+                if category == 'State Program Revenue':
+                    total_spr[acct_per] += (item[f"total_real{i}"])
+                    ytd_total_spr += (item[f"total_real{i}"])
+                    
+                if category == 'Federal Program Revenue':
+                    total_fpr[acct_per] += (item[f"total_real{i}"])
+                    ytd_total_fpr += (item[f"total_real{i}"])
 
             for month_number in range(1, 13):
-                ytd_total += (item[f"total_func{month_number}"])
-           
-            item["ytd_total"] = ytd_total
-            first_total += item['total_budget']
-            first_ytd_total += item["ytd_total"]
-            item[f"ytd_budget"] = item['total_budget'] * ytd_budget
-
-            item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
-            variances_first_total += item["variances"]
-            item["var_ytd"] =  (abs(int(item["ytd_total"] /  item['total_budget']*100))) if item['total_budget'] != 0 else ""
-    
-    ytd_ammended_total_first = first_total * ytd_budget
-    var_ytd_first_total = (abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
-
-
-    for item in data2:
-        if item["category"] == "Depreciation and Amortization":
-            func = item["func_func"]
-            obj = item["obj"]
-            ytd_total = 0
+                ytd_total += (item[f"total_real{month_number}"])
             
-            if school in schoolCategory["skyward"]:
-                total_func_func = sum(
+            item["ytd_total"] = ytd_total
+
+            item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
+
+            item[f"ytd_budget"] = (item[f"ytd_budget"])
+        
+        
+        ytd_total_revenue = abs(sum(total_revenue.values()))  
+    
+        ytd_ammended_total = totals["total_ammended"] * ytd_budget
+        ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
+        ytd_ammended_total_spr = totals["total_ammended_spr"] * ytd_budget
+        ytd_ammended_total_fpr = totals["total_ammended_fpr"] * ytd_budget
+
+        variances_revenue = (ytd_total_revenue - ytd_ammended_total)
+        variances_revenue_lr = (ytd_total_lr + ytd_ammended_total_lr)
+        variances_revenue_spr = (ytd_total_spr + ytd_ammended_total_spr)
+        variances_revenue_fpr = (ytd_total_fpr + ytd_ammended_total_fpr)
+
+        var_ytd = (abs(int(ytd_total_revenue / totals["total_ammended"]*100))) if totals["total_ammended"] != 0 else ""
+        var_ytd_lr = (abs(int(ytd_total_lr / totals["total_ammended_lr"]*100))) if totals["total_ammended_lr"] != 0 else ""
+        var_ytd_spr = (abs(int(ytd_total_spr / totals["total_ammended_spr"]*100))) if totals["total_ammended_spr"] != 0 else ""
+        var_ytd_fpr = (abs(int(ytd_total_fpr / totals["total_ammended_fpr"]*100))) if totals["total_ammended_fpr"] != 0 else ""
+        #REVENUES CALCULATIONS END
+        
+        
+        # CALCULATION START FIRST TOTAL AND DEPRECIATION AND AMORTIZATION (SBD) 
+        first_total = 0
+        first_ytd_total = 0
+        first_total_months =  {acct_per: 0 for acct_per in acct_per_values}
+        ytd_ammended_total_first=0
+        variances_first_total = 0
+        var_ytd_first_total = 0
+
+        dna_total = 0
+        dna_ytd_total = 0
+        dna_total_months =  {acct_per: 0 for acct_per in acct_per_values}
+        ytd_ammended_dna=0
+        variances_dna = 0
+        var_ytd_dna = 0
+
+        for item in data2:
+            if item["category"] != "Depreciation and Amortization":
+                func = item["func_func"]
+                obj = item["obj"]
+                
+                ytd_total = 0
+                
+                if school in schoolCategory["skyward"]:
+                    total_func_func = sum(
+                            entry[appr_key]
+                            for entry in data3
+                            if entry["func"] == func  
+                            and entry["obj"] != '6449'
+                        )
+                else:
+                    total_func_func = sum(
+                            entry[appr_key]
+                            for entry in data3
+                            if entry["func"] == func  
+                            and entry["obj"] != '6449'
+                            and entry["Type"] == 'GJ' 
+                        
+                        )
+                total_adjustment_func = sum(
+                        entry[appr_key]
+                        for entry in adjustment
+                        if entry["func"] == func  
+                        and entry["obj"] != '6449' 
+                        and entry["School"] == school
+                        and entry[appr_key] is not None 
+                        and not isinstance(entry[appr_key], str)  
+                    )
+                if school in schoolCategory["skyward"]:
+                    item['total_budget'] = total_func_func + total_adjustment_func
+                else:
+                    item['total_budget'] = -(total_func_func + total_adjustment_func)
+            
+                for i, acct_per in enumerate(acct_per_values, start=1):
+                    total_func = sum(
+                        entry[expend_key]
+                        for entry in data3
+                        if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449'
+                    )
+                    total_adjustment = sum(
+                        entry[expend_key]
+                        for entry in adjustment
+                        if entry["func"] == func and entry["AcctPer"] == acct_per and entry["obj"] != '6449' and entry["School"] == school
+                    )
+                    item[f"total_func{i}"] = total_func + total_adjustment
+                    first_total_months[acct_per] += item[f"total_func{i}"]
+
+                for month_number in range(1, 13):
+                    ytd_total += (item[f"total_func{month_number}"])
+            
+                item["ytd_total"] = ytd_total
+                first_total += item['total_budget']
+                first_ytd_total += item["ytd_total"]
+                item[f"ytd_budget"] = item['total_budget'] * ytd_budget
+
+                item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
+                variances_first_total += item["variances"]
+                item["var_ytd"] =  (abs(int(item["ytd_total"] /  item['total_budget']*100))) if item['total_budget'] != 0 else ""
+        
+        ytd_ammended_total_first = first_total * ytd_budget
+        var_ytd_first_total = (abs(int(first_ytd_total / ytd_ammended_total_first*100))) if ytd_ammended_total_first != 0 else ""
+
+
+        for item in data2:
+            if item["category"] == "Depreciation and Amortization":
+                func = item["func_func"]
+                obj = item["obj"]
+                ytd_total = 0
+                
+                if school in schoolCategory["skyward"]:
+                    total_func_func = sum(
+                            entry[appr_key]
+                            for entry in data3
+                            if entry["func"] == func  
+                            and entry["obj"] == '6449'
+                        
+                        )
+                else:
+                    total_func_func = sum(
                         entry[appr_key]
                         for entry in data3
                         if entry["func"] == func  
                         and entry["obj"] == '6449'
-                       
+                        and entry["Type"] == 'GJ'
+                    )
+                total_adjustment_func = sum(
+                        entry[appr_key]
+                        for entry in adjustment
+                        if entry["func"] == func  
+                        and entry["obj"] == '6449' 
+                        and entry["School"] == school
+                        and entry[appr_key] is not None 
+                        and not isinstance(entry[appr_key], str)
+                    )
+                item['total_budget'] = -(total_func_func + total_adjustment_func)
+                
+                for i, acct_per in enumerate(acct_per_values, start=1):
+                    total_func = sum(
+                        entry[expend_key]
+                        for entry in data3
+                        if entry["func"] == func
+                        and entry["AcctPer"] == acct_per
+                        and entry["obj"] == obj
+                    )
+                    total_adjustment = sum(
+                        entry[expend_key]
+                        for entry in adjustment
+                        if entry["func"] == func
+                        and entry["AcctPer"] == acct_per
+                        and entry["obj"] == obj
+                        and entry["School"] == school
+                        and entry[expend_key] is not None 
+                        and not isinstance(entry[expend_key], str)
+                    )
+                
+                    item[f"total_func2_{i}"] = total_func + total_adjustment
+                    dna_total_months[acct_per] += item[f"total_func2_{i}"]
+                
+                
+
+                for month_number in range(1, 13):
+                    ytd_total += (item[f"total_func2_{month_number}"])
+            
+                item["ytd_total"] = ytd_total
+                dna_total += item['total_budget']
+                dna_ytd_total += item["ytd_total"]
+                item[f"ytd_budget"] = item['total_budget'] * ytd_budget
+                item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
+                variances_dna+= item["variances"]
+                item["var_ytd"] = (abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget']  != 0 else ""
+                ytd_ammended_dna = dna_total * ytd_budget
+                var_ytd_dna = (abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
+        #CALCULATION END FIRST TOTAL AND DNA
+        
+        #CALCULATION START SURPLUS BEFORE DEFICIT
+        total_SBD =  {acct_per: 0 for acct_per in acct_per_values}
+        ammended_budget_SBD = 0
+        ytd_ammended_SBD = 0 
+        ytd_SBD = 0 
+        variances_SBD = 0 
+        var_SBD = 0
+
+        total_SBD = {
+            acct_per: abs(total_revenue[acct_per]) - first_total_months[acct_per]
+            for acct_per in acct_per_values
+        }
+
+        ammended_budget_SBD = abs(totals["total_ammended"]) - abs(first_total) 
+
+        ytd_ammended_SBD =  abs(ytd_ammended_total) - abs(ytd_ammended_total_first)
+
+        ytd_SBD = ytd_total_revenue - first_ytd_total
+        variances_SBD =  ytd_SBD - ytd_ammended_SBD
+        var_SBD = (abs(int(  ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
+        #CALCULATION END SURPLUS BEFORE DEFICIT
+
+
+        #CALCULATION START NET SURPLUS
+        total_netsurplus_months =  {acct_per: 0 for acct_per in acct_per_values}
+        ammended_budget_netsurplus = 0
+        ytd_ammended_netsurplus = 0 
+        ytd_netsurplus = 0
+        variances_netsurplus = 0
+        var_netsurplus = 0
+
+        total_netsurplus_months = {
+            acct_per: total_SBD[acct_per] - dna_total_months[acct_per]
+            for acct_per in acct_per_values
+        }
+        ammended_budget_netsurplus = ammended_budget_SBD - dna_total
+        ytd_ammended_netsurplus = ytd_ammended_SBD - ytd_ammended_dna
+        ytd_netsurplus =  ytd_SBD - dna_ytd_total 
+        variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
+        var_netsurplus = (abs(int(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
+
+        #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
+
+        total_EOC_pc =  {acct_per: 0 for acct_per in acct_per_values} # PAYROLL COSTS
+        total_EOC_pcs =  {acct_per: 0 for acct_per in acct_per_values}#Professional and Cont Svcs
+        total_EOC_sm =  {acct_per: 0 for acct_per in acct_per_values}#Supplies and Materials
+        total_EOC_ooe =  {acct_per: 0 for acct_per in acct_per_values}#Other Operating Expenses
+        total_EOC_te =  {acct_per: 0 for acct_per in acct_per_values}#Total Expense
+        total_EOC_oe =  {acct_per: 0 for acct_per in acct_per_values}#Other expenses 6449
+        ytd_EOC_pc   = 0
+        ytd_EOC_pcs  = 0
+        ytd_EOC_sm   = 0
+        ytd_EOC_ooe  = 0
+        ytd_EOC_te   = 0
+        ytd_EOC_oe = 0
+
+        #FOR TOTAL EXPENSE
+        total_expense = 0 
+        total_expense_ytd_budget = 0
+        total_expense_months =  {acct_per: 0 for acct_per in acct_per_values}
+        total_expense_ytd = 0
+
+        total_budget_pc  = 0
+        total_budget_pcs = 0
+        total_budget_sm = 0
+        total_budget_ooe = 0
+        total_budget_oe = 0
+        total_budget_te = 0
+
+        ytd_budget_pc = 0
+        ytd_budget_pcs = 0
+        ytd_budget_sm = 0
+        ytd_budget_ooe = 0 
+        ytd_budget_oe = 0 
+        ytd_budget_te = 0
+
+        for item in data_activities:
+            obj = item["obj"]
+            category = item["Category"]
+            ytd_total = 0
+            
+            item["total_budget"] = 0
+
+            if school in schoolCategory["skyward"]:
+                total_budget_data_activities = sum(
+                    entry[appr_key]
+                    for entry in data3
+                    if entry["obj"] == obj
+
                     )
             else:
-                total_func_func = sum(
-                    entry[appr_key]
-                    for entry in data3
-                    if entry["func"] == func  
-                    and entry["obj"] == '6449'
-                     and entry["Type"] == 'GJ'
-                )
-            total_adjustment_func = sum(
-                    entry[appr_key]
-                    for entry in adjustment
-                    if entry["func"] == func  
-                    and entry["obj"] == '6449' 
-                    and entry["School"] == school
-                    and entry[appr_key] is not None 
-                    and not isinstance(entry[appr_key], str)
-                )
-            item['total_budget'] = -(total_func_func + total_adjustment_func)
-            
-            for i, acct_per in enumerate(acct_per_values, start=1):
-                total_func = sum(
-                    entry[expend_key]
-                    for entry in data3
-                    if entry["func"] == func
-                    and entry["AcctPer"] == acct_per
-                    and entry["obj"] == obj
-                )
-                total_adjustment = sum(
-                    entry[expend_key]
-                    for entry in adjustment
-                    if entry["func"] == func
-                    and entry["AcctPer"] == acct_per
-                    and entry["obj"] == obj
-                    and entry["School"] == school
-                    and entry[expend_key] is not None 
-                    and not isinstance(entry[expend_key], str)
-                )
-               
-                item[f"total_func2_{i}"] = total_func + total_adjustment
-                dna_total_months[acct_per] += item[f"total_func2_{i}"]
-            
-            
-
-            for month_number in range(1, 13):
-                ytd_total += (item[f"total_func2_{month_number}"])
-        
-            item["ytd_total"] = ytd_total
-            dna_total += item['total_budget']
-            dna_ytd_total += item["ytd_total"]
-            item[f"ytd_budget"] = item['total_budget'] * ytd_budget
-            item["variances"] =  item[f"ytd_budget"] -item["ytd_total"]
-            variances_dna+= item["variances"]
-            item["var_ytd"] = (abs(int( item["ytd_total"]/item['total_budget'] *100))) if item['total_budget']  != 0 else ""
-            ytd_ammended_dna = dna_total * ytd_budget
-            var_ytd_dna = (abs(int(dna_ytd_total / ytd_ammended_dna*100))) if ytd_ammended_dna != 0 else ""
-    #CALCULATION END FIRST TOTAL AND DNA
-    
-    #CALCULATION START SURPLUS BEFORE DEFICIT
-    total_SBD =  {acct_per: 0 for acct_per in acct_per_values}
-    ammended_budget_SBD = 0
-    ytd_ammended_SBD = 0 
-    ytd_SBD = 0 
-    variances_SBD = 0 
-    var_SBD = 0
-
-    total_SBD = {
-        acct_per: abs(total_revenue[acct_per]) - first_total_months[acct_per]
-        for acct_per in acct_per_values
-    }
-
-    ammended_budget_SBD = abs(totals["total_ammended"]) - abs(first_total) 
-
-    ytd_ammended_SBD =  abs(ytd_ammended_total) - abs(ytd_ammended_total_first)
-
-    ytd_SBD = ytd_total_revenue - first_ytd_total
-    variances_SBD =  ytd_SBD - ytd_ammended_SBD
-    var_SBD = (abs(int(  ytd_SBD/ ammended_budget_SBD*100))) if ammended_budget_SBD != 0 else ""
-    #CALCULATION END SURPLUS BEFORE DEFICIT
-
-
-    #CALCULATION START NET SURPLUS
-    total_netsurplus_months =  {acct_per: 0 for acct_per in acct_per_values}
-    ammended_budget_netsurplus = 0
-    ytd_ammended_netsurplus = 0 
-    ytd_netsurplus = 0
-    variances_netsurplus = 0
-    var_netsurplus = 0
-
-    total_netsurplus_months = {
-        acct_per: total_SBD[acct_per] - dna_total_months[acct_per]
-        for acct_per in acct_per_values
-    }
-    ammended_budget_netsurplus = ammended_budget_SBD - dna_total
-    ytd_ammended_netsurplus = ytd_ammended_SBD - ytd_ammended_dna
-    ytd_netsurplus =  ytd_SBD - dna_ytd_total 
-    variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
-    var_netsurplus = (abs(int(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
-
-    #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
-
-    total_EOC_pc =  {acct_per: 0 for acct_per in acct_per_values} # PAYROLL COSTS
-    total_EOC_pcs =  {acct_per: 0 for acct_per in acct_per_values}#Professional and Cont Svcs
-    total_EOC_sm =  {acct_per: 0 for acct_per in acct_per_values}#Supplies and Materials
-    total_EOC_ooe =  {acct_per: 0 for acct_per in acct_per_values}#Other Operating Expenses
-    total_EOC_te =  {acct_per: 0 for acct_per in acct_per_values}#Total Expense
-    total_EOC_oe =  {acct_per: 0 for acct_per in acct_per_values}#Other expenses 6449
-    ytd_EOC_pc   = 0
-    ytd_EOC_pcs  = 0
-    ytd_EOC_sm   = 0
-    ytd_EOC_ooe  = 0
-    ytd_EOC_te   = 0
-    ytd_EOC_oe = 0
-
-    #FOR TOTAL EXPENSE
-    total_expense = 0 
-    total_expense_ytd_budget = 0
-    total_expense_months =  {acct_per: 0 for acct_per in acct_per_values}
-    total_expense_ytd = 0
-
-    total_budget_pc  = 0
-    total_budget_pcs = 0
-    total_budget_sm = 0
-    total_budget_ooe = 0
-    total_budget_oe = 0
-    total_budget_te = 0
-
-    ytd_budget_pc = 0
-    ytd_budget_pcs = 0
-    ytd_budget_sm = 0
-    ytd_budget_ooe = 0 
-    ytd_budget_oe = 0 
-    ytd_budget_te = 0
-
-    for item in data_activities:
-        obj = item["obj"]
-        category = item["Category"]
-        ytd_total = 0
-        
-        item["total_budget"] = 0
-
-        if school in schoolCategory["skyward"]:
-            total_budget_data_activities = sum(
+                total_budget_data_activities = sum(
                 entry[appr_key]
                 for entry in data3
                 if entry["obj"] == obj
-
+                and entry["Type"] == 'GJ'
+        
                 )
-        else:
-            total_budget_data_activities = sum(
-            entry[appr_key]
-            for entry in data3
-            if entry["obj"] == obj
-            and entry["Type"] == 'GJ'
-       
-            )
 
-        item["total_budget"] = -(total_budget_data_activities)
-        
-        item["ytd_budget"] =  item["total_budget"] * ytd_budget
-        total_expense += item["total_budget"]  
-        total_expense_ytd_budget += item[f"ytd_budget"]
-        if category == "Payroll and Benefits":
-            total_budget_pc += item["total_budget"]                
-
-        if category == "Professional and Contract Services":          
-            total_budget_pcs += item["total_budget"] 
-
-        if category == "Materials and Supplies":       
-            total_budget_sm += item["total_budget"]     
+            item["total_budget"] = -(total_budget_data_activities)
             
-        if category == "Other Operating Costs":
-            total_budget_ooe += item["total_budget"]  
-
-        if category == "Depreciation":  
-            total_budget_oe += item["total_budget"]     
-            
-        if category == "Debt Services": 
-            total_budget_te += item["total_budget"]         
-
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            total_activities = sum(
-                entry[expense_key]
-                for entry in data3
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
-            )
-            total_adjustment = sum(
-                entry[expense_key]
-                for entry in adjustment
-                if entry["obj"] == obj 
-                and entry["AcctPer"] == acct_per 
-                and entry["School"] == school
-                and entry[expense_key] is not None 
-                and not isinstance(entry[expense_key], str)
-            )
-
-            item[f"total_activities{i}"] = total_activities + total_adjustment
-
-
-            
+            item["ytd_budget"] =  item["total_budget"] * ytd_budget
+            total_expense += item["total_budget"]  
+            total_expense_ytd_budget += item[f"ytd_budget"]
             if category == "Payroll and Benefits":
-                total_EOC_pc[acct_per] += item[f"total_activities{i}"]
-               
+                total_budget_pc += item["total_budget"]                
 
-            if category == "Professional and Contract Services":
-                total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
+            if category == "Professional and Contract Services":          
+                total_budget_pcs += item["total_budget"] 
 
-            if category == "Materials and Supplies":
-                total_EOC_sm[acct_per] += item[f"total_activities{i}"]
+            if category == "Materials and Supplies":       
+                total_budget_sm += item["total_budget"]     
                 
-
             if category == "Other Operating Costs":
-                total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
+                total_budget_ooe += item["total_budget"]  
 
-            if category == "Depreciation":
-                total_EOC_oe[acct_per] += item[f"total_activities{i}"]
+            if category == "Depreciation":  
+                total_budget_oe += item["total_budget"]     
+                
+            if category == "Debt Services": 
+                total_budget_te += item["total_budget"]         
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                total_activities = sum(
+                    entry[expense_key]
+                    for entry in data3
+                    if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                )
+                total_adjustment = sum(
+                    entry[expense_key]
+                    for entry in adjustment
+                    if entry["obj"] == obj 
+                    and entry["AcctPer"] == acct_per 
+                    and entry["School"] == school
+                    and entry[expense_key] is not None 
+                    and not isinstance(entry[expense_key], str)
+                )
+
+                item[f"total_activities{i}"] = total_activities + total_adjustment
+
+
+                
+                if category == "Payroll and Benefits":
+                    total_EOC_pc[acct_per] += item[f"total_activities{i}"]
                 
 
-            if category == "Debt Services":
-                total_EOC_te[acct_per] += item[f"total_activities{i}"]
+                if category == "Professional and Contract Services":
+                    total_EOC_pcs[acct_per] += item[f"total_activities{i}"]
 
-            total_expense_months[acct_per] += item[f"total_activities{i}"]  
+                if category == "Materials and Supplies":
+                    total_EOC_sm[acct_per] += item[f"total_activities{i}"]
+                    
 
-        for month_number in range(1, 13):
-            ytd_total += (item[f"total_activities{month_number}"])
-        item["ytd_total"] = ytd_total
+                if category == "Other Operating Costs":
+                    total_EOC_ooe[acct_per] += item[f"total_activities{i}"]
+
+                if category == "Depreciation":
+                    total_EOC_oe[acct_per] += item[f"total_activities{i}"]
+                    
+
+                if category == "Debt Services":
+                    total_EOC_te[acct_per] += item[f"total_activities{i}"]
+
+                total_expense_months[acct_per] += item[f"total_activities{i}"]  
+
+            for month_number in range(1, 13):
+                ytd_total += (item[f"total_activities{month_number}"])
+            item["ytd_total"] = ytd_total
 
 
-    total_expense += dna_total
-    total_expense_ytd_budget += ytd_ammended_dna
-    for acct_per, dna_value in dna_total_months.items():
-   
-        if acct_per in total_expense_months:
-           
-            total_expense_months[acct_per] += dna_value
-
-    ytd_EOC_pc  = sum(total_EOC_pc.values())
-    ytd_EOC_pcs = sum(total_EOC_pcs.values())
-    ytd_EOC_sm  = sum(total_EOC_sm.values())
-    ytd_EOC_ooe = sum(total_EOC_ooe.values())
-    ytd_EOC_te  = sum(total_EOC_te.values())
-    ytd_EOC_oe  = sum(total_EOC_oe.values())
-
+        total_expense += dna_total
+        total_expense_ytd_budget += ytd_ammended_dna
+        for acct_per, dna_value in dna_total_months.items():
     
-    ytd_budget_pc = total_budget_pc * ytd_budget
-    ytd_budget_pcs = total_budget_pcs * ytd_budget
-    ytd_budget_sm = total_budget_sm * ytd_budget
-    ytd_budget_ooe = total_budget_ooe  * ytd_budget
-    ytd_budget_oe = total_budget_oe * ytd_budget
-    ytd_budget_te = total_budget_te * ytd_budget
+            if acct_per in total_expense_months:
+            
+                total_expense_months[acct_per] += dna_value
+
+        ytd_EOC_pc  = sum(total_EOC_pc.values())
+        ytd_EOC_pcs = sum(total_EOC_pcs.values())
+        ytd_EOC_sm  = sum(total_EOC_sm.values())
+        ytd_EOC_ooe = sum(total_EOC_ooe.values())
+        ytd_EOC_te  = sum(total_EOC_te.values())
+        ytd_EOC_oe  = sum(total_EOC_oe.values())
 
         
-    #temporarily for 6500
-    budget_for_6500 = 0
-    ytd_budget_for_6500 = 0 
+        ytd_budget_pc = total_budget_pc * ytd_budget
+        ytd_budget_pcs = total_budget_pcs * ytd_budget
+        ytd_budget_sm = total_budget_sm * ytd_budget
+        ytd_budget_ooe = total_budget_ooe  * ytd_budget
+        ytd_budget_oe = total_budget_oe * ytd_budget
+        ytd_budget_te = total_budget_te * ytd_budget
 
-    for item in data_expensebyobject:
-        obj = item["obj"]
-       
-        if obj == "6100":
-            category = "Payroll and Benefits"
-            item["variances"] = ytd_budget_pc - ytd_EOC_pc
-           
-        elif obj == "6200":
-            category = "Professional and Contract Services"
-            item["variances"] = ytd_budget_pcs - ytd_EOC_pcs
-           
-        elif obj == "6300":
-            category = "Materials and Supplies"
-            item["variances"] = ytd_budget_sm - ytd_EOC_sm
             
-        elif obj == "6400":
-            category = "Other Operating Costs"
-            item["variances"] = ytd_budget_ooe - ytd_EOC_ooe
-            
-        elif obj == "6449":
-            category = "Depreciation"
-            item["variances"] = ytd_budget_oe - ytd_EOC_oe
-            
-        else:
-            category = "Debt Services"
-            item["variances"] = ytd_budget_te - ytd_EOC_te
-            
+        #temporarily for 6500
+        budget_for_6500 = 0
+        ytd_budget_for_6500 = 0 
 
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_expense{i}"] = sum(
-                entry[f"total_activities{i}"]
-                for entry in data_activities
-                if entry["Category"] == category
-            )
-
+        for item in data_expensebyobject:
+            obj = item["obj"]
         
-    #CONTINUATION COMPUTATION TOTAL EXPENSE
-    total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
-    variances_total_expense = total_expense_ytd_budget - total_expense_ytd
-    var_total_expense = (abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
-        
-
-    #CALCULATIONS START NET INCOME
-    net_income_budget = 0
-    ytd_budget_net_income = 0 
-    total_net_income_months =  {acct_per: 0 for acct_per in acct_per_values}
-    ytd_net_income = 0
-    variances_net_income = 0
-    var_net_income = 0 
-
-
-    budget_net_income = totals["total_ammended"] - total_expense
-   
-    ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
-    ytd_net_income = ytd_total_revenue - total_expense_ytd
-    variances_net_income = ytd_net_income - ytd_budget_net_income
-    var_net_income = (abs(int(ytd_net_income / net_income_budget*100))) if net_income_budget != 0 else ""
-
-
-    
-    total_net_income_months = {
-        acct_per: abs(total_revenue[acct_per]) - total_expense_months[acct_per]
-        for acct_per in acct_per_values
-    }  
-
-
-    #BS CALCULATION START
-    for item in data_activitybs:
-        obj = item["obj"]
-        item["fytd"] = 0
-
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            total_data3 = sum(
-                entry[bal_key]
-                for entry in data3
-                if entry["obj"] == obj 
-                and entry["AcctPer"] == acct_per
-            )
-            total_adjustment = sum(
-                entry[bal_key]
-                for entry in adjustment
-                if entry["obj"] == obj
-                and entry["AcctPer"] == acct_per 
-                and entry["School"] == school
-                and entry[bal_key] is not None 
-                and not isinstance(entry[bal_key], str)
-            )
-
-            item[f"total_bal{i}"] = total_data3 + total_adjustment
-            item["fytd"] += item[f"total_bal{i}"]
-    
-    activity_sum_dict = {}
-    for item in data_activitybs:
-        Activity = item["Activity"]
-        
-        for i in range(1, 13):
-            total_sum_i = sum(
-                float(entry[f"total_bal{i}"])
-                if entry[f"total_bal{i}"] and entry["Activity"] == Activity
-                else 0
-                for entry in data_activitybs
-            )
-            activity_sum_dict[(Activity, i)] = total_sum_i
-
-    for row in data_balancesheet:
-        activity = row["Activity"]
-        for i in range(1, 13):
-            key = (activity, i)
-            row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
-
-
-    for row in data_balancesheet:
-        if row["school"] == school:
-            FYE_value = (float(row["FYE"])
-                if row["FYE"]
-                else 0
-            )
-            total_sum9_value = float(row["total_sum9"])
-            total_sum10_value = float(row["total_sum10"])
-            total_sum11_value = float(row["total_sum11"])
-            total_sum12_value = float(row["total_sum12"])
-            total_sum1_value = float(row["total_sum1"])
-            total_sum2_value = float(row["total_sum2"])
-            total_sum3_value = float(row["total_sum3"])
-            total_sum4_value = float(row["total_sum4"])
-            total_sum5_value = float(row["total_sum5"])
-            total_sum6_value = float(row["total_sum6"])
-            total_sum7_value = float(row["total_sum7"])
-            total_sum8_value = float(row["total_sum8"])
-
-            if school != 'manara' or school != 'leadership':
-                # Calculate the differences and store them in the row dictionary
-                row["difference_9"] = (FYE_value + total_sum9_value)
-                row["difference_10"] =(row["difference_9"] + total_sum10_value)
-                row["difference_11"] =(row["difference_10"] + total_sum11_value)
-                row["difference_12"] =(row["difference_11"]  + total_sum12_value )
-                row["difference_1"] = (row["difference_12"] + total_sum1_value )
-                row["difference_2"] = (row["difference_1"] + total_sum2_value )
-                row["difference_3"] = (row["difference_2"] + total_sum3_value )
-                row["difference_4"] = (row["difference_3"] + total_sum4_value )
-                row["difference_5"] = (row["difference_4"] + total_sum5_value )
-                row["difference_6"] = (row["difference_5"] + total_sum6_value )
-                row["difference_7"] = (row["difference_6"] + total_sum7_value )
-                row["difference_8"] = (row["difference_7"] + total_sum8_value )
-                total_sum_value = totals.get(f"total_sum{last_month_number + 1}_value", 0)
-                row["last_month_difference"] = row[f"difference_{last_month_number}"] + total_sum_value
-     
-
-                row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
-
-                row["debt_9"]  = (FYE_value - total_sum9_value)
-                row["debt_10"] = (row["debt_9"] - total_sum10_value)
-                row["debt_11"] = (row["debt_10"] - total_sum11_value)
-                row["debt_12"] = (row["debt_11"] - total_sum12_value)
-                row["debt_1"] = (row["debt_12"] - total_sum1_value)
-                row["debt_2"] = (row["debt_1"] - total_sum2_value)
-                row["debt_3"] = (row["debt_2"] - total_sum3_value)
-                row["debt_4"] = (row["debt_3"]- total_sum4_value)
-                row["debt_5"] = (row["debt_4"]  - total_sum5_value )
-                row["debt_6"] = (row["debt_5"]- total_sum6_value)
-                row["debt_7"] = (row["debt_6"] - total_sum7_value)
-                row["debt_8"] = (row["debt_7"] - total_sum8_value)
-                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-
-           
-                row["net_assets9"] = (FYE_value + total_netsurplus_months["09"])
-                row["net_assets10"] = (row["net_assets9"] + total_netsurplus_months["10"])
-                row["net_assets11"] = (row["net_assets10"]+ total_netsurplus_months["11"])
-                row["net_assets12"] = (row["net_assets11"]+ total_netsurplus_months["12"])
-                row["net_assets1"] = (row["net_assets12"] + total_netsurplus_months["01"])
-                row["net_assets2"] = (row["net_assets1"] + total_netsurplus_months["02"])
-                row["net_assets3"] = (row["net_assets2"]+ total_netsurplus_months["03"])
-                row["net_assets4"] = (row["net_assets3"] + total_netsurplus_months["04"])
-                row["net_assets5"] = (row["net_assets4"] + total_netsurplus_months["05"])
-                row["net_assets6"] = (row["net_assets5"]  + total_netsurplus_months["06"])
-                row["net_assets7"] = (row["net_assets6"] + total_netsurplus_months["07"])
-                row["net_assets8"] = (row["net_assets7"] + total_netsurplus_months["08"])
+            if obj == "6100":
+                category = "Payroll and Benefits"
+                item["variances"] = ytd_budget_pc - ytd_EOC_pc
+            
+            elif obj == "6200":
+                category = "Professional and Contract Services"
+                item["variances"] = ytd_budget_pcs - ytd_EOC_pcs
+            
+            elif obj == "6300":
+                category = "Materials and Supplies"
+                item["variances"] = ytd_budget_sm - ytd_EOC_sm
+                
+            elif obj == "6400":
+                category = "Other Operating Costs"
+                item["variances"] = ytd_budget_ooe - ytd_EOC_ooe
+                
+            elif obj == "6449":
+                category = "Depreciation"
+                item["variances"] = ytd_budget_oe - ytd_EOC_oe
+                
             else:
-                                # Calculate the differences and store them in the row dictionary
-                row["difference_7"] = (FYE_value + total_sum7_value )
-                row["difference_8"] = (row["difference_7"] + total_sum8_value )
-                row["difference_9"] = (row["difference_8"]  + total_sum9_value)
-                row["difference_10"] =(row["difference_9"] + total_sum10_value)
-                row["difference_11"] =(row["difference_10"] + total_sum11_value)
-                row["difference_12"] =(row["difference_11"]  + total_sum12_value )
-                row["difference_1"] = (row["difference_12"] + total_sum1_value )
-                row["difference_2"] = (row["difference_1"] + total_sum2_value )
-                row["difference_3"] = (row["difference_2"] + total_sum3_value )
-                row["difference_4"] = (row["difference_3"] + total_sum4_value )
-                row["difference_5"] = (row["difference_4"] + total_sum5_value )
-                row["difference_6"] = (row["difference_5"] + total_sum6_value )
-                total_sum_value = totals.get(f"total_sum{last_month_number}_value", 0)
-                row["last_month_difference"] = row[f"difference_{last_month_number-1}"] + total_sum_value
+                category = "Debt Services"
+                item["variances"] = ytd_budget_te - ytd_EOC_te
                 
 
-                row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f"total_expense{i}"] = sum(
+                    entry[f"total_activities{i}"]
+                    for entry in data_activities
+                    if entry["Category"] == category
+                )
 
-
-                row["debt_7"] = (FYE_value - total_sum7_value)
-                row["debt_8"] = (row["debt_7"] - total_sum8_value)
-                row["debt_9"]  = (row["debt_8"] - total_sum9_value)
-                row["debt_10"] = (row["debt_9"] - total_sum10_value)
-                row["debt_11"] = (row["debt_10"] - total_sum11_value)
-                row["debt_12"] = (row["debt_11"] - total_sum12_value)
-                row["debt_1"] = (row["debt_12"] - total_sum1_value)
-                row["debt_2"] = (row["debt_1"] - total_sum2_value)
-                row["debt_3"] = (row["debt_2"] - total_sum3_value)
-                row["debt_4"] = (row["debt_3"]- total_sum4_value)
-                row["debt_5"] = (row["debt_4"]  - total_sum5_value )
-                row["debt_6"] = (row["debt_5"]- total_sum6_value)
-  
-                row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-
-
-                row["net_assets7"] = (FYE_value + total_netsurplus_months["07"])
-                row["net_assets8"] = (row["net_assets7"] + total_netsurplus_months["08"])
-                row["net_assets9"] = (row["net_assets8"]  + total_netsurplus_months["09"])
-                row["net_assets10"] = (row["net_assets9"] + total_netsurplus_months["10"])
-                row["net_assets11"] = (row["net_assets10"]+ total_netsurplus_months["11"])
-                row["net_assets12"] = (row["net_assets11"]+ total_netsurplus_months["12"])
-                row["net_assets1"] = (row["net_assets12"] + total_netsurplus_months["01"])
-                row["net_assets2"] = (row["net_assets1"] + total_netsurplus_months["02"])
-                row["net_assets3"] = (row["net_assets2"]+ total_netsurplus_months["03"])
-                row["net_assets4"] = (row["net_assets3"] + total_netsurplus_months["04"])
-                row["net_assets5"] = (row["net_assets4"] + total_netsurplus_months["05"])
-                row["net_assets6"] = (row["net_assets5"]  + total_netsurplus_months["06"])
-
-    total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
-    total_current_assets_fye = 0
-    total_current_assets_fytd = 0 
-    
-
-    total_capital_assets = {acct_per: 0 for acct_per in acct_per_values}
-    total_capital_assets_fye = 0
-    total_capital_assets_fytd = 0 
-
-    total_current_liabilities = {acct_per: 0 for acct_per in acct_per_values}
-    total_current_liabilities_fye = 0
-    total_current_liabilities_fytd = 0
-
-    total_liabilities = {acct_per: 0 for acct_per in acct_per_values}
-    total_liabilities_fye = 0
-    total_liabilities_fytd = 0
-
-    total_assets = {acct_per: 0 for acct_per in acct_per_values}
-    total_assets_fye = 0
-    total_assets_fye_fytd = 0
-    
-
-    total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
-    total_LNA_fye = 0
-    total_LNA_fytd = 0
-
-
-    
-    total_net_assets_fytd = 0
-    total_net_assets_fytd = ytd_netsurplus    
-    
-
-
-    for row in data_balancesheet:
-        if row["school"] == school:
-            subcategory =  row["Subcategory"]
-            fye =  float(row["FYE"]) if row["FYE"] else 0
-
-            if subcategory == 'Current Assets':
-                for i, acct_per in enumerate(acct_per_values,start = 1):
-                    total_current_assets[acct_per] += row[f"difference_{i}"]
-                total_current_assets_fytd += row["fytd"]
-
-                total_current_assets_fye +=  fye
-            if subcategory == 'Capital Assets, Net':
-                for i, acct_per in enumerate(acct_per_values,start = 1):
-                    total_capital_assets[acct_per] += row[f"difference_{i}"]
-                total_capital_assets_fytd += row["fytd"]
-                total_capital_assets_fye +=  fye
-            if subcategory == 'Current Liabilities':
-                for i, acct_per in enumerate(acct_per_values,start = 1):
-                    total_current_liabilities[acct_per] += row[f"debt_{i}"]
-                total_current_liabilities_fytd += row["debt_fytd"]
-                total_current_liabilities_fye +=  fye
-
-    
-    total_liabilities_fytd_2 = 0
-    for row in data_balancesheet:
-        if row["school"] == school:
-            subcategory =  row["Subcategory"]
-            fye =  float(row["FYE"]) if row["FYE"] else 0
-            if subcategory == 'Long Term Debt':
-                for i, acct_per in enumerate(acct_per_values,start = 1):
-                    total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
-                total_liabilities_fytd_2 += row["debt_fytd"]
-                total_liabilities_fye +=  + total_current_liabilities_fye + fye
-    total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
-
-    for row in data_balancesheet:
-        if row["school"] == school:
-            fye =  float(row["FYE"]) if row["FYE"] else 0
-            if  row["Category"] == "Net Assets":
-                for i, acct_per in enumerate(acct_per_values,start = 1):
-                    total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
-
-                total_LNA_fye += total_liabilities_fye + fye
-
- 
-    total_assets = {
-        acct_per: total_current_assets[acct_per] + total_capital_assets[acct_per]
-        for acct_per in acct_per_values
-
-    }
-    total_assets_fye = total_current_assets_fye + total_capital_assets_fye
-    total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
-
-    net = float(total_net_assets_fytd) if total_net_assets_fytd else 0
-    total_LNA_fytd = net + total_liabilities_fytd
-
-
-    # FOR CASHFLOW
-
-    for item in data_cashflow:
-        activity = item["Activity"]
-        item["fytd_1"] = 0
-        obj = item["obj"]
-        item["fytd_2"] = 0
-
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            total_bal_key = f"total_bal{i}"
-            item[f"total_operating{i}"] = sum(
-                entry[total_bal_key]
-                for entry in data_activitybs
-                if entry["Activity"] == activity
-            )
-            item["fytd_1"] += item[f"total_operating{i}"]
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            item[f"total_investing{i}"] = sum(
-                entry[bal_key]
-                for entry in data3
-                if entry["obj"] == obj and entry["AcctPer"] == acct_per
-            )
-            item["fytd_2"] += item[f"total_investing{i}"]  
-    
-    sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
-    sorted_data = sorted(data, key=lambda x: x['obj'])
-
-
-    cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
-    rows = cursor.fetchall()
-
-    data_charterfirst = []
-
-    for row in rows:
-        if row[0] == school and row[2]==last_month_number:
-            row_dict = {
-                "school": row[0],
-                "year": row[1],
-                "month": row[2],
-                "net_income_ytd":row[3],
-                "indicators": row[4],
-                "net_assets": row[5],
-                "days_coh": row[6],
-                "current_assets": row[7],
-                "net_earnings": row[8],
-                "budget_vs_revenue": row[9],
-                "total_assets": row[10],
-                "debt_service": row[11],
-                "debt_capitalization": row[12],
-                "ratio_administrative": row[13],
-                "ratio_student_teacher": row[14],
-                "estimated_actual_ada": row[15],
-                "reporting_peims": row[16],
-                "annual_audit": row[17],
-                "post_financial_info": row[18],
-                "approved_geo_boundaries": row[19],
-                "estimated_first_rating": row[20],
-            }
-
-            data_charterfirst.append(row_dict)
-
-
-    context = {
-        "data": sorted_data,
-        "data2": sorted_data2,
-        "data3": data3,
-        "data_expensebyobject": data_expensebyobject,
-        "data_activities": data_activities,
-        "data_charterfirst":data_charterfirst,
-        "data_balancesheet":data_balancesheet,
-        "data_activitybs":data_activitybs,
-        "data_cashflow":data_cashflow,
-
-
-        "months":
-                {
-            "last_month": formatted_last_month,
-            "last_month_number": last_month_number,
-            "last_month_name": last_month_name,
-            "format_ytd_budget": formatted_ytd_budget,
-            "ytd_budget": ytd_budget,
-            "FY_year_1":FY_year_1,
-            "FY_year_2":FY_year_2,
-
-            },
-        "totals":{
-            #FOR REVENUES
-            "total_lr": total_lr,
-            "total_spr": total_spr,
-            "total_fpr": total_fpr,
-            "total_revenue": total_revenue,
-            "total_ammended": totals["total_ammended"],
-            "total_ammended_lr": totals["total_ammended_lr"],
-            "total_ammended_spr": totals["total_ammended_spr"],
-            "total_ammended_fpr": totals["total_ammended_fpr"],
-            "ytd_ammended_total":ytd_ammended_total,
-            "ytd_ammended_total_lr":ytd_ammended_total_lr,
-            "ytd_ammended_total_spr":ytd_ammended_total_spr,
-            "ytd_ammended_total_fpr":ytd_ammended_total_fpr,
-            "ytd_total_revenue": ytd_total_revenue,
-            "ytd_total_lr": ytd_total_lr,
-            "ytd_total_spr": ytd_total_spr,
-            "ytd_total_fpr": ytd_total_fpr,
-            "variances_revenue":variances_revenue,
-            "variances_revenue_lr":variances_revenue_lr,
-            "variances_revenue_spr":variances_revenue_spr,
-            "variances_revenue_fpr":variances_revenue_fpr,
-            "var_ytd":var_ytd,
-            "var_ytd_lr":var_ytd_lr,
-            "var_ytd_spr":var_ytd_spr,
-            "var_ytd_fpr":var_ytd_fpr,
-
-            #FIRST TOTAL
-            "first_total":first_total,
-            "first_total_months":first_total_months,
-            "first_ytd_total":first_ytd_total,
-            "ytd_ammended_total_first": ytd_ammended_total_first,
-            "variances_first_total":variances_first_total,
-            "var_ytd_first_total": var_ytd_first_total,
-
-            # DEPRECIATION AND AMORTIZATION
-            "dna_total":dna_total,
-            "dna_total_months":dna_total_months,
-            "dna_ytd_total":dna_ytd_total,
-            "ytd_ammended_dna": ytd_ammended_dna,
-            "variances_dna":variances_dna,
-            "var_ytd_dna":var_ytd_dna,
-
-            #SURPLUS BEFORE DEFICIT(SBD)
-            "total_SBD": total_SBD,
-            "ammended_budget_SBD": ammended_budget_SBD,
-            "ytd_ammended_SBD": ytd_ammended_SBD,
-            "ytd_SBD":ytd_SBD,
-            "variances_SBD": variances_SBD,
-            "var_SBD":var_SBD,
-
-            #NET SURPLUS    
-            "total_netsurplus_months": total_netsurplus_months,
-            "ammended_budget_netsurplus": ammended_budget_netsurplus,
-            "ytd_ammended_netsurplus" : ytd_ammended_netsurplus,
-            "ytd_netsurplus": ytd_netsurplus,
-            "variances_netsurplus": variances_netsurplus,
-            "var_netsurplus":var_netsurplus,
-
-            #EXPENSE BY OBJECT 
-            "total_EOC_pc":total_EOC_pc,
-            "total_EOC_pcs":total_EOC_pcs,
-            "total_EOC_sm":total_EOC_sm,
-            "total_EOC_ooe":total_EOC_ooe,
-            "total_EOC_te":total_EOC_te,
-            "total_EOC_oe":total_EOC_oe,
-            "ytd_EOC_pc":ytd_EOC_pc,
-            "ytd_EOC_pcs":ytd_EOC_pcs,
-            "ytd_EOC_sm":ytd_EOC_sm,
-            "ytd_EOC_ooe":ytd_EOC_ooe,
-            "ytd_EOC_te":ytd_EOC_te,
-            "ytd_EOC_oe":ytd_EOC_oe,
-            "total_budget_pc":total_budget_pc,
-            "total_budget_pcs":total_budget_pcs,
-            "total_budget_sm":total_budget_sm,
-            "total_budget_ooe":total_budget_ooe,
-            "total_budget_oe":total_budget_oe,
-            "total_budget_te":total_budget_te,
-            "ytd_budget_pc":ytd_budget_pc,
-            "ytd_budget_pcs":ytd_budget_pcs,
-            "ytd_budget_sm":ytd_budget_sm,
-            "ytd_budget_ooe":ytd_budget_ooe,
-            "ytd_budget_oe":ytd_budget_oe,
-            "ytd_budget_te":ytd_budget_te,
-            #FIX SOON
-            "budget_for_6500":budget_for_6500,
-            "ytd_budget_for_6500": ytd_budget_for_6500,
             
-            #TOTAL EXPENSE 
-            "total_expense": total_expense,
-            "total_expense_ytd_budget": total_expense_ytd_budget,
-            "total_expense_months":total_expense_months,
-            "total_expense_ytd":total_expense_ytd,
-            "variances_total_expense":variances_total_expense,
-            "var_total_expense":var_total_expense,
+        #CONTINUATION COMPUTATION TOTAL EXPENSE
+        total_expense_ytd = sum([ytd_EOC_te, ytd_EOC_ooe, ytd_EOC_sm, ytd_EOC_pcs, ytd_EOC_pc,dna_ytd_total])
+        variances_total_expense = total_expense_ytd_budget - total_expense_ytd
+        var_total_expense = (abs(int(total_expense_ytd / total_expense*100))) if total_expense != 0 else ""
+            
 
-            #NET INCOME
-            "budget_net_income": budget_net_income,
-            "ytd_budget_net_income":ytd_budget_net_income,
-            "total_net_income_months":total_net_income_months,
-            "variances_net_income": variances_net_income,
-            "ytd_net_income": ytd_net_income,
-            "var_net_income":var_net_income,            
-        },
-        "total_bs":{
-            "total_current_assets":total_current_assets,
-            "total_current_assets_fye":total_current_assets_fye,
-            "total_capital_assets":total_capital_assets,
-            "total_capital_assets_fye":total_capital_assets_fye,
-            "total_current_liabilities":total_current_liabilities,
-            "total_current_liabilities_fye":total_current_liabilities_fye,
-            "total_liabilities":total_liabilities,
-            "total_liabilities_fye":total_liabilities_fye,
-            "total_assets": total_assets,
-            "total_assets_fye":total_assets_fye,
-            "total_LNA_fye":total_LNA_fye,
-            "total_LNA":total_LNA,
-            "total_current_assets_fytd":total_current_assets_fytd,
-            "total_capital_assets_fytd":total_capital_assets_fytd,
-            "total_current_liabilities_fytd":total_current_liabilities_fytd,
-            "total_liabilities_fytd":total_liabilities_fytd,
-            "total_assets_fye_fytd":total_assets_fye_fytd,
-            "total_net_assets_fytd":total_net_assets_fytd,
-            "total_LNA_fytd":total_LNA_fytd,
+        #CALCULATIONS START NET INCOME
+        net_income_budget = 0
+        ytd_budget_net_income = 0 
+        total_net_income_months =  {acct_per: 0 for acct_per in acct_per_values}
+        ytd_net_income = 0
+        variances_net_income = 0
+        var_net_income = 0 
+
+
+        budget_net_income = totals["total_ammended"] - total_expense
+    
+        ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
+        ytd_net_income = ytd_total_revenue - total_expense_ytd
+        variances_net_income = ytd_net_income - ytd_budget_net_income
+        var_net_income = (abs(int(ytd_net_income / net_income_budget*100))) if net_income_budget != 0 else ""
+
+
+        
+        total_net_income_months = {
+            acct_per: abs(total_revenue[acct_per]) - total_expense_months[acct_per]
+            for acct_per in acct_per_values
+        }  
+
+
+        #BS CALCULATION START
+        for item in data_activitybs:
+            obj = item["obj"]
+            item["fytd"] = 0
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                total_data3 = sum(
+                    entry[bal_key]
+                    for entry in data3
+                    if entry["obj"] == obj 
+                    and entry["AcctPer"] == acct_per
+                )
+                total_adjustment = sum(
+                    entry[bal_key]
+                    for entry in adjustment
+                    if entry["obj"] == obj
+                    and entry["AcctPer"] == acct_per 
+                    and entry["School"] == school
+                    and entry[bal_key] is not None 
+                    and not isinstance(entry[bal_key], str)
+                )
+
+                item[f"total_bal{i}"] = total_data3 + total_adjustment
+                item["fytd"] += item[f"total_bal{i}"]
+        
+        activity_sum_dict = {}
+        for item in data_activitybs:
+            Activity = item["Activity"]
+            
+            for i in range(1, 13):
+                total_sum_i = sum(
+                    float(entry[f"total_bal{i}"])
+                    if entry[f"total_bal{i}"] and entry["Activity"] == Activity
+                    else 0
+                    for entry in data_activitybs
+                )
+                activity_sum_dict[(Activity, i)] = total_sum_i
+
+        for row in data_balancesheet:
+            activity = row["Activity"]
+            for i in range(1, 13):
+                key = (activity, i)
+                row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
+
+
+        for row in data_balancesheet:
+            if row["school"] == school:
+                FYE_value = (float(row["FYE"])
+                    if row["FYE"]
+                    else 0
+                )
+                total_sum9_value = float(row["total_sum9"])
+                total_sum10_value = float(row["total_sum10"])
+                total_sum11_value = float(row["total_sum11"])
+                total_sum12_value = float(row["total_sum12"])
+                total_sum1_value = float(row["total_sum1"])
+                total_sum2_value = float(row["total_sum2"])
+                total_sum3_value = float(row["total_sum3"])
+                total_sum4_value = float(row["total_sum4"])
+                total_sum5_value = float(row["total_sum5"])
+                total_sum6_value = float(row["total_sum6"])
+                total_sum7_value = float(row["total_sum7"])
+                total_sum8_value = float(row["total_sum8"])
+
+                if school in schoolMonths['septemberSchool']:
+                    # Calculate the differences and store them in the row dictionary
+                    row["difference_9"] = (FYE_value + total_sum9_value)
+                    row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                    row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                    row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                    row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                    row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                    row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                    row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                    row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                    row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                    row["difference_7"] = (row["difference_6"] + total_sum7_value )
+                    row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                    row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+        
+
+                    row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
+
+                    row["debt_9"]  = (FYE_value - total_sum9_value)
+                    row["debt_10"] = (row["debt_9"] - total_sum10_value)
+                    row["debt_11"] = (row["debt_10"] - total_sum11_value)
+                    row["debt_12"] = (row["debt_11"] - total_sum12_value)
+                    row["debt_1"] = (row["debt_12"] - total_sum1_value)
+                    row["debt_2"] = (row["debt_1"] - total_sum2_value)
+                    row["debt_3"] = (row["debt_2"] - total_sum3_value)
+                    row["debt_4"] = (row["debt_3"]- total_sum4_value)
+                    row["debt_5"] = (row["debt_4"]  - total_sum5_value )
+                    row["debt_6"] = (row["debt_5"]- total_sum6_value)
+                    row["debt_7"] = (row["debt_6"] - total_sum7_value)
+                    row["debt_8"] = (row["debt_7"] - total_sum8_value)
+                    row["last_month_debt"] = row[f"debt_{last_month_number}"]
+                    row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+            
+                    row["net_assets9"] = (FYE_value + total_netsurplus_months["09"])
+                    row["net_assets10"] = (row["net_assets9"] + total_netsurplus_months["10"])
+                    row["net_assets11"] = (row["net_assets10"]+ total_netsurplus_months["11"])
+                    row["net_assets12"] = (row["net_assets11"]+ total_netsurplus_months["12"])
+                    row["net_assets1"] = (row["net_assets12"] + total_netsurplus_months["01"])
+                    row["net_assets2"] = (row["net_assets1"] + total_netsurplus_months["02"])
+                    row["net_assets3"] = (row["net_assets2"]+ total_netsurplus_months["03"])
+                    row["net_assets4"] = (row["net_assets3"] + total_netsurplus_months["04"])
+                    row["net_assets5"] = (row["net_assets4"] + total_netsurplus_months["05"])
+                    row["net_assets6"] = (row["net_assets5"]  + total_netsurplus_months["06"])
+                    row["net_assets7"] = (row["net_assets6"] + total_netsurplus_months["07"])
+                    row["net_assets8"] = (row["net_assets7"] + total_netsurplus_months["08"])
+                    row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
+                else:
+                                    # Calculate the differences and store them in the row dictionary
+                    row["difference_7"] = (FYE_value + total_sum7_value )
+                    row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                    row["difference_9"] = (row["difference_8"]  + total_sum9_value)
+                    row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                    row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                    row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                    row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                    row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                    row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                    row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                    row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                    row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                    row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    
+
+                    row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
+
+
+                    row["debt_7"] = (FYE_value - total_sum7_value)
+                    row["debt_8"] = (row["debt_7"] - total_sum8_value)
+                    row["debt_9"]  = (row["debt_8"] - total_sum9_value)
+                    row["debt_10"] = (row["debt_9"] - total_sum10_value)
+                    row["debt_11"] = (row["debt_10"] - total_sum11_value)
+                    row["debt_12"] = (row["debt_11"] - total_sum12_value)
+                    row["debt_1"] = (row["debt_12"] - total_sum1_value)
+                    row["debt_2"] = (row["debt_1"] - total_sum2_value)
+                    row["debt_3"] = (row["debt_2"] - total_sum3_value)
+                    row["debt_4"] = (row["debt_3"]- total_sum4_value)
+                    row["debt_5"] = (row["debt_4"]  - total_sum5_value )
+                    row["debt_6"] = (row["debt_5"]- total_sum6_value)
+                    row["last_month_debt"] = row[f"debt_{last_month_number}"] 
+    
+                    row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+
+                    row["net_assets7"] = (FYE_value + total_netsurplus_months["07"])
+                    row["net_assets8"] = (row["net_assets7"] + total_netsurplus_months["08"])
+                    row["net_assets9"] = (row["net_assets8"]  + total_netsurplus_months["09"])
+                    row["net_assets10"] = (row["net_assets9"] + total_netsurplus_months["10"])
+                    row["net_assets11"] = (row["net_assets10"]+ total_netsurplus_months["11"])
+                    row["net_assets12"] = (row["net_assets11"]+ total_netsurplus_months["12"])
+                    row["net_assets1"] = (row["net_assets12"] + total_netsurplus_months["01"])
+                    row["net_assets2"] = (row["net_assets1"] + total_netsurplus_months["02"])
+                    row["net_assets3"] = (row["net_assets2"]+ total_netsurplus_months["03"])
+                    row["net_assets4"] = (row["net_assets3"] + total_netsurplus_months["04"])
+                    row["net_assets5"] = (row["net_assets4"] + total_netsurplus_months["05"])
+                    row["net_assets6"] = (row["net_assets5"]  + total_netsurplus_months["06"])
+                    row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
+
+        total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
+        total_current_assets_fye = 0
+        total_current_assets_fytd = 0 
+        
+
+        total_capital_assets = {acct_per: 0 for acct_per in acct_per_values}
+        total_capital_assets_fye = 0
+        total_capital_assets_fytd = 0 
+
+        total_current_liabilities = {acct_per: 0 for acct_per in acct_per_values}
+        total_current_liabilities_fye = 0
+        total_current_liabilities_fytd = 0
+
+        total_liabilities = {acct_per: 0 for acct_per in acct_per_values}
+        total_liabilities_fye = 0
+        total_liabilities_fytd = 0
+
+        total_assets = {acct_per: 0 for acct_per in acct_per_values}
+        total_assets_fye = 0
+        total_assets_fye_fytd = 0
+        
+
+        total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
+        total_LNA_fye = 0
+        total_LNA_fytd = 0
+
+
+        
+        total_net_assets_fytd = 0
+        total_net_assets_fytd = ytd_netsurplus    
+        
+
+
+        for row in data_balancesheet:
+            if row["school"] == school:
+                subcategory =  row["Subcategory"]
+                fye =  float(row["FYE"]) if row["FYE"] else 0
+
+                if subcategory == 'Current Assets':
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_current_assets[acct_per] += row[f"difference_{i}"]
+                    total_current_assets_fytd += row["fytd"]
+
+                    total_current_assets_fye +=  fye
+                if subcategory == 'Capital Assets, Net':
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_capital_assets[acct_per] += row[f"difference_{i}"]
+                    total_capital_assets_fytd += row["fytd"]
+                    total_capital_assets_fye +=  fye
+                if subcategory == 'Current Liabilities':
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_current_liabilities[acct_per] += row[f"debt_{i}"]
+                    total_current_liabilities_fytd += row["debt_fytd"]
+                    total_current_liabilities_fye +=  fye
+
+        
+        total_liabilities_fytd_2 = 0
+        for row in data_balancesheet:
+            if row["school"] == school:
+                subcategory =  row["Subcategory"]
+                fye =  float(row["FYE"]) if row["FYE"] else 0
+                if subcategory == 'Long Term Debt':
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
+                    total_liabilities_fytd_2 += row["debt_fytd"]
+                    total_liabilities_fye +=  + total_current_liabilities_fye + fye
+        total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
+
+        for row in data_balancesheet:
+            if row["school"] == school:
+                fye =  float(row["FYE"]) if row["FYE"] else 0
+                if  row["Category"] == "Net Assets":
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
+
+                    total_LNA_fye += total_liabilities_fye + fye
+
+    
+        total_assets = {
+            acct_per: total_current_assets[acct_per] + total_capital_assets[acct_per]
+            for acct_per in acct_per_values
+
         }
-    }
-   
-    json_path = os.path.join(JSON_DIR, "excel", school)
-    if not os.path.exists(json_path):
-        os.makedirs(json_path)
+        total_assets_fye = total_current_assets_fye + total_capital_assets_fye
+        total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
 
-    for key, val in context.items():
-        file = os.path.join(json_path, f"{key}.json")
-        with open(file, "w") as f:
-            json.dump(val, f)
+        net = float(total_net_assets_fytd) if total_net_assets_fytd else 0
+        total_LNA_fytd = net + total_liabilities_fytd
+
+
+        # FOR CASHFLOW
+
+        for item in data_cashflow:
+            activity = item["Activity"]
+            item["fytd_1"] = 0
+            obj = item["obj"]
+            item["fytd_2"] = 0
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                total_bal_key = f"total_bal{i}"
+                item[f"total_operating{i}"] = sum(
+                    entry[total_bal_key]
+                    for entry in data_activitybs
+                    if entry["Activity"] == activity
+                )
+                item["fytd_1"] += item[f"total_operating{i}"]
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                item[f"total_investing{i}"] = sum(
+                    entry[bal_key]
+                    for entry in data3
+                    if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                )
+                item["fytd_2"] += item[f"total_investing{i}"]  
+        
+        sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
+        sorted_data = sorted(data, key=lambda x: x['obj'])
+
+
+        cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
+        rows = cursor.fetchall()
+
+        data_charterfirst = []
+
+        for row in rows:
+            print(school)
+            print(last_month_number)
+            print(FY_year_1)
+            if row[0] == school and row[2]==last_month_number and row[1] == FY_year_1:
+                
+                row_dict = {
+                    "school": row[0],
+                    "year": row[1],
+                    "month": row[2],
+                    "net_income_ytd":row[3],
+                    "indicators": row[4],
+                    "net_assets": row[5],
+                    "days_coh": row[6],
+                    "current_assets": row[7],
+                    "net_earnings": row[8],
+                    "budget_vs_revenue": row[9],
+                    "total_assets": row[10],
+                    "debt_service": row[11],
+                    "debt_capitalization": row[12],
+                    "ratio_administrative": row[13],
+                    "ratio_student_teacher": row[14],
+                    "estimated_actual_ada": row[15],
+                    "reporting_peims": row[16],
+                    "annual_audit": row[17],
+                    "post_financial_info": row[18],
+                    "approved_geo_boundaries": row[19],
+                    "estimated_first_rating": row[20],
+                }
+
+                data_charterfirst.append(row_dict)
+
+
+        context = {
+            "data": sorted_data,
+            "data2": sorted_data2,
+            "data3": data3,
+            "data_expensebyobject": data_expensebyobject,
+            "data_activities": data_activities,
+            "data_charterfirst":data_charterfirst,
+            "data_balancesheet":data_balancesheet,
+            "data_activitybs":data_activitybs,
+            "data_cashflow":data_cashflow,
+
+
+            "months":
+                    {
+                "last_month": formatted_last_month,
+                "last_month_number": last_month_number,
+                "last_month_name": last_month_name,
+                "format_ytd_budget": formatted_ytd_budget,
+                "ytd_budget": ytd_budget,
+                "FY_year_1":FY_year_1,
+                "FY_year_2":FY_year_2,
+
+                },
+            "totals":{
+                #FOR REVENUES
+                "total_lr": total_lr,
+                "total_spr": total_spr,
+                "total_fpr": total_fpr,
+                "total_revenue": total_revenue,
+                "total_ammended": totals["total_ammended"],
+                "total_ammended_lr": totals["total_ammended_lr"],
+                "total_ammended_spr": totals["total_ammended_spr"],
+                "total_ammended_fpr": totals["total_ammended_fpr"],
+                "ytd_ammended_total":ytd_ammended_total,
+                "ytd_ammended_total_lr":ytd_ammended_total_lr,
+                "ytd_ammended_total_spr":ytd_ammended_total_spr,
+                "ytd_ammended_total_fpr":ytd_ammended_total_fpr,
+                "ytd_total_revenue": ytd_total_revenue,
+                "ytd_total_lr": ytd_total_lr,
+                "ytd_total_spr": ytd_total_spr,
+                "ytd_total_fpr": ytd_total_fpr,
+                "variances_revenue":variances_revenue,
+                "variances_revenue_lr":variances_revenue_lr,
+                "variances_revenue_spr":variances_revenue_spr,
+                "variances_revenue_fpr":variances_revenue_fpr,
+                "var_ytd":var_ytd,
+                "var_ytd_lr":var_ytd_lr,
+                "var_ytd_spr":var_ytd_spr,
+                "var_ytd_fpr":var_ytd_fpr,
+
+                #FIRST TOTAL
+                "first_total":first_total,
+                "first_total_months":first_total_months,
+                "first_ytd_total":first_ytd_total,
+                "ytd_ammended_total_first": ytd_ammended_total_first,
+                "variances_first_total":variances_first_total,
+                "var_ytd_first_total": var_ytd_first_total,
+
+                # DEPRECIATION AND AMORTIZATION
+                "dna_total":dna_total,
+                "dna_total_months":dna_total_months,
+                "dna_ytd_total":dna_ytd_total,
+                "ytd_ammended_dna": ytd_ammended_dna,
+                "variances_dna":variances_dna,
+                "var_ytd_dna":var_ytd_dna,
+
+                #SURPLUS BEFORE DEFICIT(SBD)
+                "total_SBD": total_SBD,
+                "ammended_budget_SBD": ammended_budget_SBD,
+                "ytd_ammended_SBD": ytd_ammended_SBD,
+                "ytd_SBD":ytd_SBD,
+                "variances_SBD": variances_SBD,
+                "var_SBD":var_SBD,
+
+                #NET SURPLUS    
+                "total_netsurplus_months": total_netsurplus_months,
+                "ammended_budget_netsurplus": ammended_budget_netsurplus,
+                "ytd_ammended_netsurplus" : ytd_ammended_netsurplus,
+                "ytd_netsurplus": ytd_netsurplus,
+                "variances_netsurplus": variances_netsurplus,
+                "var_netsurplus":var_netsurplus,
+
+                #EXPENSE BY OBJECT 
+                "total_EOC_pc":total_EOC_pc,
+                "total_EOC_pcs":total_EOC_pcs,
+                "total_EOC_sm":total_EOC_sm,
+                "total_EOC_ooe":total_EOC_ooe,
+                "total_EOC_te":total_EOC_te,
+                "total_EOC_oe":total_EOC_oe,
+                "ytd_EOC_pc":ytd_EOC_pc,
+                "ytd_EOC_pcs":ytd_EOC_pcs,
+                "ytd_EOC_sm":ytd_EOC_sm,
+                "ytd_EOC_ooe":ytd_EOC_ooe,
+                "ytd_EOC_te":ytd_EOC_te,
+                "ytd_EOC_oe":ytd_EOC_oe,
+                "total_budget_pc":total_budget_pc,
+                "total_budget_pcs":total_budget_pcs,
+                "total_budget_sm":total_budget_sm,
+                "total_budget_ooe":total_budget_ooe,
+                "total_budget_oe":total_budget_oe,
+                "total_budget_te":total_budget_te,
+                "ytd_budget_pc":ytd_budget_pc,
+                "ytd_budget_pcs":ytd_budget_pcs,
+                "ytd_budget_sm":ytd_budget_sm,
+                "ytd_budget_ooe":ytd_budget_ooe,
+                "ytd_budget_oe":ytd_budget_oe,
+                "ytd_budget_te":ytd_budget_te,
+                #FIX SOON
+                "budget_for_6500":budget_for_6500,
+                "ytd_budget_for_6500": ytd_budget_for_6500,
+                
+                #TOTAL EXPENSE 
+                "total_expense": total_expense,
+                "total_expense_ytd_budget": total_expense_ytd_budget,
+                "total_expense_months":total_expense_months,
+                "total_expense_ytd":total_expense_ytd,
+                "variances_total_expense":variances_total_expense,
+                "var_total_expense":var_total_expense,
+
+                #NET INCOME
+                "budget_net_income": budget_net_income,
+                "ytd_budget_net_income":ytd_budget_net_income,
+                "total_net_income_months":total_net_income_months,
+                "variances_net_income": variances_net_income,
+                "ytd_net_income": ytd_net_income,
+                "var_net_income":var_net_income,            
+            },
+            "total_bs":{
+                "total_current_assets":total_current_assets,
+                "total_current_assets_fye":total_current_assets_fye,
+                "total_capital_assets":total_capital_assets,
+                "total_capital_assets_fye":total_capital_assets_fye,
+                "total_current_liabilities":total_current_liabilities,
+                "total_current_liabilities_fye":total_current_liabilities_fye,
+                "total_liabilities":total_liabilities,
+                "total_liabilities_fye":total_liabilities_fye,
+                "total_assets": total_assets,
+                "total_assets_fye":total_assets_fye,
+                "total_LNA_fye":total_LNA_fye,
+                "total_LNA":total_LNA,
+                "total_current_assets_fytd":total_current_assets_fytd,
+                "total_capital_assets_fytd":total_capital_assets_fytd,
+                "total_current_liabilities_fytd":total_current_liabilities_fytd,
+                "total_liabilities_fytd":total_liabilities_fytd,
+                "total_assets_fye_fytd":total_assets_fye_fytd,
+                "total_net_assets_fytd":total_net_assets_fytd,
+                "total_LNA_fytd":total_LNA_fytd,
+            }
+        }
+    
+        if FY_year_1 == FY_year_current: 
+            json_path = os.path.join(JSON_DIR, "excel", school)
+        else:
+            json_path = os.path.join(JSON_DIR,str(FY_year_1), "excel", school)
+        if not os.path.exists(json_path):
+            os.makedirs(json_path)
+
+        for key, val in context.items():
+            file = os.path.join(json_path, f"{key}.json")
+            with open(file, "w") as f:
+                json.dump(val, f)
 
     
 def charter_first(school):
@@ -4276,11 +4420,12 @@ def charter_first(school):
     with open(pl_months_file, "r") as f:
         pl_months = json.load(f)
     date_string = pl_months["last_month"]
+    
     date_format = "%B %d, %Y"
     fy_curr = datetime.strptime(date_string, date_format)
 
     fy_start = ""
-    if school in ["manara", "leadership"]:
+    if school in schoolMonths['julySchool']:
         if int(pl_months["last_month_number"]) < 7:
             fy_start = datetime(curr_year, 1, 1)
         else:
@@ -4296,7 +4441,11 @@ def charter_first(school):
 
     expense_per_day = (ytd_total - debt_services) // days
 
-    context["days_coh"] = cash_equivalents // expense_per_day
+    if expense_per_day != 0:
+        context["days_coh"] = cash_equivalents // expense_per_day
+    else:
+        # Handle the case where expense_per_day is zero
+        context["days_coh"] = 0
 
     # current assets
     bs_totals_file = os.path.join(JSON_DIR, "balance-sheet", school, "totals_bs.json")
