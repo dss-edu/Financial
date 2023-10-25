@@ -16,14 +16,14 @@
 {% block body %}
 
     <div id="content-wrapper">
-        <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
+        <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
             <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-                <h5 class="text-center" style="color: white; padding-left:90px;">{{ school_name }}</h5>
+                <h5 class="text-center" style="color: black; padding-left:90px;">{{ school_name }}</h5>
             </div>
             <div class="d-flex align-items-center">
-                <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
+                <a class="navbar-brand mr-4 text-secondary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
                 
-                <a id="export-excel-button" class="navbar-brand mr-2 text-primary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
+                <a id="export-excel-button" class="navbar-brand mr-2 text-secondary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
             </div>
         </nav> <!-- End of nav -->
 

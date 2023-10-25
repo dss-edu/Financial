@@ -10659,8 +10659,9 @@
   
   .sidebar {
     width: 90px !important;
-    background-color: #212529;
+    background-color: white;
     min-height: calc(100vh - 56px);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
   }
   
   .sidebar .nav-item:last-child {
@@ -10696,7 +10697,7 @@
   }
   
   .sidebar .nav-item .nav-link {
-    color: rgba(255, 255, 255, 0.5);
+    color: black;
   }
   
   .sidebar .nav-item .nav-link:active, .sidebar .nav-item .nav-link:focus, .sidebar .nav-item .nav-link:hover {

@@ -50,9 +50,91 @@
             padding: .em 1em  !important;
 
         }
-       
-        
 
+
+        table thead th, table thead td {
+            padding: 5px 10px;
+            font-weight: bold;
+          }
+          table tbody td, table tbody th {
+            color: #fff;
+            position: relative;
+            padding: 10px 25px;
+          }
+          table tbody td:before, table tbody th:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 0;
+            right: 0;
+            bottom: 2px;
+            background: white;
+            z-index: -3;
+          }
+          table tbody.blue th:before, table tbody.blue td:before {
+            background: blue;
+          }
+          table tbody td {
+            color: black;
+          }
+
+          table tbody td:nth-child(-n+3) {
+            color: black;
+            vertical-align: middle;
+          }
+
+
+          table tbody th:before {
+            border-radius: 5px 0 0 5px;
+            left: 5px;
+            right: 5px;
+          }
+          
+          table tbody td:last-child:before,
+          .table th:last-child {
+            border-radius: 0 5px 5px 0;
+          }
+          table tbody td:first-child:before,
+          .table th:first-child{
+            border-radius: 5px 0 0 5px!important;
+          }
+          table tbody th:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            bottom: 0;
+            border-left: 1px solid red;
+          }
+          table tbody tr:first-child th:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            border-top: 1px solid red;
+          }
+          table tbody tr:last-child th:after {
+            bottom: 5px;
+          }
+          
+
+      
+          .table-hover>tbody>tr:hover>* {
+            --bs-table-accent-bg: var(--bs-table-hover-bg);
+            color: black;
+           
+        }
+
+
+        a{
+            color:black;
+        }
+        a:hover{
+            color:#007bff;
+        }
+       
     </style>
 {% endblock %}
 
@@ -194,31 +276,31 @@
 </script>
 
     <div id="content-wrapper">
-        <nav class="navbar navbar-expand navbar-dark bg-dark justify-content-end">
-            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-                <h5 class="text-center" style="color: white; padding-left:150px;">{{ school_name }}</h5>
+        <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center" >
+                <h5 class="text-center" style="color: black; padding-left:150px;" > {{ school_name }}</h5>
             </div>
             <div class="d-flex align-items-center">
-                <a class="navbar-brand mr-4 text-primary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
+                <a class="navbar-brand mr-4 text-secondary" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" style="margin-right:500px;"><i class="fas fa-chart-bar"></i></a>
                 
-                <a id="export-excel-button" class="navbar-brand mr-4 text-primary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
+                <a id="export-excel-button" class="navbar-brand mr-4 text-secondary" href="#" data-toggle="tooltip" title="Export to Excel"><i class="fas fa-file-excel"></i></a>
             </div>
             <div id="edit-container" class="mr-2">
-                <button id="edit-button" class="btn btn-sm btn-primary" type="button" style=" float: right; color: #212529;">Edit</button>
+                <button id="edit-button" class="btn btn-sm btn-secondary" type="button" style=" float: right; color: white;">Edit</button>
             </div>
 
             <div id="cancel-container" style="display: none;" class="mr-2">
-                <button id="cancel-button" class="btn btn-sm btn-primary" type="button" style=" float: right; margin-left: 10px; color: #212529;" >Cancel</button>
+                <button id="cancel-button" class="btn btn-sm btn-secondary" type="button" style=" float: right; margin-left: 10px; color: white;" >Cancel</button>
             </div>
 
 
 
         </nav>
   
-        <div class="table-container"  >
+        <div class="table-container" stlye="height:1330px!important; " >
             <form  id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
                 <div id="save-container" style="display: none; ">
-                    <button id="save-button" class="btn btn-sm btn-primary" style="float: right; margin-left: 10px; " type="submit" >Save</button>
+                    <button id="save-button" class="btn btn-sm btn-secondary" style="float: right; margin-left: 10px; margin-top:5px; margin-bottom:5px;  color: white;" type="submit" >Save</button>
                 </div>
                 <!-- {% if request.user|has_group:"admin" %} -->
    
@@ -270,13 +352,14 @@
                 <!-- {% endif %} -->
 
                 {% csrf_token %}
+                <div class="table-box">
                 <table id="data-table" class="table table-hover" width="100%" >
                     <thead >
                         <tr >
                             <th class="firstcolumn" ></th>
                             <th class="collapsed"></th>
 
-                            <th colspan="17" style="white-space: nowrap; text-align: center;" >
+                            <th colspan="18" style="white-space: nowrap; text-align: center;" >
                                 <h5 style="text-align: center;">FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of Activities<br></h5>
                                 <h5 style="text-align: center; display: inline; padding-left:30px;"> as of {{months.last_month}}</h5>
                                 <button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" style="float: right;">+</button>
@@ -377,27 +460,27 @@
                                     }
                                 }
                             </script>
-                            <tr class="header">
+                            <tr class="header" >
                                 <th class="firstcolumn" ></th>
                                 <th class="collapsed" ></th>
                                 <th ></th>
-                                <th style="text-align: center; "><div style="width: 100px;">Budget</div></th>
-                                <th style="text-align: center; "><div style="width: 100px;">{{months.format_ytd_budget}}% YTD <br>Budget</div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">September</div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">October  </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">November </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">December </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">January  </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">February </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">March    </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">April    </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">May      </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">June     </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">July     </div></th>
-                                <th class="collapsed" style="text-align: center;"><div style="width: 100px;">August   </div></th>
-                                <th style="text-align: center;"><div style="width: 100px;">Year-to-Date               </div></th>
-                                <th style="text-align: center;"><div style="width: 100px;">Variances                  </div></th>
-                                <th style="text-align: center;"><div style="width: 100px;">Var.({{months.format_ytd_budget}}%)</div></th>
+                                <th style="text-align: center; "><div style="width: 110px;">Budget</div></th>
+                                <th style="text-align: center; "><div style="width: 110px;">{{months.format_ytd_budget}}% YTD <br>Budget</div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">September</div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">October  </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">November </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">December </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">January  </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">February </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">March    </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">April    </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">May      </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">June     </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">July     </div></th>
+                                <th class="collapsed" style="text-align: center;"><div style="width: 110px;">August   </div></th>
+                                <th style="text-align: center;"><div style="width: 110px;">Year-to-Date               </div></th>
+                                <th style="text-align: center;"><div style="width: 110px;">Variances                  </div></th>
+                                <th style="text-align: center;"><div style="width: 110px;">Var.({{months.format_ytd_budget}}%)</div></th>
                             </tr>
 
 
@@ -2533,6 +2616,7 @@
 
                     </tbody>
                 </table>
+            </div>
             </form>
         </div>
 
