@@ -10,6 +10,10 @@ import pprint
 from collections import defaultdict
 from config import settings
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+
 pp = pprint.PrettyPrinter()
 # Get the current date
 current_date = datetime.now()
@@ -17,7 +21,9 @@ current_date = datetime.now()
 month_number = current_date.month
 curr_year = current_date.year
 
-JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
+media_root = settings.MEDIA_ROOT
+
+JSON_DIR = FileSystemStorage(location=media_root)
 SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
@@ -1577,20 +1583,27 @@ def profit_loss(school):
         #     context["func_choice"] = func_choice_sorted
 
         # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
+        
+
+
         if FY_year_1 == FY_year_current:
-            json_path = os.path.join(JSON_DIR,"profit-loss", school)
+            relative_path = os.path.join("profit-loss", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "profit-loss", school)
-            
-        if not os.path.exists(json_path):
-            os.makedirs(json_path)
+            relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
+
+
+        json_path = JSON_DIR.path(relative_path)
+
+       
+        os.makedirs(json_path, exist_ok=True)
 
         for key, val in context.items():
-            file = os.path.join(json_path, f"{key}.json")
-            with open(file, "w") as f:
-                json.dump(val, f)
-
-
+            file_path = os.path.join(json_path, f"{key}.json")
+            
+  
+            with open(file_path, "w") as file:
+                json.dump(val, file)
+            print(file_path)
 def balance_sheet(school):
     start_year = 2021
     current_date = datetime.today().date()   
@@ -1647,9 +1660,10 @@ def balance_sheet(school):
         #
         # data = []
         if FY_year_1 == FY_year_current:
-            json_path = os.path.join(JSON_DIR,"profit-loss", school)
+            relative_path = os.path.join("profit-loss", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "profit-loss", school)
+            relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
+        json_path = JSON_DIR.path(relative_path)
         with open(os.path.join(json_path, "data.json"), "r") as f:
             data = json.load(f)
         # for row in rows:
@@ -2506,10 +2520,12 @@ def balance_sheet(school):
     # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
 
         if FY_year_1 == FY_year_current:
-            json_path = os.path.join(JSON_DIR, "balance-sheet", school)
+            relative_path = os.path.join("balance-sheet", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "balance-sheet", school)
-            
+            relative_path = os.path.join(str(FY_year_1), "balance-sheet", school)
+
+        json_path = JSON_DIR.path(relative_path)  
+
         if not os.path.exists(json_path):
             os.makedirs(json_path)
 
@@ -2534,9 +2550,11 @@ def cashflow(school):
 
 
         if FY_year_1 == FY_year_current:
-            json_path = os.path.join(JSON_DIR,"profit-loss", school)
+            relative_path = os.path.join("profit-loss", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "profit-loss", school)
+            relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
+        json_path = JSON_DIR.path(relative_path)
+
         with open(os.path.join(json_path, "data.json"), "r") as f:
             data = json.load(f)
 
@@ -2575,9 +2593,11 @@ def cashflow(school):
 
 
         if FY_year_1 == FY_year_current:
-            json_path = os.path.join(JSON_DIR, "balance-sheet", school)
+            relative_path = os.path.join( "balance-sheet", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "balance-sheet", school)
+            relative_path = os.path.join(str(FY_year_1), "balance-sheet", school)
+        
+        json_path = JSON_DIR.path(relative_path)
         with open(os.path.join(json_path, "data_activitybs.json"), "r") as f:
             data_activitybs = json.load(f)
 
@@ -2823,9 +2843,11 @@ def cashflow(school):
         #     formatted_ytd_budget = formatted_ytd_budget[2:]
    
         if FY_year_1 == FY_year_current:
-            cashflow_path = os.path.join(JSON_DIR, 'cashflow', school)
+            relative_path = os.path.join('cashflow', school)
         else:
-            cashflow_path = os.path.join(JSON_DIR,str(FY_year_1), 'cashflow', school)
+            relative_path = os.path.join(str(FY_year_1), 'cashflow', school)
+        
+        cashflow_path = JSON_DIR.path(relative_path)
         if not os.path.exists(cashflow_path):
             os.makedirs(cashflow_path)
 
@@ -4347,9 +4369,10 @@ def excel(school):
         }
     
         if FY_year_1 == FY_year_current: 
-            json_path = os.path.join(JSON_DIR, "excel", school)
+            relative_path = os.path.join( "excel", school)
         else:
-            json_path = os.path.join(JSON_DIR,str(FY_year_1), "excel", school)
+            relative_path = os.path.join(str(FY_year_1), "excel", school)
+        json_path = JSON_DIR.path(relative_path)
         if not os.path.exists(json_path):
             os.makedirs(json_path)
 
@@ -4391,13 +4414,15 @@ def charter_first(school):
     context["month"] = int(month_number - 1)
 
 
-    totals_file = os.path.join(JSON_DIR, "profit-loss", school, "totals.json")
+    totals_file_path = os.path.join("profit-loss", school, "totals.json")
+    totals_file = JSON_DIR.path(totals_file_path)
     with open(totals_file, "r") as f:
         pl_totals = json.load(f)
     context["net_income_ytd"] = dollar_parser(pl_totals["ytd_netsurplus"])
 
     # get cash equivalents
-    bs_file = os.path.join(JSON_DIR, "balance-sheet", school, "data_balancesheet.json")
+    bs_file_path = os.path.join( "balance-sheet", school, "data_balancesheet.json")
+    bs_file = JSON_DIR.path(bs_file_path)
     with open(bs_file, "r") as f:
         balance_sheet = json.load(f)
 
@@ -4407,7 +4432,8 @@ def charter_first(school):
             cash_equivalents = dollar_parser(item["last_month_difference"])
             break
 
-    pl_activities_file = os.path.join(JSON_DIR, "profit-loss", school, "data_activities.json")
+    pl_activities_file_path = os.path.join( "profit-loss", school, "data_activities.json")
+    pl_activities_file = JSON_DIR.path(pl_activities_file_path)
     with open(pl_activities_file, "r") as f:
         pl_activities = json.load(f)
 
@@ -4416,7 +4442,8 @@ def charter_first(school):
     debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
 
     # get fy start
-    pl_months_file = os.path.join(JSON_DIR, "profit-loss", school, "months.json")
+    pl_months_file_path = os.path.join( "profit-loss", school, "months.json")
+    pl_months_file = JSON_DIR.path(pl_months_file_path)
     with open(pl_months_file, "r") as f:
         pl_months = json.load(f)
     date_string = pl_months["last_month"]
@@ -4448,7 +4475,8 @@ def charter_first(school):
         context["days_coh"] = 0
 
     # current assets
-    bs_totals_file = os.path.join(JSON_DIR, "balance-sheet", school, "totals_bs.json")
+    bs_totals_file_path = os.path.join("balance-sheet", school, "totals_bs.json")
+    bs_totals_file = JSON_DIR.path(bs_totals_file_path)
     with open(bs_totals_file, "r") as f:
         bs_totals = json.load(f)
     pl_lmn = pl_months["last_month_number"]
@@ -4564,7 +4592,8 @@ def profit_loss_chart(school):
         "data_chart": data_chart,
 
     }
-    json_path = os.path.join(JSON_DIR, "profit-loss-chart", school)
+    pl_json_path = os.path.join( "profit-loss-chart", school)
+    json_path = JSON_DIR.path(pl_json_path)
     if not os.path.exists(json_path):
         os.makedirs(json_path)
 
