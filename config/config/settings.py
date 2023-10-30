@@ -175,6 +175,7 @@ SCHOOLS = {
     "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
     "legacy": "LEGACY PREP CHARTER ACADEMY",
+    "cityscape": "CITYSCAPE",
 }
 
 db = {
@@ -256,14 +257,27 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
         "pl_chart":"[PLData]"
     },
+    "cityscape": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_CityScape]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland"],
-    "skyward": ["village-tech", "legacy"]
+    "skyward": ["village-tech", "legacy", "cityscape"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape"]
 }
