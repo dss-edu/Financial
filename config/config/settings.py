@@ -175,7 +175,7 @@ SCHOOLS = {
     "leadership": "LEADERSHIP PREP SCHOOL",
     "manara": "MANARA ACADEMY",
     "legacy": "LEGACY PREP CHARTER ACADEMY",
-    "cityscape": "CITYSCAPE",
+    "cityscape": "CITYSCAPE SCHOOLS",
 }
 
 db = {
