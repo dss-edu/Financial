@@ -395,6 +395,7 @@ def profit_loss(school):
             real_key = "Amount"
             appr_key = "Budget"
             encum_key = "Amount"
+
         
         acct_per_values = [
             "01",
@@ -1886,9 +1887,11 @@ def balance_sheet(school):
                     and entry[bal_key] is not None 
                     and not isinstance(entry[bal_key], str)
                 )
-
+             
 
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
+                if obj == '2140':
+                    print(item[f"total_bal{i}"])
                 item["fytd"] += item[f"total_bal{i}"]
             
         activity_sum_dict = {}
