@@ -985,7 +985,7 @@ a:hover{
 {% for row in data_activitybs %}
 {% if row.Activity == 'Def-Exp' %}
 
-<tr id="row10-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row16-{{ forloop.counter }}" class="balancesheet-activity-row">
 <td class="firstcolumn">
  
 </td>
@@ -1021,7 +1021,7 @@ a:hover{
       <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
         <td class="firstcolumn">
           
-          <button id="row10" class="expand-button"  type="button" onclick="toggleRow(16)" >+</button>
+          <button id="row16" class="expand-button"  type="button" onclick="toggleRow(16)" >+</button>
         </td>
         <td>
           <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1436,7 +1436,7 @@ a:hover{
       {% for row in data_activitybs %}
       {% if row.Activity == 'LOC' %}
       
-      <tr id="row13-{{ forloop.counter }}" class="liabilities-activity-row">
+      <tr id="row20-{{ forloop.counter }}" class="liabilities-activity-row">
         <td class="firstcolumn">
         
         </td>
@@ -1472,7 +1472,7 @@ a:hover{
             <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
               <td class="firstcolumn">
                
-                <button id="row13" class="expand-button"  type="button" onclick="toggleRow(20)">+</button>
+                <button id="row20" class="expand-button"  type="button" onclick="toggleRow(20)">+</button>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
