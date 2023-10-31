@@ -128,7 +128,7 @@ $(document).ready(function() {
             if (data[i])
             console.log(i)
             console.log(data[i].textContent.trim())
-            if (data[i].textContent.trim() !== ''){
+            if (data[i].textContent.trim() !== '' && data[i].textContent.trim() !== '(0)'){
               toDelete = false
               console.log(toDelete)
               break
