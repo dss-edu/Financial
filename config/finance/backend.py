@@ -1624,7 +1624,7 @@ def balance_sheet(school):
                 "Description": row[1],
                 "Category": row[2],
                 "Subcategory": row[3],
-                "FYE": fyeformat,
+                "FYE": row[4],
                 "BS_id": row[5],
                 "school": row[8],
         
