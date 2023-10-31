@@ -1610,7 +1610,34 @@ def balance_sheet(school):
     current_year = current_date.year
     FY_year_current = current_year
 
+    
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+    rows = cursor.fetchall()
+    bs_checker = []
 
+    for row in rows:
+        if row[8] == school:
+            row_dict = {
+                "Activity": row[0],
+                "Description": row[1],
+                "Category": row[2],
+                "Subcategory": row[3],
+                "FYE": fyeformat,
+                "BS_id": row[5],
+                "school": row[8],
+        
+            }
+            bs_checker.append(row_dict)
+        
+    
+    if bs_checker == []:
+        for i in range(1, 18):
+            fye = '0'
+            query = "INSERT INTO [dbo].[Balancesheet_FYE] (BS_id, FYE, school) VALUES (?, ?, ?)"
+            cursor.execute(query, (i, fye, school)) 
+            cnxn.commit()
 
 
     while start_year <= FY_year_current:
@@ -1620,7 +1647,7 @@ def balance_sheet(school):
 
         cnxn = connect()
         cursor = cnxn.cursor()
-
+        
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
         rows = cursor.fetchall()
 
