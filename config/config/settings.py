@@ -272,6 +272,19 @@ db = {
         "bs_fye":"[Balancesheet_FYE]",
         "pl_chart":"[PLData]"
     },
+    "ptaa": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_PTAA]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[Balancesheet_FYE]",
+        "pl_chart":"[PLData]"
+    },
     "aca": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
@@ -289,10 +302,10 @@ db = {
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland", "aca"],
-    "skyward": ["village-tech", "legacy", "cityscape"]
+    "skyward": ["village-tech", "legacy", "cityscape", "ptaa"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "aca"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca"]
 }
