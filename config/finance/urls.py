@@ -43,9 +43,14 @@ urlpatterns = [
         "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>", views.viewgl, name="viewgl"
     ),
     path(
-        "viewglfunc/<str:func>/<str:yr>/<str:school>",
+        "viewglfunc/<str:func>/<str:yr>/<str:school>/<str:year>",
         views.viewglfunc,
         name="viewglfunc",
+    ),
+    path(
+        "viewgldna/<str:func>/<str:yr>/<str:school>/<str:year>",
+        views.viewgldna,
+        name="viewgldna",
     ),
     path(
         "viewgl_activitybs/<str:obj>/<str:yr>/",

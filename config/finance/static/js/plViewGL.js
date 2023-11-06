@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mdfooter.innerHTML = "";
   
       
-       
+  
         data.gl_data.forEach(function (row) {
           var newRow = document.createElement("tr");
           newRow.innerHTML = `
@@ -107,8 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
   
     // FIRST TOTAL
-    function fetchDataAndPopulateModal2(func, yr,school) {
-      fetch(`/viewglfunc/${func}/${yr}/${school}`)
+    function fetchDataAndPopulateModal2(func, yr,school,year) {
+      fetch(`/viewglfunc/${func}/${yr}/${school}/${year}`)
         .then(function (response) {
           
           return response.json();
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var func = link.dataset.func;
     
         var yr = link.dataset.yr;
-        fetchDataAndPopulateModal2(func, yr,school);
+        fetchDataAndPopulateModal2(func, yr,school,year);
       });
     });
   
@@ -178,6 +178,42 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
     
+
+    //FOR DnA
+   
+     function fetchDataAndPopulateModal4(func, yr,school,year) {
+      fetch(`/viewgldna/${func}/${yr}/${school}/${year}`)
+        .then(function (response) {
+          
+          return response.json();
+        })
+        .then(function (data) {
+         
+          if (data.status === "success") {
+            
+            populateModal(data.data,data.total_bal);
+           
+            modal.style.display = "block";
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+        });
+    }
+  
+    var viewGLLinks4 = document.querySelectorAll(".viewgldna-link");
+    viewGLLinks4.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
+        event.preventDefault();
+        var func = link.dataset.func;
+    
+        var yr = link.dataset.yr;
+        fetchDataAndPopulateModal4(func, yr,school,year);
+      });
+    });
   
     // Close the modal when the close button is clicked
     var closeButton = modal.querySelector(".modal-footer button");
