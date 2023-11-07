@@ -191,7 +191,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "cumberland": {
@@ -204,7 +204,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "village-tech": {
@@ -217,7 +217,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "leadership": {
@@ -230,7 +230,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "manara": {
@@ -243,7 +243,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"        
     },
     "legacy": {
@@ -256,7 +256,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "cityscape": {
@@ -269,7 +269,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "ptaa": {
@@ -282,7 +282,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
     "aca": {
@@ -295,7 +295,7 @@ db = {
         "bs_activity": "[ActivityBS]",
         "cashflow": "[AscenderData_Advantage_Cashflow]",
         "adjustment": "[Adjustment]",
-        "bs_fye":"[Balancesheet_FYE]",
+        "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"        
     },
 }
