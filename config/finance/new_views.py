@@ -141,6 +141,8 @@ def dashboard(request, school, anchor_year=""):
     context["anchor_year"] = anchor_year
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/dashboard.html", context)
 
 
@@ -209,6 +211,8 @@ def charter_first(request, school, anchor_year=""):
     # }
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/charter-first.html", context)
 
 
@@ -228,6 +232,8 @@ def profit_loss(request, school, anchor_year=""):
     context = modules.profit_loss(school, anchor_year)
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss.html", context)
 
 
@@ -261,6 +267,8 @@ def profit_loss_charts(request, school, anchor_year=""):
 
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
 
@@ -270,6 +278,8 @@ def balance_sheet(request, school, anchor_year=""):
     context = modules.balance_sheet(school, anchor_year)
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -302,6 +312,8 @@ def balance_sheet_charts(request, school, anchor_year=""):
     context["first_context"] = first_context
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -310,6 +322,8 @@ def cashflow(request, school, anchor_year=""):
     context = modules.cashflow(school, anchor_year)
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/cashflow.html", context)
 
 
@@ -342,6 +356,8 @@ def cashflow_charts(request, school, anchor_year=""):
     context["first_context"] = first_context
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -350,6 +366,8 @@ def general_ledger(request, school):
     context = modules.general_ledger(school)
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     if school == "village-tech":
         return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
@@ -361,10 +379,13 @@ def manual_adjustments(request, school):
     context = modules.manual_adjustments(school)
     role = request.session.get('user_role')
     context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/manual-adjustments.html", context)
 
 
-
+@custom_login_required
+@permission_required
 def add_adjustments(request):
     if request.method == "POST":
         school = request.POST.get("school")

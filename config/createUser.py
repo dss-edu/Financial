@@ -21,9 +21,9 @@ def connect():
 
 
 def createUser():
-    username = 'manara'
-    password = 'Manara123!@#'
-    role = 'manara'
+    username = 'cumberland'
+    password = 'cumb3rland'
+    role = 'cumberland'
     
     hashed_password = make_password(password)
     
@@ -31,5 +31,6 @@ def createUser():
     cursor = cnxn.cursor()
     cursor.execute("INSERT INTO [dbo].[User] (Username, Password, Role) VALUES (?, ?, ?)", (username, hashed_password, role))
     cnxn.commit()
+    print(username)
 if __name__ == "__main__":
     createUser()

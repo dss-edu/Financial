@@ -37,6 +37,7 @@ from . import modules
 from .decorators import permission_required,custom_login_required
 from config import settings
 from django.contrib.auth.hashers import make_password,check_password
+from django.contrib import messages
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
@@ -76,12 +77,13 @@ def loginView(request):
                 if user_row[2] == 'admin':
                     role = user_row[2]
                     request.session['user_role'] = role
-                    
+                    request.session['username'] = user_row[0]
                     
                     return redirect('/dashboard/advantage')
                 else:
                     role = user_row[2]
                     request.session['user_role'] = role
+                    request.session['username'] = user_row[0]
                    
                     return redirect(f'/dashboard/{role}')
 
@@ -94,6 +96,32 @@ def logoutView(request):
     logout(request)
     return redirect('login')
 
+def change_password(request,school):
+    print(request)
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        username = request.POST.get('username')
+      
+        if password1 == password2:
+      
+            hashed_password = make_password(password2)
+            cnxn = connect()
+            cursor = cnxn.cursor()
+            query = ("UPDATE [dbo].[User] SET Password = ? WHERE Username = ? ")
+            cursor.execute(query,(hashed_password,username))
+            cnxn.commit()
+            messages.success(request, 'Password has been changed successfully.')
+            return redirect(f'/dashboard/{school}')
+
+        else:
+            messages.error(request, 'Passwords do not match.')
+
+
+    return redirect(f'/dashboard/{school}')
+
+
+    
 def update_row(request,school):
     if request.method == 'POST':
         print(request)

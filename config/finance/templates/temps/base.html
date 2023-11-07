@@ -172,6 +172,15 @@
                                 </a>
                                 <div class="dropdown-divider"></div>
                             {% endif %}
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changePasswordModal">
+         
+                       
+                                    <button type="submit" name="changePassword">Change Password</button>
+                     
+                            </a>
+                            <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
                         </div>
                     </li>
@@ -210,6 +219,90 @@
 
 
 <!-- /#wrapper -->
+
+<!-- modal for changing password -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <form method="POST" action="{% url 'change_password' school %}">
+                {% csrf_token %}
+                <input type="password" class="form-control" placeholder="" name="username" hidden value="{{username}}"> 
+                New Password
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                   
+                    <input type="password" class="form-control" placeholder="" name="password1" required>
+                </div>
+                Confirm New Password
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+             
+                    <input type="password" class="form-control" placeholder="" name="password2" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+               
+                </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal for changing password -->
+
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="messageContent">
+                    <!-- Messages will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block scripts %}
+<script>
+    var messages = [
+        {% if messages %}
+        {% for message in messages %}
+            "{{ message|escapejs }}",
+        {% endfor %}
+        {% endif %}
+    ];
+
+    $(document).ready(function() {
+        // Trigger the modal when you have messages to display
+        if (messages.length > 0) {
+            $('#messageModal').modal('show');
+        }
+
+        // Populate the modal content with the messages
+        var messageContent = $('#messageContent');
+        messages.forEach(function(message) {
+            messageContent.append('<p>' + message + '</p>');
+        });
+    });
+</script>
+{% endblock %}
 
 <!-- Scroll to Top Button-->
         <a class="scroll-to-top rounded" href="#page-top">
