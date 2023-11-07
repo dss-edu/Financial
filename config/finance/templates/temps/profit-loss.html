@@ -171,13 +171,32 @@
 
 
 <div class="modal" id="myModal">
-    <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+    <div class="modal-dialog modal-dialog-centered" style="width: 95%; height: 80%; max-width: none; max-height: none;">
         <div class="modal-content" style="height: 80%;">
             <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
 
                 <table class="table table-hover" id="balancesheet-data-table1">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
+                            <th>fund</th>
+                            <th>func</th>
+                            <th>obj</th>
+                            <th>org</th>
+                            <th>fscl_yr</th>
+                            <th>pgm</th>
+                            <th>projDtl</th>
+                            <th>AcctDescr</th>
+                            <th>Number</th>
+                            <th>Date</th>
+                            <th>AcctPer</th>
+                            <th>Real</th>
+                            <th>Expend</th>
+                            <th>Bal</th>
+                            <th>WorkDescr</th>
+                            <th>Type</th>
+                        </tr>
+
+                        <!-- <tr>
                             <th><div style="width: 50px; text-align: center;">fund</div></th>
                             <th><div style="width: 50px; text-align: center;">func</div></th>
                             <th><div style="width: 50px; text-align: center;">obj</div></th>
@@ -195,7 +214,7 @@
                             <th><div style="width: 100px; text-align: center;">WorkDescr</div></th>
                             <th><div style="width: 100px; text-align: center;">Type</div></th>
 
-                        </tr>
+                        </tr> -->
                     </thead>
                     <tbody id="modal-table-body">
 
@@ -236,10 +255,14 @@
             margin: 2,
             filename: 'exported_table.pdf',
             image: { type: 'png', quality: 0.98 },
-            html2canvas: {  scale: 1,
-                scrollX: 0,
-                scrollY: 0,},
+            html2canvas: { 
+                scale: 1,
+                // scrollX: 0,
+                // scrollY: 0,
+            },
             jsPDF: { unit: 'mm', format: [600,600], orientation: 'portrait' },
+            // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+            pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
 
