@@ -1614,31 +1614,7 @@ def balance_sheet(school):
     
     cnxn = connect()
     cursor = cnxn.cursor()
-    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
-    rows = cursor.fetchall()
-    bs_checker = []
 
-    for row in rows:
-        if row[8] == school:
-            row_dict = {
-                "Activity": row[0],
-                "Description": row[1],
-                "Category": row[2],
-                "Subcategory": row[3],
-                "FYE": row[4],
-                "BS_id": row[5],
-                "school": row[8],
-        
-            }
-            bs_checker.append(row_dict)
-        
-    
-    if bs_checker == []:
-        for i in range(1, 18):
-            fye = '0'
-            query = "INSERT INTO [dbo].[Balancesheet_FYE] (BS_id, FYE, school) VALUES (?, ?, ?)"
-            cursor.execute(query, (i, fye, school)) 
-            cnxn.commit()
 
 
     while start_year <= FY_year_current:
@@ -1648,6 +1624,33 @@ def balance_sheet(school):
 
         cnxn = connect()
         cursor = cnxn.cursor()
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+        rows = cursor.fetchall()
+        bs_checker = []
+
+        for row in rows:
+            if row[8] == school:
+                if FY_year_1 == row[9]:
+                    row_dict = {
+                        "Activity": row[0],
+                        "Description": row[1],
+                        "Category": row[2],
+                        "Subcategory": row[3],
+                        "FYE": row[4],
+                        "BS_id": row[5],
+                        "school": row[8],
+                
+                    }
+                    bs_checker.append(row_dict)
+            
+        
+        if bs_checker == []:
+            for i in range(1, 21):
+                fye = '0'
+                query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
+                cursor.execute(query, (i, fye, school,FY_year_1)) 
+                cnxn.commit()
+                print(FY_year_1)
         
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
         rows = cursor.fetchall()
@@ -1668,20 +1671,20 @@ def balance_sheet(school):
                         fyeformat = (
                             "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
                         )
+                if FY_year_1 == row[9]:
+                    row_dict = {
+                        "Activity": row[0],
+                        "Description": row[1],
+                        "Category": row[2],
+                        "Subcategory": row[3],
+                        "FYE": fyeformat,
+                        "BS_id": row[5],
+                        "school": row[8],
+                
 
-                row_dict = {
-                    "Activity": row[0],
-                    "Description": row[1],
-                    "Category": row[2],
-                    "Subcategory": row[3],
-                    "FYE": fyeformat,
-                    "BS_id": row[5],
-                    "school": row[8],
-            
+                    }
 
-                }
-
-                data_balancesheet.append(row_dict)
+                    data_balancesheet.append(row_dict)
 
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
@@ -1890,8 +1893,7 @@ def balance_sheet(school):
              
 
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
-                if obj == '2140':
-                    print(item[f"total_bal{i}"])
+
                 item["fytd"] += item[f"total_bal{i}"]
             
         activity_sum_dict = {}
@@ -4216,9 +4218,7 @@ def excel(school):
         data_charterfirst = []
 
         for row in rows:
-            print(school)
-            print(last_month_number)
-            print(FY_year_1)
+
             if row[0] == school and row[2]== (last_month_number - 1 ) and row[1] == FY_year_1:
                 
                 row_dict = {

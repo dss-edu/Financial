@@ -18,7 +18,7 @@ urlpatterns = [
     path("updatedb/", views.updatedb, name="updatedb"),
     path("updateschool/<str:school>", views.updateschool, name="updateschool"),
     path("insert_row/", views.insert_row, name="insert-row"),
-    path("update_row/<str:school>", views.update_row, name="update_row"),
+    path("update_row/<str:school>/<int:year>", views.update_row, name="update_row"),
     path("delete/<str:fund>/<str:obj>/", views.delete, name="delete"),
     path("insert_bs_advantage/", views.insert_bs_advantage, name="insert_bs_advantage"),
     path(

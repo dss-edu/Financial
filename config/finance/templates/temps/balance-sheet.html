@@ -201,7 +201,7 @@ a:hover{
 
   <div class="table-container" >
 <div id="json-response"></div>
-<form  id="insert-row-form" action="{% url 'update_row' school %}" method="POST">
+<form  id="insert-row-form" action="{% url 'update_row' school FY_year_1 %}" method="POST">
     {% if request.user|has_group:"admin" %}
 
 

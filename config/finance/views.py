@@ -1146,7 +1146,7 @@ def logoutView(request):
 
 
 
-def update_row(request,school):
+def update_row(request,school,year):
     if request.method == 'POST':
         print(request)
         
@@ -1188,9 +1188,10 @@ def update_row(request,school):
           
 
                 try:
-                    query = "UPDATE [dbo].[Balancesheet_FYE] SET FYE = ? WHERE BS_id = ? and school = ? "
-                    cursor.execute(query, (updatefye, updateid,school))
+                    query = "UPDATE [dbo].[BS_FYE] SET FYE = ? WHERE BS_id = ? and school = ? and year = ?"
+                    cursor.execute(query, (updatefye, updateid,school,year))
                     cnxn.commit()
+                    print("success")
                    
                 except Exception as e:
                     print(f"Error updating bs_id={updateid}: {str(e)}")
