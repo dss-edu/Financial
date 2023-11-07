@@ -71,27 +71,41 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // REVENUE TOTAL
-
-  function fetchDataAndPopulateModal(fund, obj, yr, school) {
-    fetch(`/viewgl/${fund}/${obj}/${yr}/${school}`)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data.status === "success") {
-          $("#spinner-modal").modal("hide");
-          populateModal(data.data, data.total_bal);
-
-          modal.style.display = "block";
-        } else {
-          console.error(data.message);
-        }
-      })
-      .catch(function (error) {
-        console.error("Error fetching data:", error);
+   
+    // FIRST TOTAL
+    function fetchDataAndPopulateModal2(func, yr,school,year) {
+      fetch(`/viewglfunc/${func}/${yr}/${school}/${year}`)
+        .then(function (response) {
+          
+          return response.json();
+        })
+        .then(function (data) {
+         
+          if (data.status === "success") {
+            
+            populateModal(data.data,data.total_bal);
+           
+            modal.style.display = "block";
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+        });
+    }
+  
+    var viewGLLinks2 = document.querySelectorAll(".viewglfunc-link");
+    viewGLLinks2.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
+        event.preventDefault();
+        var func = link.dataset.func;
+    
+        var yr = link.dataset.yr;
+        fetchDataAndPopulateModal2(func, yr,school,year);
       });
-  }
+  });
 
   // Add click event listeners to all "a" elements inside the table
   var viewGLLinks = document.querySelectorAll(".viewgl-link");
@@ -170,8 +184,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var yr = link.dataset.yr;
       fetchDataAndPopulateModal3(obj, yr, school);
-    });
+      });
   });
+    
+    //FOR DnA
+   
+     function fetchDataAndPopulateModal4(func, yr,school,year) {
+      fetch(`/viewgldna/${func}/${yr}/${school}/${year}`)
+        .then(function (response) {
+          
+          return response.json();
+        })
+        .then(function (data) {
+         
+          if (data.status === "success") {
+            
+            populateModal(data.data,data.total_bal);
+           
+            modal.style.display = "block";
+          } else {
+            console.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
+        });
+    }
+  
+    var viewGLLinks4 = document.querySelectorAll(".viewgldna-link");
+    viewGLLinks4.forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        $('#spinner-modal').modal('show');
+        event.preventDefault();
+        var func = link.dataset.func;
+    
+        var yr = link.dataset.yr;
+        fetchDataAndPopulateModal4(func, yr,school,year);
+      });
+    });
+  
 
   // Close the modal when the close button is clicked
   var closeButton = modal.querySelector(".modal-footer button");
