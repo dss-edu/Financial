@@ -176,194 +176,163 @@ def update_row(request,school):
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}) 
     
 
-def insert_row(request):
-    if request.method == 'POST':
-        print(request.POST)
-        try:
-            #<<<------------------ LR INSERT FUNCTION ---------------------->>>
-            funds = request.POST.getlist('fund[]')
-            objs = request.POST.getlist('obj[]')
-            descriptions = request.POST.getlist('Description[]')
-            budgets = request.POST.getlist('budget[]')
+# def insert_row(request):
+#     if request.method == 'POST':
+#         print(request.POST)
+#         try:
+#             #<<<------------------ LR INSERT FUNCTION ---------------------->>>
+#             funds = request.POST.getlist('fund[]')
+#             objs = request.POST.getlist('obj[]')
+#             descriptions = request.POST.getlist('Description[]')
+#             budgets = request.POST.getlist('budget[]')
 
-            data_list_LR = []
-            for fund, obj, description, budget in zip(funds, objs, descriptions, budgets):
-                if fund.strip() and obj.strip() and budget.strip():
-                    data_list_LR.append({
-                        'fund': fund,
-                        'obj': obj,
-                        'description': description,
-                        'budget': budget,
-                        'category': 'Local Revenue',
-                    })
-
-          
-            cnxn = connect()
-            cursor = cnxn.cursor()
+#             data_list_LR = []
+#             for fund, obj, description, budget in zip(funds, objs, descriptions, budgets):
+#                 if fund.strip() and obj.strip() and budget.strip():
+#                     data_list_LR.append({
+#                         'fund': fund,
+#                         'obj': obj,
+#                         'description': description,
+#                         'budget': budget,
+#                         'category': 'Local Revenue',
+#                     })
 
           
-            for data in data_list_LR:
-                fund = data['fund']
-                obj = data['obj']
-                description = data['description']
-                budget = data['budget']
-                category = data['category']
+#             cnxn = connect()
+#             cursor = cnxn.cursor()
 
-                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
-                cursor.execute(query, (budget, fund, obj, description, category))
-                cnxn.commit()
+          
+#             for data in data_list_LR:
+#                 fund = data['fund']
+#                 obj = data['obj']
+#                 description = data['description']
+#                 budget = data['budget']
+#                 category = data['category']
+
+#                 query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+#                 cursor.execute(query, (budget, fund, obj, description, category))
+#                 cnxn.commit()
 
             
 
 
 
-            #<--------------UPDATE FOR LOCAL REVENUE,SPR,FPR----------
-            updatefunds = request.POST.getlist('updatefund[]')  
-            updatevalues = request.POST.getlist('updatevalue[]')
-            updateobjs = request.POST.getlist('updateobj[]')
+#             #<--------------UPDATE FOR LOCAL REVENUE,SPR,FPR----------
+#             updatefunds = request.POST.getlist('updatefund[]')  
+#             updatevalues = request.POST.getlist('updatevalue[]')
+#             updateobjs = request.POST.getlist('updateobj[]')
             
             
 
-            updatedata_list = []
+#             updatedata_list = []
 
-            for updatefund,updatevalue,updateobj in zip(updatefunds, updatevalues,updateobjs):
-                if updatefund.strip() and updatevalue.strip() :
-                    updatedata_list.append({
-                        'updatefund': updatefund,
-                        'updateobj':updateobj,
+#             for updatefund,updatevalue,updateobj in zip(updatefunds, updatevalues,updateobjs):
+#                 if updatefund.strip() and updatevalue.strip() :
+#                     updatedata_list.append({
+#                         'updatefund': updatefund,
+#                         'updateobj':updateobj,
                         
-                        'updatevalue': updatevalue,
+#                         'updatevalue': updatevalue,
                         
-                    })
-            for data in updatedata_list:
-                updatefund= data['updatefund']
-                updateobj=data['updateobj']
+#                     })
+#             for data in updatedata_list:
+#                 updatefund= data['updatefund']
+#                 updateobj=data['updateobj']
                 
-                updatevalue = data['updatevalue']
+#                 updatevalue = data['updatevalue']
 
-                try:
-                    query = "UPDATE [dbo].[AscenderData_Advantage_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
-                    cursor.execute(query, (updatevalue, updatefund,updateobj))
-                    cnxn.commit()
-                    print(f"Rows affected for fund={updatefund}: {cursor.rowcount}")
-                except Exception as e:
-                    print(f"Error updating fund={updatefund}: {str(e)}")
+#                 try:
+#                     query = "UPDATE [dbo].[AscenderData_Advantage_Definition_obj] SET budget = ? WHERE fund = ? and obj = ? "
+#                     cursor.execute(query, (updatevalue, updatefund,updateobj))
+#                     cnxn.commit()
+#                     print(f"Rows affected for fund={updatefund}: {cursor.rowcount}")
+#                 except Exception as e:
+#                     print(f"Error updating fund={updatefund}: {str(e)}")
 
 
-            #<---------------------------------- INSERT FOR SPR ---->>>
-            fundsSPR = request.POST.getlist('fundSPR[]')
-            objsSPR = request.POST.getlist('objSPR[]')
-            descriptionsSPR = request.POST.getlist('DescriptionSPR[]')
-            budgetsSPR = request.POST.getlist('budgetSPR[]')
+#             #<---------------------------------- INSERT FOR SPR ---->>>
+#             fundsSPR = request.POST.getlist('fundSPR[]')
+#             objsSPR = request.POST.getlist('objSPR[]')
+#             descriptionsSPR = request.POST.getlist('DescriptionSPR[]')
+#             budgetsSPR = request.POST.getlist('budgetSPR[]')
 
-            data_list_SPR = []
-            for fund, obj, description, budget in zip(fundsSPR, objsSPR, descriptionsSPR, budgetsSPR):
-                if fund.strip() and obj.strip() and budget.strip():
-                    data_list_SPR.append({
-                        'fund': fund,
-                        'obj': obj,
-                        'description': description,
-                        'budget': budget,
-                        'category': 'State Program Revenue',
-                    })
+#             data_list_SPR = []
+#             for fund, obj, description, budget in zip(fundsSPR, objsSPR, descriptionsSPR, budgetsSPR):
+#                 if fund.strip() and obj.strip() and budget.strip():
+#                     data_list_SPR.append({
+#                         'fund': fund,
+#                         'obj': obj,
+#                         'description': description,
+#                         'budget': budget,
+#                         'category': 'State Program Revenue',
+#                     })
           
-            for data in data_list_SPR:
-                fund = data['fund']
-                obj = data['obj']
-                description = data['description']
-                budget = data['budget']
-                category = data['category']
+#             for data in data_list_SPR:
+#                 fund = data['fund']
+#                 obj = data['obj']
+#                 description = data['description']
+#                 budget = data['budget']
+#                 category = data['category']
 
-                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
-                cursor.execute(query, (budget, fund, obj, description, category))
-                cnxn.commit()
-
-            # #<--------------UPDATE FOR STATE PROGRAM REVENUE ----------
-            # updatefundsSPR = request.POST.getlist('updatefundSPR[]')  
-            # updatevaluesSPR = request.POST.getlist('updatevalueSPR[]')
-            # updateobjsSPR = request.POST.getlist('updateobjSPR[]')
-            
+#                 query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+#                 cursor.execute(query, (budget, fund, obj, description, category))
+#                 cnxn.commit()
 
 
-            # updatedata_list_SPR = []
-
-            # for updatefund,updatevalue,updateobj in zip(updatefundsSPR, updatevaluesSPR,updateobjsSPR):
-            #     if updatefund.strip() and updatevalue.strip() and updatevalue.strip() != " ":
-            #         updatedata_list_SPR.append({
-            #             'updatefund': updatefund,
-            #             'updateobj':updateobj,
-                        
-            #             'updatevalue': updatevalue,
-                        
-            #         })
-            # for data in updatedata_list_SPR:
-            #     updatefund= data['updatefund']
-            #     updateobj=data['updateobj']
-                
-            #     updatevalue = data['updatevalue']
 
 def update_row(request,school,year):
     if request.method == 'POST':
         print(request)
         
-        try:
-            cnxn = connect()
-            cursor = cnxn.cursor()
-            updatefyes = request.POST.getlist('updatefye[]')  
-            updateids = request.POST.getlist('updateID[]') 
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        updatefyes = request.POST.getlist('updatefye[]')  
+        updateids = request.POST.getlist('updateID[]') 
+        
+        
          
-            
-             
-            
-            
-
-            
-            
-
-            updatedata_list = []
-
-            
-            for updatefye,updateid in zip(updatefyes, updateids):
-                if updatefye.strip() and updateid.strip() :
-                    updatefye = float(updatefye.replace("$", "").replace(",", "").replace("(", "-").replace(")", ""))
-                    updatedata_list.append({
-                       
-                        'updatefye': updatefye,
-                        'updateid':updateid,
-                        
-                        
-                      
-                        
-                    })
-            for data in updatedata_list:
-                
-                updatefye= data['updatefye']
-                updateid=data['updateid']
-               
-                
-          
-
-                try:
-                    query = "UPDATE [dbo].[BS_FYE] SET FYE = ? WHERE BS_id = ? and school = ? and year = ?"
-                    cursor.execute(query, (updatefye, updateid,school,year))
-                    cnxn.commit()
-                    print("success")
+        
+        
+        
+        
+        updatedata_list = []
+        
+        for updatefye,updateid in zip(updatefyes, updateids):
+            if updatefye.strip() and updateid.strip() :
+                updatefye = float(updatefye.replace("$", "").replace(",", "").replace("(", "-").replace(")", ""))
+                updatedata_list.append({
                    
-                except Exception as e:
-                    print(f"Error updating bs_id={updateid}: {str(e)}")
+                    'updatefye': updatefye,
+                    'updateid':updateid,
+                    
+                    
+                  
+                    
+                })
+        for data in updatedata_list:
             
+            updatefye= data['updatefye']
+            updateid=data['updateid']
+           
             
-            cursor.close()
-            cnxn.close()
-            anchor_year = ""
-            context = modules.balance_sheet(school,anchor_year)
-            return render(request, "temps/balance-sheet.html", context)
+        
+            try:
+                query = "UPDATE [dbo].[BS_FYE] SET FYE = ? WHERE BS_id = ? and school = ? and year = ?"
+                cursor.execute(query, (updatefye, updateid, school, year))
+                cnxn.commit()
+            except Exception as e:
+                print(f"Error updating bs_id={updateid}: {str(e)}")
+        
+        
+        cursor.close()
+        cnxn.close()
+        anchor_year = ""
+        context = modules.balance_sheet(school,anchor_year)
+        return render(request, "temps/balance-sheet.html", context)
 
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}) 
-    
 
 def insert_row(request):
     if request.method == 'POST':
@@ -736,176 +705,176 @@ def viewgl(request,fund,obj,yr,school):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewgl_cumberland(request,fund,obj,yr):
+# def viewgl_cumberland(request,fund,obj,yr):
     
-    try:
+#     try:
         
-        cnxn = connect()
-        cursor = cnxn.cursor()
+#         cnxn = connect()
+#         cursor = cnxn.cursor()
 
 
         
         
-        query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE fund = ? and obj = ? and AcctPer = ?"
-        cursor.execute(query, (fund,obj,yr))
+#         query = "SELECT * FROM [dbo].[AscenderData_Cumberland] WHERE fund = ? and obj = ? and AcctPer = ?"
+#         cursor.execute(query, (fund,obj,yr))
         
-        rows = cursor.fetchall()
+#         rows = cursor.fetchall()
     
-        gl_data=[]
+#         gl_data=[]
     
     
-        for row in rows:
-            date_str=row[11]
+#         for row in rows:
+#             date_str=row[11]
 
           
 
-            # real = float(row[14]) if row[14] else 0
-            # if real == 0:
-            #     realformat = ""
-            # else:
-            #     realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
+#             # real = float(row[14]) if row[14] else 0
+#             # if real == 0:
+#             #     realformat = ""
+#             # else:
+#             #     realformat = "{:,.0f}".format(abs(real)) if real >= 0 else "({:,.0f})".format(abs(real))
 
             
-            row_dict = {
-                'fund':row[0],
-                'func':row[1],
-                'obj':row[2],
-                'sobj':row[3],
-                'org':row[4],
-                'fscl_yr':row[5],
-                'pgm':row[6],
-                'edSpan':row[7],
-                'projDtl':row[8],
-                'AcctDescr':row[9],
-                'Number':row[10],
-                'Date':date_str,
-                'AcctPer':row[12],
-                'Est':row[13],
-                'Real':row[14],
-                'Appr':row[15],
-                'Encum':row[16],
-                'Expend':row[17],
-                'Bal':row[18],
-                'WorkDescr':row[19],
-                'Type':row[20],
-                'Contr':row[21]
-            }
+#             row_dict = {
+#                 'fund':row[0],
+#                 'func':row[1],
+#                 'obj':row[2],
+#                 'sobj':row[3],
+#                 'org':row[4],
+#                 'fscl_yr':row[5],
+#                 'pgm':row[6],
+#                 'edSpan':row[7],
+#                 'projDtl':row[8],
+#                 'AcctDescr':row[9],
+#                 'Number':row[10],
+#                 'Date':date_str,
+#                 'AcctPer':row[12],
+#                 'Est':row[13],
+#                 'Real':row[14],
+#                 'Appr':row[15],
+#                 'Encum':row[16],
+#                 'Expend':row[17],
+#                 'Bal':row[18],
+#                 'WorkDescr':row[19],
+#                 'Type':row[20],
+#                 'Contr':row[21]
+#             }
 
-            gl_data.append(row_dict)
+#             gl_data.append(row_dict)
         
-        total_bal = sum(float(row['Real']) for row in gl_data)
-        total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
+#         total_bal = sum(float(row['Real']) for row in gl_data)
+#         total_bal = "{:,.0f}".format(abs(total_bal)) if total_bal >= 0 else "({:,.0f})".format(abs(total_bal))
         
         
-        context = { 
-            'gl_data':gl_data,
-            'total_bal':total_bal
-        }
+#         context = { 
+#             'gl_data':gl_data,
+#             'total_bal':total_bal
+#         }
 
         
-        cursor.close()
-        cnxn.close()
+#         cursor.close()
+#         cnxn.close()
 
-        return JsonResponse({'status': 'success', 'data': context})
+#         return JsonResponse({'status': 'success', 'data': context})
 
-    except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)})
+#     except Exception as e:
+#         return JsonResponse({'status': 'error', 'message': str(e)})
 
-            data_list_FPR = []
-            for fund, obj, description, budget in zip(fundsFPR, objsFPR, descriptionsFPR, budgetsFPR):
-                if fund.strip() and obj.strip() and budget.strip():
-                    data_list_FPR.append({
-                        'fund': fund,
-                        'obj': obj,
-                        'description': description,
-                        'budget': budget,
-                        'category': 'Federal Program Revenue',
-                    })
+#             data_list_FPR = []
+#             for fund, obj, description, budget in zip(fundsFPR, objsFPR, descriptionsFPR, budgetsFPR):
+#                 if fund.strip() and obj.strip() and budget.strip():
+#                     data_list_FPR.append({
+#                         'fund': fund,
+#                         'obj': obj,
+#                         'description': description,
+#                         'budget': budget,
+#                         'category': 'Federal Program Revenue',
+#                     })
           
-            for data in data_list_FPR:
-                fund = data['fund']
-                obj = data['obj']
-                description = data['description']
-                budget = data['budget']
-                category = data['category']
+#             for data in data_list_FPR:
+#                 fund = data['fund']
+#                 obj = data['obj']
+#                 description = data['description']
+#                 budget = data['budget']
+#                 category = data['category']
 
-                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
-                cursor.execute(query, (budget, fund, obj, description, category))
-                cnxn.commit()
+#                 query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_obj] (budget, fund, obj, Description, Category) VALUES (?, ?, ?, ?, ?)"
+#                 cursor.execute(query, (budget, fund, obj, description, category))
+#                 cnxn.commit()
             
-            #<---------------------------------- INSERT FOR Func ---->>>
-            newfuncs = request.POST.getlist('newfunc[]')
-            newDescriptionfuncs = request.POST.getlist('newDescriptionfunc[]')
-            newBudgetfuncs = request.POST.getlist('newBudgetfunc[]')
+#             #<---------------------------------- INSERT FOR Func ---->>>
+#             newfuncs = request.POST.getlist('newfunc[]')
+#             newDescriptionfuncs = request.POST.getlist('newDescriptionfunc[]')
+#             newBudgetfuncs = request.POST.getlist('newBudgetfunc[]')
             
 
-            data_list_func = []
-            for func, description, budget in zip(newfuncs, newDescriptionfuncs,newBudgetfuncs):
-                if func.strip() and budget.strip():
-                    data_list_func.append({
-                        'func': func,
-                        'description': description,
-                        'budget': budget,
+#             data_list_func = []
+#             for func, description, budget in zip(newfuncs, newDescriptionfuncs,newBudgetfuncs):
+#                 if func.strip() and budget.strip():
+#                     data_list_func.append({
+#                         'func': func,
+#                         'description': description,
+#                         'budget': budget,
                         
-                    })
+#                     })
           
-            for data in data_list_func:
-                func = data['func']
-                description = data['description']
-                budget = data['budget']
+#             for data in data_list_func:
+#                 func = data['func']
+#                 description = data['description']
+#                 budget = data['budget']
                 
 
-                query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_func] (budget, func, Description) VALUES (?, ?, ?)"
-                cursor.execute(query, (budget, func, description))
-                cnxn.commit()
+#                 query = "INSERT INTO [dbo].[AscenderData_Advantage_Definition_func] (budget, func, Description) VALUES (?, ?, ?)"
+#                 cursor.execute(query, (budget, func, description))
+#                 cnxn.commit()
             
-            updatefunds = request.POST.getlist('updatefund[]')  
-            updatevalues = request.POST.getlist('updatevalue[]')
-            updateobjs = request.POST.getlist('updateobj[]')
-            
-
-            #<------------------ update for func func ---------------
-            updatefuncfuncs = request.POST.getlist('updatefuncfunc[]')  
-            updatefuncbudgets = request.POST.getlist('updatefuncbudget[]')
+#             updatefunds = request.POST.getlist('updatefund[]')  
+#             updatevalues = request.POST.getlist('updatevalue[]')
+#             updateobjs = request.POST.getlist('updateobj[]')
             
 
+#             #<------------------ update for func func ---------------
+#             updatefuncfuncs = request.POST.getlist('updatefuncfunc[]')  
+#             updatefuncbudgets = request.POST.getlist('updatefuncbudget[]')
+            
 
-            updatedata_list_func = []
 
-            for updatefunc,updatebudget in zip(updatefuncfuncs, updatefuncbudgets):
-                if updatefunc.strip() and updatebudget.strip() and updatebudget.strip() != " ":
-                    updatedata_list_func.append({
-                        'updatefunc': updatefunc,
-                        'updatebudget':updatebudget,
+#             updatedata_list_func = []
+
+#             for updatefunc,updatebudget in zip(updatefuncfuncs, updatefuncbudgets):
+#                 if updatefunc.strip() and updatebudget.strip() and updatebudget.strip() != " ":
+#                     updatedata_list_func.append({
+#                         'updatefunc': updatefunc,
+#                         'updatebudget':updatebudget,
                         
                         
-                    })
-            for data in updatedata_list_func:
-                updatefunc= data['updatefunc']
-                updatebudget=data['updatebudget']
+#                     })
+#             for data in updatedata_list_func:
+#                 updatefunc= data['updatefunc']
+#                 updatebudget=data['updatebudget']
                 
                 
 
-                try:
-                    query = "UPDATE [dbo].[AscenderData_Advantage_Definition_func] SET budget = ? WHERE func = ? "
-                    cursor.execute(query, (updatebudget, updatefunc))
-                    cnxn.commit()
-                    print(f"Rows affected for fund={updatefunc}: {cursor.rowcount}")
-                except Exception as e:
-                    print(f"Error updating fund={updatefunc}: {str(e)}")
+#                 try:
+#                     query = "UPDATE [dbo].[AscenderData_Advantage_Definition_func] SET budget = ? WHERE func = ? "
+#                     cursor.execute(query, (updatebudget, updatefunc))
+#                     cnxn.commit()
+#                     print(f"Rows affected for fund={updatefunc}: {cursor.rowcount}")
+#                 except Exception as e:
+#                     print(f"Error updating fund={updatefunc}: {str(e)}")
 
                 
 
 
-            cursor.close()
-            cnxn.close()
+#             cursor.close()
+#             cnxn.close()
 
-            return redirect('pl_advantage')
+#             return redirect('pl_advantage')
 
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
+#         except Exception as e:
+#             return JsonResponse({'status': 'error', 'message': str(e)})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 
 def delete(request, fund, obj):
