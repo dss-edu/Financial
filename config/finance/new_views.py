@@ -11,7 +11,7 @@ from django.views.decorators.csrf import requires_csrf_token, csrf_exempt
 from django.contrib.auth.decorators import login_required
 import calendar
 import json
-from .decorators import permission_required
+from .decorators import permission_required,custom_login_required
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -22,9 +22,10 @@ SCHOOLS = {
 }
 
 
-@login_required
-@permission_required
+
+
 def dashboard_notes(request, school):
+
     cnxn = connect()
     cursor = cnxn.cursor()
     if request.method == "POST":
@@ -43,11 +44,12 @@ def dashboard_notes(request, school):
     return HttpResponse(status=200)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def dashboard(request, school, anchor_year=""):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
-
+   
+    
     cnxn = connect()
     cursor = cnxn.cursor()
     school_name = school
@@ -137,10 +139,14 @@ def dashboard(request, school, anchor_year=""):
     context["form"] = form
     context["data"] = data
     context["anchor_year"] = anchor_year
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/dashboard.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def charter_first(request, school, anchor_year=""):
     context = modules.charter_first(school)
@@ -203,25 +209,35 @@ def charter_first(request, school, anchor_year=""):
     #     "format_ytd_budget": formatted_ytd_budget,
     #     "ytd_budget": ytd_budget,
     # }
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/charter-first.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def charter_first_charts(request, school):
     # if school = "advantage":
     context = {"school": school, "school_name": SCHOOLS[school]}
+    role = request.session.get('user_role')
+    context["role"] = role
     return render(request, "temps/charter-first-charts.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def profit_loss(request, school, anchor_year=""):
     context = modules.profit_loss(school, anchor_year)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def profit_loss_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
@@ -249,17 +265,25 @@ def profit_loss_charts(request, school, anchor_year=""):
 
     context["first_context"] = first_context
 
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def balance_sheet(request, school, anchor_year=""):
     context = modules.balance_sheet(school, anchor_year)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/balance-sheet.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def balance_sheet_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
@@ -286,18 +310,24 @@ def balance_sheet_charts(request, school, anchor_year=""):
         context["net_income_ytd"] = f"${net_ytd:,.0f}"
 
     context["first_context"] = first_context
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
-
-@login_required
+@custom_login_required
 @permission_required
 def cashflow(request, school, anchor_year=""):
     context = modules.cashflow(school, anchor_year)
-
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/cashflow.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def cashflow_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
@@ -324,26 +354,37 @@ def cashflow_charts(request, school, anchor_year=""):
         context["net_income_ytd"] = f"${net_ytd:,.0f}"
 
     context["first_context"] = first_context
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/profit-loss-charts.html", context)
 
-
-@login_required
+@custom_login_required
 @permission_required
 def general_ledger(request, school):
     context = modules.general_ledger(school)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     if school == "village-tech":
         return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def manual_adjustments(request, school):
     context = modules.manual_adjustments(school)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
     return render(request, "temps/manual-adjustments.html", context)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def add_adjustments(request):
     if request.method == "POST":
@@ -374,7 +415,7 @@ def add_adjustments(request):
     return HttpResponse(status=200)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def delete_adjustments(request):
     if request.method == "POST":
@@ -436,13 +477,13 @@ def delete_adjustments(request):
     return HttpResponse(status=200)
 
 
-@login_required
+@custom_login_required
 @permission_required
 def update_adjustments(request):
     pass
 
 
-@login_required
+@custom_login_required
 @permission_required
 def activity_edits(request, school):
     if request.method == "POST":

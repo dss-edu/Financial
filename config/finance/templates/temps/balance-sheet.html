@@ -182,7 +182,7 @@ a:hover{
   </div>
 
 
-  {% if request.user|has_group:"admin" %}
+  {% if role == "admin" %}
  
   <a class="navbar-brand mr-3 text-secondary " id="settings-nav" href="#" data-toggle="tooltip" title="settings"><i class="fa-solid fa-gear"></i></a>
   {% endif %}
@@ -201,8 +201,9 @@ a:hover{
 
   <div class="table-container" >
 <div id="json-response"></div>
-<form  id="insert-row-form" action="{% url 'update_row' school FY_year_1 %}" method="POST">
-    {% if request.user|has_group:"admin" %}
+
+<form  id="insert-row-form" action="{% url 'update_row' school %}" method="POST">
+  {% if role == "admin" %}
 
 
 <div id="save-container" style="display: none;">

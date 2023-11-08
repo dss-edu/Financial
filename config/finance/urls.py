@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.loginView, name="login"),
     path("login/", views.loginView, name="login"),
     path("logout/", views.logoutView, name="logout"),
+    path("change_password/<str:school>/", views.change_password, name="change_password"),
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
     # path('first_advantage/', views.first_advantage, name='first_advantage'),
