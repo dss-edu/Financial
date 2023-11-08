@@ -70,6 +70,40 @@ document.addEventListener("DOMContentLoaded", function () {
       paging: false,
     });
   }
+  // REVENUE TOTAL
+
+  function fetchDataAndPopulateModal(fund, obj, yr, school) {
+    fetch(`/viewgl/${fund}/${obj}/${yr}/${school}`)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.status === "success") {
+          $("#spinner-modal").modal("hide");
+          populateModal(data.data, data.total_bal);
+
+          modal.style.display = "block";
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  // Add click event listeners to all "a" elements inside the table
+  var viewGLLinks = document.querySelectorAll(".viewgl-link");
+  viewGLLinks.forEach(function (link) {
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+      event.preventDefault();
+      var fund = link.dataset.fund;
+      var obj = link.dataset.obj;
+      var yr = link.dataset.yr;
+      fetchDataAndPopulateModal(fund, obj, yr, school);
+    });
+  });
 
   // FIRST TOTAL
   function fetchDataAndPopulateModal2(func, yr, school, year) {
@@ -100,51 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var yr = link.dataset.yr;
       fetchDataAndPopulateModal2(func, yr, school, year);
-    });
-  });
-
-  // Add click event listeners to all "a" elements inside the table
-  var viewGLLinks = document.querySelectorAll(".viewgl-link");
-  viewGLLinks.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      var fund = link.dataset.fund;
-      var obj = link.dataset.obj;
-      var yr = link.dataset.yr;
-      fetchDataAndPopulateModal(fund, obj, yr, school);
-    });
-  });
-
-  // FIRST TOTAL
-  function fetchDataAndPopulateModal2(func, yr, school) {
-    fetch(`/viewglfunc/${func}/${yr}/${school}`)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (data) {
-        if (data.status === "success") {
-          populateModal(data.data, data.total_bal);
-
-          modal.style.display = "block";
-        } else {
-          console.error(data.message);
-        }
-      })
-      .catch(function (error) {
-        console.error("Error fetching data:", error);
-      });
-  }
-
-  var viewGLLinks2 = document.querySelectorAll(".viewglfunc-link");
-  viewGLLinks2.forEach(function (link) {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      var func = link.dataset.func;
-
-      var yr = link.dataset.yr;
-      fetchDataAndPopulateModal2(func, yr, school);
     });
   });
 
@@ -222,4 +211,26 @@ document.addEventListener("DOMContentLoaded", function () {
     modal.style.display = "none";
     $("#spinner-modal").modal("hide");
   });
+
+  // search box in modal
+  function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("modalSearch");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("balancesheet-data-table1");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
 });
