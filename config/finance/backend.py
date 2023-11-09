@@ -260,7 +260,7 @@ def profit_loss(school):
             print("current",current_month)
             print("last",last_day_of_current_month)
             if current_month <= last_day_of_current_month:
-                current_month = current_month.replace(day=1) - timedelta(days=1)
+                current_month = current_date.replace(day=1) - timedelta(days=1)
                 last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
                 last_month_name = last_month.strftime("%B")
                 last_month_number = last_month.month
