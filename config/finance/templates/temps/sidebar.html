@@ -1,21 +1,32 @@
+{% block stylesheet %}
+<style>
+
+    .activebg {
+        background-color: #4d4d4d!important; /* Change this to your desired background color */
+        color: white!important; 
+      }
+    
+</style>
+{% endblock %}
 <nav id="sidebarMenu" class="sidebar navbar-nav toggled">
   <!-- <ul class="sidebar navbar-nav "> -->
     <ul class="sidebar navbar-nav toggled">
         <span> &nbsp; &nbsp; </span>
-        <li class="nav-item active">
+        <li class="nav-item" >
             <a
-                id="dashboard-link"
+                id="dashboard-link2"
                 class="nav-link"
                 href="/dashboard/{{ school }}"
                 data-placement="right"
-                style="color: gray"
+                style="color: gray;"
+                
             >
         <!-- <div class="d-flex flex-row align-items-center justify-content-center"> -->
         <!--     <div class="col-1"> -->
                 <i class="fa-solid fa-house"></i>
         <!-- </div> -->
         <!-- <div class="col sb-label"> -->
-                <span class="text-center" style="color: gray">Dashboard</span>
+                <span  class="text-center" style="color: gray;">Dashboard</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
@@ -27,7 +38,7 @@
             />
         </span>
 
-        <li class="nav-item">
+        <li class="nav-item" >
             <a
                 id="first-link"
                 class="nav-link"
@@ -35,14 +46,15 @@
                 data-toggle="tooltip"
                 data-placement="right"
                 title="Charter FIRST"
-                style="color: gray"
+                style="color: gray;"
+             
             >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
                 <i class="fa-solid fa-trophy"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-                <span style="color: gray;">Charter FIRST</span>
+                <span id="first-link2" style="color: gray;" >Charter FIRST</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
@@ -56,14 +68,14 @@
                 data-toggle="tooltip"
                 data-placement="right"
                 title="Profit and Loss"
-                style="color: gray"
+                style="color: gray;"
             >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
                 <i class="fas fa-sack-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-                <span style="color: gray;">Profit and Loss</span>
+                <span id="pl-link2" style="color: gray;" >Profit and Loss</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
@@ -77,14 +89,14 @@
                 data-toggle="tooltip"
                 data-placement="right"
                 title="Balance Sheet"
-                style="color: gray"
+                style="color: gray;"
             >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
                 <i class="fa-solid fa-scale-balanced"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-                <span style="color: gray;">Balance Sheet</span>
+                <span id="bs-link2" style="color: gray;">Balance Sheet</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
@@ -98,14 +110,14 @@
                 data-toggle="tooltip"
                 data-placement="right"
                 title="Cash Flow Statement"
-                style="color: gray"
+                style="color: gray;"
             >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
                 <i class="fa-solid fa-hand-holding-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-                <span style="color: gray">Cash Flow Statement</span>
+                <span id="cs-link2" style="color: gray;" >Cash Flow Statement</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
@@ -118,14 +130,14 @@
                 data-toggle="tooltip"
                 data-placement="right"
                 title="General Ledger"
-                style="color: gray"
+                style="color: gray;"
             >
         <!-- <div class="row"> -->
         <!--     <div class="col-1"> -->
                 <i class="fa-solid fa-file-invoice-dollar"></i>
         <!-- </div> -->
         <!-- <div class="col"> -->
-                <span style="color: gray">General Ledger</span>
+                <span id="gl-link2" style="color: gray;" >General Ledger</span>
         <!--     </div> -->
         <!-- </div> -->
             </a>
