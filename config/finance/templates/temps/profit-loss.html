@@ -332,6 +332,18 @@
       </h5>
     </div>
     <div class="d-flex align-items-center">
+
+      <a
+      class="navbar-brand mr-4 text-secondary"
+      id="showCurrentMonth"
+      data-toggle="tooltip"
+      title="SHOW CURRENT MONTH"
+      style="margin-right: 500px"
+      >
+      <i class="fa-solid fa-receipt"></i>
+    </a>
+
+
       <a
         class="navbar-brand mr-4 text-secondary"
         href="/profit-loss-charts/{{ school }}"
@@ -497,7 +509,7 @@
                 var currentMonthIndex = today.getMonth();
 
                 last_month_num = parseInt("{{months.last_month_number}}", 10); // Parse it as an integer
-                console.log(last_month_num);
+           
                 var monthNames = [
                   "September",
                   "October",
@@ -549,6 +561,43 @@
             </script>
 
             {% if school != 'manara' and school != 'leadership' %}
+            <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                // Your existing JavaScript code here
+            
+                // Add an event listener to the icon
+                document.getElementById("showCurrentMonth").addEventListener("click", function() {
+                  // Execute the script when the icon is clicked
+                  toggleColumns();
+                  showcurrentMonth();
+                });
+              });
+
+              var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
+              
+              if (last_month_number2 >= 9) {
+                last_month_number2 -= 2;
+              } else {
+                last_month_number2 += 10;
+              }
+             
+              function showcurrentMonth() {
+                for (var i = last_month_number2; i <= 17; i++) {
+                  var columnsToHide = document.querySelectorAll(
+                    "#data-table th:nth-child(" +
+                      i +
+                      "), #data-table td:nth-child(" +
+                      i +
+                      ")"
+                  );
+
+                  for (var j = 0; j < columnsToHide.length; j++) {
+                    columnsToHide[j].style.display = "none";
+                  }
+                }
+              }
+       
+            </script>
 
             <script>
               var last_month_number = parseInt(
@@ -562,7 +611,7 @@
               } else {
                 last_month_number += 10;
               }
-              console.log(last_month_number);
+         
               function hide17thColumn() {
                 for (var i = last_month_number; i <= 17; i++) {
                   var columnsToHide = document.querySelectorAll(
@@ -3835,12 +3884,47 @@
 
             <!-- START OF MANARA OR PREPPP-->
             <script>
+              document.addEventListener("DOMContentLoaded", function() {
+                // Your existing JavaScript code here
+            
+                // Add an event listener to the icon
+                document.getElementById("showCurrentMonth").addEventListener("click", function() {
+                  // Execute the script when the icon is clicked
+                  toggleColumns();
+                  showcurrentMonth();
+                });
+              });
+
+              var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
+         
+              if (last_month_number2 <= 6) {
+                last_month_number2 += 12;
+              }
+
+              function showcurrentMonth() {
+                for (var i = last_month_number2; i <= 17; i++) {
+                  var columnsToHide = document.querySelectorAll(
+                    "#data-table th:nth-child(" +
+                      i +
+                      "), #data-table td:nth-child(" +
+                      i +
+                      ")"
+                  );
+
+                  for (var j = 0; j < columnsToHide.length; j++) {
+                    columnsToHide[j].style.display = "none";
+                  }
+                }
+              }
+            </script>
+
+            <script>
               var last_month_number = parseInt(
                 "{{months.last_month_number}}",
                 10
               ); // Parse it as an integer
               // Add 11 to it
-              console.log(last_month_number);
+         
               if (last_month_number <= 6) {
                 last_month_number += 12;
               }

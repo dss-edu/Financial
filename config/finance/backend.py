@@ -141,12 +141,12 @@ def profit_loss(school):
                 if isinstance(row[11], datetime):
                     date = row[11].strftime("%Y-%m-%d")
 
-                if isinstance(row[11], datetime):
+                if isinstance(row[11],datetime):
                     date_checker = row[11].date()
                 else:
                     date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
                    
-
+    
 
                 if school in schoolMonths["julySchool"]:
                     
@@ -223,7 +223,7 @@ def profit_loss(school):
                 if isinstance(row[9], datetime):
                     date = row[9].strftime("%Y-%m-%d")
 
-                if isinstance(row[9], datetime):
+                if isinstance(row[9], (datetime, datetime.date)):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
@@ -248,12 +248,28 @@ def profit_loss(school):
 
                     data3.append(row_dict)
 
-            
+        
         last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
         last_month_name = last_month.strftime("%B")
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
-        
+
+        if FY_year_current == FY_year_1:
+            first_day_of_next_month = current_date.replace(day=1, month=current_date.month + 1)
+            last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
+            print("current",current_month)
+            print("last",last_day_of_current_month)
+            if current_month <= last_day_of_current_month:
+                current_month = current_month.replace(day=1) - timedelta(days=1)
+                last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+                last_month_name = last_month.strftime("%B")
+                last_month_number = last_month.month
+                formatted_last_month = last_month.strftime('%B %d, %Y')  
+                print("last month",last_month)
+                print(" last_month_name",last_month_name)
+                print("last_month_number",last_month_number)
+                print("formatted_last_month",formatted_last_month)
+
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
 
