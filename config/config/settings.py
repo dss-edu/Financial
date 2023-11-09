@@ -180,7 +180,10 @@ SCHOOLS = {
     "legacy": "LEGACY PREP CHARTER ACADEMY",
     "cityscape": "CITYSCAPE SCHOOLS",
     "ptaa": "Pioneer Technology and Arts Academy",
-    "aca": "Arlington Classics Academy"
+    "aca": "Arlington Classics Academy",
+    "trivium": "Trivium Academy",
+    "pro-vision": "Pro-Vision Academy",
+    "sa": "SA Prep"
 }
 
 db = {
@@ -301,14 +304,53 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"        
     },
+    "trivium": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Trivium]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"        
+    },
+    "pro-vision": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Provision]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"        
+    },
+    "sa": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_SA]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"        
+    },
 }
 
 schoolCategory = {
-    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca"],
+    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa"],
     "skyward": ["village-tech", "legacy", "cityscape", "ptaa"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "sa"]
 }
