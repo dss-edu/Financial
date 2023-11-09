@@ -79,5 +79,9 @@ document.addEventListener("DOMContentLoaded", function() {
         highlightActiveLink("#gl-link");
         highlightActiveLink("#gl-link2");
     }
+    else if (currentPath === "/dashboard/" + school || currentPath === "/dashboard/" + school + "/" + year) {
+        highlightActiveLink("#dashboard-link");
+        highlightActiveLink("#dashboard-link2");
+    }
 
 });
