@@ -183,8 +183,8 @@ SCHOOLS = {
     "aca": "Arlington Classics Academy",
     "trivium": "Trivium Academy",
     "pro-vision": "Pro-Vision Academy",
-    "sa": "San Antonio Preparatory"
-    "ume": "UME Preparatory Academy"
+    "sa": "San Antonio Preparatory",
+    "ume": "UME Preparatory Academy",
 }
 
 db = {
