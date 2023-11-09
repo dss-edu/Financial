@@ -191,7 +191,6 @@ def profit_loss(school, anchor_year):
         # "ytd_budget": ytd_budget,
     }
 
-    # BASE_DIR = os.getcwd()
     # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss", school)
     if anchor_year:  # anchor_year is by default = ""
@@ -261,7 +260,7 @@ def profit_loss_chart(school, anchor_year):
         "estimated_first_rating": row[20],
     }
 
-    # BASE_DIR = os.getcwd()
+    # BASE_DIR = settings.BASE_DIR
     # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
     JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-chart", school)
 
@@ -304,7 +303,7 @@ def balance_sheet(school, anchor_year):
     if formatted_ytd_budget.startswith("0."):
         formatted_ytd_budget = formatted_ytd_budget[2:]
 
-    # BASE_DIR = os.getcwd()
+    # BASE_DIR = settings.BASE_DIR
     JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet", school)
     if anchor_year:
         JSON_DIR = os.path.join(
@@ -387,9 +386,9 @@ def cashflow(school, anchor_year):
     }
 
     # all  of profit loss
-    JSON_DIR = os.path.join(os.getcwd(), "finance", "json")
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json")
     if anchor_year:
-        JSON_DIR = os.path.join(os.getcwd(), "finance", str(anchor_year))
+        JSON_DIR = os.path.join(settings.BASE_DIR, "finance", str(anchor_year))
     PL_DIR = os.path.join(JSON_DIR, "profit-loss", school)
     files = os.listdir(PL_DIR)
 
