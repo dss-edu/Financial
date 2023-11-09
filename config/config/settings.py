@@ -183,7 +183,8 @@ SCHOOLS = {
     "aca": "Arlington Classics Academy",
     "trivium": "Trivium Academy",
     "pro-vision": "Pro-Vision Academy",
-    "sa": "SA Prep"
+    "sa": "San Antonio Preparatory"
+    "ume": "UME Preparatory Academy"
 }
 
 db = {
@@ -343,14 +344,27 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"        
     },
+    "ume": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_UME]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa"],
-    "skyward": ["village-tech", "legacy", "cityscape", "ptaa"]
+    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "sa"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "sa", "ume"]
 }
