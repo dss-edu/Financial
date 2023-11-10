@@ -120,7 +120,17 @@
                             <div class="box3 rounded">
                                 <div style="display: flex; align-items: center; justify-content: space-between;">
                                     <h2>Revenue</h2>
-                                    <button id="revenuechart" class="btn btn-sm btn-primary" style="margin-right: 20px;">Line Chart</button> 
+                                 
+                                    <a id="revenuechart" 
+                                    style="margin-right: 20px;"
+                                    data-toggle="tooltip"
+                                    title="View in Line Graph"
+                                    data-placement="left"
+                                     >
+                                        <i id="chartIcon" class="fa-solid fa-chart-line fa-3x"></i>
+                                      </a> 
+                                  
+
                                 </div>
                                 <div id="chartcontrols"></div>
                                 <div id="totalrevenue" style="width: 100%; height: 600px"></div>
@@ -130,7 +140,15 @@
                         <div class="box2 rounded">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <h2>Expenses</h2>
-                                <button id="totalfirstchart" class="btn btn-sm btn-primary" style="margin-right: 20px;">Line Chart</button> 
+                      
+                                <a id="totalfirstchart" 
+                                style="margin-right: 20px;"
+                                data-toggle="tooltip"
+                                title="View in Line Graph"
+                                data-placement="left"
+                                 >
+                                    <i id="chartIcon2" class="fa-solid fa-chart-line fa-3x"></i>
+                                  </a> 
                             </div>
                             <div id="totalfirst" style="width: 100%; height: 600px">
                               
@@ -185,39 +203,52 @@
         const button2 = document.getElementById("totalfirstchart");
         const totalfirst = document.getElementById("totalfirst");
         const totalfirstline = document.getElementById("totalfirstline");
+        const chartIcon = document.getElementById("chartIcon");
+        const chartIcon2 = document.getElementById("chartIcon2");
+
         // Function to toggle chart and button text
         function toggleChart() {
             // Toggle the hidden attribute of totalrevenue and totalrevenueLine
             totalrevenue.hidden = !totalrevenue.hidden;
             totalrevenueLine.hidden = !totalrevenueLine.hidden;
         
-            // Change the button text based on the current state
-            if (totalrevenueLine.hidden) {
-                button.textContent = "Line Chart";
-            } else {
-                button.textContent = "Column Chart";
-            }
+             if (totalrevenue.hidden) {
+                chartIcon.className = "fa-solid fa-chart-column fa-3x";
+                button.setAttribute("title", "View in Column Graph");
+     
+          
+        } else {
+            chartIcon.className = "fa-solid fa-chart-line fa-3x";
+            button.setAttribute("title", "View in Line Graph");
+      }
+      $(button).tooltip("dispose").tooltip();
         }
         function toggleChart2() {
             // Toggle the hidden attribute of totalfirst and totalfirstline
             totalfirst.hidden = !totalfirst.hidden;
             totalfirstline.hidden = !totalfirstline.hidden;
-        
-            // Change the button text based on the current state
-            if (totalfirstline.hidden) {
-                button2.textContent = "Line Chart";
-            } else {
-                button2.textContent = "Column Chart";
-            }
+
+            if (totalfirst.hidden) {
+                chartIcon2.className = "fa-solid fa-chart-column fa-3x";
+                button2.setAttribute("title", "View in Column Graph");
+     
+          
+        } else {
+            chartIcon2.className = "fa-solid fa-chart-line fa-3x";
+            button2.setAttribute("title", "View in Line Graph");
+      }
+      $(button2).tooltip("dispose").tooltip()
         }
         
         // Add a click event listener to the button
         button.addEventListener("click", toggleChart);
         button2.addEventListener("click", toggleChart2);
         
-        // Initialize button text
-        button.textContent = "Line Chart";
-        button2.textContent = "Line Chart";
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         </script>
     <script>
         am5.ready(function() {
