@@ -126,6 +126,44 @@
   a:hover {
     color: #007bff;
   }
+
+  .side-panel {
+    width: 50px;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    padding: 0px;
+    height: 100%;
+    position: fixed;
+    right: 18px;
+    top: 0;
+    overflow: hidden;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-container {
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(211, 211, 211, 0);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+}
+
+.table-box{
+  padding-right: 50px;
+}
+
 </style>
 {% endblock %} {% block body %}
 
@@ -317,11 +355,11 @@
 <div id="content-wrapper">
   <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
     <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-      <h5 class="text-center" style="color: black; padding-left: 150px">
+      <h5 class="text-center" style="color: black; ">
         {{ school_name }}
       </h5>
     </div>
-    <div class="d-flex align-items-center">
+    {% comment %} <div class="d-flex align-items-center">
 
       <a
       class="navbar-brand mr-4 text-secondary"
@@ -372,10 +410,40 @@
       >
         Cancel
       </button>
-    </div>
+    </div> {% endcomment %}
   </nav>
 
   <div class="table-container" stlye="height:1330px!important; ">
+
+
+    <div class="side-panel">
+      <div class="side">
+          <div style="margin-top:300px"></div>
+  
+
+              <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="SHOW CURRENT MONTH" data-placement="left">
+                  <i class="fa-solid fa-receipt"></i>
+              </a>
+
+              <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="HIDE CURRENT MONTH" data-placement="left" style="display:none;">
+                <i class="fa-solid fa-receipt"></i>
+            </a>
+   
+  
+
+              <a class="text-secondary circle-container" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="CHART" data-placement="left">
+                  <i class="fas fa-chart-bar"></i>
+              </a>
+    
+              <a id="export-excel-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to Excel" data-placement="left">
+                  <i class="fas fa-file-excel"></i>
+              </a>
+
+  
+      </div> <!-- end of side class -->
+  </div> <!-- end of side-panel -->
+
+
     <form id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
       <div id="save-container" style="display: none">
         <button
@@ -431,7 +499,7 @@
       <!-- {% endif %} -->
 
       {% csrf_token %}
-      <div class="table-box">
+      <div class="table-box" >
         <table id="data-table" class="table table-hover" width="100%">
           <thead>
             <tr>
@@ -552,24 +620,26 @@
 
             {% if school != 'manara' and school != 'leadership' %}
             <script>
-             
-
-
-
               document.addEventListener("DOMContentLoaded", function () {
-                var isColumnsVisible = true;
-            
-                // Initialize the tooltip
-                $("#showCurrentMonth").tooltip();
-            
-                // Add an event listener to the icon
                 document.getElementById("showCurrentMonth").addEventListener("click", function () {
-                  // Toggle the state and update the title
-                  isColumnsVisible = !isColumnsVisible;
-                  toggleColumns(isColumnsVisible);
-                  updateTitle(isColumnsVisible);
+      
+                  toggleColumns();
+         
                   showcurrentMonth();
+                  document.getElementById("showCurrentMonth").style.display = "none";
+                  document.getElementById("hideCurrentMonth").style.display = "flex";
                 });
+      
+                document.getElementById("hideCurrentMonth").addEventListener("click", function () {
+      
+
+                  toggleColumns();
+                  showcurrentMonth();
+                  document.getElementById("hideCurrentMonth").style.display = "none";
+                  document.getElementById("showCurrentMonth").style.display = "flex";
+      
+                });
+      
               });
             
               var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
@@ -580,29 +650,7 @@
                 last_month_number2 += 10;
               }
             
-              function toggleColumns(isVisible) {
-                for (var i = last_month_number2; i <= 17; i++) {
-                  var columnsToToggle = document.querySelectorAll(
-                    "#data-table th:nth-child(" +
-                      i +
-                      "), #data-table td:nth-child(" +
-                      i +
-                      ")"
-                  );
-            
-                  columnsToToggle.forEach(function (column) {
-                    column.style.display = isVisible ? "table-cell" : "none";
-                  });
-                }
-              }
-            
-              function updateTitle(isVisible) {
-                var title = isVisible ? "HIDE CURRENT MONTH" : "SHOW CURRENT MONTH";
-            
-                // Update the tooltip text using Bootstrap's tooltip method
-                $("#showCurrentMonth").attr("data-original-title", title).tooltip("update");
-              }
-
+  
                            
               function showcurrentMonth() {
                 for (var i = last_month_number2; i <= 17; i++) {
@@ -3907,19 +3955,29 @@
 
             <!-- START OF MANARA OR PREPPP-->
             <script>
-              document.addEventListener("DOMContentLoaded", function() {
-                var isColumnsVisible = true;
-            
-                // Initialize the tooltip
-                $("#showCurrentMonth").tooltip();
+              document.addEventListener("DOMContentLoaded", function () {
+                document.getElementById("showCurrentMonth").addEventListener("click", function () {
+      
+                  toggleColumns();
                 
-                document.getElementById("showCurrentMonth").addEventListener("click", function() {
-                  // Execute the script when the icon is clicked
-                  isColumnsVisible = !isColumnsVisible;
-                  toggleColumns(isColumnsVisible);
-                  updateTitle(isColumnsVisible);
                   showcurrentMonth();
+      
+                  document.getElementById("showCurrentMonth").style.display = "none";
+                  document.getElementById("hideCurrentMonth").style.display = "flex";
                 });
+      
+                document.getElementById("hideCurrentMonth").addEventListener("click", function () {
+      
+                  toggleColumns();
+                
+                  showcurrentMonth();
+      
+      
+                  document.getElementById("hideCurrentMonth").style.display = "none";
+                  document.getElementById("showCurrentMonth").style.display = "flex";
+      
+                });
+      
               });
 
               var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
@@ -3929,28 +3987,7 @@
               }
 
                           
-              function toggleColumns(isVisible) {
-                for (var i = last_month_number2; i <= 17; i++) {
-                  var columnsToToggle = document.querySelectorAll(
-                    "#data-table th:nth-child(" +
-                      i +
-                      "), #data-table td:nth-child(" +
-                      i +
-                      ")"
-                  );
-            
-                  columnsToToggle.forEach(function (column) {
-                    column.style.display = isVisible ? "table-cell" : "none";
-                  });
-                }
-              }
-            
-              function updateTitle(isVisible) {
-                var title = isVisible ? "HIDE CURRENT MONTH" : "SHOW CURRENT MONTH";
-            
-                // Update the tooltip text using Bootstrap's tooltip method
-                $("#showCurrentMonth").attr("data-original-title", title).tooltip("update");
-              }
+           
 
               function showcurrentMonth() {
                 for (var i = last_month_number2; i <= 17; i++) {

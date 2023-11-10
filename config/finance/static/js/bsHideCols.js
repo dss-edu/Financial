@@ -126,14 +126,14 @@ $(document).ready(function() {
 
           for (let i = 3; i < data.length; i++){
             if (data[i])
-            console.log(i)
-            console.log(data[i].textContent.trim())
+       
+ 
             if (data[i].textContent.trim() !== '' && data[i].textContent.trim() !== '(0)'){
               toDelete = false
-              console.log(toDelete)
+         
               break
             }
-            console.log(toDelete)
+  
           }
           
           if (toDelete){

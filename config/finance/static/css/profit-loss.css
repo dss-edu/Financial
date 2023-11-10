@@ -40,12 +40,13 @@
   display: flex;
   justify-content: center;
   table-layout: fixed;
+
 }
 
 .header {
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 1;
 
   background-color: rgba(200, 200, 200);
 }
