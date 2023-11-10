@@ -245,14 +245,14 @@
           ><i class="fas fa-file-pdf"></i
         ></a>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <a
+        <!-- <a
           id="export-excel2-button"
           class="navbar-brand mr-1 text-primary"
           href="#"
           data-toggle="tooltip"
           title="EXCEL"
           ><i class="fas fa-file-excel"></i
-        ></a>
+        ></a> -->
       </div>
     </div>
   </div>
@@ -269,18 +269,21 @@
       var options = {
         margin: 2,
         filename: "exported_table.pdf",
-        image: { type: "png", quality: 0.98 },
+        image: { type: "jpg", quality: 0.6 },
         html2canvas: {
           scale: 1,
+          timeout: 0,
+          logging: true, 
           // scrollX: 0,
           // scrollY: 0,
         },
-        jsPDF: { unit: "mm", format: [600, 600], orientation: "portrait" },
+        // jsPDF: { unit: "mm", format: [600, 600], orientation: "portrait" },
+        jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
       };
 
-      html2pdf().set(options).from(element).save();
+      html2pdf().from(element).set(options).save();
     });
 </script>
 
