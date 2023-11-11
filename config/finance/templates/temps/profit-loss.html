@@ -524,7 +524,7 @@
                   id="toggle-button"
                   type="button"
                   class="expand-button"
-                  onclick="toggleColumns(); hide17thColumn();"
+                  onclick="toggleColumns();"
                   style="float: right"
                 >
                   +
@@ -618,7 +618,7 @@
               });
             </script>
 
-            {% if school != 'manara' and school != 'leadership' %}
+            {% if school != 'manara' and school != 'leadership' and school != 'sa' %}
             <script>
               document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("showCurrentMonth").addEventListener("click", function () {
@@ -7341,7 +7341,7 @@
   <script src="{% static 'js/plViewGL.js' %}"></script>
   <script src="{% static 'js/pl.js' %}"></script>
   <script src="{% static 'js/excel.js' %}"></script>
-  <script src="{% static 'js/plHideCols.js' %}"></script>
+  {% comment %} <script src="{% static 'js/plHideCols.js' %}"></script> {% endcomment %}
 
   {% endblock %}
 </div>
