@@ -27,7 +27,6 @@ SECRET_KEY = "django-insecure-6-e5$@l92n9ma)fq4z83dq6+ynf=!fpbzfb7ps3%_bk33@ys7d
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "ec2-35-77-85-255.ap-northeast-1.compute.amazonaws.com",
     "ec2-54-199-141-147.ap-northeast-1.compute.amazonaws.com",
     "ec2-35-78-202-130.ap-northeast-1.compute.amazonaws.com",
     "ec2-13-230-82-195.ap-northeast-1.compute.amazonaws.com",
@@ -178,7 +177,7 @@ SCHOOLS = {
     "leadership": "Leadership Prep School Frisco",
     "manara": "Manara Academy",
     "legacy": "Legacy Prep Charter Academy",
-    "cityscape": "Cityscape Schools",
+    "cityscape": "Cityscape Schools Inc",
     "ptaa": "Pioneer Technology and Arts Academy",
     "aca": "Arlington Classics Academy",
     "trivium": "Trivium Academy",
