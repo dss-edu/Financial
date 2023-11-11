@@ -172,18 +172,18 @@ CKEDITOR_CONFIGS = {
 }
 
 SCHOOLS = {
-    "advantage": "ADVANTAGE ACADEMY",
-    "cumberland": "CUMBERLAND ACADEMY",
-    "village-tech": "VILLAGE TECH",
-    "leadership": "LEADERSHIP PREP SCHOOL",
-    "manara": "MANARA ACADEMY",
-    "legacy": "LEGACY PREP CHARTER ACADEMY",
-    "cityscape": "CITYSCAPE SCHOOLS",
+    "advantage": "Advantage Academy",
+    "cumberland": "Cumberland Academy",
+    "village-tech": "Village Tech Schools",
+    "leadership": "Leadership Prep School Frisco",
+    "manara": "Manara Academy",
+    "legacy": "Legacy Prep Charter Academy",
+    "cityscape": "Cityscape Schools",
     "ptaa": "Pioneer Technology and Arts Academy",
     "aca": "Arlington Classics Academy",
     "trivium": "Trivium Academy",
     "pro-vision": "Pro-Vision Academy",
-    "sa": "San Antonio Preparatory",
+    "sa": "San Antonio Preparatory Schools",
     "ume": "UME Preparatory Academy",
 }
 
