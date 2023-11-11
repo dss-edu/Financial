@@ -137,6 +137,7 @@
     right: 18px;
     top: 0;
     overflow: hidden;
+    z-index: 3;
 }
 
 .side {
@@ -144,6 +145,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
 }
 
 .circle-container {
@@ -158,10 +160,14 @@
     justify-content: center;
     border: 1px solid gray;
     margin-bottom: 15px;
+    z-index: 3;
+   
 }
 
 .table-box{
   padding-right: 50px;
+  z-index: 2;
+  flex-grow:1;
 }
 
 </style>
@@ -355,7 +361,7 @@
 <div id="content-wrapper">
   <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
     <div class="d-flex align-items-center flex-grow-1 justify-content-center">
-      <h5 class="text-center" style="color: black; ">
+      <h5 class="text-center" style="color: black; padding-right:35px;">
         {{ school_name }}
       </h5>
     </div>
@@ -415,7 +421,6 @@
 
   <div class="table-container" stlye="height:1330px!important; ">
 
-
     <div class="side-panel">
       <div class="side">
           <div style="margin-top:300px"></div>
@@ -442,6 +447,8 @@
   
       </div> <!-- end of side class -->
   </div> <!-- end of side-panel -->
+
+   
 
 
     <form id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
@@ -7295,6 +7302,7 @@
         </table>
       </div>
     </form>
+
   </div>
 
   <div
