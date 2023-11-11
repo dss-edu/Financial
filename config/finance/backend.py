@@ -587,7 +587,8 @@ def profit_loss(school):
                     for entry in data3
                     if entry["fund"] == fund
                     and entry["obj"] == obj
-                    and entry["Date"] >= db_last_month
+                    and entry["Date"] <= db_last_month  
+                 
             
                                 
                 )
@@ -609,7 +610,8 @@ def profit_loss(school):
                     if entry["fund"] == fund
                     and entry["obj"] == obj
                     and entry["Type"] == "GJ" 
-                    and entry["Date"] >= db_last_month          
+                    and entry["Date"] <= db_last_month  
+                          
                 )
                 total_adjustment_budget = sum(
                     entry[est_key]
@@ -734,7 +736,7 @@ def profit_loss(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
-                            and entry["Date"] >= db_last_month
+                            and entry["Date"] <= db_last_month  
                         )
                 else:
                     total_func_func = sum(
@@ -743,7 +745,7 @@ def profit_loss(school):
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
                             and entry["Type"] == 'GJ'
-                            and entry["Date"] >= db_last_month 
+                            and entry["Date"] <= db_last_month  
                         
                         )
                 total_adjustment_func = sum(
@@ -811,7 +813,7 @@ def profit_loss(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] == '6449'
-                            and entry["Date"] >= db_last_month                        
+                            and entry["Date"] <= db_last_month                        
                         )
                 else:
                     total_func_func = sum(
@@ -820,7 +822,7 @@ def profit_loss(school):
                         if entry["func"] == func  
                         and entry["obj"] == '6449'
                         and entry["Type"] == 'GJ'
-                        and entry["Date"] >= db_last_month 
+                        and entry["Date"] <= db_last_month  
                     )
                 total_adjustment_func = sum(
                         entry[appr_key]
@@ -966,7 +968,7 @@ def profit_loss(school):
                     entry[appr_key]
                     for entry in data3
                     if entry["obj"] == obj
-                    and entry["Date"] >= db_last_month
+                    and entry["Date"] <= db_last_month  
 
                     )
                 item["total_budget"] = total_budget_data_activities
@@ -976,7 +978,7 @@ def profit_loss(school):
                 for entry in data3
                 if entry["obj"] == obj
                 and entry["Type"] == 'GJ'
-                and entry["Date"] >= db_last_month
+                and entry["Date"] <= db_last_month  
         
                 )
                 item["total_budget"] = -(total_budget_data_activities)
