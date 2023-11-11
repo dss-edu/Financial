@@ -524,7 +524,7 @@
                   id="toggle-button"
                   type="button"
                   class="expand-button"
-                  onclick="toggleColumns();"
+                  onclick="toggleColumns(); hide17thColumn();"
                   style="float: right"
                 >
                   +
@@ -7341,7 +7341,7 @@
   <script src="{% static 'js/plViewGL.js' %}"></script>
   <script src="{% static 'js/pl.js' %}"></script>
   <script src="{% static 'js/excel.js' %}"></script>
-  {% comment %} <script src="{% static 'js/plHideCols.js' %}"></script> {% endcomment %}
+  <script src="{% static 'js/plHideCols.js' %}"></script>
 
   {% endblock %}
 </div>
