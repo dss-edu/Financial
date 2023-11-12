@@ -176,7 +176,7 @@ SCHOOLS = {
     "village-tech": "Village Tech Schools",
     "leadership": "Leadership Prep School Frisco",
     "manara": "Manara Academy",
-    "legacy": "Legacy Prep Charter Academy",
+    "legacy": "Legacy Preparatory Charter Academy",
     "cityscape": "Cityscape Schools Inc",
     "ptaa": "Pioneer Technology and Arts Academy",
     "aca": "Arlington Classics Academy",
@@ -184,6 +184,7 @@ SCHOOLS = {
     "pro-vision": "Pro-Vision Academy",
     "sa": "San Antonio Preparatory Schools",
     "ume": "UME Preparatory Academy",
+    "lonestar", "Lone Star Language Academy",
 }
 
 db = {
@@ -356,14 +357,27 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+    "lonestar": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_LoneStar]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
-    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa"],
+    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar"],
     "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume"]
 }
 
 schoolMonths ={
-    "julySchool": ["manara","leadership", "sa"],
+    "julySchool": ["manara","leadership", "sa", "lonestar"],
     "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume"]
 }
