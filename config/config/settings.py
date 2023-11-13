@@ -184,7 +184,7 @@ SCHOOLS = {
     "pro-vision": "Pro-Vision Academy",
     "sa": "San Antonio Preparatory Schools",
     "ume": "UME Preparatory Academy",
-    "lonestar": "Lone Star Language Academy",
+    "lonestar": "Imagine Lone Star International Academy",
 }
 
 db = {
