@@ -236,6 +236,20 @@ def profit_loss(request, school, anchor_year=""):
 
     return render(request, "temps/profit-loss.html", context)
 
+@custom_login_required
+@permission_required
+def profit_loss_date(request, school, anchor_year=""):
+    context = modules.profit_loss_date(school, anchor_year)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+
+    return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required
 @permission_required

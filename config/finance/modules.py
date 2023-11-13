@@ -224,6 +224,59 @@ def profit_loss(school, anchor_year):
 
     return context
 
+def profit_loss_date(school, anchor_year):
+    current_date = datetime.today().date()
+    # current_year = current_date.year
+    # last_year = current_date - timedelta(days=365)
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    formatted_last_month = last_month.strftime("%B %d, %Y")
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    )
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+        # "last_month": formatted_last_month,
+        # "last_month_number": last_month_number,
+        # "format_ytd_budget": formatted_ytd_budget,
+        # "ytd_budget": ytd_budget,
+    }
+
+    # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-date", school)
+    if anchor_year:  # anchor_year is by default = ""
+        JSON_DIR = os.path.join(
+            settings.BASE_DIR, "finance","json", str(anchor_year), "profit-loss-date", school
+        )
+    files = os.listdir(JSON_DIR)
+
+    for file in files:
+        with open(os.path.join(JSON_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    if school in schoolCategory["ascender"]:
+        lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
+        lr_funds_sorted = sorted(lr_funds)
+        lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
+        lr_obj_sorted = sorted(lr_obj)
+
+        func_choice = list(
+            set(row["func"] for row in context["data3"] if "func" in row)
+        )
+        func_choice_sorted = sorted(func_choice)
+
+        context["lr_funds"] = lr_funds_sorted
+        context["lr_obj"] = lr_obj_sorted
+        context["func_choice"] = func_choice_sorted
+        context["anchor_year"] = anchor_year
+
+    return context
+
 
 def profit_loss_chart(school, anchor_year):
     cnxn = connect()

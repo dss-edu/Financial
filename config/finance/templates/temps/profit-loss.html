@@ -426,6 +426,18 @@
           <div style="margin-top:300px"></div>
   
 
+          {% if '/profit-loss-date/' in request.path %}
+         
+          <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account" data-placement="left">
+            <i class="fa-solid fa-list-ol"></i>
+          </a>
+      {% elif '/profit-loss/' in request.path %}
+         
+          <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left">
+            <i class="fa-solid fa-clock"></i>
+          </a>
+      {% endif %}
+
               <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left">
                   <i class="fa-solid fa-receipt"></i>
               </a>
@@ -531,7 +543,7 @@
                   id="toggle-button"
                   type="button"
                   class="expand-button"
-                  onclick="toggleColumns(); hide17thColumn();"
+                  onclick="toggleColumns(); "
                   style="float: right"
                 >
                   +
