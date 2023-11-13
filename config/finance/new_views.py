@@ -14,18 +14,10 @@ import json
 from .decorators import permission_required,custom_login_required
 from config import settings
 
-SCHOOLS = {
-    "advantage": "ADVANTAGE ACADEMY",
-    "cumberland": "CUMBERLAND ACADEMY",
-    "village-tech": "VILLAGE TECH",
-    "leadership": "Leadership Prep School",
-    "manara": "MANARA ACADEMY",
-}
-
+SCHOOLS = settings.SCHOOLS
+db = settings.db
+schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
-
-
-
 
 def dashboard_notes(request, school):
 
@@ -382,7 +374,7 @@ def general_ledger(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
 
