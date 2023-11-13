@@ -34,10 +34,11 @@ var columnsCollapsed = true;
 
 function toggleColumns() {
  
-  var toggleButton = document.getElementById("toggle-button");
-  var collapsedColumns = document.getElementsByClassName("collapsed");
-  var show = document.getElementById("showCurrentMonth");
-  var hide = document.getElementById("hideCurrentMonth");
+  const dataTable = document.getElementById('data-table')
+  const toggleButton = document.getElementById("toggle-button");
+  const collapsedColumns = dataTable.getElementsByClassName("collapsed");
+  const show = document.getElementById("showCurrentMonth");
+  const hide = document.getElementById("hideCurrentMonth");
   
   
   for (var i = 0; i < collapsedColumns.length; i++) {

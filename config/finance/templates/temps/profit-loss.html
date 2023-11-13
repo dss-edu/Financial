@@ -164,7 +164,7 @@
    
 }
 
-.table-box{
+#table-box{
   padding-right: 50px;
   z-index: 2;
   flex-grow:1;
@@ -395,6 +395,15 @@
         title="Export to Excel"
         ><i class="fas fa-file-excel"></i
       ></a>
+
+      <a
+        id="export-pdf-button"
+        class="navbar-brand mr-4 text-secondary"
+        href="#"
+        data-toggle="tooltip"
+        title="Export to PDF"
+        ><i class="fas fa-file-pdf"></i
+      ></a>
     </div>
     <div id="edit-container" class="mr-2">
       <button
@@ -444,7 +453,9 @@
                   <i class="fas fa-file-excel"></i>
               </a>
 
-  
+              <a id="export-pdf-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to PDF" data-placement="left">
+                  <i class="fas fa-file-pdf"></i>
+              </a>
       </div> <!-- end of side class -->
   </div> <!-- end of side-panel -->
 
@@ -506,7 +517,8 @@
       <!-- {% endif %} -->
 
       {% csrf_token %}
-      <div class="table-box" >
+      <div id="table-box">
+        <table id="data-table-overview" class="table table-hover" width="100%" style="display:none;"></table>
         <table id="data-table" class="table table-hover" width="100%">
           <thead>
             <tr>
@@ -7350,6 +7362,7 @@
   <script src="{% static 'js/pl.js' %}"></script>
   <script src="{% static 'js/excel.js' %}"></script>
   <script src="{% static 'js/plHideCols.js' %}"></script>
+  <script src="{% static 'js/export.js' %}"></script>
 
   {% endblock %}
 </div>
