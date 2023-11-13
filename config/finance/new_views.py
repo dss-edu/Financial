@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 import calendar
 import json
 from .decorators import permission_required,custom_login_required
+from config import settings
 
 SCHOOLS = {
     "advantage": "ADVANTAGE ACADEMY",
@@ -20,6 +21,8 @@ SCHOOLS = {
     "leadership": "Leadership Prep School",
     "manara": "MANARA ACADEMY",
 }
+
+schoolMonths = settings.schoolMonths
 
 
 
@@ -234,6 +237,11 @@ def profit_loss(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+
     return render(request, "temps/profit-loss.html", context)
 
 
@@ -280,6 +288,9 @@ def balance_sheet(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -324,6 +335,9 @@ def cashflow(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
     return render(request, "temps/cashflow.html", context)
 
 
