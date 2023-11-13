@@ -17,6 +17,8 @@ curr_year = current_date.year
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
+schoolCategory = settings.schoolCategory
+schoolMonths = settings.schoolMonths
 
 def dashboard(school):
     # current_date = datetime.today().date()
@@ -156,11 +158,11 @@ def charter_first(school):
 
     # for FY
     fiscal_year = year
-    if school in ["advantage", "cumberland", "village-tech"]:
+    if school in schoolMonths["septemberSchool"]:
         if month < 9:
             fiscal_year = year - 1
 
-    if school in ["manara", "leadership"]:
+    else:
         if month < 7:
             fiscal_year = year - 1
 
@@ -204,7 +206,7 @@ def profit_loss(school, anchor_year):
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
 
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
         lr_funds_sorted = sorted(lr_funds)
         lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
@@ -395,7 +397,7 @@ def cashflow(school, anchor_year):
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
 
-    if not school == "village-tech":
+    if school in schoolCategory["ascender"]:
         lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
         lr_funds_sorted = sorted(lr_funds)
         lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
@@ -433,7 +435,7 @@ def general_ledger(school):
     cnxn = connect()
     cursor = cnxn.cursor()
     query = f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC"
-    if school == "village-tech":
+    if school in schoolCategory["skyward"]:
         query = (
             f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY PostingDate DESC"
         )
@@ -441,7 +443,7 @@ def general_ledger(school):
     rows = cursor.fetchall()
 
     data3 = []
-    if school != "village-tech":
+    if school in schoolCategory["ascender"]:
         for row in rows:
             date_str = row[11]
             # if date_str is not None:
