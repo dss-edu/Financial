@@ -8,6 +8,7 @@ import os
 import re
 import math
 from config import settings
+import calendar
 
 # Get the current date
 current_date = datetime.now()
@@ -96,18 +97,26 @@ def percent_to_ratio(percentage):
         return "Invalid input"
 
 
-def charter_first(school):
+def charter_first(school,anchor_year,anchor_month):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
-    for i in range(month_number - 1, 0, -1):
-        query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
-                    WHERE school = '{school}' \
-                    AND month = {i};"
-        cursor.execute(query)
-        row = cursor.fetchone()
-        if row is not None:
-            break
+    if anchor_month:
+            query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                WHERE school = '{school}' \
+                AND year = '{anchor_year}' \
+                AND month = {anchor_month};"
+            cursor.execute(query)
+            row = cursor.fetchone()
+    else:
+        for i in range(month_number - 1, 0, -1):
+            query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                        WHERE school = '{school}' \
+                        AND month = {i};"
+            cursor.execute(query)
+            row = cursor.fetchone()
+            if row is not None:
+                break
 
     context = {
         "school": school,
@@ -168,7 +177,31 @@ def charter_first(school):
 
     context["fiscal_year"] = fiscal_year
     context["next_fiscal_year"] = fiscal_year + 1
+
+
+    query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}';"
+       
+        
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    charter_dict = {}
+
+    for row in rows:
+        charter_year = row[1]
+        charter_month = row[2]
+   
+
+        if charter_year not in charter_dict:
+            charter_dict[charter_year] = []
+        
+        charter_month_name = calendar.month_name[charter_month]
+
+        charter_dict[charter_year].append({"month_number": charter_month, "month_name": charter_month_name})
+
+    context["charter_dict"] = charter_dict
     return context
+
 
 
 def profit_loss(school, anchor_year):

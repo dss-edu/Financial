@@ -143,67 +143,14 @@ def dashboard(request, school, anchor_year=""):
 
 @custom_login_required
 @permission_required
-def charter_first(request, school, anchor_year=""):
-    context = modules.charter_first(school)
-    # net_ytd = context["net_income_ytd"]
-    # net_earnings = context["net_earnings"]
+def charter_first(request, school, anchor_year="",anchor_month=""):
+    context = modules.charter_first(school,anchor_year,anchor_month)
 
-    # if net_ytd < 0:
-    #     context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
-    # else:
-    #     context["net_income_ytd"] = f"${net_ytd:.0f}"
-
-    # if net_earnings < 0:
-    #     context["net_earnings"] = f"$({net_earnings * -1:.0f})"
-    # else:
-    #     context["net_earnings"] = f"${net_earnings:.0f}"
-
-    # context["debt_capitalization"] = f"{context['debt_capitalization']:.0f}%"
-
-    # # turn int into month name
-    # month = context["month"]
-    # year = context["year"]
-    # next_month = datetime(year, month + 1, 1)
-    # this_month = next_month - relativedelta(days=1)
-    # context["date"] = this_month
-
-    # # for FY
-    # fiscal_year = year
-    # if school in ["advantage", "cumberland", "village-tech"]:
-    #     if month < 9:
-    #         fiscal_year = year - 1
-
-    # if school in ["manara", "leadership"]:
-    #     if month < 7:
-    #         fiscal_year = year - 1
-
-    # context["fiscal_year"] = fiscal_year
-    # context["next_fiscal_year"] = fiscal_year + 1
 
     context["anchor_year"] = anchor_year
 
-    # current_date = datetime.today().date()
-    # current_year = current_date.year
-    # last_year = current_date - timedelta(days=365)
-    # current_month = current_date.replace(day=1)
-    # last_month = current_month - relativedelta(days=1)
-    # last_month_number = last_month.month
-    # ytd_budget_test = last_month_number + 3
-    # ytd_budget = ytd_budget_test / 12
-    # formatted_ytd_budget = (
-    #     f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    # )
-    #
-    # if formatted_ytd_budget.startswith("0."):
-    #     formatted_ytd_budget = formatted_ytd_budget[2:]
-    # context = {
-    #     "school": school,
-    #     "school_name": SCHOOLS[school],
-    #     "last_month": last_month,
-    #     "last_month_number": last_month_number,
-    #     "format_ytd_budget": formatted_ytd_budget,
-    #     "ytd_budget": ytd_budget,
-    # }
+
+    
     role = request.session.get('user_role')
     context["role"] = role
     username = request.session.get('username')

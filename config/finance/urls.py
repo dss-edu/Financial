@@ -90,6 +90,7 @@ urlpatterns = [
     path("dashboard/<str:school>/<int:anchor_year>", new_views.dashboard),
     path("charter-first/<str:school>", new_views.charter_first),
     path("charter-first/<str:school>/<int:anchor_year>", new_views.charter_first),
+    path("charter-first/<str:school>/<int:anchor_year>/<int:anchor_month>", new_views.charter_first),
     path("charter-first-charts/<str:school>", new_views.charter_first_charts),
     path("profit-loss/<str:school>", new_views.profit_loss),
     path("profit-loss/<str:school>/<int:anchor_year>", new_views.profit_loss),
