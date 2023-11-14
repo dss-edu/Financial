@@ -4948,19 +4948,19 @@ def excel(school):
             if row[8] == school:
                 fye = float(row[7]) if row[7] else 0
             
+                if FY_year_1 == row[9]:
+                    row_dict = {
+                        "Activity": row[0],
+                        "Description": row[1],
+                        "Category": row[2],
+                        "Subcategory": row[3],
+                        "FYE": fye,
+                        "BS_id": row[5],
+                        "school": row[8],
 
-                row_dict = {
-                    "Activity": row[0],
-                    "Description": row[1],
-                    "Category": row[2],
-                    "Subcategory": row[3],
-                    "FYE": fye,
-                    "BS_id": row[5],
-                    "school": row[8],
+                    }
 
-                }
-
-                data_balancesheet.append(row_dict)
+                    data_balancesheet.append(row_dict)
 
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['bs_activity']}")
         rows = cursor.fetchall()
