@@ -35,6 +35,7 @@ a{
 }
 a:hover{
     color:#007bff;
+    cursor: pointer;
 }
 
 
@@ -420,7 +421,15 @@ style="display:none;"
 
                 <h5 style="text-align: center; display: inline;">FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet <br></h5>
                 <h5 style="text-align: center; display: inline; padding-left:20px;">as of {{last_month}}</h5>
-                <button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn(); " style="float: right;">+</button>
+
+                <a
+                  id="toggle-button"
+
+                  onclick="toggleColumns(); hide17thColumn();"
+                  style="float: right"
+                >
+                <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
+              </a>
             </th>
            
             
@@ -639,7 +648,13 @@ style="display:none;"
             
             <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
               <td class="firstcolumn">
-                <button id="row4" class="expand-button"  type="button" onclick="toggleRow(4)"  >+</button>
+                <a
+                id="row4"
+
+                onclick="toggleRow(4);"
+              >
+              <i id="row4-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+            </a>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -723,7 +738,13 @@ style="display:none;"
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
       <td class="firstcolumn">
         
-        <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" >+</button>
+        <a
+        id="row5"
+
+        onclick="toggleRow(1); "
+      >
+      <i id="row5-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+    </a>
       </td>
       <td >
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -800,7 +821,14 @@ style="display:none;"
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
       <td class="firstcolumn">
         
-        <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)">+</button>
+                
+        <a
+        id="row6"
+
+        onclick="toggleRow(6); "
+      >
+      <i id="row6-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+    </a>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -875,7 +903,13 @@ style="display:none;"
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
       <td class="firstcolumn">
         
-        <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" >+</button>
+        <a
+        id="row7"
+
+        onclick="toggleRow(7); "
+      >
+      <i id="row7-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+    </a>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -951,7 +985,12 @@ style="display:none;"
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
       <td class="firstcolumn">
        
-        <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" >+</button>
+        <a
+        id="row8"
+        onclick="toggleRow(8); "
+        >
+      <i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+    </a>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1026,7 +1065,11 @@ style="display:none;"
     <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
       <td class="firstcolumn">
        
-        <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" >+</button>
+        <a
+        id="row9"
+        onclick="toggleRow(9); "
+        >
+      <i id="row9-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1150,7 +1193,11 @@ style="display:none;"
             <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
               <td class="firstcolumn">
                 
-                <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" >+</button>
+                <a
+                id="row10"
+                onclick="toggleRow(10); "
+                >
+              <i id="row10-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1226,7 +1273,11 @@ style="display:none;"
       <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
         <td class="firstcolumn">
           
-          <button id="row16" class="expand-button"  type="button" onclick="toggleRow(16)" >+</button>
+          <a
+          id="row16"
+          onclick="toggleRow(16); "
+          >
+        <i id="row16-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
         </td>
         <td>
           <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1300,7 +1351,11 @@ style="display:none;"
     <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
       <td class="firstcolumn">
         
-        <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
+        <a
+        id="row11"
+        onclick="toggleRow(11); "
+        >
+      <i id="row11-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1376,7 +1431,11 @@ style="display:none;"
     <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
       <td class="firstcolumn">
         
-        <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
+        <a
+        id="row12"
+        onclick="toggleRow(12); "
+        >
+      <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1449,7 +1508,11 @@ style="display:none;"
     <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
       <td class="firstcolumn">
         
-        <button id="row18" class="expand-button"  type="button" onclick="toggleRow(18)" >+</button>
+        <a
+        id="row18"
+        onclick="toggleRow(18); "
+        >
+      <i id="row18-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1600,7 +1663,11 @@ style="display:none;"
             <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
               <td class="firstcolumn">
                
-                <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)">+</button>
+                <a
+                id="row13"
+                onclick="toggleRow(13); "
+                >
+              <i id="row13-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1677,7 +1744,11 @@ style="display:none;"
             <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
               <td class="firstcolumn">
                
-                <button id="row20" class="expand-button"  type="button" onclick="toggleRow(20)">+</button>
+                <a
+                id="row20"
+                onclick="toggleRow(20); "
+                >
+              <i id="row20-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1754,7 +1825,11 @@ style="display:none;"
           <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
             <td class="firstcolumn">
               
-              <button id="row14" class="expand-button"  type="button" onclick="toggleRow(14)" >+</button>
+              <a
+              id="row14"
+              onclick="toggleRow(14); "
+              >
+            <i id="row14-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
             </td>
             <td>
               <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1830,7 +1905,11 @@ style="display:none;"
         <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
           <td class="firstcolumn">
           
-            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" >+</button>
+            <a
+            id="row15"
+            onclick="toggleRow(15); "
+            >
+          <i id="row15-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1909,7 +1988,11 @@ style="display:none;"
           <td class="firstcolumn">
             
             {% if  forloop.first %}
-            <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)">+</button>
+            <a
+            id="row15"
+            onclick="toggleRow(15); "
+            >
+          <i id="row15-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
    
 
           {% endif %}
@@ -1987,7 +2070,11 @@ style="display:none;"
         <td class="firstcolumn">
           
           {% if  forloop.first %}
-          <button id="row21" class="expand-button"  type="button" onclick="toggleRow(21)">+</button>
+          <a
+          id="row21"
+          onclick="toggleRow(21); "
+          >
+        <i id="row21-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
  
 
         {% endif %}
@@ -2066,7 +2153,11 @@ style="display:none;"
           <td class="firstcolumn">
             
            
-            <button id="row19" class="expand-button"  type="button" onclick="toggleRow(19)">+</button>
+            <a
+            id="row19"
+            onclick="toggleRow(19); "
+            >
+          <i id="row19-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
    
 
        
@@ -2181,8 +2272,11 @@ style="display:none;"
             
             <tr class="total-liabilities-row">
               <td class="firstcolumn">
-               
-                <button id="row17" class="expand-button"  type="button" onclick="toggleRow(17)" >+</button>
+                <a
+                id="row17"
+                onclick="toggleRow(17); "
+                >
+              <i id="row17-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2470,7 +2564,11 @@ style="display:none;"
         
         <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
           <td class="firstcolumn">
-            <button id="row4" class="expand-button"  type="button" onclick="toggleRow(4)" >+</button>
+            <a
+            id="row17"
+            onclick="toggleRow(17); "
+            >
+          <i id="row17-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2555,7 +2653,11 @@ style="display:none;"
 <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
   <td class="firstcolumn">
     
-    <button id="row5" class="expand-button"  type="button" onclick="toggleRow(5)" >+</button>
+    <a
+    id="row5"
+    onclick="toggleRow(5); "
+    >
+  <i id="row5-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td >
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2632,7 +2734,11 @@ style="display:none;"
 <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
   <td class="firstcolumn">
     
-    <button id="row6" class="expand-button"  type="button" onclick="toggleRow(6)">+</button>
+    <a
+    id="row6"
+    onclick="toggleRow(6); "
+    >
+  <i id="row6-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2708,7 +2814,11 @@ style="display:none;"
 <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
   <td class="firstcolumn">
     
-    <button id="row7" class="expand-button"  type="button" onclick="toggleRow(7)" >+</button>
+    <a
+    id="row7"
+    onclick="toggleRow(7); "
+    >
+  <i id="row7-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2785,7 +2895,11 @@ style="display:none;"
 <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
   <td class="firstcolumn">
    
-    <button id="row8" class="expand-button"  type="button" onclick="toggleRow(8)" >+</button>
+    <a
+    id="row8"
+    onclick="toggleRow(8); "
+    >
+  <i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2861,7 +2975,11 @@ style="display:none;"
 <tr id="row1-{{ forloop.counter }}" class="current-assets-row">
   <td class="firstcolumn">
    
-    <button id="row9" class="expand-button"  type="button" onclick="toggleRow(9)" >+</button>
+    <a
+    id="row9"
+    onclick="toggleRow(9); "
+    >
+  <i id="row9-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -2988,7 +3106,11 @@ style="display:none;"
         <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
           <td class="firstcolumn">
             
-            <button id="row10" class="expand-button"  type="button" onclick="toggleRow(10)" >+</button>
+            <a
+            id="row10"
+            onclick="toggleRow(10); "
+            >
+          <i id="row10-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3066,7 +3188,11 @@ style="display:none;"
 <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
   <td class="firstcolumn">
     
-    <button id="row11" class="expand-button"  type="button" onclick="toggleRow(11)" >+</button>
+    <a
+    id="row11"
+    onclick="toggleRow(11); "
+    >
+  <i id="row11-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3143,7 +3269,11 @@ style="display:none;"
 <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
   <td class="firstcolumn">
     
-    <button id="row12" class="expand-button"  type="button" onclick="toggleRow(12)" >+</button>
+    <a
+    id="row12"
+    onclick="toggleRow(12); "
+    >
+  <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
   </td>
   <td>
     <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3217,7 +3347,11 @@ style="display:none;"
       <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
         <td class="firstcolumn">
           
-          <button id="row18" class="expand-button"  type="button" onclick="toggleRow(18)" >+</button>
+          <a
+          id="row18"
+          onclick="toggleRow(18); "
+          >
+        <i id="row18-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
         </td>
         <td>
           <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3372,8 +3506,11 @@ style="display:none;"
        
         <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
           <td class="firstcolumn">
-           
-            <button id="row13" class="expand-button"  type="button" onclick="toggleRow(13)">+</button>
+            <a
+            id="row13"
+            onclick="toggleRow(13); "
+            >
+          <i id="row13-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3452,7 +3589,11 @@ style="display:none;"
       <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
         <td class="firstcolumn">
           
-          <button id="row14" class="expand-button"  type="button" onclick="toggleRow(14)" >+</button>
+          <a
+          id="row14"
+          onclick="toggleRow(14); "
+          >
+        <i id="row14-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
         </td>
         <td>
           <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3530,7 +3671,11 @@ style="display:none;"
     <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
       <td class="firstcolumn">
       
-        <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)" >+</button>
+        <a
+        id="row15"
+        onclick="toggleRow(15); "
+        >
+      <i id="row15-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
       </td>
       <td>
         <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -3610,7 +3755,11 @@ style="display:none;"
       <td class="firstcolumn">
         
         {% if  forloop.first %}
-        <button id="row15" class="expand-button"  type="button" onclick="toggleRow(15)">+</button>
+        <a
+        id="row15"
+        onclick="toggleRow(15); "
+        >
+      <i id="row15-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
 
 
       {% endif %}
@@ -3692,8 +3841,11 @@ style="display:none;"
       <td class="firstcolumn">
         
         {% if  forloop.first %}
-        <button id="row21" class="expand-button"  type="button" onclick="toggleRow(21)">+</button>
-
+        <a
+        id="row21"
+        onclick="toggleRow(21); "
+        >
+      <i id="row21-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
 
       {% endif %}
 
@@ -3773,7 +3925,11 @@ style="display:none;"
     <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
       <td class="firstcolumn">
         
-        <button id="row19" class="expand-button"  type="button" onclick="toggleRow(19)">+</button>
+        <a
+        id="row19"
+        onclick="toggleRow(19); "
+        >
+      <i id="row19-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
 
 
 
@@ -3896,8 +4052,11 @@ style="display:none;"
         
         <tr class="total-liabilities-row">
           <td class="firstcolumn">
-           
-            <button id="row17" class="expand-button"  type="button" onclick="toggleRow(17)" >+</button>
+            <a
+            id="row17"
+            onclick="toggleRow(17); "
+            >
+          <i id="row17-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >

@@ -125,6 +125,7 @@
   }
   a:hover {
     color: #007bff;
+    cursor: pointer;
   }
 
   .side-panel {
@@ -551,15 +552,14 @@
                 >
                   as of {{months.last_month}}
                 </h5>
-                <button
+                <a
                   id="toggle-button"
-                  type="button"
-                  class="expand-button"
+
                   onclick="toggleColumns(); hide17thColumn();"
                   style="float: right"
                 >
-                  +
-                </button>
+                <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
+              </a>
               </th>
             </tr>
             {% comment %}
@@ -980,14 +980,13 @@
 
             <tr id="ttl-row" class="ttl-lr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row1"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(1); toggleborderlr();"
                 >
-                  +
-                </button>
+                <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Local Revenue</strong></td>
@@ -1233,14 +1232,13 @@
 
             <tr id="ttl-row" class="ttl-spr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row2"
-                  class="expand-button"
-                  type="button"
+"
                   onclick="toggleRow(2); toggleborderspr();"
                 >
-                  +
-                </button>
+                <i  id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>State Program Revenue</strong></td>
@@ -1488,14 +1486,13 @@
 
             <tr id="ttl-row" class="ttl-fpr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row3"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(3); toggleborderfpr(); "
                 >
-                  +
-                </button>
+                <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Federal Program Revenue</strong></td>
@@ -1815,14 +1812,12 @@
 
             <tr id="total-row1" class="ttl-1-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row11"
-                  class="expand-button"
-                  type="button"
                   onclick="toggleRow(11); togglebordertotal1();"
                 >
-                  -
-                </button>
+                <i  id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Total </strong></td>
@@ -2183,14 +2178,13 @@
 
             <tr class="DnA-row-total">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row12"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(12); toggleborderDNA();"
                 >
-                  +
-                </button>
+                <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Depreciation and Amortization</strong></td>
@@ -2494,15 +2488,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row6"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(6); "
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row6-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -2686,15 +2679,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row7"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(7)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row7-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -2890,15 +2882,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row8"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(8)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -3094,15 +3085,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row9"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(9)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row9-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -3504,15 +3494,14 @@
             {% if row.obj == '6500'%}
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row10"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(10)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row10-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -3705,15 +3694,14 @@
             {% if row.obj == '6600'%}
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row13"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(13)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row13-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -4319,14 +4307,13 @@
 
             <tr id="ttl-row" class="ttl-lr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row1"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(1); toggleborderlr();"
                 >
-                  +
-                </button>
+                <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Local Revenue</strong></td>
@@ -4574,14 +4561,13 @@
 
             <tr id="ttl-row" class="ttl-spr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row2"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(2); toggleborderspr();"
                 >
-                  +
-                </button>
+                <i id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>State Program Revenue</strong></td>
@@ -4827,14 +4813,13 @@
 
             <tr id="ttl-row" class="ttl-fpr-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row3"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(3); toggleborderfpr(); "
                 >
-                  +
-                </button>
+                <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Federal Program Revenue</strong></td>
@@ -5153,14 +5138,13 @@
 
             <tr id="total-row1" class="ttl-1-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row11"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(11); togglebordertotal1();"
                 >
-                  -
-                </button>
+                <i id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Total </strong></td>
@@ -5522,14 +5506,13 @@
 
             <tr class="DnA-row-total">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row12"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(12); toggleborderDNA();"
                 >
-                  +
-                </button>
+                <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td><strong>Depreciation and Amortization</strong></td>
@@ -5836,15 +5819,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row6"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(6); "
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row6-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -6032,12 +6014,11 @@
               <td class="firstcolumn">
                 <button
                   id="row7"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(7)"
                   style="float: left"
                 >
-                  +
+                <i id="row7-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
                 </button>
               </td>
               <td class="collapsed"></td>
@@ -6235,15 +6216,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row8"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(8)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -6440,15 +6420,14 @@
 
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row9"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(9)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row9-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -6848,15 +6827,14 @@
             {% if row.obj == '6500'%}
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row10"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(10)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row10-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>
@@ -7047,15 +7025,14 @@
             {% if row.obj == '6600'%}
             <tr id="row5-{{ forloop.counter }}" class="EOC-row">
               <td class="firstcolumn">
-                <button
+                <a
                   id="row13"
-                  class="expand-button"
-                  type="button"
+
                   onclick="toggleRow(13)"
                   style="float: left"
                 >
-                  +
-                </button>
+                <i id="row13-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </a>
               </td>
               <td class="collapsed"></td>
               <td>

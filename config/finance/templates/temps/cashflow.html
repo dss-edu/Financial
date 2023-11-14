@@ -45,6 +45,9 @@
         margin-bottom: 15px;
       
       }
+      a:hover{
+        cursor:pointer;
+      }
       
 </style>
 {% endblock %}
@@ -160,7 +163,13 @@
                             <th colspan="16" style="white-space: nowrap; text-align: center;" > 
                                 <h5 style="text-align: center; display: inline;">Statement of Cash Flows </h5><br> 
                                 <h5 style="text-align: center; display: inline; padding-left:30px;">as of {{last_month}}</h5>
-                                <button id="toggle-button" type="button" class="expand-button" onclick="toggleColumns(); hide17thColumn();" style="float: right;">+</button>
+                                <a
+                                id="toggle-button"
+              
+                                onclick="toggleColumns(); hide17thColumn();"
+                                style="float: right"
+                              >
+                              <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
                             </th>
                        
                         </tr>
@@ -1290,30 +1299,35 @@
         var school = "{{ school }}";
         var year = "{{FY_year_1}}";
 
-        var columnsCollapsed = true;
-        function toggleColumns() {
-            var toggleButton = document.getElementById("toggle-button");
-            var collapsedColumns = document.getElementsByClassName("collapsed");
-            var show = document.getElementById("showCurrentMonth");
-            var hide = document.getElementById("hideCurrentMonth");
+       
+var columnsCollapsed = true;
 
-            for (var i = 0; i < collapsedColumns.length; i++) {
-                if (columnsCollapsed) {
-                    collapsedColumns[i].style.display = "table-cell";
-                    toggleButton.innerHTML = "-";
-                    hide.style.display = "flex";
-                    show.style.display ="none";
-                } else {
-                    collapsedColumns[i].style.display = "none";
-                    toggleButton.innerHTML = "+";
-                    hide.style.display = "none";
-                    show.style.display ="flex";
-                }
-            }
 
-  // Toggle the state
-            columnsCollapsed = !columnsCollapsed;
+function toggleColumns() {
+    const dataTable = document.getElementById('data-table');
+    const toggleButton = document.getElementById("toggle-button");
+    const toggleIcon = document.getElementById("toggle-icon");
+    const collapsedColumns = dataTable.getElementsByClassName("collapsed");
+    const show = document.getElementById("showCurrentMonth");
+    const hide = document.getElementById("hideCurrentMonth");
+
+    for (var i = 0; i < collapsedColumns.length; i++) {
+        if (columnsCollapsed) {
+            collapsedColumns[i].style.display = "table-cell";
+            toggleIcon.className = "fa-solid fa-chevron-left";
+            hide.style.display = "flex";
+            show.style.display = "none";
+        } else {
+            collapsedColumns[i].style.display = "none";
+            toggleIcon.className = "fa-solid fa-chevron-right";
+            hide.style.display = "none";
+            show.style.display = "flex";
         }
+    }
+
+    // Toggle the state
+    columnsCollapsed = !columnsCollapsed;
+}
     </script>
     <script src="{% static 'js/cashflow2.js' %}"></script>
 {% comment %} <script src="{% static 'js/cashflow.js' %}"></script> {% endcomment %}

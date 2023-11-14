@@ -105,16 +105,31 @@ function checkValuesMatch() {
     showModal(match);
   });
 
+  // function toggleRow(rowId) {
+  //   for (var i = 0; i <=100; i++) {
+  //     var row = document.getElementById("row" + rowId + "-" + i);
+  //     if (row) {
+  //       row.style.display = row.style.display === "none" ? "table-row" : "none";
+  //     }
+  //   }
+    
+  //   var rowElement = document.getElementById("row" + rowId);
+  //   if (rowElement) {
+  //     rowElement.innerHTML = rowElement.innerHTML === "-" ? "+" : "-";
+  //   }
+  // }
+
   function toggleRow(rowId) {
-    for (var i = 0; i <=100; i++) {
+    for (var i = 0; i <= 100; i++) {
       var row = document.getElementById("row" + rowId + "-" + i);
       if (row) {
         row.style.display = row.style.display === "none" ? "table-row" : "none";
       }
     }
     
-    var rowElement = document.getElementById("row" + rowId);
-    if (rowElement) {
-      rowElement.innerHTML = rowElement.innerHTML === "-" ? "+" : "-";
+    var iconElement = document.getElementById("row" + rowId + "-icon");
+    if (iconElement) {
+        iconElement.className = iconElement.className === "fa-solid fa-chevron-down" ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
     }
   }
+  

@@ -24,41 +24,40 @@ function toggleRow(rowId) {
     }
   }
   
-  var rowElement = document.getElementById("row" + rowId);
-  if (rowElement) {
-    rowElement.innerHTML = rowElement.innerHTML === "-" ? "+" : "-";
+  var iconElement = document.getElementById("row" + rowId + "-icon");
+  if (iconElement) {
+      iconElement.className = iconElement.className === "fa-solid fa-chevron-down" ? "fa-solid fa-chevron-up" : "fa-solid fa-chevron-down";
   }
 }
 
 var columnsCollapsed = true;
 
-function toggleColumns() {
- 
-  const dataTable = document.getElementById('data-table')
-  const toggleButton = document.getElementById("toggle-button");
-  const collapsedColumns = dataTable.getElementsByClassName("collapsed");
-  const show = document.getElementById("showCurrentMonth");
-  const hide = document.getElementById("hideCurrentMonth");
-  
-  
-  for (var i = 0; i < collapsedColumns.length; i++) {
-    if (columnsCollapsed) {
-      collapsedColumns[i].style.display = "table-cell";
-      toggleButton.innerHTML = "-";
-      hide.style.display = "flex";
-      show.style.display ="none";
-    } else {
-      collapsedColumns[i].style.display = "none";
-      toggleButton.innerHTML = "+";
-      hide.style.display = "none";
-      show.style.display ="flex";
-    }
-  }
-  
-  // Toggle the state
-  columnsCollapsed = !columnsCollapsed;
-}
 
+function toggleColumns() {
+    const dataTable = document.getElementById('data-table');
+    const toggleButton = document.getElementById("toggle-button");
+    const toggleIcon = document.getElementById("toggle-icon");
+    const collapsedColumns = dataTable.getElementsByClassName("collapsed");
+    const show = document.getElementById("showCurrentMonth");
+    const hide = document.getElementById("hideCurrentMonth");
+
+    for (var i = 0; i < collapsedColumns.length; i++) {
+        if (columnsCollapsed) {
+            collapsedColumns[i].style.display = "table-cell";
+            toggleIcon.className = "fa-solid fa-chevron-left";
+            hide.style.display = "flex";
+            show.style.display = "none";
+        } else {
+            collapsedColumns[i].style.display = "none";
+            toggleIcon.className = "fa-solid fa-chevron-right";
+            hide.style.display = "none";
+            show.style.display = "flex";
+        }
+    }
+
+    // Toggle the state
+    columnsCollapsed = !columnsCollapsed;
+}
 
   function hideRowsByClass(className) {
     const rows = document.querySelectorAll(className);
