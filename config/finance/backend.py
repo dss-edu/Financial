@@ -144,7 +144,9 @@ def profit_loss(school):
                     date = row[11].strftime("%Y-%m-%d")
                 acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
                 acct_per_month = acct_per_month_string.strftime("%m")
-        
+
+
+                db_date = row[22].split('-')[0]
 
                 if isinstance(row[11],datetime):
                     date_checker = row[11].date()
@@ -153,72 +155,43 @@ def profit_loss(school):
                    
     
 
-                if school in schoolMonths["julySchool"]:
+                #convert data
+                db_date = int(db_date)
+                curr_fy = int(FY_year_1)
+                print(db_date)
                     
-                    if date_checker >= july_date_start and date_checker <= july_date_end:
-                        if date_checker > current_month:
-                            current_month = date_checker.replace(day=1)
-                         
-                        
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[1],
-                            "obj": row[2],
-                            "sobj": row[3],
-                            "org": row[4],
-                            "fscl_yr": row[5],
-                            "pgm": row[6],
-                            "edSpan": row[7],
-                            "projDtl": row[8],
-                            "AcctDescr": row[9],
-                            "Number": row[10],
-                            "Date": date,
-                            "AcctPer": row[12],
-                            "Est": row[13],
-                            "Real": row[14],
-                            "Appr": row[15],
-                            "Encum": row[16],
-                            "Expend": expend,
-                            "Bal": row[18],
-                            "WorkDescr": row[19],
-                            "Type": row[20],
-                            "Contr": row[21],
-                        }
-                        data3.append(row_dict)
-                else:
-
-                    if date_checker >= september_date_start and date_checker <= september_date_end:
-                        if date_checker >= current_month:
+                if db_date == curr_fy:
+                    if date_checker > current_month:
+                        current_month = date_checker.replace(day=1)
                     
-                            current_month = date_checker.replace(day=1)
+                    
+                    
+                    row_dict = {
+                        "fund": row[0],
+                        "func": row[1],
+                        "obj": row[2],
+                        "sobj": row[3],
+                        "org": row[4],
+                        "fscl_yr": row[5],
+                        "pgm": row[6],
+                        "edSpan": row[7],
+                        "projDtl": row[8],
+                        "AcctDescr": row[9],
+                        "Number": row[10],
+                        "Date": date,
+                        "AcctPer": row[12],
+                        "Est": row[13],
+                        "Real": row[14],
+                        "Appr": row[15],
+                        "Encum": row[16],
+                        "Expend": expend,
+                        "Bal": row[18],
+                        "WorkDescr": row[19],
+                        "Type": row[20],
+                        "Contr": row[21],
+                    }
+                    data3.append(row_dict)
                 
-                        
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[1],
-                            "obj": row[2],
-                            "sobj": row[3],
-                            "org": row[4],
-                            "fscl_yr": row[5],
-                            "pgm": row[6],
-                            "edSpan": row[7],
-                            "projDtl": row[8],
-                            "AcctDescr": row[9],
-                            "Number": row[10],
-                            "Date": date,
-                            "AcctPer": row[12],
-                            "Est": row[13],
-                            "Real": row[14],
-                            "Appr": row[15],
-                            "Encum": row[16],
-                            "Expend": expend,
-                            "Bal": row[18],
-                            "WorkDescr": row[19],
-                            "Type": row[20],
-                            "Contr": row[21],
-                        }
-                        data3.append(row_dict)
-
         
 
         else:        
@@ -230,52 +203,30 @@ def profit_loss(school):
                     date = row[9].strftime("%Y-%m-%d")
                 acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
                 acct_per_month = acct_per_month_string.strftime("%m")
+                db_date = row[22].split('-')[0]
 
                 if isinstance(row[9], (datetime, datetime.date)):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
-                if school in schoolMonths["julySchool"]:
                 
-                    if date_checker >= july_date_start and date_checker <= july_date_end:
-                        if date_checker > current_month:
-                            current_month = date_checker.replace(day=1)
-
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "Date": date,
-                            "AcctPer":row[10],
-                            "Amount": amount,
-                            "Budget":row[20],
-                        }
-
-                        data3.append(row_dict)
-
-                else:
-                    if date_checker >= september_date_start and date_checker <= september_date_end:
-                        if date_checker >= current_month:
-                            current_month = date_checker.replace(day=1)
-
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "Date": date,
-                            "AcctPer": row[10],
-                            "Amount": amount,
-                            "Budget":row[20],
-                        }
-
-                        data3.append(row_dict)
+                if db_date == FY_year_1:
+                    if date_checker >= current_month:
+                        current_month = date_checker.replace(day=1)
+                    row_dict = {
+                        "fund": row[0],
+                        "func": row[2],
+                        "obj": row[3],
+                        "sobj": row[4],
+                        "org": row[5],
+                        "fscl_yr": row[6],
+                        "Date": date,
+                        "AcctPer": row[10],
+                        "Amount": amount,
+                        "Budget":row[20],
+                    }
+                    data3.append(row_dict)
 
         
         last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      

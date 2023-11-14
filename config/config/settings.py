@@ -191,7 +191,7 @@ db = {
     "advantage": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_Advantage]",
+        "db": "[AscenderData_Advantage1]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
