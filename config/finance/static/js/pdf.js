@@ -2,14 +2,19 @@ document.addEventListener('DOMContentLoaded', function (){
     const exportPDFButton = document.getElementById('export-pdf-button')
 
     const table = {
-        'advantage' :  'data-table'
+        'profit-loss' :  'data-table',
+        'balance-sheet' :  'data-table',
+        'cashflow-statement': 'data-table'
     }
 
     exportPDFButton.addEventListener('click', function(event){
       event.preventDefault();
+      const url = new URL(window.location.href)
+      // url.pathname returns /dashboard/advantage
+      const page = url.pathname.split('/')[1]
       const tableBox = document.getElementById('table-box')
       const tableOverview = document.getElementById('data-table-overview')
-      const originalTable = document.getElementById(table[school]);
+      const originalTable = document.getElementById(table[page]);
 
     //////////////////////////////////////////// cloned table ///////////////////////////////////////////////////////
       // export table for overview table
@@ -90,8 +95,22 @@ document.addEventListener('DOMContentLoaded', function (){
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
       };
 
+      console.log(tableBox)
       html2pdf().from(tableBox).set(options).save().then(() => {
-        tableOverview.style.display='none'
+        // tableOverview.style.display='none'
+        const tableOverview = document.getElementById('data-table-overview')
+        tableOverview.innerHTML = ''
+        tableOverview.style.display = 'none'
+
+        const originalExpandButtons = originalTable.querySelectorAll('button.expand-button')
+        for (btn of originalExpandButtons){
+          btn.click();
+        }
+
+        const allExpandButtons = document.querySelectorAll('button.expand-button')
+        for (btn of allExpandButtons){
+            btn.style.display=''
+        }
       });
 
 

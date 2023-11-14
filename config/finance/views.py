@@ -2548,11 +2548,10 @@ def generate_excel(request,school,anchor_year):
     cursor = cnxn.cursor()
 
     
-    BASE_DIR = os.getcwd()
     if anchor_year != curr_year :
-        JSON_DIR = os.path.join(BASE_DIR, "finance","json", str(anchor_year),  "excel", school)
+        JSON_DIR = os.path.join(settings.BASE_DIR, "finance","json", str(anchor_year),  "excel", school)
     else:
-        JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "excel", school)
+        JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "excel", school)
     
     with open(os.path.join(JSON_DIR, "data.json"), "r") as f:
         data = json.load(f)
