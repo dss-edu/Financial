@@ -4691,6 +4691,7 @@ def excel(school):
             cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
 
         rows = cursor.fetchall()
+
         data3 = []
 
         if school in schoolMonths["julySchool"]:
@@ -4703,27 +4704,31 @@ def excel(school):
         last_month_number = ""
         formatted_last_month = ""
 
+
         if school in schoolCategory["ascender"]:
             for row in rows:
                 expend = float(row[17])
                 date = row[11]
                 if isinstance(row[11], datetime):
                     date = row[11].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
+        
 
-                if isinstance(row[11], datetime):
+                if isinstance(row[11],datetime):
                     date_checker = row[11].date()
                 else:
                     date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
                    
-
+    
 
                 if school in schoolMonths["julySchool"]:
                     
-                    if date_checker > july_date_start and date_checker < july_date_end:
+                    if date_checker >= july_date_start and date_checker <= july_date_end:
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
                          
-
+                        print(row[12])
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -4755,7 +4760,8 @@ def excel(school):
                         if date_checker >= current_month:
                     
                             current_month = date_checker.replace(day=1)
-                          
+                
+                        print(row[12])
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -4791,37 +4797,74 @@ def excel(school):
                 
                 if isinstance(row[9], datetime):
                     date = row[9].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
 
-                if isinstance(row[9], datetime):
+                if isinstance(row[9], (datetime, datetime.date)):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
+                if school in schoolMonths["julySchool"]:
+                
+                    if date_checker >= july_date_start and date_checker <= july_date_end:
+                        if date_checker > current_month:
+                            current_month = date_checker.replace(day=1)
 
-                if date_checker >= september_date_start and date_checker <= september_date_end:
-                    if date_checker >= current_month:
-                        current_month = date_checker.replace(day=1)
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
 
-                    row_dict = {
-                        "fund": row[0],
-                        "func": row[2],
-                        "obj": row[3],
-                        "sobj": row[4],
-                        "org": row[5],
-                        "fscl_yr": row[6],
-                        "Date": date,
-                        "AcctPer": row[10],
-                        "Amount": amount,
-                        "Budget":row[20],
-                    }
+                        data3.append(row_dict)
 
-                    data3.append(row_dict)
+                else:
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+                        if date_checker >= current_month:
+                            current_month = date_checker.replace(day=1)
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer": row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
+
+                        data3.append(row_dict)
 
             
         last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
         last_month_name = last_month.strftime("%B")
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
+        db_last_month = last_month.strftime("%Y-%m-%d")
+
+        if FY_year_current == FY_year_1:
+            first_day_of_next_month = current_date.replace(day=1, month=current_date.month + 1)
+            last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
+            print("current",current_month)
+            print("last",last_day_of_current_month)
+            if current_month <= last_day_of_current_month:
+                current_month = current_date.replace(day=1) - timedelta(days=1)
+                last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+                last_month_name = last_month.strftime("%B")
+                last_month_number = last_month.month
+                formatted_last_month = last_month.strftime('%B %d, %Y')  
+                db_last_month = last_month.strftime("%Y-%m-%d")
 
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
