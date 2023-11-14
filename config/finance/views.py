@@ -2542,7 +2542,7 @@ def viewglexpense_cumberland(request,obj,yr):
 # def cashflow_cumberland(request):
 #     return render(request,'dashboard/cumberland/cashflow_cumberland.html')
 
-@login_required
+
 def generate_excel(request,school,anchor_year):
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -2873,7 +2873,7 @@ def generate_excel(request,school,anchor_year):
 
 
 
-    if  school != 'manara' and school != 'leadership':
+    if school in schoolMonths["septemberSchool"]:
 
 
         for col in range(7, 20 ):
