@@ -159,7 +159,7 @@ def profit_loss(school):
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
                          
-                        print(row[12])
+                        
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -192,7 +192,7 @@ def profit_loss(school):
                     
                             current_month = date_checker.replace(day=1)
                 
-                        print(row[12])
+                        
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -414,18 +414,18 @@ def profit_loss(school):
         # formatted_last_month = last_month.strftime('%B %d, %Y')
         # last_month_number = last_month.month
 
-        # month_exception = abs(last_month_number) + 1 
-        # if month_exception == 13:
-        #     month_exception = 1
+        month_exception = abs(last_month_number) + 1 
+        if month_exception == 13:
+            month_exception = 1
             
-        # month_exception_str = str(month_exception).zfill(2)
+        month_exception_str = str(month_exception).zfill(2)
 
 
         if school in schoolMonths["julySchool"]:
                 ytd_budget_test = last_month_number - 6
-                # if month_exception == 7:
-                #     month_exception = ""
-                #     month_exception_str = ""             
+                if month_exception == 7:
+                    month_exception = ""
+                    month_exception_str = ""             
         else:
             if last_month_number >= 9:
 
@@ -433,9 +433,9 @@ def profit_loss(school):
             else:
                 ytd_budget_test = last_month_number + 4
 
-            # if month_exception == 9:
-            #         month_exception = "" 
-            #         month_exception_str = ""
+            if month_exception == 9:
+                    month_exception = "" 
+                    month_exception_str = ""
         ytd_budget = abs(ytd_budget_test) / 12
 
 
@@ -589,6 +589,7 @@ def profit_loss(school):
                     for entry in data3
                     if entry["fund"] == fund
                     and entry["obj"] == obj
+                    and entry["Date"] <= db_last_month
                   
             
                                 
@@ -601,6 +602,7 @@ def profit_loss(school):
                     and entry["School"] == school
                     and entry[est_key] is not None 
                     and not isinstance(entry[est_key], str) 
+                    and entry["Date"] <= db_last_month
                                 
                 )
                 item["total_budget"] = total_adjustment_budget + total_budget
@@ -671,29 +673,30 @@ def profit_loss(school):
 
                 if category == 'Local Revenue':
                     total_lr[acct_per] += (item[f"total_real{i}"])
- 
-                    ytd_total_lr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_lr += (item[f"total_real{i}"])
                     
                 if category == 'State Program Revenue':
                     total_spr[acct_per] += (item[f"total_real{i}"])
-
-                    ytd_total_spr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_spr += (item[f"total_real{i}"])
                     
                 if category == 'Federal Program Revenue':
                     total_fpr[acct_per] += (item[f"total_real{i}"])
-    
-                    ytd_total_fpr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_fpr += (item[f"total_real{i}"])
 
             for month_number in range(1, 13):
-
-                ytd_total += (item[f"total_real{month_number}"])
+                if month_number != month_exception:
+                    ytd_total += (item[f"total_real{month_number}"])
            
 
             item["ytd_total"] = ytd_total
             item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
             item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
         
-        ytd_total_revenue = abs(sum(total_revenue.values())) #abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
+        ytd_total_revenue = abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
+        #ytd_total_revenue = abs(sum(total_revenue.values())) abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
         ytd_ammended_total = totals["total_ammended"] * ytd_budget
         ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
         ytd_ammended_total_spr = totals["total_ammended_spr"] * ytd_budget
@@ -737,6 +740,7 @@ def profit_loss(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
+                            and entry["Date"] <= db_last_month
                             
                         )
                 else:
@@ -746,6 +750,7 @@ def profit_loss(school):
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
                             and entry["Type"] == 'GJ'
+                            and entry["Date"] <= db_last_month
                       
                         
                         )
@@ -784,8 +789,8 @@ def profit_loss(school):
                     first_total_months[acct_per] += item[f"total_func{i}"]
 
                 for month_number in range(1, 13):
-
-                    ytd_total += (item[f"total_func{month_number}"])
+                    if month_number != month_exception:
+                        ytd_total += (item[f"total_func{month_number}"])
             
                 item["ytd_total"] = ytd_total
                 first_total += item['total_budget']
@@ -814,6 +819,7 @@ def profit_loss(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] == '6449'
+                            and entry["Date"] <= db_last_month 
                           
                         )
                 else:
@@ -823,7 +829,7 @@ def profit_loss(school):
                         if entry["func"] == func  
                         and entry["obj"] == '6449'
                         and entry["Type"] == 'GJ'
-               
+                        and entry["Date"] <= db_last_month 
                     )
                 total_adjustment_func = sum(
                         entry[appr_key]
@@ -859,8 +865,8 @@ def profit_loss(school):
                     dna_total_months[acct_per] += item[f"total_func2_{i}"]
                 
                 for month_number in range(1, 13):
- 
-                    ytd_total += (item[f"total_func2_{month_number}"])
+                    if month_number != month_exception:
+                        ytd_total += (item[f"total_func2_{month_number}"])
             
                 item["ytd_total"] = ytd_total
                 dna_total += item['total_budget']
@@ -1049,8 +1055,8 @@ def profit_loss(school):
                 total_expense_months[acct_per] += item[f"total_activities{i}"]  
 
             for month_number in range(1, 13):
-
-                ytd_total += (item[f"total_activities{month_number}"])
+                if month_number != month_exception:
+                    ytd_total += (item[f"total_activities{month_number}"])
             item["ytd_total"] = ytd_total
 
         total_expense += dna_total
@@ -1061,21 +1067,21 @@ def profit_loss(school):
             
                 total_expense_months[acct_per] += dna_value
 
-        ytd_EOC_pc  = sum(total_EOC_pc.values())
-        ytd_EOC_pcs = sum(total_EOC_pcs.values())
-        ytd_EOC_sm  = sum(total_EOC_sm.values())
-        ytd_EOC_ooe = sum(total_EOC_ooe.values())
-        ytd_EOC_te  = sum(total_EOC_te.values())
-        ytd_EOC_oe  = sum(total_EOC_oe.values())
-        ytd_EOC_cpa  = sum(total_EOC_cpa.values())
+        # ytd_EOC_pc  = sum(total_EOC_pc.values())
+        # ytd_EOC_pcs = sum(total_EOC_pcs.values())
+        # ytd_EOC_sm  = sum(total_EOC_sm.values())
+        # ytd_EOC_ooe = sum(total_EOC_ooe.values())
+        # ytd_EOC_te  = sum(total_EOC_te.values())
+        # ytd_EOC_oe  = sum(total_EOC_oe.values())
+        # ytd_EOC_cpa  = sum(total_EOC_cpa.values())
 
-        # ytd_EOC_pc  = abs(sum(value for key, value in total_EOC_pc.items() if key != month_exception_str))
-        # ytd_EOC_pcs =  abs(sum(value for key, value in total_EOC_pcs.items() if key != month_exception_str))
-        # ytd_EOC_sm  =  abs(sum(value for key, value in total_EOC_sm.items() if key != month_exception_str))
-        # ytd_EOC_ooe =  abs(sum(value for key, value in total_EOC_ooe.items() if key != month_exception_str))
-        # ytd_EOC_te  =  abs(sum(value for key, value in total_EOC_te.items() if key != month_exception_str))
-        # ytd_EOC_oe  =  abs(sum(value for key, value in total_EOC_oe.items() if key != month_exception_str))
-        # ytd_EOC_cpa  =  abs(sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
+        ytd_EOC_pc  = abs(sum(value for key, value in total_EOC_pc.items() if key != month_exception_str))
+        ytd_EOC_pcs =  abs(sum(value for key, value in total_EOC_pcs.items() if key != month_exception_str))
+        ytd_EOC_sm  =  abs(sum(value for key, value in total_EOC_sm.items() if key != month_exception_str))
+        ytd_EOC_ooe =  abs(sum(value for key, value in total_EOC_ooe.items() if key != month_exception_str))
+        ytd_EOC_te  =  abs(sum(value for key, value in total_EOC_te.items() if key != month_exception_str))
+        ytd_EOC_oe  =  abs(sum(value for key, value in total_EOC_oe.items() if key != month_exception_str))
+        ytd_EOC_cpa  =  abs(sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
         
         ytd_budget_pc = total_budget_pc * ytd_budget
         ytd_budget_pcs = total_budget_pcs * ytd_budget
@@ -2067,11 +2073,18 @@ def profit_loss_date(school):
         # last_month_number = last_month.month
 
 
+        month_exception = abs(last_month_number) + 1 
+        if month_exception == 13:
+            month_exception = 1
+            
+        month_exception_str = str(month_exception).zfill(2)
 
 
         if school in schoolMonths["julySchool"]:
                 ytd_budget_test = last_month_number - 6
-       
+                if month_exception == 7:
+                    month_exception = ""
+                    month_exception_str = ""             
         else:
             if last_month_number >= 9:
 
@@ -2079,7 +2092,9 @@ def profit_loss_date(school):
             else:
                 ytd_budget_test = last_month_number + 4
 
-
+            if month_exception == 9:
+                    month_exception = "" 
+                    month_exception_str = ""
         ytd_budget = abs(ytd_budget_test) / 12
 
 
@@ -2233,8 +2248,8 @@ def profit_loss_date(school):
                     for entry in data3
                     if entry["fund"] == fund
                     and entry["obj"] == obj
-               
-                 
+                    and entry["Date"] <= db_last_month
+                  
             
                                 
                 )
@@ -2246,6 +2261,7 @@ def profit_loss_date(school):
                     and entry["School"] == school
                     and entry[est_key] is not None 
                     and not isinstance(entry[est_key], str) 
+                    and entry["Date"] <= db_last_month
                                 
                 )
                 item["total_budget"] = total_adjustment_budget + total_budget
@@ -2256,7 +2272,7 @@ def profit_loss_date(school):
                     if entry["fund"] == fund
                     and entry["obj"] == obj
                     and entry["Type"] == "GJ" 
-                  
+             
                           
                 )
                 total_adjustment_budget = sum(
@@ -2316,29 +2332,30 @@ def profit_loss_date(school):
 
                 if category == 'Local Revenue':
                     total_lr[acct_per] += (item[f"total_real{i}"])
-                   
-                    ytd_total_lr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_lr += (item[f"total_real{i}"])
                     
                 if category == 'State Program Revenue':
                     total_spr[acct_per] += (item[f"total_real{i}"])
-                  
-                    ytd_total_spr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_spr += (item[f"total_real{i}"])
                     
                 if category == 'Federal Program Revenue':
                     total_fpr[acct_per] += (item[f"total_real{i}"])
-                   
-                    ytd_total_fpr += (item[f"total_real{i}"])
+                    if i != month_exception:
+                        ytd_total_fpr += (item[f"total_real{i}"])
 
             for month_number in range(1, 13):
-               
-                ytd_total += (item[f"total_real{month_number}"])
+                if month_number != month_exception:
+                    ytd_total += (item[f"total_real{month_number}"])
            
 
             item["ytd_total"] = ytd_total
             item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
             item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
         
-        ytd_total_revenue = abs(sum(total_revenue.values()))
+        ytd_total_revenue = abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
+        #ytd_total_revenue = abs(sum(total_revenue.values())) abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
         ytd_ammended_total = totals["total_ammended"] * ytd_budget
         ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
         ytd_ammended_total_spr = totals["total_ammended_spr"] * ytd_budget
@@ -2382,7 +2399,8 @@ def profit_loss_date(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
-                         
+                            and entry["Date"] <= db_last_month
+                            
                         )
                 else:
                     total_func_func = sum(
@@ -2391,7 +2409,8 @@ def profit_loss_date(school):
                             if entry["func"] == func  
                             and entry["obj"] != '6449'
                             and entry["Type"] == 'GJ'
-                        
+                            and entry["Date"] <= db_last_month
+                      
                         
                         )
                 total_adjustment_func = sum(
@@ -2429,8 +2448,8 @@ def profit_loss_date(school):
                     first_total_months[acct_per] += item[f"total_func{i}"]
 
                 for month_number in range(1, 13):
-                    
-                    ytd_total += (item[f"total_func{month_number}"])
+                    if month_number != month_exception:
+                        ytd_total += (item[f"total_func{month_number}"])
             
                 item["ytd_total"] = ytd_total
                 first_total += item['total_budget']
@@ -2459,7 +2478,8 @@ def profit_loss_date(school):
                             for entry in data3
                             if entry["func"] == func  
                             and entry["obj"] == '6449'
-                                             
+                            and entry["Date"] <= db_last_month 
+                          
                         )
                 else:
                     total_func_func = sum(
@@ -2468,7 +2488,7 @@ def profit_loss_date(school):
                         if entry["func"] == func  
                         and entry["obj"] == '6449'
                         and entry["Type"] == 'GJ'
-                         
+                        and entry["Date"] <= db_last_month 
                     )
                 total_adjustment_func = sum(
                         entry[appr_key]
@@ -2504,8 +2524,8 @@ def profit_loss_date(school):
                     dna_total_months[acct_per] += item[f"total_func2_{i}"]
                 
                 for month_number in range(1, 13):
-                    
-                    ytd_total += (item[f"total_func2_{month_number}"])
+                    if month_number != month_exception:
+                        ytd_total += (item[f"total_func2_{month_number}"])
             
                 item["ytd_total"] = ytd_total
                 dna_total += item['total_budget']
@@ -2614,8 +2634,7 @@ def profit_loss_date(school):
                     entry[appr_key]
                     for entry in data3
                     if entry["obj"] == obj
-                   
-
+           
                     )
                 item["total_budget"] = total_budget_data_activities
             else:
@@ -2624,7 +2643,7 @@ def profit_loss_date(school):
                 for entry in data3
                 if entry["obj"] == obj
                 and entry["Type"] == 'GJ'
-               
+          
         
                 )
                 item["total_budget"] = -(total_budget_data_activities)
@@ -2695,8 +2714,8 @@ def profit_loss_date(school):
                 total_expense_months[acct_per] += item[f"total_activities{i}"]  
 
             for month_number in range(1, 13):
-                
-                ytd_total += (item[f"total_activities{month_number}"])
+                if month_number != month_exception:
+                    ytd_total += (item[f"total_activities{month_number}"])
             item["ytd_total"] = ytd_total
 
         total_expense += dna_total
@@ -2707,14 +2726,21 @@ def profit_loss_date(school):
             
                 total_expense_months[acct_per] += dna_value
 
-        ytd_EOC_pc  = sum(total_EOC_pc.values())
-        ytd_EOC_pcs =  sum(total_EOC_pcs.values())
-        ytd_EOC_sm  =   sum(total_EOC_sm.values())
-        ytd_EOC_ooe =  sum(total_EOC_ooe.values())
-        ytd_EOC_te  =  sum(total_EOC_te.values())
-        ytd_EOC_oe  =  sum(total_EOC_oe.values())
-        ytd_EOC_cpa  =  sum(total_EOC_cpa.values())
-        # abs(sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
+        # ytd_EOC_pc  = sum(total_EOC_pc.values())
+        # ytd_EOC_pcs = sum(total_EOC_pcs.values())
+        # ytd_EOC_sm  = sum(total_EOC_sm.values())
+        # ytd_EOC_ooe = sum(total_EOC_ooe.values())
+        # ytd_EOC_te  = sum(total_EOC_te.values())
+        # ytd_EOC_oe  = sum(total_EOC_oe.values())
+        # ytd_EOC_cpa  = sum(total_EOC_cpa.values())
+
+        ytd_EOC_pc  = abs(sum(value for key, value in total_EOC_pc.items() if key != month_exception_str))
+        ytd_EOC_pcs =  abs(sum(value for key, value in total_EOC_pcs.items() if key != month_exception_str))
+        ytd_EOC_sm  =  abs(sum(value for key, value in total_EOC_sm.items() if key != month_exception_str))
+        ytd_EOC_ooe =  abs(sum(value for key, value in total_EOC_ooe.items() if key != month_exception_str))
+        ytd_EOC_te  =  abs(sum(value for key, value in total_EOC_te.items() if key != month_exception_str))
+        ytd_EOC_oe  =  abs(sum(value for key, value in total_EOC_oe.items() if key != month_exception_str))
+        ytd_EOC_cpa  =  abs(sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
         
         ytd_budget_pc = total_budget_pc * ytd_budget
         ytd_budget_pcs = total_budget_pcs * ytd_budget
@@ -3386,7 +3412,7 @@ def balance_sheet(school):
                 query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
                 cursor.execute(query, (i, fye, school,FY_year_1)) 
                 cnxn.commit()
-                print(FY_year_1)
+                
         
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
         rows = cursor.fetchall()
@@ -4728,7 +4754,7 @@ def excel(school):
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
                          
-                        print(row[12])
+                        
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
@@ -4761,7 +4787,7 @@ def excel(school):
                     
                             current_month = date_checker.replace(day=1)
                 
-                        print(row[12])
+                      
                         row_dict = {
                             "fund": row[0],
                             "func": row[1],
