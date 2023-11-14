@@ -73,7 +73,7 @@ a:hover{
 
 }
 
-.table-box{
+#table-box{
   padding-right: 50px;
   z-index: 1;
   flex-grow:1;
@@ -297,6 +297,15 @@ a:hover{
       title="Export to Excel"
       data-placement="left"
       ><i class="fas fa-file-excel"></i></a>
+
+      <a 
+      id="export-pdf-button"
+      class="circle-container text-secondary" 
+      href="#" 
+      data-toggle="tooltip" 
+      title="Export to PDF"
+      data-placement="left"
+      ><i class="fas fa-file-pdf"></i></a>
  
 
 
@@ -398,7 +407,8 @@ style="display:none;"
 
     {% endif %}
   {% csrf_token %}
-  <div class="table-box">
+  <div id="table-box">
+    <table id="data-table-overview" class="table table-hover" style="display:none;"></table>
     <table id="data-table" class="table table-hover">
         <thead>
            <tr>
@@ -4148,5 +4158,7 @@ style="display:none;"
 
 
 <script src="{% static 'js/bsHideCols.js' %}"></script>  
+
+<script src="{% static 'js/pdf.js' %}"></script>
 {% endblock %}
 
