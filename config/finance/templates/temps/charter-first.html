@@ -129,7 +129,7 @@ td:nth-child(5)
     top: 80px;
     right: 0;
     height: 100%;
-    width: 200px; /* Adjust the width as needed */
+    width: 150px; /* Adjust the width as needed */
     background-color: #f0f0f0;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     overflow: auto;
@@ -214,7 +214,8 @@ td:nth-child(5)
                                 >
                                     <span class="text-center" style="color: gray;">{{ year }}</span>
                                 </a>
-                                <ul id="{{ year }}-months" style="display: none;">
+                                {% comment %} <ul id="{{ year }}-months" style="display: none;"> {% endcomment %}
+                                    <ul id="{{ year }}-months" >
                                     {% for month in months %}
                                         <li style="margin-left:40px;">
                                             <a href="/charter-first/{{ school }}/{{year}}/{{month.month_number}}" style="color: gray;">
@@ -234,6 +235,20 @@ td:nth-child(5)
             </div>
             
             <script>
+
+                var currentURL = window.location.href;
+
+                // Check if the current URL contains the specific pattern
+                if (currentURL.includes("/charter-first/{{ school }}/{{year}}/")) {
+                    // If the URL matches, set the initial display state of the collapsible panel to 'block'
+                    document.getElementById("collapsiblePanel").style.display = "block";
+                    document.getElementById("sidePanel").style.display = "block";
+                    document.getElementById("sidePanel").style.right = "160px";
+                    document.getElementById("panelIcon").className = "fa-solid fa-angles-right";
+                }
+
+                
+
                 function toggleMonths(year) {
                     var months = document.getElementById(year + "-months");
                     months.style.display = (months.style.display === "none" || months.style.display === "") ? "block" : "none";
@@ -246,7 +261,7 @@ td:nth-child(5)
                     var panelIcon = document.getElementById("panelIcon");
 
                     panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
-                    sidePanel.style.right = (panel.style.display === "none") ? "18px" : "210px";
+                    sidePanel.style.right = (panel.style.display === "none") ? "18px" : "160px";
                     panelIcon.className = (panel.style.display === "none") ? "fa-solid fa-angles-left" : "fa-solid fa-angles-right";
 ;
                 }
