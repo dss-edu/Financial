@@ -228,7 +228,7 @@
   >
     <div class="modal-content" style="height: 80%">
       <div class="modal-body" style="max-height: 80%; overflow-y: auto">
-        <div>
+        <div id="modal-table-box">
           <table class="table table-hover" id="balancesheet-data-table1">
             <thead>
               <tr class="text-center">
@@ -272,6 +272,7 @@
             </thead>
             <tbody id="modal-table-body"></tbody>
           </table>
+          <div id="modal-total-div" style="display: flex;"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -309,9 +310,28 @@
     .addEventListener("click", function (event) {
       event.preventDefault();
 
-      var element = document.getElementById("balancesheet-data-table1");
+      const element = document.getElementById("balancesheet-data-table1");
+      element.style.width = '90%'
+      const tableBody = document.getElementById("modal-table-body")
+      const totalBalance = document.getElementById("modal-total-balance")
 
-      var options = {
+      const totalRow = document.createElement("tr");
+      totalRow.innerHTML = `
+            <td colspan="13"></td>
+            <td style="text-align: right; font-size:25px"><strong>Total:</strong></td>
+            <td style="font-size:25px"> ${totalBalance.textContent}</td>
+          `;
+
+      tableBody.appendChild(totalRow)
+      // create a TOTAL row
+      totalRow.id = 'modal-total-row'
+      var newRow = document.createElement("tr");
+      // const totalFooter = document.getElementById("myModalFooter")
+
+      // totalDiv.appendChild(totalFooter)
+
+
+      const options = {
         margin: 2,
         filename: "exported_table.pdf",
         image: { type: "jpg", quality: 0.6 },
@@ -323,14 +343,19 @@
           scrollY: 0,
         },
         // jsPDF: { unit: "mm", format: [600, 600], orientation: "portrait" },
-        // jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
-        jsPDF: { unit: "mm", format: [1000, 600], orientation: "landscape" },
+        jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
+        // jsPDF: { unit: "mm", format: [1000, 600], orientation: "landscape" },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
         // pagebreak: { mode: ["avoid-all", "css", "legacy"] },
         pagebreak: { mode: ["css", "legacy"], avoid: 'tr'},
       };
 
-      html2pdf().from(element).set(options).save();
+
+      html2pdf().from(element).set(options).save().then(()=> {
+        element.style.width = '100%'
+        const balanceRow = document.getElementById('modal-total-row')
+        balanceRow.remove()
+      });
     });
 </script>
 
