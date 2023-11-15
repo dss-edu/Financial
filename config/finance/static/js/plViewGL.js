@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     var totalRow = document.createElement("tr");
+    console.log(data.total_bal)
     totalRow.innerHTML = `
           <td colspan="11"><div style="width:800px"></div></td>
           <td style="text-align: right; font-size:25px"><strong>Total:</strong></td>

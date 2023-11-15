@@ -1495,9 +1495,9 @@ def viewglfunc(request,func,yr,school,year):
     try:
         def format_value(value):
             if value > 0:
-                return "{:,.0f}".format(round(value))
+                return "{:,.2f}".format(round(value))
             elif value < 0:
-                return "({:,.0f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(round(value)))
             else:
                 return ""
         

@@ -168,7 +168,7 @@
 #table-box{
   padding-right: 50px;
   z-index: 2;
-  flex-grow:1;
+  flex-grow:0;
 }
 
 </style>
@@ -290,14 +290,14 @@
           ><i class="fas fa-file-pdf"></i
         ></a>
         &nbsp; &nbsp; &nbsp; &nbsp;
-        <!-- <a
+        <a
           id="export-excel2-button"
           class="navbar-brand mr-1 text-primary"
           href="#"
           data-toggle="tooltip"
           title="EXCEL"
           ><i class="fas fa-file-excel"></i
-        ></a> -->
+        ></a>
       </div>
     </div>
   </div>
@@ -316,16 +316,18 @@
         filename: "exported_table.pdf",
         image: { type: "jpg", quality: 0.6 },
         html2canvas: {
-          scale: 1,
+          scale: 0.9,
           timeout: 0,
           logging: true, 
-          // scrollX: 0,
-          // scrollY: 0,
+          scrollX: 0,
+          scrollY: 0,
         },
         // jsPDF: { unit: "mm", format: [600, 600], orientation: "portrait" },
-        jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
+        // jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
+        jsPDF: { unit: "mm", format: [1000, 600], orientation: "landscape" },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        // pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        pagebreak: { mode: ["css", "legacy"], avoid: 'tr'},
       };
 
       html2pdf().from(element).set(options).save();
@@ -531,8 +533,8 @@
 
       {% csrf_token %}
       <div id="table-box">
-        <table id="data-table-overview" class="table table-hover" width="100%" style="display:none;"></table>
-        <table id="data-table" class="table table-hover" width="100%">
+        <table id="data-table-overview" class="table table-hover" style="display:none;"></table>
+        <table id="data-table" class="table table-hover">
           <thead>
             <tr>
               <th class="firstcolumn"></th>
@@ -554,6 +556,7 @@
                 </h5>
                 <a
                   id="toggle-button"
+                  class="expand-button"
 
                   onclick="toggleColumns(); hide17thColumn();"
                   style="float: right"
@@ -982,7 +985,7 @@
               <td class="firstcolumn">
                 <a
                   id="row1"
-
+                  class="expand-button"
                   onclick="toggleRow(1); toggleborderlr();"
                 >
                 <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -1234,7 +1237,7 @@
               <td class="firstcolumn">
                 <a
                   id="row2"
-"
+                  class="expand-button"
                   onclick="toggleRow(2); toggleborderspr();"
                 >
                 <i  id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -1488,7 +1491,7 @@
               <td class="firstcolumn">
                 <a
                   id="row3"
-
+                  class="expand-button"
                   onclick="toggleRow(3); toggleborderfpr(); "
                 >
                 <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -1814,6 +1817,7 @@
               <td class="firstcolumn">
                 <a
                   id="row11"
+                  class="expand-button"
                   onclick="toggleRow(11); togglebordertotal1();"
                 >
                 <i  id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
@@ -2180,7 +2184,7 @@
               <td class="firstcolumn">
                 <a
                   id="row12"
-
+                  class="expand-button"
                   onclick="toggleRow(12); toggleborderDNA();"
                 >
                 <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -2490,7 +2494,7 @@
               <td class="firstcolumn">
                 <a
                   id="row6"
-
+                  class="expand-button"
                   onclick="toggleRow(6); "
                   style="float: left"
                 >
@@ -2681,7 +2685,7 @@
               <td class="firstcolumn">
                 <a
                   id="row7"
-
+                  class="expand-button"
                   onclick="toggleRow(7)"
                   style="float: left"
                 >
@@ -2884,7 +2888,7 @@
               <td class="firstcolumn">
                 <a
                   id="row8"
-
+                  class="expand-button"
                   onclick="toggleRow(8)"
                   style="float: left"
                 >
@@ -3087,7 +3091,7 @@
               <td class="firstcolumn">
                 <a
                   id="row9"
-
+                  class="expand-button"
                   onclick="toggleRow(9)"
                   style="float: left"
                 >
@@ -3496,7 +3500,7 @@
               <td class="firstcolumn">
                 <a
                   id="row10"
-
+                  class="expand-button"
                   onclick="toggleRow(10)"
                   style="float: left"
                 >
@@ -3696,7 +3700,7 @@
               <td class="firstcolumn">
                 <a
                   id="row13"
-
+                  class="expand-button"
                   onclick="toggleRow(13)"
                   style="float: left"
                 >
@@ -4309,7 +4313,7 @@
               <td class="firstcolumn">
                 <a
                   id="row1"
-
+                  class="expand-button"
                   onclick="toggleRow(1); toggleborderlr();"
                 >
                 <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -4563,7 +4567,7 @@
               <td class="firstcolumn">
                 <a
                   id="row2"
-
+                  class="expand-button"
                   onclick="toggleRow(2); toggleborderspr();"
                 >
                 <i id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -4815,7 +4819,7 @@
               <td class="firstcolumn">
                 <a
                   id="row3"
-
+                  class="expand-button"
                   onclick="toggleRow(3); toggleborderfpr(); "
                 >
                 <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -5140,7 +5144,7 @@
               <td class="firstcolumn">
                 <a
                   id="row11"
-
+                  class="expand-button"
                   onclick="toggleRow(11); togglebordertotal1();"
                 >
                 <i id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
@@ -5508,7 +5512,7 @@
               <td class="firstcolumn">
                 <a
                   id="row12"
-
+                  class="expand-button"
                   onclick="toggleRow(12); toggleborderDNA();"
                 >
                 <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
@@ -5821,7 +5825,7 @@
               <td class="firstcolumn">
                 <a
                   id="row6"
-
+                  class="expand-button"
                   onclick="toggleRow(6); "
                   style="float: left"
                 >
@@ -6014,7 +6018,7 @@
               <td class="firstcolumn">
                 <button
                   id="row7"
-
+                  class="expand-button"
                   onclick="toggleRow(7)"
                   style="float: left"
                 >
@@ -6218,7 +6222,7 @@
               <td class="firstcolumn">
                 <a
                   id="row8"
-
+                  class="expand-button"
                   onclick="toggleRow(8)"
                   style="float: left"
                 >
@@ -6422,7 +6426,7 @@
               <td class="firstcolumn">
                 <a
                   id="row9"
-
+                  class="expand-button"
                   onclick="toggleRow(9)"
                   style="float: left"
                 >
@@ -6829,7 +6833,7 @@
               <td class="firstcolumn">
                 <a
                   id="row10"
-
+                  class="expand-button"
                   onclick="toggleRow(10)"
                   style="float: left"
                 >
@@ -7027,7 +7031,7 @@
               <td class="firstcolumn">
                 <a
                   id="row13"
-
+                  class="expand-button"
                   onclick="toggleRow(13)"
                   style="float: left"
                 >

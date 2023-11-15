@@ -65,14 +65,14 @@ document.addEventListener('DOMContentLoaded', function (){
 
     /////////////////////////////////////////////////////// original table ///////////////////////////////////////////////////////
     // expand all expandable cols/rows in orig table
-    const originalExpandButtons = originalTable.querySelectorAll('button.expand-button')
+    const originalExpandButtons = originalTable.querySelectorAll('a.expand-button')
 
     for (btn of originalExpandButtons){
       btn.click();
     }
 
 
-    const allExpandButtons = document.querySelectorAll('button.expand-button')
+    const allExpandButtons = document.querySelectorAll('a.expand-button')
     for (btn of allExpandButtons){
         btn.style.display='none'
     }
@@ -92,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function (){
         // jsPDF: { unit: "mm", format: [600, 600], orientation: "portrait" },
         jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        // pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+        pagebreak: { mode: "css", avoid: "tr" },
       };
 
       console.log(tableBox)
@@ -102,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function (){
         tableOverview.innerHTML = ''
         tableOverview.style.display = 'none'
 
-        const originalExpandButtons = originalTable.querySelectorAll('button.expand-button')
+        const originalExpandButtons = originalTable.querySelectorAll('a.expand-button')
         for (btn of originalExpandButtons){
           btn.click();
         }
 
-        const allExpandButtons = document.querySelectorAll('button.expand-button')
+        const allExpandButtons = document.querySelectorAll('a.expand-button')
         for (btn of allExpandButtons){
             btn.style.display=''
         }
