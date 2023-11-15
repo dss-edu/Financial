@@ -217,7 +217,7 @@ db = {
     "village-tech": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[Skyward_VillageTech1]",
+        "db": "[Skyward_VillageTech]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
