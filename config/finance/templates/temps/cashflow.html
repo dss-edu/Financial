@@ -48,7 +48,9 @@
       a:hover{
         cursor:pointer;
       }
-      
+      .hidden-column {
+        background-color: orange!important;
+      }      
 </style>
 {% endblock %}
 
@@ -264,6 +266,16 @@
                                   columnsToHide[j].style.display = "none";
                               }
                           }
+
+                          var lm = last_month_number2 - 1;
+                          var columnsToHide2 = document.querySelectorAll(
+                            "#data-table td:nth-child(" + lm + ")"
+                          );
+                      
+                          for (var k = 0; k < columnsToHide2.length; k++) {
+                              columnsToHide2[k].classList.add("hidden-column");
+                          }
+                        
                         }
                     </script>
                         <script>
@@ -798,6 +810,15 @@
                                   for (var j = 0; j < columnsToHide.length; j++) {
                                       columnsToHide[j].style.display = "none";
                                   }
+                              }
+
+                              var lm = last_month_number2 - 1;
+                              var columnsToHide2 = document.querySelectorAll(
+                                "#data-table td:nth-child(" + lm + ")"
+                              );
+                          
+                              for (var k = 0; k < columnsToHide2.length; k++) {
+                                  columnsToHide2[k].classList.add("hidden-column");
                               }
                             }
                         </script>

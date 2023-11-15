@@ -80,6 +80,10 @@ a:hover{
   flex-grow:0;
 }
 
+.hidden-column {
+  background-color: orange!important;
+ 
+}
 </style>
 
 {% endblock %}   
@@ -260,7 +264,7 @@ a:hover{
         <div style="margin-top:300px">
         </div>
 
-        {%if months.FY_year_1 == present_year %}
+        {%if FY_year_1 == present_year %}
     <a
     class="text-secondary circle-container"
     id="showCurrentMonth"
@@ -550,6 +554,15 @@ style="display:none;"
         for (var j = 0; j < columnsToHide.length; j++) {
             columnsToHide[j].style.display = "none";
         }
+    }
+
+    var lm = last_month_number2 - 1;
+    var columnsToHide2 = document.querySelectorAll(
+      "#data-table td:nth-child(" + lm + ")"
+    );
+
+    for (var k = 0; k < columnsToHide2.length; k++) {
+        columnsToHide2[k].classList.add("hidden-column");
     }
   }
 
@@ -2524,6 +2537,15 @@ style="display:none;"
                 columnsToHide[j].style.display = "none";
             }
         }
+        var lm = last_month_number2 - 1;
+        var columnsToHide2 = document.querySelectorAll(
+          "#data-table td:nth-child(" + lm + ")"
+        );
+    
+        for (var k = 0; k < columnsToHide2.length; k++) {
+            columnsToHide2[k].classList.add("hidden-column");
+        }
+        
       }
           </script>
 
