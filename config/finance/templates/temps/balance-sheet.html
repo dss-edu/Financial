@@ -77,7 +77,7 @@ a:hover{
 #table-box{
   padding-right: 50px;
   z-index: 1;
-  flex-grow:1;
+  flex-grow:0;
 }
 
 </style>
@@ -409,8 +409,8 @@ style="display:none;"
     {% endif %}
   {% csrf_token %}
   <div id="table-box">
-    <table id="data-table-overview" class="table table-hover" style="display:none;"></table>
-    <table id="data-table" class="table table-hover">
+    <table id="data-table-overview" class="table table-hover" style="display:none;width:auto;"></table>
+    <table id="data-table" class="table table-hover" style="width:auto;">
         <thead>
            <tr>
             <th class="firstcolumn"  ></th>
@@ -424,7 +424,7 @@ style="display:none;"
 
                 <a
                   id="toggle-button"
-
+                  class="expand-button"
                   onclick="toggleColumns(); hide17thColumn();"
                   style="float: right"
                 >
@@ -554,21 +554,66 @@ style="display:none;"
             <th class="firstcolumn"></th>
             <th></th>
             <th></th>
-            <th style="text-align: center;"><div style="width:100px;">FYE {{FY_year_1}}</div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">September   </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">October     </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">November    </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">December    </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">January     </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">February    </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">March       </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">April       </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">May         </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">June        </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">July        </div></th>
-            <th class="collapsed" style="text-align: center;"><div style="width:100px;">August      </div></th>
-            <th style="text-align: center;"><div style="width:100px;">FYTD Activity                 </div></th>
-            <th style="text-align: center;"><div style="width:100px;">As of {{last_month_name}}                   </div></th>
+            <th style="text-align: center;">
+              <!-- <div style="width:100px;">FYE {{FY_year_1}}</div> -->
+              FYE {{FY_year_1}}
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">September </div> -->
+              September 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">October </div> -->
+              October 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">November </div> -->
+              November 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">December </div> -->
+              December 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">January </div> -->
+              January 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">February </div> -->
+              February 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">March </div> -->
+              March 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">April </div> -->
+              April 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">May </div> -->
+              May 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">June </div> -->
+              June 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">July </div> -->
+              July 
+            </th>
+            <th class="collapsed" style="text-align: center;">
+              <!-- <div style="width:100px;">August </div> -->
+              August 
+            </th>
+            <th style="text-align: center;">
+              <!-- <div style="width:100px;">FYTD Activity </div> -->
+              FYTD Activity 
+            </th>
+            <th style="text-align: center;">
+              <!-- <div style="width:100px;">As of {{last_month_name}} </div> -->
+              As of {{last_month_name}} 
+            </th>
         </tr>
 
 
@@ -2483,22 +2528,67 @@ style="display:none;"
         <th class="firstcolumn"></th>
         <th></th>
         <th></th>
-        <th style="text-align: center;"><div style="width:100px;">FYE {{FY_year_1}}</div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">July        </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">August      </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">September   </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">October     </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">November    </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">December    </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">January     </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">February    </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">March       </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">April       </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">May         </div></th>
-        <th class="collapsed" style="text-align: center;"><div style="width:100px;">June        </div></th>
-
-        <th style="text-align: center;"><div style="width:100px;">FYTD Activity                 </div></th>
-        <th style="text-align: center;"><div style="width:100px;">As of {{last_month_name}}                   </div></th>
+        <th style="text-align: center;">
+          <!-- <div style="width:100px;">FYE {{FY_year_1}} </div> -->
+          FYE {{FY_year_1}} 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">July </div> -->
+          July 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">August </div> -->
+          August 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">September </div> -->
+          September 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">October </div> -->
+          October 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">November </div> -->
+          November 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">December </div> -->
+          December 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">January </div> -->
+          January 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">February </div> -->
+          February 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">March </div> -->
+          March 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">April </div> -->
+          April 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">May </div> -->
+          May 
+        </th>
+        <th class="collapsed" style="text-align: center;">
+          <!-- <div style="width:100px;">June </div> -->
+          June 
+        </th>
+        
+        <th style="text-align: center;">
+          <!-- <div style="width:100px;">FYTD Activity </div> -->
+          FYTD Activity 
+        </th>
+        <th style="text-align: center;">
+          <!-- <div style="width:100px;">As of {{last_month_name}} </div> -->
+          As of {{last_month_name}} 
+        </th>
     </tr>
 
 

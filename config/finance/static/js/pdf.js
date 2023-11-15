@@ -93,10 +93,9 @@ document.addEventListener('DOMContentLoaded', function (){
         jsPDF: { unit: "mm", format: 'a3', orientation: "landscape" },
         // jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
         // pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-        pagebreak: { mode: "css", avoid: "tr" },
+        pagebreak: { mode: "css", avoid: "tr", after:"#data-table-overview" },
       };
 
-      console.log(tableBox)
       html2pdf().from(tableBox).set(options).save().then(() => {
         // tableOverview.style.display='none'
         const tableOverview = document.getElementById('data-table-overview')
