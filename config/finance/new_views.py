@@ -204,8 +204,8 @@ def profit_loss_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
     # context = {"school": school, "school_name": SCHOOLS[school]}
     net_ytd = context["net_income_ytd"]
-
-    first_context = modules.charter_first(school)
+    anchor_month = ""
+    first_context = modules.charter_first(school,anchor_year,anchor_month)
     # first_context["debt_capitalization"] = modules.percent_to_ratio(
     #     first_context["debt_capitalization"]
     # )
@@ -253,8 +253,8 @@ def balance_sheet_charts(request, school, anchor_year=""):
     context = modules.profit_loss_chart(school, anchor_year)
     # context = {"school": school, "school_name": SCHOOLS[school]}
     net_ytd = context["net_income_ytd"]
-
-    first_context = modules.charter_first(school)
+    anchor_month=""
+    first_context = modules.charter_first(school,anchor_year,anchor_month)
     # first_context["debt_capitalization"] = modules.percent_to_ratio(
     #     first_context["debt_capitalization"]
     # )

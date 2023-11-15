@@ -4865,7 +4865,7 @@ def generate_excel(request,school,anchor_year):
                             bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
                             bs_sheet[f'R{start_row_bs}'] = row['difference_8']
                             bs_sheet[f'T{start_row_bs}'] = row['fytd']
-
+                            print("324")
                             last_month_row = f'difference_{months["last_month_number"]}'
                             bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                             cash_row_bs = start_row_bs
