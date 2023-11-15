@@ -533,8 +533,8 @@
 
       {% csrf_token %}
       <div id="table-box">
-        <table id="data-table-overview" class="table table-hover" style="display:none;"></table>
-        <table id="data-table" class="table table-hover">
+        <table id="data-table-overview" class="table table-hover" style="display:none; width:auto;"></table>
+        <table id="data-table" class="table table-hover" style="width: auto;">
           <thead>
             <tr>
               <th class="firstcolumn"></th>
@@ -738,59 +738,76 @@
               <th class="collapsed"></th>
               <th></th>
               <th style="text-align: center">
-                <div style="width: 110px">Budget</div>
+                <!-- <div style="width: 110px">Budget</div> -->
+                Budget
               </th>
               <th style="text-align: center">
-                <div style="width: 110px">
+                <!-- <div style="width: 110px">
                   {{months.format_ytd_budget}}% YTD <br />Budget
-                </div>
+                </div> -->
+                {{months.format_ytd_budget}}% YTD <br />Budget
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">September</div>
+                <!-- <div style="width: 110px">September</div> -->
+                September
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">October</div>
+                <!-- <div style="width: 110px">October</div> -->
+                October
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">November</div>
+                <!-- <div style="width: 110px">November</div> -->
+                November
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">December</div>
+                <!-- <div style="width: 110px">December</div> -->
+                December
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">January</div>
+                <!-- <div style="width: 110px">January</div> -->
+                January
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">February</div>
+                <!-- <div style="width: 110px">February</div> -->
+February
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">March</div>
+                <!-- <div style="width: 110px">March</div> -->
+March
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">April</div>
+                <!-- <div style="width: 110px">April</div> -->
+April
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">May</div>
+                <!-- <div style="width: 110px">May</div> -->
+May
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">June</div>
+                <!-- <div style="width: 110px">June</div> -->
+June
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">July</div>
+                <!-- <div style="width: 110px">July</div> -->
+July
               </th>
               <th class="collapsed" style="text-align: center">
-                <div style="width: 110px">August</div>
+                <!-- <div style="width: 110px">August</div> -->
+August
               </th>
               <th style="text-align: center">
-                <div style="width: 110px">Year-to-Date</div>
+                <!-- <div style="width: 110px">Year-to-Date</div> -->
+Year-to-Date
               </th>
               <th style="text-align: center">
-                <div style="width: 110px">Variances</div>
+                <!-- <div style="width: 110px">Variances</div> -->
+Variances
               </th>
               <th style="text-align: center">
-                <div style="width: 110px">
+                <!-- <div style="width: 110px">
                   Var.({{months.format_ytd_budget}}%)
-                </div>
+                </div> -->
+                  Var.({{months.format_ytd_budget}}%)
               </th>
             </tr>
           </thead>
