@@ -160,12 +160,17 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             {% if role == "admin" %}
                                 <a class="dropdown-item">
-                                    <form method="post" action="{% url 'updatedb' %}">
+                                    {% if anchor_year %}
+                                    <form method="post" action="{% url 'updatefy' school=school year=anchor_year%}">
                                         {% csrf_token %}
-                                        <button type="submit">Update Database</button>
+                                        <button type="submit">Update FY1</button>
                                     </form>
-
-
+                                {% else %}
+                                    <form method="post" action="{% url 'updatefy' school=school  %}">
+                                        {% csrf_token %}
+                                        <button type="submit">Update FY2</button>
+                                    </form>
+                                {% endif %}
 
                                 </a>
                                 <div class="dropdown-divider"></div>

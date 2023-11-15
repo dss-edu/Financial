@@ -438,26 +438,49 @@
           <div style="margin-top:300px"></div>
   
 
+
+          {%if months.FY_year_1 == present_year %}
+
           {% if '/profit-loss-date/' in request.path %}
-         
+          
           <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account" data-placement="left">
             <i class="fa-solid fa-list-ol"></i>
           </a>
-      {% elif '/profit-loss/' in request.path %}
-         
+          {% elif '/profit-loss/' in request.path %}
+          
           <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left">
             <i class="fa-solid fa-clock"></i>
           </a>
-      {% endif %}
-
-              <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left">
-                  <i class="fa-solid fa-receipt"></i>
-              </a>
-
-              <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;">
-                <i class="fa-solid fa-receipt"></i>
-            </a>
-   
+          {% endif %}
+          
+          
+          <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left">
+          <i class="fa-solid fa-receipt"></i>
+          </a>
+          <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;">
+          <i class="fa-solid fa-receipt"></i>
+          </a>
+          {%else %}
+          
+          {% if '/profit-loss-date/' in request.path %}
+          
+          <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account" data-placement="left" hidden>
+          <i class="fa-solid fa-list-ol"></i>
+          </a>
+          {% elif '/profit-loss/' in request.path %}
+          
+          <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left" hidden>
+          <i class="fa-solid fa-clock"></i>
+          </a>
+          {% endif %}
+          
+          <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left" hidden>
+          <i class="fa-solid fa-receipt"></i>
+          </a>
+          <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;" hidden>
+          <i class="fa-solid fa-receipt"></i>
+          </a>
+          {%endif %}
   
 
               <a class="text-secondary circle-container" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="Chart" data-placement="left">

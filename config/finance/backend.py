@@ -40,31 +40,52 @@ def update_db():
         profit_loss_date(school)
         
 def update_school(school):
-
-    profit_loss(school) 
-    balance_sheet(school)
-    cashflow(school)
+    anchor_year=""
+    profit_loss(school,anchor_year) 
+    balance_sheet(school,anchor_year)
+    cashflow(school,anchor_year)
     charter_first(school)
-    excel(school)
+    excel(school,anchor_year)
     profit_loss_chart(school)
     profit_loss_date(school)
 
+def update_fy(school,year):
 
-def profit_loss(school):
+    print("here")
+    profit_loss(school,year) 
+    balance_sheet(school,year)
+    cashflow(school,year)
+    excel(school,year)
+    charter_first(school)
+    profit_loss_chart(school)
+    profit_loss_date(school)
 
+def profit_loss(school,year):
+    print("profit_loss")
+    present_date = datetime.today().date()   
+    present_year = present_date.year
  
-
-    start_year = 2021
-    current_date = datetime.today().date()   
-    current_year = current_date.year
-    FY_year_current = current_year
-
-
-
-
-
+    if year:
+        year = int(year)
+        start_year = year
+        FY_year_current = year
+        
+        if school in schoolMonths["julySchool"]:
+            current_date = datetime(start_year, 7, 1).date()
+            
+        else:
+            current_date = datetime(start_year, 9, 1).date() 
+        current_year = current_date.year
+        print("shet")
+    else:
+        start_year = 2021
+        current_date = datetime.today().date()   
+        current_year = current_date.year
+        FY_year_current = current_year
+        
     while start_year <= FY_year_current:
-     
+        print(start_year)
+        print(FY_year_current)
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         july_date_start  = datetime(FY_year_1, 7, 1).date()
@@ -74,6 +95,9 @@ def profit_loss(school):
         september_date_end  = datetime(FY_year_2, 8, 31).date()
 
         start_year = FY_year_2
+
+        
+      
 
         cnxn = connect()
         cursor = cnxn.cursor()
@@ -113,7 +137,6 @@ def profit_loss(school):
                 }
                 data2.append(row_dict)
 
-        #
         if school in schoolCategory["ascender"]:
             cursor.execute(
                 f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
@@ -125,10 +148,14 @@ def profit_loss(school):
 
         data3 = []
 
+       
         if school in schoolMonths["julySchool"]:
             current_month = july_date_start
         else:
             current_month = september_date_start
+
+        
+        
         
         last_month = ""
         last_month_name = ""
@@ -158,11 +185,12 @@ def profit_loss(school):
                 #convert data
                 db_date = int(db_date)
                 curr_fy = int(FY_year_1)
-                print(db_date)
+   
                     
                 if db_date == curr_fy:
                     if date_checker > current_month:
                         current_month = date_checker.replace(day=1)
+                        
                     
                     
                     
@@ -203,30 +231,61 @@ def profit_loss(school):
                     date = row[9].strftime("%Y-%m-%d")
                 acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
                 acct_per_month = acct_per_month_string.strftime("%m")
-                db_date = row[22].split('-')[0]
 
                 if isinstance(row[9], (datetime, datetime.date)):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
+                if school in schoolMonths["julySchool"]:
                 
-                if db_date == FY_year_1:
-                    if date_checker >= current_month:
-                        current_month = date_checker.replace(day=1)
-                    row_dict = {
-                        "fund": row[0],
-                        "func": row[2],
-                        "obj": row[3],
-                        "sobj": row[4],
-                        "org": row[5],
-                        "fscl_yr": row[6],
-                        "Date": date,
-                        "AcctPer": row[10],
-                        "Amount": amount,
-                        "Budget":row[20],
-                    }
-                    data3.append(row_dict)
+                    if date_checker >= july_date_start and date_checker <= july_date_end:
+                        if date_checker > current_month:
+                            current_month = date_checker.replace(day=1)
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
+
+                        data3.append(row_dict)
+
+                else:
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+                        if date_checker >= current_month:
+                            current_month = date_checker.replace(day=1)
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer": row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
+
+                        data3.append(row_dict)
+        print(current_month)
+        if FY_year_1 == present_year:
+            print("current_month")
+    
+        else:
+            if school in schoolMonths["julySchool"]:
+                current_month = july_date_end
+            else:
+                current_month = september_date_end
 
         
         last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
@@ -234,14 +293,19 @@ def profit_loss(school):
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
         db_last_month = last_month.strftime("%Y-%m-%d")
-
-        if FY_year_current == FY_year_1:
-            first_day_of_next_month = current_date.replace(day=1, month=current_date.month + 1)
+        
+  
+        # # print(current_month)
+        # # print(last_month)
+        # # print(formatted_last_month)
+        # # print(last_month_number)
+        if present_year == FY_year_1:
+            first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
             print("current",current_month)
             print("last",last_day_of_current_month)
             if current_month <= last_day_of_current_month:
-                current_month = current_date.replace(day=1) - timedelta(days=1)
+                current_month = current_month.replace(day=1) - timedelta(days=1)
                 last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
                 last_month_name = last_month.strftime("%B")
                 last_month_number = last_month.month
@@ -1487,6 +1551,7 @@ def profit_loss(school):
         sorted_data = sorted(data, key=lambda x: x['obj'])
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
     
+        print(db_last_month)
         context = {
             "data": sorted_data,
             "data2": sorted_data2,
@@ -1502,6 +1567,10 @@ def profit_loss(school):
                 "ytd_budget": ytd_budget,
                 "FY_year_1":FY_year_1,
                 "FY_year_2":FY_year_2,
+                "db_last_month": db_last_month,
+                "month_exception": month_exception,
+                "month_exception_str": month_exception_str,
+                
 
                 },
             "totals":{
@@ -1640,7 +1709,7 @@ def profit_loss(school):
         
 
 
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
@@ -3145,13 +3214,14 @@ def profit_loss_date(school):
         sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
         sorted_data = sorted(data, key=lambda x: x['obj'])
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
-    
+        print(db_last_month)
         context = {
             "data": sorted_data,
             "data2": sorted_data2,
             "data3": data3,
             "data_expensebyobject": data_expensebyobject,
             "data_activities": data_activities,
+
             "months":
                     {
                 "last_month": formatted_last_month,
@@ -3161,6 +3231,9 @@ def profit_loss_date(school):
                 "ytd_budget": ytd_budget,
                 "FY_year_1":FY_year_1,
                 "FY_year_2":FY_year_2,
+                "db_last_month": db_last_month,
+                "month_exception": month_exception,
+                "month_exception_str": month_exception_str,
 
                 },
             "totals":{
@@ -3318,19 +3391,30 @@ def profit_loss_date(school):
                 json.dump(val, file)
             print(file_path)
 
-def balance_sheet(school):
-    start_year = 2021
-    current_date = datetime.today().date()   
-    current_year = current_date.year
-    FY_year_current = current_year
-
-    
-    cnxn = connect()
-    cursor = cnxn.cursor()
-
-
-
+def balance_sheet(school,year):
+    print("balance")
+    present_date = datetime.today().date()   
+    present_year = present_date.year
+ 
+    if year:
+        year = int(year)
+        start_year = year
+        FY_year_current = year
+        
+        if school in schoolMonths["julySchool"]:
+            current_date = datetime(start_year, 7, 1).date()
+            
+        else:
+            current_date = datetime(start_year, 9, 1).date() 
+        current_year = current_date.year
+    else:
+        start_year = 2021
+        current_date = datetime.today().date()   
+        current_year = current_date.year
+        FY_year_current = current_year
+        print("hay")
     while start_year <= FY_year_current:
+
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         start_year = FY_year_2
@@ -3403,7 +3487,7 @@ def balance_sheet(school):
         # rows = cursor.fetchall()
         #
         # data = []
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
@@ -3525,6 +3609,15 @@ def balance_sheet(school):
         last_month = months["last_month"]
         last_month_number = months["last_month_number"]
         last_month_name = months["last_month_name"]
+   
+        db_last_month = months["db_last_month"]
+        month_exception = months["month_exception"]
+        month_exception_str = months["month_exception_str"]
+        
+        print(db_last_month)
+        print(month_exception)
+        print(month_exception_str)
+        
      
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
@@ -3606,8 +3699,8 @@ def balance_sheet(school):
              
 
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
-
-                item["fytd"] += item[f"total_bal{i}"]
+                if i != month_exception:
+                    item["fytd"] += item[f"total_bal{i}"]
             
         activity_sum_dict = {}
         for item in data_activitybs:
@@ -3640,6 +3733,7 @@ def balance_sheet(school):
                     if entry["fund"] == fund
                     and entry["obj"] == obj
                     and entry["AcctPer"] == acct_per
+                 
                 )
                 total_adjustment = sum(
                         entry[real_key]
@@ -3797,6 +3891,9 @@ def balance_sheet(school):
                 total_sum7_value = float(row["total_sum7"])
                 total_sum8_value = float(row["total_sum8"])
 
+                total_sums = [
+                                float(row[f"total_sum{i}"]) for i in range(1, 13)
+                            ]
                 if school in schoolMonths['septemberSchool']:
                 
                     # Calculate the differences and store them in the row dictionary
@@ -3815,9 +3912,18 @@ def balance_sheet(school):
     
                 
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
-                    
-                    row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
-                  
+              
+
+                    if month_exception != "":
+                        
+                        row["fytd"] = sum(
+                            total_sum
+                            for i, total_sum in enumerate(total_sums, start=1)
+                            if i != month_exception
+                        )
+                    else:
+                        row["fytd"] =sum(total_sums)
+
                     row["debt_9"]  = (FYE_value - total_sum9_value)
                     row["debt_10"] = (row["debt_9"] - total_sum10_value)
                     row["debt_11"] = (row["debt_10"] - total_sum11_value)
@@ -3831,7 +3937,19 @@ def balance_sheet(school):
                     row["debt_7"] = (row["debt_6"] - total_sum7_value)
                     row["debt_8"] = (row["debt_7"] - total_sum8_value)
                     row["last_month_debt"] = row[f"debt_{last_month_number}"] 
-                    row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
+
+
+
+                    if month_exception != "":
+                        
+                        row["debt_fytd"] = -sum(
+                            total_sum
+                            for i, total_sum in enumerate(total_sums, start=1)
+                            if i != month_exception
+                        )
+                    else:
+                        row["debt_fytd"] =-sum(total_sums)
+                    
 
                     row["net_assets9"] = (FYE_value + total_netsurplus["09"])
                     row["net_assets10"] = (row["net_assets9"] + total_netsurplus["10"])
@@ -3866,8 +3984,15 @@ def balance_sheet(school):
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     
 
-                    row["fytd"] = ( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value )
-
+                    if month_exception != "":
+                        
+                        row["fytd"] = sum(
+                            total_sum
+                            for i, total_sum in enumerate(total_sums, start=1)
+                            if i != month_exception
+                        )
+                    else:
+                        row["fytd"] =sum(total_sums)
 
                     row["debt_7"] = (FYE_value - total_sum7_value)
                     row["debt_8"] = (row["debt_7"] - total_sum8_value)
@@ -3883,8 +4008,16 @@ def balance_sheet(school):
                     row["debt_6"] = (row["debt_5"]- total_sum6_value)
                     row["last_month_debt"] = row[f"debt_{last_month_number}"] 
     
-                    row["debt_fytd"] = -( total_sum9_value + total_sum10_value + total_sum11_value + total_sum12_value + total_sum1_value + total_sum2_value + total_sum3_value + total_sum4_value + total_sum5_value + total_sum6_value + total_sum7_value + total_sum8_value)
-
+                    
+                    if month_exception != "":
+                        
+                        row["debt_fytd"] = -sum(
+                            total_sum
+                            for i, total_sum in enumerate(total_sums, start=1)
+                            if i != month_exception
+                        )
+                    else:
+                        row["debt_fytd"] =-sum(total_sums)
 
                     row["net_assets7"] = (FYE_value + total_netsurplus["07"])
                     row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
@@ -4264,7 +4397,7 @@ def balance_sheet(school):
     # return context
     # dict_keys = ["data", "data2", "data3", "data_expensebyobject", "data_activities"]
 
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join("balance-sheet", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "balance-sheet", school)
@@ -4279,11 +4412,27 @@ def balance_sheet(school):
             with open(file, "w") as f:
                 json.dump(val, f)
 
-def cashflow(school):
-    start_year = 2021
-    current_date = datetime.today().date()   
-    current_year = current_date.year
-    FY_year_current = current_year
+def cashflow(school,year):
+    print("cashflow")
+    present_date = datetime.today().date()   
+    present_year = present_date.year
+
+    if year:
+        year = int(year)
+        start_year = year
+        FY_year_current = year
+        print("hmm")
+        if school in schoolMonths["julySchool"]:
+            current_date = datetime(start_year, 7, 1).date()
+            
+        else:
+            current_date = datetime(start_year, 9, 1).date() 
+        current_year = current_date.year
+    else:
+        start_year = 2021
+        current_date = datetime.today().date()   
+        current_year = current_date.year
+        FY_year_current = current_year
 
 
     while start_year <= FY_year_current:
@@ -4294,7 +4443,7 @@ def cashflow(school):
         cursor = cnxn.cursor()
 
 
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "profit-loss", school)
@@ -4337,7 +4486,7 @@ def cashflow(school):
             data_cashflow.append(row_dict)
 
 
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join( "balance-sheet", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "balance-sheet", school)
@@ -4587,7 +4736,7 @@ def cashflow(school):
         # if formatted_ytd_budget.startswith("0."):
         #     formatted_ytd_budget = formatted_ytd_budget[2:]
    
-        if FY_year_1 == FY_year_current:
+        if FY_year_1 == present_year:
             relative_path = os.path.join('cashflow', school)
         else:
             relative_path = os.path.join(str(FY_year_1), 'cashflow', school)
@@ -4603,14 +4752,27 @@ def cashflow(school):
     cursor.close()
     cnxn.close()
 
-def excel(school):
-    
-
-    
-    start_year = 2021
-    current_date = datetime.today().date()   
-    current_year = current_date.year
-    FY_year_current = current_year
+def excel(school,year):
+    print("excel")
+    present_date = datetime.today().date()   
+    present_year = present_date.year
+ 
+    if year:
+        year = int(year)
+        start_year = year
+        FY_year_current = year
+        print("hmm")
+        if school in schoolMonths["julySchool"]:
+            current_date = datetime(start_year, 7, 1).date()
+            
+        else:
+            current_date = datetime(start_year, 9, 1).date() 
+        current_year = current_date.year
+    else:
+        start_year = 2021
+        current_date = datetime.today().date()   
+        current_year = current_date.year
+        FY_year_current = current_year
     while start_year <= FY_year_current:
      
         FY_year_1 = start_year
@@ -4697,73 +4859,45 @@ def excel(school):
                 else:
                     date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
                    
-    
+                db_date = row[22].split('-')[0]
 
-                if school in schoolMonths["julySchool"]:
+                db_date = int(db_date)
+                curr_fy = int(FY_year_1)
+   
                     
-                    if date_checker >= july_date_start and date_checker <= july_date_end:
-                        if date_checker > current_month:
-                            current_month = date_checker.replace(day=1)
-                         
+                if db_date == curr_fy:
+                    if date_checker > current_month:
+                        current_month = date_checker.replace(day=1)
                         
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[1],
-                            "obj": row[2],
-                            "sobj": row[3],
-                            "org": row[4],
-                            "fscl_yr": row[5],
-                            "pgm": row[6],
-                            "edSpan": row[7],
-                            "projDtl": row[8],
-                            "AcctDescr": row[9],
-                            "Number": row[10],
-                            "Date": date,
-                            "AcctPer": row[12],
-                            "Est": row[13],
-                            "Real": row[14],
-                            "Appr": row[15],
-                            "Encum": row[16],
-                            "Expend": expend,
-                            "Bal": row[18],
-                            "WorkDescr": row[19],
-                            "Type": row[20],
-                            "Contr": row[21],
-                        }
-                        data3.append(row_dict)
-                else:
-
-                    if date_checker >= september_date_start and date_checker <= september_date_end:
-                        if date_checker >= current_month:
                     
-                            current_month = date_checker.replace(day=1)
+                    
+                    
+                    row_dict = {
+                        "fund": row[0],
+                        "func": row[1],
+                        "obj": row[2],
+                        "sobj": row[3],
+                        "org": row[4],
+                        "fscl_yr": row[5],
+                        "pgm": row[6],
+                        "edSpan": row[7],
+                        "projDtl": row[8],
+                        "AcctDescr": row[9],
+                        "Number": row[10],
+                        "Date": date,
+                        "AcctPer": row[12],
+                        "Est": row[13],
+                        "Real": row[14],
+                        "Appr": row[15],
+                        "Encum": row[16],
+                        "Expend": expend,
+                        "Bal": row[18],
+                        "WorkDescr": row[19],
+                        "Type": row[20],
+                        "Contr": row[21],
+                    }
+                    data3.append(row_dict)
                 
-                      
-                        row_dict = {
-                            "fund": row[0],
-                            "func": row[1],
-                            "obj": row[2],
-                            "sobj": row[3],
-                            "org": row[4],
-                            "fscl_yr": row[5],
-                            "pgm": row[6],
-                            "edSpan": row[7],
-                            "projDtl": row[8],
-                            "AcctDescr": row[9],
-                            "Number": row[10],
-                            "Date": date,
-                            "AcctPer": row[12],
-                            "Est": row[13],
-                            "Real": row[14],
-                            "Appr": row[15],
-                            "Encum": row[16],
-                            "Expend": expend,
-                            "Bal": row[18],
-                            "WorkDescr": row[19],
-                            "Type": row[20],
-                            "Contr": row[21],
-                        }
-                        data3.append(row_dict)
 
         
 
@@ -4823,20 +4957,35 @@ def excel(school):
 
                         data3.append(row_dict)
 
-            
+
+        if FY_year_1 == present_year:
+            print("current_month")
+    
+        else:
+            if school in schoolMonths["julySchool"]:
+                current_month = july_date_end
+            else:
+                current_month = september_date_end
+
+        
         last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
         last_month_name = last_month.strftime("%B")
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
         db_last_month = last_month.strftime("%Y-%m-%d")
-
-        if FY_year_current == FY_year_1:
-            first_day_of_next_month = current_date.replace(day=1, month=current_date.month + 1)
+        
+  
+        # # print(current_month)
+        # # print(last_month)
+        # # print(formatted_last_month)
+        # # print(last_month_number)
+        if present_year == FY_year_1:
+            first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
             print("current",current_month)
             print("last",last_day_of_current_month)
             if current_month <= last_day_of_current_month:
-                current_month = current_date.replace(day=1) - timedelta(days=1)
+                current_month = current_month.replace(day=1) - timedelta(days=1)
                 last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
                 last_month_name = last_month.strftime("%B")
                 last_month_number = last_month.month
@@ -6154,7 +6303,7 @@ def excel(school):
             }
         }
     
-        if FY_year_1 == FY_year_current: 
+        if FY_year_1 == present_year: 
             relative_path = os.path.join( "excel", school)
         else:
             relative_path = os.path.join(str(FY_year_1), "excel", school)

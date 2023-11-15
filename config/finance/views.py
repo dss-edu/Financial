@@ -30,7 +30,7 @@ from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
 from openpyxl.styles import Font,NamedStyle, Border, Side, Alignment
 from .connect import connect
-from .backend import update_db,update_school
+from .backend import update_db,update_school,update_fy
 from openpyxl.drawing.image import Image
 from django.contrib.auth.decorators import login_required
 from . import modules
@@ -56,6 +56,16 @@ def updatedb(request):
         update_db()
     return redirect('/dashboard/advantage')
 
+def updatefy(request, school, year=""):
+    if request.method == 'POST':
+        if year:
+            print("that")
+            update_fy(school,year)
+        else:
+            print("this")
+            year = curr_year
+            update_fy(school,year)
+    return redirect(f'/dashboard/{school}')
 
 
 def updateschool(request,school):

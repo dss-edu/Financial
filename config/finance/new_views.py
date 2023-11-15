@@ -19,6 +19,11 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
 
+
+present_date = datetime.today().date()   
+present_year = present_date.year
+present_year = int(present_year)
+
 def dashboard_notes(request, school):
 
     cnxn = connect()
@@ -180,7 +185,8 @@ def profit_loss(request, school, anchor_year=""):
     context["September"] = 'True'
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
-
+    context["present_year"] = present_year
+    print(present_year)
     return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required
@@ -196,6 +202,7 @@ def profit_loss_date(request, school, anchor_year=""):
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
 
+    context["present_year"] = present_year
     return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required
@@ -244,6 +251,7 @@ def balance_sheet(request, school, anchor_year=""):
     context["September"] = 'True'
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
+    context["present_year"] = present_year
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -291,6 +299,7 @@ def cashflow(request, school, anchor_year=""):
     context["September"] = 'True'
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
+    context["present_year"] = present_year
     return render(request, "temps/cashflow.html", context)
 
 
