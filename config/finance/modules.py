@@ -239,20 +239,20 @@ def profit_loss(school, anchor_year):
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
 
-    if school in schoolCategory["ascender"]:
-        lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
-        lr_funds_sorted = sorted(lr_funds)
-        lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
-        lr_obj_sorted = sorted(lr_obj)
+    # if school in schoolCategory["ascender"]:
+    #     lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
+    #     lr_funds_sorted = sorted(lr_funds)
+    #     lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
+    #     lr_obj_sorted = sorted(lr_obj)
 
-        func_choice = list(
-            set(row["func"] for row in context["data3"] if "func" in row)
-        )
-        func_choice_sorted = sorted(func_choice)
+    #     func_choice = list(
+    #         set(row["func"] for row in context["data3"] if "func" in row)
+    #     )
+    #     func_choice_sorted = sorted(func_choice)
 
-        context["lr_funds"] = lr_funds_sorted
-        context["lr_obj"] = lr_obj_sorted
-        context["func_choice"] = func_choice_sorted
+    #     context["lr_funds"] = lr_funds_sorted
+    #     context["lr_obj"] = lr_obj_sorted
+        # context["func_choice"] = func_choice_sorted
         context["anchor_year"] = anchor_year
 
     return context
