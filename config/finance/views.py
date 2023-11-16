@@ -88,12 +88,21 @@ def loginView(request):
                     role = user_row[2]
                     request.session['user_role'] = role
                     request.session['username'] = user_row[0]
+                    user = User.objects.get(username=username)
+                    if not user: 
+                        user = User.objects.create_user(username=username)
+                    login(request, user)
                     
                     return redirect('/dashboard/advantage')
                 else:
                     role = user_row[2]
                     request.session['user_role'] = role
                     request.session['username'] = user_row[0]
+
+                    user = User.objects.get(username=username)
+                    if not user: 
+                        user = User.objects.create_user(username=username)
+                    login(request, user)
                    
                     return redirect(f'/dashboard/{role}')
 
