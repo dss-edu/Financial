@@ -130,41 +130,59 @@ a:hover{
 </div> <!-- End of spinner modal -->
 
 <div class="modal" id="myModal">
-  <div class="modal-dialog modal-dialog-centered" style="width: 80%; height: 80%; max-width: none; max-height: none;">
+  <div class="modal-dialog modal-dialog-centered"
+  style="width: 95%; height: 80%; max-width: none; max-height: none">
     <div class="modal-content" style="height: 80%;">
       <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
         <!-- Modify the table to display the data from the viewgl function -->
+        <div id="modal-table-box">
         <table id="balancesheet-data-table" class="table table-hover">
           <thead>
-            <tr>
-            <th>fund</th>
-            <th>func</th>
-            <th>obj</th>
-            <th>org</th>
-            <th>fscl_yr</th>
-            <th>pgm</th>
-            
-            <th>projDtl</th>
-            <th>AcctDescr</th>
-            <th>Number</th>
-            <th>Date</th>
-            <th>AcctPer</th>
-         
-            <th>Real</th>
-            
-            <th>Expend</th>
-            <th>Bal</th>
-            <th>WorkDescr</th>
-            <th>Type</th>
-            
+            {% if ascender == "True" %}
+            <tr class="text-center">
+              <th>fund</th>
+              <th>func</th>
+              <th>obj</th>
+              <th>org</th>
+              <th>fscl_yr</th>
+              <th>pgm</th>
+              <th>projDtl</th>
+              <th>AcctDescr</th>
+              <th>Number</th>
+              <th>Date</th>
+              <th>AcctPer</th>
+              <th>Real</th>
+              <th>Expend</th>
+              <th>Bal</th>
+              <th>WorkDescr</th>
+              <th>Type</th>
             </tr>
+
+            {% else%}
+            <tr class="text-center">
+              <th>fund</th>
+              <th>func</th>
+              <th>obj</th>
+              <th>org</th>
+              <th>fscl_yr</th>
+
+              <th>Date</th>
+              <th>AcctPer</th>
+              <th>Real</th>
+
+            </tr>
+            {%endif%}
           </thead>
           <tbody id="modal-table-body">
             <!-- The data from the viewgl function will be populated here -->
           </tbody>
         </table>
+        <div id="modal-total-div" style="display: flex;"></div>
       </div>
+    </div>
       <div class="modal-footer">
+        <table id="myModalFooter"></table>
+        <br/>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         <a id="export-pdf-button2" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
       </div>
@@ -613,7 +631,13 @@ style="display:none;"
         
         function hide17thColumn() {
           for (var i = last_month_number; i <= 16; i++) {
-            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+            var columnsToHide = document.querySelectorAll(
+              "#data-table th:nth-child(" +
+                i +
+                "), #data-table td:nth-child(" +
+                i +
+                ")"
+            );
         
             for (var j = 0; j < columnsToHide.length; j++) {
                 columnsToHide[j].style.display = "none";
@@ -4510,6 +4534,9 @@ style="display:none;"
 <script>
   var school = "{{ school }}"; 
   var year = "{{FY_year_1}}"
+  var ascender = "{{ascender}}";
+  var url = 'acc';
+  console.log(ascender);
 </script>
 <script src="{% static 'js/bs2.js' %}"></script>
 <script src="{% static 'js/bs.js' %}"></script>

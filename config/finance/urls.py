@@ -56,7 +56,7 @@ urlpatterns = [
         name="viewgldna",
     ),
     path(
-        "viewgl_activitybs/<str:obj>/<str:yr>/",
+        "viewgl_activitybs/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewgl_activitybs,
         name="viewgl_activitybs",
     ),

@@ -258,6 +258,9 @@ def balance_sheet(request, school, anchor_year=""):
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
     context["present_year"] = present_year
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/balance-sheet.html", context)
 
 
