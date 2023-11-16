@@ -40,7 +40,7 @@ a:hover{
 
 
 .side-panel{
-  width: 50px;
+  width: 100px;
   background-color: rgba(255, 255, 255, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0);
   padding: 0px;
@@ -56,11 +56,10 @@ a:hover{
 .side{
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: end;
   justify-content: center;
 }
 .circle-container {
-
   border-radius: 50%;
   background-color: rgba(211, 211, 211, 0); /* Adjust the alpha value for transparency */
   width: 36px; /* Adjust the width and height to control the size of the circle */
@@ -71,7 +70,17 @@ a:hover{
   justify-content: center ;
   border: 1px solid gray; /* Black border */
   margin-bottom: 15px;
+}
 
+.circle-container-child {
+    position: absolute;
+    right: 50px;
+    bottom: -25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
 }
 
 #table-box{
@@ -319,7 +328,7 @@ hidden
       >
       <i class="fas fa-chart-bar"></i></a>
       
-      <a 
+      <!-- <a 
       id="export-excel-button"
       class="circle-container text-secondary" 
       href="#" 
@@ -335,7 +344,30 @@ hidden
       data-toggle="tooltip" 
       title="Export to PDF"
       data-placement="left"
-      ><i class="fas fa-file-pdf"></i></a>
+      ><i class="fas fa-file-pdf"></i></a> -->
+
+      <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
+        <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
+            <i class="fas fa-download"></i>
+        </a>
+        <script>
+          $('#export-button').on('click', function (e) {
+            e.preventDefault()
+            $('#export-children').toggle()
+          })
+
+        </script>
+
+        <div id="export-children" class="circle-container-child" style="display: none;">
+          <a id="export-excel-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to Excel" data-placement="left" >
+              <i class="fas fa-file-excel"></i>
+          </a>
+
+          <a id="export-pdf-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to PDF" data-placement="left">
+              <i class="fas fa-file-pdf"></i>
+          </a>
+        </div>
+      </div>
  
 
 
