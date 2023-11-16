@@ -392,6 +392,7 @@
                                 <td class="collapsed right-align-td" >{{ total_netsurplus.07 }} </td>
                                 <td class="collapsed right-align-td" >{{ total_netsurplus.08 }} </td>
                                 <td class="right-align-td">
+                                    {{totals.ytd_netsurplus}}
                                 </td>
                             </tr>
 
@@ -413,7 +414,7 @@
                                 <td class="collapsed right-align-td" >  {{totals.dna_total_months.06}}</td>
                                 <td class="collapsed right-align-td" >  {{totals.dna_total_months.07}}</td>
                                 <td class="collapsed right-align-td" >  {{totals.dna_total_months.08}}</td>
-                                <td class="right-align-td">
+                                <td class="right-align-td">{{totals.dna_ytd_total}}
                                 </td>
                             </tr>
                             {% for row in data_cashflow %}
@@ -434,7 +435,7 @@
                                         <td class="collapsed right-align-td" >{{row.total_operating6}}</td>
                                         <td class="collapsed right-align-td" >{{row.total_operating7}}</td>
                                         <td class="collapsed right-align-td" >{{row.total_operating8}}</td>
-                                        <td class="right-align-td"></td>
+                                        <td class="right-align-td">{{row.fytd_1}}</td>
                                     </tr>
 
                                 {% endif %}
@@ -515,7 +516,7 @@
                                         <td class="collapsed right-align-td" >{{row.total_investing6}}</td>
                                         <td class="collapsed right-align-td" >{{row.total_investing7}}</td>
                                         <td class="collapsed right-align-td" >{{row.total_investing8}}</td>
-                                        <td class="right-align-td"></td>
+                                        <td class="right-align-td">{{row.fytd_2}}</td>
                                     </tr>
 
                                 {% endif %}
@@ -1407,15 +1408,12 @@ function toggleColumns() {
     columnsCollapsed = !columnsCollapsed;
 }
     </script>
-    <script src="{% static 'js/cashflow2.js' %}"></script>
-{% comment %} <script src="{% static 'js/cashflow.js' %}"></script> {% endcomment %}
+ <script src="{% static 'js/cashflow2.js' %}"></script>
 
 
     <script src="{% static 'js/excel.js' %}"></script>
 <script src="{% static 'js/bsHideCols.js' %}"></script>
-{% comment %} 
-    <script src="{% static 'js/plHideCols.js' %}"></script> 
-{% endcomment %}
+
     <script src="{% static 'js/pdf.js' %}"></script> 
 
 {% endblock %}

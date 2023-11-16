@@ -4160,6 +4160,40 @@ def balance_sheet(school,year):
                 json.dump(val, f)
 
 def cashflow(school,year):
+
+    def format_value_dollars(value):
+            if value > 0:
+                return "${:,.0f}".format(round(value))
+            elif value < 0:
+                return "$({:,.0f})".format(abs(round(value)))
+            else:
+                return ""
+    def format_value(value):
+        if value > 0:
+            return "{:,.0f}".format(round(value))
+        elif value < 0:
+            return "({:,.0f})".format(abs(round(value)))
+        else:
+            return ""
+    def format_value_dollars_negative(value):
+        if value > 0:
+            return "$({:,.0f})".format(abs(round(value)))
+            
+        elif value < 0:
+            
+            return "${:,.0f}".format(abs(round(value)))
+        else:
+            return ""
+    def format_value_negative(value):
+        if value > 0:
+            return "({:,.0f})".format(abs(round(value)))
+            
+        elif value < 0:
+            
+            return "{:,.0f}".format(abs(round(value)))
+        else:
+            return ""
+
     print("cashflow")
     present_date = datetime.today().date()   
     present_year = present_date.year
@@ -4260,6 +4294,14 @@ def cashflow(school,year):
             "12",
         ]
 
+        last_month = months["last_month"]
+        last_month_number = months["last_month_number"]
+        last_month_name = months["last_month_name"]
+   
+        db_last_month = months["db_last_month"]
+        month_exception = months["month_exception"]
+        month_exception_str = months["month_exception_str"]
+
         activity_key = "Bal"
         if school in schoolCategory["skyward"]:
             activity_key = "Amount"
@@ -4294,8 +4336,9 @@ def cashflow(school,year):
                     for entry in data_activitybs
                     if entry["Activity"] == activity
                 )
-                item["fytd_1"] += item[f"total_operating{i}"] 
-                
+                if i != month_exception:
+                    item["fytd_1"] += item[f"total_operating{i}"] 
+            print(item["fytd_1"])
 
         for item in data_cashflow:
             obj = item["obj"]
@@ -4307,7 +4350,8 @@ def cashflow(school,year):
                     for entry in data3
                     if entry["obj"] == obj and entry["AcctPer"] == acct_per
                 )
-                item["fytd_2"] += item[f"total_investing{i}"] 
+                if i != month_exception:
+                    item["fytd_2"] += item[f"total_investing{i}"] 
                 
 
         data_key = "Expend"
@@ -4364,137 +4408,37 @@ def cashflow(school,year):
                 else:
                     row[key] = "{:,.0f}".format(abs(float(row[key])))
 
-        # --- total revenue
-        # total_revenue = {acct_per: 0 for acct_per in acct_per_values}
-        #
-        # data_key = "Real"
-        # if school == "village-tech":
-        #     data_key = "Amount"
-        #
-        # for item in data:
-        #     fund = item["fund"]
-        #     obj = item["obj"]
-        #
-        #     for i, acct_per in enumerate(acct_per_values, start=1):
-        #         item[f"total_real{i}"] = sum(
-        #             entry[data_key]
-        #             for entry in data3
-        #             if entry["fund"] == fund
-        #             and entry["obj"] == obj
-        #             and entry["AcctPer"] == acct_per
-        #         )
-        #
-        #         total_revenue[acct_per] += abs(item[f"total_real{i}"])
+        for row in data_cashflow:
+            f1 = row["fytd_1"]
+            f2 = row["fytd_2"]
 
-        # keys_to_check = [
-        #     "total_real1",
-        #     "total_real2",
-        #     "total_real3",
-        #     "total_real4",
-        #     "total_real5",
-        #     "total_real6",
-        #     "total_real7",
-        #     "total_real8",
-        #     "total_real9",
-        #     "total_real10",
-        #     "total_real11",
-        #     "total_real12",
-        # ]
-        #
-        # acct_per_values2 = [
-        #     "01",
-        #     "02",
-        #     "03",
-        #     "04",
-        #     "05",
-        #     "06",
-        #     "07",
-        #     "08",
-        #     "09",
-        #     "10",
-        #     "11",
-        #     "12",
-        # ]
+            if f1 is None or f1 == 0:
+                row["fytd_1"] = ""
+            else:
+                row["fytd_1"] = format_value(f1) 
 
-        # total_surplus = {acct_per: 0 for acct_per in acct_per_values2}
+            if f2 is None or f2 == 0:
+                row["fytd_2"] = ""
+            else:
+                row["fytd_2"] = format_value(f2) 
 
-        # data_key = "Expend"
-        # if school == "village-tech":
-        #     data_key = "Amount"
-        # for item in data2:
-        #     if item["category"] != "Depreciation and Amortization":
-        #         func = item["func_func"]
-        #
-        #         for i, acct_per in enumerate(acct_per_values2, start=1):
-        #             item[f"total_func{i}"] = sum(
-        #                 entry[data_key]
-        #                 for entry in data3
-        #                 if entry["func"] == func and entry["AcctPer"] == acct_per
-        #             )
-        #             total_surplus[acct_per] += item[f"total_func{i}"]
-        #
-        # ---- Depreciation and ammortization total
-        # total_DnA = {acct_per: 0 for acct_per in acct_per_values2}
-        #
-        # data_key = "Expend"
-        # if school == "village-tech":
-        #     data_key = "Amount"
-        # for item in data2:
-        #     func = item["func_func"]
-        #     obj = item["obj"]
-        #
-        #     for i, acct_per in enumerate(acct_per_values2, start=1):
-        #         item[f"total_func2_{i}"] = sum(
-        #             entry[data_key]
-        #             for entry in data3
-        #             if entry["func"] == func
-        #             and entry["AcctPer"] == acct_per
-        #             and entry["obj"] == obj
-        #         )
-        #         total_DnA[acct_per] += item[f"total_func2_{i}"]
-        #
-        # total_SBD = {
-        #     acct_per: total_revenue[acct_per] - total_surplus[acct_per]
-        #     for acct_per in acct_per_values
-        # }
-        # total_netsurplus = {
-        #     acct_per: total_SBD[acct_per] - total_DnA[acct_per]
-        #     for acct_per in acct_per_values
-        # }
-        # formatted_total_netsurplus = {
-        #     acct_per: "${:,}".format(abs(int(value)))
-        #     if value > 0
-        #     else "(${:,})".format(abs(int(value)))
-        #     if value < 0
-        #     else ""
-        #     for acct_per, value in total_netsurplus.items()
-        #     if value != 0
-        # }
-        # formatted_total_DnA = {
-        #     acct_per: "{:,}".format(abs(int(value)))
-        #     if value >= 0
-        #     else "({:,})".format(abs(int(value)))
-        #     if value < 0
-        #     else ""
-        #     for acct_per, value in total_DnA.items()
-        #     if value != 0
-        # }
-        #
-        # if formatted_ytd_budget.startswith("0."):
-        #     formatted_ytd_budget = formatted_ytd_budget[2:]
-   
+
         if FY_year_1 == present_year:
             relative_path = os.path.join('cashflow', school)
         else:
             relative_path = os.path.join(str(FY_year_1), 'cashflow', school)
         
+
         cashflow_path = JSON_DIR.path(relative_path)
         if not os.path.exists(cashflow_path):
             os.makedirs(cashflow_path)
 
+
         cashflow_file = os.path.join(cashflow_path, "data_cashflow.json")
         with open(cashflow_file, "w") as f:
             json.dump(data_cashflow, f)
+
+            
 
     cursor.close()
     cnxn.close()

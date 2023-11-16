@@ -1,8 +1,8 @@
 window.addEventListener('DOMContentLoaded', () => {
-    calculateYTD(); //1
-    calculateOperatingTotal(); //2
-    calculateNetCashTotal(); //2
-    NICTotal(); //3
+    // calculateYTD(); //1
+    // calculateOperatingTotal(); //2
+    // calculateNetCashTotal(); //2
+    // NICTotal(); //3
     // calculateYTD2();
   });
 
