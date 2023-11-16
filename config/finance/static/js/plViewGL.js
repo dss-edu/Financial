@@ -13,10 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     modalTableBody.innerHTML = "";
     mdfooter.innerHTML = "";
+    
 
     data.gl_data.forEach(function (row) {
       var newRow = document.createElement("tr");
 
+
+      if (ascender == 'True'){
       newRow.innerHTML = `
             <td class="text-end">${row.fund}</td>
             <td class="text-end">${row.func}</td>
@@ -35,6 +38,22 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="text-end" style="white-space: nowrap;">${row.WorkDescr}</td>
             <td class="text-end">${row.Type}</td>
           `;
+      }      else{
+        newRow.innerHTML = `
+        <td class="text-center">${row.fund}</td>
+        <td class="text-center">${row.func}</td>
+        <td class="text-center">${row.obj}</td>
+        <td class="text-center">${row.org}</td>
+        <td class="text-center">${row.fscl_yr}</td>
+  
+
+   
+        <td class="text-center" style="white-space: nowrap;">${row.Date}</td>
+        <td class="text-center">${row.AcctPer}</td>
+        <td class="text-center">${row.Real}</td>
+
+      `;
+  }
       // newRow.innerHTML = `
       //   <td class="right-align-td">${row.fund}</td>
       //   <td class="right-align-td">${row.func}</td>
@@ -72,8 +91,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   // REVENUE TOTAL
 
-  function fetchDataAndPopulateModal(fund, obj, yr, school) {
-    fetch(`/viewgl/${fund}/${obj}/${yr}/${school}`)
+  function fetchDataAndPopulateModal(fund, obj, yr, school, year,url) {
+    fetch(`/viewgl/${fund}/${obj}/${yr}/${school}/${year}/${url}`)
       .then(function (response) {
         return response.json();
       })
@@ -101,13 +120,14 @@ document.addEventListener("DOMContentLoaded", function () {
       var fund = link.dataset.fund;
       var obj = link.dataset.obj;
       var yr = link.dataset.yr;
-      fetchDataAndPopulateModal(fund, obj, yr, school);
+      console.log(url)
+      fetchDataAndPopulateModal(fund, obj, yr, school, year , url);
     });
   });
 
   // FIRST TOTAL
-  function fetchDataAndPopulateModal2(func, yr, school, year) {
-    fetch(`/viewglfunc/${func}/${yr}/${school}/${year}`)
+  function fetchDataAndPopulateModal2(func, yr, school, year, url) {
+    fetch(`/viewglfunc/${func}/${yr}/${school}/${year}/${url}`)
       .then(function (response) {
         return response.json();
       })
@@ -133,13 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
       var func = link.dataset.func;
 
       var yr = link.dataset.yr;
-      fetchDataAndPopulateModal2(func, yr, school, year);
+      fetchDataAndPopulateModal2(func, yr, school, year , url);
     });
   });
 
   //FOR EXPENSE BY Object
-  function fetchDataAndPopulateModal3(func, yr, school) {
-    fetch(`/viewglexpense/${func}/${yr}/${school}`)
+  function fetchDataAndPopulateModal3(func, yr, school , year, url) {
+    fetch(`/viewglexpense/${func}/${yr}/${school}/${year}/${url}`)
       .then(function (response) {
         return response.json();
       })
@@ -166,16 +186,16 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#spinner-modal").modal("show");
       event.preventDefault();
       var obj = link.dataset.obj;
-
+      console.log(obj);
       var yr = link.dataset.yr;
-      fetchDataAndPopulateModal3(obj, yr, school);
+      fetchDataAndPopulateModal3(obj, yr, school, year , url);
     });
   });
 
   //FOR DnA
 
-  function fetchDataAndPopulateModal4(func, yr, school, year) {
-    fetch(`/viewgldna/${func}/${yr}/${school}/${year}`)
+  function fetchDataAndPopulateModal4(func, yr, school, year , url) {
+    fetch(`/viewgldna/${func}/${yr}/${school}/${year}/${url}`)
       .then(function (response) {
         return response.json();
       })
@@ -201,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var func = link.dataset.func;
 
       var yr = link.dataset.yr;
-      fetchDataAndPopulateModal4(func, yr, school, year);
+      fetchDataAndPopulateModal4(func, yr, school, year, url);
     });
   });
 

@@ -43,15 +43,15 @@ urlpatterns = [
     ),
     path("delete_func/<str:func>/", views.delete_func, name="delete_func"),
     path(
-        "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>", views.viewgl, name="viewgl"
+        "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/", views.viewgl, name="viewgl"
     ),
     path(
-        "viewglfunc/<str:func>/<str:yr>/<str:school>/<str:year>",
+        "viewglfunc/<str:func>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewglfunc,
         name="viewglfunc",
     ),
     path(
-        "viewgldna/<str:func>/<str:yr>/<str:school>/<str:year>",
+        "viewgldna/<str:func>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewgldna,
         name="viewgldna",
     ),
@@ -61,7 +61,7 @@ urlpatterns = [
         name="viewgl_activitybs",
     ),
     path(
-        "viewglexpense/<str:obj>/<str:yr>/<str:school>",
+        "viewglexpense/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewglexpense,
         name="viewglexpense",
     ),
