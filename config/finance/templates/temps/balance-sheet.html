@@ -353,6 +353,7 @@ hidden
         <script>
           $('#export-button').on('click', function (e) {
             e.preventDefault()
+            $(this).tooltip('hide');
             $('#export-children').toggle()
           })
 
