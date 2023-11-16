@@ -88,8 +88,9 @@ def loginView(request):
                     role = user_row[2]
                     request.session['user_role'] = role
                     request.session['username'] = user_row[0]
-                    user = User.objects.get(username=username)
-                    if not user: 
+                    try:
+                        user = User.objects.get(username=username)
+                    except:
                         user = User.objects.create_user(username=username)
                     login(request, user)
                     
@@ -99,8 +100,9 @@ def loginView(request):
                     request.session['user_role'] = role
                     request.session['username'] = user_row[0]
 
-                    user = User.objects.get(username=username)
-                    if not user: 
+                    try:
+                        user = User.objects.get(username=username)
+                    except:
                         user = User.objects.create_user(username=username)
                     login(request, user)
                    
