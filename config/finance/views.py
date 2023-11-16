@@ -1696,6 +1696,14 @@ def viewgldna(request,func,yr,school,year,url):
 def viewglexpense(request,obj,yr,school,year,url):
     print(request)
     try:
+        FY_year_1 = int(year)
+        FY_year_2 = int(year) + 1 
+        july_date_start  = datetime(FY_year_1, 7, 1).date()
+        
+        july_date_end  = datetime(FY_year_2, 6, 30).date()
+        september_date_start  = datetime(FY_year_1, 9, 1).date()
+        september_date_end  = datetime(FY_year_2, 8, 31).date()
+
         def format_value(value):
             if value > 0:
                 return "{:,.0f}".format(round(value))
@@ -1748,53 +1756,131 @@ def viewglexpense(request,obj,yr,school,year,url):
         
  
  
+        date_string = f"{year}-09-01T00:00:00.0000000"
+        date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
-        query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
-        cursor.execute(query, (obj,yr))
-        
+        if school in schoolCategory["ascender"]:
+            if url == 'acc':
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
+                cursor.execute(query, (obj,yr))
+            else:
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(Date) = ? "    
+                cursor.execute(query, (obj,date_object.month))
+        else:
+            if url == 'acc':
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and Month = ? "    
+                cursor.execute(query, (obj,yr))
+            else:
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(PostingDate) = ? "    
+                cursor.execute(query, (obj,date_object.month))
         rows = cursor.fetchall()
     
         gl_data=[]
     
     
-        for row in rows:
-            date_str=row[11]
+        if school in schoolCategory["ascender"]:
+            for row in rows:
+                date_str=row[11]
+                date = row[11]
+                if isinstance(row[11], datetime):
+                    date = row[11].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
+ 
+                db_date = row[22].split('-')[0]
+
+                real = float(row[14]) if row[14] else 0
+
+                db_date = str(db_date)
+                
+                if db_date == year:
+                    
+                    row_dict = {
+                        'fund':row[0],
+                        'func':row[1],
+                        'obj':row[2],
+                        'sobj':row[3],
+                        'org':row[4],
+                        'fscl_yr':row[5],
+                        'pgm':row[6],
+                        'edSpan':row[7],
+                        'projDtl':row[8],
+                        'AcctDescr':row[9],
+                        'Number':row[10],
+                        'Date':date_str,
+                        'AcctPer':row[12],
+                        'Est':row[13],
+                        'Real':real,
+                        'Appr':row[15],
+                        'Encum':row[16],
+                        'Expend':row[17],
+                        'Bal':row[18],
+                        'WorkDescr':row[19],
+                        'Type':row[20],
+                        'Contr':row[21]
+                    }
+                
+
+
+                    gl_data.append(row_dict)
+        else:
+            for row in rows:
+                amount = float(row[19])
+                date = row[9]
+                
+                if isinstance(row[9], datetime):
+                    date = row[9].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
+                if isinstance(row[9], (datetime, datetime.date)):
+                    date_checker = row[9].date()
+                else:
+                    date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+                if school in schoolMonths["julySchool"]:
+                
+                    if date_checker >= july_date_start and date_checker <= july_date_end:
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":acct_per_month,
+                            "Real": amount,
+                            "Budget":row[20],
+                        }
+                        print(amount)
+                        gl_data.append(row_dict)
+                else:
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer": row[10],
+                            "Real": amount,
+                            "Budget":row[20],
+                        }
+                        print(amount)
+                        gl_data.append(row_dict)
+
+
+        expend_key = "Expend"
         
-            
-            expend = float(row[17]) if row[17] else 0
-                     
-            row_dict = {
-                'fund':row[0],
-                'func':row[1],
-                'obj':row[2],
-                'sobj':row[3],
-                'org':row[4],
-                'fscl_yr':row[5],
-                'pgm':row[6],
-                'edSpan':row[7],
-                'projDtl':row[8],
-                'AcctDescr':row[9],
-                'Number':row[10],
-                'Date':date_str,
-                'AcctPer':row[12],
-                'Est':row[13],
-                'Real':row[14],
-                'Appr':row[15],
-                'Encum':row[16],
-                'Expend':expend,
-                'Bal':row[18],
-                'WorkDescr':row[19],
-                'Type':row[20],
-                'Contr':row[21]
-            }
-
-            gl_data.append(row_dict)
-
-
+        if school in schoolCategory["skyward"]:
+            expend_key = "Amount"
 
         total_expend = 0 
         for row in gl_data:
-            expend_str = row['Expend']
+            expend_str = row[expend_key]
             try:
                 expend_value = float(expend_str)
                 total_expend += expend_value
