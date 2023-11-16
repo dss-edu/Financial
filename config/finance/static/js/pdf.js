@@ -8,9 +8,8 @@ document.addEventListener('DOMContentLoaded', function (){
     }
 
     exportPDFButton.addEventListener('click', function(event){
-
-      $("#page-load-spinner").modal("show");
       event.preventDefault();
+      $("#page-load-spinner").modal("show");
       const url = new URL(window.location.href)
       // url.pathname returns /dashboard/advantage
       const page = url.pathname.split('/')[1]

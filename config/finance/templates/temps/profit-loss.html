@@ -336,6 +336,7 @@
     .getElementById("exportmodal1-pdf-button")
     .addEventListener("click", function (event) {
       event.preventDefault();
+      $("#page-load-spinner").modal("show");
 
       const element = document.getElementById("balancesheet-data-table1");
       element.style.width = '90%'
@@ -382,6 +383,7 @@
         element.style.width = '100%'
         const balanceRow = document.getElementById('modal-total-row')
         balanceRow.remove()
+        $("#page-load-spinner").modal("hide");
       });
     });
 </script>
