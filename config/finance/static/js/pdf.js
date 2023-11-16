@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function (){
     }
 
     exportPDFButton.addEventListener('click', function(event){
+
+      $("#page-load-spinner").modal("show");
       event.preventDefault();
       const url = new URL(window.location.href)
       // url.pathname returns /dashboard/advantage
@@ -112,6 +114,8 @@ document.addEventListener('DOMContentLoaded', function (){
         for (btn of allExpandButtons){
             btn.style.display=''
         }
+
+        $("#page-load-spinner").modal("hide");
       });
 
 
