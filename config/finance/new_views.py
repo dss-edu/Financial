@@ -186,7 +186,10 @@ def profit_loss(request, school, anchor_year=""):
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
     context["present_year"] = present_year
-    print(present_year)
+    
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required
@@ -203,6 +206,9 @@ def profit_loss_date(request, school, anchor_year=""):
         context["September"] = 'False'
 
     context["present_year"] = present_year
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required

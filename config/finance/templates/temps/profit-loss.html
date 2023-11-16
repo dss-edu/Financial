@@ -242,6 +242,7 @@
         <div id="modal-table-box">
           <table class="table table-hover" id="balancesheet-data-table1">
             <thead>
+              {% if ascender == "True" %}
               <tr class="text-center">
                 <th>fund</th>
                 <th>func</th>
@@ -260,6 +261,21 @@
                 <th>WorkDescr</th>
                 <th>Type</th>
               </tr>
+
+              {% else%}
+              <tr class="text-center">
+                <th>fund</th>
+                <th>func</th>
+                <th>obj</th>
+                <th>org</th>
+                <th>fscl_yr</th>
+
+                <th>Date</th>
+                <th>AcctPer</th>
+                <th>Real</th>
+
+              </tr>
+              {%endif%}
 
               <!-- <tr>
                             <th><div style="width: 50px; text-align: center;">fund</div></th>
@@ -3076,7 +3092,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -3085,7 +3101,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -3094,7 +3110,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -3103,7 +3119,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -3112,7 +3128,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -3121,7 +3137,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -3130,7 +3146,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -3139,7 +3155,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -3148,7 +3164,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -3157,7 +3173,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -3166,7 +3182,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -3175,7 +3191,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -3486,7 +3502,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -3495,7 +3511,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -3504,7 +3520,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -3513,7 +3529,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -3522,7 +3538,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -3531,7 +3547,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -3540,7 +3556,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -3549,7 +3565,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -3558,7 +3574,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -3567,7 +3583,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -3576,7 +3592,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -3585,7 +3601,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -3686,7 +3702,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -3695,7 +3711,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -3704,7 +3720,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -3713,7 +3729,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -3722,7 +3738,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -3731,7 +3747,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -3740,7 +3756,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -3749,7 +3765,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -3758,7 +3774,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -3767,7 +3783,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -3776,7 +3792,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -3785,7 +3801,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -6419,7 +6435,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -6428,7 +6444,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -6437,7 +6453,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -6446,7 +6462,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -6455,7 +6471,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -6464,7 +6480,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -6473,7 +6489,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -6482,7 +6498,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -6491,7 +6507,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -6500,7 +6516,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -6509,7 +6525,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -6518,7 +6534,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -6828,7 +6844,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -6837,7 +6853,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -6846,7 +6862,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -6855,7 +6871,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -6864,7 +6880,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -6873,7 +6889,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -6882,7 +6898,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -6891,7 +6907,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -6900,7 +6916,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -6909,7 +6925,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -6918,7 +6934,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -6927,7 +6943,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -7027,7 +7043,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="07"
                   >{{row.total_activities7}}</a
                 >
@@ -7036,7 +7052,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="08"
                   >{{row.total_activities8}}</a
                 >
@@ -7045,7 +7061,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="09"
                   >{{row.total_activities9}}</a
                 >
@@ -7054,7 +7070,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="10"
                   >{{row.total_activities10}}</a
                 >
@@ -7063,7 +7079,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="11"
                   >{{row.total_activities11}}</a
                 >
@@ -7072,7 +7088,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="12"
                   >{{row.total_activities12}}</a
                 >
@@ -7081,7 +7097,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="01"
                   >{{row.total_activities1}}</a
                 >
@@ -7090,7 +7106,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="02"
                   >{{row.total_activities2}}</a
                 >
@@ -7099,7 +7115,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="03"
                   >{{row.total_activities3}}</a
                 >
@@ -7108,7 +7124,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="04"
                   >{{row.total_activities4}}</a
                 >
@@ -7117,7 +7133,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="05"
                   >{{row.total_activities5}}</a
                 >
@@ -7126,7 +7142,7 @@ Variances
                 <a
                   href="#"
                   class="viewglexpense-link"
-                  data-func="{{row.obj}}"
+                  data-obj="{{row.obj}}"
                   data-yr="06"
                   >{{row.total_activities6}}</a
                 >
@@ -7460,6 +7476,14 @@ Variances
   <script>
     var school = "{{ school }}";
     var year = "{{months.FY_year_1}}";
+    {% if '/profit-loss-date/' in request.path %}
+        var url = "date";
+    {% else %}
+        var url = "acc";
+    {% endif %}
+  
+    var ascender = "{{ascender}}";
+  
   </script>
 
   <script src="{% static 'js/plViewGL.js' %}"></script>
