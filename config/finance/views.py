@@ -756,11 +756,12 @@ def viewgl(request,fund,obj,yr,school,year,url):
         july_date_end  = datetime(FY_year_2, 6, 30).date()
         september_date_start  = datetime(FY_year_1, 9, 1).date()
         september_date_end  = datetime(FY_year_2, 8, 31).date()
+
         def format_value(value):
             if value > 0:
-                return "{:,.0f}".format(round(value))
+                return "{:,.2f}".format(value)
             elif value < 0:
-                return "({:,.0f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(value))
             else:
                 return ""
 
@@ -1186,9 +1187,9 @@ def viewgl_activitybs(request,obj,yr,school,year,url):
     try:
         def format_value(value):
             if value > 0:
-                return "{:,.2f}".format(round(value))
+                return "{:,.2f}".format(value)
             elif value < 0:
-                return "({:,.2f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(value))
             else:
                 return ""
         FY_year_1 = int(year)
@@ -1356,12 +1357,11 @@ def viewglfunc(request,func,yr,school,year,url):
 
         def format_value(value):
             if value > 0:
-                return "{:,.2f}".format(round(value))
+                return "{:,.2f}".format(value)
             elif value < 0:
-                return "({:,.2f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(value))
             else:
                 return ""
-        
      
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
@@ -1531,9 +1531,9 @@ def viewgldna(request,func,yr,school,year,url):
     try:
         def format_value(value):
             if value > 0:
-                return "{:,.0f}".format(round(value))
+                return "{:,.2f}".format(value)
             elif value < 0:
-                return "({:,.0f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(value))
             else:
                 return ""
         
@@ -1713,9 +1713,9 @@ def viewglexpense(request,obj,yr,school,year,url):
 
         def format_value(value):
             if value > 0:
-                return "{:,.0f}".format(round(value))
+                return "{:,.2f}".format(value)
             elif value < 0:
-                return "({:,.0f})".format(abs(round(value)))
+                return "({:,.2f})".format(abs(value))
             else:
                 return ""
                 
