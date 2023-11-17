@@ -104,6 +104,15 @@ document.addEventListener("DOMContentLoaded", function() {
     saveBtn.addEventListener("click", function(event) {
         const csrfToken = $("input[name='csrfmiddlewaretoken']").val();
         const school = this.dataset.school;
+        const fy = this.dataset.fy;
+        const anch_month = this.dataset.anch_month;
+  
+        var url;
+        if(anch_month != ""){
+            url ="/dashboard/notes/" + school + "/" + fy + "/" + anch_month;
+        }else{
+            url ="/dashboard/notes/" + school ;
+        }
         const noteElements = document.querySelectorAll("td[name='notes']");
         function getNotes(noteElements) {
             const notes = [];
@@ -119,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }; // Convert data to JSON format
         $("#spinner-modal").modal("show");
         $.ajax({
-            url: "/dashboard/notes/" + school,
+            url: url,
             async: false,
             type: "POST",
             // dataType: "json", // Set the expected data type of the response

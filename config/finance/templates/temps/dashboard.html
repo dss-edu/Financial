@@ -8,6 +8,65 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/reports.css' %}">
+    <style>
+
+      
+.side-panel {
+    width: 50px;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    padding: 0px;
+    height: 100%;
+    position: fixed;
+    right: 18px;
+    top: 0;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-container {
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(211, 211, 211, 0);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+    z-index: 3;
+}
+
+.collapsible-panel {
+    position: fixed;
+    top: 40px;
+    right: 0;
+    height: 100%;
+    width: 140px; /* Adjust the width as needed */
+    background-color: #f0f0f0;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow: auto;
+    z-index: 3;
+}
+
+.collapsible-panel nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.hidden-panel {
+    display:none;
+}
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -17,7 +76,7 @@
             <div class="d-flex align-items-center flex-grow-1 justify-content-center">
                 <h5 class="text-center" style="color: black; " >{{ school_name }}</h5>
             </div>
-                <a id="export-pdf-button" class="navbar-brand mr-2 text-secondary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
+                {% comment %} <a id="export-pdf-button" class="navbar-brand mr-2 text-secondary " href="#" data-toggle="modal" data-target="#spinner-modal" title="Export to PDF"><i class="fas fa-file-pdf"></i></a>
 
                 {% if role == "admin" %}
                 
@@ -25,8 +84,129 @@
                         <button id="edit-button" class="btn btn-sm btn-secondary" type="button" data-toggle="modal" data-target="#txtModal">Edit</button>
   
                 {% endif %}
-          
+           {% endcomment %}
         </nav>
+
+        <div class="side-panel"  id="sidePanel">
+            <div class="side">
+                <div style="margin-top:300px"></div>
+
+                <a
+                class="text-secondary circle-container" 
+         
+                data-toggle="tooltip" 
+                title="Side Panel"
+                data-placement="left"
+                onclick="togglePanel()"
+                >
+                <i id="panelIcon" class="fa-solid fa-angles-left"></i>
+
+                <a id="export-pdf-button" 
+                class="circle-container text-secondary " 
+                href="#" 
+                data-toggle="modal" 
+                data-target="#spinner-modal" 
+                title="Export to PDF"
+                data-placement="left"
+                >
+                <i class="fas fa-file-pdf"></i></a>
+
+
+                {% if role == "admin" %}
+                
+         
+                <a id="edit-button" 
+                class="circle-container btn-secondary" 
+ 
+                data-toggle="modal" 
+                
+                data-target="#txtModal"
+                title="Edit"
+                data-placement="left"
+                >
+                <i class="fa-solid fa-pen-to-square margintop"
+
+                ></i>
+            </a>
+
+        {% endif %}
+
+      
+      
+            </div> <!-- end of side class -->
+        </div> <!-- end of side-panel -->
+
+        <div class="collapsible-panel" id="collapsiblePanel" style="display: none;">
+            <nav>
+                <ul>
+                    {% for year, months in charter_dict.items %}
+                        <li>
+                            <a
+                                class="nav-link"
+                                href="#"
+                                data-placement="right"
+                                style="color: gray; padding-bottom:0;"
+                                onclick="toggleMonths('{{ year }}')"
+
+                            >
+                                <span class="text-center" style="color: gray;">{{ year }}</span>
+                            </a>
+                            {% comment %} <ul id="{{ year }}-months" style="display: none;"> {% endcomment %}
+                                <ul id="{{ year }}-months" >
+                                {% for month in months %}
+                                    <li style="margin-left:40px;">
+                                        <a href="/dashboard/{{ school }}/{{year}}/{{month.month_number}}" style="color: gray;">
+                                            <span style="color: gray;">{{ month.month_name }}</span>
+
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+        
+        <script>
+
+            var currentURL = window.location.href;
+            var school = "{{ school }}";
+            var yr = "{{ FY }}";
+            console.log(yr)
+            console.log(school)
+            // Check if the current URL contains the specific pattern
+            if (currentURL.includes("/dashboard/{{ school }}/{{year}}/")) {
+                // If the URL matches, set the initial display state of the collapsible panel to 'block'
+                document.getElementById("collapsiblePanel").style.display = "block";
+                document.getElementById("sidePanel").style.display = "block";
+                document.getElementById("sidePanel").style.right = "160px";
+                document.getElementById("panelIcon").className = "fa-solid fa-angles-right";
+                console.log(currentURL)
+            }
+          
+
+            
+
+            function toggleMonths(year) {
+                var months = document.getElementById(year + "-months");
+                months.style.display = (months.style.display === "none" || months.style.display === "") ? "block" : "none";
+            }
+        </script>
+        <script>
+            function togglePanel() {
+                var panel = document.getElementById("collapsiblePanel");
+                var sidePanel = document.getElementById("sidePanel");
+                var panelIcon = document.getElementById("panelIcon");
+
+                panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
+                sidePanel.style.right = (panel.style.display === "none") ? "18px" : "150px";
+                panelIcon.className = (panel.style.display === "none") ? "fa-solid fa-angles-left" : "fa-solid fa-angles-right";
+
+
+            }
+        </script>
+
 
         <div id="export-content" class="container">
             <div id="dashboard-body">
@@ -42,7 +222,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-7 col-lg-7 p-2">
+                    <div class="col-md-6 col-lg-6 p-2">
                         <div id="financial-update" class="card h-100 m-0 shadow">
                             <div class="card-body">
                                 <div class="row">
@@ -122,7 +302,7 @@
                                         </tr>
                                         <tr id="debt-service">
                                             <td>
-                                                <p>Debt Service Coverage Ratio</p>
+                                                <p>Debt Service Coverage Ratio{{anch_month}}</p>
                                                 <p>(EBIDA / Interest + Principal)</p>
                                             </td>
                                             <td>{{ debt_service }}X</td>
@@ -139,7 +319,7 @@
                                     <form>
                                         {% csrf_token %}
                                     </form>
-                                    <button class="save btn btn-primary mr-1" data-school="{{ school }}">Save</button>
+                                    <button class="save btn btn-primary mr-1" data-school="{{ school }}" data-fy="{{anchor_year}}" data-anch_month="{{anch_month}}">Save</button>
                                     <button class="cancel btn btn-secondary ml-1">Cancel</button>
                                 </div>
                             </div> <!-- End of content div -->
@@ -160,11 +340,16 @@
                             </div> <!-- end of card-body -->
                         </div> <!-- End of Activities -->
                     </div> <!-- end of financial graphs -->
+
+                    <div class="col-md-1 col-lg-1 p-2">
+                    </div>
+
+
                 </div> <!-- End of row 1 -->
 
 
                 <div class="row mt-2 mb-2">
-                    <div class="col-md-7 col-lg-7 p-2">
+                    <div class="col-md-6 col-lg-6 p-2">
                         <div id="activities" class="card h-100 m-0 shadow">
                             <div class="card-body">
                                 <div>
@@ -189,6 +374,10 @@
                             </div> <!-- end of cardbody -->
                         </div> <!-- End of accomplishments -->
                     </div> <!-- end of col2 -->
+
+                    <div class="col-md-1 col-lg-1 p-2">
+                    </div>
+
                 </div> <!-- End of row 2-->
             </div>
 

@@ -21,7 +21,7 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
 
-def dashboard(school):
+def dashboard(school,anchor_year="",anchor_month=""):
     # current_date = datetime.today().date()
     # # current_year = current_date.year
     # # last_year = current_date - timedelta(days=365)
@@ -31,16 +31,33 @@ def dashboard(school):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
-    for i in range(month_number - 1, 0, -1):
+
+
+
+    if anchor_month:
         query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
-                    WHERE school = '{school}' \
-                    AND month = {i};"
+            WHERE school = '{school}' \
+            AND year = '{anchor_year}' \
+            AND month = {anchor_month};"
         cursor.execute(query)
         row = cursor.fetchone()
-        if row is not None:
-            last_month = date(curr_year, i + 1, 1)
-            last_month = last_month - relativedelta(days=1)
-            break
+        last_month = date(anchor_year, anchor_month + 1, 1)
+        last_month = last_month - relativedelta(days=1)
+
+    else:
+
+        for i in range(month_number - 1, 0, -1):
+            query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                        WHERE school = '{school}' \
+                        AND month = {i};"
+            cursor.execute(query)
+            row = cursor.fetchone()
+            if row is not None:
+                last_month = date(curr_year, i + 1, 1)
+                last_month = last_month - relativedelta(days=1)
+                break
+
+            
 
     context = {
         "school": school,
@@ -53,6 +70,30 @@ def dashboard(school):
         "ratio_administrative": row[13],  ###
         ## "ratio_student_teacher": row[14],
     }
+
+    query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}';"
+       
+        
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    charter_dict = {}
+
+    for row in rows:
+        charter_year = row[1]
+        charter_month = row[2]
+   
+
+        if charter_year not in charter_dict:
+            charter_dict[charter_year] = []
+        
+        charter_month_name = calendar.month_name[charter_month]
+
+        charter_dict[charter_year].append({"month_number": charter_month, "month_name": charter_month_name})
+
+    context["charter_dict"] = charter_dict
+
+
 
     cursor.close()
     cnxn.close()

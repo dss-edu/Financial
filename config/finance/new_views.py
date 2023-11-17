@@ -23,8 +23,15 @@ schoolMonths = settings.schoolMonths
 present_date = datetime.today().date()   
 present_year = present_date.year
 present_year = int(present_year)
+present_month = present_date.month
+curr_fy = int(present_year)
+if present_month == 1:
+    last_month_number = 12
+    curr_fy = curr_fy - 1  
+else:
+    last_month_number = present_month - 1
 
-def dashboard_notes(request, school):
+def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
 
     cnxn = connect()
     cursor = cnxn.cursor()
@@ -32,8 +39,28 @@ def dashboard_notes(request, school):
         notes = request.POST.getlist("notesList[]")
         data = json.dumps({i: note for i, note in enumerate(notes)})
 
-    update_query = "UPDATE [dbo].[Report] SET notes = ? WHERE school = ?"
-    cursor.execute(update_query, (data, school))
+    if anchor_month:
+        # select_query = "SELECT * FROM [dbo].[Reports] WHERE school = ? and year = ? and month = ?"
+        # cursor.execute(select_query,(school,anchor_year, anchor_month))
+        # row = cursor.fetchone()
+        # if row is None:
+        #     insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas,notes,year, month) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        #     cursor.execute(insert_query, ( school,"","","","",anchor_year ,anchor_month ))
+            
+        update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
+        cursor.execute(update_query, (data, school,anchor_year ,anchor_month ))
+        print("1")
+    else:
+        # select_query = "SELECT * FROM [dbo].[Reports] WHERE school = ? and year = ? and month = ?"
+        # cursor.execute(select_query,(school,curr_fy, last_month_number))
+        # row = cursor.fetchone()
+        # if row is None:
+        #     insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas,notes,year, month) VALUES (?, ?, ?, ?, ?, ?, ?)"
+        #     cursor.execute(insert_query, ( school,"","","","",curr_fy ,last_month_number ))
+
+        update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
+        cursor.execute(update_query, (data, school,curr_fy,last_month_number))
+        print("2")
     # update_query = "UPDATE [dbo].[Report] SET notes = ?"
     # cursor.execute(update_query, data)
 
@@ -46,7 +73,7 @@ def dashboard_notes(request, school):
 
 @custom_login_required
 @permission_required
-def dashboard(request, school, anchor_year=""):
+def dashboard(request, school, anchor_year="",anchor_month=""):
     data = {"accomplishments": "", "activities": "", "agendas": ""}
    
     
@@ -60,10 +87,15 @@ def dashboard(request, school, anchor_year=""):
         accomplishments = request.POST.get("accomplishments")
         agendas = request.POST.get("agendas")
 
-        update_query = "UPDATE [dbo].[Report] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ?"
-        cursor.execute(
-            update_query, (accomplishments, activities, agendas, school_name)
-        )
+        update_query = "UPDATE [dbo].[Reports] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ? and year = ? and month = ?"
+        if anchor_month:
+            cursor.execute(
+                update_query, (accomplishments, activities, agendas, school_name,anchor_year,anchor_month)
+            )
+        else:
+            cursor.execute(
+                update_query, (accomplishments, activities, agendas, school_name,curr_fy,last_month_number)
+            )
 
         cnxn.commit()
 
@@ -73,25 +105,34 @@ def dashboard(request, school, anchor_year=""):
     else:
         # check if it exists
         # query for the school
-        query = "SELECT * FROM [dbo].[Report] WHERE school = ?"
-        cursor.execute(query, school_name)
+        query = "SELECT * FROM [dbo].[Reports] WHERE school = ? and year =? and month=?"
+        if anchor_month:            
+            cursor.execute(query, school_name,anchor_year,anchor_month)
+        else:
+            cursor.execute(query, school_name,curr_fy,last_month_number)
         row = cursor.fetchone()
-
+        print(row)
         if row is None:
             # Insert query if it does noes exists
-            insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities, agendas) VALUES (?, ?, ?, ?)"
+            insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas, year, month) VALUES (?, ?, ?, ?,?,?)"
             # insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
             agendas = "No agenda for this school yet. Click edit and add bullet points. It is important that the inserted agenda are in bullet points.\n"
 
             # Execute the INSERT query
-            cursor.execute(
-                insert_query, (school_name, accomplishments, activities, agendas)
-            )
+            if anchor_month:
+                cursor.execute(
+                    insert_query, (school_name, accomplishments, activities, agendas,anchor_year,anchor_month)
+                )
+            else:
+                cursor.execute(
+                    insert_query, (school_name, accomplishments, activities, agendas,curr_fy,last_month_number)
+                )
 
             # Commit the transaction
             cnxn.commit()
+            print("inserted")
         else:
             # row = (school, accomplishments, activities)
             if row[1]:
@@ -115,7 +156,15 @@ def dashboard(request, school, anchor_year=""):
         }
     )
 
-    context = modules.dashboard(school)
+    if anchor_month:
+        context = modules.dashboard(school,anchor_year, anchor_month)
+        print("yes")
+    else:
+        anchor_year=""
+        anchor_month=""
+        context = modules.dashboard(school,anchor_year, anchor_month)
+
+
 
     net_ytd = context["net_income_ytd"]
     net_earnings = context["net_earnings"]
@@ -139,6 +188,7 @@ def dashboard(request, school, anchor_year=""):
     context["form"] = form
     context["data"] = data
     context["anchor_year"] = anchor_year
+    context["anch_month"] = anchor_month
     role = request.session.get('user_role')
     context["role"] = role
     username = request.session.get('username')
