@@ -4263,6 +4263,7 @@ def cashflow(school,year):
                 "Description": row[2],
                 "obj": str(row[3]),
             }
+            print(row[3])
 
             data_cashflow.append(row_dict)
 

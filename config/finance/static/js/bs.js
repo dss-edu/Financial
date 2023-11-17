@@ -8,53 +8,69 @@
 
       
       var modalTableBody = document.getElementById("modal-table-body");
-
+      var mdfooter = document.getElementById("myModalFooter");
    
       function populateModal(data) {
-        
-        modalTableBody.innerHTML = "";
 
+    
+        modalTableBody.innerHTML = "";
+        mdfooter.innerHTML = "";
         
         data.glbs_data.forEach(function (row) {
           var newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td class="fund-td">${row.fund}</td>
-            <td class="fund-td">${row.func}</td>
-            <td>${row.obj}</td>
-            <td>${row.org}</td>
-            <td>${row.fscl_yr}</td>
-            <td>${row.pgm}</td>
-           
-            <td>${row.projDtl}</td>
-            <td>${row.AcctDescr}</td>
-            <td>${row.Number}</td>
-            <td style="white-space: nowrap;">${row.Date}</td>
-            <td>${row.AcctPer}</td>
-            
-            <td>${row.Real}</td>
-            
-            
-            <td>${row.Expend}</td>
-            <td>${row.Bal}</td>
-            <td style="white-space: nowrap;">${row.WorkDescr}</td>
-            <td>${row.Type}</td>
-            
-          `;
+
+              if (ascender == 'True'){
+              newRow.innerHTML = `
+                    <td class="text-end">${row.fund}</td>
+                    <td class="text-end">${row.func}</td>
+                    <td class="text-end">${row.obj}</td>
+                    <td class="text-end">${row.org}</td>
+                    <td class="text-end">${row.fscl_yr}</td>
+                    <td class="text-end">${row.pgm}</td>
+                    <td class="text-end">${row.projDtl}</td>
+                    <td class="text-end text-nowrap">${row.AcctDescr}</td>
+                    <td class="text-end">${row.Number}</td>
+                    <td class="text-end" style="white-space: nowrap;">${row.Date}</td>
+                    <td class="text-end">${row.AcctPer}</td>
+                    <td class="text-end">${row.Real}</td>
+                    <td class="text-end">${row.Expend}</td>
+                    <td class="text-end">${row.Bal}</td>
+                    <td class="text-end" style="white-space: nowrap;">${row.WorkDescr}</td>
+                    <td class="text-end">${row.Type}</td>
+                  `;
+              }      else{
+                newRow.innerHTML = `
+                <td class="text-center">${row.fund}</td>
+                <td class="text-center">${row.func}</td>
+                <td class="text-center">${row.obj}</td>
+                <td class="text-center">${row.org}</td>
+                <td class="text-center">${row.fscl_yr}</td>
+          
+
+          
+                <td class="text-center" style="white-space: nowrap;">${row.Date}</td>
+                <td class="text-center">${row.AcctPer}</td>
+                <td class="text-center">${row.Real}</td>
+
+              `;
+          }
+
           modalTableBody.appendChild(newRow);
         });
 
         var totalRow = document.createElement("tr");
         totalRow.innerHTML = `
-          <td colspan="13" style="text-align: right;">Total Balance</td>
-          <td>$${data.total_bal}</td>
-          <td colspan="2"></td>
+        <td colspan="11"><div style="width:800px"></div></td>
+        <td style="text-align: right; font-size:25px"><strong>Total:</strong></td>
+        <td id="modal-total-balance" style="font-size:25px"> $ ${data.total_bal}</td>
+        <td colspan="4"></td>
         `;
-        modalTableBody.appendChild(totalRow);
+        mdfooter.appendChild(totalRow);
 
       }
 
-    function fetchDataAndPopulateModal(obj, yr) {
-      fetch(`/viewgl_activitybs/${obj}/${yr}/`)
+    function fetchDataAndPopulateModal(obj, yr , school ,year , url) {
+      fetch(`/viewgl_activitybs/${obj}/${yr}/${school}/${year}/${url}/`)
         .then(function (response) {
           
           return response.json();
@@ -62,6 +78,7 @@
         .then(function (data) {
      
           if (data.status === "success") {
+            $("#spinner-modal").modal("hide");
             
             populateModal(data.data , data.total_bal);
             
@@ -79,11 +96,12 @@
     var viewGLLinks = document.querySelectorAll(".viewgl_activitybs-link");
     viewGLLinks.forEach(function (link) {
       link.addEventListener("click", function (event) {
+        $("#spinner-modal").modal("show");
         event.preventDefault();
         
         var obj = link.dataset.obj;
         var yr = link.dataset.yr;
-        fetchDataAndPopulateModal(obj , yr);
+        fetchDataAndPopulateModal(obj , yr, school ,year , url);
       });
     });
 
