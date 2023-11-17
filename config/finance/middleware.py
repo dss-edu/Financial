@@ -15,7 +15,10 @@ class VisitorMiddleware:
 
         ip_addr = request.META.get('REMOTE_ADDR')
         username = request.user.username
-        school = view_kwargs['school']
+        try: 
+            school = view_kwargs['school']
+        except:
+            school = None
         date = now()
         link = request.build_absolute_uri()
 
