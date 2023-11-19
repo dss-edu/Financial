@@ -48,6 +48,7 @@ def update_school(school):
     excel(school,anchor_year)
     profit_loss_chart(school)
     profit_loss_date(school)
+    updateGraphDB(school, False)
 
 def update_fy(school,year):
 
@@ -59,6 +60,7 @@ def update_fy(school,year):
     charter_first(school)
     profit_loss_chart(school)
     profit_loss_date(school)
+    updateGraphDB(school, True)
 
 def profit_loss(school,year):
     print("profit_loss")
@@ -6228,7 +6230,120 @@ def profit_loss_chart(school):
         file = os.path.join(json_path, f"{key}.json")
         with open(file, "w") as f:
             json.dump(val, f)
+            
+def updateGraphDB(school, fye):
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    cursor.execute(f"SELECT  * FROM [dbo].{db[school]['pl_chart']};")
+    rows = cursor.fetchall()
 
+    dataDate = {}
+    for row in rows:        
+        dataDate[row[0]] = 1 
+    yearPath = ['', '2022', '2021']
+    if fye == True:   
+        yearPath = ['']
+    BASE_DIR = os.getcwd()
+    for yPath in yearPath:
+        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data.json', 'r') as f:
+                data = json.load(f)
+        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data2.json', 'r') as f:
+                dataExpense = json.load(f)
+        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data_activities.json', 'r') as f:
+                dataExpensebyObject = json.load(f)
+                
+        for x in range(1,13):
+            insertqueryStatement = 'INSERT INTO dbo.PLData (date,data,school) VALUES (?,?,?)'
+            localRevenue = '{ "localRevenue": { '
+            stateprogramRevenue = '"stateprogramRevenue": { '
+            federalprogramRevenue = '"federalprogramRevenue": { '
+            expense = '"expense": { '
+            payrollandBenefits = '"payrollandBenefits": { '
+            professionalandcontractServices = '"professionalandcontractServices": { '
+            materialsandSupplies = '"materialsandSupplies": { '
+            otheroperatingCosts = '"otheroperatingCosts": { '
+            depreciation = '"depreciation": { '
+            debtServices = '"debtServices": { '
+
+            localRevenueTotal = 0
+            stateprogramRevenueTotal = 0
+            federalprogramRevenueTotal = 0
+            expenseTotal = 0
+            payrollandBenefitsTotal = 0
+            professionalandcontractServicesTotal = 0
+            materialsandSuppliesTotal = 0
+            otheroperatingCostsTotal = 0
+            depreciationTotal = 0
+            debtServicesTotal = 0        
+            for i in data:        
+                if i['category'] == 'Local Revenue':
+                    localRevenue = localRevenue + '"' + str(i['obj']) + '": ' +  str(i['total_check' + str(x)]).replace(',','') + ','
+                    localRevenueTotal = localRevenueTotal + float(i['total_check' + str(x)])
+                elif i['category'] == 'State Program Revenue':
+                    stateprogramRevenue = stateprogramRevenue + '"' + str(i['obj']) + '": ' +  str(i['total_check' + str(x)]).replace(',','') + ','
+                    stateprogramRevenueTotal = stateprogramRevenueTotal + float(i['total_check' + str(x)])
+                elif i['category'] == 'Federal Program Revenue':
+                    federalprogramRevenue = federalprogramRevenue + '"' + str(i['obj']) + '": ' +  str(i['total_check' + str(x)]).replace(',','') + ','
+                    federalprogramRevenueTotal = federalprogramRevenueTotal + float(i['total_check' + str(x)])
+            for i in dataExpensebyObject:
+                if i['total_activities' + str(x)] != '':
+                    objCodes = int(i['obj'])
+                    if objCodes >= 6100 and objCodes < 6200:
+                        payrollandBenefits = payrollandBenefits + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        payrollandBenefitsTotal = payrollandBenefitsTotal + float(i['total_activities' + str(x)].replace(',',''))
+                    elif objCodes >= 6200 and objCodes < 6300:
+                        professionalandcontractServices = professionalandcontractServices + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        professionalandcontractServicesTotal = professionalandcontractServicesTotal + float(i['total_activities' + str(x)].replace(',',''))                    
+                    elif objCodes >= 6300 and objCodes < 6400:
+                        materialsandSupplies = materialsandSupplies + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        materialsandSuppliesTotal = materialsandSuppliesTotal + float(i['total_activities' + str(x)].replace(',',''))                    
+                    elif objCodes >= 6400 and objCodes < 6500:
+                        otheroperatingCosts = otheroperatingCosts + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        otheroperatingCostsTotal = otheroperatingCostsTotal + float(i['total_activities' + str(x)].replace(',',''))                    
+                    elif objCodes == 6449 :
+                        depreciation = depreciation + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        depreciationTotal = depreciationTotal + float(i['total_activities' + str(x)].replace(',',''))                    
+                    elif objCodes >= 6500 and objCodes < 6600:                                    
+                        debtServices = debtServices + '"' + str(i['obj']) + '": ' +  str(i['total_activities' + str(x)]).replace(',','') + ','
+                        debtServicesTotal = debtServicesTotal + float(i['total_activities' + str(x)].replace(',',''))
+            for i in dataExpense:
+                if i['total_func' + str(x)] != '':
+                    expense = expense + '"' + str(i['func_func']) + ' - ' + str(i['desc']) + '": ' +  str(i['total_func' + str(x)]).replace(',','') + ','
+                    expenseTotal = expenseTotal + float(i['total_func' + str(x)].replace(',',''))
+
+            year = yPath
+            if year == '':
+                date_object = datetime.today()
+                year = str(date_object.strftime("%Y"))
+                
+            dateStore = year + "-{:02}".format(x)
+            startMonth = 9
+            if school in schoolMonths['julySchool']:
+                startMonth = 7
+            if x < startMonth:
+                yearstore = int(year) + 1
+                dateStore = str(yearstore) + "-{:02}".format(x)
+            if localRevenueTotal == 0 and stateprogramRevenueTotal == 0 and federalprogramRevenueTotal == 0 and expenseTotal == 0:
+                pass
+            else:
+                jsonString = localRevenue + '"total": ' + str(int(localRevenueTotal)) + '},' \
+                            + stateprogramRevenue + '"total": ' + str(int(stateprogramRevenueTotal)) + '},' \
+                            + federalprogramRevenue + '"total": ' + str(int(federalprogramRevenueTotal)) + '},' \
+                            + expense + '"total": ' + str(int(expenseTotal)) + '},' \
+                            + payrollandBenefits + '"total": ' + str(int(payrollandBenefitsTotal)) + '},' \
+                            + professionalandcontractServices + '"total": ' + str(int(professionalandcontractServicesTotal)) + '},' \
+                            + materialsandSupplies + '"total": ' + str(int(materialsandSuppliesTotal)) + '},' \
+                            + otheroperatingCosts + '"total": ' + str(int(otheroperatingCostsTotal)) + '},' \
+                            + depreciation + '"total": ' + str(int(depreciationTotal)) + '},' \
+                            + debtServices + '"total": ' + str(int(debtServicesTotal)) + '}}'
+                if dateStore in dataDate:
+                    queryStatement = "delete from dbo.PLData where date = '" + dateStore + "' and school = '" + school + "'"
+                    cursor.execute(queryStatement)
+                    cnxn.commit()
+                                        
+                cursor.execute(insertqueryStatement, dateStore, jsonString, school)
+                cnxn.commit()
+                
 if __name__ == "__main__":
     update_db()
     # charter_first("advantage")
