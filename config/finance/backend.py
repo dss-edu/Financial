@@ -6246,14 +6246,16 @@ def updateGraphDB(school, fye):
     if fye == True:   
         yearPath = ['']
         
-    BASE_DIR = os.getcwd()
+
     for yPath in yearPath:
-        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data.json', 'r') as f:
-                data = json.load(f)
-        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data2.json', 'r') as f:
-                dataExpense = json.load(f)
-        with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data_activities.json', 'r') as f:
-                dataExpensebyObject = json.load(f)
+        with open(os.path.join(settings.BASE_DIR, 'finance', 'json', str(yPath), 'profit-loss', str(school), 'data.json'), 'r') as f:
+            data = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'finance', 'json', str(yPath), 'profit-loss', str(school), 'data2.json'), 'r') as f:
+            dataExpense = json.load(f)
+
+        with open(os.path.join(settings.BASE_DIR, 'finance', 'json', str(yPath), 'profit-loss', str(school), 'data_activities.json'), 'r') as f:
+            dataExpensebyObject = json.load(f)
         
         for x in range(1,13):
             insertqueryStatement = 'INSERT INTO dbo.PLData (date,data,school) VALUES (?,?,?)'
