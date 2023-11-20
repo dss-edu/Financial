@@ -176,7 +176,7 @@
                                 {% else %}
                                 <form id="fy2-form" method="post" action="{% url 'updatefy' school=school  %}">
                                         {% csrf_token %}
-                                    <a id="fy2-button" class="dropdown-item" style="cursor: pointer;">Update FY2</a>
+                                    <a id="fy2-button" class="dropdown-item" style="cursor: pointer;">Update FY</a>
                                     <script>
                                         $('#fy2-button').on('click', function() {
                                             $('#fy2-form').submit()
