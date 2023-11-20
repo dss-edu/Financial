@@ -36,6 +36,7 @@ def update_db():
         cashflow(school)
         excel(school)
         charter_first(school)
+        updateGraphDB(school, False)
         profit_loss_chart(school)
         profit_loss_date(school)
         
