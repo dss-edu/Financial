@@ -160,36 +160,42 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                             {% if role == "admin" %}
-                                <a class="dropdown-item">
-                                    {% if anchor_year %}
-                                    <form method="post" action="{% url 'updatefy' school=school year=anchor_year%}">
-                                        {% csrf_token %}
-                                        <button type="submit">Update FY1</button>
-                                    </form>
+                                {% if anchor_year %}
+                                <form id="fy1-form" method="post" action="{% url 'updatefy' school=school year=anchor_year%}">
+                                    {% csrf_token %}
+                                    <a id="fy1-button" class="dropdown-item" style="cursor: pointer;">Update FY1</a>
+                                    <script>
+                                        $('#fy1-button').on('click', function() {
+                                            $('#fy1-form').submit()
+                                        })
+                                    </script>
+                                </form>
                                 {% else %}
-                                    <form method="post" action="{% url 'updatefy' school=school  %}">
+                                <form id="fy2-form" method="post" action="{% url 'updatefy' school=school  %}">
                                         {% csrf_token %}
-                                        <button type="submit">Update FY2</button>
-                                    </form>
+                                    <a id="fy2-button" class="dropdown-item" style="cursor: pointer;">Update FY2</a>
+                                    <script>
+                                        $('#fy2-button').on('click', function() {
+                                            $('#fy2-form').submit()
+                                        })
+                                    </script>
+                                </form>
                                 {% endif %}
-
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" >
-                                    <form method="post" action="{% url 'updateschool' school %}">
-                                        {% csrf_token %}
-                                        <button type="submit">Update School</button>
-                                    </form>
-                                </a>
-                                <div class="dropdown-divider"></div>
+                                <form id="update-school-form" method="post" action="{% url 'updateschool' school %}">
+                                    {% csrf_token %}
+                                    <a id="update-school-btn" class="dropdown-item" style="cursor: pointer;">Update School</a>
+                                    <script>
+                                        $('#update-school-btn').on('click', function() {
+                                            $('#update-school-form').submit()
+                                        })
+                                    </script>
+                                </form>
+                                <!-- </a> -->
                             {% endif %}
 
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" data-toggle="modal" data-target="#changePasswordModal">
-         
-                       
-                                    <button type="submit" name="changePassword">Change Password</button>
-                     
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changePasswordModal" style="cursor: pointer;">
+                                Change Password
+                                    <!-- <button type="submit" name="changePassword"></button> -->
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
