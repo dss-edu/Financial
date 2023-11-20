@@ -387,7 +387,7 @@ db = {
      "goldenrule": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_GolderRule]",
+        "db": "[AscenderData_GoldenRule]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
