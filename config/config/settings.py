@@ -184,6 +184,8 @@ SCHOOLS = {
     "sa": "San Antonio Preparatory Schools",
     "ume": "UME Preparatory Academy",
     "lonestar": "Imagine Lone Star International Academy",
+    "stmary": "St Mary's Charter School",
+    "goldenrule": "Golden Rule Schools",
 }
 
 db = {
@@ -369,14 +371,40 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+     "stmary": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_StMary]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
+     "goldenrule": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_GolderRule]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
-    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar"],
+    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule"],
     "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule"]
 }
