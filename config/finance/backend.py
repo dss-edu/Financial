@@ -46,7 +46,7 @@ def update_school(school):
     cashflow(school,anchor_year)
     charter_first(school)
     excel(school,anchor_year)
-    #updateGraphDB(school, False)
+    updateGraphDB(school, False)
     profit_loss_chart(school)
     profit_loss_date(school)    
 
@@ -58,7 +58,7 @@ def update_fy(school,year):
     cashflow(school,year)
     excel(school,year)
     charter_first(school)
-    #updateGraphDB(school, True)
+    updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
     
@@ -6232,6 +6232,7 @@ def profit_loss_chart(school):
             json.dump(val, f)
             
 def updateGraphDB(school, fye):
+    
     cnxn = connect()
     cursor = cnxn.cursor()
     cursor.execute(f"SELECT  * FROM [dbo].{db[school]['pl_chart']};")
@@ -6243,6 +6244,7 @@ def updateGraphDB(school, fye):
     yearPath = ['', '2022', '2021']
     if fye == True:   
         yearPath = ['']
+        
     BASE_DIR = os.getcwd()
     for yPath in yearPath:
         with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data.json', 'r') as f:
@@ -6251,7 +6253,7 @@ def updateGraphDB(school, fye):
                 dataExpense = json.load(f)
         with open(BASE_DIR + '/finance/json/' + yPath + '/profit-loss/' + school + '/data_activities.json', 'r') as f:
                 dataExpensebyObject = json.load(f)
-                
+        
         for x in range(1,13):
             insertqueryStatement = 'INSERT INTO dbo.PLData (date,data,school) VALUES (?,?,?)'
             localRevenue = '{ "localRevenue": { '
@@ -6300,7 +6302,7 @@ def updateGraphDB(school, fye):
                         payrollandBenefits = payrollandBenefits + '"' + str(i['obj']) + '": ' +  amount + ','
                         payrollandBenefitsTotal = payrollandBenefitsTotal + float(amount)
                     elif objCodes >= 6200 and objCodes < 6300:
-                        professionalandcontractServices = professionalandcontractServices + '"' +  amount + ','
+                        professionalandcontractServices = professionalandcontractServices + '"' + str(i['obj']) + '": ' +  amount + ','
                         professionalandcontractServicesTotal = professionalandcontractServicesTotal + float(amount)
                     elif objCodes >= 6300 and objCodes < 6400:
                         materialsandSupplies = materialsandSupplies + '"' + str(i['obj']) + '": ' +  amount + ','
