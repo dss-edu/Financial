@@ -267,12 +267,15 @@
               }));
               
               var data_chart = {{ data_chart|safe }};
+              
 
   
               var dataCharts = [];
   
               data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+                console.log(jsonData);
                 var data = JSON.parse(jsonData);
                 var localRevenue = data.localRevenue.total;
                 var stateprogramRevenue = data.stateprogramRevenue.total;
@@ -335,7 +338,7 @@
             });
             dataCharts.sort((a, b) => a.date - b.date);
 
-            console.log(dataCharts)
+  
               
               // Create axes
               // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
@@ -532,6 +535,7 @@
 
             data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
                 var data = JSON.parse(jsonData);
                 var localRevenue = data.localRevenue.total;
                 var stateprogramRevenue = data.stateprogramRevenue.total;
@@ -749,6 +753,7 @@
   
               data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
                 var data = JSON.parse(jsonData);
                 var professionalandcontractServices = data.professionalandcontractServices.total;
                 var payrollandBenefits = data.payrollandBenefits.total;
@@ -817,8 +822,7 @@
             });
             dataCharts.sort((a, b) => a.date - b.date);
 
-            console.log(dataCharts)
-              
+ 
               // Create axes
               // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
               let xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
@@ -1025,6 +1029,7 @@
 
             data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
                 var data = JSON.parse(jsonData);
                 var professionalandcontractServices = data.professionalandcontractServices.total;
                 var payrollandBenefits = data.payrollandBenefits.total;
