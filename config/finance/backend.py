@@ -46,7 +46,7 @@ def update_school(school):
     cashflow(school,anchor_year)
     charter_first(school)
     excel(school,anchor_year)
-    updateGraphDB(school, False)
+    #updateGraphDB(school, False)
     profit_loss_chart(school)
     profit_loss_date(school)    
 
@@ -58,7 +58,7 @@ def update_fy(school,year):
     cashflow(school,year)
     excel(school,year)
     charter_first(school)
-    updateGraphDB(school, True)
+    #updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
     
