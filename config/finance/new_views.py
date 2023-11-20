@@ -47,7 +47,7 @@ def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
         #     insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas,notes,year, month) VALUES (?, ?, ?, ?, ?, ?, ?)"
         #     cursor.execute(insert_query, ( school,"","","","",anchor_year ,anchor_month ))
             
-        update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
+        update_query = "UPDATE [dbo].[Reports2] SET notes = ? WHERE school = ? and year = ? and month = ?"
         cursor.execute(update_query, (data, school,anchor_year ,anchor_month ))
         print("1")
     else:
@@ -58,7 +58,7 @@ def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
         #     insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas,notes,year, month) VALUES (?, ?, ?, ?, ?, ?, ?)"
         #     cursor.execute(insert_query, ( school,"","","","",curr_fy ,last_month_number ))
 
-        update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
+        update_query = "UPDATE [dbo].[Reports2] SET notes = ? WHERE school = ? and year = ? and month = ?"
         cursor.execute(update_query, (data, school,curr_fy,last_month_number))
         print("2")
     # update_query = "UPDATE [dbo].[Report] SET notes = ?"
@@ -87,7 +87,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
         accomplishments = request.POST.get("accomplishments")
         agendas = request.POST.get("agendas")
 
-        update_query = "UPDATE [dbo].[Reports] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ? and year = ? and month = ?"
+        update_query = "UPDATE [dbo].[Reports2] SET accomplishments = ?, activities = ?, agendas = ? WHERE school = ? and year = ? and month = ?"
         if anchor_month:
             cursor.execute(
                 update_query, (accomplishments, activities, agendas, school_name,anchor_year,anchor_month)
@@ -105,7 +105,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     else:
         # check if it exists
         # query for the school
-        query = "SELECT * FROM [dbo].[Reports] WHERE school = ? and year =? and month=?"
+        query = "SELECT * FROM [dbo].[Reports2] WHERE school = ? and year =? and month=?"
         if anchor_month:            
             cursor.execute(query, school_name,anchor_year,anchor_month)
         else:
@@ -114,7 +114,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
         print(row)
         if row is None:
             # Insert query if it does noes exists
-            insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas, year, month) VALUES (?, ?, ?, ?,?,?)"
+            insert_query = "INSERT INTO [dbo].[Reports2] (school, accomplishments, activities, agendas, year, month) VALUES (?, ?, ?, ?,?,?)"
             # insert_query = "INSERT INTO [dbo].[Report] (school, accomplishments, activities) VALUES (?, ?, ?)"
             accomplishments = "No accomplishments for this school yet. Click edit and add bullet points. It is important that the inserted accomplishments are in bullet points.\n"
             activities = "No activities for this school yet. Click edit and add bullet points. It is important that the inserted activities are in bullet points.\n"
