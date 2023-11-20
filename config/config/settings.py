@@ -185,7 +185,7 @@ SCHOOLS = {
     "ume": "UME Preparatory Academy",
     "lonestar": "Imagine Lone Star International Academy",
     "stmary": "St Mary's Charter School",
-    "goldenrule": "Golden Rule Schools",
+    "goldenrule": "Golden Rule Charter School",
     "imagineinternational": "Imagine International Academy of North Texas",
 }
 
