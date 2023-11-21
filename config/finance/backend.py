@@ -3192,7 +3192,7 @@ def balance_sheet(school,year):
             
         
         if bs_checker == []:
-            for i in range(1, 21):
+            for i in range(1, 30):
                 fye = '0'
                 query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
                 cursor.execute(query, (i, fye, school,FY_year_1)) 

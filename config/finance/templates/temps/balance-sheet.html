@@ -1376,6 +1376,163 @@ style="display:none;"
       
 <!-- END OF FA-L -->
 
+{% for row in data_activitybs %}
+{% if row.Activity == 'LI' %}
+
+<tr id="row22-{{ forloop.counter }}" class="balancesheet-activity-row">
+<td class="firstcolumn">
+ 
+</td>
+<td>{{row.obj}}</td>
+<td class="space-before">{{row.Description2}}</td>
+<td></td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+<td class="right-align-td">{{row.fytd}}</td>
+<td class="right-align-td"></td>
+</tr>
+
+{% endif %}
+{% endfor %}
+
+{% for row in data_balancesheet %}
+{% if row.school == school %}
+
+  {% if row.Category == 'Assets' %}
+  {% if row.Subcategory == 'Capital Assets, Net' %}
+  {% if row.Activity == 'LI' %}
+     
+      <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
+        <td class="firstcolumn">
+          
+          <a
+          id="row22"
+          class="expand-button"
+          onclick="toggleRow(22); "
+          >
+        <i id="row22-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+        </td>
+        <td>
+          <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+          <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+        </td>
+        <td class="space-before">{{row.Description}}</td>
+        <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+          <div>{{row.FYE}}</div>
+        </td>
+        <td class="collapsed right-align-td">{{row.difference_9}}</td>
+        <td class="collapsed right-align-td">{{row.difference_10}}</td>
+        <td class="collapsed right-align-td">{{row.difference_11}}</td>
+        <td class="collapsed right-align-td">{{row.difference_12}}</td>
+        <td class="collapsed right-align-td">{{row.difference_1}}</td>
+        <td class="collapsed right-align-td">{{row.difference_2}}</td>
+        <td class="collapsed right-align-td">{{row.difference_3}}</td>
+        <td class="collapsed right-align-td">{{row.difference_4}}</td>
+        <td class="collapsed right-align-td">{{row.difference_5}}</td>
+        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">{{row.difference_7}}</td>
+        <td class="collapsed right-align-td">{{row.difference_8}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{row.last_month_difference}}</td>
+      </tr>
+      {% endif %} 
+      {% endif %}   
+      {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+
+
+
+{% for row in data_activitybs %}
+{% if row.Activity == 'FA-FE' %}
+
+<tr id="row23-{{ forloop.counter }}" class="balancesheet-activity-row">
+<td class="firstcolumn">
+ 
+</td>
+<td>{{row.obj}}</td>
+<td class="space-before">{{row.Description2}}</td>
+<td></td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+<td class="right-align-td">{{row.fytd}}</td>
+<td class="right-align-td"></td>
+</tr>
+
+{% endif %}
+{% endfor %}
+
+{% for row in data_balancesheet %}
+{% if row.school == school %}
+
+  {% if row.Category == 'Assets' %}
+  {% if row.Subcategory == 'Capital Assets, Net' %}
+  {% if row.Activity == 'FA-FE' %}
+     
+      <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
+        <td class="firstcolumn">
+          
+          <a
+          id="row23"
+          class="expand-button"
+          onclick="toggleRow(23); "
+          >
+        <i id="row23-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+        </td>
+        <td>
+          <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+          <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+        </td>
+        <td class="space-before">{{row.Description}}</td>
+        <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+          <div>{{row.FYE}}</div>
+        </td>
+        <td class="collapsed right-align-td">{{row.difference_9}}</td>
+        <td class="collapsed right-align-td">{{row.difference_10}}</td>
+        <td class="collapsed right-align-td">{{row.difference_11}}</td>
+        <td class="collapsed right-align-td">{{row.difference_12}}</td>
+        <td class="collapsed right-align-td">{{row.difference_1}}</td>
+        <td class="collapsed right-align-td">{{row.difference_2}}</td>
+        <td class="collapsed right-align-td">{{row.difference_3}}</td>
+        <td class="collapsed right-align-td">{{row.difference_4}}</td>
+        <td class="collapsed right-align-td">{{row.difference_5}}</td>
+        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">{{row.difference_7}}</td>
+        <td class="collapsed right-align-td">{{row.difference_8}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{row.last_month_difference}}</td>
+      </tr>
+      {% endif %} 
+      {% endif %}   
+      {% endif %}
+
+  {% endif %}
+{% endfor %}
+
 <!-- Def-Exp -->
 {% for row in data_activitybs %}
 {% if row.Activity == 'Def-Exp' %}
@@ -1852,6 +2009,85 @@ style="display:none;"
 
       <!-- END OF AP-->
 
+
+      {% for row in data_activitybs %}
+      {% if row.Activity == 'PL' %}
+      
+      <tr id="row24-{{ forloop.counter }}" class="liabilities-activity-row">
+        <td class="firstcolumn">
+        
+        </td>
+        <td>{{row.obj}}</td>
+        <td class="space-before">{{row.Description2}}</td>
+        <td></td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td"></td>
+      </tr>
+      
+      {% endif %}
+      {% endfor %}
+
+      {% for row in data_balancesheet %}
+      {% if row.school == school %}
+   
+        {% if row.Category == 'Liabilities and Net Assets' %}
+        {% if row.Subcategory == 'Current Liabilities' %}
+        {% if row.Activity == 'PL' %}
+           
+            <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
+              <td class="firstcolumn">
+               
+                <a
+                id="row24"
+                class="expand-button"
+                onclick="toggleRow(24); "
+                >
+              <i id="row24-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+              </td>
+              <td>
+                <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+                <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+              </td>
+              <td class="space-before">{{row.Description}} </td>
+              <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+                <div>{{row.FYE}}</div>
+              </td>
+              <td class="collapsed right-align-td">{{row.debt_9}}</td>
+              <td class="collapsed right-align-td">{{row.debt_10}}</td>
+              <td class="collapsed right-align-td">{{row.debt_11}}</td>
+              <td class="collapsed right-align-td">{{row.debt_12}}</td>
+              <td class="collapsed right-align-td">{{row.debt_1}}</td>
+              <td class="collapsed right-align-td">{{row.debt_2}}</td>
+              <td class="collapsed right-align-td">{{row.debt_3}}</td>
+              <td class="collapsed right-align-td">{{row.debt_4}}</td>
+              <td class="collapsed right-align-td">{{row.debt_5}}</td>
+              <td class="collapsed right-align-td">{{row.debt_6}}</td>
+              <td class="collapsed right-align-td">{{row.debt_7}}</td>
+              <td class="collapsed right-align-td">{{row.debt_8}}</td>
+              <td class="right-align-td">{{row.debt_fytd}}</td>
+             
+              <td class="right-align-td">{{row.last_month_debt}}</td>
+    
+            </tr>
+    
+            {% endif %}   
+            {% endif %}
+            {% endif %} 
+        {% endif %}
+      {% endfor %}
       
       {% for row in data_activitybs %}
       {% if row.Activity == 'LOC' %}
@@ -3363,6 +3599,166 @@ style="display:none;"
 
 
 
+{% for row in data_activitybs %}
+{% if row.Activity == 'LI' %}
+
+<tr id="row22-{{ forloop.counter }}" class="balancesheet-activity-row">
+<td class="firstcolumn">
+ 
+</td>
+<td>{{row.obj}}</td>
+<td class="space-before">{{row.Description2}}</td>
+<td></td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+
+<td class="right-align-td">{{row.fytd}}</td>
+<td class="right-align-td"></td>
+</tr>
+
+{% endif %}
+{% endfor %}
+
+{% for row in data_balancesheet %}
+{% if row.school == school %}
+
+  {% if row.Category == 'Assets' %}
+  {% if row.Subcategory == 'Capital Assets, Net' %}
+  {% if row.Activity == 'LI' %}
+     
+      <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
+        <td class="firstcolumn">
+          
+          <a
+          id="row22"
+          class="expand-button"
+          onclick="toggleRow(22); "
+          >
+        <i id="row22-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+        </td>
+        <td>
+          <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+          <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+        </td>
+        <td class="space-before">{{row.Description}}</td>
+        <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+          <div>{{row.FYE}}</div>
+        </td>
+        <td class="collapsed right-align-td">{{row.difference_7}}</td>
+        <td class="collapsed right-align-td">{{ row.difference_8}}</td>
+        <td class="collapsed right-align-td">{{row.difference_9}}</td>
+        <td class="collapsed right-align-td">{{row.difference_10}}</td>
+        <td class="collapsed right-align-td">{{row.difference_11}}</td>
+        <td class="collapsed right-align-td">{{row.difference_12}}</td>
+        <td class="collapsed right-align-td">{{row.difference_1}}</td>
+        <td class="collapsed right-align-td">{{row.difference_2}}</td>
+        <td class="collapsed right-align-td">{{row.difference_3}}</td>
+        <td class="collapsed right-align-td">{{row.difference_4}}</td>
+        <td class="collapsed right-align-td">{{row.difference_5}}</td>
+        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.last_month_difference }}</td>
+      </tr>
+      {% endif %} 
+      {% endif %}   
+      {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+
+
+{% for row in data_activitybs %}
+{% if row.Activity == 'FA-FE' %}
+
+<tr id="row23-{{ forloop.counter }}" class="balancesheet-activity-row">
+<td class="firstcolumn">
+ 
+</td>
+<td>{{row.obj}}</td>
+<td class="space-before">{{row.Description2}}</td>
+<td></td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+<td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+
+<td class="right-align-td">{{row.fytd}}</td>
+<td class="right-align-td"></td>
+</tr>
+
+{% endif %}
+{% endfor %}
+
+{% for row in data_balancesheet %}
+{% if row.school == school %}
+
+  {% if row.Category == 'Assets' %}
+  {% if row.Subcategory == 'Capital Assets, Net' %}
+  {% if row.Activity == 'FA-FE' %}
+     
+      <tr id="row2-{{ forloop.counter }}" class="capital-assets-row">
+        <td class="firstcolumn">
+          
+          <a
+          id="row23"
+          class="expand-button"
+          onclick="toggleRow(23); "
+          >
+        <i id="row23-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+        </td>
+        <td>
+          <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+          <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+        </td>
+        <td class="space-before">{{row.Description}}</td>
+        <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+          <div>{{row.FYE}}</div>
+        </td>
+        <td class="collapsed right-align-td">{{row.difference_7}}</td>
+        <td class="collapsed right-align-td">{{ row.difference_8}}</td>
+        <td class="collapsed right-align-td">{{row.difference_9}}</td>
+        <td class="collapsed right-align-td">{{row.difference_10}}</td>
+        <td class="collapsed right-align-td">{{row.difference_11}}</td>
+        <td class="collapsed right-align-td">{{row.difference_12}}</td>
+        <td class="collapsed right-align-td">{{row.difference_1}}</td>
+        <td class="collapsed right-align-td">{{row.difference_2}}</td>
+        <td class="collapsed right-align-td">{{row.difference_3}}</td>
+        <td class="collapsed right-align-td">{{row.difference_4}}</td>
+        <td class="collapsed right-align-td">{{row.difference_5}}</td>
+        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td">{{ row.last_month_difference }}</td>
+      </tr>
+      {% endif %} 
+      {% endif %}   
+      {% endif %}
+
+  {% endif %}
+{% endfor %}
+
+
+
 
 {% for row in data_activitybs %}
 {% if row.Activity == 'FA-BFE' %}
@@ -3763,6 +4159,87 @@ style="display:none;"
         {% endif %} 
     {% endif %}
   {% endfor %}
+
+  
+
+  {% for row in data_activitybs %}
+  {% if row.Activity == 'PL' %}
+  
+  <tr id="row24-{{ forloop.counter }}" class="liabilities-activity-row">
+    <td class="firstcolumn">
+    
+    </td>
+    <td>{{row.obj}}</td>
+    <td class="space-before">{{row.Description2}}</td>
+    <td></td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+
+    <td class="right-align-td">{{row.fytd}}</td>
+    <td class="right-align-td"></td>
+  </tr>
+  
+  {% endif %}
+  {% endfor %}
+
+  {% for row in data_balancesheet %}
+  {% if row.school == school %}
+
+    {% if row.Category == 'Liabilities and Net Assets' %}
+    {% if row.Subcategory == 'Current Liabilities' %}
+    {% if row.Activity == 'PL' %}
+       
+        <tr id="row3-{{ forloop.counter }}" class="current-liabilities-row">
+          <td class="firstcolumn">
+            <a
+            id="row24"
+            class="expand-button"
+            onclick="toggleRow(24); "
+            >
+          <i id="row24-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+          </td>
+          <td>
+            <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
+            <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
+          </td>
+          <td class="space-before">{{row.Description}} </td>
+          <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
+
+            <div>{{row.FYE}}</div>
+          </td>
+          <td class="collapsed right-align-td">{{row.debt_7}}</td>
+          <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
+          <td class="collapsed right-align-td">{{row.debt_9}}</td>
+          <td class="collapsed right-align-td">{{row.debt_10}}</td>
+          <td class="collapsed right-align-td">{{row.debt_11}}</td>
+          <td class="collapsed right-align-td">{{row.debt_12}}</td>
+          <td class="collapsed right-align-td">{{row.debt_1}}</td>
+          <td class="collapsed right-align-td">{{row.debt_2}}</td>
+          <td class="collapsed right-align-td">{{row.debt_3}}</td>
+          <td class="collapsed right-align-td">{{row.debt_4}}</td>
+          <td class="collapsed right-align-td">{{row.debt_5}}</td>
+          <td class="collapsed right-align-td">{{row.debt_6}}</td>
+          <td class="right-align-td">{{row.debt_fytd}}</td>
+          <td class="right-align-td">{{row.last_month_debt}}</td>
+
+        </tr>
+
+        {% endif %}   
+        {% endif %}
+        {% endif %} 
+    {% endif %}
+  {% endfor %}
+
 
   <!-- END OF AP-->
 
