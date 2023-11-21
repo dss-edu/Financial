@@ -71,7 +71,6 @@
         <link rel="stylesheet" href="{% static 'css/body-navs.css' %}">
         <link rel="stylesheet" href="{% static 'css/search.css' %}">
 
-        {% block stylesheet %}
             <style>
                 .collapsed {
                     display: none;
@@ -92,6 +91,8 @@
                     z-index: 2;
                 }
             </style>
+
+        {% block stylesheet %}
         {% endblock %}
     </head>
 

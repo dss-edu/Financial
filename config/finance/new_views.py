@@ -530,3 +530,46 @@ def activity_edits(request, school):
         return HttpResponse(status=200)
     else:
         return HttpResponse(status=400)
+
+
+@custom_login_required
+@permission_required
+def access_charts(request, school):
+    context = {
+        'school': school,
+    }
+    # close connection
+    return render(request, "temps/access-charts.html", context)
+
+@custom_login_required
+@permission_required
+def access_date_count(request):
+    if request.method == 'GET':
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        query = """
+        SELECT CAST(access_date AS DATE) AS date_only, school, COUNT(*) FROM [dbo].[Access_Logs]
+        GROUP BY CAST(access_date AS DATE), school
+        ORDER BY date_only;
+        """
+        try: 
+            date_group = list(cursor.execute(query))
+        except Exception as e:
+            print(e)
+        finally:
+            cursor.close()
+            cnxn.close()
+        data = {}
+        for i, (date,school, count) in enumerate(date_group):
+            if data.get(school, False):
+                data[school].append({
+                    "date": date,
+                    "count": count
+                })
+            else:
+                data[school] = [{
+                    "date":date,
+                    "count": count
+                }]
+
+    return JsonResponse(data, safe=False)
