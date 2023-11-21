@@ -133,8 +133,8 @@
 
                                 </div>
                                 <div id="chartcontrols"></div>
-                                <div id="totalrevenue" style="width: 100%; height: 600px"></div>
-                                <div id="totalrevenueLine" style="width: 100%; height: 600px" hidden></div>
+                                <div id="totalrevenue" style="width: 100%; height: 790px"></div>
+                                <div id="totalrevenueLine" style="width: 100%; height: 790px" hidden></div>
                             </div>
       <!--END totalrevenue-->
                         <div class="box2 rounded">
@@ -275,7 +275,7 @@
               data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
                 jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
-                console.log(jsonData);
+            
                 var data = JSON.parse(jsonData);
                 var localRevenue = data.localRevenue.total;
                 var stateprogramRevenue = data.stateprogramRevenue.total;
@@ -284,16 +284,7 @@
                 var data_spr = data.stateprogramRevenue;
                 var data_fpr = data.federalprogramRevenue;
                 
-                if ('total' in data_lr) {
-                    delete data_lr.total;
-                  }
-
-                  var sum_lr = 0;
-                  for (var key in data_lr) {
-                    if (data_lr.hasOwnProperty(key)) {
-                        sum_lr += data_lr[key];
-                    }
-                  }
+ 
                   
    
                 var date2 = item.date
@@ -309,13 +300,13 @@
                 const timestamp = date.getTime();
 
                 if(localRevenue == 0){
-                    localRevenue = "";
+                    localRevenue = null;
                 }
                 if(stateprogramRevenue == 0){
-                    stateprogramRevenue = "";
+                    stateprogramRevenue = null;
                 }
                 if(federalprogramRevenue == 0){
-                    federalprogramRevenue = "";
+                    federalprogramRevenue = null;
                 }
                
                 var entry={
@@ -331,6 +322,7 @@
 
 
                 }
+           
     
                 dataCharts.push(entry);
 
@@ -544,31 +536,26 @@
                 var data_spr = data.stateprogramRevenue;
                 var data_fpr = data.federalprogramRevenue;
                 
-                if ('total' in data_lr) {
-                    delete data_lr.total;
-                  }
 
-                  var sum_lr = 0;
-                  for (var key in data_lr) {
-                    if (data_lr.hasOwnProperty(key)) {
-                        sum_lr += data_lr[key];
-                    }
-                  }
-                  
    
                 var date = item.date
                 var [year, month] = date.split('-');
 
 
                 if(localRevenue == 0){
-                    localRevenue = "";
+                    localRevenue = null;
                 }
+
                 if(stateprogramRevenue == 0){
-                    stateprogramRevenue = "";
+                    stateprogramRevenue = null;
                 }
+
                 if(federalprogramRevenue == 0){
-                    federalprogramRevenue = "";
+                    federalprogramRevenue = null;
                 }
+
+                
+                
                
                 var entry={
                     month:monthNames[month],
@@ -763,27 +750,27 @@
                 var depreciation = data.depreciation.total;
                 
                 if(payrollandBenefits == 0){
-                    payrollandBenefits = "";
+                    payrollandBenefits = null;
 
                 }
                 if(professionalandcontractServices == 0){
-                    professionalandcontractServices = "";
+                    professionalandcontractServices = null;
 
                 }
                 if(materialsandSupplies == 0){
-                    materialsandSupplies = "";
+                    materialsandSupplies = null;
 
                 }
                 if(otheroperatingCosts == 0){
-                    otheroperatingCosts = "";
+                    otheroperatingCosts = null;
 
                 }
                 if(depreciation == 0){
-                    depreciation = "";
+                    depreciation = null;
 
                 }
                 if(debtServices == 0){
-                    debtServices = "";
+                    debtServices = null;
 
                 }
    
@@ -1042,27 +1029,27 @@
                 var [year, month] = date.split('-');
 
                 if(payrollandBenefits == 0){
-                    payrollandBenefits = "";
+                    payrollandBenefits = null;
 
                 }
                 if(professionalandcontractServices == 0){
-                    professionalandcontractServices = "";
+                    professionalandcontractServices = null;
 
                 }
                 if(materialsandSupplies == 0){
-                    materialsandSupplies = "";
+                    materialsandSupplies = null;
 
                 }
                 if(otheroperatingCosts == 0){
-                    otheroperatingCosts = "";
+                    otheroperatingCosts = null;
 
                 }
                 if(depreciation == 0){
-                    depreciation = "";
+                    depreciation = null;
 
                 }
                 if(debtServices == 0){
-                    debtServices = "";
+                    debtServices =null;
 
                 }
 
