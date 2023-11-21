@@ -118,4 +118,10 @@ urlpatterns = [
     path(
         "delete-adjustments/", new_views.delete_adjustments, name="delete_adjustments"
     ),
+    path(
+        "access-charts/<str:school>", new_views.access_charts, name="access_charts"
+    ),
+    path(
+        "access-date-count/", new_views.access_date_count, name="access_date_count"
+    ),
 ]
