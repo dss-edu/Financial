@@ -238,8 +238,8 @@
             const totalfirstTab = document.getElementById("totalfirstTab");
         
             revenueTab.addEventListener("click", function() {
-                // Your code for handling the revenue tab click
-                console.log("Revenue tab clicked");
+    
+             
                          
                 totalrevenue.hidden = false;
                 totalrevenueLine.hidden = true;
@@ -251,7 +251,7 @@
             });
         
             expensesTab.addEventListener("click", function() {
-                // Your code for handling the expenses tab click
+ 
                 totalrevenue.hidden = true;
                 totalrevenueLine.hidden = true;
         
@@ -1383,39 +1383,50 @@
       //materialsandSupplies
       //debtServices
       //depreciation
-
+            var uniqueCategories = new Set();
+      
             data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
                 jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
                 var data = JSON.parse(jsonData);
-                
-                var expenseTotal = data.expense.total;
- 
+            
 
+              
+                var expenseTotal = data.expense;
+           
+                var dataEntries = Object.entries(expenseTotal);
                 var date = item.date
                 var [year, month] = date.split('-');
 
-                if(expenseTotal == 0){
-                    expenseTotal = null;
 
-                }
-           
+         
 
-                var entry={
-                    month:monthNames[month],
-                    year:year,
-                    expenseTotal: expenseTotal,
+
+                var entry = {
+                    month: monthNames[month],
+                    year: year,
                     
-
-
+                    
+           
                 }
+
+                dataEntries.forEach(function(dataEntry) {
+                    entry[dataEntry[0]] = dataEntry[1];
+
+                    if (dataEntry[0].toLowerCase() !== 'total') {
+                        uniqueCategories.add(dataEntry[0]);
+                    }
+
+                });
+            
                 dataChart.push(entry);
-
-
+          
+                
             });
 
-
-
+          
+            var uniqueCategoriesArray = Array.from(uniqueCategories);
+          
             var monthOrder = {
                 "January": 1,
                 "February": 2,
@@ -1527,7 +1538,12 @@
                 legend.data.push(series);
             }
 
-            makeSeries("Total", "expenseTotal");
+
+            uniqueCategoriesArray.forEach(function(category) {
+                makeSeries(category, category);
+            });
+         
+        
 
 
 
@@ -1557,17 +1573,16 @@
 
   
               var dataCharts = [];
-  
+              var uniqueCategories = new Set();
+      
               data_chart.forEach(function(item) {
                 var jsonData = item.data.replace(/None/g, "null");
                 jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
                 var data = JSON.parse(jsonData);
-                var expenseTotal = data.expense.total;
+                var expenseTotal = data.expense
                 
-                if(expenseTotal == 0){
-                    expenseTotal = null;
-
-                }
+                
+                var dataEntries = Object.entries(expenseTotal);
               
    
                 var date2 = item.date
@@ -1587,7 +1602,6 @@
                 var entry={
                     date:timestamp,
                   
-                    expenseTotal: expenseTotal,
 
 
                     
@@ -1595,12 +1609,22 @@
 
                 }
     
+                dataEntries.forEach(function(dataEntry) {
+                    entry[dataEntry[0]] = dataEntry[1];
+
+                    if (dataEntry[0].toLowerCase() !== 'total') {
+                        uniqueCategories.add(dataEntry[0]);
+                    }
+
+                });
+            
                 dataCharts.push(entry);
+          
 
               
             });
             dataCharts.sort((a, b) => a.date - b.date);
-
+            var uniqueCategoriesArray = Array.from(uniqueCategories);
  
               // Create axes
               // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
@@ -1657,7 +1681,10 @@
             }
 
                         
-            makeSeries("Total ", "expenseTotal");
+            
+            uniqueCategoriesArray.forEach(function(category) {
+                makeSeries(category, category);
+            });
 
 
               
