@@ -549,6 +549,7 @@ def access_date_count(request):
         cursor = cnxn.cursor()
         query = """
         SELECT CAST(access_date AS DATE) AS date_only, school, COUNT(*) FROM [dbo].[Access_Logs]
+        WHERE username != 'admin'
         GROUP BY CAST(access_date AS DATE), school
         ORDER BY date_only;
         """

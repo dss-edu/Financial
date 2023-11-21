@@ -1086,14 +1086,25 @@ Variances
               <td class="collapsed right-align-td">
                 <a
                   href="#"
-                  class="viewgl-link"
+                  class="viewgl-link viewgl-link-ytd"
                   data-fund="{{ row.fund }}"
                   data-obj="{{ row.obj }}"
                   data-yr="08"
                   >{{ row.total_real8 }}</a
                 >
               </td>
-              <td class="right-align-td">{{ row.ytd_total }}</td>
+              <!-- Year-To-Date Column Here Below the ytd_total-->
+              <td class="right-align-td">
+                <a 
+                  href="#"
+                  class="viewgl-link-ytd"
+                  data-fund="{{ row.fund }}"
+                  data-obj="{{ row.obj }}"
+                >
+                  {{ row.ytd_total }}
+                </a>
+
+              </td>
               <td class="right-align-td"></td>
               <td class="right-align-td"></td>
             </tr>
@@ -1345,7 +1356,17 @@ Variances
                   >{{ row.total_real8 }}</a
                 >
               </td>
-              <td class="right-align-td">{{ row.ytd_total }}</td>
+              <!-- year to date ytd -->
+              <td class="right-align-td">
+                <a
+                  href="#"
+                  class="viewgl-link-ytd"
+                  data-fund="{{ row.fund }}"
+                  data-obj="{{ row.obj }}"
+                  >
+                {{ row.ytd_total }}
+                </a>
+              </td>
               <td class="right-align-td">{{ row.variances }}</td>
               <td class="right-align-td"></td>
             </tr>
@@ -1596,10 +1617,20 @@ Variances
                   data-fund="{{ row.fund }}"
                   data-obj="{{ row.obj }}"
                   data-yr="08"
-                  >{{ row.total_real8 }}</a
-                >
+                  >
+                  {{ row.total_real8 }}
+                </a >
               </td>
-              <td class="right-align-td">{{ row.ytd_total }}</td>
+              <td class="right-align-td">
+                <a
+                  href="#"
+                  class="viewgl-link-ytd"
+                  data-fund="{{ row.fund }}"
+                  data-obj="{{ row.obj }}"
+                  >
+                  {{ row.ytd_total }}
+                </a >
+              </td>
               <td class="right-align-td">{{ row.variances }}</td>
               <td class="right-align-td"></td>
             </tr>
