@@ -117,38 +117,72 @@
 
                     <div>
       <!--START totalrevenue -->
-                            <div class="box3 rounded">
-                                <div style="display: flex; align-items: center; justify-content: space-between;">
-                                    <h2>Revenue</h2>
-                                 
-                                    <a id="revenuechart" 
-                                    style="margin-right: 20px;"
-                                    data-toggle="tooltip"
-                                    title="View in Line Graph"
-                                    data-placement="left"
-                                     >
-                                        <i id="chartIcon" class="fa-solid fa-chart-line fa-3x"></i>
-                                      </a> 
-                                  
+                    <div class="box3 rounded">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="revenueTab" data-toggle="tab" href="#totalrevenue" >Revenue</a>
+                                </li>
+                   
 
-                                </div>
-                                <div id="chartcontrols"></div>
-                                <div id="totalrevenue" style="width: 100%; height: 790px"></div>
-                                <div id="totalrevenueLine" style="width: 100%; height: 790px" hidden></div>
-                            </div>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="expensesTab" data-toggle="tab" href="#expenses">Expenses</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" id="totalfirstTab" data-toggle="tab" href="#totalfirst">Expense By Object</a>
+                                </li>
+             
+                            </ul>
+                        
+                            <a id="toggleChart" 
+                            style="margin-right: 20px;"
+                            data-toggle="tooltip"
+                            title="View in Line Graph"
+                            data-placement="left"
+                            >
+                                <i id="chartIcon" class="fa-solid fa-chart-line fa-3x"></i>
+                            </a> 
+
+
+                        
+
+                        </div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade fade show active" id="totalrevenue"  style="width: 100%; height: 790px"></div>
+                            <div id="totalrevenueLine" style="width: 100%; height: 790px" hidden></div>
+                            <div class="tab-pane fade" id="totalfirst"  style="width: 100%; height: 790px"></div>
+                            <div  id="totalfirstline" style="width: 100%; height: 600px" hidden></div >
+                            <div  class="tab-pane fade" id="expenses"  style="width: 100%; height: 790px"></div>
+                            <div  id="expenseline"  style="width: 100%; height: 790px" hidden></div>
+                            
+                        </div>
+                    </div>
+
+                    <script>
+
+
+
+                            
+
+           
+                    
+                    </script>
       <!--END totalrevenue-->
-                        <div class="box2 rounded">
+                        {% comment %} <div class="box2 rounded">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <h2>Expenses</h2>
-                      
-                                <a id="totalfirstchart" 
-                                style="margin-right: 20px;"
-                                data-toggle="tooltip"
-                                title="View in Line Graph"
-                                data-placement="left"
-                                 >
-                                    <i id="chartIcon2" class="fa-solid fa-chart-line fa-3x"></i>
-                                  </a> 
+                     
+                            <a id="totalfirstchart" 
+                            style="margin-right: 20px;"
+                            data-toggle="tooltip"
+                            title="View in Line Graph"
+                            data-placement="left"
+                             >
+                                <i id="chartIcon2" class="fa-solid fa-chart-line fa-3x"></i>
+                              </a> 
+
                             </div>
                             <div id="totalfirst" style="width: 100%; height: 600px">
                               
@@ -159,7 +193,9 @@
                             
                             
                             
-                            <div><!--END total first--></div>
+                            <div><!--END total first--> {% endcomment %}
+                            
+                            </div>
         <!--END insights-->
 
         </div>
@@ -196,54 +232,143 @@
     </script>
     {% endcomment %}
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const revenueTab = document.getElementById("revenueTab");
+            const expensesTab = document.getElementById("expensesTab");
+            const totalfirstTab = document.getElementById("totalfirstTab");
+        
+            revenueTab.addEventListener("click", function() {
+                // Your code for handling the revenue tab click
+                console.log("Revenue tab clicked");
+                         
+                totalrevenue.hidden = false;
+                totalrevenueLine.hidden = true;
+        
+                expenses.hidden = true;
+                expenseline.hidden = true;
+                totalfirst.hidden = true;
+                totalfirstline.hidden = true;
+            });
+        
+            expensesTab.addEventListener("click", function() {
+                // Your code for handling the expenses tab click
+                totalrevenue.hidden = true;
+                totalrevenueLine.hidden = true;
+        
+                expenses.hidden = false;
+                expenseline.hidden = true;
+                totalfirst.hidden = true;
+                totalfirstline.hidden = true;
+            });
+        
+            totalfirstTab.addEventListener("click", function() {
+                totalrevenue.hidden = true;
+                totalrevenueLine.hidden = true;
+        
+                expenses.hidden = true;
+                expenseline.hidden = true;
+                totalfirst.hidden = false;
+                totalfirstline.hidden = true;
+            });
+        });
+
         // Get references to the button and the totalrevenueLine element
-        const button = document.getElementById("revenuechart");
+        const button = document.getElementById("toggleChart");
         const totalrevenue = document.getElementById("totalrevenue");
         const totalrevenueLine = document.getElementById("totalrevenueLine");
         const button2 = document.getElementById("totalfirstchart");
         const totalfirst = document.getElementById("totalfirst");
         const totalfirstline = document.getElementById("totalfirstline");
-        const chartIcon = document.getElementById("chartIcon");
-        const chartIcon2 = document.getElementById("chartIcon2");
 
-        // Function to toggle chart and button text
+        const expenses = document.getElementById("expenses");
+        const expenseline = document.getElementById("expenseline");
+
+        const chartIcon = document.getElementById("chartIcon");
+
+
+
+
+
+
+
+        button.addEventListener("click", function() {
+
+
+            if (revenueTab.classList.contains("active")) {
+                
+                
+
+                toggleChart();
+
+            } else if (expensesTab.classList.contains("active")) {
+
+
+                toggleChart2();
+     
+            } else if (totalfirstTab.classList.contains("active")) {
+
+                toggleChart3();
+            }
+        });
+
+     
         function toggleChart() {
-            // Toggle the hidden attribute of totalrevenue and totalrevenueLine
+         
             totalrevenue.hidden = !totalrevenue.hidden;
             totalrevenueLine.hidden = !totalrevenueLine.hidden;
-        
+
+
              if (totalrevenue.hidden) {
+                chartIcon.className = "fa-solid fa-chart-column fa-3x";
+                button.setAttribute("title", "View in Column Graph");
+
+          
+                } else {
+                    chartIcon.className = "fa-solid fa-chart-line fa-3x";
+                    button.setAttribute("title", "View in Line Graph");
+  
+            }
+      $(button).tooltip("dispose").tooltip();
+        }
+
+        function toggleChart2() {
+            // Toggle the hidden attribute of totalrevenue and totalrevenueLine
+            expenses.hidden = !expenses.hidden;
+            expenseline.hidden = !expenseline.hidden;
+
+
+             if (expenses.hidden) {
                 chartIcon.className = "fa-solid fa-chart-column fa-3x";
                 button.setAttribute("title", "View in Column Graph");
      
           
-        } else {
-            chartIcon.className = "fa-solid fa-chart-line fa-3x";
-            button.setAttribute("title", "View in Line Graph");
-      }
+                } else {
+                    chartIcon.className = "fa-solid fa-chart-line fa-3x";
+                    button.setAttribute("title", "View in Line Graph");
+            }
       $(button).tooltip("dispose").tooltip();
         }
-        function toggleChart2() {
-            // Toggle the hidden attribute of totalfirst and totalfirstline
+
+
+        function toggleChart3() {
+            // Toggle the hidden attribute of totalrevenue and totalrevenueLine
             totalfirst.hidden = !totalfirst.hidden;
             totalfirstline.hidden = !totalfirstline.hidden;
 
-            if (totalfirst.hidden) {
-                chartIcon2.className = "fa-solid fa-chart-column fa-3x";
-                button2.setAttribute("title", "View in Column Graph");
+
+             if (totalfirst.hidden) {
+                chartIcon.className = "fa-solid fa-chart-column fa-3x";
+                button.setAttribute("title", "View in Column Graph");
      
           
-        } else {
-            chartIcon2.className = "fa-solid fa-chart-line fa-3x";
-            button2.setAttribute("title", "View in Line Graph");
-      }
-      $(button2).tooltip("dispose").tooltip()
-        }
-        
-        // Add a click event listener to the button
-        button.addEventListener("click", toggleChart);
-        button2.addEventListener("click", toggleChart2);
-        
+                } else {
+                    chartIcon.className = "fa-solid fa-chart-line fa-3x";
+                    button.setAttribute("title", "View in Line Graph");
+            }
+      $(button).tooltip("dispose").tooltip();
+        }      
+  
+
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -950,7 +1075,6 @@
               chart.appear(1000, 100);
               }); // end am5.ready()
     </script>
-    </script>
 
     <script>
 
@@ -1196,6 +1320,423 @@
             chart.appear(1000, 100);
 
         }); // end am5.ready()
+    </script>
+
+    <script>
+
+        am5.ready(function() {
+
+
+          // Create root element
+          // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+            var root = am5.Root.new("expenses");
+
+          // Set themes
+      // https://www.amcharts.com/docs/v5/concepts/themes/
+            root.setThemes([
+                am5themes_Animated.new(root),
+
+            ]);
+
+
+      // Create chart
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout
+            }));
+
+      // Add scrollbar
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+            chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                orientation: "horizontal"
+            }));
+
+
+
+            var data_chart = {{ data_chart|safe }};
+
+
+            var dataChart = [];
+
+            var monthNames = {
+                "01": "January",
+                "02": "February",
+                "03": "March",
+                "04": "April",
+                "05": "May",
+                "06": "June",
+                "07": "July",
+                "08": "August",
+                "09": "September",
+                "10": "October",
+                "11": "November",
+                "12": "December"
+            };
+
+      //professionalandcontractServices
+      //payrollandBenefits
+      //otheroperatingCosts
+      //materialsandSupplies
+      //debtServices
+      //depreciation
+
+            data_chart.forEach(function(item) {
+                var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+                var data = JSON.parse(jsonData);
+                
+                var expenseTotal = data.expense.total;
+ 
+
+                var date = item.date
+                var [year, month] = date.split('-');
+
+                if(expenseTotal == 0){
+                    expenseTotal = null;
+
+                }
+           
+
+                var entry={
+                    month:monthNames[month],
+                    year:year,
+                    expenseTotal: expenseTotal,
+                    
+
+
+                }
+                dataChart.push(entry);
+
+
+            });
+
+
+
+            var monthOrder = {
+                "January": 1,
+                "February": 2,
+                "March": 3,
+                "April": 4,
+                "May": 5,
+                "June": 6,
+                "July": 7,
+                "August": 8,
+                "September": 9,
+                "October": 10,
+                "November": 11,
+                "December": 12
+            };
+
+            dataChart.sort(function (a, b) {
+                if (a.year < b.year) return -1;
+                if (a.year > b.year) return 1;
+                if (a.year === b.year) {
+          // Compare numerical month values using the map
+                    const monthA = monthOrder[a.month];
+                    const monthB = monthOrder[b.month];
+                    if (monthA < monthB) return -1;
+                    if (monthA > monthB) return 1;
+                }
+                return 0;
+            });
+
+
+            
+      // Create axes
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+            var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+            xRenderer.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "yearMonth",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
+
+            dataChart.forEach(function (item) {
+                item.yearMonth = item.year + "-" + item.month;
+            });
+            xAxis.data.setAll(dataChart);
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                min: 0,
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+            }));
+
+
+      // Add legend
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            }));
+
+
+      // Add series
+      // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+            function makeSeries(name, fieldName) {
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: name,
+                    stacked: true,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    sequencedInterpolation: true,
+                    valueYField: fieldName,
+                    categoryXField: "yearMonth"
+                }));
+
+                series.columns.template.setAll({
+                    tooltipText: "{name}, {categoryX}: {valueY}",
+                    tooltipY: am5.percent(10)
+                });
+                series.data.setAll(dataChart);
+
+        // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+                series.appear();
+
+                series.bullets.push(function() {
+                    return am5.Bullet.new(root, {
+                        sprite: am5.Label.new(root, {
+                            text: "{valueY}",
+                            fontSize: 8,
+                            fill: root.interfaceColors.get("alternativeText"),
+                            centerY: am5.p50,
+                            centerX: am5.p50,
+                            populateText: true
+                        })
+                    });
+                });
+
+                legend.data.push(series);
+            }
+
+            makeSeries("Total", "expenseTotal");
+
+
+
+      // Make stuff animate on load
+      // https://www.amcharts.com/docs/v5/concepts/animations/
+            chart.appear(1000, 100);
+
+        }); // end am5.ready()
+    </script>
+    <script>
+        am5.ready(function() {
+            let root = am5.Root.new("expenseline");
+          
+            // Set themes
+            root.setThemes([am5themes_Kelly.new(root)]);
+          
+            let chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                maxTooltipDistance: 0,
+                pinchZoomX:true
+              }));
+              
+              var data_chart = {{ data_chart|safe }};
+
+  
+              var dataCharts = [];
+  
+              data_chart.forEach(function(item) {
+                var jsonData = item.data.replace(/None/g, "null");
+                jsonData = jsonData.replace(/[\x00-\x1F\x7F-\x9F]/g, "");
+                var data = JSON.parse(jsonData);
+                var expenseTotal = data.expense.total;
+                
+                if(expenseTotal == 0){
+                    expenseTotal = null;
+
+                }
+              
+   
+                var date2 = item.date
+              
+                const dateParts = date2.split("-");
+                const year = parseInt(dateParts[0], 10);
+                const month = parseInt(dateParts[1], 10);
+                
+                // Create a Date object with the year and month
+                const date = new Date(year, month - 1); // Month is 0-based, so subtract 1
+                
+                // Get the timestamp (milliseconds since the Unix epoch)
+                const timestamp = date.getTime();
+
+              
+               
+                var entry={
+                    date:timestamp,
+                  
+                    expenseTotal: expenseTotal,
+
+
+                    
+
+
+                }
+    
+                dataCharts.push(entry);
+
+              
+            });
+            dataCharts.sort((a, b) => a.date - b.date);
+
+ 
+              // Create axes
+              // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+              let xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
+                maxDeviation: 0.4,
+                baseInterval: {
+                  timeUnit: "month",
+                  count: 1
+                },
+                renderer: am5xy.AxisRendererX.new(root, {}),
+                tooltip: am5.Tooltip.new(root, {})
+              }));
+              
+              var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+          
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                }),
+           
+
+            }));
+
+              
+              // Add series
+              
+              
+              //start
+
+              function makeSeries(name, fieldName) {
+                let series = chart.series.push(am5xy.LineSeries.new(root, {
+                  name: name,
+                  xAxis: xAxis,
+                  yAxis: yAxis,
+                  valueYField: fieldName,
+                  valueXField: "date",
+                  legendValueText: "{valueY}",
+                  tooltip: am5.Tooltip.new(root, {
+                    pointerOrientation: "horizontal",
+                    labelText: "{valueY}"
+                  })
+                }));
+              
+            
+          
+         
+ 
+                series.data.setAll(dataCharts);
+              
+          
+                      // Make stuff animate on load
+        // https://www.amcharts.com/docs/v5/concepts/animations/
+        series.appear();
+            }
+
+                        
+            makeSeries("Total ", "expenseTotal");
+
+
+              
+              // Add cursor
+              // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+              let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {
+                behavior: "none"
+              }));
+              cursor.lineY.set("visible", false);
+              
+              
+              // Add scrollbar
+              // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
+              chart.set("scrollbarX", am5.Scrollbar.new(root, {
+                orientation: "horizontal"
+              }));
+              
+              chart.set("scrollbarY", am5.Scrollbar.new(root, {
+                orientation: "vertical"
+              }));
+              
+              
+              // Add legend
+              // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
+              let legend = chart.rightAxesContainer.children.push(am5.Legend.new(root, {
+                width: 200,
+                paddingLeft: 15,
+                height: am5.percent(100)
+              }));
+              
+              // When legend item container is hovered, dim all the series except the hovered one
+              legend.itemContainers.template.events.on("pointerover", function(e) {
+                let itemContainer = e.target;
+              
+                // As series list is data of a legend, dataContext is series
+                let series = itemContainer.dataItem.dataContext;
+              
+                chart.series.each(function(chartSeries) {
+                  if (chartSeries != series) {
+                    chartSeries.strokes.template.setAll({
+                      strokeOpacity: 0.15,
+                      stroke: am5.color(0x000000)
+                    });
+                  } else {
+                    chartSeries.strokes.template.setAll({
+                      strokeWidth: 3
+                    });
+                  }
+                })
+              })
+              
+              // When legend item container is unhovered, make all series as they are
+              legend.itemContainers.template.events.on("pointerout", function(e) {
+                let itemContainer = e.target;
+                let series = itemContainer.dataItem.dataContext;
+              
+                chart.series.each(function(chartSeries) {
+                  chartSeries.strokes.template.setAll({
+                    strokeOpacity: 1,
+                    strokeWidth: 1,
+                    stroke: chartSeries.get("fill")
+                  });
+                });
+              })
+              
+              legend.itemContainers.template.set("width", am5.p100);
+              legend.valueLabels.template.setAll({
+                width: am5.p100,
+                textAlign: "right"
+              });
+              
+              // It's is important to set legend data after all the events are set on template, otherwise events won't be copied
+              legend.data.setAll(chart.series.values);
+              
+              
+              // Make stuff animate on load
+              // https://www.amcharts.com/docs/v5/concepts/animations/
+              chart.appear(1000, 100);
+              }); // end am5.ready()
     </script>
 
     <!-- <script src="{% static 'js/charts.js' %}"></script> -->
