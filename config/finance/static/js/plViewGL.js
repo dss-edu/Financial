@@ -125,6 +125,78 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // for Year to Date
+  function parseTotal(value){
+    if (!value){
+      return 0
+    }
+    let multiplier = 1
+    if (value && value.includes('(')) {
+      multiplier = -1
+    }
+    const numbersOnly = value.replace(/[^\d.]/g, '')
+    try{
+      const numericValue = parseFloat(numbersOnly, 10)
+      return numericValue * multiplier
+    }
+    catch(error) {
+      return 0
+    }
+
+  }
+
+  async function fetchDataAndPopulateModalYTD(fund, obj, school, year,url) {
+    // TODO do something about this
+    // get only months that are viewable in the table
+    const yr = ['09','10']
+    const ytdData = {gl_data: [], total_bal: 0}
+
+    for (const month of yr) {
+      try {
+        const response = await fetch(`/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`)
+        if (response.status !== 200){
+          return
+        }
+
+        const data = await response.json()
+        $("#spinner-modal").modal("hide");
+        ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
+        ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
+      } catch(error){
+        console.log(error)
+      }
+    }
+
+      if (ytdData.total_bal < 0) {
+        let formattedTotal = ytdData.total_bal.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })
+        ytdData.total_bal = '(' + formattedTotal.replace('-', '') + ')'
+      }
+      else {
+        ytdData.total_bal = ytdData.total_bal.toLocaleString("en-US", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })
+      }
+
+      populateModal(ytdData);
+      modal.style.display = "block";
+  }
+
+  // Add click event listeners to all year to date column links
+  const viewGLYearToDate = document.querySelectorAll(".viewgl-link-ytd")
+  viewGLYearToDate.forEach((link) => {
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+      event.preventDefault();
+      var fund = link.dataset.fund;
+      var obj = link.dataset.obj;
+      fetchDataAndPopulateModalYTD(fund, obj, school, year , url);
+    });
+  })
+
   // FIRST TOTAL
   function fetchDataAndPopulateModal2(func, yr, school, year, url) {
     fetch(`/viewglfunc/${func}/${yr}/${school}/${year}/${url}`)
