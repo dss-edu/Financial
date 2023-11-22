@@ -145,21 +145,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
-  async function fetchDataAndPopulateModalYTD(fund, obj, school, year,url) {
+  async function fetchDataAndPopulateModalYTD({fund, func, obj, school, year, url, endpointName}) {
     // TODO do something about this
     // get only months that are viewable in the table
     const yr = ['09','10']
     const ytdData = {gl_data: [], total_bal: 0}
 
     for (const month of yr) {
+      const endpoints = {
+        'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
+        'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
+        'viewglexpense': `/viewglexpense/${obj}/${month}/${school}/${year}/${url}`,
+        'viewgldna': `/viewgldna/${func}/${month}/${school}/${year}/${url}`,
+      }
       try {
-        const response = await fetch(`/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`)
+        const response = await fetch(endpoints[endpointName])
         if (response.status !== 200){
           return
         }
 
         const data = await response.json()
-        $("#spinner-modal").modal("hide");
         ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
         ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
       } catch(error){
@@ -181,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
       }
 
+      $("#spinner-modal").modal("hide");
       populateModal(ytdData);
       modal.style.display = "block";
   }
@@ -191,9 +197,18 @@ document.addEventListener("DOMContentLoaded", function () {
     link.addEventListener("click", function (event) {
       $("#spinner-modal").modal("show");
       event.preventDefault();
-      var fund = link.dataset.fund;
-      var obj = link.dataset.obj;
-      fetchDataAndPopulateModalYTD(fund, obj, school, year , url);
+      const args = {
+        fund: link.dataset.fund,
+        obj: link.dataset.obj,
+        school: school,
+        year: year,
+        url: url,
+        endpointName: 'viewgl'
+      }
+      console.log(args)
+      // var fund = link.dataset.fund;
+      // var obj = link.dataset.obj;
+      fetchDataAndPopulateModalYTD(args);
     });
   })
 
@@ -229,6 +244,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Add click event listeners to all year to date column links in first total
+  const viewGLFuncYearToDate = document.querySelectorAll(".viewglfunc-link-ytd")
+  viewGLFuncYearToDate.forEach((link) => {
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+      event.preventDefault();
+      const args = {
+        func: link.dataset.func,
+        school: school,
+        year: year,
+        url: url,
+        endpointName: 'viewglfunc'
+      }
+
+      // var yr = link.dataset.yr;
+      fetchDataAndPopulateModalYTD(args);
+    });
+  })
+
   //FOR EXPENSE BY Object
   function fetchDataAndPopulateModal3(func, yr, school , year, url) {
     fetch(`/viewglexpense/${func}/${yr}/${school}/${year}/${url}`)
@@ -258,11 +292,27 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#spinner-modal").modal("show");
       event.preventDefault();
       var obj = link.dataset.obj;
-      console.log(obj);
       var yr = link.dataset.yr;
       fetchDataAndPopulateModal3(obj, yr, school, year , url);
     });
   });
+
+  const viewGLExpenseYearToDate = document.querySelectorAll(".viewglexpense-link-ytd")
+  viewGLExpenseYearToDate.forEach((link) => {
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+      event.preventDefault();
+      const args = {
+        obj: link.dataset.obj,
+        school: school,
+        year: year,
+        url: url,
+        endpointName: 'viewglexpense'
+      }
+
+      fetchDataAndPopulateModalYTD(args);
+    });
+  })
 
   //FOR DnA
 
@@ -296,6 +346,23 @@ document.addEventListener("DOMContentLoaded", function () {
       fetchDataAndPopulateModal4(func, yr, school, year, url);
     });
   });
+
+  const viewGLDnaYearToDate = document.querySelectorAll(".viewgldna-link-ytd")
+  viewGLDnaYearToDate.forEach((link) => {
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+      event.preventDefault();
+      const args = {
+        func: link.dataset.func,
+        school: school,
+        year: year,
+        url: url,
+        endpointName: 'viewgldna'
+      }
+
+      fetchDataAndPopulateModalYTD(args);
+    });
+  })
 
   // Close the modal when the close button is clicked
   var closeButton = modal.querySelector(".modal-footer button");
