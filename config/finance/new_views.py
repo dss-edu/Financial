@@ -158,10 +158,10 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
 
     if anchor_month:
         context = modules.dashboard(school,anchor_year, anchor_month)
-        print("yes")
+     
+        
     else:
-        anchor_year=""
-        anchor_month=""
+
         context = modules.dashboard(school,anchor_year, anchor_month)
 
 
@@ -181,10 +181,10 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
 
     # turn int into month name
     # context["month"] = calendar.month_name[context["month"]]
-
+    print(context["anchor_year"])
     cursor.close()
     cnxn.close()
-
+    
     context["form"] = form
     context["data"] = data
     context["anchor_year"] = anchor_year

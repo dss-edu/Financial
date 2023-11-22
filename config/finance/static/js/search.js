@@ -20,15 +20,45 @@ $(document).ready(function() {
         //     window.location.href = "/dashboard/" + selectedOption;
         // }
     });
+    const currentPath = window.location.pathname;
+    console.log(currentPath)
 
     $("#year-select").on("change", function() {
         const year = $(this).val();
         const school = $("#hidden-school").val();
         if (year === "default") {
-            window.location.href = "/dashboard/" + school;
+            if (currentPath.includes("/dashboard/" + school)) {
+                window.location.href = "/dashboard/" + school;
+            } else if (currentPath.includes("/profit-loss/" + school)) {
+                window.location.href = "/profit-loss/" + school;
+            }else if (currentPath.includes("/balance-sheet/" + school)) {
+                window.location.href = "/balance-sheet/" + school;
+            }
+            else if (currentPath.includes("/cashflow-statement/" + school)) {
+                window.location.href = "/cashflow-statement/" + school;
+            }else if (currentPath.includes("/charter-first/" + school)) {
+                window.location.href = "/charter-first/" + school;
+            }else{
+                window.location.href = "/general-ledger/" + school;
+            }
+           
         } else {
             $("#page-load-spinner").modal("show");
-            window.location.href = "/dashboard/" + school + "/" + year;
+            //window.location.href = "/dashboard/" + school + "/" + year ;
+            if (currentPath.includes("/dashboard/" + school)) {
+                window.location.href = "/dashboard/" + school + "/" + year;
+            } else if (currentPath.includes("/profit-loss/" + school)) {
+                window.location.href = "/profit-loss/" + school + "/" + year;
+            }else if (currentPath.includes("/balance-sheet/" + school)) {
+                window.location.href = "/balance-sheet/" + school + "/" + year;
+            }
+            else if (currentPath.includes("/cashflow-statement/" + school)) {
+                window.location.href = "/cashflow-statement/" + school + "/" + year;
+            }else if (currentPath.includes("/charter-first/" + school)) {
+                window.location.href = "/charter-first/" + school + "/" + year;
+            }else{
+                window.location.href = "/general-ledger//" + school + "/" + year;
+            }
         }
     });
 });

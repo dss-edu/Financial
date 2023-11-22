@@ -21,7 +21,7 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
 
-def dashboard(school,anchor_year="",anchor_month=""):
+def dashboard(school,anchor_year,anchor_month):
     # current_date = datetime.today().date()
     # # current_year = current_date.year
     # # last_year = current_date - timedelta(days=365)
@@ -68,6 +68,7 @@ def dashboard(school,anchor_year="",anchor_month=""):
         "net_earnings": row[8],  ###
         "debt_service": row[11],  ###
         "ratio_administrative": row[13],  ###
+        "anchor_year": anchor_year,
         ## "ratio_student_teacher": row[14],
     }
 
@@ -294,7 +295,7 @@ def profit_loss(school, anchor_year):
     #     context["lr_funds"] = lr_funds_sorted
     #     context["lr_obj"] = lr_obj_sorted
         # context["func_choice"] = func_choice_sorted
-        context["anchor_year"] = anchor_year
+    context["anchor_year"] = anchor_year
 
     return context
 

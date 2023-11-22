@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const year = $("#hidden-year").val();
     const currentPath = window.location.pathname;
     // /charter-first/{{ school }}
+    console.log(year)
     function highlightActiveLink(linkId) {
         $(linkId).addClass("activebg"); // Add a class for styling
     }
@@ -56,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         $("#page-load-spinner").modal("show");
         if (year) {
-            window.location.href = "/general-ledger/" + school + "/" + year;
+            window.location.href = "/general-ledger/" + school;
         } else {
             window.location.href = "/general-ledger/" + school;
         }
