@@ -193,6 +193,9 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/dashboard.html", context)
 
 
@@ -210,6 +213,9 @@ def charter_first(request, school, anchor_year="",anchor_month=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/charter-first.html", context)
 
 
@@ -220,6 +226,9 @@ def charter_first_charts(request, school):
     context = {"school": school, "school_name": SCHOOLS[school]}
     role = request.session.get('user_role')
     context["role"] = role
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/charter-first-charts.html", context)
 
 
@@ -293,6 +302,9 @@ def profit_loss_charts(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/profit-loss-charts.html", context)
 
 
@@ -345,6 +357,9 @@ def balance_sheet_charts(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -359,6 +374,9 @@ def cashflow(request, school, anchor_year=""):
     if school in schoolMonths["julySchool"]:
         context["September"] = 'False'
     context["present_year"] = present_year
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/cashflow.html", context)
 
 
@@ -393,6 +411,9 @@ def cashflow_charts(request, school, anchor_year=""):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -416,6 +437,7 @@ def manual_adjustments(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    
     return render(request, "temps/manual-adjustments.html", context)
 
 

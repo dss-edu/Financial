@@ -418,9 +418,27 @@
 <div id="content-wrapper">
   <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
     <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+      <div class="col-1">
+        {% if ascender == "True" %} 
+        {% with 'ascender' as school %}
+        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px;">
+    {% endwith %}
+    {% else %}
+    {% with 'skyward' as school %}
+    <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px;">
+{% endwith %}
+    {% endif %}
+
+    
+    </div>
+    <div class="col-10">
       <h5 class="text-center" style="color: black; padding-right:35px;">
         {{ school_name }}
       </h5>
+    </div>
+    <div class="col-1">
+     
+
     </div>
     {% comment %} <div class="d-flex align-items-center">
 
