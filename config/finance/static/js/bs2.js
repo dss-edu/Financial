@@ -13,7 +13,7 @@ function checkValuesMatch() {
     let match = true;
 
     
-    for (let i = 3; i <= 15; i++) {
+    for (let i = 3; i <= last_month_number-2; i++) {
       const liabilitiesAndNetValue = liabilitiesAndNetCells[i].textContent.trim();
       const totalAssetsValue = totalAssetsCells[i].textContent.trim();
       
@@ -21,7 +21,7 @@ function checkValuesMatch() {
       if (liabilitiesAndNetValue !== totalAssetsValue) {
         liabilitiesAndNetCells[i].style.backgroundColor = "yellow";
         totalAssetsCells[i].style.backgroundColor = "yellow";
-        
+   
         match = false;
        
       }
@@ -30,6 +30,7 @@ function checkValuesMatch() {
     return match;
   }
 
+  
   function checkforMissingActivities(){
     const table = document.getElementById('settings-table');
     const tBody = document.getElementsByTagName('tbody')[0];
@@ -61,28 +62,9 @@ function checkValuesMatch() {
       template  = `Total Assets and Total Liabilities and Net Assets are not Balanced`;
     }
 
-    // if (missingActivites){
-    //   template += `\n\nMissing tags for activities. Click <a id="settings-link" href="#">here</a> to set tags.`
-    //
-    // }
 
     modalText.innerHTML  = template
    
-    // if (missingActivites){
-    //   const settingsLink = document.getElementById('settings-link')
-    //   settingsLink.addEventListener('click', function(event){
-    //     event.preventDefault()
-    //     $('#myModal2').modal('hide')
-    //
-    //     $('#settings-modal').modal('show')
-    //   })
-    // }
-
-    // if (match) {
-    //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are Balanced ";
-    // } else {
-    //   modalText.innerHTML  = "Total Assets and Total Liabilities and Net Assets are not Balanced";
-    // }
 
     modal.style.display = "block";
   }
