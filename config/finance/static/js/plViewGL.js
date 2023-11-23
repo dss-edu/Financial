@@ -364,6 +364,114 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   })
 
+  //////////////////////////// For the totals of each section /////////////////////////////
+
+  // async function fetchModalYTDTotal({fund, func, obj, endpointName}) {
+  //   // TODO do something about this
+  //   // get only months that are viewable in the table
+  //   const yr = ['09','10']
+  //   const ytdData = {gl_data: [], total_bal: 0}
+
+  //   for (const month of yr) {
+  //     const endpoints = {
+  //       'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
+  //       'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
+  //       'viewglexpense': `/viewglexpense/${obj}/${month}/${school}/${year}/${url}`,
+  //       'viewgldna': `/viewgldna/${func}/${month}/${school}/${year}/${url}`,
+  //     }
+  //     try {
+  //       const response = await fetch(endpoints[endpointName])
+  //       if (response.status !== 200){
+  //         return
+  //       }
+
+  //       const data = await response.json()
+  //       ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
+  //       ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
+  //     } catch(error){
+  //       console.log(error)
+  //     }
+  //   }
+
+  //   return ytdData
+
+  // }
+
+  // Local Revenue YTD Total
+  const localRevenueYtd = document.getElementById('local-revenue-ytd-total')
+  localRevenueYtd.addEventListener('click', () => viewglAll('.local-revenue-row'))
+
+  // State Program Revenue YTD Total
+  const stateRevenueYtd = document.getElementById('state-revenue-ytd-total')
+  stateRevenueYtd.addEventListener('click', () => viewglAll('.spr-row'))
+
+  // Federal Revenuew YTD Total
+  const federalRevenueYtd = document.getElementById('federal-revenue-ytd-total')
+  federalRevenueYtd.addEventListener('click', () => viewglAll('.fpr-row'))
+
+
+  async function viewglAll(className){
+    $("#spinner-modal").modal("show");
+    const rows = document.querySelectorAll(className)
+
+    const data = []
+
+    for (const element of rows) {
+      const aTag = element.querySelector('.viewgl-link')
+      data.push({
+        fund: aTag.dataset.fund,
+        obj: aTag.dataset.obj,
+      })
+    }
+
+    const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
+    fetch(`/viewgl-all/${school}/${year}/${url}/`, {
+      method: "POST",
+      mode: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify(data)
+    }).then((response) => {
+        return response.json()
+    }).then(data => {
+      if (data.status === 'success'){
+        $("#spinner-modal").modal("hide");
+        populateModal(data.data)
+        modal.style.display = "block";
+      }
+      else {
+        $("#spinner-modal").modal("hide");
+        console.log(data.status)
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+    // console.log(csrftoken.getAttribute('value'))
+    // const response = await fetch(`/viewgl-all/${school}/${year}/${url}/`, {
+    //   method: "POST",
+    //   mode: "same-origin",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "X-CSRFToken": csrftoken,
+    //   },
+    //   body: JSON.stringify(data)
+    // })
+
+    // if (response.status !== 200){
+    //   return
+    // }
+
+    // const reply = await response.json()
+
+    // console.log(reply.data)
+    // populateModal(reply.data);
+
+    // $("#spinner-modal").modal("hide");
+  }
+
+
   // Close the modal when the close button is clicked
   var closeButton = modal.querySelector(".modal-footer button");
   closeButton.addEventListener("click", function () {

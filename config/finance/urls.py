@@ -46,6 +46,9 @@ urlpatterns = [
         "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/", views.viewgl, name="viewgl"
     ),
     path(
+        "viewgl-all/<str:school>/<str:year>/<str:url>/", views.viewgl_all, name="viewgl-all"
+    ),
+    path(
         "viewglfunc/<str:func>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewglfunc,
         name="viewglfunc",
