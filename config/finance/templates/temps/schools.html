@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+{% block title %}
+    {{ school_name }}
+{% endblock %}
+
+{% block stylesheet %}
+
+
+    <link rel="stylesheet" href="{% static 'css/profit-loss.css' %}">
+<style>
+
+
+    .side-panel{
+        width: 100px;
+        background-color: rgba(255, 255, 255, 0);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+        padding: 0px;
+        height: 100%;
+        position: fixed;
+        right: 18px;
+        top: 0;
+      
+      
+      }
+      
+      .side{
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
+      }
+      .circle-container {
+        border-radius: 50%;
+        background-color: rgba(211, 211, 211, 0); /* Adjust the alpha value for transparency */
+        width: 36px; /* Adjust the width and height to control the size of the circle */
+        height: 36px;
+        display: flex ;
+        flex-direction: column ;
+        align-items: center ;
+        justify-content: center ;
+        border: 1px solid gray; /* Black border */
+        margin-bottom: 15px;
+      }
+
+.circle-container-child {
+    position: absolute;
+    right: 50px;
+    bottom: -25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+      a:hover{
+        cursor:pointer;
+      }
+      .hidden-column {
+        background-color: lightgreen!important;
+      }      
+
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                
+                <div class="col-10">
+                  <h5 class="text-center" style="color: black;">
+                    SCHOOLS
+                  </h5>
+                </div>
+                <div class="col-1">
+                 
+            
+                </div>
+            </div>
+         
+        </nav> 
+
+
+
+
+        <div class="table-container"  >
+
+         
+                
+         
+            <form  id="insert-row-form" action="#" method="POST">
+        
+
+                {% csrf_token %}
+
+            <div id="table-box">
+    
+                <table id="data-table" class="table table-hover" style="width: auto !important;">
+                    <thead>
+
+
+                    </thead>
+                    <tbody id="data-table-body">
+                        <tr class="header text-center" >
+            
+
+                            <th><div style="width:300px;" >School Name</div></th>
+                            <th><div style="width:150px;">Profit Loss</div></th>
+                            <th><div style="width:150px;">Balance Sheet</div></th>
+                            <th><div style="width:150px;">Cashflow</div></th>
+                       
+                        </tr>
+
+                        {% for row in school_data %} 
+                        <tr>
+                        
+                            <td>{{row.school_name}}</td>
+                            <td class="text-center">
+                                {% if row.PLbudget_status == "True" and row.PLrevenue_status == "True" and row.PLexpense_status == "True" and row.PLtotalexpense_status == "True" %}
+
+                                <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="Data Complete">
+                                    <i class="fa-solid fa-check"></i>
+                                {% else %}
+                                <a href="#" 
+                                class="viewPL" 
+                                data-school="{{row.school_key}}" 
+                                data-toggle="tooltip" 
+                                title="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }};{% endif %}
+                                {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }};{% endif %}
+                                {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }};{% endif %}
+                                {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}">
+                                    <i class="fa-solid fa-x"></i>
+                                {% endif %}
+                                
+                            </td>
+                            <td class="text-center">
+                               
+                                    {% if row.BS_status == "BALANCED" %}
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED">
+                                    <i class="fa-solid fa-check"></i>
+                                    {% else %}
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED">
+                                    <i class="fa-solid fa-x"></i>
+                                    {%endif%}
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED">
+                                    <i class="fa-solid fa-check"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                          
+                            const currentPath = window.location.pathname;
+                            $(".viewBS").on("click", function(event) {
+                                event.preventDefault();
+                                const school_key = $(this).data("school");
+                                console.log(school_key)
+                        
+                                $("#page-load-spinner").modal("show");
+                                window.location.href = "/balance-sheet/" + school_key;
+                              
+                            });
+
+                            $(".viewCF").on("click", function(event) {
+                                event.preventDefault();
+                                const school_key = $(this).data("school");
+                                console.log(school_key)
+                        
+                                $("#page-load-spinner").modal("show");
+                                window.location.href = "/cashflow-statement/" + school_key;
+                              
+                            });
+
+                            $(".viewPL").on("click", function(event) {
+                                event.preventDefault();
+                                const school_key = $(this).data("school");
+                                console.log(school_key)
+                        
+                                $("#page-load-spinner").modal("show");
+                                window.location.href = "/profit-loss/" + school_key;
+                              
+                            });
+                        
+                        
+                
+                        
+                        });
+                        
+                    </script>
+
+                     
+              
+                      
+            </table>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+            <div class="modal-content  p-0 w-auto h-auto">
+                <div class="modal-body text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of spinner modal -->
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var school = "{{ school }}";
+        var year = "{{FY_year_1}}";
+
+       
+var columnsCollapsed = true;
+
+
+function toggleColumns() {
+    const dataTable = document.getElementById('data-table');
+    const toggleButton = document.getElementById("toggle-button");
+    const toggleIcon = document.getElementById("toggle-icon");
+    const collapsedColumns = dataTable.getElementsByClassName("collapsed");
+    const show = document.getElementById("showCurrentMonth");
+    const hide = document.getElementById("hideCurrentMonth");
+
+    for (var i = 0; i < collapsedColumns.length; i++) {
+        if (columnsCollapsed) {
+            collapsedColumns[i].style.display = "table-cell";
+            toggleIcon.className = "fa-solid fa-chevron-left";
+            hide.style.display = "flex";
+            show.style.display = "none";
+        } else {
+            collapsedColumns[i].style.display = "none";
+            toggleIcon.className = "fa-solid fa-chevron-right";
+            hide.style.display = "none";
+            show.style.display = "flex";
+        }
+    }
+
+    // Toggle the state
+    columnsCollapsed = !columnsCollapsed;
+}
+    </script>
+
+
+
+
+{% endblock %}

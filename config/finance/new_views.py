@@ -13,12 +13,16 @@ import calendar
 import json
 from .decorators import permission_required,custom_login_required
 from config import settings
+from django.core.files.storage import default_storage
+from django.core.files.storage import FileSystemStorage
+import os
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
-
+media_root = settings.MEDIA_ROOT
+JSON_DIR = FileSystemStorage(location=media_root)
 
 present_date = datetime.today().date()   
 present_year = present_date.year
@@ -596,3 +600,181 @@ def access_date_count(request):
                 }]
 
     return JsonResponse(data, safe=False)
+
+
+@custom_login_required
+@permission_required
+def all_schools(request, school):
+    month_names = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+    }
+
+    
+
+    sept = ["09","10","11","12","01","02","03","04","05","06","07","08"]
+    july = ["07","08","09","10","11","12","01","02","03","04","05","06"]
+    school_data = []
+    BS_status=""
+    for key,value in SCHOOLS.items():
+        print(key,value)
+   
+        BS_status = ""
+        pl_path = os.path.join("profit-loss", key)
+        js_path = JSON_DIR.path(pl_path)
+        with open(os.path.join(js_path, "months.json"), "r") as f:
+            months = json.load(f)
+
+        with open(os.path.join(js_path, "data.json"), "r") as f:
+            data = json.load(f)
+
+        with open(os.path.join(js_path, "data2.json"), "r") as f:
+            data2 = json.load(f)
+
+        with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
+            data_expensebyobject = json.load(f)
+
+        relative_path = os.path.join("balance-sheet", key)
+        json_path = JSON_DIR.path(relative_path)
+        with open(os.path.join(json_path, "totals_bs.json"), "r") as f:
+            totals_bs = json.load(f)
+
+
+        PLbudget_status = "No Budget"
+        PLbudget_counter = 0
+        for row in data:
+            budget = row.get("total_budget")
+            print(budget)
+            if budget != "":
+                PLbudget_counter += 1
+
+        if PLbudget_counter > 2:
+            PLbudget_status ="True"
+                
+               
+
+        
+
+     
+        if "month_exception" in months:
+            month_exception = months["month_exception"]
+            month_exception_str = months["month_exception_str"]
+            
+            total_LNA = totals_bs.get("total_LNA", {})
+            total_assets = totals_bs.get("total_assets", {})
+            month_exception_str = months["month_exception_str"]
+
+
+
+      
+            month_name = month_names.get(month_exception, "Current")
+
+            PLrevenue_status = f"No Revenue for {month_name}"
+            PLrevenue_counter = 0
+            for row in data:
+                revenue = row.get(f'total_real{month_exception}')
+                if revenue != "":
+                    PLrevenue_counter += 1
+
+            if PLrevenue_counter > 2:
+                PLrevenue_status ="True"
+
+            PLexpense_status =f"No Expense for {month_name}"
+            PLexpense_counter = 0
+            for row in data2:
+                expense = row.get(f'total_func{month_exception}')
+                if expense != "":
+                    PLexpense_counter += 1
+
+            if PLexpense_counter>2:
+                PLexpense_status = "True"
+
+            PLtotalexpense_status = f"No Expense by object for {month_name}"
+            PLtotalexpense_counter = 0        
+            for row in data_expensebyobject:
+                total_expense = row.get(f'total_expense{month_exception}')
+                if total_expense != "":
+                    PLtotalexpense_counter += 1
+            
+            if PLtotalexpense_counter > 2:
+                PLtotalexpense_status = "True"
+      
+
+
+
+
+
+
+
+            if key in schoolMonths["septemberSchool"]:
+                for month in sept:
+                    if month == month_exception_str:
+
+                        break
+                    
+                    else:
+                        total_LNA_value = int(total_LNA.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        total_assets_value = int(total_assets.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        BS_status = "BALANCED"
+                    
+                        if total_LNA_value != total_assets_value:
+                            BS_status = "NOT BALANCED"
+            else:
+                for month in july:
+                    if month == month_exception_str:
+
+                        break
+                    
+                    else:
+                        total_LNA_value = int(total_LNA.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        total_assets_value = int(total_assets.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        BS_status = "BALANCED"
+                    
+                        if total_LNA_value != total_assets_value:
+                            BS_status = "NOT BALANCED"
+        
+        if key in schoolCategory["ascender"]:
+            row_data = {
+                "school_key":key,
+                "school_name": value,
+                "school_category": "ascender",
+                "BS_status": BS_status,
+                "PLbudget_status":PLbudget_status,
+                "PLrevenue_status":PLrevenue_status,
+                "PLexpense_status":PLexpense_status,
+                "PLtotalexpense_status":PLtotalexpense_status,
+            }
+            school_data.append(row_data)
+        else:
+            row_data = {
+                "school_key":key,
+                "school_name": value,
+                "school_category": "skyward",
+                "BS_status": BS_status,
+                "PLbudget_status":PLbudget_status,
+                "PLrevenue_status":PLrevenue_status,
+                "PLexpense_status":PLexpense_status,
+                "PLtotalexpense_status":PLtotalexpense_status,
+            }
+            school_data.append(row_data)
+
+    context = {
+        'school': school,
+        'school_data': school_data
+    }
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
+    return render(request, "temps/schools.html", context)

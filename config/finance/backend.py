@@ -9,7 +9,7 @@ import re
 import pprint
 from collections import defaultdict
 from config import settings
-
+import shutil
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
@@ -53,7 +53,7 @@ def update_school(school):
 
 def update_fy(school,year):
 
-    print("here")
+
     profit_loss(school,year) 
     balance_sheet(school,year)
     cashflow(school,year)
@@ -79,7 +79,7 @@ def profit_loss(school,year):
         else:
             current_date = datetime(start_year, 9, 1).date() 
         current_year = current_date.year
-        print("shet")
+     
     else:
         start_year = 2021
         current_date = datetime.today().date()   
@@ -280,7 +280,7 @@ def profit_loss(school,year):
                         }
 
                         data3.append(row_dict)
-        print(current_month)
+  
         if FY_year_1 == present_year:
             print("current_month")
     
@@ -305,8 +305,7 @@ def profit_loss(school,year):
         if present_year == FY_year_1:
             first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
-            print("current",current_month)
-            print("last",last_day_of_current_month)
+
             if current_month <= last_day_of_current_month:
                 current_month = current_month.replace(day=1) - timedelta(days=1)
                 last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
@@ -314,10 +313,7 @@ def profit_loss(school,year):
                 last_month_number = last_month.month
                 formatted_last_month = last_month.strftime('%B %d, %Y')  
                 db_last_month = last_month.strftime("%Y-%m-%d")
-                print("last month",last_month)
-                print(" last_month_name",last_month_name)
-                print("last_month_number",last_month_number)
-                print("formatted_last_month",formatted_last_month)
+   
 
 
 
@@ -1554,7 +1550,8 @@ def profit_loss(school,year):
         sorted_data = sorted(data, key=lambda x: x['obj'])
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
     
-        print(db_last_month)
+      
+        print(month_exception)
         context = {
             "data": sorted_data,
             "data2": sorted_data2,
@@ -1720,7 +1717,7 @@ def profit_loss(school,year):
 
         json_path = JSON_DIR.path(relative_path)
 
-       
+        shutil.rmtree(json_path, ignore_errors=True)
         os.makedirs(json_path, exist_ok=True)
 
         for key, val in context.items():
@@ -1902,7 +1899,7 @@ def profit_loss_date(school):
                         "Budget":row[20],
                     }
                     data3.append(row_dict)
-    print(current_month)
+
     if FY_year_1 == present_year:
         print("current_month")
 
@@ -1926,8 +1923,7 @@ def profit_loss_date(school):
     if present_year == FY_year_1:
         first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
         last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
-        print("current",current_month)
-        print("last",last_day_of_current_month)
+
         if current_month <= last_day_of_current_month:
             current_month = current_month.replace(day=1) - timedelta(days=1)
             last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
@@ -1935,11 +1931,7 @@ def profit_loss_date(school):
             last_month_number = last_month.month
             formatted_last_month = last_month.strftime('%B %d, %Y')  
             db_last_month = last_month.strftime("%Y-%m-%d")
-            print("last month",last_month)
-            print(" last_month_name",last_month_name)
-            print("last_month_number",last_month_number)
-            print("formatted_last_month",formatted_last_month)
-
+   
     cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
     rows = cursor.fetchall()
     adjustment = []
@@ -2985,7 +2977,7 @@ def profit_loss_date(school):
     sorted_data = sorted(data, key=lambda x: x['obj'])
     data_activities = sorted(data_activities, key=lambda x: x['obj'])
     
-    print(db_last_month)
+
     context = {
         "data": sorted_data,
         "data2": sorted_data2,
@@ -3162,7 +3154,7 @@ def balance_sheet(school,year):
         current_date = datetime.today().date()   
         current_year = current_date.year
         FY_year_current = current_year
-        print("hay")
+
     while start_year <= FY_year_current:
 
         FY_year_1 = start_year
@@ -3364,10 +3356,7 @@ def balance_sheet(school,year):
         month_exception = months["month_exception"]
         month_exception_str = months["month_exception_str"]
         
-        print(db_last_month)
-        print(month_exception)
-        print(month_exception_str)
-        
+
      
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
         rows = cursor.fetchall()
@@ -4154,6 +4143,7 @@ def balance_sheet(school,year):
 
         json_path = JSON_DIR.path(relative_path)  
 
+        shutil.rmtree(json_path, ignore_errors=True)
         if not os.path.exists(json_path):
             os.makedirs(json_path)
 
@@ -4205,7 +4195,7 @@ def cashflow(school,year):
         year = int(year)
         start_year = year
         FY_year_current = year
-        print("hmm")
+     
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
             
@@ -4266,7 +4256,7 @@ def cashflow(school,year):
                 "Description": row[2],
                 "obj": str(row[3]),
             }
-            print(row[3])
+          
 
             data_cashflow.append(row_dict)
 
@@ -4342,7 +4332,7 @@ def cashflow(school,year):
                 )
                 if i != month_exception:
                     item["fytd_1"] += item[f"total_operating{i}"] 
-            print(item["fytd_1"])
+            
 
         for item in data_cashflow:
             obj = item["obj"]
@@ -4456,7 +4446,7 @@ def excel(school,year):
         year = int(year)
         start_year = year
         FY_year_current = year
-        print("hmm")
+   
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
             
@@ -4677,8 +4667,7 @@ def excel(school,year):
         if present_year == FY_year_1:
             first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
-            print("current",current_month)
-            print("last",last_day_of_current_month)
+
             if current_month <= last_day_of_current_month:
                 current_month = current_month.replace(day=1) - timedelta(days=1)
                 last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
@@ -6003,6 +5992,8 @@ def excel(school,year):
         else:
             relative_path = os.path.join(str(FY_year_1), "excel", school)
         json_path = JSON_DIR.path(relative_path)
+
+        shutil.rmtree(json_path, ignore_errors=True)
         if not os.path.exists(json_path):
             os.makedirs(json_path)
 
@@ -6224,6 +6215,7 @@ def profit_loss_chart(school):
     }
     pl_json_path = os.path.join( "profit-loss-chart", school)
     json_path = JSON_DIR.path(pl_json_path)
+    shutil.rmtree(json_path, ignore_errors=True)
     if not os.path.exists(json_path):
         os.makedirs(json_path)
 
