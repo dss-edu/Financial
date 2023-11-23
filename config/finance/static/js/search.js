@@ -9,10 +9,24 @@ $(document).ready(function() {
         const selectedOption = e.params.data.id;
         const anchorYear = $("#hidden-year").val();
 
+      
         $("#page-load-spinner").modal("show");
 
         if (selectedOption) {
-            window.location.href = "/dashboard/" + selectedOption;
+            if(currentPath.includes("/dashboard/")){
+                window.location.href = "/dashboard/" + selectedOption;
+            }else if(currentPath.includes("/profit-loss/")){
+                window.location.href = "/profit-loss/" + selectedOption;
+            }else if (currentPath.includes("/balance-sheet/")) {
+                window.location.href = "/balance-sheet/" + selectedOption;
+            } else if (currentPath.includes("/cashflow-statement/")) {
+                window.location.href = "/cashflow-statement/" + selectedOption;
+            }else if (currentPath.includes("/charter-first/")) {
+                window.location.href = "/charter-first/" + selectedOption;
+            }else{
+                window.location.href = "/general-ledger/" + selectedOption;
+            }
+            
         }
         // if (selectedOption && anchorYear) {
         //     window.location.href = "/dashboard/" + selectedOption + "/" + anchorYear;
@@ -21,8 +35,7 @@ $(document).ready(function() {
         // }
     });
     const currentPath = window.location.pathname;
-    console.log(currentPath)
-
+ 
     $("#year-select").on("change", function() {
         const year = $(this).val();
         const school = $("#hidden-school").val();
