@@ -565,7 +565,16 @@ def access_charts(request):
     #     'school': school,
     # }
     # close connection
-    return render(request, "temps/access-charts.html")
+    role = request.session.get('user_role')
+
+    username = request.session.get('username')
+    
+
+    context = {
+        "role":role,
+        "username": username,
+    }
+    return render(request, "temps/access-charts.html",context)
 
 @custom_login_required
 @permission_required

@@ -23,8 +23,11 @@ $(document).ready(function() {
                 window.location.href = "/cashflow-statement/" + selectedOption;
             }else if (currentPath.includes("/charter-first/")) {
                 window.location.href = "/charter-first/" + selectedOption;
+            }
+            else if (currentPath.includes("/general-ledger/")) {
+                window.location.href = "/charter-first/" + selectedOption;
             }else{
-                window.location.href = "/general-ledger/" + selectedOption;
+                window.location.href = "/dashboard/" + selectedOption;
             }
             
         }

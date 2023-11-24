@@ -1,4 +1,5 @@
 {% block stylesheet %}
+{% load static %}
 <style>
 
     .activebg {
@@ -142,5 +143,56 @@
         <!-- </div> -->
             </a>
         </li>
+        {% if role == "admin" %}
+        <span>
+            <hr
+                style="background-color: gray; width: 80%; margin: auto; height: 2px"
+            />
+        </span>
+
+        
+        <li class="nav-item" >
+            <a
+                id="analytics-link"
+                class="nav-link"
+                href="/home/analytics/"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Analytics"
+                style="color: gray;"
+             
+            >
+                {% comment %} <i class="fa-solid fa-trophy"></i> {% endcomment %}
+                <!-- <span id="first-link2" style="color: gray;" >Analytics</span> -->
+                {% with 'analytics' as school %}
+                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px; width:35px;">
+            {% endwith %}
+                <span style="color: gray;" >Analytics</span>
+            </a>
+        </li>
+
+        <li class="nav-item" >
+            <a
+                id="analytics-link"
+                class="nav-link"
+                href="/school-status/advantage"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="School Status"
+                style="color: gray;"
+             
+            >
+            {% with 'school_status' as school %}
+            <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px; width:35px;">
+        {% endwith %}
+                {% comment %} <i class="fa-solid fa-trophy"></i> {% endcomment %}
+                <!-- <span id="first-link2" style="color: gray;" >Analytics</span> -->
+                <span style="color: gray;" >School Status</span>
+            </a>
+        </li>
+
+        {% endif %}
+
+
     </ul>
 </nav>

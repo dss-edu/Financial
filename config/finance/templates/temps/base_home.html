@@ -106,7 +106,7 @@
 
        
                 {% if role == "admin" %}
-                <a class="navbar-brand mx-auto text-white" href="/home"><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
+                <a class="navbar-brand mx-auto text-white" href="/home/schools"><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
                 {% else %}
                 <a class="navbar-brand mx-auto text-white" href=""><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
                 {% endif %}
@@ -225,9 +225,28 @@
             </div> <!-- end of div wrapper -->
 
             <!-- Need to edit this again this is just a bandaid solution -->
-            <div class="d-flex flex-grow-1 justify-content-center align-items-center" id="body-block" >
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const thispath = window.location.pathname;
+                    const bodyBlock = document.getElementById("body-block");
+                    if (thispath.includes("/school-status/")) {
+                    
+                        bodyBlock.classList.add("flex-grow-1");
+                    } else {
+                        bodyBlock.classList.add("d-flex", "flex-grow-1", "justify-content-center", "align-items-center");
+                    }
+ 
+                });
+
+            
+
+            </script>
+            <div  id="body-block" >
+
+            
                 {% block body %}{% endblock %}
             </div>
+            
         </div>
 
         <div class="modal" id="page-load-spinner" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">

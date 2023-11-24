@@ -139,6 +139,6 @@ urlpatterns = [
         "access-date-count/", new_views.access_date_count, name="access_date_count"
     ),
     path(
-        "schools/<str:school>", new_views.all_schools, name="all_schools"
+        "school-status/<str:school>", new_views.all_schools, name="all_schools"
     ),
 ]
