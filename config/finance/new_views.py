@@ -785,4 +785,9 @@ def home(request):
     context = {
         'schools': SCHOOLS
     }
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
     return render(request, "temps/home.html", context)
