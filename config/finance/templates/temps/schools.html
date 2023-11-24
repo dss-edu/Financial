@@ -60,6 +60,16 @@
       .hidden-column {
         background-color: lightgreen!important;
       }      
+      .popover {
+        background-color: black;
+        color: white;
+      }
+    
+      .popover-body {
+        background-color: black;
+        color: white;
+      }
+    
 
 </style>
 {% endblock %}
@@ -111,10 +121,10 @@
                                 <a href="#" 
                                 class="viewPL" 
                                 data-school="{{row.school_key}}" 
-                                data-toggle="tooltip" 
-                                title="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }};{% endif %}
-                                {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }};{% endif %}
-                                {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }};{% endif %}
+                                data-toggle="popover"
+                                data-content="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }}<br>{% endif %}
+                                {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }}<br>{% endif %}
+                                {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }}<br>{% endif %}
                                 {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}"
                                 style="color: red;"
                                 >
@@ -140,6 +150,15 @@
                             </td>
                         </tr>
                         {% endfor %}
+
+                        <script>
+                            $(document).ready(function(){
+                              $('[data-toggle="popover"]').popover({
+                                html: true,
+                                trigger: 'hover'
+                              });
+                            });
+                          </script>
                     </tbody>
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
