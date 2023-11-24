@@ -365,38 +365,6 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
   //////////////////////////// For the totals of each section /////////////////////////////
-
-  // async function fetchModalYTDTotal({fund, func, obj, endpointName}) {
-  //   // TODO do something about this
-  //   // get only months that are viewable in the table
-  //   const yr = ['09','10']
-  //   const ytdData = {gl_data: [], total_bal: 0}
-
-  //   for (const month of yr) {
-  //     const endpoints = {
-  //       'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
-  //       'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
-  //       'viewglexpense': `/viewglexpense/${obj}/${month}/${school}/${year}/${url}`,
-  //       'viewgldna': `/viewgldna/${func}/${month}/${school}/${year}/${url}`,
-  //     }
-  //     try {
-  //       const response = await fetch(endpoints[endpointName])
-  //       if (response.status !== 200){
-  //         return
-  //       }
-
-  //       const data = await response.json()
-  //       ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
-  //       ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
-  //     } catch(error){
-  //       console.log(error)
-  //     }
-  //   }
-
-  //   return ytdData
-
-  // }
-
   // Local Revenue YTD Total
   const localRevenueYtd = document.getElementById('local-revenue-ytd-total')
   localRevenueYtd.addEventListener('click', () => viewglAll('.local-revenue-row'))
@@ -409,10 +377,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const federalRevenueYtd = document.getElementById('federal-revenue-ytd-total')
   federalRevenueYtd.addEventListener('click', () => viewglAll('.fpr-row'))
 
+  // Revenue YTD Total
+  const revenueYtd = document.getElementById('all-revenue-ytd-total')
+  revenueYtd.addEventListener('click', () => viewglAll(['.local-revenue-row', '.spr-row', '.fpr-row']))
 
   async function viewglAll(className){
     $("#spinner-modal").modal("show");
-    const rows = document.querySelectorAll(className)
+    let rows
+    if (typeof className === 'string' ){
+      rows = document.querySelectorAll(className)
+    }
+    else {
+      rows = document.querySelectorAll(className.join(', '))
+    }
 
     const data = []
 
@@ -448,27 +425,99 @@ document.addEventListener("DOMContentLoaded", function () {
     }).catch(error => {
       console.log(error)
     })
-    // console.log(csrftoken.getAttribute('value'))
-    // const response = await fetch(`/viewgl-all/${school}/${year}/${url}/`, {
-    //   method: "POST",
-    //   mode: "same-origin",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "X-CSRFToken": csrftoken,
-    //   },
-    //   body: JSON.stringify(data)
-    // })
+  }
 
-    // if (response.status !== 200){
-    //   return
-    // }
+  const totalYtdTotal = document.getElementById('total-ytd-total')
+  totalYtdTotal.addEventListener('click', () => viewglFuncAll('.total-row1'))
 
-    // const reply = await response.json()
+  async function viewglFuncAll(className){
+    $("#spinner-modal").modal("show");
+    let rows
+    if (typeof className === 'string' ){
+      rows = document.querySelectorAll(className)
+    }
+    else {
+      rows = document.querySelectorAll(className.join(', '))
+    }
 
-    // console.log(reply.data)
-    // populateModal(reply.data);
+    const data = []
 
-    // $("#spinner-modal").modal("hide");
+    for (const element of rows) {
+      const aTag = element.querySelector('.viewglfunc-link')
+      data.push(aTag.dataset.func)
+    }
+
+    const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
+    fetch(`/viewglfunc-all/${school}/${year}/${url}/`, {
+      method: "POST",
+      mode: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify(data)
+    }).then((response) => {
+        return response.json()
+    }).then(data => {
+      if (data.status === 'success'){
+        $("#spinner-modal").modal("hide");
+        populateModal(data.data)
+        modal.style.display = "block";
+      }
+      else {
+        $("#spinner-modal").modal("hide");
+        console.log(data.status)
+        console.log(data.message)
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
+  const EocYtdTotal = document.getElementById('EOC-ytd-total')
+  EocYtdTotal.addEventListener('click', () => {viewglExpenseAll('.PCS-row')})
+  async function viewglExpenseAll(className){
+    $("#spinner-modal").modal("show");
+    let rows
+    if (typeof className === 'string' ){
+      rows = document.querySelectorAll(className)
+    }
+    else {
+      rows = document.querySelectorAll(className.join(', '))
+    }
+
+    const data = []
+
+    for (const element of rows) {
+      const aTag = element.querySelector('.viewglexpense-link')
+      data.push(aTag.dataset.obj)
+    }
+
+    const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
+    fetch(`/viewglexpense-all/${school}/${year}/${url}/`, {
+      method: "POST",
+      mode: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrftoken,
+      },
+      body: JSON.stringify(data)
+    }).then((response) => {
+        return response.json()
+    }).then(data => {
+      if (data.status === 'success'){
+        $("#spinner-modal").modal("hide");
+        populateModal(data.data)
+        modal.style.display = "block";
+      }
+      else {
+        $("#spinner-modal").modal("hide");
+        console.log(data.status)
+        console.log(data.message)
+      }
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
 
