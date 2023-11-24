@@ -1,0 +1,397 @@
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>
+            {% block title %}
+            {% endblock %}
+        </title>
+    <!-- Custom fonts for this template-->
+    <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" /> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- <link href="{% static 'vendor/datatables/dataTables.bootstrap4.css' %}" rel="stylesheet"> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css"> -->
+
+    <!-- Add jQuery (required by DataTables) -->
+        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Add the DataTables JS file -->
+        <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+        <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css"> -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+        <!-- this stylesheet causes the tables to look weird-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+        <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+
+        <!-- datatables select row-->
+        <script src="https://cdn.datatables.net/select/1.7.0/js/dataTables.select.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.7.0/css/select.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+
+        <!-- datatables buttons -->
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <!-- Add the Bootstrap JS file (required by DataTables with Bootstrap 4) -->
+        <!-- <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script> -->
+
+    <!-- Page level plugin CSS-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <!-- bootswatch-->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+    <!-- Select2 (dropdown with search)-->
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <!-- Custom styles for this template-->
+        <link href="{% static 'css/sb-admin.css' %}" rel="stylesheet">
+
+    <!-- Material Icons-->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- loading stylsheet -->
+        <link rel="stylesheet" href="{% static 'css/loading.css' %}">
+        <link rel="stylesheet" href="{% static 'css/body-navs.css' %}">
+        <link rel="stylesheet" href="{% static 'css/search.css' %}">
+
+            <style>
+                .collapsed {
+                    display: none;
+                }
+                .modal-body {
+                    max-height: 2000px;
+                    max-width: 2000px;
+                    overflow-y: auto;
+                }
+                .modal-body thead {
+                    position: sticky;
+                    top: 0;
+                    background-color: #f9f9f9;
+                    z-index: 1;
+                }
+        /* Optional: Adjust the z-index of the modal footer to ensure it's above the fixed header */
+                .modal-footer {
+                    z-index: 2;
+                }
+            </style>
+
+        {% block stylesheet %}
+        {% endblock %}
+    </head>
+
+    <body id="page-top" class="sidebar-toggled">
+<!-- headers-->
+        <nav class="navbar navbar-expand navbar-dark bg-dark fixed-top justify-content-between" style="height:40px;">
+            <div class="d-flex flex-row">
+                <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+       
+                {% if role == "admin" %}
+                <a class="navbar-brand mx-auto text-white" href="/home"><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
+                {% else %}
+                <a class="navbar-brand mx-auto text-white" href=""><span class="text-danger">d</span>ynamic <span class="text-danger">s</span>upport  <span class="text-danger">s</span>olutions</a>
+                {% endif %}
+            </div>
+            <div class="d-flex flex-row ml-auto">
+                {% if role == "admin" %}
+                    <form>
+                        <div class="d-flex flex-row justify-content-center">
+                            <select class="d-flex" id="school-select" style="width: 330px;">
+                                <option value=""></option>
+                                <option value="advantage">Advantage Academy</option>
+                                <option value="aca">Arlington Classics Academy</option>
+                                <option value="cityscape">CityScape Schools Inc</option>
+                                <option value="cumberland">Cumberland Academy</option>
+                                <option value="goldenrule">Golden Rule Charter School</option>
+                                <option value="imagineinternational">Imagine International Academy of North Texas</option>
+                                <option value="lonestar">Imagine Lone Star International Academy</option>
+                                <option value="leadership">Leadership Prep School Frisco</option>                                
+                                <option value="legacy">Legacy Prep Charter Academy</option>                                
+                                <option value="manara">Manara Academy</option>                                
+                                <option value="pro-vision">Pro-Vision Academy</option>
+                                <option value="ptaa">Pioneer Technology and Arts Academy</option>
+                                <option value="trivium">Trivium Academy</option>                                
+                                <option value="sa">San Antonio Preparatory Schools</option>
+                                <option value="stmary">St Mary's Charter School</option>
+                                <option value="ume">UME Preparatory Academy</option>
+                                <option value="village-tech">Village Tech Schools</option>
+                                    <!-- Add more options here as needed -->
+                            </select>
+                        </div>
+                    </form>
+                {% endif %}
+          
+                <div class="d-flex flex-row justify-content-center ml-1">
+                    <select class="d-flex" name="fyear" id="year-select">
+                        <option value="" selected>select FY</option> 
+                        <option value="default">2023-2024</option> 
+                        <option value="2022">2022-2023</option>
+                        <option value="2021">2021-2022</option>
+                    </select>
+         
+            </div>
+                <input type="hidden" id="hidden-school" value="{{ school }}">
+                <input type="hidden" id="hidden-year" value="{{ anchor_year }}">
+            </div>
+    <!-- Navbar Search -->
+            <!-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"> -->
+            <!---->
+            <!-- </form> -->
+            <!-- <a class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0"> -->
+            <!---->
+            <!-- </a> -->
+    <!-- Navbar -->
+            <div>
+                <ul class="navbar-nav ml-auto ml-md-0">
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-fw text-light"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                            {% if role == "admin" %}
+                                {% if anchor_year %}
+                                <form id="fy1-form" method="post" action="{% url 'updatefy' school=school year=anchor_year%}">
+                                    {% csrf_token %}
+                                    <a id="fy1-button" class="dropdown-item" style="cursor: pointer;">Update FY1</a>
+                                    <script>
+                                        $('#fy1-button').on('click', function() {
+                                            $('#fy1-form').submit()
+                                        })
+                                    </script>
+                                </form>
+                                {% else %}
+                                <form id="fy2-form" method="post" action="{% url 'updatefy' school=school  %}">
+                                        {% csrf_token %}
+                                    <a id="fy2-button" class="dropdown-item" style="cursor: pointer;">Update FY</a>
+                                    <script>
+                                        $('#fy2-button').on('click', function() {
+                                            $('#fy2-form').submit()
+                                        })
+                                    </script>
+                                </form>
+                                {% endif %}
+                                <form id="update-school-form" method="post" action="{% url 'updateschool' school %}">
+                                    {% csrf_token %}
+                                    <a id="update-school-btn" class="dropdown-item" style="cursor: pointer;">Update School</a>
+                                    <script>
+                                        $('#update-school-btn').on('click', function() {
+                                            $('#update-school-form').submit()
+                                        })
+                                    </script>
+                                </form>
+                                <!-- </a> -->
+                            {% endif %}
+
+                            <a class="dropdown-item" data-toggle="modal" data-target="#changePasswordModal" style="cursor: pointer;">
+                                Change Password
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <div style="width:100%;height:40px;">
+        </div>
+
+        <div class="d-flex flex-row">
+            <div id="wrapper">
+                <!-- Sidebar -->
+                {% include 'temps/sidebar_home.html' %}
+                <!---->
+            </div> <!-- end of div wrapper -->
+
+            <!-- Need to edit this again this is just a bandaid solution -->
+            <div class="d-flex flex-grow-1 justify-content-center align-items-center" id="body-block" >
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
+        <div class="modal" id="page-load-spinner" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+                <div class="modal-content  p-0 w-auto h-auto">
+                    <div class="modal-body text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end of spinner modal -->
+
+
+<!-- /#wrapper -->
+
+<!-- modal for changing password -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                <input type="password" class="form-control" placeholder="" name="username" hidden value="{{username}}"> 
+                New Password
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+                   
+                    <input type="password" class="form-control" placeholder="" name="password1" required>
+                </div>
+                Confirm New Password
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                    </div>
+             
+                    <input type="password" class="form-control" placeholder="" name="password2" required>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end modal for changing password -->
+
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="messageContent">
+                    <!-- Messages will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block scripts %}
+<script>
+    var messages = [
+        {% if messages %}
+        {% for message in messages %}
+            "{{ message|escapejs }}",
+        {% endfor %}
+        {% endif %}
+    ];
+
+    $(document).ready(function() {
+        // Trigger the modal when you have messages to display
+        if (messages.length > 0) {
+            $('#messageModal').modal('show');
+        }
+
+        // Populate the modal content with the messages
+        var messageContent = $('#messageContent');
+        messages.forEach(function(message) {
+            messageContent.append('<p>' + message + '</p>');
+        });
+    });
+</script>
+{% endblock %}
+
+<!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+<!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="/logout">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>
+
+<!-- Add the Bootstrap bundle, which includes both Bootstrap's JavaScript and Popper.js -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- loading.js -->
+        <script src="{% static 'js/loading.js' %}"></script>
+
+<!-- Custom scripts for all pages-->
+        <script src="{% static 'js/sb-admin.min.js' %}"></script>
+        <script>
+            $(".alert-success").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-success").slideUp(500);
+            });
+            $(".alert-error").fadeTo(2000, 500).slideUp(500, function(){
+                $(".alert-error").slideUp(500);
+            });
+        </script>
+<!-- for pdf-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- for xls-->
+        <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.1/dist/xlsx.full.min.js"></script>
+
+<!-- page-loading -->
+        <script src="{% static 'js/loading.js' %}"></script>
+
+<!-- for searching other schools-->
+        <script src="{% static 'js/search.js' %}"></script>
+
+<!--  for the links in sidebar -->
+        <script src="{% static 'js/sidebar.js' %}"></script>
+
+        {% block javascript %}
+        {% endblock %}
+    </body>
+</html>

@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.loginView, name="login"),
     path("login/", views.loginView, name="login"),
     path("logout/", views.logoutView, name="logout"),
+    path("home/schools", new_views.home, name="home"),
     path("change_password/<str:school>/", views.change_password, name="change_password"),
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
@@ -132,7 +133,7 @@ urlpatterns = [
         "delete-adjustments/", new_views.delete_adjustments, name="delete_adjustments"
     ),
     path(
-        "access-charts/<str:school>", new_views.access_charts, name="access_charts"
+        "home/analytics/", new_views.access_charts, name="access_charts"
     ),
     path(
         "access-date-count/", new_views.access_date_count, name="access_date_count"

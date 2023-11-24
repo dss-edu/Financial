@@ -94,7 +94,7 @@ def loginView(request):
                         user = User.objects.create_user(username=username)
                     login(request, user)
                     
-                    return redirect('/dashboard/advantage')
+                    return redirect('/home/schools')
                 else:
                     role = user_row[2]
                     request.session['user_role'] = role
