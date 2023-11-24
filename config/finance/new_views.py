@@ -658,7 +658,7 @@ def all_schools(request, school):
             if budget != "":
                 PLbudget_counter += 1
 
-        if PLbudget_counter > 2:
+        if PLbudget_counter > 1:
             PLbudget_status ="True"
                 
                
@@ -686,7 +686,7 @@ def all_schools(request, school):
                 if revenue != "":
                     PLrevenue_counter += 1
 
-            if PLrevenue_counter > 2:
+            if PLrevenue_counter > 1:
                 PLrevenue_status ="True"
 
             PLexpense_status =f"No Expense for {month_name}"
@@ -696,7 +696,7 @@ def all_schools(request, school):
                 if expense != "":
                     PLexpense_counter += 1
 
-            if PLexpense_counter>2:
+            if PLexpense_counter>1:
                 PLexpense_status = "True"
 
             PLtotalexpense_status = f"No Expense by object for {month_name}"
@@ -706,7 +706,7 @@ def all_schools(request, school):
                 if total_expense != "":
                     PLtotalexpense_counter += 1
             
-            if PLtotalexpense_counter > 2:
+            if PLtotalexpense_counter > 1:
                 PLtotalexpense_status = "True"
       
 
