@@ -54,6 +54,11 @@ urlpatterns = [
         name="viewglfunc",
     ),
     path(
+        "viewglfunc-all/<str:school>/<str:year>/<str:url>/",
+        views.viewglfunc_all,
+        name="viewglfunc-all",
+    ),
+    path(
         "viewgldna/<str:func>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewgldna,
         name="viewgldna",
@@ -67,6 +72,11 @@ urlpatterns = [
         "viewglexpense/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewglexpense,
         name="viewglexpense",
+    ),
+    path(
+        "viewglexpense-all/<str:school>/<str:year>/<str:url>/",
+        views.viewglexpense_all,
+        name="viewglexpense-all",
     ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
     # path(

@@ -1745,7 +1745,7 @@ Variances
                 {{ totals.total_ammended }}
               </td>
               <td id="fpr-total-4" class="right-align-td top-border strong">
-                {{totals.ytd_ammended_total}}
+                {{totals.ytd_ammended_total}} 
               </td>
               <td
                 id="fpr-total-5"
@@ -1820,7 +1820,9 @@ Variances
                 {{ totals.total_revenue.08 }}
               </td>
               <td id="fpr-total-17" class="right-align-td top-border strong">
-                {{totals.ytd_total_revenue}}
+                <a id="all-revenue-ytd-total" href="#">
+                  {{totals.ytd_total_revenue}}
+                </a>
               </td>
               <td id="fpr-total-18" class="right-align-td top-border strong">
                 {{totals.variances_revenue}}
@@ -2088,7 +2090,9 @@ Variances
                 {{totals.first_total_months.08}}
               </td>
               <td id="total1-17" class="right-align-td top-border strong">
-                {{totals.first_ytd_total}}
+                <a id="total-ytd-total" href="#">
+                  {{totals.first_ytd_total}}
+                </a>
               </td>
               <td id="total1-18" class="right-align-td top-border strong">
                 {{totals.variances_first_total}}
@@ -4102,7 +4106,9 @@ Variances
                 {{totals.total_expense_months.08}}
               </td>
               <td id="EOC-total-17" class="right-align-td top-border strong">
-                {{totals.total_expense_ytd}}
+                <a id="EOC-ytd-total" href="#">
+                  {{totals.total_expense_ytd}}
+                </a>
               </td>
               <td id="EOC-total-18" class="right-align-td top-border strong">
                 {{totals.variances_total_expense}}
