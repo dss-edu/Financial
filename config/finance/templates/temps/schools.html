@@ -78,41 +78,22 @@
                 </div>
                 <div class="col-1">
                  
-            
                 </div>
-            </div>
-         
+            </div> 
         </nav> 
-
-
-
-
-        <div class="table-container"  >
-
-         
-                
-         
-            <form  id="insert-row-form" action="#" method="POST">
-        
-
+        <div class="table-container" >
+        <form  id="insert-row-form" action="#" method="POST">
                 {% csrf_token %}
-
             <div id="table-box">
-    
                 <table id="data-table" class="table table-hover" style="width: auto !important;">
                     <thead>
-
-
                     </thead>
                     <tbody id="data-table-body">
                         <tr class="header text-center" >
-            
-
                             <th><div style="width:300px;" >School Name</div></th>
                             <th><div style="width:150px;">Profit Loss</div></th>
                             <th><div style="width:150px;">Balance Sheet</div></th>
                             <th><div style="width:150px;">Cashflow</div></th>
-                       
                         </tr>
 
                         {% for row in school_data %} 
@@ -122,7 +103,7 @@
                             <td class="text-center">
                                 {% if row.PLbudget_status == "True" and row.PLrevenue_status == "True" and row.PLexpense_status == "True" and row.PLtotalexpense_status == "True" %}
 
-                                <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="Data Complete">
+                                <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="Data Complete" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
                                 {% else %}
                                 <a href="#" 
@@ -132,7 +113,9 @@
                                 title="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }};{% endif %}
                                 {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }};{% endif %}
                                 {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }};{% endif %}
-                                {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}">
+                                {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}"
+                                style="color: red;"
+                                >
                                     <i class="fa-solid fa-x"></i>
                                 {% endif %}
                                 
@@ -140,16 +123,16 @@
                             <td class="text-center">
                                
                                     {% if row.BS_status == "BALANCED" %}
-                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED">
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
                                     {% else %}
-                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED">
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED" style="color: red;">
                                     <i class="fa-solid fa-x"></i>
                                     {%endif%}
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED">
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
                                 </a>
                             </td>
@@ -187,18 +170,10 @@
                         
                                 $("#page-load-spinner").modal("show");
                                 window.location.href = "/profit-loss/" + school_key;
-                              
-                            });
-                        
-                        
-                
-                        
+                            });                   
                         });
                         
                     </script>
-
-                     
-              
                       
             </table>
             </div>
@@ -224,37 +199,8 @@
 {% block javascript %}
     <script>
         var school = "{{ school }}";
-        var year = "{{FY_year_1}}";
+   
 
-       
-var columnsCollapsed = true;
-
-
-function toggleColumns() {
-    const dataTable = document.getElementById('data-table');
-    const toggleButton = document.getElementById("toggle-button");
-    const toggleIcon = document.getElementById("toggle-icon");
-    const collapsedColumns = dataTable.getElementsByClassName("collapsed");
-    const show = document.getElementById("showCurrentMonth");
-    const hide = document.getElementById("hideCurrentMonth");
-
-    for (var i = 0; i < collapsedColumns.length; i++) {
-        if (columnsCollapsed) {
-            collapsedColumns[i].style.display = "table-cell";
-            toggleIcon.className = "fa-solid fa-chevron-left";
-            hide.style.display = "flex";
-            show.style.display = "none";
-        } else {
-            collapsedColumns[i].style.display = "none";
-            toggleIcon.className = "fa-solid fa-chevron-right";
-            hide.style.display = "none";
-            show.style.display = "flex";
-        }
-    }
-
-    // Toggle the state
-    columnsCollapsed = !columnsCollapsed;
-}
     </script>
 
 
