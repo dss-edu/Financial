@@ -654,7 +654,7 @@ def all_schools(request, school):
         PLbudget_counter = 0
         for row in data:
             budget = row.get("total_budget")
-            print(budget)
+   
             if budget != "":
                 PLbudget_counter += 1
 
@@ -667,8 +667,11 @@ def all_schools(request, school):
 
      
         if "month_exception" in months:
+            last_month_number = months["last_month_number"]
+            print(key,last_month_number)
             month_exception = months["month_exception"]
             month_exception_str = months["month_exception_str"]
+            last_month_number_str = str(last_month_number).zfill(2)
             
             total_LNA = totals_bs.get("total_LNA", {})
             total_assets = totals_bs.get("total_assets", {})
@@ -677,12 +680,12 @@ def all_schools(request, school):
 
 
       
-            month_name = month_names.get(month_exception, "Current")
+            month_name = month_names.get(last_month_number, "Current")
 
             PLrevenue_status = f"No Revenue for {month_name}"
             PLrevenue_counter = 0
             for row in data:
-                revenue = row.get(f'total_real{month_exception}')
+                revenue = row.get(f'total_real{last_month_number}')
                 if revenue != "":
                     PLrevenue_counter += 1
 
@@ -692,7 +695,7 @@ def all_schools(request, school):
             PLexpense_status =f"No Expense for {month_name}"
             PLexpense_counter = 0
             for row in data2:
-                expense = row.get(f'total_func{month_exception}')
+                expense = row.get(f'total_func{last_month_number}')
                 if expense != "":
                     PLexpense_counter += 1
 
@@ -702,7 +705,7 @@ def all_schools(request, school):
             PLtotalexpense_status = f"No Expense by object for {month_name}"
             PLtotalexpense_counter = 0        
             for row in data_expensebyobject:
-                total_expense = row.get(f'total_expense{month_exception}')
+                total_expense = row.get(f'total_expense{last_month_number}')
                 if total_expense != "":
                     PLtotalexpense_counter += 1
             
@@ -719,6 +722,7 @@ def all_schools(request, school):
             if key in schoolMonths["septemberSchool"]:
                 for month in sept:
                     if month == month_exception_str:
+         
 
                         break
                     
@@ -732,7 +736,7 @@ def all_schools(request, school):
             else:
                 for month in july:
                     if month == month_exception_str:
-
+                        
                         break
                     
                     else:
