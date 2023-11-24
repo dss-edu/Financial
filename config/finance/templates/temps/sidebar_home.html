@@ -1,0 +1,52 @@
+{% block stylesheet %}
+<style>
+
+    .activebg {
+        background-color: #4d4d4d!important; /* Change this to your desired background color */
+        color: white!important; 
+      }
+    
+</style>
+{% endblock %}
+<nav id="sidebarMenu" class="sidebar navbar-nav toggled">
+  <!-- <ul class="sidebar navbar-nav "> -->
+    <ul class="sidebar navbar-nav toggled">
+        <span> &nbsp; &nbsp; </span>
+        <li class="nav-item" >
+            <a
+                id="home-link"
+                class="nav-link"
+                href="/home/schools"
+                data-placement="right"
+                style="color: gray;"
+                
+            >
+                <i class="fa-solid fa-house"></i>
+                <span class="text-center" style="color: gray;">Schools</span>
+            </a>
+        </li>
+
+        <span>
+            <hr
+                style="background-color: gray; width: 80%; margin: auto; height: 2px"
+            />
+        </span>
+
+        <li class="nav-item" >
+            <a
+                id="analytics-link"
+                class="nav-link"
+                href="/home/analytics/"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Charter FIRST"
+                style="color: gray;"
+             
+            >
+                <i class="fa-solid fa-trophy"></i>
+                <!-- <span id="first-link2" style="color: gray;" >Analytics</span> -->
+                <span style="color: gray;" >Analytics</span>
+            </a>
+        </li>
+    </ul>
+</nav>

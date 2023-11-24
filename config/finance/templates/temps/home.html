@@ -1,0 +1,35 @@
+
+{% extends 'temps/base_home.html' %}
+{% load static %}
+
+{% block title %}
+Admin Homepage
+{% endblock %}
+
+{% block stylesheet %}
+<style>
+#chartdiv {
+  width: 100%;
+  height: 500px;
+  max-width: 100%;
+}
+</style>
+{% endblock %}
+
+
+{% block body %}
+<div class="d-flex flex-wrap p-3 w-50 h-100 justify-content-center align-items-center">
+    {% for school in schools %}
+    <a href="/dashboard/{{school}}">
+        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="logo of {{school}}" style="height:100px">
+    </a>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+{% endblock %}

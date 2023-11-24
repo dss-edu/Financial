@@ -560,12 +560,12 @@ def activity_edits(request, school):
 
 @custom_login_required
 @permission_required
-def access_charts(request, school):
-    context = {
-        'school': school,
-    }
+def access_charts(request):
+    # context = {
+    #     'school': school,
+    # }
     # close connection
-    return render(request, "temps/access-charts.html", context)
+    return render(request, "temps/access-charts.html")
 
 @custom_login_required
 @permission_required
@@ -778,3 +778,11 @@ def all_schools(request, school):
     context["username"] = username
 
     return render(request, "temps/schools.html", context)
+
+@custom_login_required
+@permission_required
+def home(request):
+    context = {
+        'schools': SCHOOLS
+    }
+    return render(request, "temps/home.html", context)
