@@ -13,6 +13,14 @@ Admin Homepage
   height: 500px;
   max-width: 100%;
 }
+
+.zoom-effect {
+  transition: transform 0.3s;  
+}
+
+.zoom-effect:hover {
+  transform: scale(1.5);  
+}
 </style>
 {% endblock %}
 
@@ -20,8 +28,14 @@ Admin Homepage
 {% block body %}
 <div class="d-flex flex-wrap p-3 w-50 h-100 justify-content-center align-items-center">
     {% for school in schools %}
-    <a href="/dashboard/{{school}}">
-        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="logo of {{school}}" style="height:100px">
+    <a href="/dashboard/{{school.school_key}}"
+    data-toggle="tooltip"
+
+    title="{{school.school_name}}"
+    class="zoom-effect"
+    >
+      
+        <img class="logo" src="{% static 'logos/'|add:school.school_key|add:'.png' %}" alt="logo of {{school.school_name}}" style="height:100px">
     </a>
     {% endfor %}
 </div>

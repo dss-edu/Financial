@@ -782,8 +782,19 @@ def all_schools(request, school):
 @custom_login_required
 @permission_required
 def home(request):
+
+    school_data = []
+    for key,name in SCHOOLS.items():
+        row_data = {
+            "school_key":key,
+            "school_name":name
+        }
+        school_data.append(row_data)
+
+
+        
     context = {
-        'schools': SCHOOLS
+        'schools': school_data
     }
     role = request.session.get('user_role')
     context["role"] = role
