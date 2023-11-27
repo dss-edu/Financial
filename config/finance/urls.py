@@ -50,12 +50,20 @@ urlpatterns = [
         "viewgl-all/<str:school>/<str:year>/<str:url>/", views.viewgl_all, name="viewgl-all"
     ),
     path(
+        "viewgl-all/<str:school>/<str:year>/<str:url>/<str:yr>", views.viewgl_all, name="viewgl-all"
+    ),
+    path(
         "viewglfunc/<str:func>/<str:yr>/<str:school>/<str:year>/<str:url>/",
         views.viewglfunc,
         name="viewglfunc",
     ),
     path(
         "viewglfunc-all/<str:school>/<str:year>/<str:url>/",
+        views.viewglfunc_all,
+        name="viewglfunc-all",
+    ),
+    path(
+        "viewglfunc-all/<str:school>/<str:year>/<str:url>/<str:yr>/",
         views.viewglfunc_all,
         name="viewglfunc-all",
     ),
@@ -76,6 +84,11 @@ urlpatterns = [
     ),
     path(
         "viewglexpense-all/<str:school>/<str:year>/<str:url>/",
+        views.viewglexpense_all,
+        name="viewglexpense-all",
+    ),
+    path(
+        "viewglexpense-all/<str:school>/<str:year>/<str:url>/<str:yr>/",
         views.viewglexpense_all,
         name="viewglexpense-all",
     ),
