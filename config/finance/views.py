@@ -907,10 +907,15 @@ def viewgl(request,fund,obj,yr,school,year,url):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewgl_all(request, school, year, url):
+def viewgl_all(request, school, year, url, yr=""):
+
     data = json.loads(request.body)
     # do something about the yr
-    yr = ['09','10']
+    if not yr:
+        yr = ['09','10']
+    else:
+        yr = [yr]
+
     try:
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
@@ -1639,7 +1644,6 @@ def viewglfunc(request,func,yr,school,year,url):
                             "Amount": amount,
                             "Budget":row[20],
                         }
-                        print(amount)
                         gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
@@ -1656,7 +1660,6 @@ def viewglfunc(request,func,yr,school,year,url):
                             "Amount": amount,
                             "Budget":row[20],
                         }
-                        print(amount)
                         gl_data.append(row_dict)
 
        
@@ -1695,8 +1698,11 @@ def viewglfunc(request,func,yr,school,year,url):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewglfunc_all(request,school,year,url):
-    yr = ['09', '10']
+def viewglfunc_all(request,school,year,url, yr=""):
+    if not yr:
+        yr = ['09', '10']
+    else:
+        yr = [yr]
     data = json.loads(request.body)
     try:
         def format_value(value):
@@ -1822,7 +1828,6 @@ def viewglfunc_all(request,school,year,url):
                             "Amount": amount,
                             "Budget":row[20],
                         }
-                        print(amount)
                         gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
@@ -1839,7 +1844,6 @@ def viewglfunc_all(request,school,year,url):
                             "Amount": amount,
                             "Budget":row[20],
                         }
-                        print(amount)
                         gl_data.append(row_dict)
 
        
@@ -1868,8 +1872,6 @@ def viewglfunc_all(request,school,year,url):
             'gl_data':gl_data,
             'total_bal':total_bal
             }
-        print(context)
-
         
         cursor.close()
         cnxn.close()
@@ -2269,9 +2271,12 @@ def viewglexpense(request,obj,yr,school,year,url):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)})
 
-def viewglexpense_all(request,school,year,url):
+def viewglexpense_all(request,school,year,url,yr=""):
     data = json.loads(request.body)
-    yr = ['09', '10']
+    if not yr:
+        yr = ['09', '10']
+    else:
+        yr = [yr]
     try:
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 

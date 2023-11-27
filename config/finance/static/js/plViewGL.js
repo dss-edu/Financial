@@ -367,28 +367,57 @@ document.addEventListener("DOMContentLoaded", function () {
   //////////////////////////// For the totals of each section /////////////////////////////
   // Local Revenue YTD Total
   const localRevenueYtd = document.getElementById('local-revenue-ytd-total')
-  localRevenueYtd.addEventListener('click', () => viewglAll('.local-revenue-row'))
+  localRevenueYtd.addEventListener('click', () => viewglAll({classes:'.local-revenue-row'}))
+
+  // local revenue total for each month
+  const localTotals = document.querySelectorAll('.local-total')
+  for(let i=0; i < localTotals.length; i++){
+    const month = localTotals[i].dataset.yr
+    localTotals[i].addEventListener('click', () => viewglAll({classes:'.local-revenue-row', yr:month}))
+
+  }
 
   // State Program Revenue YTD Total
   const stateRevenueYtd = document.getElementById('state-revenue-ytd-total')
-  stateRevenueYtd.addEventListener('click', () => viewglAll('.spr-row'))
+  stateRevenueYtd.addEventListener('click', () => viewglAll({classes: '.spr-row'}))
+
+  // state program revenue total for each month
+  const sprTotals = document.querySelectorAll('.spr-total')
+  for(let i=0; i < sprTotals.length; i++){
+    const month = sprTotals[i].dataset.yr
+    sprTotals[i].addEventListener('click', () => viewglAll({classes:'.spr-row', yr:month}))
+  }
 
   // Federal Revenuew YTD Total
   const federalRevenueYtd = document.getElementById('federal-revenue-ytd-total')
-  federalRevenueYtd.addEventListener('click', () => viewglAll('.fpr-row'))
+  federalRevenueYtd.addEventListener('click', () => viewglAll({classes:'.fpr-row'}))
+
+  // federal revenue total for each month
+  const fprTotals = document.querySelectorAll('.fpr-total')
+  for(let i=0; i < fprTotals.length; i++){
+    const month = fprTotals[i].dataset.yr
+    fprTotals[i].addEventListener('click', () => viewglAll({classes:'.fpr-row', yr:month}))
+  }
 
   // Revenue YTD Total
   const revenueYtd = document.getElementById('all-revenue-ytd-total')
-  revenueYtd.addEventListener('click', () => viewglAll(['.local-revenue-row', '.spr-row', '.fpr-row']))
+  revenueYtd.addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row']}))
 
-  async function viewglAll(className){
+  // revenue total for each month
+  const revenueTotals = document.querySelectorAll('.total-revenue')
+  for(let i=0; i < revenueTotals.length; i++){
+    const month = revenueTotals[i].dataset.yr
+    revenueTotals[i].addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row'], yr:month}))
+  }
+
+  async function viewglAll({classes, yr}){
     $("#spinner-modal").modal("show");
     let rows
-    if (typeof className === 'string' ){
-      rows = document.querySelectorAll(className)
+    if (typeof classes === 'string' ){
+      rows = document.querySelectorAll(classes)
     }
     else {
-      rows = document.querySelectorAll(className.join(', '))
+      rows = document.querySelectorAll(classes.join(', '))
     }
 
     const data = []
@@ -401,8 +430,15 @@ document.addEventListener("DOMContentLoaded", function () {
       })
     }
 
+    let fetchString
+    if(yr){
+      fetchString = `/viewgl-all/${school}/${year}/${url}/${yr}`
+    } else {
+      fetchString = `/viewgl-all/${school}/${year}/${url}/`
+    }
+
     const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
-    fetch(`/viewgl-all/${school}/${year}/${url}/`, {
+    fetch(fetchString, {
       method: "POST",
       mode: "same-origin",
       headers: {
@@ -428,16 +464,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const totalYtdTotal = document.getElementById('total-ytd-total')
-  totalYtdTotal.addEventListener('click', () => viewglFuncAll('.total-row1'))
+  totalYtdTotal.addEventListener('click', () => viewglFuncAll({classes:'.total-row1'}))
 
-  async function viewglFuncAll(className){
+  const firstTotals = document.querySelectorAll('.first-total')
+  for(let i=0; i < firstTotals.length; i++){
+    const month = firstTotals[i].dataset.yr
+    firstTotals[i].addEventListener('click', () => viewglFuncAll({classes:'.total-row1',yr:month}))
+
+  }
+
+  async function viewglFuncAll({classes, yr}){
     $("#spinner-modal").modal("show");
     let rows
-    if (typeof className === 'string' ){
-      rows = document.querySelectorAll(className)
+    if (typeof classes === 'string' ){
+      rows = document.querySelectorAll(classes)
     }
     else {
-      rows = document.querySelectorAll(className.join(', '))
+      rows = document.querySelectorAll(classes.join(', '))
     }
 
     const data = []
@@ -447,8 +490,15 @@ document.addEventListener("DOMContentLoaded", function () {
       data.push(aTag.dataset.func)
     }
 
+    let fetchString
+    if(yr){
+      fetchString = `/viewglfunc-all/${school}/${year}/${url}/${yr}/`
+    } else {
+      fetchString =  `/viewglfunc-all/${school}/${year}/${url}/`
+    }
+
     const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
-    fetch(`/viewglfunc-all/${school}/${year}/${url}/`, {
+    fetch(fetchString, {
       method: "POST",
       mode: "same-origin",
       headers: {
@@ -474,16 +524,82 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   }
 
+  // Payroll row
+  const payrollYtdTotal = document.getElementById('payroll-ytd-total')
+  payrollYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.payroll-row'}))
+
+  // payroll total per month
+  const payrollTotals = document.querySelectorAll('.payroll-total')
+  for(let i=0; i<payrollTotals.length; i++){
+    const month = payrollTotals[i].dataset.yr
+    payrollTotals[i].addEventListener('click', () => viewglExpenseAll({classes:'.payroll-row', yr:month}))
+
+  }
+
+  // Professional and Contract Services
+  const professionalYtdTotal = document.getElementById('professional-ytd-total')
+  professionalYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.PCS-row'}))
+
+  // professional and contract services total per month
+  const proTotals = document.querySelectorAll('.professional-total')
+  for(let i=0; i<proTotals.length; i++){
+    const month = proTotals[i].dataset.yr
+    proTotals[i].addEventListener('click', () => viewglExpenseAll({classes:'.PCS-row', yr:month}))
+
+  }
+
+  // Supplies and Materials
+  const suppliesYtdTotal = document.getElementById('supplies-ytd-total')
+  suppliesYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.sm-row'}))
+
+  //  supplies and materials total per month
+  const suppliesTotals = document.querySelectorAll('.supplies-total')
+  for(let i=0; i<suppliesTotals.length; i++){
+    const month = suppliesTotals[i].dataset.yr
+    suppliesTotals[i].addEventListener('click', () => viewglExpenseAll({classes:'.sm-row', yr:month}))
+  }
+
+  // Other operating costs
+  const otherYtdTotal = document.getElementById('other-ytd-total')
+  otherYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.ooe-row'}))
+
+  //  other operating cost total per month
+  const otherTotals = document.querySelectorAll('.other-total')
+  for(let i=0; i<otherTotals.length; i++){
+    const month = otherTotals[i].dataset.yr
+    otherTotals[i].addEventListener('click', () => viewglExpenseAll({classes:'.ooe-row', yr:month}))
+  }
+
+  // Debt Services
+  const debtYtdTotal = document.getElementById('debt-ytd-total')
+  debtYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.expense-row'}))
+
+  //  debt services total per month
+  const debtTotals = document.querySelectorAll('.ds-total')
+  for(let i=0; i<debtTotals.length; i++){
+    const month = debtTotals[i].dataset.yr
+    debtTotals[i].addEventListener('click', () => viewglExpenseAll({classes:'.expense-row', yr:month}))
+  }
+
+  // Expense all 
   const EocYtdTotal = document.getElementById('EOC-ytd-total')
-  EocYtdTotal.addEventListener('click', () => {viewglExpenseAll('.PCS-row')})
-  async function viewglExpenseAll(className){
+  EocYtdTotal.addEventListener('click', () => {viewglExpenseAll({classes:['.expense-row', '.ooe-row', '.sm-row', '.PCS-row', '.payroll-row']})})
+
+  const EocTotals = document.querySelectorAll('.EOC-total')
+  for (let i=0; i<EocTotals.length; i++){
+    const month = EocTotals[i].dataset.yr
+    EocTotals[i].addEventListener('click', () => {viewglExpenseAll({classes:['.expense-row', '.ooe-row', '.sm-row', '.PCS-row', '.payroll-row'], yr:month})})
+
+  }
+
+  async function viewglExpenseAll({classes, yr}){
     $("#spinner-modal").modal("show");
     let rows
-    if (typeof className === 'string' ){
-      rows = document.querySelectorAll(className)
+    if (typeof classes === 'string' ){
+      rows = document.querySelectorAll(classes)
     }
     else {
-      rows = document.querySelectorAll(className.join(', '))
+      rows = document.querySelectorAll(classes.join(', '))
     }
 
     const data = []
@@ -493,8 +609,15 @@ document.addEventListener("DOMContentLoaded", function () {
       data.push(aTag.dataset.obj)
     }
 
+    let fetchString
+    if(yr){
+      fetchString =`/viewglexpense-all/${school}/${year}/${url}/${yr}/`
+    } else {
+      fetchString =`/viewglexpense-all/${school}/${year}/${url}/`
+    }
+
     const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
-    fetch(`/viewglexpense-all/${school}/${year}/${url}/`, {
+    fetch(fetchString, {
       method: "POST",
       mode: "same-origin",
       headers: {
