@@ -38,6 +38,7 @@ from .decorators import permission_required,custom_login_required
 from config import settings
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib import messages
+import csv
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
@@ -7943,5 +7944,154 @@ def generate_excel(request,school,anchor_year):
 
     # Remove the generated Excel file (optional)
     os.remove(generated_excel_path)
+
+    return response
+
+def download_csv(request,school):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="GL.csv"'
+    print(school)
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    
+    current_date = datetime.today().date()   
+    current_year = current_date.year
+    start_year = current_year
+    accper_month_number = int(current_date.strftime("%m"))
+
+    accper_str = str(accper_month_number).zfill(2)
+    print(accper_str)
+
+    FY_year_1 = start_year
+    FY_year_2 = start_year + 1 
+    july_date_start  = datetime(FY_year_1, 7, 1).date()
+    july_date_end  = datetime(FY_year_2, 6, 30).date()
+    september_date_start  = datetime(FY_year_1, 9, 1).date()
+    september_date_end  = datetime(FY_year_2, 8, 31).date()
+
+    if school in schoolCategory["ascender"]:
+        cursor.execute(
+            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+        )
+    else:
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+    rows = cursor.fetchall()
+    data3 = []
+    
+    if school in schoolMonths["julySchool"]:
+        current_month = july_date_start
+    else:
+        current_month = september_date_start
+    
+
+    if school in schoolCategory["ascender"]:
+        for row in rows:
+            expend = float(row[17])
+            date = row[11]
+            if isinstance(row[11], datetime):
+                date = row[11].strftime("%Y-%m-%d")
+            acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+            acct_per_month = acct_per_month_string.strftime("%m")
+            db_date = row[22].split('-')[0]
+            if isinstance(row[11],datetime):
+                date_checker = row[11].date()
+            else:
+                date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+               
+
+            #convert data
+            db_date = int(db_date)
+            curr_fy = int(FY_year_1)
+
+                
+            if db_date == curr_fy:
+                if accper_str != row[12]:
+                        
+                    row_dict = {
+                        "fund": row[0],
+                        "func": row[1],
+                        "obj": row[2],
+                        "sobj": row[3],
+                        "org": row[4],
+                        "fscl_yr": row[5],
+                        "pgm": row[6],
+                        "edSpan": row[7],
+                        "projDtl": row[8],
+                        "AcctDescr": row[9],
+                        "Number": row[10],
+                        "Date": date,
+                        "AcctPer": row[12],
+                        "Est": row[13],
+                        "Real": row[14],
+                        "Appr": row[15],
+                        "Encum": row[16],
+                        "Expend": expend,
+                        "Bal": row[18],
+                        "WorkDescr": row[19],
+                        "Type": row[20],
+                        "Contr": row[21],
+                    }
+                    data3.append(row_dict)
+            
+    
+    else:        
+        for row in rows:
+            amount = float(row[19])
+            date = row[9]
+            
+            if isinstance(row[9], datetime):
+                date = row[9].strftime("%Y-%m-%d")
+            acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+            acct_per_month = acct_per_month_string.strftime("%m")
+            if isinstance(row[9], (datetime, datetime.date)):
+                date_checker = row[9].date()
+            else:
+                date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+            if school in schoolMonths["julySchool"]:
+            
+                if date_checker >= july_date_start and date_checker <= july_date_end:
+                    if accper_str != row[10]:
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
+                        data3.append(row_dict)
+            else:
+                if date_checker >= september_date_start and date_checker <= september_date_end:
+                    if accper_str != row[10]:
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer": row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                        }
+                        data3.append(row_dict)
+
+
+    csv_writer = csv.writer(response)
+
+    if school in schoolCategory["ascender"]:
+        csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type','Contr'])  
+        for row in data3:
+            csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'],row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type'],row['fund'],row['Contr']])        
+    else:
+        csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'Date', 'AcctPer', 'Amount', 'Budget'])  
+        for row in data3:
+            csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Date'],row['AcctPer'],row['Amount'],row['Budget']])
 
     return response

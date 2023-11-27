@@ -103,9 +103,11 @@
                     <tbody id="data-table-body">
                         <tr class="header text-center" >
                             <th><div style="width:300px;" >School Name</div></th>
+                            <th><div style="width:150px;">Profit Loss Budget</div></th>
                             <th><div style="width:150px;">Profit Loss</div></th>
                             <th><div style="width:150px;">Balance Sheet</div></th>
                             <th><div style="width:150px;">Cashflow</div></th>
+                            <th><div style="width:150px;">Download GL</div></th>
                         </tr>
 
                         {% for row in school_data %} 
@@ -113,16 +115,33 @@
                         
                             <td>{{row.school_name}}</td>
                             <td class="text-center">
-                                {% if row.PLbudget_status == "True" and row.PLrevenue_status == "True" and row.PLexpense_status == "True" and row.PLtotalexpense_status == "True" %}
+                                {% if row.PLbudget_status == "True" %}
 
-                                <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="Data Complete" style="color: lightgreen;">
+                                <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="Has Budget" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
                                 {% else %}
                                 <a href="#" 
                                 class="viewPL" 
                                 data-school="{{row.school_key}}" 
                                 data-toggle="popover"
-                                data-content="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }}<br>{% endif %}
+                                data-content="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }}<br>{% endif %}"
+                                style="color: red;"
+                                >
+                                    <i class="fa-solid fa-x"></i>
+                                {% endif %}
+                                
+                            </td>
+                            <td class="text-center">
+                                {% if row.PLrevenue_status == "True" and row.PLexpense_status == "True" and row.PLtotalexpense_status == "True" and row.pl_balanced == "True" %}
+
+                                <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
+                                {% else %}
+                                <a href="#" 
+                                class="viewPL" 
+                                data-school="{{row.school_key}}" 
+                                data-toggle="popover"
+                                data-content=" {% if row.pl_balanced != 'True' %} {{ row.pl_balanced }}<br>{% endif %}
                                 {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }}<br>{% endif %}
                                 {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }}<br>{% endif %}
                                 {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}"
@@ -132,6 +151,7 @@
                                 {% endif %}
                                 
                             </td>
+
                             <td class="text-center">
                                
                                     {% if row.BS_status == "BALANCED" %}
@@ -145,6 +165,12 @@
                             </td>
                             <td class="text-center">
                                 <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
+                                </a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="{% url 'download_csv' row.school_key %}"   data-toggle="tooltip" title="Download GL" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
                                 </a>
                             </td>

@@ -92,6 +92,11 @@ urlpatterns = [
         views.viewglexpense_all,
         name="viewglexpense-all",
     ),
+    path(
+        "download-csv/<str:school>/",
+        views.download_csv,
+        name="download_csv",
+    ),
     # path("generate_excel/", new_views.generate_excel, name="generate_excel"),
     # path(
     #     "viewgl_cumberland/<str:fund>/<str:obj>/<str:yr>/",

@@ -650,6 +650,9 @@ def all_schools(request, school):
         with open(os.path.join(js_path, "data2.json"), "r") as f:
             data2 = json.load(f)
 
+        with open(os.path.join(js_path, "totals.json"), "r") as f:
+            totals = json.load(f)
+
         with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
             data_expensebyobject = json.load(f)
 
@@ -686,8 +689,16 @@ def all_schools(request, school):
             total_assets = totals_bs.get("total_assets", {})
             month_exception_str = months["month_exception_str"]
 
+            ytd_netsurplus = totals["ytd_netsurplus"]
+            variances_netsurplus = totals["variances_netsurplus"]
+            ytd_netincome = totals["ytd_net_income"]
+            variances_netincome = totals["variances_net_income"]
 
-
+            pl_balanced = "Not Balanced"
+            if ytd_netsurplus == ytd_netincome and variances_netsurplus == variances_netincome:
+                pl_balanced = "True"
+                print("itsTRUE")
+ 
       
             month_name = month_names.get(last_month_number, "Current")
 
@@ -766,6 +777,7 @@ def all_schools(request, school):
                 "PLrevenue_status":PLrevenue_status,
                 "PLexpense_status":PLexpense_status,
                 "PLtotalexpense_status":PLtotalexpense_status,
+                "pl_balanced":pl_balanced,
             }
             school_data.append(row_data)
         else:
@@ -778,6 +790,7 @@ def all_schools(request, school):
                 "PLrevenue_status":PLrevenue_status,
                 "PLexpense_status":PLexpense_status,
                 "PLtotalexpense_status":PLtotalexpense_status,
+                "pl_balanced":pl_balanced,
             }
             school_data.append(row_data)
 
