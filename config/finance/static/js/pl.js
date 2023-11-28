@@ -45,14 +45,20 @@ function toggleColumns() {
         if (columnsCollapsed) {
             collapsedColumns[i].style.display = "table-cell";
             toggleIcon.className = "fa-solid fa-chevron-left";
-            hide.style.display = "flex";
-            show.style.display = "none";
+
+            // hide.style.display = "flex";
+            // show.style.display = "none";
         } else {
             collapsedColumns[i].style.display = "none";
             toggleIcon.className = "fa-solid fa-chevron-right";
             hide.style.display = "none";
             show.style.display = "flex";
         }
+    }
+    if(showcurr == 'True'){
+      showcurrentMonth();
+    }else{
+      hidecurrentMonth();
     }
 
     // Toggle the state

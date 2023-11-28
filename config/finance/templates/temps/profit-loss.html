@@ -608,7 +608,7 @@
       </div>
       <!-- {% if request.user|has_group:"admin" %} -->
 
-      <script>
+      {% comment %} <script>
         document
           .getElementById("edit-button")
           .addEventListener("click", function () {
@@ -640,7 +640,7 @@
               cell.contentEditable = "false";
             });
           });
-      </script>
+      </script> {% endcomment %}
       <!-- {% endif %} -->
 
       {% csrf_token %}
@@ -769,7 +769,7 @@
               document.addEventListener("DOMContentLoaded", function () {
                 document.getElementById("showCurrentMonth").addEventListener("click", function () {
       
-                  toggleColumns();
+     
          
                   showcurrentMonth();
                   document.getElementById("showCurrentMonth").style.display = "none";
@@ -779,8 +779,8 @@
                 document.getElementById("hideCurrentMonth").addEventListener("click", function () {
       
 
-                  toggleColumns();
-                  showcurrentMonth();
+            
+                  hidecurrentMonth();
                   document.getElementById("hideCurrentMonth").style.display = "none";
                   document.getElementById("showCurrentMonth").style.display = "flex";
       
@@ -795,31 +795,61 @@
               } else {
                 last_month_number2 += 10;
               }
-            
-  
-                           
+              var showcurr = "";
+        
+              var columnsCollapsed3 = true;
+              
+
               function showcurrentMonth() {
-                for (var i = last_month_number2; i <= 17; i++) {
-                  var columnsToHide = document.querySelectorAll(
-                    "#data-table th:nth-child(" +
-                      i +
-                      "), #data-table td:nth-child(" +
-                      i +
-                      ")"
-                  );
-
-                  for (var j = 0; j < columnsToHide.length; j++) {
-                    columnsToHide[j].style.display = "none";
-                  }
-                }
-
-                var lm = last_month_number2 - 1;
+                var showcurr = "True";
+          
+                var lm = last_month_number ;
+                console.log(lm)
                 var columnsToHide2 = document.querySelectorAll(
-                  "#data-table td:nth-child(" + lm + ")"
+                  "#data-table th:nth-child(" +
+                  lm +
+                  "), #data-table td:nth-child(" +
+                  lm +
+                  ")"
                 );
             
                 for (var k = 0; k < columnsToHide2.length; k++) {
-                    columnsToHide2[k].classList.add("hidden-column");
+           
+                  columnsToHide2[k].style.display = "table-cell";
+                  
+                }
+
+                var colorColumn = document.querySelectorAll(
+                  "#data-table td:nth-child(" + lm + ")"
+                );
+
+                for (var k = 0; k < colorColumn.length; k++) {
+                  colorColumn[k].classList.add("hidden-column");
+                
+                  
+                }
+
+            
+              }
+
+                           
+              function hidecurrentMonth() {
+    
+                var showcurr = "False";
+                var lm = last_month_number ;
+                console.log(lm)
+                var columnsToHide2 = document.querySelectorAll(
+                  "#data-table th:nth-child(" +
+                  lm +
+                  "), #data-table td:nth-child(" +
+                  lm +
+                  ")"
+                );
+            
+                for (var k = 0; k < columnsToHide2.length; k++) {
+                  
+                  columnsToHide2[k].style.display = "none";
+                  
                 }
               }
        
