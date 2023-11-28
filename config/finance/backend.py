@@ -55,13 +55,13 @@ def update_fy(school,year):
 
 
     profit_loss(school,year) 
-    # balance_sheet(school,year)
-    # cashflow(school,year)
-    # excel(school,year)
-    # charter_first(school)
-    # updateGraphDB(school, True)
-    # profit_loss_chart(school)
-    # profit_loss_date(school)
+    balance_sheet(school,year)
+    cashflow(school,year)
+    excel(school,year)
+    charter_first(school)
+    updateGraphDB(school, True)
+    profit_loss_chart(school)
+    profit_loss_date(school)
     
 def profit_loss(school,year):
     print("profit_loss")
