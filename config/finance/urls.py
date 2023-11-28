@@ -142,6 +142,8 @@ urlpatterns = [
     path("cashflow-statement/<str:school>/<int:anchor_year>", new_views.cashflow),
     path("cashflow-statement-charts/<str:school>", new_views.cashflow_charts),
     path("general-ledger/<str:school>", new_views.general_ledger),
+    path("general-ledger-range/<str:school>/<str:date_start>/<str:date_end>", new_views.general_ledger_range),
+    path("general-ledger-range/<str:school>", new_views.general_ledger_range),
     path("manual-adjustments/<str:school>", new_views.manual_adjustments),
     path("add-adjustments/", new_views.add_adjustments, name="add_adjustments"),
     path(
