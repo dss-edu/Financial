@@ -224,14 +224,14 @@
                                 event.preventDefault();
                                 var school_id = $(this).attr("id");
     
-                                // Show the spinner
+                               
                                 $("#spinner-modal").modal("show");
                             
-                                // Trigger the download using Fetch API
+                             
                                 fetch('/download-csv/' + school_id)
                                     .then(function (response) {
 
-                                        // Create a blob from the response and initiate the download
+                                        
                                         return response.blob();
                                     })
                                     .then(function (blob) {
