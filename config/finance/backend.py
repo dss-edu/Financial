@@ -55,13 +55,13 @@ def update_fy(school,year):
 
 
     profit_loss(school,year) 
-    balance_sheet(school,year)
-    cashflow(school,year)
-    excel(school,year)
-    charter_first(school)
-    updateGraphDB(school, True)
-    profit_loss_chart(school)
-    profit_loss_date(school)
+    # balance_sheet(school,year)
+    # cashflow(school,year)
+    # excel(school,year)
+    # charter_first(school)
+    # updateGraphDB(school, True)
+    # profit_loss_chart(school)
+    # profit_loss_date(school)
     
 def profit_loss(school,year):
     print("profit_loss")
@@ -1138,6 +1138,7 @@ def profit_loss(school,year):
                 item["variances"] = ytd_budget_te - ytd_EOC_te
                 item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
             else:
+                print(obj)
                 category = "FIXED/CAPITAL ASSETS"
                 item["variances"] = ytd_budget_cpa - ytd_EOC_cpa
                 item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_cpa / total_budget_cpa*100))) if total_budget_cpa != 0 else ""

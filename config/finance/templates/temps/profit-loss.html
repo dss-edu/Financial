@@ -4076,9 +4076,10 @@ Variances
             {%endfor%}
             <!-- END OF OPEARTING EXPENSE-->
 
-            {% for row in data_activities %} {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
+            {% for row in data_activities %} 
+            {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
 
-            <tr id="row10-{{ forloop.counter }}" class="expense-row">
+            <tr id="row13-{{ forloop.counter }}" class="expense-row">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -7535,7 +7536,7 @@ Variances
             {% for row in data_activities %} 
             {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
 
-            <tr id="row10-{{ forloop.counter }}" class="expense-row">
+            <tr id="row13-{{ forloop.counter }}" class="expense-row">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
