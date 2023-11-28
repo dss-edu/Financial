@@ -170,7 +170,7 @@
                             </td>
 
                             <td class="text-center">
-                                <a href="{% url 'download_csv' row.school_key %}"   data-placement="right" data-toggle="tooltip" title="Download {{row.school_name}}GL" style="color: #007bff;">
+                                <a href="{% url 'download_csv' row.school_key %}"  class="DLGL"  data-toggle="tooltip" title="Download {{row.school_name}} GL" style="color: #007bff;">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
                             </td>
@@ -217,7 +217,29 @@
                         
                                 $("#page-load-spinner").modal("show");
                                 window.location.href = "/profit-loss/" + school_key;
-                            });                   
+                            });
+                            
+                            $(".DLGL").on("click", function (event) {
+                                $("#page-load-spinner").modal("show");                            
+                               
+                                var downloadLink = $(this).attr("href");
+                            
+                               
+                                $.ajax({
+                                    type: "GET",
+                                    url: downloadLink,
+                                    success: function (data) {
+                                        console.log("Success")
+                                    },
+                                    complete: function () {
+                                        console.log("Hidden")
+                                        $("#page-load-spinner").modal("hide");
+                                    },
+                                });
+                            
+                              
+                          
+                            });
                         });
                         
                     </script>

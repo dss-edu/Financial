@@ -8054,13 +8054,24 @@ def download_csv(request,school):
                     if accper_str != row[10]:
                         row_dict = {
                             "fund": row[0],
+                            "T":row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "Pl":row[7],
+                            "LOC":row[8],         
                             "Date": date,
                             "AcctPer":row[10],
+                            "Source":row[11],
+                            "Subsource":row[12],
+                            "Batch":row[13],
+                            "Vendor":row[14],
+                            "TransactionDescr":row[15],
+                            "InvoiceDate":row[16],
+                            "CheckNumber":row[17],
+                            "CheckDate":row[18],
                             "Amount": amount,
                             "Budget":row[20],
                         }
@@ -8070,13 +8081,24 @@ def download_csv(request,school):
                     if accper_str != row[10]:
                         row_dict = {
                             "fund": row[0],
+                            "T":row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "Pl":row[7],
+                            "LOC":row[8],         
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":row[10],
+                            "Source":row[11],
+                            "Subsource":row[12],
+                            "Batch":row[13],
+                            "Vendor":row[14],
+                            "TransactionDescr":row[15],
+                            "InvoiceDate":row[16],
+                            "CheckNumber":row[17],
+                            "CheckDate":row[18],
                             "Amount": amount,
                             "Budget":row[20],
                         }
@@ -8090,8 +8112,8 @@ def download_csv(request,school):
         for row in data3:
             csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'],row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type'],row['fund'],row['Contr']])        
     else:
-        csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'Date', 'AcctPer', 'Amount', 'Budget'])  
+        csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget'])  
         for row in data3:
-            csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Date'],row['AcctPer'],row['Amount'],row['Budget']])
-
+            csv_writer.writerow([row['fund'],row['T'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Pl'],row['LOC'],row['Date'],row['AcctPer'],row['Source'],row['Subsource'],row['Batch'],row['Vendor'],row['TransactionDescr'],row['InvoiceDate'],row['CheckNumber'],row['CheckDate'],row['Amount'],row['Budget']])
+    print("done")
     return response

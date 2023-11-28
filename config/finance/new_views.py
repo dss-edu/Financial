@@ -53,7 +53,7 @@ def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
             
         update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
         cursor.execute(update_query, (data, school,anchor_year ,anchor_month ))
-        print("1")
+   
     else:
         # select_query = "SELECT * FROM [dbo].[Reports] WHERE school = ? and year = ? and month = ?"
         # cursor.execute(select_query,(school,curr_fy, last_month_number))
@@ -64,7 +64,7 @@ def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
 
         update_query = "UPDATE [dbo].[Reports] SET notes = ? WHERE school = ? and year = ? and month = ?"
         cursor.execute(update_query, (data, school,curr_fy,last_month_number))
-        print("2")
+      
     # update_query = "UPDATE [dbo].[Report] SET notes = ?"
     # cursor.execute(update_query, data)
 
@@ -115,7 +115,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
         else:
             cursor.execute(query, school_name,curr_fy,last_month_number)
         row = cursor.fetchone()
-        print(row)
+       
         if row is None:
             # Insert query if it does noes exists
             insert_query = "INSERT INTO [dbo].[Reports] (school, accomplishments, activities, agendas, year, month) VALUES (?, ?, ?, ?,?,?)"
@@ -136,7 +136,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
 
             # Commit the transaction
             cnxn.commit()
-            print("inserted")
+       
         else:
             # row = (school, accomplishments, activities)
             if row[1]:
@@ -636,7 +636,7 @@ def all_schools(request, school):
     school_data = []
     BS_status=""
     for key,value in SCHOOLS.items():
-        print(key,value)
+        
    
         BS_status = ""
         pl_path = os.path.join("profit-loss", key)
@@ -680,7 +680,7 @@ def all_schools(request, school):
      
         if "month_exception" in months:
             last_month_number = months["last_month_number"]
-            print(key,last_month_number)
+           
             month_exception = months["month_exception"]
             month_exception_str = months["month_exception_str"]
             last_month_number_str = str(last_month_number).zfill(2)
@@ -697,8 +697,7 @@ def all_schools(request, school):
             pl_balanced = "Not Balanced"
             if ytd_netsurplus == ytd_netincome and variances_netsurplus == variances_netincome:
                 pl_balanced = "True"
-                print("itsTRUE")
- 
+               
       
             month_name = month_names.get(last_month_number, "Current")
 
