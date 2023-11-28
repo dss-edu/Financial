@@ -386,6 +386,7 @@ def profit_loss(school,year):
                 data_activities.append(row_dict)
 
         def format_value_dollars(value):
+            value = round(value,2)
             if value > 0:
                 return "${:,.0f}".format(round(value))
             elif value < 0:
@@ -393,6 +394,7 @@ def profit_loss(school,year):
             else:
                 return ""
         def format_value(value):
+
             if value > 0:
                 return "{:,.0f}".format(round(value))
             elif value < 0:
@@ -401,6 +403,7 @@ def profit_loss(school,year):
                 return ""
 
         def format_value_dollars_negative(value):
+            value = round(value,2)
             if value > 0:
                 return "$({:,.0f})".format(abs(round(value)))
                 
@@ -1290,7 +1293,7 @@ def profit_loss(school,year):
         
         total_SBD = {acct_per: format_value_dollars(value) for acct_per, value in total_SBD.items() if value != 0}
         
-
+        print("ytdnet",ytd_netsurplus)
         #FORMAT NET SURPLUS 
         ammended_budget_netsurplus = format_value_dollars(ammended_budget_netsurplus)
         ytd_ammended_netsurplus = format_value_dollars(ytd_ammended_netsurplus)
@@ -1372,6 +1375,7 @@ def profit_loss(school,year):
         total_expense_ytd = format_value_dollars(total_expense_ytd)
         variances_total_expense =format_value_dollars(variances_total_expense)
             
+        print("ytd_netincome",ytd_net_income)
         #FORMAT NET INCOME
         budget_net_income = format_value_dollars(budget_net_income)
         ytd_budget_net_income = format_value_dollars(ytd_budget_net_income)
