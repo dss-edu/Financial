@@ -170,7 +170,7 @@
                             </td>
 
                             <td class="text-center">
-                                <a href="{% url 'download_csv' row.school_key %}"  class="DLGL"  data-toggle="tooltip" title="Download {{row.school_name}} GL" style="color: #007bff;">
+                                <a id="{{row.school_key}}"  class="DLGL"  data-toggle="tooltip" title="Download {{row.school_name}} GL" style="color: #007bff;">
                                     <i class="fa-solid fa-download"></i>
                                 </a>
                             </td>
@@ -220,25 +220,36 @@
                             });
                             
                             $(".DLGL").on("click", function (event) {
-                                $("#page-load-spinner").modal("show");                            
-                               
-                                var downloadLink = $(this).attr("href");
+                                              
+                                event.preventDefault();
+                                var school_id = $(this).attr("id");
+    
+                                // Show the spinner
+                                $("#spinner-modal").modal("show");
                             
-                               
-                                $.ajax({
-                                    type: "GET",
-                                    url: downloadLink,
-                                    success: function (data) {
-                                        console.log("Success")
-                                    },
-                                    complete: function () {
-                                        console.log("Hidden")
-                                        $("#page-load-spinner").modal("hide");
-                                    },
-                                });
-                            
-                              
-                          
+                                // Trigger the download using Fetch API
+                                fetch('/download-csv/' + school_id)
+                                    .then(function (response) {
+
+                                        // Create a blob from the response and initiate the download
+                                        return response.blob();
+                                    })
+                                    .then(function (blob) {
+                                        var url = window.URL.createObjectURL(blob);
+                                        var a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = `${school_id}_GL.csv`;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        document.body.removeChild(a);
+                                        window.URL.revokeObjectURL(url);
+                                    })
+                                    .catch(function (error) {
+                                        console.error('Error generating Excel:', error);
+                                    }).finally(function (){
+                                        $('#spinner-modal').modal('hide');
+                                    });
+
                             });
                         });
                         
@@ -271,6 +282,7 @@
    
 
     </script>
+
 
 
 

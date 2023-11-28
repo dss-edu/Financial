@@ -7949,7 +7949,7 @@ def generate_excel(request,school,anchor_year):
 
 def download_csv(request,school):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="GL.csv"'
+    response['Content-Disposition'] = f'attachment; filename="{school}_GL.csv"'
     print(school)
     cnxn = connect()
     cursor = cnxn.cursor()
