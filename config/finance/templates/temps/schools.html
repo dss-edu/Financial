@@ -103,7 +103,7 @@
                     <tbody id="data-table-body">
                         <tr class="header text-center" >
                             <th><div style="width:300px;" >School Name</div></th>
-                            <th><div style="width:150px;">Profit Loss Budget</div></th>
+                            <th><div style="width:150px;">Budget</div></th>
                             <th><div style="width:150px;">Profit Loss</div></th>
                             <th><div style="width:150px;">Balance Sheet</div></th>
                             <th><div style="width:150px;">Cashflow</div></th>
@@ -170,8 +170,8 @@
                             </td>
 
                             <td class="text-center">
-                                <a href="{% url 'download_csv' row.school_key %}"   data-toggle="tooltip" title="Download GL" style="color: lightgreen;">
-                                    <i class="fa-solid fa-check"></i>
+                                <a href="{% url 'download_csv' row.school_key %}"   data-placement="right" data-toggle="tooltip" title="Download {{row.school_name}}GL" style="color: #007bff;">
+                                    <i class="fa-solid fa-download"></i>
                                 </a>
                             </td>
                         </tr>
