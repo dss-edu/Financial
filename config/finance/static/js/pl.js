@@ -34,12 +34,14 @@ var columnsCollapsed = true;
 
 
 function toggleColumns() {
+  console.log(showcurr)
     const dataTable = document.getElementById('data-table');
     const toggleButton = document.getElementById("toggle-button");
     const toggleIcon = document.getElementById("toggle-icon");
     const collapsedColumns = dataTable.getElementsByClassName("collapsed");
     const show = document.getElementById("showCurrentMonth");
     const hide = document.getElementById("hideCurrentMonth");
+
 
     for (var i = 0; i < collapsedColumns.length; i++) {
         if (columnsCollapsed) {
@@ -48,21 +50,86 @@ function toggleColumns() {
 
             // hide.style.display = "flex";
             // show.style.display = "none";
+
         } else {
             collapsedColumns[i].style.display = "none";
             toggleIcon.className = "fa-solid fa-chevron-right";
-            hide.style.display = "none";
-            show.style.display = "flex";
+            // hide.style.display = "none";
+            // show.style.display = "flex";
+            hidecurrentMonth();
         }
     }
-    if(showcurr == 'True'){
-      showcurrentMonth();
-    }else{
-      hidecurrentMonth();
-    }
+
 
     // Toggle the state
     columnsCollapsed = !columnsCollapsed;
+}
+
+var showcurr = "";
+function showcurrentMonth() {
+  showcurr = "True";
+
+  const show = document.getElementById("showCurrentMonth");
+  const hide = document.getElementById("hideCurrentMonth");
+
+  
+  hide.style.display = "flex";
+  show.style.display = "none";
+  var lm = last_month_number ;
+
+  var columnsToHide2 = document.querySelectorAll(
+    "#data-table th:nth-child(" +
+    lm +
+    "), #data-table td:nth-child(" +
+    lm +
+    ")"
+  );
+
+  for (var k = 0; k < columnsToHide2.length; k++) {
+
+    columnsToHide2[k].style.display = "table-cell";
+    
+  }
+
+  var colorColumn = document.querySelectorAll(
+    "#data-table td:nth-child(" + lm + ")"
+  );
+
+  for (var k = 0; k < colorColumn.length; k++) {
+    colorColumn[k].classList.add("hidden-column");
+  
+    
+  }
+
+
+}
+
+             
+function hidecurrentMonth() {
+
+  const show = document.getElementById("showCurrentMonth");
+  const hide = document.getElementById("hideCurrentMonth");
+  hide.style.display = "none";
+  show.style.display = "flex";
+
+  showcurr = "False";
+  var lm = last_month_number ;
+
+  var columnsToHide2 = document.querySelectorAll(
+    "#data-table th:nth-child(" +
+    lm +
+    "), #data-table td:nth-child(" +
+    lm +
+    ")"
+  );
+
+  for (var k = 0; k < columnsToHide2.length; k++) {
+    
+    columnsToHide2[k].style.display = "none";
+    
+  }
+
+
 }
 
   function hideRowsByClass(className) {

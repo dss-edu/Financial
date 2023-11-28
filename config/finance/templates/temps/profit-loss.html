@@ -765,95 +765,7 @@
             </script>
 
             {% if September == "True" %}
-            <script>
-              document.addEventListener("DOMContentLoaded", function () {
-                document.getElementById("showCurrentMonth").addEventListener("click", function () {
-      
-     
-         
-                  showcurrentMonth();
-                  document.getElementById("showCurrentMonth").style.display = "none";
-                  document.getElementById("hideCurrentMonth").style.display = "flex";
-                });
-      
-                document.getElementById("hideCurrentMonth").addEventListener("click", function () {
-      
 
-            
-                  hidecurrentMonth();
-                  document.getElementById("hideCurrentMonth").style.display = "none";
-                  document.getElementById("showCurrentMonth").style.display = "flex";
-      
-                });
-      
-              });
-            
-              var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
-            
-              if (last_month_number2 >= 9) {
-                last_month_number2 -= 2;
-              } else {
-                last_month_number2 += 10;
-              }
-              var showcurr = "";
-        
-              var columnsCollapsed3 = true;
-              
-
-              function showcurrentMonth() {
-                var showcurr = "True";
-          
-                var lm = last_month_number ;
-                console.log(lm)
-                var columnsToHide2 = document.querySelectorAll(
-                  "#data-table th:nth-child(" +
-                  lm +
-                  "), #data-table td:nth-child(" +
-                  lm +
-                  ")"
-                );
-            
-                for (var k = 0; k < columnsToHide2.length; k++) {
-           
-                  columnsToHide2[k].style.display = "table-cell";
-                  
-                }
-
-                var colorColumn = document.querySelectorAll(
-                  "#data-table td:nth-child(" + lm + ")"
-                );
-
-                for (var k = 0; k < colorColumn.length; k++) {
-                  colorColumn[k].classList.add("hidden-column");
-                
-                  
-                }
-
-            
-              }
-
-                           
-              function hidecurrentMonth() {
-    
-                var showcurr = "False";
-                var lm = last_month_number ;
-                console.log(lm)
-                var columnsToHide2 = document.querySelectorAll(
-                  "#data-table th:nth-child(" +
-                  lm +
-                  "), #data-table td:nth-child(" +
-                  lm +
-                  ")"
-                );
-            
-                for (var k = 0; k < columnsToHide2.length; k++) {
-                  
-                  columnsToHide2[k].style.display = "none";
-                  
-                }
-              }
-       
-            </script>
 
             <script>
               var last_month_number = parseInt(
@@ -882,6 +794,12 @@
                     columnsToHide[j].style.display = "none";
                   }
                 }
+
+                if(showcurr == 'True'){
+                  showcurrentMonth();
+                  }else{
+                    hidecurrentMonth();
+                  }
               }
             </script>
             <tr class="header">
@@ -4546,93 +4464,7 @@ Variances
             {% else %}
 
             <!-- START OF MANARA OR PREPPP-->
-            <script>
-              document.addEventListener("DOMContentLoaded", function () {
-                document.getElementById("showCurrentMonth").addEventListener("click", function () {
-      
-              
-                
-                  showcurrentMonth();
-      
-                  document.getElementById("showCurrentMonth").style.display = "none";
-                  document.getElementById("hideCurrentMonth").style.display = "flex";
-                });
-      
-                document.getElementById("hideCurrentMonth").addEventListener("click", function () {
-      
-                  
-                
-                  hidecurrentMonth();
-      
-      
-                  document.getElementById("hideCurrentMonth").style.display = "none";
-                  document.getElementById("showCurrentMonth").style.display = "flex";
-      
-                });
-      
-              });
 
-              var last_month_number2 = parseInt("{{months.last_month_number}}", 10) + 1;
-         
-              if (last_month_number2 <= 6) {
-                last_month_number2 += 12;
-              }
-
-                          
-              var showcurr = "";
-
-
-              function showcurrentMonth() {
-                var showcurr = "True";
-          
-                var lm = last_month_number ;
-                console.log(lm)
-                var columnsToHide2 = document.querySelectorAll(
-                  "#data-table th:nth-child(" +
-                  lm +
-                  "), #data-table td:nth-child(" +
-                  lm +
-                  ")"
-                );
-            
-                for (var k = 0; k < columnsToHide2.length; k++) {
-           
-                  columnsToHide2[k].style.display = "table-cell";
-                  
-                }
-
-                var colorColumn = document.querySelectorAll(
-                  "#data-table td:nth-child(" + lm + ")"
-                );
-
-                for (var k = 0; k < colorColumn.length; k++) {
-                  colorColumn[k].classList.add("hidden-column");
-                
-                  
-                }
-
-            
-              }
-              function hidecurrentMonth() {
-    
-                var showcurr = "False";
-                var lm = last_month_number ;
-                console.log(lm)
-                var columnsToHide2 = document.querySelectorAll(
-                  "#data-table th:nth-child(" +
-                  lm +
-                  "), #data-table td:nth-child(" +
-                  lm +
-                  ")"
-                );
-            
-                for (var k = 0; k < columnsToHide2.length; k++) {
-                  
-                  columnsToHide2[k].style.display = "none";
-                  
-                }
-              }
-            </script>
 
             <script>
               var last_month_number = parseInt(
@@ -4659,6 +4491,11 @@ Variances
                     columnsToHide[j].style.display = "none";
                   }
                 }
+                if(showcurr == 'True'){
+                  showcurrentMonth();
+                  }else{
+                    hidecurrentMonth();
+                  }
               }
             </script>
 
@@ -8052,6 +7889,19 @@ Variances
   
     var ascender = "{{ascender}}";
   
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("showCurrentMonth").addEventListener("click", function () {
+       showcurrentMonth();
+
+      });
+
+      document.getElementById("hideCurrentMonth").addEventListener("click", function () {
+        hidecurrentMonth();
+      });
+    });    
   </script>
 
   <script src="{% static 'js/plViewGL.js' %}"></script>

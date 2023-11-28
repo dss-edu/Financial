@@ -126,20 +126,90 @@
         if (columnsCollapsed) {
             collapsedColumns[i].style.display = "table-cell";
             toggleIcon.className = "fa-solid fa-chevron-left";
-            hide.style.display = "flex";
-            show.style.display = "none";
+            // hide.style.display = "flex";
+            // show.style.display = "none";
         } else {
             collapsedColumns[i].style.display = "none";
             toggleIcon.className = "fa-solid fa-chevron-right";
-            hide.style.display = "none";
-            show.style.display = "flex";
+            // hide.style.display = "none";
+            // show.style.display = "flex";
+            hidecurrentMonth();
         }
     }
+
 
     // Toggle the state
     columnsCollapsed = !columnsCollapsed;
 }
 
+
+var showcurr = "";
+function showcurrentMonth() {
+  showcurr = "True";
+
+  const show = document.getElementById("showCurrentMonth");
+  const hide = document.getElementById("hideCurrentMonth");
+
+  
+  hide.style.display = "flex";
+  show.style.display = "none";
+  var lm = last_month_number ;
+
+  console.log(lm)
+  var columnsToHide2 = document.querySelectorAll(
+    "#data-table th:nth-child(" +
+    lm +
+    "), #data-table td:nth-child(" +
+    lm +
+    ")"
+  );
+
+  for (var k = 0; k < columnsToHide2.length; k++) {
+
+    columnsToHide2[k].style.display = "table-cell";
+    
+  }
+
+  var colorColumn = document.querySelectorAll(
+    "#data-table td:nth-child(" + lm + ")"
+  );
+
+  for (var k = 0; k < colorColumn.length; k++) {
+    colorColumn[k].classList.add("hidden-column");
+  
+    
+  }
+
+
+}
+
+             
+function hidecurrentMonth() {
+
+  const show = document.getElementById("showCurrentMonth");
+  const hide = document.getElementById("hideCurrentMonth");
+  hide.style.display = "none";
+  show.style.display = "flex";
+
+  showcurr = "False";
+  var lm = last_month_number ;
+
+  var columnsToHide2 = document.querySelectorAll(
+    "#data-table th:nth-child(" +
+    lm +
+    "), #data-table td:nth-child(" +
+    lm +
+    ")"
+  );
+
+  for (var k = 0; k < columnsToHide2.length; k++) {
+    
+    columnsToHide2[k].style.display = "none";
+    
+  }
+
+
+}
     
   function validateBudgetInput(event) {
     const input = event.target;
