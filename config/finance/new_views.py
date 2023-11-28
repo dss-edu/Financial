@@ -432,6 +432,21 @@ def general_ledger(request, school):
         return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
 
+@custom_login_required
+@permission_required
+def general_ledger_range(request, school, date_start="", date_end=""):
+    try:
+        data = modules.general_ledger(school, date_start, date_end)
+
+        return JsonResponse(data["data3"], safe=False)
+
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'message': str(e)})
+    
+
+
 
 @custom_login_required
 @permission_required

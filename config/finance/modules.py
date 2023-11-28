@@ -559,14 +559,23 @@ def cashflow(school, anchor_year):
     return context
 
 
-def general_ledger(school):
+def general_ledger(school, date_start="", date_end=""):
     cnxn = connect()
     cursor = cnxn.cursor()
-    query = f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY Date DESC"
+
     if school in schoolCategory["skyward"]:
-        query = (
-            f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY PostingDate DESC"
-        )
+        date_column_name = 'PostingDate'
+    else:
+        date_column_name = 'Date'
+    
+
+    if date_start:
+        print(date_start)
+        print(date_end)
+        query = f"SELECT * FROM [dbo].{db[school]['db']} WHERE {date_column_name} BETWEEN '{date_start}' AND '{date_end}'  ORDER BY {date_column_name} DESC"
+    else:
+        query = f"SELECT  TOP(500)* FROM [dbo].{db[school]['db']} ORDER BY {date_column_name} DESC"
+
     cursor.execute(query)
     rows = cursor.fetchall()
 
@@ -600,7 +609,7 @@ def general_ledger(school):
                 "Bal": row[18],
                 "WorkDescr": row[19],
                 "Type": row[20],
-                # "Contr": row[21],
+                "Contr": row[21],
             }
 
             data3.append(row_dict)

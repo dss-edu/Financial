@@ -1,113 +1,141 @@
 <!DOCTYPE html>
 {% extends 'temps/base.html' %}
 {% load static %}
+
 {% block title %}
     {{ school_name }}
 {% endblock %}
-{% block body %}
-    <div class="content-wrapper">
-        <div class="container-fluid">
-            <div>
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-table"></i>
-                            General Ledger
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/manual-adjustments/{{ school }}">
-                            <i class="fa-solid fa-sliders"></i>
-                            Manual Adjustments
-                        </a>
-                    </li>
-                </ul>
-                <!-- ... Add your other buttons here if needed ... -->
-            </div>
-            <table class="table table-hover" id="dataTable" cellspacing="0">
-                <thead>
-                    <tr class="table-dark">
-                        <th>fund</th>
-                        <th>func</th>
-                        <th>obj</th>
-                        <th>org</th>
-                        <th>fscl_yr</th>
-                        <th>pgm</th>
-                        <th>edSpan</th>
-                        <th>projDtl</th>
-                        <th>AcctDescr</th>
-                        <th>Number</th>
-                        <th>Date</th>
-                        <th>AcctPer</th>
-                        <th>Est</th>
-                        <th>Real</th>
-                        <th>Appr</th>
-                        <th>Encum</th>
-                        <th>Expend</th>
-                        <th>Bal</th>
-                        <th>WorkDescr</th>
-                        <th>Type</th>
-                        <th>Contr</th>
-                    </tr>
-                    <tr>
-                        <th>fund</th>
-                        <th>func</th>
-                        <th>obj</th>
-                        <th>org</th>
-                        <th>fscl_yr</th>
-                        <th>pgm</th>
-                        <th>edSpan</th>
-                        <th>projDtl</th>
-                        <th>AcctDescr</th>
-                        <th>Number</th>
-                        <th>Date</th>
-                        <th>AcctPer</th>
-                        <th>Est</th>
-                        <th>Real</th>
-                        <th>Appr</th>
-                        <th>Encum</th>
-                        <th>Expend</th>
-                        <th>Bal</th>
-                        <th>WorkDescr</th>
-                        <th>Type</th>
-                        <th>Contr</th>
-                    </tr>
-                </thead>
-                <tbody>
 
-                    {% for row in data3 %}
-                        <tr class="table-row">
-                            <td>{{row.fund}}</td>
-                            <td>{{row.func}}</td>
-                            <td>{{row.obj}}</td>
-                            <td>{{row.org}}</td>
-                            <td>{{row.fscl_yr}}</td>
-                            <td>{{row.pgm}}</td>
-                            <td>{{row.edSpan}}</td>
-                            <td>{{row.projDtl}}</td>
-                            <td>{{row.AcctDescr}}</td>
-                            <td>{{row.Number}}</td>
-                            <td>{{row.Date}}</td>
-                            <td>{{row.AcctPer}}</td>
-                            <td>{{row.Est}}</td>
-                            <td>{{row.Real}}</td>
-                            <td>{{row.Appr}}</td>
-                            <td>{{row.Encum}}</td>
-                            <td>{{row.Expend}}</td>
-                            <td>{{row.Bal}}</td>
-                            <td>{{row.WorkDescr}}</td>
-                            <td>{{row.Type}}</td>
-                            <td>{{row.Contr}}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+{% block libraries %}
+<!-- For the date range picker  -->
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid">
+    <div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">
+                    <i class="fas fa-table"></i>
+                    General Ledger
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/manual-adjustments/{{ school }}">
+                    <i class="fa-solid fa-sliders"></i>
+                    Manual Adjustments
+                </a>
+            </li>
+        </ul>
+        <!-- ... Add your other buttons here if needed ... -->
+        <div class="mt-3 d-flex flex-row align-items-center">
+            <div class="mr-2">
+                <input type="text" name="daterange"/>
+            </div>
+            <div>
+                <button class="btn btn-primary" id="reset-button">Reset</button>
+            </div>
         </div>
+
     </div>
+
+    {% csrf_token %}
+
+    <div class="mt-3">
+    <table class="display nowrap" id="dataTable" width="100%" cellspacing="0">
+        <!-- <table class="table table-hover" id="dataTable" cellspacing="0"> -->
+        <thead>
+            <tr class="table-dark">
+                <th>fund</th>
+                <th>func</th>
+                <th>obj</th>
+                <th>org</th>
+                <th>fscl_yr</th>
+                <th>pgm</th>
+                <th>edSpan</th>
+                <th>projDtl</th>
+                <th>AcctDescr</th>
+                <th>Number</th>
+                <th>Date</th>
+                <th>AcctPer</th>
+                <th>Est</th>
+                <th>Real</th>
+                <th>Appr</th>
+                <th>Encum</th>
+                <th>Expend</th>
+                <th>Bal</th>
+                <th>WorkDescr</th>
+                <th>Type</th>
+                <th>Contr</th>
+            </tr>
+            <tr>
+                <th>fund</th>
+                <th>func</th>
+                <th>obj</th>
+                <th>org</th>
+                <th>fscl_yr</th>
+                <th>pgm</th>
+                <th>edSpan</th>
+                <th>projDtl</th>
+                <th>AcctDescr</th>
+                <th>Number</th>
+                <th>Date</th>
+                <th>AcctPer</th>
+                <th>Est</th>
+                <th>Real</th>
+                <th>Appr</th>
+                <th>Encum</th>
+                <th>Expend</th>
+                <th>Bal</th>
+                <th>WorkDescr</th>
+                <th>Type</th>
+                <th>Contr</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for row in data3 %}
+            <tr class="table-row">
+                <td>{{row.fund}}</td>
+                <td>{{row.func}}</td>
+                <td>{{row.obj}}</td>
+                <td>{{row.org}}</td>
+                <td>{{row.fscl_yr}}</td>
+                <td>{{row.pgm}}</td>
+                <td>{{row.edSpan}}</td>
+                <td>{{row.projDtl}}</td>
+                <td>{{row.AcctDescr}}</td>
+                <td>{{row.Number}}</td>
+                <td>{{row.Date}}</td>
+                <td>{{row.AcctPer}}</td>
+                <td>{{row.Est}}</td>
+                <td>{{row.Real}}</td>
+                <td>{{row.Appr}}</td>
+                <td>{{row.Encum}}</td>
+                <td>{{row.Expend}}</td>
+                <td>{{row.Bal}}</td>
+                <td>{{row.WorkDescr}}</td>
+                <td>{{row.Type}}</td>
+                <td>{{row.Contr}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+    <script>
+        var school = "{{ school }}"
+    </script>
     <script>
         $(document).ready(function() {
         // Initialize DataTables
             var table = $('#dataTable').DataTable({
+                // "scrollX": true,
                 "ordering": false,
                 "dom": 'lrtip',
 
@@ -130,5 +158,7 @@
             });
         });
     </script>
+
+    <script src="{% static 'js/gl-datepicker.js'%}"></script>
 
 {% endblock %}
