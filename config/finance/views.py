@@ -4760,7 +4760,7 @@ def generate_excel(request,school,anchor_year):
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                 bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
                 bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
                 bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
@@ -4842,7 +4842,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -4913,7 +4913,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -4982,7 +4982,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5052,7 +5052,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5118,7 +5118,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5219,7 +5219,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5285,7 +5285,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5351,7 +5351,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5488,7 +5488,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5553,7 +5553,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5620,7 +5620,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5686,7 +5686,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5752,7 +5752,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -5854,7 +5854,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
@@ -6018,7 +6018,8 @@ def generate_excel(request,school,anchor_year):
         acc_per =  months["last_month_number"]
 
         if acc_per >= 10:
-            print(acc_per)
+            acc_per = str(acc_per)
+            print("eto")
         else:
             acc_per = f'0{acc_per}'
 
@@ -6071,7 +6072,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] =  row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
@@ -6147,7 +6148,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6218,7 +6219,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6286,7 +6287,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6356,7 +6357,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6422,7 +6423,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6501,7 +6502,6 @@ def generate_excel(request,school,anchor_year):
         bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_assets"]["05"]
         bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_assets"]["06"]
         bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_assets_fytd"]
-   
         bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][acc_per]
         
         start_row_bs += 1
@@ -6522,7 +6522,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6588,7 +6588,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6654,7 +6654,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6791,7 +6791,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6857,7 +6857,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6924,7 +6924,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -6990,7 +6990,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -7056,7 +7056,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
@@ -7158,7 +7158,7 @@ def generate_excel(request,school,anchor_year):
                         cell = bs_sheet.cell(row=start_row_bs, column=col)
                         cell.style = normal_cell 
                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-                    bs_sheet[f'D{start_row_bs}'] = row['Description2']
+                    bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
                     bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
                     bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
