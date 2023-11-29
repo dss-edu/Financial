@@ -487,10 +487,12 @@ style="display:none;"
           editableTds.forEach(function (td) {
               td.addEventListener('input', function() {
                     var rowId = td.getAttribute('data-row-id');  
+                    
                     var newValue = td.textContent.replace(/[\r\n\s]+/g, '');             
                     if (!newValue) {
-                      newValue = '';
-                  }                 
+                      newValue = 0;
+                  }  
+                  console.log(newValue,rowId)               
                     document.querySelector('#hidden-fye-' + rowId).value = newValue;          
               });
           });       
