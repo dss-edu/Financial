@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 import pandas as pd
+import csv
 import io
 from .models import User, Item
 from .forms import UploadForm, ReportsForm
@@ -25,6 +26,7 @@ from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
 import shutil
 import openpyxl
+from openpyxl.utils import get_column_letter
 from django.conf import settings
 from openpyxl.utils import get_column_letter
 from bs4 import BeautifulSoup
@@ -2506,6 +2508,49 @@ def viewglexpense_all(request,school,year,url,yr=""):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 
+def general_ledger_excel(request, school, start="", end=""):
+    data = modules.general_ledger(school, start, end)['data3']
+
+    # Create a workbook and a worksheet
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+
+    # Define your headers and add them to the worksheet
+    headers = data[0].keys()
+    for col_num, header in enumerate(headers, 1):
+        cell = worksheet.cell(row=1, column=col_num)
+        cell.value = header
+
+    # Populate the worksheet with data
+    for row_num, item in enumerate(data, 2):
+        for col_num, header in enumerate(headers, 1):
+            worksheet.cell(row=row_num, column=col_num).value = item[header]
+
+    # Set the filename and mime type
+    filename = os.path.join(settings.BASE_DIR,'finance','static', 'general_ledger.xlsx')
+
+    # Save the workbook
+    workbook.save(filename)
+
+    # convert it to csv
+    wb = openpyxl.load_workbook(filename)
+    sheet = wb.active
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="download.csv"'
+
+    writer = csv.writer(response)
+    for row in sheet.iter_rows(values_only=True):
+        writer.writerow(row)
+
+
+    # response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    # response['Content-Disposition'] = f'attachment; filename="download.csv"'
+
+    # # Save the workbook
+    # workbook.save(filename)
+
+    return response
 
 
 def generate_excel(request,school,anchor_year):

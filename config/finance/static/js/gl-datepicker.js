@@ -1,5 +1,27 @@
 document.addEventListener("DOMContentLoaded", function () {
+  function getCurrentDateFormatted() {
+      var today = new Date();
+      var year = today.getFullYear();
+      var month = today.getMonth() + 1; // January is 0!
+      var day = today.getDate();
+
+      // Adding leading zero if month or day is less than 10
+      month = month < 10 ? '0' + month : month;
+      day = day < 10 ? '0' + day : day;
+
+      return year + '-' + month + '-' + day;
+  }
+
   $('#reset-button').on('click', function(event){
+    window.globalDateStart = ""
+    window.globalDateEnd = ""
+    // const today = new Date();
+    // const formattedToday = today.getFullYear() + '-' + 
+    //                    ('0' + (today.getMonth() + 1)).slice(-2) + '-' + 
+    //                    ('0' + today.getDate()).slice(-2);
+    // $('input[name="daterange"]').data('daterangepicker').setStartDate(formattedToday);
+    // $('input[name="daterange"]').data('daterangepicker').setEndDate(formattedToday);
+
     fetchDateRange("","")
   })
   
@@ -15,13 +37,15 @@ document.addEventListener("DOMContentLoaded", function () {
             " to " +
             end.format("YYYY-MM-DD")
         );
-        fetchDateRange( start.format("YYYY-MM-DD"), end.format("YYYY-MM-DD") )
+        window.globalDateStart = start.format("YYYY-MM-DD")
+        window.globalDateEnd = end.format("YYYY-MM-DD")
+        fetchDateRange( globalDateStart, globalDateEnd )
       }
     );
   });
 
   async function fetchDateRange(start, end){
-    console.log(school)
+    $("#page-load-spinner").modal("show");
 
     const csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').getAttribute('value')
     let url
@@ -54,6 +78,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //     { fund: '...', func: '...', /* other properties */ },
     //     // ... more data objects
     // ];
+
+    $('#spinner-modal').modal('show');
 
     // Initialize your DataTable
     var table = $('#dataTable').DataTable();
@@ -91,44 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Redraw the table
     table.draw();
     
+    $("#page-load-spinner").modal("hide");
   }
-  function replaceTableData1(data){
-    const tBody = document.querySelector('#dataTable tbody')
-    // remove contents
-    tBody.innerHTML = ''
-
-    // replace contents with new data
-    console.log('replacing...')
-    data.forEach((row,index, arr) => {
-        const newRow = document.createElement('tr')
-        newRow.className = `table-row ${(index + 1) % 2 === 0 ? 'even': 'odd'}`;
-        newRow.innerHTML = `
-                        <td>${row.fund}</td>
-                        <td>${row.func}</td>
-                        <td>${row.obj}</td>
-                        <td>${row.org}</td>
-                        <td>${row.fscl_yr}</td>
-                        <td>${row.pgm}</td>
-                        <td>${row.edSpan}</td>
-                        <td>${row.projDtl}</td>
-                        <td>${row.AcctDescr}</td>
-                        <td>${row.Number}</td>
-                        <td>${row.Date}</td>
-                        <td>${row.AcctPer}</td>
-                        <td>${row.Est}</td>
-                        <td>${row.Real}</td>
-                        <td>${row.Appr}</td>
-                        <td>${row.Encum}</td>
-                        <td>${row.Expend}</td>
-                        <td>${row.Bal}</td>
-                        <td>${row.WorkDescr}</td>
-                        <td>${row.Type}</td>
-                        <td>${row.Contr}</td>
-                    `
-        tBody.appendChild(newRow)
-    })
-  }
-
-
 
 });
