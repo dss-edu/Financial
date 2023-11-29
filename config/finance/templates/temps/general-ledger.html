@@ -12,10 +12,141 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script>
+  var globalDateStart = "" 
+  var globalDateEnd = ""
+</script>
+{% endblock %}
+
+
+{% block stylesheet %}
+<style>
+    .floating-button {
+        position: fixed;
+        /* left: auto; */
+        right: 0;
+        z-index: 1;
+    }
+
+  .side-panel {
+    width: 100px;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    padding: 0px;
+    height: 100%;
+    position: fixed;
+    right: 18px;
+    top: 0;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+
+}
+
+.circle-container {
+    border-radius: 50%;
+    /* background-color: rgba(211, 211, 211, 0); */
+    background-color: white;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+    z-index: 3;
+}
+.circle-container-child {
+    position: absolute;
+    right: 50px;
+    bottom: -25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+}
+</style>
 {% endblock %}
 
 
 {% block body %}
+<div class="floating-button">
+    <div class="side-panel">
+      <div class="side">
+          <div style="margin-top:300px"></div>
+
+            <a id="export-csv-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to CSV" data-placement="left" >
+                <i class="fas fa-file-excel"></i>
+            </a>
+            <script>
+                $('#export-csv-button').on('click', async ()=>{
+                    let url = `/general-ledger/export/excel/${school}`
+                    if (globalDateStart){
+                      url = `/general-ledger/export/excel/${school}/${globalDateStart}/${globalDateEnd}/`
+                    }
+
+
+                    $(this).tooltip('hide');
+                    $("#page-load-spinner").modal("show");
+                    await fetch(url)
+                        .then(function(response) {
+                            return response.blob();
+                        })
+                        .then(function(blob) {
+                            const url = window.URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.style.display = 'none';
+                            a.href = url;
+                            a.download = 'GeneratedCSV.csv'; 
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                        })
+                        .catch(function(error) {
+                            console.error('Error generating Excel:', error);
+                        }).finally(function (){
+                            $("#page-load-spinner").modal("hide");
+                        });
+                })
+
+            </script>
+
+            <!---------------------------- Uncomment if you need two export buttons PDF and Excel  -------------------------------->
+              <!-- <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
+                <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
+                    <i class="fas fa-download"></i>
+                </a>
+                <script>
+                  $('#export-button').on('click', function (e) {
+                    e.preventDefault()
+                    $(this).tooltip('hide');
+                    $('#export-children').toggle()
+                  })
+
+                </script>
+
+                <div id="export-children" class="circle-container-child" style="display: none;">
+                  <a id="export-excel-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to Excel" data-placement="left" >
+                      <i class="fas fa-file-excel"></i>
+                  </a>
+
+                  <a id="export-pdf-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to PDF" data-placement="left">
+                      <i class="fas fa-file-pdf"></i>
+                  </a>
+                </div>
+              </div> -->
+      </div> <!-- end of side class -->
+  </div> <!-- end of side-panel -->
+    </div>
+
 <div class="container-fluid">
     <div>
         <ul class="nav nav-tabs">
