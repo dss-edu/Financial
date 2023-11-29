@@ -144,58 +144,64 @@ def change_password(request,school):
 
 
     
-def update_row(request,school):
-    if request.method == 'POST':
-        print(request)
+# def update_row(request,school,year):
+#     if request.method == 'POST':
+#         print(request)
+#         print(school_year)
         
-        try:
-            cnxn = connect()
-            cursor = cnxn.cursor()
-            updatefyes = request.POST.getlist('updatefye[]')  
-            updateids = request.POST.getlist('updateID[]')             
+#         try:
+#             cnxn = connect()
+#             cursor = cnxn.cursor()
+#             updatefyes = request.POST.getlist('updatefye[]')  
+#             updateids = request.POST.getlist('updateID[]')             
 
-            updatedata_list = []
+#             updatedata_list = []
 
             
-            for updatefye,updateid in zip(updatefyes, updateids):
-                if updatefye.strip() and updateid.strip() :
-                    updatefye = float(updatefye.replace("$", "").replace(",", "").replace("(", "-").replace(")", ""))
-                    updatedata_list.append({
+#             for updatefye,updateid in zip(updatefyes, updateids):
+#                 if updatefye.strip() and updateid.strip() :
+#                     updatefye = float(updatefye.replace("$", "").replace(",", "").replace("(", "-").replace(")", ""))
+#                     updatedata_list.append({
                        
-                        'updatefye': updatefye,
-                        'updateid':updateid,
+#                         'updatefye': updatefye,
+#                         'updateid':updateid,
                         
                         
                       
                         
-                    })
-            for data in updatedata_list:
+#                     })
+#             for data in updatedata_list:
                 
-                updatefye= data['updatefye']
-                updateid=data['updateid']
+#                 updatefye= data['updatefye']
+#                 updateid=data['updateid']
                
                 
           
 
-                try:
-                    query = "UPDATE [dbo].[Balancesheet_FYE] SET FYE = ? WHERE BS_id = ? and school = ? "
-                    cursor.execute(query, (updatefye, updateid,school))
-                    cnxn.commit()
+#                 try:
+#                     query = "UPDATE [dbo].[BS_FYE] SET FYE = ? WHERE BS_id = ? and school = ? "
+#                     cursor.execute(query, (updatefye, updateid,school))
+#                     cnxn.commit()
                    
-                except Exception as e:
-                    print(f"Error updating bs_id={updateid}: {str(e)}")
+#                 except Exception as e:
+#                     print(f"Error updating bs_id={updateid}: {str(e)}")
             
             
-            cursor.close()
-            cnxn.close()
-            anchor_year = ""
-            context = modules.balance_sheet(school,anchor_year)
-            return render(request, "temps/balance-sheet.html", context)
+#             cursor.close()
+#             cnxn.close()
+#             anchor_year = school_year
+#             print(anchor_year)
+#             context = modules.balance_sheet(school,anchor_year)
+#             role = request.session.get('user_role')
+#             context["role"] = role
+#             username = request.session.get('username')
+#             context["username"] = username
+#             return redirect(request, "temps/balance-sheet.html", context)
 
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
+#         except Exception as e:
+#             return JsonResponse({'status': 'error', 'message': str(e)})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method'}) 
+#     return JsonResponse({'status': 'error', 'message': 'Invalid request method'}) 
     
 
 # def insert_row(request):
@@ -305,6 +311,7 @@ def update_row(request,school):
 def update_row(request,school,year):
     if request.method == 'POST':
         print(request)
+        print(year)
         
 
         cnxn = connect()
@@ -349,8 +356,12 @@ def update_row(request,school,year):
         
         cursor.close()
         cnxn.close()
-        anchor_year = ""
+        anchor_year = year
         context = modules.balance_sheet(school,anchor_year)
+        role = request.session.get('user_role')
+        context["role"] = role
+        username = request.session.get('username')
+        context["username"] = username
         return render(request, "temps/balance-sheet.html", context)
 
 
