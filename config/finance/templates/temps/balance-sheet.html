@@ -10,10 +10,7 @@
 <link rel="stylesheet" href="{% static 'css/bs.css' %}">
 <style>
   .table thead th {
-      vertical-align: center!important;
-      border-bottom: 0px solid white!important;
-      padding:0px!important;
-      margin:0px!important;
+
       padding: 5px 10px;
       font-weight: bold;
   }
@@ -29,7 +26,11 @@ table tbody td:nth-child(-n+3) {
 
   vertical-align: middle;
 }
-
+table tbody th:before {
+  border-radius: 5px 0 0 5px;
+  left: 5px;
+  right: 5px;
+}
 a{
     color:black;
 }
@@ -40,7 +41,7 @@ a:hover{
 
 
 .side-panel{
-  width: 100px;
+  width: 50px;
   background-color: rgba(255, 255, 255, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0);
   padding: 0px;
@@ -48,8 +49,8 @@ a:hover{
   position: fixed;
   right: 18px;
   top: 0;
-  z-index: 3;
-
+ 
+  z-index:-1;
 
 }
 
@@ -85,8 +86,13 @@ a:hover{
 
 #table-box{
   padding-right: 50px;
-  z-index: 1;
+  padding-left:50px;
+  z-index: 2;
   flex-grow:0;
+  border: 1px solid #ddd; /* Add a border to the table container */
+ 
+  
+  box-shadow: 0 0 5px rgba(0, 0, 0, .5);
 }
 
 .hidden-column {
@@ -95,6 +101,22 @@ a:hover{
 }
 .bg-light {
   background-color: white!important;
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: rgba(200, 200, 200); 
+}
+#data-table-body td:first-child {
+  border-left: 1px solid #dee2e6;
+}
+
+#data-table-body td:last-child {
+  border-right: 1px solid #dee2e6;
+}
+.table-container{
+  padding: 10px; /* Add some padding around the content */
 }
 </style>
 
