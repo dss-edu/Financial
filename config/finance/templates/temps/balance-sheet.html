@@ -2472,7 +2472,7 @@ style="display:none;"
           <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
           <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
         </td>
-        <td class="space-before">{{row.Description}} </td>
+        <td class="space-before">{{row.Description}} 5 </td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
        
           <div>{{row.FYE}}</div>
@@ -2723,6 +2723,37 @@ style="display:none;"
        
       </tr>
 
+
+      
+      {% for row in data_activitybs %}
+      {% if row.Activity == 'Equity' %}
+      
+      <tr id="row25-{{ forloop.counter }}" class="liabilities-activity-row">
+        <td class="firstcolumn">
+        
+        </td>
+        <td>{{row.obj}}</td>
+        <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
+        <td></td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+        <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+        <td class="right-align-td">{{row.fytd}}</td>
+        <td class="right-align-td"></td>
+      </tr>
+      
+      {% endif %}
+      {% endfor %}
+
     {% for row in data_balancesheet %}
     {% if row.school == school %}
    
@@ -2730,7 +2761,12 @@ style="display:none;"
         {% if row.Activity == 'Equity' %}
             <tr class="net-assets-row">
               <td class="firstcolumn">
-             
+                <a
+                id="row25"
+                class="expand-button"
+                onclick="toggleRow(25); "
+                >
+              <i id="row25-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -4768,6 +4804,38 @@ style="display:none;"
    
   </tr>
 
+
+  {% for row in data_activitybs %}
+  {% if row.Activity == 'Equity' %}
+  
+  <tr id="row25-{{ forloop.counter }}" class="liabilities-activity-row">
+    <td class="firstcolumn">
+    
+    </td>
+    <td>{{row.obj}}</td>
+    <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
+    <td></td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="12">{{row.total_bal12}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="01">{{row.total_bal1}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="02">{{row.total_bal2}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="03">{{row.total_bal3}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="04">{{row.total_bal4}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="05">{{row.total_bal5}}</td>
+    <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
+
+    <td class="right-align-td">{{row.fytd}}</td>
+    <td class="right-align-td"></td>
+  </tr>
+  
+  {% endif %}
+  {% endfor %}
+
+
 {% for row in data_balancesheet %}
 {% if row.school == school %}
 
@@ -4775,7 +4843,12 @@ style="display:none;"
     {% if row.Activity == 'Equity' %}
         <tr class="net-assets-row">
           <td class="firstcolumn">
-         
+            <a
+            id="row25"
+            class="expand-button"
+            onclick="toggleRow(25); "
+            >
+          <i id="row25-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
