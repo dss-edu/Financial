@@ -805,6 +805,10 @@ def profit_loss(school,year):
                     item[f"total_func{i}"] = total_func + total_adjustment
                     first_total_months[acct_per] += item[f"total_func{i}"]
 
+
+                    if func == "36":
+                        print(i , "=",item[f"total_func{i}"])
+
                 for month_number in range(1, 13):
                     if month_number != month_exception:
                         ytd_total += (item[f"total_func{month_number}"])
@@ -1141,7 +1145,7 @@ def profit_loss(school,year):
                 item["variances"] = ytd_budget_te - ytd_EOC_te
                 item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_te / total_budget_te*100))) if total_budget_te != 0 else ""
             else:
-                print(obj)
+                
                 category = "FIXED/CAPITAL ASSETS"
                 item["variances"] = ytd_budget_cpa - ytd_EOC_cpa
                 item["var_EOC"] = "{:d}%".format(round(abs(ytd_EOC_cpa / total_budget_cpa*100))) if total_budget_cpa != 0 else ""
@@ -1293,7 +1297,7 @@ def profit_loss(school,year):
         
         total_SBD = {acct_per: format_value_dollars(value) for acct_per, value in total_SBD.items() if value != 0}
         
-        print("ytdnet",ytd_netsurplus)
+        
         #FORMAT NET SURPLUS 
         ammended_budget_netsurplus = format_value_dollars(ammended_budget_netsurplus)
         ytd_ammended_netsurplus = format_value_dollars(ytd_ammended_netsurplus)
@@ -1375,7 +1379,7 @@ def profit_loss(school,year):
         total_expense_ytd = format_value_dollars(total_expense_ytd)
         variances_total_expense =format_value_dollars(variances_total_expense)
             
-        print("ytd_netincome",ytd_net_income)
+        
         #FORMAT NET INCOME
         budget_net_income = format_value_dollars(budget_net_income)
         ytd_budget_net_income = format_value_dollars(ytd_budget_net_income)
@@ -1513,25 +1517,22 @@ def profit_loss(school,year):
 
         for row in data2:
             for key in keys_to_check_func:
-                if key in row and row[key] is not None and row[key] > 0:
-                    row[key] = row[key]
+                if key in row and row[key] is not None:
+                    row[key] = format_value(row[key])
                 else:
                     row[key] = ""
-        for row in data2:
-            for key in keys_to_check_func:
-                if row[key] != "":
-                    row[key] = "{:,.0f}".format(row[key])
+
 
         for row in data2:
             for key in keys_to_check_func_2:
-                if key in row and row[key] is not None and row[key] > 0:
-                    row[key] = row[key]
+                if key in row and row[key] is not None :
+                    row[key] = format_value(row[key])
                 else:
                     row[key] = ""
-        for row in data2:
-            for key in keys_to_check_func_2:
-                if row[key] != "":
-                    row[key] = "{:,.0f}".format(row[key])
+        # for row in data2:
+        #     for key in keys_to_check_func_2:
+        #         if row[key] != "":
+        #             row[key] = "{:,.0f}".format(row[key])
 
         # if not school == "village-tech":
         #     lr_funds = list(set(row["fund"] for row in data3 if "fund" in row))
@@ -1556,7 +1557,6 @@ def profit_loss(school,year):
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
     
       
-        print(month_exception)
         context = {
             "data": sorted_data,
             "data2": sorted_data2,
@@ -2943,24 +2943,16 @@ def profit_loss_date(school):
     ]
     for row in data2:
         for key in keys_to_check_func:
-            if key in row and row[key] is not None and row[key] > 0:
-                row[key] = row[key]
-            else:
-                row[key] = ""
-    for row in data2:
-        for key in keys_to_check_func:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
-    for row in data2:
-        for key in keys_to_check_func_2:
-            if key in row and row[key] is not None and row[key] > 0:
-                row[key] = row[key]
+            if key in row and row[key] is not None:
+                row[key] = format_value(row[key])
             else:
                 row[key] = ""
     for row in data2:
         for key in keys_to_check_func_2:
-            if row[key] != "":
-                row[key] = "{:,.0f}".format(row[key])
+            if key in row and row[key] is not None :
+                row[key] = format_value(row[key])
+            else:
+                row[key] = ""
     # if not school == "village-tech":
     #     lr_funds = list(set(row["fund"] for row in data3 if "fund" in row))
     #     lr_funds_sorted = sorted(lr_funds)
@@ -3161,7 +3153,7 @@ def balance_sheet(school,year):
         FY_year_current = current_year
 
     while start_year <= FY_year_current:
-
+        print(start_year)
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         start_year = FY_year_2
@@ -3449,6 +3441,7 @@ def balance_sheet(school,year):
         activity_sum_dict = {}
         for item in data_activitybs:
             Activity = item["Activity"]
+            print(Activity)
             for i in range(1, 13):
                 total_sum_i = sum(
                     float(entry[f"total_bal{i}"])
@@ -3460,6 +3453,7 @@ def balance_sheet(school,year):
 
         for row in data_balancesheet:
             activity = row["Activity"]
+            
             for i in range(1, 13):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
@@ -5565,9 +5559,11 @@ def excel(school,year):
 
         for row in data_balancesheet:
             activity = row["Activity"]
+            print(activity)
             for i in range(1, 13):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
+                
 
 
         for row in data_balancesheet:
