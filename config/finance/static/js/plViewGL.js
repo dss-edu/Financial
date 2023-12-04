@@ -4,6 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
   var modalTableBody = document.getElementById("modal-table-body");
   var mdfooter = document.getElementById("myModalFooter");
 
+  function formatDateToYYYYMMDD(dateString) {
+      // Create a new Date object
+      const date = new Date(dateString);
+
+      // Get the year, month, and day
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // +1 because months are 0-indexed
+      const day = String(date.getDate()).padStart(2, '0');
+
+      // Format the date as YYYY-MM-DD
+      return `${year}-${month}-${day}`;
+  }
+
   function populateModal(data) {
     var existingDataTable = $("#balancesheet-data-table1").DataTable();
 
@@ -30,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="text-end">${row.projDtl}</td>
             <td class="text-end text-nowrap">${row.AcctDescr}</td>
             <td class="text-end">${row.Number}</td>
-            <td class="text-end" style="white-space: nowrap;">${row.Date}</td>
+            <td class="text-end" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
             <td class="text-end">${row.AcctPer}</td>
             <td class="text-end">${row.Real}</td>
             <td class="text-end">${row.Expend}</td>
@@ -40,17 +53,26 @@ document.addEventListener("DOMContentLoaded", function () {
           `;
       }      else{
         newRow.innerHTML = `
-        <td class="text-center">${row.fund}</td>
-        <td class="text-center">${row.func}</td>
-        <td class="text-center">${row.obj}</td>
-        <td class="text-center">${row.org}</td>
-        <td class="text-center">${row.fscl_yr}</td>
-  
-
-   
-        <td class="text-center" style="white-space: nowrap;">${row.Date}</td>
-        <td class="text-center">${row.AcctPer}</td>
-        <td class="text-center">${row.Real}</td>
+<td class="text-end">${row.fund}</td>
+<td class="text-end">${row.T}</td>
+<td class="text-end">${row.func}</td>
+<td class="text-end">${row.obj}</td>
+<td class="text-end">${row.sobj}</td>
+<td class="text-end">${row.org}</td>
+<td class="text-end">${row.fscl_yr}</td>
+<td class="text-end">${row.PI}</td>
+<td class="text-end">${row.LOC}</td>
+<td class="text-end">${formatDateToYYYYMMDD(row.Date)}</td>
+<td class="text-end">${row.AcctPer}</td>
+<td class="text-end">${row.Source}</td>
+<td class="text-end">${row.Subsource}</td>
+<td class="text-end">${row.Batch}</td>
+<td class="text-end">${row.Vendor}</td>
+<td class="text-end">${row.TransactionDescr}</td>
+<td class="text-end">${row.InvoiceDate}</td>
+<td class="text-end">${row.CheckNumber}</td>
+<td class="text-end">${row.CheckDate}</td>
+<td class="text-end">${row.Amount}</td>
 
       `;
   }
