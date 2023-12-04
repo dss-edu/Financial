@@ -872,15 +872,25 @@ def viewgl(request,fund,obj,yr,school,year,url):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Real": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Real": row[19],
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -889,15 +899,25 @@ def viewgl(request,fund,obj,yr,school,year,url):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":  row[10],
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
                             "Real": amount,
-                            "Budget":row[20],
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -926,7 +946,7 @@ def viewgl_all(request, school, year, url, yr=""):
     data = json.loads(request.body)
     # do something about the yr
     if not yr:
-        yr = ['09','10']
+        yr = ['09', '10', '11']
     else:
         yr = [yr]
 
@@ -1052,15 +1072,25 @@ def viewgl_all(request, school, year, url, yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Real": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Real": row[19],
                         }
                         gl_data.append(row_dict)
                 else:
@@ -1068,15 +1098,25 @@ def viewgl_all(request, school, year, url, yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
                             "Real": amount,
-                            "Budget":row[20],
                         }
                         gl_data.append(row_dict)
 
@@ -1645,35 +1685,80 @@ def viewglfunc(request,func,yr,school,year,url):
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
-
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Amount": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": row[19],
                         }
+
+                        # row_dict = {
+                        #     "fund": row[0],
+                        #     "func": row[2],
+                        #     "obj": row[3],
+                        #     "sobj": row[4],
+                        #     "org": row[5],
+                        #     "fscl_yr": row[6],
+                        #     "Date": date,
+                        #     "AcctPer":acct_per_month,
+                        #     "Amount": amount,
+                        #     "Budget":row[20],
+                        # }
                         gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":  row[10],
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
                             "Amount": amount,
-                            "Budget":row[20],
                         }
+
+                        # row_dict = {
+                        #     "fund": row[0],
+                        #     "func": row[2],
+                        #     "obj": row[3],
+                        #     "sobj": row[4],
+                        #     "org": row[5],
+                        #     "fscl_yr": row[6],
+                        #     "Date": date,
+                        #     "AcctPer": row[10],
+                        #     "Amount": amount,
+                        #     "Budget":row[20],
+                        # }
                         gl_data.append(row_dict)
 
        
@@ -1832,15 +1917,25 @@ def viewglfunc_all(request,school,year,url, yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Amount": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": row[19],
                         }
                         gl_data.append(row_dict)
                 else:
@@ -1848,15 +1943,25 @@ def viewglfunc_all(request,school,year,url, yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":  row[10],
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
                             "Amount": amount,
-                            "Budget":row[20],
                         }
                         gl_data.append(row_dict)
 
@@ -2219,15 +2324,25 @@ def viewglexpense(request,obj,yr,school,year,url):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Real": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": amount
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -2236,15 +2351,25 @@ def viewglexpense(request,obj,yr,school,year,url):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
                             "AcctPer": row[10],
-                            "Real": amount,
-                            "Budget":row[20],
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": amount
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -2288,7 +2413,7 @@ def viewglexpense(request,obj,yr,school,year,url):
 def viewglexpense_all(request,school,year,url,yr=""):
     data = json.loads(request.body)
     if not yr:
-        yr = ['09', '10']
+        yr = ['09', '10', '11']
     else:
         yr = [yr]
     try:
@@ -2441,15 +2566,25 @@ def viewglexpense_all(request,school,year,url,yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Real": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": row[19],
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -2458,15 +2593,25 @@ def viewglexpense_all(request,school,year,url,yr=""):
 
                         row_dict = {
                             "fund": row[0],
+                            "T": row[1],
                             "func": row[2],
                             "obj": row[3],
                             "sobj": row[4],
                             "org": row[5],
                             "fscl_yr": row[6],
+                            "PI": row[7],
+                            "LOC": row[8],
                             "Date": date,
                             "AcctPer": row[10],
-                            "Real": amount,
-                            "Budget":row[20],
+                            "Source": row[11],
+                            "Subsource": row[12],
+                            "Batch": row[13],
+                            "Vendor": row[14],
+                            "TransactionDescr": row[15],
+                            "InvoiceDate": row[16],
+                            "CheckNumber": row[17],
+                            "CheckDate": row[18],
+                            "Amount": amount,
                         }
                         print(amount)
                         gl_data.append(row_dict)
