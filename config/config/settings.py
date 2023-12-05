@@ -187,7 +187,7 @@ SCHOOLS = {
     "stmary": "St Mary's Charter School",
     "goldenrule": "Golden Rule Charter School",
     "imagineinternational": "Imagine International Academy of North Texas",
-    "eastfortworthmontessori": "East Fortworth Montessori",
+    "eastfortworthmontessori": "East Fort Worth Montessori",
 }
 
 db = {
@@ -415,7 +415,7 @@ db = {
     "eastfortworthmontessori": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
-        "db": "[AscenderData_EastFortworthMontessori]",
+        "db": "[AscenderData_EastFortWorthMontessori]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
