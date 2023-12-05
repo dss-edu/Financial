@@ -85,7 +85,7 @@
                             <td>{{row.fscl_yr}}</td>
                             <td>{{row.PI}}</td>
                             <td>{{row.LOC}}</td>
-                            <td>{{row.PostingDate}}</td>
+                            <td>{{row.PostingDate|date:"Y-m-d"}}</td>
                             <td>{{row.Month}}</td>
                             <td>{{row.Source}}</td>
                             <td>{{row.SubSource}}</td>
@@ -94,7 +94,7 @@
                             <td>{{row.TransactionDescr}}</td>
                             <td>{{row.InvoiceDate}}</td>
                             <td>{{row.CheckNumber}}</td>
-                            <td>{{row.CheckDate}}</td>
+                            <td>{{row.CheckDate|date:"Y-m-d"}}</td>
                             <td>{{row.Amount}}</td>
                             <td>{{row.Budget}}</td>
                         </tr>

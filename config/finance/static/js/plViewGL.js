@@ -62,18 +62,17 @@ document.addEventListener("DOMContentLoaded", function () {
 <td class="text-end">${row.fscl_yr}</td>
 <td class="text-end">${row.PI}</td>
 <td class="text-end">${row.LOC}</td>
-<td class="text-end">${formatDateToYYYYMMDD(row.Date)}</td>
+<td class="text-end text-nowrap">${formatDateToYYYYMMDD(row.Date)}</td>
 <td class="text-end">${row.AcctPer}</td>
 <td class="text-end">${row.Source}</td>
 <td class="text-end">${row.Subsource}</td>
-<td class="text-end">${row.Batch}</td>
-<td class="text-end">${row.Vendor}</td>
-<td class="text-end">${row.TransactionDescr}</td>
-<td class="text-end">${row.InvoiceDate}</td>
+<td class="text-end text-nowrap">${row.Batch}</td>
+<td class="text-end text-nowrap">${row.Vendor}</td>
+<td class="text-end text-nowrap">${row.TransactionDescr}</td>
+<td class="text-end">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
 <td class="text-end">${row.CheckNumber}</td>
-<td class="text-end">${row.CheckDate}</td>
+<td class="text-end text-nowrap">${formatDateToYYYYMMDD(row.CheckDate)}</td>
 <td class="text-end">${row.Amount}</td>
-
       `;
   }
       // newRow.innerHTML = `

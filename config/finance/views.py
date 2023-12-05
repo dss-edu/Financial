@@ -890,7 +890,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
                             "InvoiceDate": row[16],
                             "CheckNumber": row[17],
                             "CheckDate": row[18],
-                            "Real": row[19],
+                            "Amount": row[19],
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -917,12 +917,12 @@ def viewgl(request,fund,obj,yr,school,year,url):
                             "InvoiceDate": row[16],
                             "CheckNumber": row[17],
                             "CheckDate": row[18],
-                            "Real": amount,
+                            "Amount": amount,
                         }
                         print(amount)
                         gl_data.append(row_dict)
 
-        total_bal = sum(float(row['Real']) for row in gl_data)
+        total_bal = sum(float(row['Amount']) for row in gl_data)
     
         total_bal = format_value(total_bal)
 
@@ -1090,7 +1090,7 @@ def viewgl_all(request, school, year, url, yr=""):
                             "InvoiceDate": row[16],
                             "CheckNumber": row[17],
                             "CheckDate": row[18],
-                            "Real": row[19],
+                            "Amount": row[19],
                         }
                         gl_data.append(row_dict)
                 else:
@@ -1116,11 +1116,11 @@ def viewgl_all(request, school, year, url, yr=""):
                             "InvoiceDate": row[16],
                             "CheckNumber": row[17],
                             "CheckDate": row[18],
-                            "Real": amount,
+                            "Amount": amount,
                         }
                         gl_data.append(row_dict)
 
-        total_bal = sum(float(row['Real']) for row in gl_data)
+        total_bal = sum(float(row['Amount']) for row in gl_data)
     
         total_bal = format_value(total_bal)
 
