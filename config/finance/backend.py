@@ -303,7 +303,7 @@ def profit_loss(school,year):
         # # print(formatted_last_month)
         # # print(last_month_number)
         if present_year == FY_year_1:
-            first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
+            first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
 
             if current_month <= last_day_of_current_month:
@@ -1926,7 +1926,7 @@ def profit_loss_date(school):
     # # print(formatted_last_month)
     # # print(last_month_number)
     if present_year == FY_year_1:
-        first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
+        first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
         last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
 
         if current_month <= last_day_of_current_month:
@@ -4664,7 +4664,7 @@ def excel(school,year):
         # # print(formatted_last_month)
         # # print(last_month_number)
         if present_year == FY_year_1:
-            first_day_of_next_month = current_month.replace(day=1, month=current_month.month + 1)
+            first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
 
             if current_month <= last_day_of_current_month:

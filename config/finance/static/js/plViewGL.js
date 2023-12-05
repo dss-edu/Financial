@@ -53,26 +53,24 @@ document.addEventListener("DOMContentLoaded", function () {
           `;
       }      else{
         newRow.innerHTML = `
-<td class="text-end">${row.fund}</td>
-<td class="text-end">${row.T}</td>
-<td class="text-end">${row.func}</td>
-<td class="text-end">${row.obj}</td>
-<td class="text-end">${row.sobj}</td>
-<td class="text-end">${row.org}</td>
-<td class="text-end">${row.fscl_yr}</td>
-<td class="text-end">${row.PI}</td>
-<td class="text-end">${row.LOC}</td>
-<td class="text-end text-nowrap">${formatDateToYYYYMMDD(row.Date)}</td>
-<td class="text-end">${row.AcctPer}</td>
-<td class="text-end">${row.Source}</td>
-<td class="text-end">${row.Subsource}</td>
-<td class="text-end text-nowrap">${row.Batch}</td>
-<td class="text-end text-nowrap">${row.Vendor}</td>
-<td class="text-end text-nowrap">${row.TransactionDescr}</td>
-<td class="text-end">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
-<td class="text-end">${row.CheckNumber}</td>
-<td class="text-end text-nowrap">${formatDateToYYYYMMDD(row.CheckDate)}</td>
-<td class="text-end">${row.Amount}</td>
+<td class="text-end px-3">${row.fund}</td>
+<td class="text-end px-3">${row.T}</td>
+<td class="text-end px-3">${row.func}</td>
+<td class="text-end px-3">${row.obj}</td>
+<td class="text-end px-3">${row.sobj}</td>
+<td class="text-end px-3">${row.org}</td>
+<td class="text-end px-3">${row.PI}</td>
+<td class="text-end px-3">${row.LOC}</td>
+<td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.Date)}</td>
+<td class="text-end px-3">${row.Source}</td>
+<td class="text-end px-3">${row.Subsource}</td>
+<td class="text-end text-nowrap px-3">${row.Batch}</td>
+<td class="text-end text-nowrap px-3">${row.Vendor}</td>
+<td class="text-end text-nowrap px-3">${row.TransactionDescr}</td>
+<td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
+<td class="text-end px-3">${row.CheckNumber}</td>
+<td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.CheckDate)}</td>
+<td class="text-end px-3">${row.Amount}</td>
       `;
   }
       // newRow.innerHTML = `
@@ -478,6 +476,7 @@ document.addEventListener("DOMContentLoaded", function () {
       else {
         $("#spinner-modal").modal("hide");
         console.log(data.status)
+        console.log(data.error)
       }
     }).catch(error => {
       console.log(error)

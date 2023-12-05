@@ -758,6 +758,7 @@ def delete_bsa(request, obj, Activity):
 #     return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
 
 def viewgl(request,fund,obj,yr,school,year,url):
+    null_values = [None, 'null', 'None']
     print(request)
     try:
         print(year)
@@ -871,26 +872,26 @@ def viewgl(request,fund,obj,yr,school,year,url):
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
-                            "Amount": row[19],
+                            "Amount": row[19] if row[19] not in null_values else '',
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -898,24 +899,24 @@ def viewgl(request,fund,obj,yr,school,year,url):
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer":  row[10],
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "AcctPer":  row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
@@ -942,7 +943,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewgl_all(request, school, year, url, yr=""):
-
+    null_values = [None, 'null', 'None']
     data = json.loads(request.body)
     # do something about the yr
     if not yr:
@@ -1071,24 +1072,24 @@ def viewgl_all(request, school, year, url, yr=""):
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19],
                         }
@@ -1097,24 +1098,24 @@ def viewgl_all(request, school, year, url, yr=""):
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
@@ -1135,6 +1136,7 @@ def viewgl_all(request, school, year, url, yr=""):
         return JsonResponse({'status': 'success', 'data': context})
 
     except Exception as e:
+        print(e)
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 
@@ -1582,6 +1584,7 @@ def viewgl_activitybs(request,obj,yr,school,year,url):
 
 
 def viewglfunc(request,func,yr,school,year,url):
+    null_values = [None, 'null', 'None']
     try:
         def format_value(value):
             if value > 0:
@@ -1686,26 +1689,26 @@ def viewglfunc(request,func,yr,school,year,url):
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
-                            "Amount": row[19],
+                            "Amount": row[19] if row[19] not in null_values else '',
                         }
 
                         # row_dict = {
@@ -1725,24 +1728,24 @@ def viewglfunc(request,func,yr,school,year,url):
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer":  row[10],
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "AcctPer":  row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
@@ -1798,8 +1801,9 @@ def viewglfunc(request,func,yr,school,year,url):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewglfunc_all(request,school,year,url, yr=""):
+    null_values = [None, 'None', 'null']
     if not yr:
-        yr = ['09', '10']
+        yr = ['09', '10', '11']
     else:
         yr = [yr]
     data = json.loads(request.body)
@@ -1916,50 +1920,50 @@ def viewglfunc_all(request,school,year,url, yr=""):
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
-                            "Amount": row[19],
+                            "Amount": row[19] if row[19] not in null_values else '',
                         }
                         gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer":  row[10],
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "AcctPer":  row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
@@ -2176,6 +2180,7 @@ def viewgldna(request,func,yr,school,year,url):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewglexpense(request,obj,yr,school,year,url):
+    null_values = [None, 'None', 'null']
     print(request)
     try:
         FY_year_1 = int(year)
@@ -2323,24 +2328,24 @@ def viewglexpense(request,obj,yr,school,year,url):
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount
                         }
@@ -2411,6 +2416,7 @@ def viewglexpense(request,obj,yr,school,year,url):
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewglexpense_all(request,school,year,url,yr=""):
+    null_values = ['null', None, 'None']
     data = json.loads(request.body)
     if not yr:
         yr = ['09', '10', '11']
@@ -2565,26 +2571,26 @@ def viewglexpense_all(request,school,year,url,yr=""):
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
                             "AcctPer":  acct_per_month,
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
-                            "Amount": row[19],
+                            "Amount": row[19] if row[19] not in null_values else '',
                         }
                         print(amount)
                         gl_data.append(row_dict)
@@ -2592,24 +2598,24 @@ def viewglexpense_all(request,school,year,url,yr=""):
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer": row[10],
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
+                            "AcctPer": row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
                             "InvoiceDate": row[16],
-                            "CheckNumber": row[17],
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }

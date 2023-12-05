@@ -27,14 +27,14 @@
 
   table.dataTable > thead > tr > th:not(.sorting_disabled),
   table.dataTable > thead > tr > td:not(.sorting_disabled) {
-    padding-right: 0px !important;
-    padding-left: 0px !important;
+    padding-right: 0px;
+    padding-left: 0px;
   }
 
   table.dataTable > thead > tr > th,
   table.dataTable > thead > tr > td {
-    padding-right: 0px !important;
-    padding-left: 0px !important;
+    padding-right: 0px;
+    padding-left: 0px;
   }
 
   .dataTables_wrapper .dataTables_paginate .paginate_button::before {
@@ -289,26 +289,24 @@
 
               {% else %}
               <tr class="text-center">
-                <th>fund</th>
-                <th>T</th>
-                <th>func</th>
-                <th>obj</th>
-                <th>sobj</th>
-                <th>org</th>
-                <th>fscl_yr</th>
-                <th>PI</th>
-                <th>LOC</th>
-                <th>Date</th>
-                <th>AcctPer</th>
-                <th>Source</th>
-                <th>Subsource</th>
-                <th>Batch</th>
-                <th>Vendor</th>
-                <th>TransactionDescr</th>
-                <th>InvoiceDate</th>
-                <th>CheckNumber</th>
-                <th>CheckDate</th>
-                <th>Amount</th>
+                <th class="px-3">fund</th>
+                <th class="px-3">T</th>
+                <th class="px-3">func</th>
+                <th class="px-3">obj</th>
+                <th class="px-3">sobj</th>
+                <th class="px-3">org</th>
+                <th class="px-3">PI</th>
+                <th class="px-3">LOC</th>
+                <th class="px-3">Date</th>
+                <th class="px-3">Source</th>
+                <th class="px-3">Subsource</th>
+                <th class="px-3">Batch</th>
+                <th class="px-3">Vendor</th>
+                <th class="px-3">TransactionDescr</th>
+                <th class="px-3">InvoiceDate</th>
+                <th class="px-3">CheckNumber</th>
+                <th class="px-3">CheckDate</th>
+                <th class="px-3">Amount</th>
               </tr>
               {% endif %}
             </thead>
