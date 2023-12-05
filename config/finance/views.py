@@ -940,6 +940,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
         return JsonResponse({'status': 'success', 'data': context})
 
     except Exception as e:
+        print(e)
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewgl_all(request, school, year, url, yr=""):
@@ -1121,7 +1122,21 @@ def viewgl_all(request, school, year, url, yr=""):
                         }
                         gl_data.append(row_dict)
 
-        total_bal = sum(float(row['Amount']) for row in gl_data)
+        total_bal = 0    
+        expend_key = "Real"
+        
+        if school in schoolCategory["skyward"]:
+            expend_key = "Amount"
+
+        # for row in gl_data:
+        #     expend_str = row[expend_key]
+        #     try:
+        #         expend_value = float(expend_str)
+        #         total_bal += expend_value
+        #     except ValueError:
+        #         pass
+
+        total_bal = sum(float(row[expend_key]) for row in gl_data)
     
         total_bal = format_value(total_bal)
 

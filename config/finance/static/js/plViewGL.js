@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var modalTableBody = document.getElementById("modal-table-body");
   var mdfooter = document.getElementById("myModalFooter");
 
+  function formatNumberToComma(numString) {
+  return numString.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })
+  }
   function formatDateToYYYYMMDD(dateString) {
       // Create a new Date object
       const date = new Date(dateString);
@@ -45,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="text-end">${row.Number}</td>
             <td class="text-end" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
             <td class="text-end">${row.AcctPer}</td>
-            <td class="text-end">${row.Real}</td>
+            <td class="text-end">${formatNumberToComma(row.Real)}</td>
             <td class="text-end">${row.Expend}</td>
             <td class="text-end">${row.Bal}</td>
             <td class="text-end" style="white-space: nowrap;">${row.WorkDescr}</td>
@@ -70,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
 <td class="text-end px-3">${row.CheckNumber}</td>
 <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.CheckDate)}</td>
-<td class="text-end px-3">${row.Amount}</td>
+<td class="text-end px-3">${formatNumberToComma(row.Amount)}</td>
       `;
   }
       // newRow.innerHTML = `

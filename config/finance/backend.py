@@ -290,8 +290,8 @@ def profit_loss(school,year):
             else:
                 current_month = september_date_end
 
-        
-        last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+        # last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+        last_month = current_month.replace(day=1) - relativedelta(days=1)                      
         last_month_name = last_month.strftime("%B")
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
