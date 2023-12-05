@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   function formatDateToYYYYMMDD(dateString) {
       // Create a new Date object
+      if (!dateString){
+        return ''
+      }
+
       const date = new Date(dateString);
 
       // Get the year, month, and day

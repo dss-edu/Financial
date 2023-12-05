@@ -867,6 +867,14 @@ def viewgl(request,fund,obj,yr,school,year,url):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -888,7 +896,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19] if row[19] not in null_values else '',
@@ -915,12 +923,13 @@ def viewgl(request,fund,obj,yr,school,year,url):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
-                        print(amount)
+                        print(row[18])
+                        print(type(row[18]))
                         gl_data.append(row_dict)
 
         total_bal = sum(float(row['Amount']) for row in gl_data)
@@ -1068,6 +1077,14 @@ def viewgl_all(request, school, year, url, yr=""):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -1089,7 +1106,7 @@ def viewgl_all(request, school, year, url, yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19],
@@ -1115,7 +1132,7 @@ def viewgl_all(request, school, year, url, yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
@@ -1700,6 +1717,14 @@ def viewglfunc(request,func,yr,school,year,url):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -1720,24 +1745,11 @@ def viewglfunc(request,func,yr,school,year,url):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19] if row[19] not in null_values else '',
                         }
-
-                        # row_dict = {
-                        #     "fund": row[0],
-                        #     "func": row[2],
-                        #     "obj": row[3],
-                        #     "sobj": row[4],
-                        #     "org": row[5],
-                        #     "fscl_yr": row[6],
-                        #     "Date": date,
-                        #     "AcctPer":acct_per_month,
-                        #     "Amount": amount,
-                        #     "Budget":row[20],
-                        # }
                         gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
@@ -1759,7 +1771,7 @@ def viewglfunc(request,func,yr,school,year,url):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
@@ -1930,6 +1942,14 @@ def viewglfunc_all(request,school,year,url, yr=""):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -1951,7 +1971,7 @@ def viewglfunc_all(request,school,year,url, yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19] if row[19] not in null_values else '',
@@ -1977,7 +1997,7 @@ def viewglfunc_all(request,school,year,url, yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
@@ -2338,6 +2358,14 @@ def viewglexpense(request,obj,yr,school,year,url):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -2359,7 +2387,7 @@ def viewglexpense(request,obj,yr,school,year,url):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount
@@ -2386,12 +2414,11 @@ def viewglexpense(request,obj,yr,school,year,url):
                             "Batch": row[13],
                             "Vendor": row[14],
                             "TransactionDescr": row[15],
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17],
                             "CheckDate": row[18],
                             "Amount": amount
                         }
-                        print(amount)
                         gl_data.append(row_dict)
 
 
@@ -2581,6 +2608,14 @@ def viewglexpense_all(request,school,year,url,yr=""):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -2602,7 +2637,7 @@ def viewglexpense_all(request,school,year,url,yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": row[19] if row[19] not in null_values else '',
@@ -2629,7 +2664,7 @@ def viewglexpense_all(request,school,year,url,yr=""):
                             "Batch": row[13] if row[13] not in null_values else '',
                             "Vendor": row[14] if row[14] not in null_values else '',
                             "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": row[16],
+                            "InvoiceDate": invoice_date,
                             "CheckNumber": row[17] if row[17] not in null_values else '',
                             "CheckDate": row[18],
                             "Amount": amount,
