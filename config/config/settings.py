@@ -187,6 +187,7 @@ SCHOOLS = {
     "stmary": "St Mary's Charter School",
     "goldenrule": "Golden Rule Charter School",
     "imagineinternational": "Imagine International Academy of North Texas",
+    "eastfortworthmontessori": "East Fortworth Montessori",
 }
 
 db = {
@@ -411,14 +412,27 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+    "eastfortworthmontessori": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_EastFortworthMontessori]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
-    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational"],
+    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori"],
     "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "imagineinternational"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori"]
 }
