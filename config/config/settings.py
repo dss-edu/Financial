@@ -187,7 +187,7 @@ SCHOOLS = {
     "stmary": "St Mary's Charter School",
     "goldenrule": "Golden Rule Charter School",
     "imagineinternational": "Imagine International Academy of North Texas",
-    "eastfortworthmontessori": "East Fort Worth Montessori",
+    "eastfortworthmontessori": "East Fort Worth Montessori Academy",
 }
 
 db = {
