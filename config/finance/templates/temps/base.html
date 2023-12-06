@@ -197,7 +197,7 @@
                                 {% endif %}
                                 <form id="update-school-form" method="post" action="{% url 'updateschool' school %}">
                                     {% csrf_token %}
-                                    <a id="update-school-btn" class="dropdown-item" style="cursor: pointer;">Update School</a>
+                                    <a id="update-school-btn" class="dropdown-item" style="cursor: pointer;">Update All FY</a>
                                     <script>
                                         $('#update-school-btn').on('click', function() {
                                             $('#update-school-form').submit()
