@@ -8382,7 +8382,7 @@ def download_csv(request,school):
                         "Bal": row[18],
                         "WorkDescr": row[19],
                         "Type": row[20],
-                        "Contr": row[21],
+                        # "Contr": row[21],
                     }
                     data3.append(row_dict)
             
@@ -8460,9 +8460,9 @@ def download_csv(request,school):
     csv_writer = csv.writer(response)
 
     if school in schoolCategory["ascender"]:
-        csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type','Contr'])  
+        csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type'])  
         for row in data3:
-            csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'],row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type'],row['fund'],row['Contr']])        
+            csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'], row['AcctPer'], row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type']])        
     else:
         csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget'])  
         for row in data3:
