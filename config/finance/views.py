@@ -786,21 +786,37 @@ def viewgl(request,fund,obj,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where fund = ? and obj = ? and AcctPer = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query}  fund = ? and obj = ? and AcctPer = ? "
                 cursor.execute(query, (fund,obj,yr))
                 
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where fund = ? and obj = ? and MONTH(Date) = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and MONTH(Date) = ? "
                 cursor.execute(query, (fund,obj,date_object.month))
         else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where fund = ? and obj = ? and Month = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and Month = ? "
                 cursor.execute(query, (fund,obj,yr))
                 
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where fund = ? and obj = ? and MONTH(PostingDate) = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and MONTH(PostingDate) = ? "
                 cursor.execute(query, (fund,obj,date_object.month))
 
 
@@ -991,31 +1007,47 @@ def viewgl_all(request, school, year, url, yr=""):
             values.append(row['fund'])
             values.append(row['obj'])
         
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+        
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
+
                 values.extend(yr)
                 date_query = " OR ".join("AcctPer = ?" for _ in range(len(yr)))
                 query = f"""
-                SELECT * FROM [dbo].{db[school]['db']} where ({fund_obj_query}) and ({date_query})
+                SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query})
                 """
                 cursor.execute(query, values)
                 
             else:
                 values.extend([yr.map(lambda x: int(x))])
                 date_query = " OR ".join("MONTH(Date) = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
         else:
+            filter_query = ' AND '.join( f"{column} NOT IN {value}" for column, value in filters['skyward'].items())
+            filter_query = filter_query + ' AND'
             if url == 'acc':
                 values.extend(yr)
                 date_query = " OR ".join("Month = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
                 
             else:
                 values.extend([yr.map(lambda x: int(x))])
                 date_query = " OR ".join("MONTH(PostingDate) = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
         
         rows = cursor.fetchall()
@@ -1638,21 +1670,37 @@ def viewglfunc(request,func,yr,school,year,url):
 
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
+
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL'; "
                 cursor.execute(query, (func,yr))
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where func = ? and MONTH(Date) = ? and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and MONTH(Date) = ? and obj != '6449' and Number != 'BEGBAL'; "
   
                 cursor.execute(query, (func,date_object.month))
                 
         else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where func = ? and Month = ? and obj != '6449'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and Month = ? and obj != '6449'; "
                 cursor.execute(query, (func,yr))
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where func = ? and obj != '6449' and MONTH(PostingDate) = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and obj != '6449' and MONTH(PostingDate) = ? "
                 cursor.execute(query, (func,date_object.month))
 
         rows = cursor.fetchall()
@@ -1856,28 +1904,44 @@ def viewglfunc_all(request,school,year,url, yr=""):
         # date_string = f"{year}-09-01T00:00:00.0000000"
         # date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
         query_func = " OR ".join(["func = ?" for _ in data])
+
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
                 data.extend(yr)
                 query_date = " OR ".join(["AcctPer = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join(["MONTH(Date) = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
   
                 cursor.execute(query, data)
                 
         else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
                 query_date = " OR ".join(["Month = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_func}) and ({query_date}) and obj != '6449'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449'; "
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join(["MONTH(PostingDate) = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_func}) and obj != '6449' and ({query_date}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and obj != '6449' and ({query_date}) "
                 cursor.execute(query, data)
 
         rows = cursor.fetchall()
@@ -2281,7 +2345,20 @@ def viewglexpense(request,obj,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
             if url == 'acc':
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
                 cursor.execute(query, (obj,yr))
@@ -2289,6 +2366,7 @@ def viewglexpense(request,obj,yr,school,year,url):
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(Date) = ? "    
                 cursor.execute(query, (obj,date_object.month))
         else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
             if url == 'acc':
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and Month = ? "    
                 cursor.execute(query, (obj,yr))
@@ -2523,27 +2601,44 @@ def viewglexpense_all(request,school,year,url,yr=""):
         # date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
         query_obj = " OR ".join("obj = ?" for _ in data)
+
+        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # this filter only works for categorical or string values
+        filters = {
+            'ascender': {
+                'Type': ('EN'),
+                },
+            'skyward': {
+                'Source': ('EN', 'MN'),
+                },
+        }
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+
         if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
                 data.extend(yr)
                 query_date = " OR ".join("AcctPer = ?" for _ in yr)
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_obj}) and ({query_date}) "    
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_obj}) and ({query_date}) "    
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join("MONTH(Date) = ?" for _ in yr)
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_obj}) and ({query_date})"    
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_obj}) and ({query_date})"    
                 cursor.execute(query, data)
         else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+            filter_query = filter_query + ' AND'
             if url == 'acc':
                 data.extend(yr)
                 query_date = " OR ".join("Month = ?" for _ in yr)
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_obj}) and ({query_date}) "    
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_obj}) and ({query_date}) "    
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join("MONTH(PostingDate) = ?" for _ in yr)
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where ({query_obj}) and ({query_date}) "    
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_obj}) and ({query_date}) "    
                 cursor.execute(query, data)
         rows = cursor.fetchall()
     
