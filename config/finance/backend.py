@@ -142,10 +142,10 @@ def profit_loss(school,year):
 
         if school in schoolCategory["ascender"]:
             cursor.execute(
-                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN';"
             )
         else:
-            cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+            cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
 
         rows = cursor.fetchall()
 
@@ -1786,10 +1786,10 @@ def profit_loss_date(school):
     #
     if school in schoolCategory["ascender"]:
         cursor.execute(
-            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL'  and AA.Type != 'EN';"
         )
     else:
-        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
     rows = cursor.fetchall()
     data3 = []
     if school in schoolMonths["julySchool"]:
@@ -4508,10 +4508,10 @@ def excel(school,year):
         #
         if school in schoolCategory["ascender"]:
             cursor.execute(
-                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN';"
             )
         else:
-            cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+            cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
 
         rows = cursor.fetchall()
 
