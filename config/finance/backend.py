@@ -31,6 +31,7 @@ schoolMonths = settings.schoolMonths
 
 def update_db():
     for school, name in SCHOOLS.items():
+        writeCodes(school, db[school]['db'], year)
         profit_loss(school) 
         balance_sheet(school)
         cashflow(school)
@@ -52,8 +53,7 @@ def update_school(school):
     profit_loss_date(school)    
 
 def update_fy(school,year):
-
-
+    writeCodes(school, db[school]['db'], year)
     profit_loss(school,year) 
     balance_sheet(school,year)
     cashflow(school,year)
@@ -6352,7 +6352,236 @@ def updateGraphDB(school, fye):
                                         
                 cursor.execute(insertqueryStatement, dateStore, jsonString, school)
                 cnxn.commit()
-                
+
+def writeCodes(school, table, year):    
+    
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    my_dict = {}
+    my_func = {}
+    my_activities = {}
+    dataOBJ = {}
+
+    cursor.execute(f"SELECT  * FROM dbo.PL_Definition_obj where school = '" + school + "'")
+    rows = cursor.fetchall()
+    for row in rows:
+        my_dict[row[0]+ '-' + row[1]] = row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';0;' + row[5]
+    
+    cursor.execute(f"SELECT  * FROM dbo.PL_Definition_func where school = '" + school + "'")
+    rows = cursor.fetchall()
+    for row in rows:
+        my_func[row[0] + row[3]] = row[0] + ';' + row[1] + ';' + row[2] + ';' + row[3] + ';0;' + row[5] 
+
+    cursor.execute(f"SELECT  * FROM dbo.PL_Activities where school = '" + school + "'")
+    rows = cursor.fetchall()
+    for row in rows:
+        my_activities[row[0]] = row[1]
+
+    cursor.execute(f"SELECT  * FROM dbo.ActivityBS where school = '" + school + "'")
+    rows = cursor.fetchall()
+
+    dataBS = {}
+    for row in rows:
+        dataBS[row[1]] = row[0] + ';' + row[2]
+
+    cursor.execute(f"SELECT  * FROM dbo.List_Activities;")
+    rows = cursor.fetchall()
+   
+    dataFUNC = {}
+
+    for row in rows:
+        if row[1] != '':
+            dataFUNC[row[1]] = row[3]
+        elif row[0] != '' and row[2] != '':
+            dataOBJ[row[0] + '-' + row[2]] = row[3]
+        elif row[2] != '':
+            if not row[2] in dataBS:
+                dataBS[row[2]] = row[3]
+
+    cursor.execute("delete from dbo.PL_Definition_func where school = '" + school + "'")
+    cnxn.commit()
+    
+    plOBJqueryStatement = 'INSERT INTO dbo.PL_Definition_obj (fund,obj,Description,Category,budget,school) VALUES (?,?,?,?,?,?)'
+    plFUNCqueryStatement = 'INSERT INTO dbo.PL_Definition_func (func,obj,Description,Category,budget,school) VALUES (?,?,?,?,?,?)'
+    plACTqueryStatement = 'INSERT INTO dbo.PL_Activities (obj,Description,Category,school) VALUES (?,?,?,?)'
+    plBSqueryStatement = 'INSERT INTO dbo.ActivityBS (Activity,obj,Description,school) VALUES (?,?,?,?)'
+
+    selectQuery = f"SELECT * FROM " + table + " where Date >= '" + str(year) + "-07-01' and Type != 'EN'"
+    if school in schoolCategory['skyward']:
+        selectQuery = f"SELECT fund,func,obj,sobj,org,fscl_yr,PI,LOC,PostingDate,TransactionDescr,Month,Source,Subsource,Batch,Vendor,InvoiceDate,CheckNumber,CheckDate,Amount,budgetOrigin FROM " + table + " where PostingDate >= '" + str(year) + "-09-01' and source != 'RE'"
+    cursor.execute(selectQuery)
+    rows = cursor.fetchall()
+
+    storeREV = {}
+    storeACT = {}
+    storeBS = {}
+    
+    for line in rows:        
+        try:
+            objCodes = int(line[2])                    
+            if objCodes >= 5700 and objCodes < 6000:
+                key = line[0] + '-' + line[2]
+                if key not in my_dict:
+                    if key not in storeREV:
+                        value = ''
+                        description = line[9][0:49]
+                        if description == '':
+                            if key in dataOBJ:
+                                description = dataOBJ[key]                  
+                        if objCodes >= 5700 and objCodes < 5800:
+                            value = line[0] + ';' + line[2] + ';' + description + ';Local Revenue;0;' + school
+                        elif objCodes >= 5800 and objCodes < 5900:
+                            value = line[0] + ';' + line[2] + ';' + description + ';State Program Revenue;0;' + school
+                        elif objCodes >= 5900 and objCodes < 6000:
+                            value = line[0] + ';' + line[2] + ';' + description + ';Federal Program Revenue;0;' + school
+                        if value != '':
+                            storeREV[key] = value                
+            elif objCodes >= 6100 and objCodes != 6449:
+                key = line[2]
+                if key not in my_activities:
+                    if key not in storeACT:
+                        value = ''
+                        description = line[9][0:49]                    
+                        if objCodes >= 6100 and objCodes < 6200:
+                            value = line[2] + ';' + description + ';Payroll and Benefits;' + school
+                        elif objCodes >= 6200 and objCodes < 6300:
+                            value = line[2] + ';' + description + ';Professional and Contract Services;' + school
+                        elif objCodes >= 6300 and objCodes < 6400:
+                            value = line[2] + ';' + description + ';Materials and Supplies;' + school
+                        elif objCodes >= 6400 and objCodes < 6500:
+                            value = line[2] + ';' + description + ';Other Operating Costs;' + school
+                        elif objCodes >= 6500 and objCodes < 6600:
+                            value = line[2] + ';' + description + ';Debt Services;' + school
+                        if value != '':
+                            storeACT[key] = value
+            elif objCodes < 4500:
+                if school in schoolCategory['ascender']:                                                   
+                    if line[14] == '0.00' and line[17] == '0.00' and line[18] == '0.00' :
+                        pass
+                    else:
+                        if line[2] not in dataBS:
+                            if line[2] not in storeBS:
+                                activityType = assignedType(objCodes)         
+                                storeBS[line[2]] = activityType[1] + ';' + line[2] + ';' + activityType[0]
+                        
+                else:
+                    if line[18] != '0.00':
+                        if line[2] not in dataBS:
+                            if line[2] not in storeBS:
+                                activityType = assignedType(objCodes)         
+                                storeBS[line[2]] = activityType[1] + ';' + line[2] + ';' + activityType[0]
+
+            func = line[1].replace('=', '').replace('"', '')
+            if func != '00':
+                ctgry = ''
+                if line[2] == '6449':
+                    ctgry = 'Depreciation and Amortization'
+
+                key = func + ctgry
+                if key not in my_func:
+                    description = line[9]
+                    if key in dataFUNC:
+                        description = str(dataFUNC[key])
+                    description = description[0:49]
+                    value = func + ';' + line[2] + ';' + description + ';' + ctgry + ';0;' + school
+                    my_func[key] = value
+
+        except Exception as error:
+            pass
+
+    for plCodes in storeREV:        
+        splitCodes = str(storeREV[plCodes]).split(';')        
+        cursor.execute(plOBJqueryStatement,splitCodes[0], splitCodes[1], splitCodes[2], splitCodes[3], int(splitCodes[4]), splitCodes[5])
+    for plCodes in my_func:
+        splitCodes = str(my_func[plCodes]).split(';')
+        cursor.execute(plFUNCqueryStatement,splitCodes[0], splitCodes[1], splitCodes[2], splitCodes[3], int(splitCodes[4]), splitCodes[5])
+
+    for plCodes in storeACT:
+        splitCodes = str(storeACT[plCodes]).split(';')
+        cursor.execute(plACTqueryStatement,splitCodes[0], splitCodes[1], splitCodes[2], splitCodes[3])
+
+    for plCodes in storeBS:
+        splitCodes = str(storeBS[plCodes]).split(';')
+        cursor.execute(plBSqueryStatement,splitCodes[0], splitCodes[1], splitCodes[2], school)
+
+    cnxn.commit()
+
+def assignedType(objectCode):
+    if objectCode < 1200:
+        return ['Cash and Cash Equivalent', 'Cash' ]
+    elif objectCode == 1210:
+        return ['Property Taxes To Be Passed Through School Districts', 'DFS+F']
+    elif objectCode == 1220:
+        return ['Contributions Receivable', 'DFS+F']
+    elif objectCode == 1220:
+        return ['Allowance for Uncollected Receivables (credit)', 'DFS+F']
+    elif objectCode < 1242:
+        return ['Receivables', 'DFS+F']
+    elif objectCode < 1251:
+        return ['Due from other Governments', 'DFS+F']
+    elif objectCode < 1294:
+        return ['General Fund', 'OTHR']
+    elif objectCode < 1311:
+        return ['Inventories- Supplies and Materials', 'Inventory']
+    elif objectCode < 1411:
+        return ['Deferred Expenses', 'OTHR']
+    elif objectCode < 1421:
+        return ['Pre-paid Workers Comp', 'Acc-Exp']
+    elif objectCode < 1490:
+        return ['Capitalized Bond Costs', 'LTD']
+    elif objectCode < 1500:
+        return ['Other Current Assets', 'OTHR']
+    elif objectCode < 1520:
+        return ['Land Purchase and Improvements', 'FA-L']
+    elif objectCode < 1530:
+        return ['Buildings and Improvements', 'FA-BFE']
+    elif objectCode < 1538:
+        return ['Vehicles', 'FA-L']
+    elif objectCode == 1538:
+        return ['Equipment- Technology', 'FA-BFE']
+    elif objectCode < 1550:
+        return ['Furniture and Equipment', 'FA-BFE']
+    elif objectCode < 1581:
+        return ['Capital Leases- Equipment', 'FA-BFE']
+    elif objectCode < 1590:
+        return ['Accumulated Depreciation', 'FA-AD']
+    elif objectCode < 1699:
+        return ['Infrastructure Assets', 'OCA']
+    elif objectCode < 1799:
+        return ['Deferred Outflows of Resources', 'DR']
+    elif objectCode < 1828:
+        return ['Restricted Cash', 'Restr']
+    elif objectCode < 2110:
+        return ['Long-term Investments', 'OTHR']
+    elif objectCode < 2120:
+        return ['Accounts Payable', 'AP']
+    elif objectCode < 2124:
+        return ['Bonds and Loans Payable', 'OtherLiab']
+    elif objectCode < 2131:
+        return ['Capital Leases Payable- Current Year', 'Debt-C']
+    elif objectCode < 2151:
+        return ['Loan Interest Payable', 'ACC-Int']
+    elif objectCode < 2162:
+        return ['Payroll Deductions and Withholdings', 'Acc-Exp']
+    elif objectCode < 2180:
+        return ['Special Revenue Fund', 'OTHR']
+    elif objectCode < 2190:
+        return ['Due to Other Governments', 'AP']
+    elif objectCode < 2220:
+        return ['ACCRUED PAYROLL EXPENSES', 'Acc-Exp']
+    elif objectCode < 2300:
+        return ['Accrued Expenditures or Expenses', 'Acc-Exp']
+    elif objectCode < 2400:
+        return ['Deferred Revenue', 'Debt-D']
+    elif objectCode < 2500:
+        return ['Payable from Restricted Assets', 'ACC-Int']
+    elif objectCode < 3000:
+        return ['Bonds and Loans Payable- Long Term', 'LTD']
+    elif objectCode >= 3000:
+        return ['Net Assets', 'Equity']
+    return ''
+    
 if __name__ == "__main__":
     update_db()
     # charter_first("advantage")
