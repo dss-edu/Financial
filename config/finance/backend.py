@@ -50,7 +50,7 @@ def update_school(school):
     profit_loss_date(school)  # 
 
 def update_fy(school,year):
-    # writeCodes(school, db[school]['db'], year)
+    writeCodes(school, db[school]['db'], year)
     profit_loss(school,year) 
     balance_sheet(school,year)
     cashflow(school,year)
