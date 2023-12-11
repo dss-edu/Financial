@@ -1480,8 +1480,8 @@ def insert_bs_advantage(request):
 
 
 
-def viewgl_activitybs(request,obj,yr,school,year,url):
-    print(request)
+def viewgl_activitybs(request,yr,school,year,url):
+    data = json.loads(request.body)
     try:
         def format_value(value):
             if value > 0:
@@ -1503,17 +1503,22 @@ def viewgl_activitybs(request,obj,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
+        if data["obj"]:
+            obj_query = "(" + " OR ".join("obj = ?" for _ in data["obj"]) +")"
+        else: 
+            obj_query = "obj = ?"
         if school in schoolCategory["ascender"]:
-            query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? ; "
+            query = f"SELECT * FROM [dbo].{db[school]['db']} where {obj_query} and AcctPer = ? ; "
             
         else:
-            query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and Month = ? ; "
-        cursor.execute(query, (obj,yr))
+            query = f"SELECT * FROM [dbo].{db[school]['db']} where {obj_query} and Month = ? ; "
+        query_values = [obj for obj in data['obj']] if data['obj'] else ['']
+        query_values.extend([yr])
+        cursor.execute(query, query_values)
         rows = cursor.fetchall()
     
         glbs_data=[]
     
-        print("query")
 
 
         if school in schoolCategory["ascender"]:
@@ -1643,6 +1648,7 @@ def viewgl_activitybs(request,obj,yr,school,year,url):
         return JsonResponse({'status': 'success', 'data': context})
 
     except Exception as e:
+        print(e)
         return JsonResponse({'status': 'error', 'message': str(e)})
 
 
