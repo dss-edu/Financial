@@ -709,7 +709,7 @@ def profit_loss(school,year):
             item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
             item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
         
-        ytd_total_revenue = abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
+        ytd_total_revenue = (sum(value for key, value in total_revenue.items() if key != month_exception_str))
         #ytd_total_revenue = abs(sum(total_revenue.values())) abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
         ytd_ammended_total = totals["total_ammended"] * ytd_budget
         ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
@@ -1093,13 +1093,13 @@ def profit_loss(school,year):
         # ytd_EOC_oe  = sum(total_EOC_oe.values())
         # ytd_EOC_cpa  = sum(total_EOC_cpa.values())
 
-        ytd_EOC_pc  = abs(sum(value for key, value in total_EOC_pc.items() if key != month_exception_str))
-        ytd_EOC_pcs =  abs(sum(value for key, value in total_EOC_pcs.items() if key != month_exception_str))
-        ytd_EOC_sm  =  abs(sum(value for key, value in total_EOC_sm.items() if key != month_exception_str))
-        ytd_EOC_ooe =  abs(sum(value for key, value in total_EOC_ooe.items() if key != month_exception_str))
-        ytd_EOC_te  =  abs(sum(value for key, value in total_EOC_te.items() if key != month_exception_str))
-        ytd_EOC_oe  =  abs(sum(value for key, value in total_EOC_oe.items() if key != month_exception_str))
-        ytd_EOC_cpa  =  abs(sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
+        ytd_EOC_pc  = (sum(value for key, value in total_EOC_pc.items() if key != month_exception_str))
+        ytd_EOC_pcs =  (sum(value for key, value in total_EOC_pcs.items() if key != month_exception_str))
+        ytd_EOC_sm  =  (sum(value for key, value in total_EOC_sm.items() if key != month_exception_str))
+        ytd_EOC_ooe =  (sum(value for key, value in total_EOC_ooe.items() if key != month_exception_str))
+        ytd_EOC_te  =  (sum(value for key, value in total_EOC_te.items() if key != month_exception_str))
+        ytd_EOC_oe  =  (sum(value for key, value in total_EOC_oe.items() if key != month_exception_str))
+        ytd_EOC_cpa  =  (sum(value for key, value in total_EOC_cpa.items() if key != month_exception_str))
         
         ytd_budget_pc = total_budget_pc * ytd_budget
         ytd_budget_pcs = total_budget_pcs * ytd_budget
