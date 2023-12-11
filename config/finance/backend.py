@@ -709,7 +709,7 @@ def profit_loss(school,year):
             item["variances"] = item["ytd_total"] +item[f"ytd_budget"]
             item[f"ytd_budget"] = format_value(item[f"ytd_budget"])
         
-        ytd_total_revenue = (sum(value for key, value in total_revenue.items() if key != month_exception_str))
+        ytd_total_revenue = abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
         #ytd_total_revenue = abs(sum(total_revenue.values())) abs(sum(value for key, value in total_revenue.items() if key != month_exception_str))
         ytd_ammended_total = totals["total_ammended"] * ytd_budget
         ytd_ammended_total_lr = totals["total_ammended_lr"] * ytd_budget
