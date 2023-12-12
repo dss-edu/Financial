@@ -3518,7 +3518,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'Cash' %}
 
-<tr  id="row4-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr  id="row4-{{ forloop.counter }}" class="balancesheet-activity-row cash-section">
   <td class="firstcolumn">
    
   </td>
@@ -3569,18 +3569,42 @@ style="display:none;"
             
             <div >{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.difference_7}}</td>
-          <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-          <td class="collapsed right-align-td">{{row.difference_9}} </td>
-          <td class="collapsed right-align-td">{{row.difference_10}}</td>
-          <td class="collapsed right-align-td">{{row.difference_11}}</td>
-          <td class="collapsed right-align-td">{{row.difference_12}}</td>
-          <td class="collapsed right-align-td">{{row.difference_1}}</td>
-          <td class="collapsed right-align-td">{{row.difference_2}}</td>
-          <td class="collapsed right-align-td">{{row.difference_3}}</td>
-          <td class="collapsed right-align-td">{{row.difference_4}}</td>
-          <td class="collapsed right-align-td">{{row.difference_5}}</td>
-          <td class="collapsed right-align-td">{{row.difference_6}}</td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="07">{{row.difference_7}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="08">{{ row.difference_8 }}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="09">{{row.difference_9}} </a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="10">{{row.difference_10}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="11">{{row.difference_11}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="12">{{row.difference_12}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="01">{{row.difference_1}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="02">{{row.difference_2}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="03">{{row.difference_3}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="04">{{row.difference_4}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="05">{{row.difference_5}}</a>
+          </td>
+          <td class="collapsed right-align-td">
+            <a href="#" class="viewgl_activitybs-link cash-total" data-yr="06">{{row.difference_6}}</a>
+          </td>
           <td class="right-align-td">{{row.fytd}}</td>
           <td class="right-align-td">{{row.last_month_difference}}</td>
 
@@ -3604,7 +3628,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'Restr' %}
 
-<tr id="row5-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row5-{{ forloop.counter }}" class="balancesheet-activity-row restr-section">
 <td class="firstcolumn">
 
 
@@ -3659,18 +3683,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8}}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="08">{{ row.difference_8}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link restr-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{row.last_month_difference}}</td>
 
@@ -3688,7 +3736,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'DFS+F' %}
 
-<tr id="row6-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row6-{{ forloop.counter }}" class="balancesheet-activity-row dfs-section">
 <td class="firstcolumn">
 
 </td>
@@ -3741,18 +3789,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="08">{{ row.difference_8 }}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{row.last_month_difference}}</td>
 </tr> 
@@ -3769,7 +3841,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'OTHR' %}
 
-<tr id="row7-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row7-{{ forloop.counter }}" class="balancesheet-activity-row othr-section">
 <td class="firstcolumn">
 
 </td>
@@ -3822,18 +3894,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="08">{{ row.difference_8 }}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link othr-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{row.last_month_difference}}</td>
 </tr> 
@@ -3851,7 +3947,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'Inventory' %}
 
-<tr id="row8-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row8-{{ forloop.counter }}" class="balancesheet-activity-row inventory-section">
 <td class="firstcolumn">
 
 </td>
@@ -3904,18 +4000,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="08">{{ row.difference_8 }}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{row.last_month_difference}}</td>
 </tr> 
@@ -3932,7 +4052,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'PPD' %}
 
-<tr  id="row9-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr  id="row9-{{ forloop.counter }}" class="balancesheet-activity-row ppd-section">
 <td class="firstcolumn">
 
 </td>
@@ -3985,18 +4105,42 @@ style="display:none;"
 
     <div>{{row.FYE}} </div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="08">{{row.difference_8}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{row.last_month_difference}}</td>
 </tr> 
@@ -4064,7 +4208,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'FA-L' %}
 
-<tr id="row10-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row10-{{ forloop.counter }}" class="balancesheet-activity-row fal-section">
   <td class="firstcolumn">
    
   </td>
@@ -4117,18 +4261,42 @@ style="display:none;"
 
             <div>{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.difference_7}}</td>
-          <td class="collapsed right-align-td">{{ row.difference_8}}</td>
-          <td class="collapsed right-align-td">{{row.difference_9}}</td>
-          <td class="collapsed right-align-td">{{row.difference_10}}</td>
-          <td class="collapsed right-align-td">{{row.difference_11}}</td>
-          <td class="collapsed right-align-td">{{row.difference_12}}</td>
-          <td class="collapsed right-align-td">{{row.difference_1}}</td>
-          <td class="collapsed right-align-td">{{row.difference_2}}</td>
-          <td class="collapsed right-align-td">{{row.difference_3}}</td>
-          <td class="collapsed right-align-td">{{row.difference_4}}</td>
-          <td class="collapsed right-align-td">{{row.difference_5}}</td>
-          <td class="collapsed right-align-td">{{row.difference_6}}</td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="08">{{ row.difference_8}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+          <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fal-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
           <td class="right-align-td">{{row.fytd}}</td>
           <td class="right-align-td">{{ row.last_month_difference }}</td>
         </tr>
@@ -4146,7 +4314,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'LI' %}
 
-<tr id="row22-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row22-{{ forloop.counter }}" class="balancesheet-activity-row li-section">
 <td class="firstcolumn">
  
 </td>
@@ -4199,18 +4367,42 @@ style="display:none;"
 
           <div>{{row.FYE}}</div>
         </td>
-        <td class="collapsed right-align-td">{{row.difference_7}}</td>
-        <td class="collapsed right-align-td">{{ row.difference_8}}</td>
-        <td class="collapsed right-align-td">{{row.difference_9}}</td>
-        <td class="collapsed right-align-td">{{row.difference_10}}</td>
-        <td class="collapsed right-align-td">{{row.difference_11}}</td>
-        <td class="collapsed right-align-td">{{row.difference_12}}</td>
-        <td class="collapsed right-align-td">{{row.difference_1}}</td>
-        <td class="collapsed right-align-td">{{row.difference_2}}</td>
-        <td class="collapsed right-align-td">{{row.difference_3}}</td>
-        <td class="collapsed right-align-td">{{row.difference_4}}</td>
-        <td class="collapsed right-align-td">{{row.difference_5}}</td>
-        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="08">{{ row.difference_8}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link li-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
         <td class="right-align-td">{{row.fytd}}</td>
         <td class="right-align-td">{{ row.last_month_difference }}</td>
       </tr>
@@ -4226,7 +4418,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'FA-FE' %}
 
-<tr id="row23-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row23-{{ forloop.counter }}" class="balancesheet-activity-row fafe-section">
 <td class="firstcolumn">
  
 </td>
@@ -4279,18 +4471,42 @@ style="display:none;"
 
           <div>{{row.FYE}}</div>
         </td>
-        <td class="collapsed right-align-td">{{row.difference_7}}</td>
-        <td class="collapsed right-align-td">{{ row.difference_8}}</td>
-        <td class="collapsed right-align-td">{{row.difference_9}}</td>
-        <td class="collapsed right-align-td">{{row.difference_10}}</td>
-        <td class="collapsed right-align-td">{{row.difference_11}}</td>
-        <td class="collapsed right-align-td">{{row.difference_12}}</td>
-        <td class="collapsed right-align-td">{{row.difference_1}}</td>
-        <td class="collapsed right-align-td">{{row.difference_2}}</td>
-        <td class="collapsed right-align-td">{{row.difference_3}}</td>
-        <td class="collapsed right-align-td">{{row.difference_4}}</td>
-        <td class="collapsed right-align-td">{{row.difference_5}}</td>
-        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="08">{{ row.difference_8}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+        <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
         <td class="right-align-td">{{row.fytd}}</td>
         <td class="right-align-td">{{ row.last_month_difference }}</td>
       </tr>
@@ -4358,18 +4574,42 @@ style="display:none;"
 
           <div>{{row.FYE}}</div>
         </td>
-        <td class="collapsed right-align-td">{{row.difference_7}}</td>
-        <td class="collapsed right-align-td">{{ row.difference_8}}</td>
-        <td class="collapsed right-align-td">{{row.difference_9}}</td>
-        <td class="collapsed right-align-td">{{row.difference_10}}</td>
-        <td class="collapsed right-align-td">{{row.difference_11}}</td>
-        <td class="collapsed right-align-td">{{row.difference_12}}</td>
-        <td class="collapsed right-align-td">{{row.difference_1}}</td>
-        <td class="collapsed right-align-td">{{row.difference_2}}</td>
-        <td class="collapsed right-align-td">{{row.difference_3}}</td>
-        <td class="collapsed right-align-td">{{row.difference_4}}</td>
-        <td class="collapsed right-align-td">{{row.difference_5}}</td>
-        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="07">{{row.difference_7}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="08">{{ row.difference_8}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="09">{{row.difference_9}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="10">{{row.difference_10}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="11">{{row.difference_11}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="12">{{row.difference_12}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="01">{{row.difference_1}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="02">{{row.difference_2}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="03">{{row.difference_3}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="04">{{row.difference_4}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="05">{{row.difference_5}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="06">{{row.difference_6}}</a>
+        </td>
         <td class="right-align-td">{{row.fytd}}</td>
         <td class="right-align-td">{{ row.last_month_difference }}</td>
       </tr>
@@ -4386,7 +4626,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'FA-BFE' %}
 
-<tr id="row11-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row11-{{ forloop.counter }}" class="balancesheet-activity-row fabfe-section">
 <td class="firstcolumn">
 
 </td>
@@ -4439,18 +4679,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+    <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="08">{{ row.difference_8 }}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{ row.last_month_difference }}</td>
 </tr>
@@ -4468,7 +4732,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'FA-AD' %}
 
-<tr id="row12-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row12-{{ forloop.counter }}" class="balancesheet-activity-row faad-section">
 <td class="firstcolumn">
 
 </td>
@@ -4521,18 +4785,42 @@ style="display:none;"
 
     <div>{{row.FYE}}</div>
   </td>
-  <td class="collapsed right-align-td">{{row.difference_7}}</td>
-  <td class="collapsed right-align-td">{{ row.difference_8 }}</td>
-  <td class="collapsed right-align-td">{{row.difference_9}}</td>
-  <td class="collapsed right-align-td">{{row.difference_10}}</td>
-  <td class="collapsed right-align-td">{{row.difference_11}}</td>
-  <td class="collapsed right-align-td">{{row.difference_12}}</td>
-  <td class="collapsed right-align-td">{{row.difference_1}}</td>
-  <td class="collapsed right-align-td">{{row.difference_2}}</td>
-  <td class="collapsed right-align-td">{{row.difference_3}}</td>
-  <td class="collapsed right-align-td">{{row.difference_4}}</td>
-  <td class="collapsed right-align-td">{{row.difference_5}}</td>
-  <td class="collapsed right-align-td">{{row.difference_6}}</td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="07">{{row.difference_7}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="08">{{ row.difference_8 }}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="09">{{row.difference_9}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="10">{{row.difference_10}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="11">{{row.difference_11}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="12">{{row.difference_12}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="01">{{row.difference_1}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="02">{{row.difference_2}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="03">{{row.difference_3}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="04">{{row.difference_4}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="05">{{row.difference_5}}</a>
+  </td>
+  <td class="collapsed right-align-td">
+  <a href="#" class="viewgl_activitybs-link faad-total" data-yr="06">{{row.difference_6}}</a>
+  </td>
   <td class="right-align-td">{{row.fytd}}</td>
   <td class="right-align-td">{{ row.last_month_difference }}</td>
 </tr>
@@ -4547,7 +4835,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'OA' %}
 
-<tr id="row18-{{ forloop.counter }}" class="balancesheet-activity-row">
+<tr id="row18-{{ forloop.counter }}" class="balancesheet-activity-row oa-section">
 <td class="firstcolumn">
  
 </td>
@@ -4600,18 +4888,42 @@ style="display:none;"
 
           <div>{{row.FYE}}</div>
         </td>
-        <td class="collapsed right-align-td">{{row.difference_7}}</td>
-        <td class="collapsed right-align-td">{{row.difference_8}}</td>
-        <td class="collapsed right-align-td">{{row.difference_9}}</td>
-        <td class="collapsed right-align-td">{{row.difference_10}}</td>
-        <td class="collapsed right-align-td">{{row.difference_11}}</td>
-        <td class="collapsed right-align-td">{{row.difference_12}}</td>
-        <td class="collapsed right-align-td">{{row.difference_1}}</td>
-        <td class="collapsed right-align-td">{{row.difference_2}}</td>
-        <td class="collapsed right-align-td">{{row.difference_3}}</td>
-        <td class="collapsed right-align-td">{{row.difference_4}}</td>
-        <td class="collapsed right-align-td">{{row.difference_5}}</td>
-        <td class="collapsed right-align-td">{{row.difference_6}}</td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="07">{{row.difference_7}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="08">{{row.difference_8}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="09">{{row.difference_9}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="10">{{row.difference_10}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="11">{{row.difference_11}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="12">{{row.difference_12}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="01">{{row.difference_1}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="02">{{row.difference_2}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="03">{{row.difference_3}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="04">{{row.difference_4}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="05">{{row.difference_5}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link oa-total" data-yr="06">{{row.difference_6}}</a>
+        </td>
         <td class="right-align-td">{{row.fytd}}</td>
         <td class="right-align-td">{{ row.last_month_difference }}</td>
       </tr>
@@ -4708,7 +5020,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'AP' %}
   
-  <tr id="row13-{{ forloop.counter }}" class="liabilities-activity-row">
+  <tr id="row13-{{ forloop.counter }}" class="liabilities-activity-row ap-section">
     <td class="firstcolumn">
     
     </td>
@@ -4760,18 +5072,42 @@ style="display:none;"
 
             <div>{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.debt_7}}</td>
-          <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
-          <td class="collapsed right-align-td">{{row.debt_9}}</td>
-          <td class="collapsed right-align-td">{{row.debt_10}}</td>
-          <td class="collapsed right-align-td">{{row.debt_11}}</td>
-          <td class="collapsed right-align-td">{{row.debt_12}}</td>
-          <td class="collapsed right-align-td">{{row.debt_1}}</td>
-          <td class="collapsed right-align-td">{{row.debt_2}}</td>
-          <td class="collapsed right-align-td">{{row.debt_3}}</td>
-          <td class="collapsed right-align-td">{{row.debt_4}}</td>
-          <td class="collapsed right-align-td">{{row.debt_5}}</td>
-          <td class="collapsed right-align-td">{{row.debt_6}}</td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="08">{{ row.debt_8 }}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ap-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
           <td class="right-align-td">{{row.last_month_debt}}</td>
 
@@ -4788,7 +5124,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'PL' %}
   
-  <tr id="row24-{{ forloop.counter }}" class="liabilities-activity-row">
+  <tr id="row24-{{ forloop.counter }}" class="liabilities-activity-row pl-section">
     <td class="firstcolumn">
     
     </td>
@@ -4840,18 +5176,42 @@ style="display:none;"
 
             <div>{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.debt_7}}</td>
-          <td class="collapsed right-align-td">{{ row.debt_8 }}</td>
-          <td class="collapsed right-align-td">{{row.debt_9}}</td>
-          <td class="collapsed right-align-td">{{row.debt_10}}</td>
-          <td class="collapsed right-align-td">{{row.debt_11}}</td>
-          <td class="collapsed right-align-td">{{row.debt_12}}</td>
-          <td class="collapsed right-align-td">{{row.debt_1}}</td>
-          <td class="collapsed right-align-td">{{row.debt_2}}</td>
-          <td class="collapsed right-align-td">{{row.debt_3}}</td>
-          <td class="collapsed right-align-td">{{row.debt_4}}</td>
-          <td class="collapsed right-align-td">{{row.debt_5}}</td>
-          <td class="collapsed right-align-td">{{row.debt_6}}</td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="08">{{ row.debt_8 }}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link pl-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
           <td class="right-align-td">{{row.last_month_debt}}</td>
 
@@ -4921,18 +5281,42 @@ style="display:none;"
   
             <div>{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.debt_7}}</td>
-          <td class="collapsed right-align-td">{{row.debt_8}}</td>
-          <td class="collapsed right-align-td">{{row.debt_9}}</td>
-          <td class="collapsed right-align-td">{{row.debt_10}}</td>
-          <td class="collapsed right-align-td">{{row.debt_11}}</td>
-          <td class="collapsed right-align-td">{{row.debt_12}}</td>
-          <td class="collapsed right-align-td">{{row.debt_1}}</td>
-          <td class="collapsed right-align-td">{{row.debt_2}}</td>
-          <td class="collapsed right-align-td">{{row.debt_3}}</td>
-          <td class="collapsed right-align-td">{{row.debt_4}}</td>
-          <td class="collapsed right-align-td">{{row.debt_5}}</td>
-          <td class="collapsed right-align-td">{{row.debt_6}}</td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link loc-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
           
           <td class="right-align-td">{{row.last_month_debt}}</td>
@@ -4950,7 +5334,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'Acc-Exp' %}
 
-<tr id="row14-{{ forloop.counter }}" class="liabilities-activity-row">
+<tr id="row14-{{ forloop.counter }}" class="liabilities-activity-row accexp-section">
 <td class="firstcolumn">
   
 </td>
@@ -5003,18 +5387,42 @@ style="display:none;"
 
           <div>{{row.FYE}}</div>
         </td>
-        <td class="collapsed right-align-td">{{row.debt_7}}</td>
-        <td class="collapsed right-align-td">{{row.debt_8}}</td>
-        <td class="collapsed right-align-td">{{row.debt_9}}</td>
-        <td class="collapsed right-align-td">{{row.debt_10}}</td>
-        <td class="collapsed right-align-td">{{row.debt_11}}</td>
-        <td class="collapsed right-align-td">{{row.debt_12}}</td>
-        <td class="collapsed right-align-td">{{row.debt_1}}</td>
-        <td class="collapsed right-align-td">{{row.debt_2}}</td>
-        <td class="collapsed right-align-td">{{row.debt_3}}</td>
-        <td class="collapsed right-align-td">{{row.debt_4}}</td>
-        <td class="collapsed right-align-td">{{row.debt_5}}</td>
-        <td class="collapsed right-align-td">{{row.debt_6}}</td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+        <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
         <td class="right-align-td">{{row.debt_fytd}}</td>
         
         <td class="right-align-td">{{row.last_month_debt}}</td>
@@ -5033,7 +5441,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'OtherLiab' %}
 
-<tr id="row15-{{ forloop.counter }}" class="liabilities-activity-row">
+<tr id="row15-{{ forloop.counter }}" class="liabilities-activity-row otherliab-section">
 <td class="firstcolumn">
 
 </td>
@@ -5086,18 +5494,42 @@ style="display:none;"
 
         <div>{{row.FYE}}</div>
       </td>
-      <td class="collapsed right-align-td">{{row.debt_7}}</td>
-      <td class="collapsed right-align-td">{{row.debt_8}}</td>
-      <td class="collapsed right-align-td">{{row.debt_9}}</td>
-      <td class="collapsed right-align-td">{{row.debt_10}}</td>
-      <td class="collapsed right-align-td">{{row.debt_11}}</td>
-      <td class="collapsed right-align-td">{{row.debt_12}}</td>
-      <td class="collapsed right-align-td">{{row.debt_1}}</td>
-      <td class="collapsed right-align-td">{{row.debt_2}}</td>
-      <td class="collapsed right-align-td">{{row.debt_3}}</td>
-      <td class="collapsed right-align-td">{{row.debt_4}}</td>
-      <td class="collapsed right-align-td">{{row.debt_5}}</td>
-      <td class="collapsed right-align-td">{{row.debt_6}}</td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
       <td class="right-align-td">{{row.debt_fytd}}</td>      
       <td class="right-align-td">{{row.last_month_debt}}</td>
     </tr>
@@ -5117,7 +5549,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'Debt-C' %}
 
-<tr id="row16-{{ forloop.counter }}" class="liabilities-activity-row">
+<tr id="row16-{{ forloop.counter }}" class="liabilities-activity-row debtc-section">
 <td class="firstcolumn">
 
 </td>
@@ -5175,18 +5607,42 @@ style="display:none;"
      
         <div>{{row.FYE}}</div>
       </td>
-      <td class="collapsed right-align-td">{{row.debt_7}}</td>
-      <td class="collapsed right-align-td">{{row.debt_8}}</td>
-      <td class="collapsed right-align-td">{{row.debt_9}}</td>
-      <td class="collapsed right-align-td">{{row.debt_10}}</td>
-      <td class="collapsed right-align-td">{{row.debt_11}}</td>
-      <td class="collapsed right-align-td">{{row.debt_12}}</td>
-      <td class="collapsed right-align-td">{{row.debt_1}}</td>
-      <td class="collapsed right-align-td">{{row.debt_2}}</td>
-      <td class="collapsed right-align-td">{{row.debt_3}}</td>
-      <td class="collapsed right-align-td">{{row.debt_4}}</td>
-      <td class="collapsed right-align-td">{{row.debt_5}}</td>
-      <td class="collapsed right-align-td">{{row.debt_6}}</td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
       
       <td class="right-align-td">{{row.debt_fytd}}</td>
 
@@ -5204,7 +5660,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'Debt-D' %}
 
-<tr id="row21-{{ forloop.counter }}" class="liabilities-activity-row">
+<tr id="row21-{{ forloop.counter }}" class="liabilities-activity-row debtd-section">
 <td class="firstcolumn">
 
 </td>
@@ -5261,18 +5717,42 @@ style="display:none;"
      
         <div>{{row.FYE}}</div>
       </td>
-      <td class="collapsed right-align-td">{{row.debt_7}}</td>
-      <td class="collapsed right-align-td">{{row.debt_8}}</td>
-      <td class="collapsed right-align-td">{{row.debt_9}}</td>
-      <td class="collapsed right-align-td">{{row.debt_10}}</td>
-      <td class="collapsed right-align-td">{{row.debt_11}}</td>
-      <td class="collapsed right-align-td">{{row.debt_12}}</td>
-      <td class="collapsed right-align-td">{{row.debt_1}}</td>
-      <td class="collapsed right-align-td">{{row.debt_2}}</td>
-      <td class="collapsed right-align-td">{{row.debt_3}}</td>
-      <td class="collapsed right-align-td">{{row.debt_4}}</td>
-      <td class="collapsed right-align-td">{{row.debt_5}}</td>
-      <td class="collapsed right-align-td">{{row.debt_6}}</td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
       
       <td class="right-align-td">{{row.debt_fytd}}</td>
 
@@ -5290,7 +5770,7 @@ style="display:none;"
 {% for row in data_activitybs %}
 {% if row.Activity == 'ACC-Int' %}
 
-<tr id="row19-{{ forloop.counter }}" class="liabilities-activity-row">
+<tr id="row19-{{ forloop.counter }}" class="liabilities-activity-row accint-section">
 <td class="firstcolumn">
 
 </td>
@@ -5347,18 +5827,42 @@ style="display:none;"
      
         <div>{{row.FYE}}</div>
       </td>
-      <td class="collapsed right-align-td">{{row.debt_7}}</td>
-      <td class="collapsed right-align-td">{{row.debt_8}}</td>
-      <td class="collapsed right-align-td">{{row.debt_9}}</td>
-      <td class="collapsed right-align-td">{{row.debt_10}}</td>
-      <td class="collapsed right-align-td">{{row.debt_11}}</td>
-      <td class="collapsed right-align-td">{{row.debt_12}}</td>
-      <td class="collapsed right-align-td">{{row.debt_1}}</td>
-      <td class="collapsed right-align-td">{{row.debt_2}}</td>
-      <td class="collapsed right-align-td">{{row.debt_3}}</td>
-      <td class="collapsed right-align-td">{{row.debt_4}}</td>
-      <td class="collapsed right-align-td">{{row.debt_5}}</td>
-      <td class="collapsed right-align-td">{{row.debt_6}}</td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+      <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link accint-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
       
       <td class="right-align-td">{{row.debt_fytd}}</td>
 
@@ -5419,7 +5923,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'LTD' %}
   
-  <tr id="row17-{{ forloop.counter }}" class="liabilities-activity-row">
+  <tr id="row17-{{ forloop.counter }}" class="liabilities-activity-row ltd-section">
     <td class="firstcolumn">
     
     </td>
@@ -5471,18 +5975,42 @@ style="display:none;"
 
             <div>{{row.FYE}}</div>
           </td>
-          <td class="collapsed right-align-td">{{row.debt_7}}</td>
-          <td class="collapsed right-align-td">{{row.debt_8}}</td>
-          <td class="collapsed right-align-td">{{row.debt_9}}</td>
-          <td class="collapsed right-align-td">{{row.debt_10}}</td>
-          <td class="collapsed right-align-td">{{row.debt_11}}</td>
-          <td class="collapsed right-align-td">{{row.debt_12}}</td>
-          <td class="collapsed right-align-td">{{row.debt_1}}</td>
-          <td class="collapsed right-align-td">{{row.debt_2}}</td>
-          <td class="collapsed right-align-td">{{row.debt_3}}</td>
-          <td class="collapsed right-align-td">{{row.debt_4}}</td>
-          <td class="collapsed right-align-td">{{row.debt_5}}</td>
-          <td class="collapsed right-align-td">{{row.debt_6}}</td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="07">{{row.debt_7}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="08">{{row.debt_8}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="09">{{row.debt_9}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="10">{{row.debt_10}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="11">{{row.debt_11}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="12">{{row.debt_12}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="01">{{row.debt_1}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="02">{{row.debt_2}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="03">{{row.debt_3}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="04">{{row.debt_4}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="05">{{row.debt_5}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="06">{{row.debt_6}}</a>
+        </td>
           <td class="right-align-td">{{row.debt_fytd}}</td>
           
           <td class="right-align-td">{{row.last_month_debt}}</td>
@@ -5525,7 +6053,7 @@ style="display:none;"
   {% for row in data_activitybs %}
   {% if row.Activity == 'Equity' %}
   
-  <tr id="row25-{{ forloop.counter }}" class="liabilities-activity-row">
+  <tr id="row25-{{ forloop.counter }}" class="liabilities-activity-row equity-section">
     <td class="firstcolumn">
     
     </td>
@@ -5581,18 +6109,42 @@ style="display:none;"
         
               <div>{{row.FYE}}</div>
             </td>
-            <td class="collapsed right-align-td">{{row.net_assets7}}</td>
-            <td class="collapsed right-align-td">{{row.net_assets8}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets9}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets10}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets11}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets12}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets1}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets2}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets3}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets4}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets5}}</td>
-          <td class="collapsed right-align-td">{{row.net_assets6}}</td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="07">{{row.net_assets7}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="08">{{row.net_assets8}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="09">{{row.net_assets9}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="10">{{row.net_assets10}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="11">{{row.net_assets11}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="12">{{row.net_assets12}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="01">{{row.net_assets1}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="02">{{row.net_assets2}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="03">{{row.net_assets3}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="04">{{row.net_assets4}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="05">{{row.net_assets5}}</a>
+        </td>
+          <td class="collapsed right-align-td">
+          <a href="#" class="viewgl_activitybs-link equity-total" data-yr="06">{{row.net_assets6}}</a>
+        </td>
           <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
           
           <td class="right-align-td">{{row.last_month_net_assets}}</td>
