@@ -4364,7 +4364,7 @@ Variances
               </td>
             </tr>
 
-            <tr id="" class="netincome-total-row">
+            <tr id="net-income-row" class="netincome-total-row">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td><strong>Net Income</strong></td>
@@ -7741,7 +7741,7 @@ Variances
               </td>
             </tr>
 
-            <tr id="" class="netincome-total-row">
+            <tr id="net-income-row" class="netincome-total-row">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td><strong>Net Income</strong></td>
@@ -7906,6 +7906,9 @@ Variances
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+      checkValuesMatch();
+
       document.getElementById("showCurrentMonth").addEventListener("click", function () {
        showcurrentMonth();
 
@@ -7915,6 +7918,55 @@ Variances
         hidecurrentMonth();
       });
     });    
+
+    function checkValuesMatch() {
+      const NetSurplusRow = document.getElementById("net-surplus-row1");
+      const NetIncomeRow = document.getElementById("net-income-row");
+      
+      
+      if (!NetSurplusRow || !NetIncomeRow) {
+        return; 
+      }
+      
+      const NetSurplusCells = NetSurplusRow.cells;
+      const NetIncomeCells = NetIncomeRow.cells;
+      
+      let match = true;
+  
+      
+      for (let i =5; i <= last_month_number-2; i++) {
+        const NetSurplusValue = NetSurplusCells[i].textContent.trim();
+        const NetIncomeValue = NetIncomeCells[i].textContent.trim();
+      
+  
+        if (NetIncomeValue !== NetSurplusValue) {
+          NetSurplusCells[i].style.backgroundColor = "yellow";
+          NetIncomeCells[i].style.backgroundColor = "yellow";
+     
+          match = false;
+         
+        }
+      }
+
+      for (let i =17; i <= 18; i++) {
+        const NetSurplusValue = NetSurplusCells[i].textContent.trim();
+        const NetIncomeValue = NetIncomeCells[i].textContent.trim();
+      
+  
+        if (NetIncomeValue !== NetSurplusValue) {
+          NetSurplusCells[i].style.backgroundColor = "yellow";
+          NetIncomeCells[i].style.backgroundColor = "yellow";
+     
+          match = false;
+         
+        }
+      }
+      
+      return match;
+    }
+  
+
+
   </script>
 
   <script src="{% static 'js/plViewGL.js' %}"></script>
