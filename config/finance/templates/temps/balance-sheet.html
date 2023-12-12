@@ -3251,7 +3251,7 @@ style="display:none;"
        
       </tr>
 
-
+      {% if ascender == "False" %}
       
       {% for row in data_activitybs %}
       {% if row.Activity == 'Equity' %}
@@ -3281,6 +3281,7 @@ style="display:none;"
       
       {% endif %}
       {% endfor %}
+      {% endif %}
 
     {% for row in data_balancesheet %}
     {% if row.school == school %}
@@ -3288,6 +3289,7 @@ style="display:none;"
         {% if row.Category == 'Net Assets' %}
         {% if row.Activity == 'Equity' %}
             <tr class="net-assets-row">
+              {% if ascender == "False" %}
               <td class="firstcolumn">
                 <a
                 id="row25"
@@ -3296,6 +3298,10 @@ style="display:none;"
                 >
               <i id="row25-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </td>
+              {%else%}
+              <td class="firstcolumn">
+              </td>
+              {%endif%}
               <td>
                 <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
                 <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
@@ -5514,6 +5520,7 @@ style="display:none;"
    
   </tr>
 
+  {% if ascender == "False" %}
 
   {% for row in data_activitybs %}
   {% if row.Activity == 'Equity' %}
@@ -5544,7 +5551,7 @@ style="display:none;"
   
   {% endif %}
   {% endfor %}
-
+  {% endif %}
 
 {% for row in data_balancesheet %}
 {% if row.school == school %}
@@ -5552,6 +5559,7 @@ style="display:none;"
     {% if row.Category == 'Net Assets' %}
     {% if row.Activity == 'Equity' %}
         <tr class="net-assets-row">
+          {% if ascender == "False" %}
           <td class="firstcolumn">
             <a
             id="row25"
@@ -5560,6 +5568,10 @@ style="display:none;"
             >
           <i id="row25-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
+          {%else%}
+          <td class="firstcolumn">
+          </td>
+          {%endif%}
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
             <input type="hidden"  name="updatefye[]" value="{{row.FYE}}" id="hidden-fye-{{row.BS_id}}">
