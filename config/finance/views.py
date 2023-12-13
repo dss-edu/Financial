@@ -8432,6 +8432,7 @@ def download_csv(request,school):
                             "CheckDate":row[18],
                             "Amount": amount,
                             "Budget":row[20],
+                            "BegBal":row[21],
                         }
                         data3.append(row_dict)
             else:
@@ -8459,6 +8460,7 @@ def download_csv(request,school):
                             "CheckDate":row[18],
                             "Amount": amount,
                             "Budget":row[20],
+                            "BegBal":row[21],
                         }
                         data3.append(row_dict)
 
@@ -8470,8 +8472,192 @@ def download_csv(request,school):
         for row in data3:
             csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'], row['AcctPer'], row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type']])        
     else:
-        csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget'])  
+        csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget','BegBal'])  
         for row in data3:
-            csv_writer.writerow([row['fund'],row['T'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Pl'],row['LOC'],row['Date'],row['AcctPer'],row['Source'],row['Subsource'],row['Batch'],row['Vendor'],row['TransactionDescr'],row['InvoiceDate'],row['CheckNumber'],row['CheckDate'],row['Amount'],row['Budget']])
+            csv_writer.writerow([row['fund'],row['T'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Pl'],row['LOC'],row['Date'],row['AcctPer'],row['Source'],row['Subsource'],row['Batch'],row['Vendor'],row['TransactionDescr'],row['InvoiceDate'],row['CheckNumber'],row['CheckDate'],row['Amount'],row['Budget'],row['BegBal']])
+    
+
     print("done")
     return response
+
+
+
+
+# def upload_drive(request):
+#     school = "advantage"
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = f'attachment; filename="{test}_GL.csv"'
+    
+#     cnxn = connect()
+#     cursor = cnxn.cursor()
+
+#     url = f"https://graph.microsoft.com/v1.0/me/drive/items/{onedrive_folder_id}:/{file_path.split('/')[-1]}:/content"
+#     headers = {
+#         'Authorization': f'Bearer {access_token}',
+#         'Content-Type': 'text/csv', 
+#     }
+
+#     current_date = datetime.today().date()   
+#     current_year = current_date.year
+#     start_year = current_year
+#     accper_month_number = int(current_date.strftime("%m"))
+
+#     accper_str = str(accper_month_number).zfill(2)
+#     print(accper_str)
+
+#     FY_year_1 = start_year
+#     FY_year_2 = start_year + 1 
+#     july_date_start  = datetime(FY_year_1, 7, 1).date()
+#     july_date_end  = datetime(FY_year_2, 6, 30).date()
+#     september_date_start  = datetime(FY_year_1, 9, 1).date()
+#     september_date_end  = datetime(FY_year_2, 8, 31).date()
+
+#     if school in schoolCategory["ascender"]:
+#         cursor.execute(
+#             f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+#         )
+#     else:
+#         cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+#     rows = cursor.fetchall()
+#     data3 = []
+    
+#     if school in schoolMonths["julySchool"]:
+#         current_month = july_date_start
+#     else:
+#         current_month = september_date_start
+    
+
+#     if school in schoolCategory["ascender"]:
+#         for row in rows:
+#             expend = float(row[17])
+#             date = row[11]
+#             if isinstance(row[11], datetime):
+#                 date = row[11].strftime("%Y-%m-%d")
+#             acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+#             acct_per_month = acct_per_month_string.strftime("%m")
+#             db_date = row[22].split('-')[0]
+#             if isinstance(row[11],datetime):
+#                 date_checker = row[11].date()
+#             else:
+#                 date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+               
+
+#             #convert data
+#             db_date = int(db_date)
+#             curr_fy = int(FY_year_1)
+
+                
+#             if db_date == curr_fy:
+#                 if accper_str != row[12]:
+                        
+#                     row_dict = {
+#                         "fund": row[0],
+#                         "func": row[1],
+#                         "obj": row[2],
+#                         "sobj": row[3],
+#                         "org": row[4],
+#                         "fscl_yr": row[5],
+#                         "pgm": row[6],
+#                         "edSpan": row[7],
+#                         "projDtl": row[8],
+#                         "AcctDescr": row[9],
+#                         "Number": row[10],
+#                         "Date": date,
+#                         "AcctPer": row[12],
+#                         "Est": row[13],
+#                         "Real": row[14],
+#                         "Appr": row[15],
+#                         "Encum": row[16],
+#                         "Expend": expend,
+#                         "Bal": row[18],
+#                         "WorkDescr": row[19],
+#                         "Type": row[20],
+#                         # "Contr": row[21],
+#                     }
+#                     data3.append(row_dict)
+            
+    
+#     else:        
+#         for row in rows:
+#             amount = float(row[19])
+#             date = row[9]
+            
+#             if isinstance(row[9], datetime):
+#                 date = row[9].strftime("%Y-%m-%d")
+#             acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+#             acct_per_month = acct_per_month_string.strftime("%m")
+#             if isinstance(row[9], (datetime, datetime.date)):
+#                 date_checker = row[9].date()
+#             else:
+#                 date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+#             if school in schoolMonths["julySchool"]:
+            
+#                 if date_checker >= july_date_start and date_checker <= july_date_end:
+#                     if accper_str != row[10]:
+#                         row_dict = {
+#                             "fund": row[0],
+#                             "T":row[1],
+#                             "func": row[2],
+#                             "obj": row[3],
+#                             "sobj": row[4],
+#                             "org": row[5],
+#                             "fscl_yr": row[6],
+#                             "Pl":row[7],
+#                             "LOC":row[8],         
+#                             "Date": date,
+#                             "AcctPer":row[10],
+#                             "Source":row[11],
+#                             "Subsource":row[12],
+#                             "Batch":row[13],
+#                             "Vendor":row[14],
+#                             "TransactionDescr":row[15],
+#                             "InvoiceDate":row[16],
+#                             "CheckNumber":row[17],
+#                             "CheckDate":row[18],
+#                             "Amount": amount,
+#                             "Budget":row[20],
+#                         }
+#                         data3.append(row_dict)
+#             else:
+#                 if date_checker >= september_date_start and date_checker <= september_date_end:
+#                     if accper_str != row[10]:
+#                         row_dict = {
+#                             "fund": row[0],
+#                             "T":row[1],
+#                             "func": row[2],
+#                             "obj": row[3],
+#                             "sobj": row[4],
+#                             "org": row[5],
+#                             "fscl_yr": row[6],
+#                             "Pl":row[7],
+#                             "LOC":row[8],         
+#                             "Date": date,
+#                             "AcctPer":row[10],
+#                             "Source":row[11],
+#                             "Subsource":row[12],
+#                             "Batch":row[13],
+#                             "Vendor":row[14],
+#                             "TransactionDescr":row[15],
+#                             "InvoiceDate":row[16],
+#                             "CheckNumber":row[17],
+#                             "CheckDate":row[18],
+#                             "Amount": amount,
+#                             "Budget":row[20],
+#                         }
+#                         data3.append(row_dict)
+
+
+#     csv_writer = csv.writer(response)
+
+#     if school in schoolCategory["ascender"]:
+#         csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type'])  
+#         for row in data3:
+#             csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'], row['AcctPer'], row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type']])        
+#     else:
+#         csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget'])  
+#         for row in data3:
+#             csv_writer.writerow([row['fund'],row['T'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Pl'],row['LOC'],row['Date'],row['AcctPer'],row['Source'],row['Subsource'],row['Batch'],row['Vendor'],row['TransactionDescr'],row['InvoiceDate'],row['CheckNumber'],row['CheckDate'],row['Amount'],row['Budget']])
+    
+    
+#     print("done")
+#     return response
