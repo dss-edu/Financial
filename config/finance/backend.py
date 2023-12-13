@@ -4107,11 +4107,12 @@ def balance_sheet(school,year):
                     row[key] = "{:,.0f}".format(float(row[key]))
 
 
-        for row in data_activitybs:
-            if row['Activity'] == "AP" or row["Activity"] == 'Cash':
-                row["activity_fye"] = format_value_dollars(row["activity_fye"])
-            else:
-                row["activity_fye"] = format_value(row["activity_fye"])
+        if school == 'village-tech':
+            for row in data_activitybs:
+                if row['Activity'] == "AP" or row["Activity"] == 'Cash':
+                    row["activity_fye"] = format_value_dollars(row["activity_fye"])
+                else:
+                    row["activity_fye"] = format_value(row["activity_fye"])
 
         # for row in data_balancesheet:
         #     subcategory = row["Subcategory"]
