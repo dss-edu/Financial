@@ -760,7 +760,7 @@ style="display:none;"
       </td>
       <td ></td>
       <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-      <td></td>
+      <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -803,7 +803,7 @@ style="display:none;"
               <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
                 
-                <div >{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
                 <a href="#" class="viewgl_activitybs-link cash-total" data-yr="09">{{row.difference_9}}</a>
@@ -871,7 +871,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -917,7 +917,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link restr-total" data-yr="09">{{row.difference_9}}</a>
@@ -979,7 +979,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1025,7 +1025,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="09">{{row.difference_9}}</a>
@@ -1085,7 +1085,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1130,7 +1130,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
   
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link othr-total" data-yr="09" >{{row.difference_9}}</a>
@@ -1191,7 +1191,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1236,7 +1236,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="09">{{row.difference_9}}</a>
@@ -1296,7 +1296,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1340,7 +1340,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="09">{{row.difference_9}}</a>
@@ -1449,7 +1449,7 @@ style="display:none;"
       </td>
       <td>{{row.obj}}</td>
       <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-      <td></td>
+      <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1493,7 +1493,7 @@ style="display:none;"
               <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
  
-                <div>{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link fal-total" data-yr="09">{{row.difference_9}}</a>
@@ -1553,7 +1553,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1597,7 +1597,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link li-total" data-yr="09">{{row.difference_9}}</a>
@@ -1657,7 +1657,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1701,7 +1701,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="09">{{row.difference_9}}</a>
@@ -1759,7 +1759,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1803,7 +1803,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="09">{{row.difference_9}}</a>
@@ -1862,7 +1862,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -1906,7 +1906,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}} </td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="09">{{row.difference_9}}</a>
@@ -1967,7 +1967,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2011,7 +2011,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
    
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link faad-total" data-yr="09">{{row.difference_9}}</a>
@@ -2069,7 +2069,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2113,7 +2113,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
    
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
         <a href="#" class="viewgl_activitybs-link oa-total" data-yr="09">{{row.difference_9}}</a>
@@ -2249,7 +2249,7 @@ style="display:none;"
         </td>
         <td>{{row.obj}}</td>
         <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-        <td></td>
+        <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2293,7 +2293,7 @@ style="display:none;"
               <td class="space-before">{{row.Description}} </td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-                <div>{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
                 <a href="#" class="viewgl_activitybs-link ap-total" data-yr="09">{{row.debt_9}}</a>
@@ -2355,7 +2355,7 @@ style="display:none;"
         </td>
         <td>{{row.obj}}</td>
         <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-        <td></td>
+        <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2398,8 +2398,7 @@ style="display:none;"
               </td>
               <td class="space-before">{{row.Description}} </td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
-
-                <div>{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link pl-total" data-yr="09">{{row.debt_9}}</a>
@@ -2458,7 +2457,7 @@ style="display:none;"
         </td>
         <td>{{row.obj}}</td>
         <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-        <td></td>
+        <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2502,7 +2501,7 @@ style="display:none;"
               <td class="space-before">{{row.Description}} </td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-                <div>{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link loc-total" data-yr="09">{{row.debt_9}}</a>
@@ -2564,7 +2563,7 @@ style="display:none;"
     </td>
     <td>{{row.obj}}</td>
     <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-    <td></td>
+    <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2607,8 +2606,7 @@ style="display:none;"
             </td>
             <td class="space-before">{{row.Description}} </td>
             <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
- 
-              <div>{{row.FYE}}</div>
+              <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
             </td>
             <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="09">{{row.debt_9}}</a>
@@ -2669,7 +2667,7 @@ style="display:none;"
   </td>
   <td>{{row.obj}}</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2713,7 +2711,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
   
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="09">{{row.debt_9}}</a>
@@ -2776,7 +2774,7 @@ style="display:none;"
   </td>
   <td>{{row.obj}}</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2824,7 +2822,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
          
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link debt-total" data-yr="09">{{row.debt_9}}</a>
@@ -2882,7 +2880,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -2931,7 +2929,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}} 5 </td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
        
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="09">{{row.debt_9}}</a>
@@ -2990,7 +2988,7 @@ style="display:none;"
   </td>
   <td>{{row.obj}}5</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -3038,7 +3036,7 @@ style="display:none;"
           </td>
           <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">         
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link accint-total" data-yr="09">{{row.debt_9}}</a>
@@ -3136,7 +3134,7 @@ style="display:none;"
         </td>
         <td>{{row.obj}}</td>
         <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-        <td></td>
+        <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -3179,7 +3177,7 @@ style="display:none;"
               <td class="space-before">{{row.Description}}</td>
               <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
     
-                <div>{{row.FYE}}</div>
+                <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
               </td>
               <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="09">{{row.debt_9}}</a>
@@ -3262,7 +3260,7 @@ style="display:none;"
         </td>
         <td>{{row.obj}}</td>
         <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-        <td></td>
+        <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="10">{{row.total_bal10}}</td>
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="11">{{row.total_bal11}}</td>
@@ -3309,7 +3307,7 @@ style="display:none;"
               <td><strong>Net Assets<strong></td>
                 <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
             
-                  <div>{{row.FYE}}</div>
+                  <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
                 </td>
               <td class="collapsed right-align-td">
               <a href="#" class="viewgl_activitybs-link equity-total" data-yr="09">{{row.net_assets9}}</a>
@@ -3524,7 +3522,7 @@ style="display:none;"
   </td>
   <td >{{row.obj}}</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -3567,7 +3565,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
             
-            <div >{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
             <a href="#" class="viewgl_activitybs-link cash-total" data-yr="07">{{row.difference_7}}</a>
@@ -3635,7 +3633,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -3681,7 +3679,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link restr-total" data-yr="07">{{row.difference_7}}</a>
@@ -3742,7 +3740,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -3787,7 +3785,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link dfs-total" data-yr="07">{{row.difference_7}}</a>
@@ -3847,7 +3845,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -3892,7 +3890,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link othr-total" data-yr="07">{{row.difference_7}}</a>
@@ -3953,7 +3951,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -3998,7 +3996,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link inventory-total" data-yr="07">{{row.difference_7}}</a>
@@ -4058,7 +4056,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4103,7 +4101,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}} </div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link ppd-total" data-yr="07">{{row.difference_7}}</a>
@@ -4214,7 +4212,7 @@ style="display:none;"
   </td>
   <td>{{row.obj}}</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4259,7 +4257,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link fal-total" data-yr="07">{{row.difference_7}}</a>
@@ -4320,7 +4318,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4365,7 +4363,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link li-total" data-yr="07">{{row.difference_7}}</a>
@@ -4424,7 +4422,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4469,7 +4467,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link fafe-total" data-yr="07">{{row.difference_7}}</a>
@@ -4527,7 +4525,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4572,7 +4570,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link defexp-total" data-yr="07">{{row.difference_7}}</a>
@@ -4632,7 +4630,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4677,7 +4675,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}} </td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
     <a href="#" class="viewgl_activitybs-link fabfe-total" data-yr="07">{{row.difference_7}}</a>
@@ -4738,7 +4736,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4783,7 +4781,7 @@ style="display:none;"
   <td class="space-before">{{row.Description}}</td>
   <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-    <div>{{row.FYE}}</div>
+    <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
   </td>
   <td class="collapsed right-align-td">
   <a href="#" class="viewgl_activitybs-link faad-total" data-yr="07">{{row.difference_7}}</a>
@@ -4841,7 +4839,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -4886,7 +4884,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}}</td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link oa-total" data-yr="07">{{row.difference_7}}</a>
@@ -5026,7 +5024,7 @@ style="display:none;"
     </td>
     <td>{{row.obj}}</td>
     <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-    <td></td>
+    <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5070,7 +5068,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link ap-total" data-yr="07">{{row.debt_7}}</a>
@@ -5130,7 +5128,7 @@ style="display:none;"
     </td>
     <td>{{row.obj}}</td>
     <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-    <td></td>
+    <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5174,7 +5172,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link pl-total" data-yr="07">{{row.debt_7}}</a>
@@ -5234,7 +5232,7 @@ style="display:none;"
   </td>
   <td>{{row.obj}}</td>
   <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-  <td></td>
+  <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5279,7 +5277,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}} </td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
   
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link loc-total" data-yr="07">{{row.debt_7}}</a>
@@ -5340,7 +5338,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5385,7 +5383,7 @@ style="display:none;"
         <td class="space-before">{{row.Description}} </td>
         <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-          <div>{{row.FYE}}</div>
+          <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
         </td>
         <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link accexp-total" data-yr="07">{{row.debt_7}}</a>
@@ -5447,7 +5445,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5492,7 +5490,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link otherliab-total" data-yr="07">{{row.debt_7}}</a>
@@ -5555,7 +5553,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5605,7 +5603,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
      
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link debtc-total" data-yr="07">{{row.debt_7}}</a>
@@ -5666,7 +5664,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5715,7 +5713,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
      
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link debtd-total" data-yr="07">{{row.debt_7}}</a>
@@ -5776,7 +5774,7 @@ style="display:none;"
 </td>
 <td>{{row.obj}}</td>
 <td class="space-before">{{row.obj}} - {{row.Description2}} </td>
-<td></td>
+<td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
 <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5825,7 +5823,7 @@ style="display:none;"
       <td class="space-before">{{row.Description}}</td>
       <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
      
-        <div>{{row.FYE}}</div>
+        <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
       </td>
       <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link accint-total" data-yr="07">{{row.debt_7}}</a>
@@ -5929,7 +5927,7 @@ style="display:none;"
     </td>
     <td>{{row.obj}}</td>
     <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-    <td></td>
+    <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -5973,7 +5971,7 @@ style="display:none;"
           <td class="space-before">{{row.Description}}</td>
           <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
 
-            <div>{{row.FYE}}</div>
+            <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
           </td>
           <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link ltd-total" data-yr="07">{{row.debt_7}}</a>
@@ -6059,7 +6057,7 @@ style="display:none;"
     </td>
     <td>{{row.obj}}</td>
     <td class="space-before">{{row.obj}} - {{row.Description2}}</td>
-    <td></td>
+    <td class="right-align-td">{% if school == 'village-tech' %}{{ row.activity_fye }}{% endif %}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="07">{{row.total_bal7}}</td>
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="08">{{row.total_bal8}}</td>
     <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="09">{{row.total_bal9}}</td>
@@ -6107,7 +6105,7 @@ style="display:none;"
           <td><strong>Net Assets<strong></td>
             <td id="value-cell-{{ forloop.counter }}" data-row-id="{{row.BS_id}}" contenteditable="false" class="right-align-td">
         
-              <div>{{row.FYE}}</div>
+              <div >{% if school == 'village-tech' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</div>
             </td>
           <td class="collapsed right-align-td">
           <a href="#" class="viewgl_activitybs-link equity-total" data-yr="07">{{row.net_assets7}}</a>
