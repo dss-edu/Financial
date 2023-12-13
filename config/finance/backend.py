@@ -3453,8 +3453,13 @@ def balance_sheet(school,year):
                         if entry["obj"] == obj 
                         and entry[begbal_key] is not None                   
                     )
-                
-                item["activity_fye"] = activity_fye
+
+                int_obj = int(obj)
+                if int_obj > 2000:
+                    item["activity_fye"] = -(activity_fye)
+                else:
+                    item["activity_fye"] = activity_fye
+
                 print(item["activity_fye"])
             
             
