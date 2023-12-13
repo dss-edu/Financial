@@ -243,36 +243,21 @@ def profit_loss(school,year):
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
 
-                        if school == 'village-tech':
-                            row_dict = {
-                                "fund": row[0],
-                                "func": row[2],
-                                "obj": row[3],
-                                "sobj": row[4],
-                                "org": row[5],
-                                "fscl_yr": row[6],
-                                "Date": date,
-                                "AcctPer":row[10],
-                                "Amount": amount,
-                                "Budget":row[20],
-                                "BegBal":row[21],
-                                
-                            }
+                        
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                            "BegBal":row[21],
                             
-                        else:
-                            row_dict = {
-                                "fund": row[0],
-                                "func": row[2],
-                                "obj": row[3],
-                                "sobj": row[4],
-                                "org": row[5],
-                                "fscl_yr": row[6],
-                                "Date": date,
-                                "AcctPer":row[10],
-                                "Amount": amount,
-                                "Budget":row[20],
-
-                            }
+                        }
 
                         data3.append(row_dict)
 
@@ -281,40 +266,23 @@ def profit_loss(school,year):
                         if date_checker >= current_month:
                             current_month = date_checker.replace(day=1)
 
-                        if school == 'village-tech':
-                            row_dict = {
-                                "fund": row[0],
-                                "func": row[2],
-                                "obj": row[3],
-                                "sobj": row[4],
-                                "org": row[5],
-                                "fscl_yr": row[6],
-                                "Date": date,
-                                "AcctPer":row[10],
-                                "Amount": amount,
-                                "Budget":row[20],
-                                "BegBal":row[21],
-                                
-                            }
-                            if row[21] > 0:
-                                print(row[21])
+                       
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[2],
+                            "obj": row[3],
+                            "sobj": row[4],
+                            "org": row[5],
+                            "fscl_yr": row[6],
+                            "Date": date,
+                            "AcctPer":row[10],
+                            "Amount": amount,
+                            "Budget":row[20],
+                            "BegBal":row[21],
                             
-                        else:
-                            row_dict = {
-                                "fund": row[0],
-                                "func": row[2],
-                                "obj": row[3],
-                                "sobj": row[4],
-                                "org": row[5],
-                                "fscl_yr": row[6],
-                                "Date": date,
-                                "AcctPer":row[10],
-                                "Amount": amount,
-                                "Budget":row[20],
-         
-                                
-                            }
+                        }
 
+                   
                         data3.append(row_dict)
   
         if FY_year_1 == present_year:
@@ -3478,7 +3446,7 @@ def balance_sheet(school,year):
                 if i != month_exception:
                     item["fytd"] += item[f"total_bal{i}"]
 
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 activity_fye = sum(
                         entry[begbal_key]
                         for entry in data3
@@ -3517,7 +3485,7 @@ def balance_sheet(school,year):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
 
-            if school == 'village-tech':
+            if school in schoolCategory["skyward"]:
                 total_fye = sum(
                         entry["activity_fye"]
                         for entry in data_activitybs
@@ -3682,7 +3650,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 
-                if school == "village-tech":
+                if school in schoolCategory["skyward"]:
                     FYE_value = row["total_fye"]
                     
                 else:
@@ -3885,7 +3853,7 @@ def balance_sheet(school,year):
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school == "village-tech":
+                if school in schoolCategory["skyward"]:
                     fye = row["total_fye"]
 
                 if subcategory == 'Current Assets':
@@ -3921,7 +3889,7 @@ def balance_sheet(school,year):
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school == "village-tech":
+                if school in schoolCategory["skyward"]:
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -3935,7 +3903,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school == "village-tech":
+                if school in schoolCategory["skyward"]:
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -3991,7 +3959,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
 
-                if school == 'village-tech':
+                if school in schoolCategory["skyward"]:
                     if row["Activity"] == 'Cash' or row["Activity"] == 'AP':
 
                         row["total_fye"] = format_value_dollars(row["total_fye"]) 
@@ -4107,7 +4075,7 @@ def balance_sheet(school,year):
                     row[key] = "{:,.0f}".format(float(row[key]))
 
 
-        if school == 'village-tech':
+        if school in schoolCategory["skyward"]:
             for row in data_activitybs:
                 if row['Activity'] == "AP" or row["Activity"] == 'Cash':
                     row["activity_fye"] = format_value_dollars(row["activity_fye"])
