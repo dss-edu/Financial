@@ -264,7 +264,7 @@
         var hours = cstTime.getHours();
         var minutes = cstTime.getMinutes();
 
-        if (hours === 9 && minutes < 10) { // Check if it's 2:00 AM CST
+        if (hours === 2 && minutes < 30) { // Check if it's 2:00 AM CST
             document.querySelector('.marquee').style.display = 'block'; // Show the marquee
         } else {
             document.querySelector('.marquee').style.display = 'none'; // Hide the marquee
