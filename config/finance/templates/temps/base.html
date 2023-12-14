@@ -93,6 +93,32 @@
                 .modal-footer {
                     z-index: 2;
                 }
+                .marquee {
+                    display: none;
+                    background-color: #f44336;
+                    width: 100%; /* Adjust as needed */
+                    overflow: hidden; /* Hide the overflow */
+                    /* position: relative;  */
+                    /* Relative positioning */
+                }
+
+                .marquee-content {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100%;
+                    white-space: nowrap; /* Keep content in a single line */
+                    color: #FFFFFF;
+                    /* position: absolute; */
+
+                    /* Uncomment to get marquee effect. Adjust time as needed */
+                    /* animation: scroll-left 30s linear infinite;  */
+                }
+
+                @keyframes scroll-left {
+                    0%   { transform: translateX(100%); }
+                    100% { transform: translateX(-100%); }
+                }
             </style>
 
         {% block stylesheet %}
@@ -223,6 +249,36 @@
 
         <div style="width:100%;height:40px;">
         </div>
+
+<div class="marquee">
+    <div class="marquee-content">
+        Server is undergoing update. You may experience slower traffic than usual. This occurs every 2:00 am (CST). Sorry for the inconvenience.
+    </div>
+</div>
+
+<script>
+    function checkTimeAndDisplayMarquee() {
+        var currentTime = new Date(); // Get current time
+        var cstTime = new Date(currentTime.toLocaleString('en-US', { timeZone: 'America/Chicago' })); // Convert to CST
+
+        var hours = cstTime.getHours();
+        var minutes = cstTime.getMinutes();
+
+        if (hours === 9 && minutes < 10) { // Check if it's 2:00 AM CST
+            document.querySelector('.marquee').style.display = 'block'; // Show the marquee
+        } else {
+            document.querySelector('.marquee').style.display = 'none'; // Hide the marquee
+        }
+    }
+
+    // Run the function every minute
+    setInterval(checkTimeAndDisplayMarquee, 60000);
+
+    // Run the function immediately on page load
+    checkTimeAndDisplayMarquee();
+
+
+</script>
 
         <div class="d-flex flex-row">
             <div id="wrapper">
