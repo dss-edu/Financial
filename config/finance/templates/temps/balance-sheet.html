@@ -9,6 +9,45 @@
 {% block stylesheet %}
 <link rel="stylesheet" href="{% static 'css/bs.css' %}">
 <style>
+
+  table.dataTable > thead .sorting::before,
+  table.dataTable > thead .sorting_asc::before,
+  table.dataTable > thead .sorting_desc::before,
+  table.dataTable > thead .sorting_asc_disabled::before,
+  table.dataTable > thead .sorting_desc_disabled::before {
+    right: 0 !important;
+    content: "" !important;
+  }
+
+  table.dataTable > thead .sorting::after,
+  table.dataTable > thead .sorting_asc::after,
+  table.dataTable > thead .sorting_desc::after,
+  table.dataTable > thead .sorting_asc_disabled::after,
+  table.dataTable > thead .sorting_desc_disabled::after {
+    right: 0 !important;
+    content: "" !important;
+  }
+
+  table.dataTable > thead > tr > th:not(.sorting_disabled),
+  table.dataTable > thead > tr > td:not(.sorting_disabled) {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  table.dataTable > thead > tr > th,
+  table.dataTable > thead > tr > td {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button::before {
+    padding: 1em 1em !important;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button::after {
+    padding: 1em 1em !important;
+  }
+
   .table thead th {
 
       padding: 5px 10px;
@@ -170,36 +209,44 @@ a:hover{
           <thead>
             {% if ascender == "True" %}
             <tr class="text-center">
-              <th>fund</th>
-              <th>func</th>
-              <th>obj</th>
-              <th>org</th>
-              <th>fscl_yr</th>
-              <th>pgm</th>
-              <th>projDtl</th>
-              <th>AcctDescr</th>
-              <th>Number</th>
-              <th>Date</th>
-              <th>AcctPer</th>
-              <th>Real</th>
-              <th>Expend</th>
-              <th>Bal</th>
-              <th>WorkDescr</th>
-              <th>Type</th>
+              <th class="px-3">fund</th>
+              <th class="px-3">func</th>
+              <th class="px-3">obj</th>
+              <th class="px-3">org</th>
+              <th class="px-3">fscl_yr</th>
+              <th class="px-3">pgm</th>
+              <th class="px-3">projDtl</th>
+              <th class="px-3">AcctDescr</th>
+              <th class="px-3">Number</th>
+              <th class="px-3">Date</th>
+              <th class="px-3">AcctPer</th>
+              <th class="px-3">Real</th>
+              <th class="px-3">Expend</th>
+              <th class="px-3">Bal</th>
+              <th class="px-3">WorkDescr</th>
+              <th class="px-3">Type</th>
             </tr>
 
             {% else%}
             <tr class="text-center">
-              <th>fund</th>
-              <th>func</th>
-              <th>obj</th>
-              <th>org</th>
-              <th>fscl_yr</th>
-
-              <th>Date</th>
-              <th>AcctPer</th>
-              <th>Real</th>
-
+                <th class="px-3">fund</th>
+                <th class="px-3">T</th>
+                <th class="px-3">func</th>
+                <th class="px-3">obj</th>
+                <th class="px-3">sobj</th>
+                <th class="px-3">org</th>
+                <th class="px-3">PI</th>
+                <th class="px-3">LOC</th>
+                <th class="px-3">Date</th>
+                <th class="px-3">Source</th>
+                <th class="px-3">Subsource</th>
+                <th class="px-3">Batch</th>
+                <th class="px-3">Vendor</th>
+                <th class="px-3">TransactionDescr</th>
+                <th class="px-3">InvoiceDate</th>
+                <th class="px-3">CheckNumber</th>
+                <th class="px-3">CheckDate</th>
+                <th class="px-3">Amount</th>
             </tr>
             {%endif%}
           </thead>
