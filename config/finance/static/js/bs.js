@@ -21,7 +21,21 @@ document.addEventListener("DOMContentLoaded", function () {
       return `${year}-${month}-${day}`;
   }
 
+  function formatNumberToComma(numString) {
+  return numString.toLocaleString("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          })
+  }
+
   function populateModal(data) {
+    console.log(data)
+    const existingDataTable = $('#balancesheet-data-table').DataTable()
+
+    if (existingDataTable) {
+      existingDataTable.destroy();
+    }
+
     modalTableBody.innerHTML = "";
     mdfooter.innerHTML = "";
 
@@ -49,15 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
                   `;
       } else {
         newRow.innerHTML = `
-                <td class="text-center">${row.fund}</td>
-                <td class="text-center">${row.func}</td>
-                <td class="text-center">${row.obj}</td>
-                <td class="text-center">${row.org}</td>
-                <td class="text-center">${row.fscl_yr}</td>
-                <td class="text-center" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
-                <td class="text-center">${row.AcctPer}</td>
-                <td class="text-center">${row.Real}</td>
-
+                <td class="text-end px-3">${row.fund}</td>
+                <td class="text-end px-3">${row.T}</td>
+                <td class="text-end px-3">${row.func}</td>
+                <td class="text-end px-3">${row.obj}</td>
+                <td class="text-end px-3">${row.sobj}</td>
+                <td class="text-end px-3">${row.org}</td>
+                <td class="text-end px-3">${row.PI}</td>
+                <td class="text-end px-3">${row.LOC}</td>
+                <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.Date)}</td>
+                <td class="text-end px-3">${row.Source}</td>
+                <td class="text-end px-3">${row.Subsource}</td>
+                <td class="text-end text-nowrap px-3">${row.Batch}</td>
+                <td class="text-end text-nowrap px-3">${row.Vendor}</td>
+                <td class="text-end text-nowrap px-3">${row.TransactionDescr}</td>
+                <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
+                <td class="text-end px-3">${row.CheckNumber}</td>
+                <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.CheckDate)}</td>
+                <td class="text-end px-3">${formatNumberToComma(row.Amount)}</td>
               `;
       }
 
@@ -72,6 +95,11 @@ document.addEventListener("DOMContentLoaded", function () {
         <td colspan="4"></td>
         `;
     mdfooter.appendChild(totalRow);
+
+   $("#balancesheet-data-table").DataTable({
+      paging: false,
+      searching: true,
+    });
   }
 
   // function fetchDataAndPopulateModal(obj, yr, school, year, url) {
@@ -115,11 +143,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         populateModal(data.data, data.total_bal);
 
-        modal.style.display = "block";
+        // modal.style.display = "block";
+
+        $("#myModal").modal("show");
       } else {
       }
     })
-    .catch(function (error) {});
+    .catch(function (error) {
+      console.log(error)
+    });
   }
 
   var viewGLLinks = document.querySelectorAll(".viewgl_activitybs-link");
@@ -132,11 +164,9 @@ document.addEventListener("DOMContentLoaded", function () {
       var yr = link.dataset.yr;
 
       // code for totals
-      console.log(obj)
       if (!obj[0]){
         const section =  Array.from(link.classList).filter(cls => /-total$/.test(cls));
         const sectionName = section[0].split("-")[0]
-        console.log(sectionName)
         const sectionElements = document.querySelectorAll(`.${sectionName}-section`)
         sectionElements.forEach((element) => {
           obj.push(element.querySelector('.viewgl_activitybs-link').dataset.obj)

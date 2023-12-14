@@ -1007,47 +1007,46 @@ def viewgl_all(request, school, year, url, yr=""):
             values.append(row['fund'])
             values.append(row['obj'])
         
-        # filters must be a dictionary with key = column and value = (tuple of values to filter)
+        # filters must be a dictionary with key = column and value = "(string of values to filter)"
+        # eg. "Type": "('value1', 'value2')"
         # this filter only works for categorical or string values
         filters = {
             'ascender': {
-                'Type': ('EN'),
+                'Type': "('EN')",
                 },
             'skyward': {
-                'Source': ('EN', 'MN'),
+                'Source': "('EN', 'MN')",
                 },
         }
         
         if school in schoolCategory["ascender"]:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
-            filter_query = filter_query + ' AND'
             if url == 'acc':
 
                 values.extend(yr)
                 date_query = " OR ".join("AcctPer = ?" for _ in range(len(yr)))
                 query = f"""
-                SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query})
+                SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({fund_obj_query}) and ({date_query})
                 """
                 cursor.execute(query, values)
                 
             else:
                 values.extend([yr.map(lambda x: int(x))])
                 date_query = " OR ".join("MONTH(Date) = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
         else:
             filter_query = ' AND '.join( f"{column} NOT IN {value}" for column, value in filters['skyward'].items())
-            filter_query = filter_query + ' AND'
             if url == 'acc':
                 values.extend(yr)
                 date_query = " OR ".join("Month = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
                 
             else:
                 values.extend([yr.map(lambda x: int(x))])
                 date_query = " OR ".join("MONTH(PostingDate) = ?" for _ in range(len(yr)))
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({fund_obj_query}) and ({date_query}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({fund_obj_query}) and ({date_query}) "
                 cursor.execute(query, values)
         
         rows = cursor.fetchall()
@@ -1481,6 +1480,7 @@ def insert_bs_advantage(request):
 
 
 def viewgl_activitybs(request,yr,school,year,url):
+    null_values = [None, 'null', 'None']
     data = json.loads(request.body)
     try:
         def format_value(value):
@@ -1580,21 +1580,38 @@ def viewgl_activitybs(request,yr,school,year,url):
                     date_checker = row[9].date()
                 else:
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+                if invoice_date not in null_values:
+                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                else:
+                    invoice_date = ''
+
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer":acct_per_month,
-                            "Amount": amount,
-                            "Budget":row[20],
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
+                            "InvoiceDate": invoice_date,
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
+                            "CheckDate": row[18],
+                            "Amount": float(row[19]) if row[19] not in null_values else '',
                         }
                         print(amount)
                         glbs_data.append(row_dict)
@@ -1602,16 +1619,26 @@ def viewgl_activitybs(request,yr,school,year,url):
                     if date_checker >= september_date_start and date_checker <= september_date_end:
 
                         row_dict = {
-                            "fund": row[0],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
                             "Date": date,
-                            "AcctPer": row[10],
+                            "AcctPer":  row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
+                            "InvoiceDate": invoice_date,
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
+                            "CheckDate": row[18],
                             "Amount": amount,
-                            "Budget":row[20],
                         }
                         print(amount)
                         glbs_data.append(row_dict)
@@ -1924,30 +1951,28 @@ def viewglfunc_all(request,school,year,url, yr=""):
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
         if school in schoolCategory["ascender"]:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
-            filter_query = filter_query + ' AND'
             if url == 'acc':
                 data.extend(yr)
                 query_date = " OR ".join(["AcctPer = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join(["MONTH(Date) = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({query_func}) and ({query_date}) and obj != '6449' and Number != 'BEGBAL'; "
   
                 cursor.execute(query, data)
                 
         else:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
-            filter_query = filter_query + ' AND'
             if url == 'acc':
                 query_date = " OR ".join(["Month = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and ({query_date}) and obj != '6449'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({query_func}) and ({query_date}) and obj != '6449'; "
                 cursor.execute(query, data)
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join(["MONTH(PostingDate) = ?" for _ in yr])
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_func}) and obj != '6449' and ({query_date}) "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND ({query_func}) and obj != '6449' and ({query_date}) "
                 cursor.execute(query, data)
 
         rows = cursor.fetchall()
