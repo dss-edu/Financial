@@ -7,5 +7,9 @@ if __name__ == "__main__":
     for school in SCHOOLS.keys():
         update_fy(school, year)
 
-
-
+    # --- UPDATE ASCENDER CLIENTS ---
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    cursor.execute("update [dbo].[AscenderDownloader] set status = '1'")
+    cnxn.commit()
+    cnxn.close()
