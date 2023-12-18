@@ -790,10 +790,10 @@ def viewgl(request,fund,obj,yr,school,year,url):
         # this filter only works for categorical or string values
         filters = {
             'ascender': {
-                'Type': ('EN'),
+                'Type': "('EN')",
                 },
             'skyward': {
-                'Source': ('EN', 'MN'),
+                'Source': "('EN', 'MN')",
                 },
         }
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
