@@ -3460,7 +3460,7 @@ def balance_sheet(school,year):
                 else:
                     item["activity_fye"] = activity_fye
 
-                print(item["activity_fye"])
+                
             
             
         activity_sum_dict = {}
@@ -3478,9 +3478,67 @@ def balance_sheet(school,year):
                 )
                 activity_sum_dict[(Activity, i)] = total_sum_i
             
+        unique_act = []
+        for item in data_balancesheet:
+            Activity = item["Activity"]
 
+            if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities':
+                if Activity not in unique_act:
+                    unique_act.append(Activity)
+
+      
+        if school in schoolCategory["skyward"]:
+            for item in data_activitybs:
+                Activity = item["Activity"]
                 
+                
+                if school in schoolMonths['septemberSchool']:
+                    if Activity in unique_act:
+
+                        item["total_bal9"] -= item["activity_fye"] 
+                    else:
+                        item["total_bal9"] += item["activity_fye"]
+
+                    item["total_bal10"] += item["total_bal9"]
+                    item["total_bal11"] += item["total_bal10"]
+                    item["total_bal12"] += item["total_bal11"]
+                    item["total_bal1"] += item["total_bal12"]
+                    item["total_bal2"] += item["total_bal1"]
+                    item["total_bal3"] += item["total_bal2"]
+                    item["total_bal4"] += item["total_bal3"]
+                    item["total_bal5"] += item["total_bal4"]
+                    item["total_bal6"] += item["total_bal5"]
+                    item["total_bal7"] += item["total_bal6"]
+                    item["total_bal8"] += item["total_bal7"]
+                    item["last_month_bal"] = item[f'total_bal{last_month_number}']
+
+                else:
+                    if Activity in unique_act:
+                        item["total_bal7"] -= item["activity_fye"] 
+                    else:
+                        item["total_bal7"] += item["activity_fye"] 
+
+                    item["total_bal7"] += item["activity_fye"] 
+                    item["total_bal8"] += item["total_bal7"]
+                    item["total_bal9"] +=  item["total_bal8"]
+                    item["total_bal10"] += item["total_bal9"]
+                    item["total_bal11"] += item["total_bal10"]
+                    item["total_bal12"] += item["total_bal11"]
+                    item["total_bal1"] += item["total_bal12"]
+                    item["total_bal2"] += item["total_bal1"]
+                    item["total_bal3"] += item["total_bal2"]
+                    item["total_bal4"] += item["total_bal3"]
+                    item["total_bal5"] += item["total_bal4"]
+                    item["total_bal6"] += item["total_bal5"]
+                    item["last_month_bal"] = item[f'total_bal{last_month_number}']
+
+
+                    
+
+
+
         
+                
 
 
         for row in data_balancesheet:
@@ -3624,9 +3682,9 @@ def balance_sheet(school,year):
         #     print(f'{key}: {value}')
 
         def format_with_parentheses(value):
-            if value > 0:
+            if value >= 1:
                 return "${:,.0f}".format(round(value))
-            elif value < 0:
+            elif value <= -1:
                 return "$({:,.0f})".format(abs(round(value)))
             else:
                 return ""
@@ -3638,17 +3696,25 @@ def balance_sheet(school,year):
             return "({})".format(formatted_value) if value > 0 else formatted_value
 
         def format_value_dollars(value):
-            if value > 0:
+            if value >= 1:
                 return "${:,.0f}".format(round(value))
-            elif value < 0:
+            elif value <= -1:
                 return "$({:,.0f})".format(abs(round(value)))
             else:
                 return ""
         def format_value(value):
-            if value > 0:
+            if value >= 1:
                 return "{:,.0f}".format(round(value))
-            elif value < 0:
+            elif value <= -1:
                 return "({:,.0f})".format(abs(round(value)))
+            else:
+                return ""
+
+        def format_negative(value):
+            if value >= 1:
+                return "({:,.0f})".format(round(value))
+            elif value <= -1:
+                return "{:,.0f}".format(abs(round(value)))
             else:
                 return ""
 
@@ -4069,15 +4135,50 @@ def balance_sheet(school,year):
             "fytd"
         ]
 
-        for row in data_activitybs:
-            for key in keys_to_check:
-                value = float(row[key])
-                if value == 0:
-                    row[key] = ""
-                elif value < 0:
-                    row[key] = "({:,.0f})".format(abs(float(row[key])))
-                elif value != "":
-                    row[key] = "{:,.0f}".format(float(row[key]))
+        threshold = 0.50
+        if school in schoolCategory["skyward"]:
+            for row in data_activitybs:
+                Activity = row["Activity"]
+
+                if Activity in unique_act:
+                    row["last_month_bal"] = format_negative(row["last_month_bal"])
+                    for key in keys_to_check:
+                        value = float(row[key])
+                        print(value)
+                        if value == 0 or value == 0.00 or value == 0.0  :
+                            row[key] = ""
+                        elif value >=0:
+                            
+                            row[key] = "({:,.0f})".format(abs(float(row[key])))
+                        elif value < 0:                            
+                            row[key] = "{:,.0f}".format(abs(float(row[key])))
+                        elif value != "":
+                            row[key] = "{:,.0f}".format(float(row[key]))
+                else:
+                    
+                    row["last_month_bal"] = format_value(row["last_month_bal"])
+                    for key in keys_to_check:
+                        value = float(row[key])
+                        if value == 0:
+                            row[key] = ""
+                        elif value < 0:
+                            
+                            row[key] = "({:,.0f})".format(abs(float(row[key])))
+                        elif value != "":
+                            row[key] = "{:,.0f}".format(float(row[key]))
+
+        else:
+            for row in data_activitybs:
+
+                for key in keys_to_check:
+                    value = float(row[key])
+                    if value == 0:
+                        row[key] = ""
+                    elif value > 1:
+                        
+                        row[key] = "({:,.0f})".format(abs(float(row[key])))
+                    elif value != "":
+                        row[key] = "{:,.0f}".format(float(row[key]))
 
 
         if school in schoolCategory["skyward"]:
