@@ -3420,6 +3420,8 @@ def balance_sheet(school,year):
             expend_key = "Amount"
             begbal_key = "BegBal"
 
+
+        school_fye = ['aca','advantage','cumberland']
         for item in data_activitybs:
             obj = item["obj"]
             item["fytd"] = 0
@@ -3459,6 +3461,22 @@ def balance_sheet(school,year):
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
+            
+            if school in school_fye:
+                activity_fye = sum(
+                        entry["Bal"]
+                        for entry in data3
+                        if entry["obj"] == obj
+                        and entry["fund"] == '000'
+                        and entry["Bal"] is not None                   
+                    )
+                print(activity_fye)
+                int_obj = int(obj)
+                if int_obj > 2000:
+                    item["activity_fye"] = -(activity_fye)
+                else:
+                    item["activity_fye"] = activity_fye
+
 
                 
             
@@ -3487,7 +3505,8 @@ def balance_sheet(school,year):
                     unique_act.append(Activity)
 
       
-        if school in schoolCategory["skyward"]:
+        if school in schoolCategory["skyward"] or school in school_fye:
+            
             for item in data_activitybs:
                 Activity = item["Activity"]
                 
@@ -3548,14 +3567,14 @@ def balance_sheet(school,year):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
 
-            if school in schoolCategory["skyward"]:
+            if school in schoolCategory["skyward"] or school in school_fye:
                 total_fye = sum(
                         entry["activity_fye"]
                         for entry in data_activitybs
                         if entry["Activity"] == activity 
                         and entry["activity_fye"] is not None                   
                     )
-
+                
                 row["total_fye"] =  total_fye
 
 
@@ -3721,8 +3740,9 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 
-                if school in schoolCategory["skyward"]:
+                if school in schoolCategory["skyward"] or school in school_fye:
                     FYE_value = row["total_fye"]
+                    print(FYE_value)
                     
                 else:
                     FYE_value = (float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", ""))
@@ -4030,7 +4050,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
 
-                if school in schoolCategory["skyward"]:
+                if school in schoolCategory["skyward"] or school in school_fye:
                     if row["Activity"] == 'Cash' or row["Activity"] == 'AP':
 
                         row["total_fye"] = format_value_dollars(row["total_fye"]) 
@@ -4136,7 +4156,7 @@ def balance_sheet(school,year):
         ]
 
         threshold = 0.50
-        if school in schoolCategory["skyward"]:
+        if school in schoolCategory["skyward"] or school in school_fye:
             for row in data_activitybs:
                 Activity = row["Activity"]
 
@@ -4174,14 +4194,14 @@ def balance_sheet(school,year):
                     value = float(row[key])
                     if value == 0:
                         row[key] = ""
-                    elif value > 1:
+                    elif value > 0:
                         
-                        row[key] = "({:,.0f})".format(abs(float(row[key])))
+                        row[key] = "{:,.0f}".format(abs(float(row[key])))
                     elif value != "":
-                        row[key] = "{:,.0f}".format(float(row[key]))
+                        row[key] = "({:,.0f})".format(float(row[key]))
 
 
-        if school in schoolCategory["skyward"]:
+        if school in schoolCategory["skyward"] or school in school_fye:
             for row in data_activitybs:
                 if row['Activity'] == "AP" or row["Activity"] == 'Cash':
                     row["activity_fye"] = format_value_dollars(row["activity_fye"])

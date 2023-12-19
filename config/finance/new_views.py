@@ -315,6 +315,7 @@ def profit_loss_charts(request, school, anchor_year=""):
 @custom_login_required
 @permission_required
 def balance_sheet(request, school, anchor_year=""):
+    
     context = modules.balance_sheet(school, anchor_year)
     role = request.session.get('user_role')
     context["role"] = role
@@ -327,6 +328,12 @@ def balance_sheet(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    school_fye = ['aca','advantage','cumberland']
+
+    context["school_bs"] = "False"
+    if school in school_fye:
+        context["school_bs"] = "True"
+  
     return render(request, "temps/balance-sheet.html", context)
 
 
