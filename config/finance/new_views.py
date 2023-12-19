@@ -328,7 +328,7 @@ def balance_sheet(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
-    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary']
+    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
     context["school_bs"] = "False"
     if school in school_fye:
