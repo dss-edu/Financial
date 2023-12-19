@@ -262,6 +262,14 @@ a:hover{
         <br/>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
         <a id="export-pdf-button2" class="navbar-brand mr-1 text-primary " href="#" data-toggle="tooltip" title="PDF"><i class="fas fa-file-pdf"></i></a>
+        <a
+          id="export-excel2-button"
+          class="navbar-brand mr-1 text-primary"
+          href="#"
+          data-toggle="tooltip"
+          title="CSV"
+          ><i class="fas fa-file-excel"></i
+        ></a>
       </div>
     </div>
   </div>
@@ -317,6 +325,32 @@ a:hover{
    
     html2pdf().set(options).from(element).save();
   });
+</script>
+<script>
+  document
+    .getElementById("export-excel2-button")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+
+      var table = document.getElementById("balancesheet-data-table"); // Use the table containing the headers
+
+      var wb = XLSX.utils.book_new();
+
+      var ws = XLSX.utils.table_to_sheet(table);
+
+      XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+      var wbout = XLSX.write(wb, { bookType: "csv", type: "array" });
+
+      var blob = new Blob([wbout], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "data.csv";
+      link.click();
+    });
 </script>
 
  <div id="content-wrapper">

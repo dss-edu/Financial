@@ -436,3 +436,16 @@ schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar"],
     "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori"]
 }
+
+
+# filters must be a dictionary with key = column and value = "(string of values to filter)"
+# eg. "Type": "('value1', 'value2')"
+# this filter only works for categorical or string values
+filters = {
+    'ascender': {
+        'Type': "('EN')",
+        },
+    'skyward': {
+        'Source': "('EN', 'MN')",
+        },
+}
