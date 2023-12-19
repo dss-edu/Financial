@@ -44,31 +44,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (ascender == 'True'){
       newRow.innerHTML = `
-            <td class="text-end">${row.fund}</td>
-            <td class="text-end">${row.func}</td>
-            <td class="text-end">${row.obj}</td>
-            <td class="text-end">${row.org}</td>
-            <td class="text-end">${row.fscl_yr}</td>
-            <td class="text-end">${row.pgm}</td>
-            <td class="text-end">${row.projDtl}</td>
+            <td class="text-start">${row.fund}</td>
+            <td class="text-start">${row.func}</td>
+            <td class="text-start">${row.obj}</td>
+            <td class="text-start">${row.org}</td>
+            <td class="text-start">${row.fscl_yr}</td>
+            <td class="text-start">${row.pgm}</td>
+            <td class="text-start">${row.projDtl}</td>
             <td class="text-end text-nowrap">${row.AcctDescr}</td>
             <td class="text-end">${row.Number}</td>
             <td class="text-end" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
-            <td class="text-end">${row.AcctPer}</td>
-            <td class="text-end">${formatNumberToComma(row.Real)}</td>
-            <td class="text-end">${row.Expend}</td>
-            <td class="text-end">${row.Bal}</td>
+            <td class="text-start">${row.AcctPer}</td>
+            <td class="text-start">${formatNumberToComma(row.Real)}</td>
+            <td class="text-start">${row.Expend}</td>
+            <td class="text-start">${row.Bal}</td>
             <td class="text-end" style="white-space: nowrap;">${row.WorkDescr}</td>
             <td class="text-end">${row.Type}</td>
           `;
       }      else{
         newRow.innerHTML = `
-<td class="text-end px-3">${row.fund}</td>
+<td class="text-start px-3">${row.fund}</td>
 <td class="text-end px-3">${row.T}</td>
-<td class="text-end px-3">${row.func}</td>
-<td class="text-end px-3">${row.obj}</td>
-<td class="text-end px-3">${row.sobj}</td>
-<td class="text-end px-3">${row.org}</td>
+<td class="text-start px-3">${row.func}</td>
+<td class="text-start px-3">${row.obj}</td>
+<td class="text-start px-3">${row.sobj}</td>
+<td class="text-start px-3">${row.org}</td>
 <td class="text-end px-3">${row.PI}</td>
 <td class="text-end px-3">${row.LOC}</td>
 <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.Date)}</td>
@@ -78,9 +78,9 @@ document.addEventListener("DOMContentLoaded", function () {
 <td class="text-end text-nowrap px-3">${row.Vendor}</td>
 <td class="text-end text-nowrap px-3">${row.TransactionDescr}</td>
 <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.InvoiceDate)}</td>
-<td class="text-end px-3">${row.CheckNumber}</td>
+<td class="text-start px-3">${row.CheckNumber}</td>
 <td class="text-end text-nowrap px-3">${formatDateToYYYYMMDD(row.CheckDate)}</td>
-<td class="text-end px-3">${formatNumberToComma(row.Amount)}</td>
+<td class="text-start px-3">${formatNumberToComma(row.Amount)}</td>
       `;
   }
       // newRow.innerHTML = `

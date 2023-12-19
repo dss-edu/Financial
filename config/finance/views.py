@@ -786,16 +786,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
-        # filters must be a dictionary with key = column and value = (tuple of values to filter)
-        # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+        filters = settings.filters
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
 
         if school in schoolCategory["ascender"]:
@@ -1007,17 +998,7 @@ def viewgl_all(request, school, year, url, yr=""):
             values.append(row['fund'])
             values.append(row['obj'])
         
-        # filters must be a dictionary with key = column and value = "(string of values to filter)"
-        # eg. "Type": "('value1', 'value2')"
-        # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+        filters = settings.filters
         
         if school in schoolCategory["ascender"]:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
@@ -1503,15 +1484,19 @@ def viewgl_activitybs(request,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
+        filters = settings.filters
+
         if data["obj"]:
             obj_query = "(" + " OR ".join("obj = ?" for _ in data["obj"]) +")"
         else: 
             obj_query = "obj = ?"
         if school in schoolCategory["ascender"]:
-            query = f"SELECT * FROM [dbo].{db[school]['db']} where {obj_query} and AcctPer = ? ; "
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND {obj_query} and AcctPer = ? ; "
             
         else:
-            query = f"SELECT * FROM [dbo].{db[school]['db']} where {obj_query} and Month = ? ; "
+            filter_query = ' AND '.join( f"{column} NOT IN {value}" for column, value in filters['skyward'].items())
+            query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} AND {obj_query} and Month = ? ; "
         query_values = [obj for obj in data['obj']] if data['obj'] else ['']
         query_values.extend([yr])
         cursor.execute(query, query_values)
@@ -1704,16 +1689,9 @@ def viewglfunc(request,func,yr,school,year,url):
         date_string = f"{year}-09-01T00:00:00.0000000"
         date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
-        # filters must be a dictionary with key = column and value = (tuple of values to filter)
-        # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+
+        filters = settings.filters
+
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
         if school in schoolCategory["ascender"]:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
@@ -1938,16 +1916,9 @@ def viewglfunc_all(request,school,year,url, yr=""):
         # date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
         query_func = " OR ".join(["func = ?" for _ in data])
 
-        # filters must be a dictionary with key = column and value = (tuple of values to filter)
-        # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+
+        filters = settings.filters
+
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
         if school in schoolCategory["ascender"]:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
@@ -2378,14 +2349,9 @@ def viewglexpense(request,obj,yr,school,year,url):
 
         # filters must be a dictionary with key = column and value = (tuple of values to filter)
         # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+
+        filters = settings.filters
+
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
 
         if school in schoolCategory["ascender"]:
@@ -2633,16 +2599,9 @@ def viewglexpense_all(request,school,year,url,yr=""):
 
         query_obj = " OR ".join("obj = ?" for _ in data)
 
-        # filters must be a dictionary with key = column and value = (tuple of values to filter)
-        # this filter only works for categorical or string values
-        filters = {
-            'ascender': {
-                'Type': "('EN')",
-                },
-            'skyward': {
-                'Source': "('EN', 'MN')",
-                },
-        }
+
+        filters = settings.filters
+
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
 
         if school in schoolCategory["ascender"]:

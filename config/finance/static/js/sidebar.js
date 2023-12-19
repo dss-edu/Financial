@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#first-link").on("click", function(event) {
         event.preventDefault();
 
-        $("#page-load-spinner").modal("show");
+        // $("#page-load-spinner").modal("show");
         if (year) {
             window.location.href = "/charter-first/" + school + "/" + year;
         } else {
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#pl-link").on("click", function(event) {
         event.preventDefault();
 
-        $("#page-load-spinner").modal("show");
+        // $("#page-load-spinner").modal("show");
         if (year) {
             window.location.href = "/profit-loss/" + school + "/" + year;
         } else {
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#bs-link").on("click", function(event) {
         event.preventDefault();
 
-        $("#page-load-spinner").modal("show");
+        // $("#page-load-spinner").modal("show");
         if (year) {
             window.location.href = "/balance-sheet/" + school + "/" + year;
         } else {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#cs-link").on("click", function(event) {
         event.preventDefault();
 
-        $("#page-load-spinner").modal("show");
+        // $("#page-load-spinner").modal("show");
         if (year) {
             window.location.href = "/cashflow-statement/" + school + "/" + year;
         } else {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $("#gl-link").on("click", function(event) {
         event.preventDefault();
 
-        $("#page-load-spinner").modal("show");
+        // $("#page-load-spinner").modal("show");
         if (year) {
             window.location.href = "/general-ledger/" + school;
         } else {
