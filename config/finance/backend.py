@@ -3421,7 +3421,7 @@ def balance_sheet(school,year):
             begbal_key = "BegBal"
 
 
-        school_fye = ['aca','advantage','cumberland']
+        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary']
         for item in data_activitybs:
             obj = item["obj"]
             item["fytd"] = 0

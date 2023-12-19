@@ -328,7 +328,7 @@ def balance_sheet(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
-    school_fye = ['aca','advantage','cumberland']
+    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary']
 
     context["school_bs"] = "False"
     if school in school_fye:
@@ -850,3 +850,30 @@ def home(request):
     context["username"] = username
 
     return render(request, "temps/home.html", context)
+
+
+
+# @custom_login_required
+# @permission_required
+# def data_processing(request,school):
+
+#     school_data = []
+#     for key,name in SCHOOLS.items():
+#         row_data = {
+#             "school_key":key,
+#             "school_name":name
+#         }
+#         school_data.append(row_data)
+
+
+        
+#     context = {
+#         'schools': school_data,
+#         'school': school,
+#     }
+#     role = request.session.get('user_role')
+#     context["role"] = role
+#     username = request.session.get('username')
+#     context["username"] = username
+
+#     return render(request, "temps/data-processing.html", context)
