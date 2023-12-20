@@ -95,7 +95,7 @@
         <div  class="d-flex justify-content-center">
            
             <input form="upload-form" type="text" name="ponumber" id="ponumber" placeholder="Enter PO number">
-        <button type="submit" form="upload-form" >Submit</button>
+        <button type="submit" form="upload-form" onClick="loader();">Submit</button>
         </div>
         <div class="table-container">
            <div id="table-box">
@@ -130,10 +130,13 @@
            
     </div>
     <script>
+        function loader(){
+            $('#spinner-modal').modal('show');
+        }
         const dropArea = document.getElementById('drop-area');
 
         const fileInput = document.getElementById('file-input');
-        
+
     ['dragenter', 'dragover', 'dragleave', 'drop','input'].forEach(eventName => {
         dropArea.addEventListener(eventName, preventDefaults, false);
     });
@@ -155,8 +158,9 @@
 
         
     fileInput.addEventListener('input', function () {
+       
         handleFiles(fileInput.files);
-        showAlert('Files selected.');
+       
     }, false);
 
     function highlight() {
@@ -175,6 +179,7 @@
     }
 
     function handleFiles(files) {
+        
         const fileInput = document.getElementById('file-input');
 
         // Update the value of the file input
@@ -205,6 +210,7 @@
 
             fileList.appendChild(row);
         }
+       
     }
 
     function validateForm() {
@@ -213,11 +219,13 @@
 
         if (fileInput.files.length === 0) {
             showAlert('Please select at least one file.');
+            $('#spinner-modal').modal('hide');
             return false;
         }
 
         if (!ponumberInput.value.trim()) {
             showAlert('Please enter a PO number.');
+            $('#spinner-modal').modal('hide');
             return false;
         }
 
