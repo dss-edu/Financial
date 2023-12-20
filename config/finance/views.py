@@ -8645,3 +8645,6 @@ def download_csv(request,school):
     
 #     print("done")
 #     return response
+
+def mockup(request):
+    return render(request, "mockup/profit-loss.html")
