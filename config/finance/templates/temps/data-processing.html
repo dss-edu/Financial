@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+{% extends 'temps/base.html' %}
+{% load static %}
+{% block title %}
+    {% comment %} {{ school_name }} {% endcomment %}
+{% endblock %}
+
+{% block stylesheet %}
+
+
+    <link rel="stylesheet" href="{% static 'css/data-processing.css' %}">
+<style>
+
+
+    .container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #file-input {
+        display: none;
+    }
+    #table-box{
+        padding-right: 50px;
+        padding-left:50px;
+        z-index: 2;
+        flex-grow:0;
+        border: 1px solid #ddd; /* Add a border to the table container */
+       
+        
+        box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+      }
+      .table-container{
+        padding: 10px; /* Add some padding around the content */
+      }
+      .text-right {
+        text-align: right !important;
+    }
+    .text-center {
+        text-align: center !important;
+    }
+    
+    .text-left {
+        text-align: left !important;
+    }
+</style>
+
+
+
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+    <div id="content-wrapper">
+        <nav class="navbar navbar-expand navbar-light bg-light justify-content-end">
+            <div class="d-flex align-items-center flex-grow-1 justify-content-center">
+                <div class="col-1">
+
+            
+                
+                </div>
+                <div class="col-10">
+                  <h5 class="text-center" style="color: black; padding-right:35px;">
+              
+                  </h5>
+                </div>
+                <div class="col-1">
+                 
+            
+                </div>
+            </div>
+        
+        </nav> <!-- End of nav -->
+
+
+
+        <div class="container" id="drop-area">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'upload_data' school=school  %}" id="upload-form" onsubmit="return validateForm()">
+                {% csrf_token %}
+                <div  class="d-flex justify-content-center">
+                <table id="file-list">
+
+                </table>
+            </div>
+                
+                <!-- Use the name of your FileField in the model -->
+                <input type="file" name="upload" id="file-input" accept="image/*" multiple>
+                <label for="file-input">Choose files or drag them here.</label>
+      
+            </form>
+        </div>
+        <div  class="d-flex justify-content-center">
+           
+            <input form="upload-form" type="text" name="ponumber" id="ponumber" placeholder="Enter PO number">
+        <button type="submit" form="upload-form" >Submit</button>
+        </div>
+        <div class="table-container">
+           <div id="table-box">
+            <table id="data-table" class="table table-hover" style="width: auto !important;">
+                <thead>
+                    <tr>
+                        <th class="text-left" style="width:150px;">PO_Number</th>
+                        <th class="text-center" style="width:150px;">blobPath</th>
+                        <th class="text-center" style="width:150px;">User</th>
+                        <th class="text-center" style="width:150px;">Status</th>
+                        <th class="text-center" style="width:150px;">Logs</th>
+                        <th class="text-center" style="width:150px;">DL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in file_data %}
+                    <tr>
+                        <td class="text-left">{{ data.PO_Number }}</td>
+                        <td class="text-right">{{ data.blobPath }}</td>
+                        <td class="text-right">{{ data.user }}</td>
+                        <td class="text-right">{{ data.status }}</td>
+                        <td class="text-right">{{ data.logs }}</td>
+                        <td class="text-center"><a href="{% url 'download_file' school=school name=data.blobPath %}"><i class="fa-solid fa-download"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        </div>
+            
+         
+           
+    </div>
+    <script>
+        const dropArea = document.getElementById('drop-area');
+
+        const fileInput = document.getElementById('file-input');
+        
+    ['dragenter', 'dragover', 'dragleave', 'drop','input'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    dropArea.addEventListener('drop', handleDrop, false);
+
+        
+    fileInput.addEventListener('input', function () {
+        handleFiles(fileInput.files);
+        showAlert('Files selected.');
+    }, false);
+
+    function highlight() {
+        dropArea.classList.add('highlight');
+    }
+
+    function unhighlight() {
+        dropArea.classList.remove('highlight');
+    }
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        const fileInput = document.getElementById('file-input');
+
+        // Update the value of the file input
+        fileInput.files = files;
+
+        // Trigger the change event to ensure the files are recognized
+        fileInput.dispatchEvent(new Event('change'));
+
+        // Display the selected file names and count in the label
+        const label = document.querySelector('label[for="file-input"]');
+        const fileCount = files.length;
+        label.textContent = fileCount > 1 ? `${fileCount} files selected` : (fileCount === 1 ? `${fileCount} file selected` : 'Choose files or drag them here');
+
+        // Display file information in the table
+        const fileList = document.getElementById('file-list');
+        fileList.innerHTML = '';
+        for (const file of files) {
+            const row = document.createElement('tr');
+            const nameCell = document.createElement('td');
+            nameCell.style.width = '150px';
+            nameCell.textContent = file.name;
+            
+            row.appendChild(nameCell);
+
+            const sizeCell = document.createElement('td');
+            sizeCell.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB'; // Display size in MB
+            row.appendChild(sizeCell);
+
+            fileList.appendChild(row);
+        }
+    }
+
+    function validateForm() {
+        const fileInput = document.getElementById('file-input');
+        const ponumberInput = document.getElementById('ponumber');
+
+        if (fileInput.files.length === 0) {
+            showAlert('Please select at least one file.');
+            return false;
+        }
+
+        if (!ponumberInput.value.trim()) {
+            showAlert('Please enter a PO number.');
+            return false;
+        }
+
+        // Additional validation if needed
+
+        return true;
+    }
+
+    function showAlert(message) {
+        alert(message);
+    }
+
+    </script>
+    <div class="modal" id="spinner-modal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered d-flex justify-content-center align-items-center" role="document">
+            <div class="text-center">
+                <div class="loading" role="status">
+                    <h2>LOADING<h2>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End of spinner modal -->
+
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script>
+        var school = "{{ school }}";
+
+    </script>
+{% endblock %}

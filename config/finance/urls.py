@@ -171,4 +171,11 @@ urlpatterns = [
     path(
         "school-status/<str:school>", new_views.all_schools, name="all_schools"
     ),
+    path(
+        "data-processing/<str:school>", new_views.data_processing, name="data_processing"
+    ),
+    path(
+        "upload-data/<str:school>", views.upload_data, name="upload_data"
+    ),
+    path('download_file/<path:name>/<str:school>/', views.download_file, name='download_file'),
 ]

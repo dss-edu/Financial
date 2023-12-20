@@ -41,6 +41,10 @@ from config import settings
 from django.contrib.auth.hashers import make_password,check_password
 from django.contrib import messages
 import csv
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from io import BytesIO
+from . import new_views
+from django.urls import reverse
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
@@ -8645,3 +8649,79 @@ def download_csv(request,school):
     
 #     print("done")
 #     return response
+
+
+
+
+def upload_data(request,school):
+
+
+
+    storage_connection_string = "DefaultEndpointsProtocol=https;AccountName=blogdataprocessing;AccountKey=qI+FDF3NPvo6SkYUpr00yw4MiQB0lofHF+lmnZ+8S686FPXBUTMJZUo31N3KoNefctV/rfR0dTFe+AStBaDTpA==;EndpointSuffix=core.windows.net"
+    blob_service_client = BlobServiceClient.from_connection_string(storage_connection_string)
+
+    blob = 'blob-'
+
+    cont_id = blob + school
+    container_id = cont_id
+    print(container_id)
+    container_client = blob_service_client.get_container_client(container_id)
+ 
+
+    if request.method == "POST" and request.FILES.getlist('upload'):
+        files = request.FILES.getlist('upload')
+        ponumber = request.POST.get('ponumber')
+        username = request.session.get('username')
+        status = "Pending"
+        logs = ""
+    
+        print(ponumber)
+
+        
+        for file in files:
+            # Get the file name and create a BlobClient
+            file_name = file.name
+            blob_client = container_client.get_blob_client(file_name)
+
+
+            # Upload the file to Azure Storage
+            blob_client.upload_blob(file.read(), overwrite=True)
+            blob_url = f"{container_id}/{file_name}"
+            print(blob_url)
+
+            cnxn = connect()
+            cursor = cnxn.cursor()
+            insert_query = f"INSERT INTO [dbo].[InvoiceSubmission] (PO_Number, blobPath, [user], status, logs)  VALUES ( ?, ?, ?, ?, ?)"
+            cursor.execute(insert_query, (ponumber,blob_url,username,status,logs))
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+
+    return redirect(reverse('data_processing', args=[school]))
+
+def download_file(request, name, school):
+    storage_connection_string = "DefaultEndpointsProtocol=https;AccountName=blogdataprocessing;AccountKey=qI+FDF3NPvo6SkYUpr00yw4MiQB0lofHF+lmnZ+8S686FPXBUTMJZUo31N3KoNefctV/rfR0dTFe+AStBaDTpA==;EndpointSuffix=core.windows.net"
+
+    # Create a BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(storage_connection_string)
+
+    
+    cont_id = f"blob-{school}" 
+    container_id = cont_id
+
+    container_client = blob_service_client.get_container_client(container_id)
+
+    # Get the blob (file) from the container
+    name_split = name.split("/")
+
+    file_name = name_split[-1]
+    blob_client = container_client.get_blob_client(file_name)
+
+    # Download the blob content
+    blob_data = blob_client.download_blob()
+
+    # Create a response with the blob content
+    response = HttpResponse(blob_data.readall())
+    response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+
+    return response
