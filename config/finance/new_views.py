@@ -861,6 +861,7 @@ def home(request):
 def data_processing(request,school):
 
     context = {}
+    username = request.session.get('username')
    
     storage_connection_string = "DefaultEndpointsProtocol=https;AccountName=blogdataprocessing;AccountKey=qI+FDF3NPvo6SkYUpr00yw4MiQB0lofHF+lmnZ+8S686FPXBUTMJZUo31N3KoNefctV/rfR0dTFe+AStBaDTpA==;EndpointSuffix=core.windows.net"
     
@@ -877,9 +878,10 @@ def data_processing(request,school):
 
     cnxn = connect()
     cursor = cnxn.cursor()
-    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE blobPath LIKE ? "
+    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE [user] = ?;"
     blob_url_pattern = f"blob-{school}/%"
-    cursor.execute(query,(blob_url_pattern))
+    cursor.execute(query,(username))
+    print(username)
     rows = cursor.fetchall()
     file_data = []
     for row in rows:
@@ -887,9 +889,12 @@ def data_processing(request,school):
         doc = {
             "PO_Number":row[0],
             "blobPath":row[1],
-            "user":row[2],
-            "status":row[3],
-            "logs":row[4],
+            "client":row[2],
+            "user":row[3],
+            "status":row[4],
+            "logs":row[5],
+            "Date":row[6]
+
 
         }
 

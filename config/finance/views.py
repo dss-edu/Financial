@@ -8674,6 +8674,8 @@ def upload_data(request,school):
         username = request.session.get('username')
         status = "Pending"
         logs = ""
+        client = ""
+        date = datetime.now()
     
         print(ponumber)
 
@@ -8691,8 +8693,8 @@ def upload_data(request,school):
 
             cnxn = connect()
             cursor = cnxn.cursor()
-            insert_query = f"INSERT INTO [dbo].[InvoiceSubmission] (PO_Number, blobPath, [user], status, logs)  VALUES ( ?, ?, ?, ?, ?)"
-            cursor.execute(insert_query, (ponumber,blob_url,username,status,logs))
+            insert_query = f"INSERT INTO [dbo].[InvoiceSubmission] (PO_Number, blobPath,client, [user], status, logs,date)  VALUES ( ?, ?, ?, ?, ?,?, ?)"
+            cursor.execute(insert_query, (ponumber,blob_url,client,username,status,logs,date))
             cnxn.commit()
             cursor.close()
             cnxn.close()

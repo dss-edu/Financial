@@ -102,23 +102,23 @@
             <table id="data-table" class="table table-hover" style="width: auto !important;">
                 <thead>
                     <tr>
-                        <th class="text-left" style="width:150px;">PO_Number</th>
-                        <th class="text-center" style="width:150px;">blobPath</th>
-                        <th class="text-center" style="width:150px;">User</th>
+                        <th class="text-center" style="width:150px;">PO_Number</th>
+               
+                        <th class="text-center" style="width:150px;">Client</th>
                         <th class="text-center" style="width:150px;">Status</th>
-                        <th class="text-center" style="width:150px;">Logs</th>
-                        <th class="text-center" style="width:150px;">DL</th>
+                        <th class="text-center" style="width:300px;">Logs</th>
+                        <th class="text-center" style="width:300px;">Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for data in file_data %}
                     <tr>
-                        <td class="text-left">{{ data.PO_Number }}</td>
-                        <td class="text-right">{{ data.blobPath }}</td>
-                        <td class="text-right">{{ data.user }}</td>
+                        <td class="text-right">{{ data.PO_Number }}</td>
+                        <td class="text-right">{{ data.client }}</td>
                         <td class="text-right">{{ data.status }}</td>
                         <td class="text-right">{{ data.logs }}</td>
-                        <td class="text-center"><a href="{% url 'download_file' school=school name=data.blobPath %}"><i class="fa-solid fa-download"></i></a></td>
+                        <td class="text-right">{{ data.Date }}</td>
+                       
                     </tr>
                     {% endfor %}
                 </tbody>
