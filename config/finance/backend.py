@@ -3944,7 +3944,7 @@ def balance_sheet(school,year):
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"]:
+                if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
 
                 if subcategory == 'Current Assets':
@@ -3980,7 +3980,7 @@ def balance_sheet(school,year):
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"]:
+                if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -3994,7 +3994,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"]:
+                if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
                     for i, acct_per in enumerate(acct_per_values,start = 1):
