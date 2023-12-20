@@ -3719,24 +3719,24 @@ def balance_sheet(school,year):
             return "({})".format(formatted_value) if value > 0 else formatted_value
 
         def format_value_dollars(value):
-            if value >= 0:
+            if value > 0:
                 return "${:,.0f}".format(round(value))
-            elif value <= 0:
+            elif value < 0:
                 return "$({:,.0f})".format(abs(round(value)))
             else:
                 return ""
         def format_value(value):
-            if value >= 0:
+            if value > 0:
                 return "{:,.0f}".format(round(value))
-            elif value <= 0:
+            elif value < 0:
                 return "({:,.0f})".format(abs(round(value)))
             else:
                 return ""
 
         def format_negative(value):
-            if value >= 0:
+            if value > 0:
                 return "({:,.0f})".format(round(value))
-            elif value <= 0:
+            elif value < 0:
                 return "{:,.0f}".format(abs(round(value)))
             else:
                 return ""
