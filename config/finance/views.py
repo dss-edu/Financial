@@ -8651,6 +8651,10 @@ def download_csv(request,school):
 #     return response
 
 
+def mockup(request):
+    return render(request, "mockup/profit-loss.html")
+
+
 
 
 def upload_data(request,school):
@@ -8727,3 +8731,4 @@ def download_file(request, name, school):
     response['Content-Disposition'] = f'attachment; filename="{file_name}"'
 
     return response
+
