@@ -174,7 +174,7 @@ urlpatterns = [
     path(
 
         "mockup/", views.mockup, name="mockup"
-    )
+    ),
 
         "data-processing/<str:school>", new_views.data_processing, name="data_processing"
     ),
