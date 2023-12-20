@@ -3427,9 +3427,10 @@ def balance_sheet(school,year):
         for item in data_balancesheet:
             Activity = item["Activity"]
 
-            if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities':
+            if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities' or item['Category'] == 'Net Assets':
                 if Activity not in unique_act:
                     unique_act.append(Activity)
+                    print(Activity)
 
         for item in data_activitybs:
             Activity = item["Activity"]
@@ -3466,7 +3467,7 @@ def balance_sheet(school,year):
                         and entry[begbal_key] is not None                   
                     )
 
-                int_obj = int(obj)
+                
                 if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
@@ -3480,12 +3481,13 @@ def balance_sheet(school,year):
                         and entry["fund"] == '000'
                         and entry["Bal"] is not None                   
                     )
-                print(activity_fye)
-                int_obj = int(obj)
+                
+                
                 if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
+
 
 
                 
@@ -3580,6 +3582,7 @@ def balance_sheet(school,year):
                     )
                 
                 row["total_fye"] =  total_fye
+
 
 
         # TOTAL REVENUE
@@ -3746,7 +3749,7 @@ def balance_sheet(school,year):
                 
                 if school in schoolCategory["skyward"] or school in school_fye:
                     FYE_value = row["total_fye"]
-                    print(FYE_value)
+                    
                     
                 else:
                     FYE_value = (float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", ""))
@@ -4168,7 +4171,7 @@ def balance_sheet(school,year):
                     row["last_month_bal"] = format_negative(row["last_month_bal"])
                     for key in keys_to_check:
                         value = float(row[key])
-                        print(value)
+                        
                         if value == 0 or value == 0.00 or value == 0.0  :
                             row[key] = ""
                         elif value >=0:
