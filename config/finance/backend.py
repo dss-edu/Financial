@@ -3422,7 +3422,17 @@ def balance_sheet(school,year):
 
 
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
+
+        unique_act = []
+        for item in data_balancesheet:
+            Activity = item["Activity"]
+
+            if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities':
+                if Activity not in unique_act:
+                    unique_act.append(Activity)
+
         for item in data_activitybs:
+            Activity = item["Activity"]
             obj = item["obj"]
             item["fytd"] = 0
             
@@ -3457,7 +3467,7 @@ def balance_sheet(school,year):
                     )
 
                 int_obj = int(obj)
-                if int_obj > 2000:
+                if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
@@ -3472,7 +3482,7 @@ def balance_sheet(school,year):
                     )
                 print(activity_fye)
                 int_obj = int(obj)
-                if int_obj > 2000:
+                if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
@@ -3496,13 +3506,7 @@ def balance_sheet(school,year):
                 )
                 activity_sum_dict[(Activity, i)] = total_sum_i
             
-        unique_act = []
-        for item in data_balancesheet:
-            Activity = item["Activity"]
 
-            if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities':
-                if Activity not in unique_act:
-                    unique_act.append(Activity)
 
       
         if school in schoolCategory["skyward"] or school in school_fye:
@@ -3715,24 +3719,24 @@ def balance_sheet(school,year):
             return "({})".format(formatted_value) if value > 0 else formatted_value
 
         def format_value_dollars(value):
-            if value >= 1:
+            if value >= 0:
                 return "${:,.0f}".format(round(value))
-            elif value <= -1:
+            elif value <= 0:
                 return "$({:,.0f})".format(abs(round(value)))
             else:
                 return ""
         def format_value(value):
-            if value >= 1:
+            if value >= 0:
                 return "{:,.0f}".format(round(value))
-            elif value <= -1:
+            elif value <= 0:
                 return "({:,.0f})".format(abs(round(value)))
             else:
                 return ""
 
         def format_negative(value):
-            if value >= 1:
+            if value >= 0:
                 return "({:,.0f})".format(round(value))
-            elif value <= -1:
+            elif value <= 0:
                 return "{:,.0f}".format(abs(round(value)))
             else:
                 return ""
