@@ -16,6 +16,9 @@ from config import settings
 from django.core.files.storage import default_storage
 from django.core.files.storage import FileSystemStorage
 import os
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from io import BytesIO
+
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
@@ -853,27 +856,57 @@ def home(request):
 
 
 
-# @custom_login_required
-# @permission_required
-# def data_processing(request,school):
+@custom_login_required
+@permission_required
+def data_processing(request,school):
 
-#     school_data = []
-#     for key,name in SCHOOLS.items():
-#         row_data = {
-#             "school_key":key,
-#             "school_name":name
-#         }
-#         school_data.append(row_data)
+    context = {}
+    username = request.session.get('username')
+   
+    storage_connection_string = "DefaultEndpointsProtocol=https;AccountName=blogdataprocessing;AccountKey=qI+FDF3NPvo6SkYUpr00yw4MiQB0lofHF+lmnZ+8S686FPXBUTMJZUo31N3KoNefctV/rfR0dTFe+AStBaDTpA==;EndpointSuffix=core.windows.net"
+    
+    # Create a BlobServiceClient
+    blob_service_client = BlobServiceClient.from_connection_string(storage_connection_string)
 
+    container_id = school
+    container_client = blob_service_client.get_container_client(container_id)
 
+    # Get a list of blobs in the container
+    blobs = container_client.list_blobs()
+    
+    context['blobs'] = blobs
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE [user] = ?;"
+    blob_url_pattern = f"blob-{school}/%"
+    cursor.execute(query,(username))
+    print(username)
+    rows = cursor.fetchall()
+    file_data = []
+    for row in rows:
         
-#     context = {
-#         'schools': school_data,
-#         'school': school,
-#     }
-#     role = request.session.get('user_role')
-#     context["role"] = role
-#     username = request.session.get('username')
-#     context["username"] = username
+        doc = {
+            "PO_Number":row[0],
+            "blobPath":row[1],
+            "client":row[2],
+            "user":row[3],
+            "status":row[4],
+            "logs":row[5],
+            "Date":row[6]
 
-#     return render(request, "temps/data-processing.html", context)
+
+        }
+
+        file_data.append(doc)
+
+
+
+    context["file_data"] = file_data
+    context['school'] = school
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
+    return render(request, "temps/data-processing.html", context)
