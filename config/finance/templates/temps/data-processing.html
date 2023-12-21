@@ -44,6 +44,64 @@
     .text-left {
         text-align: left !important;
     }
+       
+.side-panel {
+    width: 50px;
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+    padding: 0px;
+    height: 100%;
+    position: fixed;
+    right: 18px;
+    top: 0;
+    overflow: hidden;
+    z-index: 3;
+}
+
+.side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-container {
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(211, 211, 211, 0);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid gray;
+    margin-bottom: 15px;
+    z-index: 3;
+}
+
+.collapsible-panel {
+    position: fixed;
+    top: 40px;
+    right: 0;
+    height: 100%;
+    width: 190px; /* Adjust the width as needed */
+    background-color: #f0f0f0;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow: auto;
+    z-index: 3;
+}
+
+.collapsible-panel nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.hidden-panel {
+    display:none;
+}
+
+    
 </style>
 
 
@@ -92,6 +150,73 @@
       
             </form>
         </div>
+
+        <div class="side-panel" id="sidePanel">
+            <div class="side">
+              <div style="margin-top:300px">
+              </div>
+              <a
+              class="text-secondary circle-container" 
+       
+              data-toggle="tooltip" 
+              title="Side Panel"
+              data-placement="left"
+              onclick="togglePanel()"
+              >
+              <i id="panelIcon" class="fa-solid fa-angles-left"></i> </a>
+      
+            </div><!-- end of side-->
+
+        </div><!-- end of side-panel -->
+
+      
+        <div class="collapsible-panel" id="collapsiblePanel" style="display: none;">
+            <nav>
+                <ul>
+                 
+                        <li>
+                            <a
+                                class="nav-link"
+                                href="#"
+                                data-placement="right"
+                                style="color: gray; padding-bottom:0;"
+                                onclick=""
+
+                            >
+                                <span class="text-center" style="color: gray;">Uploaded Files</span>
+                            </a>
+   
+                          {% for item in side_data %}
+                                    <li style="margin-left:40px;">
+                                        <a href="" style="color: gray;">
+                                            <span style="color: gray;">
+                                                {{ item.PO_Number}}
+                                            </span>
+
+                                        </a>
+                                    </li>
+                             {% endfor %}
+                            </ul>
+                        </li>
+              
+                </ul>
+            </nav>
+        </div>
+
+        <script>
+            function togglePanel() {
+                var panel = document.getElementById("collapsiblePanel");
+                var sidePanel = document.getElementById("sidePanel");
+                var panelIcon = document.getElementById("panelIcon");
+
+                panel.style.display = (panel.style.display === "none" || panel.style.display === "") ? "block" : "none";
+                sidePanel.style.right = (panel.style.display === "none") ? "18px" : "200px";
+                panelIcon.className = (panel.style.display === "none") ? "fa-solid fa-angles-left" : "fa-solid fa-angles-right";
+
+
+            }
+        </script>
+
         <div  class="d-flex justify-content-center">
            
             <input form="upload-form" type="text" name="ponumber" id="ponumber" placeholder="Enter PO number">

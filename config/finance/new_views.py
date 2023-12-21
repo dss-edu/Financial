@@ -878,10 +878,9 @@ def data_processing(request,school):
 
     cnxn = connect()
     cursor = cnxn.cursor()
-    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE [user] = ?;"
+    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE blobPath LIKE ? "
     blob_url_pattern = f"blob-{school}/%"
-    cursor.execute(query,(username))
-    print(username)
+    cursor.execute(query,(blob_url_pattern))
     rows = cursor.fetchall()
     file_data = []
     for row in rows:
@@ -901,7 +900,39 @@ def data_processing(request,school):
         file_data.append(doc)
 
 
+    side_query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE [user] = ? "
+    cursor.execute(side_query,(username))
+    rows = cursor.fetchall()
 
+    side_data = []
+
+    for row in rows:
+
+        doc = {
+            "PO_Number":row[0],
+            "blobPath":row[1],
+            "client":row[2],
+            "user":row[3],
+            "status":row[4],
+            "logs":row[5],
+            "Date":row[6]
+
+        }
+        print(row[0])
+        side_data.append(doc)
+
+
+
+
+
+
+
+
+
+    cursor.close()
+    cnxn.close()
+
+    context["side_data"] = side_data
     context["file_data"] = file_data
     context['school'] = school
     role = request.session.get('user_role')
