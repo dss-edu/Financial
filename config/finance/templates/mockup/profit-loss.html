@@ -1,61 +1,141 @@
-{% extends 'mockup/base.html' %} 
+<style>
+  .active {
+    background-color: #FFFFFF;
+    text-decoration: none; 
+    color: #3498db;
+    border-radius: 0.25rem;
+  }
+  .not-active {
+    text-decoration: none; 
+    color: inherit;
+  }
+  #main-table th, td{
+    text-align: start;
+  }
 
-{% block main %}
-<div class="d-flex justify-content-center align-items-center flex-column shadow-sm rounded mb-3"> 
-  <h1>
-    FY2023-2024 Statement of Activities
-  </h1>
-  <span>
-    as of November 30, 2023
-  </span>
+  .table-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr); /* Adjust the number of columns as needed */
+      text-align: center;
+      /* border-radius: 10px; /* Rounded corners */
+      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow effect */
+      overflow: hidden; /* Ensures the rounded corners are applied to child elements */
+  }
+</style>
+
+<div id="section-title">
+  <h5>
+  FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of
+  Activities as of {{months.last_month}}
+  </h5>
 </div>
 
-<div class="d-flex justify-content-center align-items-center flex-column shadow-sm rounded"> 
-    <table class="w-100">
-    <thead>
-        <tr class="text-center">
-            <th>fund</th>
-            <th>func</th>
-            <th>obj</th>
-            <th>org</th>
-            <th>fscl_yr</th>
-            <th>pgm</th>
-            <th>projDtl</th>
-            <th>AcctDescr</th>
-            <th>Number</th>
-            <th>Date</th>
-            <th>AcctPer</th>
-            <th>Real</th>
-            <th>Expend</th>
-            <th>Bal</th>
-            <th>WorkDescr</th>
-            <th>Type</th>
+<div id="new-table-box" class="d-none bg-light rounded shadow-lg p-3 h-100">
+  <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
+    <div>
+      Report Performance
+    </div>
+    <div>
+      <div class="rounded py-2 px-1" style="background-color: #f5f6f7;">
+        <a class="p-1 active" href="">1st Quarter</a>
+        <a class="p-1 ml-1 not-active" href="">2nd Quarter</a>
+        <a class="p-1 ml-1 not-active" href="">3rd Quarter</a>
+        <a class="p-1 ml-1 not-active"  href="">4th Quarter</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4">
+    <div class="rounded shadow-sm p-3 my-3 table-header">
+        <div></div>
+        <div></div>
+        <div class=""><strong>Budget</strong></div>
+        <div class=""><strong>25% YTD Budget</strong></div>
+        <div class=""><strong>Year-to-Date</strong></div>
+        <div class=""><strong>Variances</strong></div>
+        <div class=""><strong>Var.(25%)</strong></div>
+        <!-- <div class="mr-5"><strong>Budget</strong></div>
+        <div class="mr-5 pr-5"><strong>25% YTD Budget</strong></div>
+        <div class="mr-5 pr-5"><strong>Year-to-Date</strong></div>
+        <div class="mr-5 pr-5 pl-3"><strong>Variances</strong></div>
+        <div class="mr-5 pl-4"><strong>Var.(25%)</strong></div> -->
+    </div>
+    <table id="main-table" class="w-100">
+
+      <thead hidden>
+        <th></th>
+        <th>Budget</th>
+        <th>25% YTD Budget</th>
+        <th>Year-to-Date</th>
+        <th>Variances</th>
+        <th>Var.(25%)</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Local Revenue</strong></td>
+          <td>{{totals.total_ammended_lr }}</td>
+          <td> {{totals.ytd_ammended_total_lr}} </td>
+          <td> {{totals.ytd_total_lr}} </td>
+          <td> {{totals.variances_revenue_lr}} </td>
+          <td> {{totals.var_ytd_lr}} </td>
         </tr>
-    </thead>
-    <tbody>
-        <tr class="text-center">
-            <td>197</td>
-            <td>00</td>
-            <td>5749</td>
-            <td>000</td>
-            <td>4</td>
-            <td>00</td>
-            <td>00</td>
-            <td>After School Prgm Revenue WAX</td>
-            <td>BUD24</td>
-            <td>2023-09-01</td>
-            <td>09</td>
-            <td>-3,250.00</td>
-            <td>0</td>
-            <td>0</td>
-            <td>FY 24 ADOPTED BUDGET ENTRY</td>
-            <td>GJ</td>
+        <tr>
+          <td><strong>State Revenue Program</strong></td>
+          <td>{{totals.total_ammended_spr }}</td>
+          <td> {{totals.ytd_ammended_total_spr}} </td>
+          <td> {{totals.ytd_total_spr}} </td>
+          <td> {{totals.variances_revenue_spr}} </td>
+          <td> {{totals.var_ytd_spr}} </td>
+        </tr>
+        <tr>
+          <td><strong>Federal Program Revenue</strong></td>
+          <td>{{totals.total_ammended_fpr }}</td>
+          <td> {{totals.ytd_ammended_total_fpr}} </td>
+          <td> {{totals.ytd_total_fpr}} </td>
+          <td> {{totals.variances_revenue_fpr}} </td>
+          <td> {{totals.var_ytd_fpr}} </td>
+        </tr>
+        {% comment %}
+<!-- ---------------------------------------------------------------------------------------------------  -->
+        {% for row in data %} 
+        {% if row.category == 'Local Revenue' %}
+        <tr>
+          <td><strong>Local Revenue</strong></td>
+          <td>{{totals.total_ammended_lr }}</td>
+          <td> {{totals.ytd_ammended_total_lr}} </td>
+          <td> {{totals.ytd_total_lr}} </td>
+          <td> {{totals.variances_revenue_lr}} </td>
+          <td> {{totals.var_ytd_lr}} </td>
+        </tr>
+        {% elif row.category == 'State Program Revenue' %}
+        <tr>
+          <td><strong>State Revenue Program</strong></td>
+          <td>{{totals.total_ammended_spr }}</td>
+          <td> {{totals.ytd_ammended_total_spr}} </td>
+          <td> {{totals.ytd_total_spr}} </td>
+          <td> {{totals.variances_revenue_spr}} </td>
+          <td> {{totals.var_ytd_spr}} </td>
+        </tr>
+        {% elif row.category == 'Federal Program Revenue' %}
+        <tr>
+          <td><strong>Federal Program Revenue</strong></td>
+          <td>{{totals.total_ammended_fpr }}</td>
+          <td> {{totals.ytd_ammended_total_fpr}} </td>
+          <td> {{totals.ytd_total_fpr}} </td>
+          <td> {{totals.variances_revenue_fpr}} </td>
+          <td> {{totals.var_ytd_fpr}} </td>
         </tr>
 
-    </tbody>
+        {% else %}
+
+        {% endif %}
+        {% endfor %}
+<!-- ---------------------------------------------------------------------------------------------------  -->
+        {% endcomment %}
+      </tbody>
 
     </table>
+  </div>
+  
+
 </div>
-
-{% endblock %}
-
