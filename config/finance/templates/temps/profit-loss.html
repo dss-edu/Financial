@@ -578,8 +578,8 @@
               <script>
                 $('#toggle-ui').on('click', function(){
                   $('#table-box').toggleClass('d-none')
-                  $('#new-table-box').toggleClass('d-none')
-                  $('#insert-row-form').toggleClass('w-100 h-100')
+                  $('#new-ui').toggleClass('d-none')
+                  $('#insert-row-form').toggleClass('vh-100')
                 })
               </script>
     
@@ -613,7 +613,7 @@
    
 
 
-    <form id="insert-row-form" class="vh-100" action="{% url 'insert-row' %}" method="POST">
+    <form id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
       <div id="save-container" style="display: none">
         <button
           id="save-button"
@@ -668,7 +668,9 @@
       <!-- {% endif %} -->
 
       {% csrf_token %}
+
       {% include 'mockup/profit-loss.html' %}
+
       <div id="table-box">
         <table id="data-table-overview" class="table table-hover" style="display:none; width:auto;"></table>
         <table id="data-table" class="table table-hover" style="width: auto;">
