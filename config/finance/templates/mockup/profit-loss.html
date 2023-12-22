@@ -1,3 +1,8 @@
+{% block libraries %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+{% endblock %}
 <style>
   .active {
     background-color: #FFFFFF;
@@ -13,129 +18,137 @@
     text-align: start;
   }
 
-  .table-header {
+  #table-header, #table-main > div {
       display: grid;
-      grid-template-columns: repeat(7, 1fr); /* Adjust the number of columns as needed */
+      grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
       text-align: center;
       /* border-radius: 10px; /* Rounded corners */
       /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow effect */
       overflow: hidden; /* Ensures the rounded corners are applied to child elements */
   }
+
+  #table-main > div:not(:last-child) {
+    border-bottom: 2px solid #e4e4e4;
+  }
+  #table-main {
+    color: #1b4f72;
+  }
+  #table-main > div > div:nth-child(1) {
+    text-align: start;
+  }
+
+  #table-header > div:not(:last-child) {
+    border-right: 2px solid #e4e4e4;
+  }
+  #new-ui{
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+  }
+  #new-ui span {
+    color: #1b4f72;
+    font-weight: 900;
+  }
+
+  .net-section-head div:nth-child(1), 
+  .net-section div:nth-child(1) {
+    color: gray;
+    font-size: .75em;
+  }
+
+  .net-section-head div:nth-child(2){
+    color: #dd8600;
+    font-size: 1.25em;
+  }
+  .net-section div:nth-child(2){
+    color: 	#4b4b4b;
+    font-size: 1em;
+  }
+  .net-section div:nth-child(3){
+    color: 	#ebae67;
+    font-size: .75em;
+  }
+  .net-section div:nth-child(3){
+      color: 	#ebae67;
+      font-size: .75em;
+    }
+  #quarter-tabs {
+    font-size: .75em;
+
+  }
 </style>
 
-<div id="section-title">
-  <h5>
-  FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of
-  Activities as of {{months.last_month}}
-  </h5>
-</div>
 
-<div id="new-table-box" class="d-none bg-light rounded shadow-lg p-3 h-100">
-  <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
-    <div>
-      Report Performance
+<div id="new-ui" class="d-none">
+  
+
+  <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
+    <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
+      <div id="section-title">
+        <span>
+        FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of Activities 
+        </span>
+        <br>
+        <span>
+        as of {{months.last_month}}
+        </span>
+      </div>
+      <div>
+        <div id="quarter-tabs" class="rounded py-2 px-1" style="background-color: #f5f6f7;">
+          <a class="p-1 active" href="">1st Quarter</a>
+          <!-- <a class="p-1 ml-1 not-active" href="">2nd Quarter</a>
+          <a class="p-1 ml-1 not-active" href="">3rd Quarter</a>
+          <a class="p-1 ml-1 not-active"  href="">4th Quarter</a> -->
+        </div>
+      </div>
     </div>
-    <div>
-      <div class="rounded py-2 px-1" style="background-color: #f5f6f7;">
-        <a class="p-1 active" href="">1st Quarter</a>
-        <a class="p-1 ml-1 not-active" href="">2nd Quarter</a>
-        <a class="p-1 ml-1 not-active" href="">3rd Quarter</a>
-        <a class="p-1 ml-1 not-active"  href="">4th Quarter</a>
+
+    <div class="p-4">
+      <div id="table-header" class="rounded shadow p-3 my-3">
+        <div class="net-section-head">
+          <div>1st QTR - Net Income</div>
+          <div class="">{{totals.ytd_net_income}}</div>
+          <div class=""></div>
+        </div>
+        <div class="net-section">
+          <div class="">September</strong></div>
+          <div class=""> {{totals.total_net_income_months.09}} </div>
+          <div class=""></div>
+        </div>
+        <div class="net-section">
+          <div class="">October</strong></div>
+          <div class=""> {{totals.total_net_income_months.10}} </div>
+          <div class=""></div>
+        </div>
+        <div class="net-section">
+          <div class="">November</strong></div>
+          <div class=""> {{totals.total_net_income_months.11}} </div>
+          <div class=""></div>
+        </div>
+ 
+
+      </div>
+      <div id="table-main">
+        <div class="revenue p-3">
+          <div>Local Revenue</div>
+          <div> {{ totals.total_lr.09 }} </div>
+          <div> {{ totals.total_lr.10 }} </div>
+          <div> {{ totals.total_lr.11 }} </div>
+        </div>
+        <div class="revenue p-3">
+          <div>State Program Revenue</div>
+          <div> {{ totals.total_spr.09 }} </div>
+          <div> {{ totals.total_spr.10 }} </div>
+          <div> {{ totals.total_spr.11 }} </div>
+        </div>
+        <div class="revenue p-3">
+          <div>Federal Program Revenue</div>
+          <div> {{ totals.total_fpr.09 }} </div>
+          <div> {{ totals.total_fpr.10 }} </div>
+          <div> {{ totals.total_fpr.11 }} </div>
+        </div>
+
       </div>
     </div>
   </div>
-
-  <div class="p-4">
-    <div class="rounded shadow-sm p-3 my-3 table-header">
-        <div></div>
-        <div></div>
-        <div class=""><strong>Budget</strong></div>
-        <div class=""><strong>25% YTD Budget</strong></div>
-        <div class=""><strong>Year-to-Date</strong></div>
-        <div class=""><strong>Variances</strong></div>
-        <div class=""><strong>Var.(25%)</strong></div>
-        <!-- <div class="mr-5"><strong>Budget</strong></div>
-        <div class="mr-5 pr-5"><strong>25% YTD Budget</strong></div>
-        <div class="mr-5 pr-5"><strong>Year-to-Date</strong></div>
-        <div class="mr-5 pr-5 pl-3"><strong>Variances</strong></div>
-        <div class="mr-5 pl-4"><strong>Var.(25%)</strong></div> -->
-    </div>
-    <table id="main-table" class="w-100">
-
-      <thead hidden>
-        <th></th>
-        <th>Budget</th>
-        <th>25% YTD Budget</th>
-        <th>Year-to-Date</th>
-        <th>Variances</th>
-        <th>Var.(25%)</th>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Local Revenue</strong></td>
-          <td>{{totals.total_ammended_lr }}</td>
-          <td> {{totals.ytd_ammended_total_lr}} </td>
-          <td> {{totals.ytd_total_lr}} </td>
-          <td> {{totals.variances_revenue_lr}} </td>
-          <td> {{totals.var_ytd_lr}} </td>
-        </tr>
-        <tr>
-          <td><strong>State Revenue Program</strong></td>
-          <td>{{totals.total_ammended_spr }}</td>
-          <td> {{totals.ytd_ammended_total_spr}} </td>
-          <td> {{totals.ytd_total_spr}} </td>
-          <td> {{totals.variances_revenue_spr}} </td>
-          <td> {{totals.var_ytd_spr}} </td>
-        </tr>
-        <tr>
-          <td><strong>Federal Program Revenue</strong></td>
-          <td>{{totals.total_ammended_fpr }}</td>
-          <td> {{totals.ytd_ammended_total_fpr}} </td>
-          <td> {{totals.ytd_total_fpr}} </td>
-          <td> {{totals.variances_revenue_fpr}} </td>
-          <td> {{totals.var_ytd_fpr}} </td>
-        </tr>
-        {% comment %}
-<!-- ---------------------------------------------------------------------------------------------------  -->
-        {% for row in data %} 
-        {% if row.category == 'Local Revenue' %}
-        <tr>
-          <td><strong>Local Revenue</strong></td>
-          <td>{{totals.total_ammended_lr }}</td>
-          <td> {{totals.ytd_ammended_total_lr}} </td>
-          <td> {{totals.ytd_total_lr}} </td>
-          <td> {{totals.variances_revenue_lr}} </td>
-          <td> {{totals.var_ytd_lr}} </td>
-        </tr>
-        {% elif row.category == 'State Program Revenue' %}
-        <tr>
-          <td><strong>State Revenue Program</strong></td>
-          <td>{{totals.total_ammended_spr }}</td>
-          <td> {{totals.ytd_ammended_total_spr}} </td>
-          <td> {{totals.ytd_total_spr}} </td>
-          <td> {{totals.variances_revenue_spr}} </td>
-          <td> {{totals.var_ytd_spr}} </td>
-        </tr>
-        {% elif row.category == 'Federal Program Revenue' %}
-        <tr>
-          <td><strong>Federal Program Revenue</strong></td>
-          <td>{{totals.total_ammended_fpr }}</td>
-          <td> {{totals.ytd_ammended_total_fpr}} </td>
-          <td> {{totals.ytd_total_fpr}} </td>
-          <td> {{totals.variances_revenue_fpr}} </td>
-          <td> {{totals.var_ytd_fpr}} </td>
-        </tr>
-
-        {% else %}
-
-        {% endif %}
-        {% endfor %}
-<!-- ---------------------------------------------------------------------------------------------------  -->
-        {% endcomment %}
-      </tbody>
-
-    </table>
-  </div>
-  
 
 </div>
