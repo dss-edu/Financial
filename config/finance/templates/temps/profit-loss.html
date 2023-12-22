@@ -571,6 +571,17 @@
               <a class="text-secondary circle-container" href="/profit-loss-charts/{{ school }}" data-toggle="tooltip" title="Chart" data-placement="left">
                   <i class="fas fa-chart-bar"></i>
               </a>
+
+              <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Toggle UI" data-placement="left">
+                <i class="fas fa-vector-square"></i>
+              </a>
+              <script>
+                $('#toggle-ui').on('click', function(){
+                  $('#table-box').toggleClass('d-none')
+                  $('#new-table-box').toggleClass('d-none')
+                  $('#insert-row-form').toggleClass('w-100 h-100')
+                })
+              </script>
     
               <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
               <!-- <div style="position: relative;"> -->
@@ -602,7 +613,7 @@
    
 
 
-    <form id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
+    <form id="insert-row-form" class="vh-100" action="{% url 'insert-row' %}" method="POST">
       <div id="save-container" style="display: none">
         <button
           id="save-button"
@@ -657,6 +668,7 @@
       <!-- {% endif %} -->
 
       {% csrf_token %}
+      {% include 'mockup/profit-loss.html' %}
       <div id="table-box">
         <table id="data-table-overview" class="table table-hover" style="display:none; width:auto;"></table>
         <table id="data-table" class="table table-hover" style="width: auto;">
