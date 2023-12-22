@@ -45,6 +45,9 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 from io import BytesIO
 from . import new_views
 from django.urls import reverse
+import hashlib
+from django.http import HttpResponseBadRequest
+
 
 SCHOOLS = settings.SCHOOLS
 db = settings.db
@@ -8667,7 +8670,7 @@ def upload_data(request,school):
     blob = 'blob-'
 
     cont_id = blob + school
-    container_id = cont_id
+    container_id = 'clients'
     print(container_id)
     container_client = blob_service_client.get_container_client(container_id)
  
@@ -8683,22 +8686,30 @@ def upload_data(request,school):
     
         print(ponumber)
 
+        blobs = [blob.name for blob in container_client.list_blobs()]
+
         
         for file in files:
             # Get the file name and create a BlobClient
             file_name = file.name
-            blob_client = container_client.get_blob_client(file_name)
-
+            file_name_hash = hashlib.sha1(file_name.encode()).hexdigest()
+            
+            
+            # if file_name_hash in blobs:
+            #     error_message = 'File with the same name already exists.'
+            #     return render(request, "temps/data-processing.html", {'error_message': error_message})
+            
+            blob_client = container_client.get_blob_client(file_name_hash)
 
             # Upload the file to Azure Storage
             blob_client.upload_blob(file.read(), overwrite=True)
-            blob_url = f"{container_id}/{file_name}"
+            blob_url = f"{container_id}/{file_name_hash}"
             print(blob_url)
 
             cnxn = connect()
             cursor = cnxn.cursor()
-            insert_query = f"INSERT INTO [dbo].[InvoiceSubmission] (PO_Number, blobPath,client, [user], status, logs,date)  VALUES ( ?, ?, ?, ?, ?,?, ?)"
-            cursor.execute(insert_query, (ponumber,blob_url,client,username,status,logs,date))
+            insert_query = f"INSERT INTO [dbo].[InvoiceSubmission] (PO_Number, blobPath,client, [user], status, logs,fileName,date)  VALUES (?, ?, ?, ?, ?, ?,?, ?)"
+            cursor.execute(insert_query, (ponumber,blob_url,client,username,status,logs,file_name,date))
             cnxn.commit()
             cursor.close()
             cnxn.close()

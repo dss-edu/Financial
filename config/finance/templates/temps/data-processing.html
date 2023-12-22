@@ -148,6 +148,12 @@
                 <input type="file" name="upload" id="file-input" accept="image/*" multiple>
                 <label for="file-input">Choose files or drag them here.</label>
       
+                {% if error_message %}
+                <div class="alert alert-danger mt-2">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+
             </form>
         </div>
 
@@ -228,7 +234,7 @@
                 <thead>
                     <tr>
                         <th class="text-center" style="width:150px;">PO_Number</th>
-               
+                        <th class="text-center" style="width:150px;">File Name</th>
                         <th class="text-center" style="width:150px;">Client</th>
                         <th class="text-center" style="width:150px;">Status</th>
                         <th class="text-center" style="width:300px;">Logs</th>
@@ -239,6 +245,7 @@
                     {% for data in file_data %}
                     <tr>
                         <td class="text-right">{{ data.PO_Number }}</td>
+                        <td class="text-right">{{ data.fileName }}</td>
                         <td class="text-right">{{ data.client }}</td>
                         <td class="text-right">{{ data.status }}</td>
                         <td class="text-right">{{ data.logs }}</td>
@@ -254,6 +261,8 @@
          
            
     </div>
+   
+
     <script>
         function loader(){
             $('#spinner-modal').modal('show');

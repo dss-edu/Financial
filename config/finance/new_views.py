@@ -878,9 +878,12 @@ def data_processing(request,school):
 
     cnxn = connect()
     cursor = cnxn.cursor()
-    query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE blobPath LIKE ? "
-    blob_url_pattern = f"blob-{school}/%"
-    cursor.execute(query,(blob_url_pattern))
+
+    side_query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE [user] = ? "
+    cursor.execute(side_query,(username))
+    # query = "SELECT * FROM [dbo].[InvoiceSubmission] WHERE blobPath LIKE ? "
+    # blob_url_pattern = f"blob-{school}/%"
+    # cursor.execute(query,(blob_url_pattern))
     rows = cursor.fetchall()
     file_data = []
     for row in rows:
@@ -892,7 +895,8 @@ def data_processing(request,school):
             "user":row[3],
             "status":row[4],
             "logs":row[5],
-            "Date":row[6]
+            "fileName":row[6],
+            "Date":row[7]
 
 
         }
@@ -915,7 +919,8 @@ def data_processing(request,school):
             "user":row[3],
             "status":row[4],
             "logs":row[5],
-            "Date":row[6]
+            "fileName":row[6],
+            "Date":row[7]
 
         }
         print(row[0])
