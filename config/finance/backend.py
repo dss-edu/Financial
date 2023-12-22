@@ -3443,6 +3443,7 @@ def balance_sheet(school,year):
                     for entry in data3
                     if entry["obj"] == obj 
                     and entry["AcctPer"] == acct_per
+                    and entry["fund"] != '000'
                 )
                 total_adjustment = sum(
                     entry[bal_key]
