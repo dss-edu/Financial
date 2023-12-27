@@ -50,15 +50,15 @@ def update_school(school):
     profit_loss_date(school)  # 
 
 def update_fy(school,year):
-    # writeCodes(school, db[school]['db'], year)
+    writeCodes(school, db[school]['db'], year)
     profit_loss(school,year) 
     balance_sheet(school,year)
-    # cashflow(school,year)
-    # excel(school,year)
-    # charter_first(school)
-    # updateGraphDB(school, True)
-    # profit_loss_chart(school)
-    # profit_loss_date(school)
+    cashflow(school,year)
+    excel(school,year)
+    charter_first(school)
+    updateGraphDB(school, True)
+    profit_loss_chart(school)
+    profit_loss_date(school)
     
 def profit_loss(school,year):
     print("profit_loss")
@@ -302,10 +302,7 @@ def profit_loss(school,year):
         db_last_month = last_month.strftime("%Y-%m-%d")
         
   
-        # # print(current_month)
-        # # print(last_month)
-        # # print(formatted_last_month)
-        # # print(last_month_number)
+   
         if present_year == FY_year_1:
             first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
@@ -810,8 +807,6 @@ def profit_loss(school,year):
                     first_total_months[acct_per] += item[f"total_func{i}"]
 
 
-                    if func == "36":
-                        print(i , "=",item[f"total_func{i}"])
 
                 for month_number in range(1, 13):
                     if month_number != month_exception:
@@ -1925,10 +1920,7 @@ def profit_loss_date(school):
     db_last_month = last_month.strftime("%Y-%m-%d")
     
 
-    # # print(current_month)
-    # # print(last_month)
-    # # print(formatted_last_month)
-    # # print(last_month_number)
+
     if present_year == FY_year_1:
         first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
         last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
@@ -4021,9 +4013,9 @@ def balance_sheet(school,year):
         last_month_total_assets  = total_assets[last_month_number_str]
         
         
-        print("total_LNE",total_LNA_fye)
+
         total_assets_fye = total_current_assets_fye + total_capital_assets_fye
-        print("total assets:",total_assets_fye)
+
         total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
         total_LNA_fytd = total_net_assets_fytd + total_liabilities_fytd
         total_net_assets_fytd = format_value(total_net_assets_fytd)
@@ -4868,10 +4860,7 @@ def excel(school,year):
         db_last_month = last_month.strftime("%Y-%m-%d")
         
   
-        # # print(current_month)
-        # # print(last_month)
-        # # print(formatted_last_month)
-        # # print(last_month_number)
+
         if present_year == FY_year_1:
             first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
