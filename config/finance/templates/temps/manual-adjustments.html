@@ -6,6 +6,77 @@
 
 {% block stylesheet %}
 
+<style>
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0!important;
+    }
+    
+    .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 30px 0;
+    }
+    
+    
+    .custom-table td {
+    
+    
+        text-align: left !important;
+        border-color:gray;
+    
+        border-right: none;
+        border-top: 5px solid   #dee2e6 !important;
+        border-bottom: 5px solid  #dee2e6 !important;
+        background-color:#fff!important;
+        color: #4d4d4d;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1)!important;
+       
+     
+    }
+    
+    
+    .custom-table th {
+        background-color:#dee2e6;
+        color:#495057;
+    }
+    .custom-table tr:first-child td {
+        border-top: 10px solid  #dee2e6 !important;
+        border-bottom: 5px solid  #dee2e6 !important;
+    }
+    
+    .custom-table tr:last-child td {
+        border-top: 5px solid  #dee2e6 !important;
+        border-bottom: 10px solid  #dee2e6 !important;
+    }
+    
+    .flex-grow-1 {
+        background-color:#dee2e6;
+    }
+    .container-fluid {
+        padding-top:5px;
+        background-color:#dee2e6;
+    }
+    .nav-tabs {
+        border-bottom: 1px solid black;
+    }
+    .nav-tabs .nav-link {
+        background-color:  white!important;
+        border-bottom:1px solid black;
+    }
+    
+    .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+        color: #495057;
+        background-color:  #dee2e6!important;
+        border-color: #dee2e6 #dee2e6 #fff;
+        margin-bottom: 0;
+        
+        border-bottom: 1px solid #dee2e6;
+        border:1px solid black;
+        border-bottom:0;
+    }
+    
+</style>
 {% endblock %}
 
 {% block body %}
@@ -32,7 +103,7 @@
             {% csrf_token %}
         </form>
         <div class="mt-3">
-            <table class="display nowrap" id="dataTable" width="100%" cellspacing="0">
+            <table class="display nowrap custom-table" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr class="table-dark">
                         <th>fund</th>

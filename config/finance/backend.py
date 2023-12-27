@@ -50,15 +50,15 @@ def update_school(school):
     profit_loss_date(school)  # 
 
 def update_fy(school,year):
-    writeCodes(school, db[school]['db'], year)
+    # writeCodes(school, db[school]['db'], year)
     profit_loss(school,year) 
     balance_sheet(school,year)
-    cashflow(school,year)
-    excel(school,year)
-    charter_first(school)
-    updateGraphDB(school, True)
-    profit_loss_chart(school)
-    profit_loss_date(school)
+    # cashflow(school,year)
+    # excel(school,year)
+    # charter_first(school)
+    # updateGraphDB(school, True)
+    # profit_loss_chart(school)
+    # profit_loss_date(school)
     
 def profit_loss(school,year):
     print("profit_loss")
@@ -3430,7 +3430,7 @@ def balance_sheet(school,year):
             if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities' or item['Category'] == 'Net Assets':
                 if Activity not in unique_act:
                     unique_act.append(Activity)
-                    print(Activity)
+                    
 
         for item in data_activitybs:
             Activity = item["Activity"]
@@ -3455,7 +3455,6 @@ def balance_sheet(school,year):
                     and not isinstance(entry[bal_key], str)
                 )
              
-
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
                 if i != month_exception:
                     item["fytd"] += item[f"total_bal{i}"]
@@ -4022,7 +4021,9 @@ def balance_sheet(school,year):
         last_month_total_assets  = total_assets[last_month_number_str]
         
         
+        print("total_LNE",total_LNA_fye)
         total_assets_fye = total_current_assets_fye + total_capital_assets_fye
+        print("total assets:",total_assets_fye)
         total_assets_fye_fytd = total_current_assets_fytd + total_capital_assets_fytd
         total_LNA_fytd = total_net_assets_fytd + total_liabilities_fytd
         total_net_assets_fytd = format_value(total_net_assets_fytd)
