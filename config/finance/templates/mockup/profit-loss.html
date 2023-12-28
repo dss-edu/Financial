@@ -18,23 +18,13 @@
     text-align: start;
   }
 
-  #table-header, #table-main > div {
+  #table-header {
       display: grid;
       grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
       text-align: center;
       /* border-radius: 10px; /* Rounded corners */
       /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow effect */
       overflow: hidden; /* Ensures the rounded corners are applied to child elements */
-  }
-
-  #table-main > div:not(:last-child) {
-    border-bottom: 2px solid #e4e4e4;
-  }
-  #table-main {
-    color: #1b4f72;
-  }
-  #table-main > div > div:nth-child(1) {
-    text-align: start;
   }
 
   #table-header > div:not(:last-child) {
@@ -67,20 +57,56 @@
     color: 	#ebae67;
     font-size: .75em;
   }
-  .net-section div:nth-child(3){
-      color: 	#ebae67;
-      font-size: .75em;
-    }
   #quarter-tabs {
     font-size: .75em;
+  }
+
+  #table-main > div:not(:last-child) {
+    border-bottom: 2px solid #e4e4e4;
+  }
+  #table-main {
+    color: #1b4f72;
+  }
+
+  .section > div {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
+      text-align: center;
+      overflow: hidden; /* Ensures the rounded corners are applied to child elements */
+  }
+  
+  .section > div > div:nth-child(1) {
+    text-align: start;
+  }
+  .section > div > div:not(:first-child) {
+    text-align: end;
+    padding-right: 6rem;
+  }
+  .dom > :first-child{
+    cursor: pointer;
+  }
+
+  .sub {
+    height: 0;
+    font-weight: 400;
+    font-size: .9em;
+    transition: height 0.25s ease;
+  }
+
+  .sub-active {
+    height: 20px;
+  }
+  .upswing {
+    color: #29ab87;
+  }
+  .downswing {
+    color: #cc0000;
 
   }
 </style>
 
 
 <div id="new-ui" class="d-none">
-  
-
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
     <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
       <div id="section-title">
@@ -103,52 +129,262 @@
     </div>
 
     <div class="p-4">
+      <!-- table-header  -->
       <div id="table-header" class="rounded shadow p-3 my-3">
-        <div class="net-section-head">
+        <div class="net-section-head pr-3">
           <div>1st QTR - Net Income</div>
-          <div class="">{{totals.ytd_net_income}}</div>
+          <div class="quarter-net-total">{{totals.ytd_net_income}}</div>
           <div class=""></div>
         </div>
         <div class="net-section">
           <div class="">September</strong></div>
-          <div class=""> {{totals.total_net_income_months.09}} </div>
+          <div class="monthly-net-total"> {{totals.total_net_income_months.09}} </div>
           <div class=""></div>
         </div>
         <div class="net-section">
           <div class="">October</strong></div>
-          <div class=""> {{totals.total_net_income_months.10}} </div>
+          <div class="monthly-net-total"> {{totals.total_net_income_months.10}} </div>
           <div class=""></div>
         </div>
         <div class="net-section">
           <div class="">November</strong></div>
-          <div class=""> {{totals.total_net_income_months.11}} </div>
+          <div class="monthly-net-total"> {{totals.total_net_income_months.11}} </div>
           <div class=""></div>
         </div>
- 
-
       </div>
+      <!-- end of table-header  -->
+
+      <!-- table-main -->
       <div id="table-main">
-        <div class="revenue p-3">
-          <div>Local Revenue</div>
-          <div> {{ totals.total_lr.09 }} </div>
-          <div> {{ totals.total_lr.10 }} </div>
-          <div> {{ totals.total_lr.11 }} </div>
+        <!-- Local Revenue  -->
+        <div class="section p-3">
+          <div class="dom">
+            <div>Local Revenue</div>
+            <div> {{ totals.total_lr.09 }}
+            </div>
+            <div> {{ totals.total_lr.10 }} </div>
+            <div> {{ totals.total_lr.11 }} </div>
+          </div>
+          {% for row in data %}
+          {% if row.category == 'Local Revenue' %}
+          <div class="sub">
+            <div> {{ row.obj }} - {{ row.description }} </div>
+            <div> {{ row.total_real9 }} </div>
+            <div> {{ row.total_real10 }} </div>
+            <div> {{ row.total_real11 }} </div>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        <div class="revenue p-3">
-          <div>State Program Revenue</div>
-          <div> {{ totals.total_spr.09 }} </div>
-          <div> {{ totals.total_spr.10 }} </div>
-          <div> {{ totals.total_spr.11 }} </div>
+        <!-- End Local Revenue  -->
+
+        <!-- State Program Revenue  -->
+        <div class="section p-3">
+          <div class="dom">
+            <div>State Program Revenue</div>
+            <div> {{ totals.total_spr.09 }} </div>
+            <div> {{ totals.total_spr.10 }} </div>
+            <div> {{ totals.total_spr.11 }} </div>
+          </div>
+          {% for row in data %}
+          {% if row.category == 'State Program Revenue' %}
+          <div class="sub">
+            <div> {{ row.obj }} - {{ row.description }} </div>
+            <div> {{ row.total_real9 }} </div>
+            <div> {{ row.total_real10 }} </div>
+            <div> {{ row.total_real11 }} </div>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
-        <div class="revenue p-3">
-          <div>Federal Program Revenue</div>
-          <div> {{ totals.total_fpr.09 }} </div>
-          <div> {{ totals.total_fpr.10 }} </div>
-          <div> {{ totals.total_fpr.11 }} </div>
+        <!-- End of  State Program Revenue  -->
+
+        <!-- Federal Program Revenue  -->
+        <div class="section p-3">
+          <div class="dom">
+            <div>Federal Program Revenue</div>
+            <div> {{ totals.total_fpr.09 }} </div>
+            <div> {{ totals.total_fpr.10 }} </div>
+            <div> {{ totals.total_fpr.11 }} </div>
+          </div>
+          {% for row in data %}
+          {% if row.category == 'Federal Program Revenue' %}
+          <div class="sub">
+            <div> {{ row.obj }} - {{ row.description }} </div>
+            <div> {{ row.total_real9 }} </div>
+            <div> {{ row.total_real10 }} </div>
+            <div> {{ row.total_real11 }} </div>
+          </div>
+          {% endif %}
+          {% endfor %}
         </div>
+        <!-- End of Federal Program Revenue  -->
 
       </div>
+      <!-- end of table-main -->
     </div>
   </div>
 
 </div>
+
+
+
+{% block javascript %}
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<!-- save this later in a separate file when the mockup gets the pass  -->
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    //////////////////// total net income per quarter ///////////////////////
+    const monthlyNets = document.querySelectorAll('.monthly-net-total')
+    const arrayMonthlyNets = Array.from(monthlyNets);
+    const quarterTotal = arrayMonthlyNets.reduce((accumulator, current) => {
+      const net = accountingToInteger(current.textContent)
+      return accumulator + net
+    }, 0)
+
+    $('.quarter-net-total').text(integerToAccounting(quarterTotal))
+
+
+    ///////////////////////// format table //////////////////////////////////
+    const tableMainDiv = document.getElementById('table-main')
+    tableFormatter(tableMainDiv)
+
+
+    ///////////////////////// show hide on click ///////////////////////////
+
+    const doms = document.querySelectorAll('.dom > div:first-child')
+    doms.forEach(element => {
+        // Add an event listener to each element
+        element.addEventListener('click', showHideSubs);
+    });
+
+
+
+
+    ////////////////////////// functions /////////////////////////////////
+
+    //  put in utils/formatters.js
+    function accountingToInteger(formattedNum){
+      // what if undefined or NaN or ''? 
+      if (formattedNum === undefined || formattedNum === '' ) {
+        return 0;
+      } 
+
+      // remove $ and comma 
+      let deformattedNum = formattedNum.replace(/\$|,/g, '')
+      let number
+
+      // handle error for when formattedNum is an unexpected type
+      try {
+        if (deformattedNum.includes('(')) {
+          // remove parenthesis and return negative num
+          deformattedNum = deformattedNum.replace(/\(|\)/g, '')
+          number = -Number(deformattedNum)
+        } else {
+          number = Number(deformattedNum)
+        }
+        return number
+      } catch (error) {
+        console.log(error)
+        return 0
+      } 
+    }
+
+    //  put in utils/formatters.js
+    function integerToAccounting(num){
+      // if NaN or undefined
+      if (num === undefined || Number.isNaN(num)){
+        return ''
+      }
+
+      try {
+        if (num < 0){
+          return `$(${
+            Math.abs(num).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) 
+        })`
+        } else {
+          return `$${num.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`
+        }
+      } catch (error) {
+        console.log(error)
+        return ''
+      }
+    }
+
+    //  put in utils/formatters.js ???
+    function tableFormatter(mainTableDiv){
+      const sections = mainTableDiv.querySelectorAll('.section')
+
+      sections.forEach(element => {
+        const section = Array.from(element.children);
+
+        section.forEach(row => {
+          const columns = Array.from(row.children)
+
+          // count empty divs this is because we want to hide/remove these divs
+          let emptyCounter = 0
+
+          // skip 0 because 0 is just the title 
+          for (let i = 1; i < columns.length; i++){
+            // handle nulls and undefined
+            if(columns[i].textContent.trim() === '' || columns[i].textContent === ' ') {
+              emptyCounter++
+              continue
+            }
+
+            // if has content but no dollar
+            if (!columns[i].textContent.includes('$')) {
+              columns[i].textContent = '$' + columns[i].textContent.trim()
+            }
+
+
+            // now for the up caret or down caret
+            if(columns[i].textContent.includes('(')) {
+              columns[i].innerHTML = `
+                ${columns[i].textContent}
+                <i class="fa-solid fa-caret-down downswing"></i>
+              `
+            } else {
+              columns[i].classList.add('upswing')
+              columns[i].innerHTML = `
+                ${columns[i].textContent}
+                <i class="fa-solid fa-caret-up"></i>
+              `
+            }
+          }
+
+          // remove empty rows
+          console.log(emptyCounter)
+          if (emptyCounter === (columns.length - 1) ){
+            // row.style.display = 'none'
+            row.remove()
+          }
+        })
+      });
+    }
+
+
+    function showHideSubs(event){
+      const section = event.currentTarget.closest('.section')
+
+      const subs = section.querySelectorAll('.sub')
+
+      subs.forEach(sub => {
+        sub.classList.toggle('sub-active')
+      })
+    }
+
+  })
+</script>
+{% endblock %}
