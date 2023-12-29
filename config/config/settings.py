@@ -433,8 +433,8 @@ schoolCategory = {
 }
 
 schoolMonths ={
-    "julySchool": ["manara","leadership", "sa", "lonestar"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori"]
+    "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational"],
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori"]
 }
 
 
