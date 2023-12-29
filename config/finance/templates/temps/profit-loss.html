@@ -477,7 +477,10 @@
     </div>
     <div class="col-10">
       <h5 class="text-center" style="color: black; padding-right:35px;">
-        {{ school_name }} [FY : {% if September == "True" %} 9] {% else %} 7] {% endif %}
+        {{ school_name }} 
+        {% comment %}
+        [FY : {% if September == "True" %} 9] {% else %} 7] {% endif %}
+        {% endcomment %}
       </h5>
     </div>
     <div class="col-1">
@@ -863,7 +866,9 @@
             <tr class="header">
               <th class="firstcolumn"></th>
               <th class="collapsed"></th>
-              <th></th>
+              <th>
+                YE: {% if September == "True" %} August {% else %} June {% endif %}
+              </th>
               <th style="text-align: center">
                 <!-- <div style="width: 110px">Budget</div> -->
                 Budget
