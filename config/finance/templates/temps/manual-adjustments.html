@@ -26,36 +26,37 @@
         border-color:gray;
     
         border-right: none;
-        border-top: 5px solid   #dee2e6 !important;
-        border-bottom: 5px solid  #dee2e6 !important;
+        border-top: 5px solid   #f5f5f5 !important;
+        border-bottom: 5px solid  #f5f5f5 !important;
         background-color:#fff!important;
         color: #4d4d4d;
         box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1)!important;
+        font-size:.7rem!important;
        
      
     }
     
     
     .custom-table th {
-        background-color:#dee2e6;
+        background-color:#f5f5f5;
         color:#495057;
     }
     .custom-table tr:first-child td {
-        border-top: 10px solid  #dee2e6 !important;
-        border-bottom: 5px solid  #dee2e6 !important;
+        border-top: 10px solid  #f5f5f5 !important;
+        border-bottom: 5px solid  #f5f5f5 !important;
     }
     
     .custom-table tr:last-child td {
-        border-top: 5px solid  #dee2e6 !important;
-        border-bottom: 10px solid  #dee2e6 !important;
+        border-top: 5px solid  #f5f5f5 !important;
+        border-bottom: 10px solid  #f5f5f5 !important;
     }
     
     .flex-grow-1 {
-        background-color:#dee2e6;
+        background-color:#f5f5f5;
     }
     .container-fluid {
         padding-top:5px;
-        background-color:#dee2e6;
+        background-color:#f5f5f5;
     }
     .nav-tabs {
         border-bottom: 1px solid black;
@@ -67,11 +68,11 @@
     
     .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
         color: #495057;
-        background-color:  #dee2e6!important;
-        border-color: #dee2e6 #dee2e6 #fff;
+        background-color:  #f5f5f5!important;
+        border-color: #f5f5f5 #f5f5f5 #fff;
         margin-bottom: 0;
         
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid #f5f5f5;
         border:1px solid black;
         border-bottom:0;
     }
@@ -126,7 +127,7 @@
                         <th>WorkDescr</th>
                         <th>Type</th>
                     </tr>
-                    <tr>
+                    {% comment %} <tr>
                         <th>fund</th>
                         <th>func</th>
                         <th>obj</th>
@@ -146,7 +147,7 @@
                         <th>Bal</th>
                         <th>WorkDescr</th>
                         <th>Type</th>
-                    </tr>
+                    </tr> {% endcomment %}
                 </thead>
                 <tbody>
                     {% for row in data3 %}

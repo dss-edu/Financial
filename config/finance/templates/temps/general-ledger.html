@@ -29,7 +29,7 @@
     }
 
   .side-panel {
-    width: 100px;
+    width: 40px;
     background-color: rgba(255, 255, 255, 0);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0);
     padding: 0px;
@@ -88,12 +88,12 @@
 .custom-table td {
 
 
-    text-align: left !important;
+  
     border-color:gray;
 
     border-right: none;
-    border-top: 5px solid   #dee2e6 !important;
-    border-bottom: 5px solid  #dee2e6 !important;
+    border-top: 3px solid   #f5f5f5 !important;
+    border-bottom: 3px solid  #f5f5f5 !important;
     background-color:#fff!important;
     color: #4d4d4d;
     box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1)!important;
@@ -103,25 +103,25 @@
 
 
 .custom-table th {
-    background-color:#dee2e6;
+    background-color:#f5f5f5;
     color:#495057;
 }
 .custom-table tr:first-child td {
-    border-top: 10px solid  #dee2e6 !important;
-    border-bottom: 5px solid  #dee2e6 !important;
+    border-top: 10px solid  #f5f5f5 !important;
+    border-bottom: 5px solid  #f5f5f5 !important;
 }
 
 .custom-table tr:last-child td {
-    border-top: 5px solid  #dee2e6 !important;
-    border-bottom: 10px solid  #dee2e6 !important;
+    border-top: 5px solid  #f5f5f5 !important;
+    border-bottom: 10px solid  #f5f5f5 !important;
 }
 
 .flex-grow-1 {
-    background-color:#dee2e6;
+    background-color:#f5f5f5;
 }
 .container-fluid {
     padding-top:5px;
-    background-color:#dee2e6;
+    background-color:#f5f5f5;
 }
 .nav-tabs {
     border-bottom: 1px solid black;
@@ -133,16 +133,36 @@
 
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
     color: #495057;
-    background-color:  #dee2e6!important;
-    border-color: #dee2e6 #dee2e6 #fff;
+    background-color:  #f5f5f5!important;
+    border-color: #f5f5f5 #f5f5f5 #fff;
     margin-bottom: 0;
     
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #f5f5f5;
     border:1px solid black;
     border-bottom:0;
 }
 
+.small-font{
+    font-size:.6rem!important;
+}
 
+.big-font{
+    font-size:.8rem!important;
+}
+
+.text-center::after{
+    text-align: center !important;
+}
+
+.dt-body-right {
+    text-align: right;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+
+    background-color: white !important;
+
+}
 </style>
 {% endblock %}
 
@@ -250,16 +270,16 @@
     <div class="mt-3">
         <table class="display nowrap custom-table" id="dataTable" width="100%" cellspacing="0">
         <!-- <table class="table table-hover" id="dataTable" cellspacing="0"> -->
-        <thead>
+        <thead class="big-font">
             <tr >
                 <th>fund</th>
                 <th>func</th>
                 <th>obj</th>
-                <th>org</th>
+                {% comment %} <th>org</th>
                 <th>fscl_yr</th>
                 <th>pgm</th>
                 <th>edSpan</th>
-                <th>projDtl</th>
+                <th>projDtl</th> {% endcomment %}
                 <th>AcctDescr</th>
                 <th>Number</th>
                 <th>Date</th>
@@ -274,43 +294,21 @@
                 <th>Type</th>
                 <th>Contr</th>
             </tr>
-            <tr>
-                <th>fund</th>
-                <th>func</th>
-                <th>obj</th>
-                <th>org</th>
-                <th>fscl_yr</th>
-                <th>pgm</th>
-                <th>edSpan</th>
-                <th>projDtl</th>
-                <th>AcctDescr</th>
-                <th>Number</th>
-                <th>Date</th>
-                <th>AcctPer</th>
-                <th>Est</th>
-                <th>Real</th>
-                <th>Appr</th>
-                <th>Encum</th>
-                <th>Expend</th>
-                <th>Bal</th>
-                <th>WorkDescr</th>
-                <th>Type</th>
-                <th>Contr</th>
-            </tr>
+           
         </thead>
 
-        <tbody>
+        <tbody class="small-font">
 
             {% for row in data3 %}
             <tr class="table-row">
                 <td>{{row.fund}}</td>
                 <td>{{row.func}}</td>
                 <td>{{row.obj}}</td>
-                <td>{{row.org}}</td>
+                {% comment %} <td>{{row.org}}</td>
                 <td>{{row.fscl_yr}}</td>
                 <td>{{row.pgm}}</td>
                 <td>{{row.edSpan}}</td>
-                <td>{{row.projDtl}}</td>
+                <td>{{row.projDtl}}</td> {% endcomment %}
                 <td>{{row.AcctDescr}}</td>
                 <td>{{row.Number}}</td>
                 <td>{{row.Date|date:"Y-m-d"}}</td>
@@ -341,10 +339,14 @@
         // Initialize DataTables
             var table = $('#dataTable').DataTable({
                 // "scrollX": true,
-                "ordering": false,
-                "dom": 'lrtip',
+                "ordering": true,
+                dom: "Bfrtlip",
+                "pageLength": 50,
                 "columnDefs": [
-            { "className": "custom-table-cell", "targets": "_all" }     
+            { "className": "custom-table-cell", "targets": "_all" },
+            { "className": "dt-head-center", "targets": "_all" },
+            { "className": "dt-body-right", "targets": [0, 1, 2,4,6,7,8,9,10,11,12] },
+            { "className": "dt-body-center", "targets": [5] },
                 ]
 
             });
