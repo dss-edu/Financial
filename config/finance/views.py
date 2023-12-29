@@ -942,11 +942,13 @@ def viewgl(request,fund,obj,yr,school,year,url):
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
-                        print(row[18])
-                        print(type(row[18]))
+
                         gl_data.append(row_dict)
 
-        total_bal = sum(float(row['Amount']) for row in gl_data)
+        if request.path.startswith('/viewgl/'):
+            total_bal = sum(float(row['Real']) for row in gl_data)
+        else:
+            total_bal = sum(float(row['Amount']) for row in gl_data)
     
         total_bal = format_value(total_bal)
 

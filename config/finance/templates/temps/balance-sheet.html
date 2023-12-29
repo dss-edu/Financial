@@ -157,6 +157,39 @@ a:hover{
 .table-container{
   padding: 10px; /* Add some padding around the content */
 }
+
+
+.black-header{
+  background-color:black;
+  color:white;
+}
+
+.width150{
+  width:80px !important;
+}
+
+.w-100{
+  font-size: .8rem;
+}
+
+.modal-blur {
+  filter: blur(5px);
+  pointer-events: none; /* Prevent interaction with blurred content */
+}
+
+#myModal {
+  backdrop-filter: blur(3px);
+  font-size: .8rem;
+}
+
+.modal-content {
+
+  border: 1px solid black !important;
+
+}
+
+
+
 </style>
 
 {% endblock %}   
@@ -208,23 +241,20 @@ a:hover{
         <table id="balancesheet-data-table" class="table table-hover">
           <thead>
             {% if ascender == "True" %}
-            <tr class="text-center">
-              <th class="px-3">fund</th>
-              <th class="px-3">func</th>
-              <th class="px-3">obj</th>
-              <th class="px-3">org</th>
-              <th class="px-3">fscl_yr</th>
-              <th class="px-3">pgm</th>
-              <th class="px-3">projDtl</th>
-              <th class="px-3">AcctDescr</th>
-              <th class="px-3">Number</th>
-              <th class="px-3">Date</th>
-              <th class="px-3">AcctPer</th>
-              <th class="px-3">Real</th>
-              <th class="px-3">Expend</th>
-              <th class="px-3">Bal</th>
-              <th class="px-3">WorkDescr</th>
-              <th class="px-3">Type</th>
+            <tr class="text-center black-header">
+              <th class="text-center">fund</th>
+              <th class="text-center">func</th>
+              <th class="text-center">obj</th>
+
+              <th class="text-center">AcctDescr</th>
+              <th class="text-center">Number</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">AcctPer</th>
+              <th class="text-center width150">Real</th>
+              <th class="text-center width150">Expend</th>
+              <th class="text-center width150">Bal</th>
+              <th class="text-center">WorkDescr</th>
+              <th class="text-center">Type</th>
             </tr>
 
             {% else%}
@@ -233,10 +263,10 @@ a:hover{
                 <th class="px-3">T</th>
                 <th class="px-3">func</th>
                 <th class="px-3">obj</th>
-                <th class="px-3">sobj</th>
+                {% comment %} <th class="px-3">sobj</th>
                 <th class="px-3">org</th>
                 <th class="px-3">PI</th>
-                <th class="px-3">LOC</th>
+                <th class="px-3">LOC</th> {% endcomment %}
                 <th class="px-3">Date</th>
                 <th class="px-3">Source</th>
                 <th class="px-3">Subsource</th>

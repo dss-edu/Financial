@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var modalTableBody = document.getElementById("modal-table-body");
   var mdfooter = document.getElementById("myModalFooter");
 
+ 
+
   function formatNumberToComma(numString) {
   return numString.toLocaleString("en-US", {
             minimumFractionDigits: 2,
@@ -27,9 +29,25 @@ document.addEventListener("DOMContentLoaded", function () {
       return `${year}-${month}-${day}`;
   }
 
+
+//   <td class="text-end">${row.org}</td>
+//   <td class="text-end">${row.fscl_yr}</td>
+//   <td class="text-end">${row.pgm}</td>
+//   <td class="text-end">${row.projDtl}</td>
+
+// <td class="text-end px-3">${row.sobj}</td>
+// <td class="text-end px-3">${row.org}</td>
+
+// <td class="text-start px-3">${row.PI}</td>
+// <td class="text-start px-3">${row.LOC}</td>
+
   function populateModal(data) {
+
     var existingDataTable = $("#balancesheet-data-table1").DataTable();
 
+
+
+    
     if (existingDataTable) {
       existingDataTable.destroy();
     }
@@ -47,12 +65,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="text-end">${row.fund}</td>
             <td class="text-end">${row.func}</td>
             <td class="text-end">${row.obj}</td>
-            <td class="text-end">${row.org}</td>
-            <td class="text-end">${row.fscl_yr}</td>
-            <td class="text-end">${row.pgm}</td>
-            <td class="text-end">${row.projDtl}</td>
 
-            <td class="text-start text-nowrap">${row.AcctDescr}</td>
+
+            <td class="text-start text-nowrap " style=" padding-left:30px !important;">${row.AcctDescr}</td>
             <td class="text-start">${row.Number}</td>
             <td class="text-start" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
 
@@ -61,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <td class="text-end">${row.Expend}</td>
             <td class="text-end">${row.Bal}</td>
 
-            <td class="text-start" style="white-space: nowrap;">${row.WorkDescr}</td>
+            <td class="text-start " style="white-space: nowrap; padding-left:30px !important;">${row.WorkDescr}</td>
             <td class="text-start">${row.Type}</td>
           `;
       }      else{
@@ -72,11 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <td class="text-end px-3">${row.func}</td>
 <td class="text-end px-3">${row.obj}</td>
-<td class="text-end px-3">${row.sobj}</td>
-<td class="text-end px-3">${row.org}</td>
 
-<td class="text-start px-3">${row.PI}</td>
-<td class="text-start px-3">${row.LOC}</td>
 <td class="text-start text-nowrap px-3">${formatDateToYYYYMMDD(row.Date)}</td>
 <td class="text-start px-3">${row.Source}</td>
 <td class="text-start px-3">${row.Subsource}</td>
@@ -126,6 +137,8 @@ document.addEventListener("DOMContentLoaded", function () {
       paging: false,
       searching: true,
     });
+
+
   }
   // REVENUE TOTAL
 
@@ -137,6 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(function (data) {
         if (data.status === "success") {
           $("#spinner-modal").modal("hide");
+        
           populateModal(data.data, data.total_bal);
 
           modal.style.display = "block";
@@ -154,7 +168,9 @@ document.addEventListener("DOMContentLoaded", function () {
   viewGLLinks.forEach(function (link) {
     link.addEventListener("click", function (event) {
       $("#spinner-modal").modal("show");
+      
       event.preventDefault();
+      event.stopPropagation();
       var fund = link.dataset.fund;
       var obj = link.dataset.obj;
       var yr = link.dataset.yr;
