@@ -603,7 +603,7 @@
                   <i class="fas fa-chart-bar"></i>
               </a>
 
-              <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Toggle UI" data-placement="left">
+              <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Toggle Printable Sheet" data-placement="left">
                 <i class="fas fa-vector-square"></i>
               </a>
               <script>
@@ -644,7 +644,7 @@
    
 
 
-    <form id="insert-row-form" action="{% url 'insert-row' %}" method="POST">
+    <form id="insert-row-form" class="vh-100" action="{% url 'insert-row' %}" method="POST">
       <div id="save-container" style="display: none">
         <button
           id="save-button"
@@ -702,7 +702,7 @@
 
       {% include 'mockup/profit-loss.html' %}
 
-      <div id="table-box">
+      <div id="table-box" class="d-none">
         <table id="data-table-overview" class="table table-hover" style="display:none; width:auto;"></table>
         <table id="data-table" class="table table-hover" style="width: auto;">
           <thead>

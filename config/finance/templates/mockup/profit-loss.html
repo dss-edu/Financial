@@ -14,22 +14,6 @@
     text-decoration: none; 
     color: inherit;
   }
-  #main-table th, td{
-    text-align: start;
-  }
-
-  #table-header {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
-      text-align: center;
-      /* border-radius: 10px; /* Rounded corners */
-      /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow effect */
-      overflow: hidden; /* Ensures the rounded corners are applied to child elements */
-  }
-
-  #table-header > div:not(:last-child) {
-    border-right: 2px solid #e4e4e4;
-  }
   #new-ui{
     font-family: 'Lato', sans-serif;
     font-weight: bold;
@@ -60,53 +44,84 @@
   #quarter-tabs {
     font-size: .75em;
   }
-
-  #table-main > div:not(:last-child) {
-    border-bottom: 2px solid #e4e4e4;
+  #quarter-tabs > a:hover {
+    background-color: #FFFFFF;
   }
+
   #table-main {
+    border-collapse: collapse;
     color: #1b4f72;
   }
-
-  .section > div {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr); /* Adjust the number of columns as needed */
-      text-align: center;
-      overflow: hidden; /* Ensures the rounded corners are applied to child elements */
+  #table-main thead{
+    text-align: center;
   }
-  
-  .section > div > div:nth-child(1) {
-    text-align: start;
+  #table-main th > div {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    /* padding: 1rem 1rem; */
   }
-  .section > div > div:not(:first-child) {
+  #table-main tbody td{
+    /* padding: 0 0; */
+    color: #1b4f72 ; 
+  }
+  #table-main tbody td:not(:first-child){
     text-align: end;
-    padding-right: 6rem;
+  }
+  #table-main tbody td {
+      white-space: nowrap;  /* Prevent text wrapping */
+      overflow: hidden;     /* Hide overflow */
+      text-overflow: ellipsis; /* Add an ellipsis for overflowed text */
+      /* You might want to adjust the width as needed */
+  }
+
+  .dom {
+    padding-left: 10px;
   }
   .dom > :first-child{
     cursor: pointer;
   }
-
+  .sub td {
+    height: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    /* padding: 0 2rem; */
+  }
   .sub {
-    height: 0;
+    height: 0 !important;
     font-weight: 400;
     font-size: .9em;
-    transition: height 0.25s ease;
   }
-
   .sub-active {
-    height: 20px;
+    display: block;
   }
   .upswing {
-    color: #29ab87;
+    color: #29ab87 !important;
   }
   .downswing {
     color: #cc0000;
-
   }
+  .modal-table {
+    border-collapse: collapse;
+  }
+
+  .partial-border-right {
+      position: relative;
+  }
+
+  .partial-border-right::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 25%; /* Adjust this to vertically center the border */
+      bottom: 25%; /* Same as above */
+      border-right: 2px solid #e4e4e4; /* Adjust border color and width as needed */
+      width: 0;
+  }
+
 </style>
 
 
-<div id="new-ui" class="d-none">
+<div id="new-ui">
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
     <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
       <div id="section-title">
@@ -119,109 +134,612 @@
         </span>
       </div>
       <div>
-        <div id="quarter-tabs" class="rounded py-2 px-1" style="background-color: #f5f6f7;">
-          <a class="p-1 active" href="">1st Quarter</a>
+        <div>
+          FY: 2023-2024
+        </div>
+        <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
+          <a class="p-1" href="">1st Quarter</a>
           <!-- <a class="p-1 ml-1 not-active" href="">2nd Quarter</a>
           <a class="p-1 ml-1 not-active" href="">3rd Quarter</a>
           <a class="p-1 ml-1 not-active"  href="">4th Quarter</a> -->
         </div>
       </div>
     </div>
+    
+    <div class="">
+      <table id="table-main">
+        <thead>
+          <tr class="rounded shadow">
+            <th>
+              <div class="net-section-head">
+                <div>1st QTR - Net Income</div>
+                <div class="quarter-net-total">{{totals.ytd_net_income}}</div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th>
+              <div class="net-section">
+                <div class="">Budget</div>
+                <div class=""> {{totals.budget_net_income}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th>
+              <div class="net-section">
+                <div class=""> {{months.format_ytd_budget}}% YTD Budget </div>
+                <div class=""> {{totals.ytd_budget_net_income}} </div>
+                <div class=""></div>
+              </div>
+            </th>
 
-    <div class="p-4">
-      <!-- table-header  -->
-      <div id="table-header" class="rounded shadow p-3 my-3">
-        <div class="net-section-head pr-3">
-          <div>1st QTR - Net Income</div>
-          <div class="quarter-net-total">{{totals.ytd_net_income}}</div>
-          <div class=""></div>
-        </div>
-        <div class="net-section">
-          <div class="">September</strong></div>
-          <div class="monthly-net-total"> {{totals.total_net_income_months.09}} </div>
-          <div class=""></div>
-        </div>
-        <div class="net-section">
-          <div class="">October</strong></div>
-          <div class="monthly-net-total"> {{totals.total_net_income_months.10}} </div>
-          <div class=""></div>
-        </div>
-        <div class="net-section">
-          <div class="">November</strong></div>
-          <div class="monthly-net-total"> {{totals.total_net_income_months.11}} </div>
-          <div class=""></div>
-        </div>
-      </div>
-      <!-- end of table-header  -->
+            <!--      Months       -->
+            <th class="month">
+              <div class="net-section">
+                <div class="">September</div>
+                <div class="monthly-net-total"> {{totals.total_net_income_months.09}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th class="month">
+              <div class="net-section">
+                <div class="">October</div>
+                <div class="monthly-net-total"> {{totals.total_net_income_months.10}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th class="month">
+              <div class="net-section">
+                <div class="">November</div>
+                <div class="monthly-net-total"> {{totals.total_net_income_months.11}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <!--      End Months       -->
 
-      <!-- table-main -->
-      <div id="table-main">
+            <th>
+              <div class="net-section">
+                <div class="">Year-to-Date</div>
+                <div class=""> {{totals.ytd_net_income}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th>
+              <div class="net-section">
+                <div class="">Variances</div>
+                <div class=""> {{totals.variances_net_income}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+            <th>
+              <div class="net-section">
+                <div class="">Var.(25%)</div>
+                <div class=""> {{totals.var_net_income}} </div>
+                <div class=""></div>
+              </div>
+            </th>
+
+          </tr>
+        </thead>
+        <tbody>
         <!-- Local Revenue  -->
-        <div class="section p-3">
-          <div class="dom">
-            <div>Local Revenue</div>
-            <div> {{ totals.total_lr.09 }}
-            </div>
-            <div> {{ totals.total_lr.10 }} </div>
-            <div> {{ totals.total_lr.11 }} </div>
-          </div>
+          <tr class="dom">
+            <td>Local Revenue</td>
+            <td> {{totals.total_ammended_lr}} </td>
+            <td> {{totals.ytd_ammended_total_lr}} </td>
+
+            <td> {{ totals.total_lr.09 }} </td>
+            <td> {{ totals.total_lr.10 }} </td>
+            <td> {{ totals.total_lr.11 }} </td>
+
+
+
+            <td> {{totals.ytd_total_lr}} </td>
+            <td> {{totals.variances_revenue_lr}} </td>
+            <td> {{totals.var_ytd_lr}} </td>
+          </tr>
+
           {% for row in data %}
           {% if row.category == 'Local Revenue' %}
-          <div class="sub">
-            <div> {{ row.obj }} - {{ row.description }} </div>
-            <div> {{ row.total_real9 }} </div>
-            <div> {{ row.total_real10 }} </div>
-            <div> {{ row.total_real11 }} </div>
-          </div>
+          <tr class="sub d-none">
+            <td> {{ row.obj }} - {{ row.description }} </td>
+            <td> {{row.total_budget}} </td>
+            <td>{{row.ytd_budget}}</td>
+
+            <td> {{ row.total_real9 }} </td>
+            <td> {{ row.total_real10 }} </td>
+            <td> {{ row.total_real11 }} </td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
           {% endif %}
           {% endfor %}
-        </div>
-        <!-- End Local Revenue  -->
+          <!-- End Local Revenue  -->
 
-        <!-- State Program Revenue  -->
-        <div class="section p-3">
-          <div class="dom">
-            <div>State Program Revenue</div>
-            <div> {{ totals.total_spr.09 }} </div>
-            <div> {{ totals.total_spr.10 }} </div>
-            <div> {{ totals.total_spr.11 }} </div>
-          </div>
+          <!-- State PRogram Revenue  -->
+          <tr class="dom">
+            <td>State Program Revenue</td>
+            <td> {{totals.total_ammended_spr}} </td>
+            <td> {{totals.ytd_ammended_total_spr}} </td>
+
+            <td> {{ totals.total_spr.09 }} </td>
+            <td> {{ totals.total_spr.10 }} </td>
+            <td> {{ totals.total_spr.11 }} </td>
+
+
+
+            <td> {{totals.ytd_total_spr}} </td>
+            <td> {{totals.variances_revenue_spr}} </td>
+            <td> {{totals.var_ytd_spr}} </td>
+          </tr>
+
           {% for row in data %}
           {% if row.category == 'State Program Revenue' %}
-          <div class="sub">
-            <div> {{ row.obj }} - {{ row.description }} </div>
-            <div> {{ row.total_real9 }} </div>
-            <div> {{ row.total_real10 }} </div>
-            <div> {{ row.total_real11 }} </div>
-          </div>
+          <tr class="sub d-none">
+            <td> {{ row.obj }} - {{ row.description }} </td>
+            <td> {{row.total_budget}} </td>
+            <td>{{row.ytd_budget}}</td>
+
+            <td> {{ row.total_real9 }} </td>
+            <td> {{ row.total_real10 }} </td>
+            <td> {{ row.total_real11 }} </td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
           {% endif %}
           {% endfor %}
-        </div>
-        <!-- End of  State Program Revenue  -->
+          <!-- End of  State Program Revenue  -->
 
-        <!-- Federal Program Revenue  -->
-        <div class="section p-3">
-          <div class="dom">
-            <div>Federal Program Revenue</div>
-            <div> {{ totals.total_fpr.09 }} </div>
-            <div> {{ totals.total_fpr.10 }} </div>
-            <div> {{ totals.total_fpr.11 }} </div>
-          </div>
+          <!-- Federal PRogram Revenue  -->
+          <tr class="dom">
+            <td>Federal Program Revenue</td>
+            <td> {{totals.total_ammended_fpr}} </td>
+            <td> {{totals.ytd_ammended_total_fpr}} </td>
+
+            <td> {{ totals.total_fpr.09 }} </td>
+            <td> {{ totals.total_fpr.10 }} </td>
+            <td> {{ totals.total_fpr.11 }} </td>
+
+
+
+            <td> {{totals.ytd_total_fpr}} </td>
+            <td> {{totals.variances_revenue_fpr}} </td>
+            <td> {{totals.var_ytd_fpr}} </td>
+          </tr>
+
           {% for row in data %}
           {% if row.category == 'Federal Program Revenue' %}
-          <div class="sub">
-            <div> {{ row.obj }} - {{ row.description }} </div>
-            <div> {{ row.total_real9 }} </div>
-            <div> {{ row.total_real10 }} </div>
-            <div> {{ row.total_real11 }} </div>
-          </div>
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_real9 }} </td>
+              <td> {{ row.total_real10 }} </td>
+              <td> {{ row.total_real11 }} </td>
+
+              <td></td>
+              <td></td>
+              <td></td>
+          </tr>
           {% endif %}
           {% endfor %}
-        </div>
-        <!-- End of Federal Program Revenue  -->
+          <!-- End of Federal Program Revenue  -->
 
-      </div>
-      <!-- end of table-main -->
+
+
+          <!-- Total Revenue -->
+          <tr class="dom">
+            <td>Total Revenue</td>
+            <td> {{totals.total_ammended}} </td>
+            <td> {{totals.ytd_ammended_total}} </td>
+
+            <td> {{ totals.total_revenue.09 }} </td>
+            <td> {{ totals.total_revenue.10 }} </td>
+            <td> {{ totals.total_revenue.11 }} </td>
+
+
+
+            <td> {{totals.ytd_total_revenue}} </td>
+            <td> {{totals.variances_revenue}} </td>
+            <td> {{totals.var_ytd}} </td>
+          </tr>
+          <!-- End Total Revenue -->
+
+          <!-- TOTAL  -->
+          <tr class="dom">
+            <td>Total</td>
+            <td> {{totals.first_total}} </td>
+            <td> {{totals.ytd_ammended_total_first}} </td>
+
+            <td> {{ totals.first_total_months.09 }} </td>
+            <td> {{ totals.first_total_months.10 }} </td>
+            <td> {{ totals.first_total_months.11 }} </td>
+
+
+
+            <td> {{totals.first_ytd_total}} </td>
+            <td> {{totals.variances_first_total}} </td>
+            <td> {{totals.var_ytd_first_total}} </td>
+          </tr>
+          {% for row in data2 %}
+          {% if row.category != 'Depreciation and Amortization' %}
+          <tr class="sub d-none">
+              <td> {{ row.func_func }} - {{ row.desc }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_func9 }} </td>
+              <td> {{ row.total_func10 }} </td>
+              <td> {{ row.total_func11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td>{{row.variances}}</td>
+              <td>{{row.var_ytd}}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- END of TOTAL  -->
+
+
+          <!-- Surplus Deficits before Depreciation -->
+          <tr class="dom">
+            <td>Surplus (Deficits) before Depreciation</td>
+            <td> {{totals.ammended_budget_SBD}} </td>
+            <td> {{totals.ytd_ammended_SBD}} </td>
+
+            <td> {{ totals.total_SBD.09 }} </td>
+            <td> {{ totals.total_SBD.10 }} </td>
+            <td> {{ totals.total_SBD.11 }} </td>
+
+
+            <td> {{totals.ytd_SBD}} </td>
+            <td> {{totals.variances_SBD}} </td>
+            <td> {{totals.var_SBD}} </td>
+          </tr>
+          <!-- Surplus Deficits before Depreciation -->
+
+
+          <!-- Depreciation and Amortization  -->
+          <tr class="dom">
+            <td>Depreciation and Amortization</td>
+            <td> {{totals.dna_total}} </td>
+            <td> {{totals.ytd_ammended_dna}} </td>
+
+            <td> {{ totals.dna_total_months.09 }} </td>
+            <td> {{ totals.dna_total_months.10 }} </td>
+            <td> {{ totals.dna_total_months.11 }} </td>
+
+            <td> {{totals.dna_ytd_total}} </td>
+            <td> {{totals.variances_dna}} </td>
+            <td> {{totals.var_ytd_dna}} </td>
+          </tr>
+          {% for row in data2 %}
+          {% if row.category == 'Depreciation and Amortization' %}
+          <tr class="sub d-none">
+              <td> {{ row.func_func }} - {{ row.desc }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_func2_9 }} </td>
+              <td> {{ row.total_func2_10 }} </td>
+              <td> {{ row.total_func2_11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td>{{row.variances}}</td>
+              <td>{{row.var_ytd}}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- END of Depreciation and Amortization  -->
+
+
+          <!-- Net Surplus -->
+          <tr class="dom">
+            <td>Net Surplus(Deficit)</td>
+            <td> {{totals.ammended_budget_netsurplus}} </td>
+            <td> {{totals.ytd_ammended_netsurplus}} </td>
+
+            <td> {{ totals.total_netsurplus_months.09 }} </td>
+            <td> {{ totals.total_netsurplus_months.10 }} </td>
+            <td> {{ totals.total_netsurplus_months.11 }} </td>
+
+
+            <td> {{totals.ytd_netsurplus}} </td>
+            <td> {{totals.variances_netsurplus}} </td>
+            <td> {{totals.var_netsurplus}} </td>
+          </tr>
+          <!-- End of Net surplus -->
+
+
+          <!-- Payroll and Benefits -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6100' %}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_pc}}</td>
+            <td> {{totals.ytd_budget_pc}} </td>
+
+            <td> {{ totals.total_EOC_pc.09 }} </td>
+            <td> {{ totals.total_EOC_pc.10 }} </td>
+            <td> {{ totals.total_EOC_pc.11 }} </td>
+
+            <td> {{totals.ytd_EOC_pc}} </td>
+            <td> {{totals.variances}} </td>
+            <td> {{totals.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'Payroll and Benefits' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- End of Payroll and Benefits -->
+
+          <!-- Professional and Contract Services  -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6200' %}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_pcs}}</td>
+            <td> {{totals.ytd_budget_pcs}} </td>
+
+            <td> {{ totals.total_EOC_pcs.09 }} </td>
+            <td> {{ totals.total_EOC_pcs.10 }} </td>
+            <td> {{ totals.total_EOC_pcs.11 }} </td>
+
+            <td> {{totals.ytd_EOC_pcs}} </td>
+            <td> {{totals.variances}} </td>
+            <td> {{totals.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'Professional and Contract Services' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+
+          <!-- materials and Supplies -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6300' %}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_sm}}</td>
+            <td> {{totals.ytd_budget_sm}} </td>
+
+            <td> {{ totals.total_EOC_sm.09 }} </td>
+            <td> {{ totals.total_EOC_sm.10 }} </td>
+            <td> {{ totals.total_EOC_sm.11 }} </td>
+
+            <td> {{totals.ytd_EOC_sm}} </td>
+            <td> {{totals.variances}} </td>
+            <td> {{totals.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'Materials and Supplies' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- end of materials and Supplies -->
+
+          <!-- Other Operating Costs -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6400' %}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_ooe}}</td>
+            <td> {{totals.ytd_budget_ooe}} </td>
+
+            <td> {{ totals.total_EOC_ooe.09 }} </td>
+            <td> {{ totals.total_EOC_ooe.10 }} </td>
+            <td> {{ totals.total_EOC_ooe.11 }} </td>
+
+            <td> {{totals.ytd_EOC_ooe}} </td>
+            <td> {{totals.variances}} </td>
+            <td> {{totals.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'Other Operating Costs' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- End of Other Operating Costs -->
+
+
+          <!-- depreciation -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6449' %}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.dna_total_6449}}</td>
+            <td> {{totals.ytd_ammended_dna_6449}} </td>
+
+            <td> {{ totals.dna_total_months_6449.09 }} </td>
+            <td> {{ totals.dna_total_months_6449.10 }} </td>
+            <td> {{ totals.dna_total_months_6449.11 }} </td>
+
+            <td> {{totals.dna_ytd_total_6449}} </td>
+            <td> {{totals.variances_dna_6449}} </td>
+            <td> {{totals.var_ytd_dna}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+          <!-- end of depreciation -->
+
+          <!-- Debt Services  -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6500'%}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_te}}</td>
+            <td> {{totals.ytd_budget_te}} </td>
+
+            <td> {{ totals.total_EOC_te.09 }} </td>
+            <td> {{ totals.total_EOC_te.10 }} </td>
+            <td> {{ totals.total_EOC_te.11 }} </td>
+
+            <td> {{totals.ytd_EOC_te}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'Debt Services' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- End of  Debt Services  -->
+
+          <!-- Fixed Capital/Assets  -->
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6600'%}
+          <tr class="dom">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_cpa}}</td>
+            <td> {{totals.ytd_budget_cpa}} </td>
+
+            <td> {{ totals.total_EOC_cpa.09 }} </td>
+            <td> {{ totals.total_EOC_cpa.10 }} </td>
+            <td> {{ totals.total_EOC_cpa.11 }} </td>
+
+            <td> {{totals.ytd_EOC_cpa}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
+
+          {% for row in data_activities %} 
+          {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              <td> {{ row.total_activities9 }} </td>
+              <td> {{ row.total_activities10 }} </td>
+              <td> {{ row.total_activities11 }} </td>
+
+              <td>{{row.ytd_total}}</td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          <!-- End of  Fixed Capital/Assets  -->
+
+          <!-- Total Expense  -->
+          <tr class="dom">
+            <td>Total Expense</td>
+            <td> {{totals.total_expense}} </td>
+            <td> {{totals.total_expense_ytd_budget}} </td>
+
+            <td> {{ totals.total_expense_months.09 }} </td>
+            <td> {{ totals.total_expense_months.10 }} </td>
+            <td> {{ totals.total_expense_months.11 }} </td>
+
+
+
+            <td> {{totals.total_expense_ytd}} </td>
+            <td> {{totals.variances_total_expense}} </td>
+            <td> {{totals.var_total_expense}} </td>
+          </tr>
+          <!-- End of Total Expense  -->
+
+          <!-- Net Income -->
+          <tr class="dom">
+            <td>Net Income</td>
+            <td> {{totals.budget_net_income}} </td>
+            <td> {{totals.ytd_budget_net_income}} </td>
+
+            <td> {{ totals.total_net_income_months.09 }} </td>
+            <td> {{ totals.total_net_income_months.10 }} </td>
+            <td> {{ totals.total_net_income_months.11 }} </td>
+
+            <td> {{totals.ytd_net_income}} </td>
+            <td> {{totals.variances_net_income}} </td>
+            <td> {{totals.var_net_income}} </td>
+          </tr>
+          <!-- End of Net Income -->
+
+
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -239,6 +757,7 @@
 <!-- save this later in a separate file when the mockup gets the pass  -->
 <script>
   document.addEventListener('DOMContentLoaded', function(){
+
     //////////////////// total net income per quarter ///////////////////////
     const monthlyNets = document.querySelectorAll('.monthly-net-total')
     const arrayMonthlyNets = Array.from(monthlyNets);
@@ -251,18 +770,72 @@
 
 
     ///////////////////////// format table //////////////////////////////////
-    const tableMainDiv = document.getElementById('table-main')
-    tableFormatter(tableMainDiv)
+    const tableMain = document.getElementById('table-main')
+    tableFormatter(tableMain)
 
 
     ///////////////////////// show hide on click ///////////////////////////
 
-    const doms = document.querySelectorAll('.dom > div:first-child')
+    // hide months
+    const monthHeaders = document.querySelectorAll('.month')
+    const allRows = document.querySelectorAll('#table-main tbody tr')
+    
+    let monthIdx = []
+    monthHeaders.forEach(th => {
+      th.classList.toggle('d-none')
+      monthIdx.push(th.cellIndex)
+    })
+    allRows.forEach(row => {
+      const cells = Array.from(row.children)
+      for( const idx of monthIdx){
+        cells[idx].classList.toggle('d-none')
+      }
+    })
+    // show months
+    const quarterLinks = document.querySelectorAll('#quarter-tabs a')
+    console.log(quarterLinks)
+    quarterLinks.forEach(link => {
+      link.addEventListener('click', showMonths)
+    })
+
+    // subs
+    const doms = document.querySelectorAll('.dom > :first-child')
     doms.forEach(element => {
         // Add an event listener to each element
         element.addEventListener('click', showHideSubs);
     });
 
+    //////////////////// Modal table //////////////////////////////////////
+
+    // add bottom borders to table
+    const domElements = document.querySelectorAll('.dom');
+    domElements.forEach(element => {
+        // Check if the previous sibling of 'main' has class 'sub'
+        if (element.previousElementSibling && (element.previousElementSibling.classList.contains('sub') || element.previousElementSibling.classList.contains('dom')  )) {
+            // Perform actions on the 'sub' element
+            const cells = element.previousElementSibling.querySelectorAll('td')
+            cells.forEach(cell => cell.style.paddingBottom = '1rem')
+            element.style.borderTop = '2px solid #e4e4e4';
+        }
+    });
+
+
+    // add | borders to headers 
+    const tableMainHeaders = document.querySelectorAll('#table-main th ')
+    for(let i = 0; i < tableMainHeaders.length - 1; i++){
+      tableMainHeaders[i].classList.add('partial-border-right')
+    }
+
+    const tableHeaders = document.querySelectorAll('.modal-table th')
+    for(let i = 0; i < tableHeaders.length - 1; i++){
+      tableHeaders[i].classList.add('partial-border-right')
+    }
+
+    // populate the modal table
+    $('#sample-button').on('click', function(){
+      console.log(tableHeaders)
+      $('#view-modal').modal('show')
+    })
 
 
 
@@ -296,25 +869,28 @@
     }
 
     //  put in utils/formatters.js
-    function integerToAccounting(num){
+    function integerToAccounting(num, decimal=false){
+      let opts = {}
       // if NaN or undefined
       if (num === undefined || Number.isNaN(num)){
         return ''
       }
 
+      if (decimal){
+        opts = {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }
+
+      }
+
       try {
         if (num < 0){
           return `$(${
-            Math.abs(num).toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }) 
+            Math.abs(num).toLocaleString(undefined, opts) 
         })`
         } else {
-          return `$${num.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`
+          return `$${num.toLocaleString(undefined, opts)}`
         }
       } catch (error) {
         console.log(error)
@@ -324,65 +900,92 @@
 
     //  put in utils/formatters.js ???
     function tableFormatter(mainTableDiv){
-      const sections = mainTableDiv.querySelectorAll('.section')
+      const rows = mainTableDiv.querySelectorAll('tbody tr')
 
-      sections.forEach(element => {
-        const section = Array.from(element.children);
+      rows.forEach(row => {
+        const columns = Array.from(row.children);
 
-        section.forEach(row => {
-          const columns = Array.from(row.children)
+        // count empty divs this is because we want to hide/remove these divs
+        let emptyCounter = 0
 
-          // count empty divs this is because we want to hide/remove these divs
-          let emptyCounter = 0
-
-          // skip 0 because 0 is just the title 
-          for (let i = 1; i < columns.length; i++){
-            // handle nulls and undefined
-            if(columns[i].textContent.trim() === '' || columns[i].textContent === ' ') {
-              emptyCounter++
-              continue
-            }
-
-            // if has content but no dollar
-            if (!columns[i].textContent.includes('$')) {
-              columns[i].textContent = '$' + columns[i].textContent.trim()
-            }
-
-
-            // now for the up caret or down caret
-            if(columns[i].textContent.includes('(')) {
-              columns[i].innerHTML = `
-                ${columns[i].textContent}
-                <i class="fa-solid fa-caret-down downswing"></i>
-              `
-            } else {
-              columns[i].classList.add('upswing')
-              columns[i].innerHTML = `
-                ${columns[i].textContent}
-                <i class="fa-solid fa-caret-up"></i>
-              `
-            }
+        // skip 0 because 0 is just the title 
+        for (let i = 1; i < columns.length; i++){
+          // handle nulls and undefined
+          if(columns[i].textContent.trim() === '' || columns[i].textContent === ' ') {
+            emptyCounter++
+            continue
           }
 
-          // remove empty rows
-          console.log(emptyCounter)
-          if (emptyCounter === (columns.length - 1) ){
-            // row.style.display = 'none'
-            row.remove()
+          // if has content but no dollar
+          if (!columns[i].textContent.includes('$')) {
+            columns[i].textContent = '$' + columns[i].textContent.trim()
           }
-        })
-      });
+
+
+          // now for the up caret or down caret
+          if(columns[i].textContent.includes('(')) {
+            columns[i].innerHTML = `
+              ${columns[i].textContent}
+              <i class="fa-solid fa-caret-down downswing"></i>
+            `
+          } else {
+            columns[i].classList.add('upswing')
+            columns[i].innerHTML = `
+              ${columns[i].textContent}
+              <i class="fa-solid fa-caret-up"></i>
+            `
+          }
+        }
+
+        // remove empty rows
+        console.log(emptyCounter)
+        if (emptyCounter === (columns.length - 1) ){
+          // row.style.display = 'none'
+          row.remove()
+        }
+      })
     }
 
 
     function showHideSubs(event){
-      const section = event.currentTarget.closest('.section')
+      const section = event.currentTarget.closest('tr')
+      let nextElem = section.nextElementSibling;
 
-      const subs = section.querySelectorAll('.sub')
+      while (nextElem.classList.contains('sub')) {
+        // const cells = nextElem.querySelectorAll('td')
+        // console.log(cells)
+        // cells.forEach(cell => cell.classList.toggle('d-none'))
+        nextElem.classList.toggle('d-none')
+        nextElem = nextElem.nextElementSibling;
+      }
 
-      subs.forEach(sub => {
-        sub.classList.toggle('sub-active')
+      // return siblings;
+
+    //   const subs = section.querySelectorAll('.sub')
+
+    //   subs.forEach(sub => {
+    //   })
+    }
+
+    function showMonths(event){
+      event.preventDefault()
+      event.currentTarget.classList.toggle('active')
+
+      const monthHeaders = document.querySelectorAll('.month')
+      const allRows = document.querySelectorAll('#table-main tbody tr')
+      
+      let monthIdx = []
+      monthHeaders.forEach(th => {
+        th.classList.toggle('d-none')
+        monthIdx.push(th.cellIndex)
       })
+      allRows.forEach(row => {
+        const cells = Array.from(row.children)
+        for( const idx of monthIdx){
+          cells[idx].classList.toggle('d-none')
+        }
+      })
+
     }
 
   })
