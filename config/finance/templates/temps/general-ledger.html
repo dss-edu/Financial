@@ -30,7 +30,7 @@
 
   .side-panel {
     width: 40px;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: blue;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0);
     padding: 0px;
     height: 50%;
@@ -143,11 +143,11 @@
 }
 
 .small-font{
-    font-size:.6rem!important;
+    font-size:.8rem!important;
 }
 
 .big-font{
-    font-size:.8rem!important;
+    font-size:1rem!important;
 }
 
 .text-center::after{
@@ -168,7 +168,7 @@
 
 
 {% block body %}
-<div class="floating-button">
+{% comment %} <div class="floating-button">
     <div class="side-panel">
       <div class="side">
           <div style="margin-top:300px"></div>
@@ -176,39 +176,7 @@
             <a id="export-csv-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export to CSV" data-placement="left" >
                 <i class="fas fa-file-excel"></i>
             </a>
-            <script>
-                $('#export-csv-button').on('click', async ()=>{
-                    let url = `/general-ledger/export/excel/${school}`
-                    if (globalDateStart){
-                      url = `/general-ledger/export/excel/${school}/${globalDateStart}/${globalDateEnd}/`
-                    }
-
-
-                    $(this).tooltip('hide');
-                    $("#page-load-spinner").modal("show");
-                    await fetch(url)
-                        .then(function(response) {
-                            return response.blob();
-                        })
-                        .then(function(blob) {
-                            const url = window.URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.style.display = 'none';
-                            a.href = url;
-                            a.download = 'GeneratedCSV.csv'; 
-                            document.body.appendChild(a);
-                            a.click();
-                            window.URL.revokeObjectURL(url);
-                        })
-                        .catch(function(error) {
-                            console.error('Error generating Excel:', error);
-                        }).finally(function (){
-                            $("#page-load-spinner").modal("hide");
-                        });
-                })
-
-            </script>
-
+            
             <!---------------------------- Uncomment if you need two export buttons PDF and Excel  -------------------------------->
               <!-- <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
                 <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
@@ -235,7 +203,39 @@
               </div> -->
       </div> <!-- end of side class -->
   </div> <!-- end of side-panel -->
-    </div>
+    </div> {% endcomment %}
+    <script>
+        $('#export-csv-button').on('click', async ()=>{
+            let url = `/general-ledger/export/excel/${school}`
+            if (globalDateStart){
+              url = `/general-ledger/export/excel/${school}/${globalDateStart}/${globalDateEnd}/`
+            }
+
+
+            $(this).tooltip('hide');
+            $("#page-load-spinner").modal("show");
+            await fetch(url)
+                .then(function(response) {
+                    return response.blob();
+                })
+                .then(function(blob) {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'GeneratedCSV.csv'; 
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(function(error) {
+                    console.error('Error generating Excel:', error);
+                }).finally(function (){
+                    $("#page-load-spinner").modal("hide");
+                });
+        })
+
+    </script>
 
 <div class="container-fluid">
     <div>
@@ -258,8 +258,14 @@
             <div class="mr-2">
                 <input type="text" name="daterange"/>
             </div>
-            <div>
+            <div class="flex-grow-1">
                 <button class="btn btn-primary" id="reset-button">Reset</button>
+            </div>
+            <div>
+                
+            <a id="export-csv-button"  href="#" data-toggle="tooltip" title="Export to CSV" data-placement="left" >
+                <i class="fas fa-file-excel fa-2x"></i>
+            </a>
             </div>
         </div>
 
@@ -292,7 +298,7 @@
                 <th>Bal</th>
                 <th>WorkDescr</th>
                 <th>Type</th>
-                <th>Contr</th>
+                {% comment %} <th>Contr</th> {% endcomment %}
             </tr>
            
         </thead>
@@ -309,7 +315,7 @@
                 <td>{{row.pgm}}</td>
                 <td>{{row.edSpan}}</td>
                 <td>{{row.projDtl}}</td> {% endcomment %}
-                <td>{{row.AcctDescr}}</td>
+                <td style="padding-left: 30px !important;">{{row.AcctDescr}}</td>
                 <td>{{row.Number}}</td>
                 <td>{{row.Date|date:"Y-m-d"}}</td>
                 <td>{{row.AcctPer}}</td>
@@ -319,9 +325,9 @@
                 <td>{{row.Encum}}</td>
                 <td>{{row.Expend}}</td>
                 <td>{{row.Bal}}</td>
-                <td>{{row.WorkDescr}}</td>
+                <td style="padding-left: 30px !important;">{{row.WorkDescr}}</td>
                 <td>{{row.Type}}</td>
-                <td>{{row.Contr}}</td>
+                {% comment %} <td>{{row.Contr}}</td> {% endcomment %}
             </tr>
             {% endfor %}
         </tbody>
