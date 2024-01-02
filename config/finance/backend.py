@@ -64,11 +64,23 @@ def profit_loss(school,year):
     print("profit_loss")
     present_date = datetime.today().date()   
     present_year = present_date.year
- 
+    
+
+    today_date = datetime.now()
+    # Extract the month number from the current date
+    today_month = today_date.month
+
     if year:
         year = int(year)
-        start_year = year
-        FY_year_current = year
+        if today_month == 1:
+            start_year = year - 1
+            present_year = present_year - 1
+            FY_year_current = year - 1
+        else: 
+            start_year = year 
+            FY_year_current = year
+        
+        
         
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
@@ -86,6 +98,8 @@ def profit_loss(school,year):
     while start_year <= FY_year_current:
         print(start_year)
         print(FY_year_current)
+        # if today_month == 1:
+        #     start_year = start_year - 1 
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         july_date_start  = datetime(FY_year_1, 7, 1).date()
@@ -3130,11 +3144,20 @@ def balance_sheet(school,year):
     print("balance")
     present_date = datetime.today().date()   
     present_year = present_date.year
- 
+    
+    today_date = datetime.now()
+    
+    today_month = today_date.month
+
     if year:
         year = int(year)
-        start_year = year
-        FY_year_current = year
+        if today_month == 1:
+            start_year = year - 1
+            present_year = present_year - 1
+            FY_year_current = year - 1
+        else: 
+            start_year = year 
+            FY_year_current = year
         
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
@@ -4387,11 +4410,20 @@ def cashflow(school,year):
     print("cashflow")
     present_date = datetime.today().date()   
     present_year = present_date.year
+    today_date = datetime.now()
+    
+    today_month = today_date.month
 
     if year:
         year = int(year)
-        start_year = year
-        FY_year_current = year
+        if today_month == 1:
+            start_year = year - 1
+            present_year = present_year - 1
+            FY_year_current = year - 1
+        else: 
+            start_year = year 
+            FY_year_current = year
+        
      
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
@@ -4641,11 +4673,19 @@ def excel(school,year):
     print("excel")
     present_date = datetime.today().date()   
     present_year = present_date.year
+    today_date = datetime.now()
+    
+    today_month = today_date.month
  
     if year:
         year = int(year)
-        start_year = year
-        FY_year_current = year
+        if today_month == 1:
+            start_year = year - 1
+            present_year = present_year - 1
+            FY_year_current = year - 1
+        else: 
+            start_year = year 
+            FY_year_current = year
    
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
