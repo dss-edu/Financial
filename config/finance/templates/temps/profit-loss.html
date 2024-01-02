@@ -606,7 +606,7 @@
                   <i class="fas fa-chart-bar"></i>
               </a>
 
-              <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Toggle Printable Sheet" data-placement="left">
+              <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show Printable Sheet" data-placement="left">
                 <i class="fas fa-vector-square"></i>
               </a>
               <script>
@@ -614,6 +614,12 @@
                   $('#table-box').toggleClass('d-none')
                   $('#new-ui').toggleClass('d-none')
                   $('#insert-row-form').toggleClass('vh-100')
+
+
+                  var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
+                  $('#toggle-ui').attr('title', newTitle);
+                  $('#toggle-ui').tooltip('dispose').tooltip({ title: newTitle });
+   
                 })
               </script>
     
