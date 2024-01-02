@@ -12,7 +12,9 @@
   }
   .not-active {
     text-decoration: none; 
-    color: inherit;
+    color: gray; /* Gray out the link */
+    pointer-events: none; /* Prevents clicking */
+    cursor: default; /* Resets the cursor */
   }
   #new-ui{
     font-family: 'Lato', sans-serif;
@@ -138,10 +140,11 @@
           YE: {% if September == "True" %} August {% else %} June {% endif %}
         </div>
         <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
+          <a class="p-1" href="">Show all</a>
           <a class="p-1" href="">1st Quarter</a>
-          <!-- <a class="p-1 ml-1 not-active" href="">2nd Quarter</a>
-          <a class="p-1 ml-1 not-active" href="">3rd Quarter</a>
-          <a class="p-1 ml-1 not-active"  href="">4th Quarter</a> -->
+          <a class="p-1" href="">2nd Quarter</a>
+          <a class="p-1 not-active" href="">3rd Quarter</a>
+          <a class="p-1 not-active"  href="">4th Quarter</a>
         </div>
       </div>
     </div>
@@ -194,6 +197,13 @@
                 <div class=""></div>
               </div>
             </th>
+            <th class="month">
+              <div class="net-section">
+                <div class="">December</div>
+                <div class="monthly-net-total"> {{totals.total_net_income_months.12}} </div>
+                <div class=""></div>
+              </div>
+            </th>
             <!--      End Months       -->
 
             <th>
@@ -230,7 +240,7 @@
             <td> {{ totals.total_lr.09 }} </td>
             <td> {{ totals.total_lr.10 }} </td>
             <td> {{ totals.total_lr.11 }} </td>
-
+            <td> {{ totals.total_lr.12 }} </td>
 
 
             <td> {{totals.ytd_total_lr}} </td>
@@ -241,13 +251,14 @@
           {% for row in data %}
           {% if row.category == 'Local Revenue' %}
           <tr class="sub d-none">
-            <td> {{ row.obj }} - {{ row.description }} </td>
+            <td>{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
             <td> {{row.total_budget}} </td>
             <td>{{row.ytd_budget}}</td>
 
             <td> {{ row.total_real9 }} </td>
             <td> {{ row.total_real10 }} </td>
             <td> {{ row.total_real11 }} </td>
+            <td> {{ row.total_real12 }} </td>
 
             <td></td>
             <td></td>
@@ -266,6 +277,7 @@
             <td> {{ totals.total_spr.09 }} </td>
             <td> {{ totals.total_spr.10 }} </td>
             <td> {{ totals.total_spr.11 }} </td>
+            <td> {{ totals.total_spr.12 }} </td>
 
 
 
@@ -277,13 +289,14 @@
           {% for row in data %}
           {% if row.category == 'State Program Revenue' %}
           <tr class="sub d-none">
-            <td> {{ row.obj }} - {{ row.description }} </td>
+            <td>{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
             <td> {{row.total_budget}} </td>
             <td>{{row.ytd_budget}}</td>
 
             <td> {{ row.total_real9 }} </td>
             <td> {{ row.total_real10 }} </td>
             <td> {{ row.total_real11 }} </td>
+            <td> {{ row.total_real12 }} </td>
 
             <td></td>
             <td></td>
@@ -302,6 +315,7 @@
             <td> {{ totals.total_fpr.09 }} </td>
             <td> {{ totals.total_fpr.10 }} </td>
             <td> {{ totals.total_fpr.11 }} </td>
+            <td> {{ totals.total_fpr.12 }} </td>
 
 
 
@@ -313,13 +327,14 @@
           {% for row in data %}
           {% if row.category == 'Federal Program Revenue' %}
           <tr class="sub d-none">
-              <td> {{ row.obj }} - {{ row.description }} </td>
+              <td>{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
               <td> {{row.total_budget}} </td>
               <td>{{row.ytd_budget}}</td>
 
               <td> {{ row.total_real9 }} </td>
               <td> {{ row.total_real10 }} </td>
               <td> {{ row.total_real11 }} </td>
+              <td> {{ row.total_real12 }} </td>
 
               <td></td>
               <td></td>
@@ -340,6 +355,7 @@
             <td> {{ totals.total_revenue.09 }} </td>
             <td> {{ totals.total_revenue.10 }} </td>
             <td> {{ totals.total_revenue.11 }} </td>
+            <td> {{ totals.total_revenue.12 }} </td>
 
 
 
@@ -358,6 +374,7 @@
             <td> {{ totals.first_total_months.09 }} </td>
             <td> {{ totals.first_total_months.10 }} </td>
             <td> {{ totals.first_total_months.11 }} </td>
+            <td> {{ totals.first_total_months.12 }} </td>
 
 
 
@@ -375,6 +392,7 @@
               <td> {{ row.total_func9 }} </td>
               <td> {{ row.total_func10 }} </td>
               <td> {{ row.total_func11 }} </td>
+              <td> {{ row.total_func12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td>{{row.variances}}</td>
@@ -394,6 +412,7 @@
             <td> {{ totals.total_SBD.09 }} </td>
             <td> {{ totals.total_SBD.10 }} </td>
             <td> {{ totals.total_SBD.11 }} </td>
+            <td> {{ totals.total_SBD.12 }} </td>
 
 
             <td> {{totals.ytd_SBD}} </td>
@@ -412,6 +431,7 @@
             <td> {{ totals.dna_total_months.09 }} </td>
             <td> {{ totals.dna_total_months.10 }} </td>
             <td> {{ totals.dna_total_months.11 }} </td>
+            <td> {{ totals.dna_total_months.12 }} </td>
 
             <td> {{totals.dna_ytd_total}} </td>
             <td> {{totals.variances_dna}} </td>
@@ -427,6 +447,7 @@
               <td> {{ row.total_func2_9 }} </td>
               <td> {{ row.total_func2_10 }} </td>
               <td> {{ row.total_func2_11 }} </td>
+              <td> {{ row.total_func2_12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td>{{row.variances}}</td>
@@ -446,6 +467,7 @@
             <td> {{ totals.total_netsurplus_months.09 }} </td>
             <td> {{ totals.total_netsurplus_months.10 }} </td>
             <td> {{ totals.total_netsurplus_months.11 }} </td>
+            <td> {{ totals.total_netsurplus_months.12 }} </td>
 
 
             <td> {{totals.ytd_netsurplus}} </td>
@@ -466,6 +488,7 @@
             <td> {{ totals.total_EOC_pc.09 }} </td>
             <td> {{ totals.total_EOC_pc.10 }} </td>
             <td> {{ totals.total_EOC_pc.11 }} </td>
+            <td> {{ totals.total_EOC_pc.12 }} </td>
 
             <td> {{totals.ytd_EOC_pc}} </td>
             <td> {{totals.variances}} </td>
@@ -484,6 +507,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -504,6 +528,7 @@
             <td> {{ totals.total_EOC_pcs.09 }} </td>
             <td> {{ totals.total_EOC_pcs.10 }} </td>
             <td> {{ totals.total_EOC_pcs.11 }} </td>
+            <td> {{ totals.total_EOC_pcs.12 }} </td>
 
             <td> {{totals.ytd_EOC_pcs}} </td>
             <td> {{totals.variances}} </td>
@@ -522,6 +547,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -541,6 +567,7 @@
             <td> {{ totals.total_EOC_sm.09 }} </td>
             <td> {{ totals.total_EOC_sm.10 }} </td>
             <td> {{ totals.total_EOC_sm.11 }} </td>
+            <td> {{ totals.total_EOC_sm.12 }} </td>
 
             <td> {{totals.ytd_EOC_sm}} </td>
             <td> {{totals.variances}} </td>
@@ -559,6 +586,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -579,6 +607,7 @@
             <td> {{ totals.total_EOC_ooe.09 }} </td>
             <td> {{ totals.total_EOC_ooe.10 }} </td>
             <td> {{ totals.total_EOC_ooe.11 }} </td>
+            <td> {{ totals.total_EOC_ooe.12 }} </td>
 
             <td> {{totals.ytd_EOC_ooe}} </td>
             <td> {{totals.variances}} </td>
@@ -597,6 +626,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -618,6 +648,7 @@
             <td> {{ totals.dna_total_months_6449.09 }} </td>
             <td> {{ totals.dna_total_months_6449.10 }} </td>
             <td> {{ totals.dna_total_months_6449.11 }} </td>
+            <td> {{ totals.dna_total_months_6449.12 }} </td>
 
             <td> {{totals.dna_ytd_total_6449}} </td>
             <td> {{totals.variances_dna_6449}} </td>
@@ -638,6 +669,7 @@
             <td> {{ totals.total_EOC_te.09 }} </td>
             <td> {{ totals.total_EOC_te.10 }} </td>
             <td> {{ totals.total_EOC_te.11 }} </td>
+            <td> {{ totals.total_EOC_te.12 }} </td>
 
             <td> {{totals.ytd_EOC_te}} </td>
             <td> {{row.variances}} </td>
@@ -656,6 +688,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -676,6 +709,7 @@
             <td> {{ totals.total_EOC_cpa.09 }} </td>
             <td> {{ totals.total_EOC_cpa.10 }} </td>
             <td> {{ totals.total_EOC_cpa.11 }} </td>
+            <td> {{ totals.total_EOC_cpa.12 }} </td>
 
             <td> {{totals.ytd_EOC_cpa}} </td>
             <td> {{row.variances}} </td>
@@ -694,6 +728,7 @@
               <td> {{ row.total_activities9 }} </td>
               <td> {{ row.total_activities10 }} </td>
               <td> {{ row.total_activities11 }} </td>
+              <td> {{ row.total_activities12 }} </td>
 
               <td>{{row.ytd_total}}</td>
               <td></td>
@@ -712,6 +747,7 @@
             <td> {{ totals.total_expense_months.09 }} </td>
             <td> {{ totals.total_expense_months.10 }} </td>
             <td> {{ totals.total_expense_months.11 }} </td>
+            <td> {{ totals.total_expense_months.12 }} </td>
 
 
 
@@ -730,6 +766,7 @@
             <td> {{ totals.total_net_income_months.09 }} </td>
             <td> {{ totals.total_net_income_months.10 }} </td>
             <td> {{ totals.total_net_income_months.11 }} </td>
+            <td> {{ totals.total_net_income_months.12 }} </td>
 
             <td> {{totals.ytd_net_income}} </td>
             <td> {{totals.variances_net_income}} </td>
@@ -791,12 +828,12 @@
         cells[idx].classList.toggle('d-none')
       }
     })
-    // show months
-    const quarterLinks = document.querySelectorAll('#quarter-tabs a')
-    console.log(quarterLinks)
-    quarterLinks.forEach(link => {
-      link.addEventListener('click', showMonths)
-    })
+    // show per quarter
+    const quarterLinks = document.querySelectorAll('#quarter-tabs > a')
+    quarterLinks.forEach((link, index) => {
+      link.addEventListener('click', (event) => showMonths(event, index))
+    });
+
 
     // subs
     const doms = document.querySelectorAll('.dom > :first-child')
@@ -967,18 +1004,38 @@
     //   })
     }
 
-    function showMonths(event){
+    function showMonths(event, quarter=0){
       event.preventDefault()
       event.currentTarget.classList.toggle('active')
 
       const monthHeaders = document.querySelectorAll('.month')
       const allRows = document.querySelectorAll('#table-main tbody tr')
-      
       let monthIdx = []
-      monthHeaders.forEach(th => {
-        th.classList.toggle('d-none')
-        monthIdx.push(th.cellIndex)
-      })
+
+      // figure out the index of months to hide or show
+      if (quarter === 0){
+        monthHeaders.forEach(th => {
+          th.classList.toggle('d-none')
+          monthIdx.push(th.cellIndex)
+        })
+      }
+      else {
+        for (let i = 0; i < 3; i++) {
+          const index = 3 * (quarter - 1) + i
+          if (index < monthHeaders.length){
+            const th = monthHeaders[index]
+            // what if undefined header
+            if (th){
+              th.classList.toggle('d-none')
+              monthIdx.push(th.cellIndex)
+            }
+          }
+          else {
+            break
+          }
+        }
+      }
+      // hide the rows with the same index as month header
       allRows.forEach(row => {
         const cells = Array.from(row.children)
         for( const idx of monthIdx){
