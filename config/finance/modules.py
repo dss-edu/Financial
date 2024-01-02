@@ -44,8 +44,6 @@ def dashboard(school,anchor_year,anchor_month):
         last_month = date(anchor_year, anchor_month + 1, 1)
         last_month = last_month - relativedelta(days=1)
 
-    else:
-
         for i in range(month_number - 1, 0, -1):
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                         WHERE school = '{school}' \
@@ -57,17 +55,36 @@ def dashboard(school,anchor_year,anchor_month):
                 last_month = last_month - relativedelta(days=1)
                 break
 
+            net_income_ytd = row[3]
+            days_coh = row[6]
+            net_earnings = row[8]
+            debt_service = row[11]
+            ratio_administrative = row[13]
+
+    else: 
+        current_date = datetime.now()
+        # Extract the month number from the current date
+        curr_month = current_date.month
+        curr_year = current_date.year
+        last_month = date(curr_year, curr_month, 1)
+        last_month = last_month - relativedelta(days=1)
+        net_income_ytd = 0
+        days_coh = 0
+        net_earnings = 0 
+        debt_service = 0
+        ratio_administrative = ""
+
             
 
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
         "date": last_month,
-        "net_income_ytd": row[3],  ###
-        "days_coh": row[6],  ###
-        "net_earnings": row[8],  ###
-        "debt_service": row[11],  ###
-        "ratio_administrative": row[13],  ###
+        "net_income_ytd": net_income_ytd,
+        "days_coh": days_coh,
+        "net_earnings": net_earnings,
+        "debt_service": debt_service,
+        "ratio_administrative": ratio_administrative,
         "anchor_year": anchor_year,
         ## "ratio_student_teacher": row[14],
     }
