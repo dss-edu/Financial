@@ -402,8 +402,8 @@ a:hover{
     
     </div>
     <div class="col-10">
-      <h5 class="text-center" style="color: black; padding-right:35px;">
-        {{ school_name }} [FY : {% if September == "True" %} 9] {% else %} 7] {% endif %}
+      <h5 class="text-center" style="color: black;">
+        {{ school_name }} 
       </h5>
     </div>
     <div class="col-1">
@@ -759,7 +759,7 @@ style="display:none;"
         <tr class="header">
             <th class="firstcolumn"></th>
             <th></th>
-            <th></th>
+            <th>YE: {% if September == "True" %} August {% else %} June {% endif %}</th>
             <th style="text-align: center;">
               <!-- <div style="width:100px;">FYE {{FY_year_1}}</div> -->
               FYE {{FY_year_1}}

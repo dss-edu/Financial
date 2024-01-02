@@ -109,8 +109,8 @@
                 
                 </div>
                 <div class="col-10">
-                  <h5 class="text-center" style="color: black; padding-right:35px;">
-                    {{ school_name }} [FY : {% if September == "True" %} 9] {% else %} 7] {% endif %}
+                  <h5 class="text-center" style="color: black;">
+                    {{ school_name }} 
                   </h5>
                 </div>
                 <div class="col-1">
@@ -328,7 +328,7 @@
                         <tbody id="data-table-body">
                             <tr class="header">
                                 <th></th>
-                                <th></th>
+                                <th>YE: {% if September == "True" %} August {% else %} June {% endif %}</th>
                                 <th></th>
                                 <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px;">September     </div></th>
                                 <th class="collapsed" style="text-align: center; vertical-align: center;"> <div style="width: 100px">October       </div></th>
