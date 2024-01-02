@@ -160,6 +160,7 @@ def charter_first(school,anchor_year,anchor_month):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
+    global month_number
     if anchor_month:
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                 WHERE school = '{school}' \
@@ -168,6 +169,8 @@ def charter_first(school,anchor_year,anchor_month):
             cursor.execute(query)
             row = cursor.fetchone()
     else:
+        if month_number == 1:
+            month_number = 12 
         for i in range(month_number - 1, 0, -1):
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                         WHERE school = '{school}' \

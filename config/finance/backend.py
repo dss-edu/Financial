@@ -6248,15 +6248,29 @@ def charter_first(school):
     # first check if previous month is in database already
     cnxn = connect()
     cursor = cnxn.cursor()
+    global month_number
+    global curr_year
 
     # fix this query or else there will always be duplicates
-    prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+    if month_number == 1:
+        month_number = 12
+        curr_year = curr_year - 1
+        prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year} AND school='{school}';"
+    else:
+        prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+
+
+    print(month_number)
+    print(curr_year)
+    
     cursor.execute(prev_query)
     rows = cursor.fetchone()
 
     shouldUpdate = False
     if rows is not None:
         shouldUpdate = True
+
+    print(shouldUpdate)
 
     first_columns = [
         "school", "year", "month", "net_income_ytd", "indicators", "net_assets", 
@@ -6272,7 +6286,14 @@ def charter_first(school):
 
     context["school"] = school
     context["year"] = int(curr_year)
-    context["month"] = int(month_number - 1)
+    if month_number == 12:
+        context["month"] = int(month_number)
+
+    else:
+        context["month"] = int(month_number - 1)
+    print(curr_year)
+        
+        
 
 
     totals_file_path = os.path.join("profit-loss", school, "totals.json")
@@ -6409,9 +6430,11 @@ def charter_first(school):
 
         cursor.execute(update_query, tuple((context[key] for key in first_columns)))
         cnxn.commit()
+        print("updated")
 
     else:
         cursor.execute(insert_query, tuple((context[key] for key in first_columns)))
+        print("inserted")
         cnxn.commit()
 
     cursor.close()
