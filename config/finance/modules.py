@@ -170,7 +170,7 @@ def charter_first(school,anchor_year,anchor_month):
             row = cursor.fetchone()
     else:
         if month_number == 1:
-            month_number = 12 
+            month_number = 13
         for i in range(month_number - 1, 0, -1):
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                         WHERE school = '{school}' \
@@ -223,8 +223,15 @@ def charter_first(school,anchor_year,anchor_month):
     # turn int into month name
     month = context["month"]
     year = context["year"]
-    next_month = datetime(year, month + 1, 1)
-    this_month = next_month - relativedelta(days=1)
+   
+    if month_number == 13:
+        next_month = datetime(year + 1, 1 , 1)
+        this_month = next_month - relativedelta(days=1)
+     
+    else:
+        next_month = datetime(year, month + 1, 1)
+        this_month = next_month - relativedelta(days=1)
+
     context["date"] = this_month
 
     # for FY
