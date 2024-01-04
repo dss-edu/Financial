@@ -166,9 +166,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add click event listeners to all "a" elements inside the table
   var viewGLLinks = document.querySelectorAll(".viewgl-link");
   viewGLLinks.forEach(function (link) {
+ 
     link.addEventListener("click", function (event) {
       $("#spinner-modal").modal("show");
-      
+     
       event.preventDefault();
       event.stopPropagation();
       var fund = link.dataset.fund;
