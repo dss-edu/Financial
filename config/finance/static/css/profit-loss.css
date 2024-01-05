@@ -51,6 +51,13 @@
   background-color: rgba(200, 200, 200);
 }
 
+.headerNew{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
 td:nth-child(2) {
   width: 0%;
   text-align: center;
