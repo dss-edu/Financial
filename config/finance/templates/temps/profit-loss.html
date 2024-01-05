@@ -555,7 +555,15 @@
     <div class="side-panel">
       <div class="side">
           <div style="margin-top:300px"></div>
-  
+
+          <div id="showmonths" style="display: none;">
+            <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left">
+              <i class="fa-solid fa-receipt"></i>
+              </a>
+              <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;">
+              <i class="fa-solid fa-receipt"></i>
+              </a>
+            </div>
 
 
           {%if months.FY_year_1 == present_year %}
@@ -571,14 +579,9 @@
             <i class="fa-solid fa-clock"></i>
           </a>
           {% endif %}
+
           
-          
-          <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left">
-          <i class="fa-solid fa-receipt"></i>
-          </a>
-          <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;">
-          <i class="fa-solid fa-receipt"></i>
-          </a>
+
           {%else %}
           
           {% if '/profit-loss-date/' in request.path %}
@@ -609,11 +612,14 @@
               <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show Printable Sheet" data-placement="left">
                 <i class="fas fa-vector-square"></i>
               </a>
+
+
               <script>
                 $('#toggle-ui').on('click', function(){
                   $('#table-box').toggleClass('d-none')
                   $('#new-ui').toggleClass('d-none')
                   $('#insert-row-form').toggleClass('vh-100')
+                  $('#showmonths').toggle();
 
 
                   var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
