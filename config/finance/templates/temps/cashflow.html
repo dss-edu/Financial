@@ -146,7 +146,18 @@
                 <div class="side">
                   <div style="margin-top:300px">
                   </div>
-                  {%if months.FY_year_1 == present_year %}
+
+                  <script>    
+                    {% if last_month_number == 12 %}
+                      var presentYear = {{ present_year }} - 1;
+                    
+                    {% else %}
+                      var presentYear = {{ present_year }};
+                    {% endif %}
+                    var FY = parseInt({{ months.FY_year_1 }}, 10);
+                  </script>
+
+                  {%if FY == presentYear %}
                   <a
                   class="text-secondary circle-container"
                   id="showCurrentMonth"
@@ -167,29 +178,7 @@
                 >
                 <i class="fa-solid fa-receipt"></i>
               </a>
-              {%else %}
-              <a
-              class="text-secondary circle-container"
-              id="showCurrentMonth"
-              data-toggle="tooltip"
-              title="Show Current Month"
-              data-placement="left"
-              hidden
-  
-              >
-              <i class="fa-solid fa-receipt"></i>
-            </a>
-            <a
-            class="text-secondary circle-container"
-            id="hideCurrentMonth"
-            data-toggle="tooltip"
-            title="Hide Current Month"
-            data-placement="left"
-            style="display:none;"
-            hidden
-            >
-            <i class="fa-solid fa-receipt"></i>
-          </a>
+              
           {%endif %}
 
                   <a 

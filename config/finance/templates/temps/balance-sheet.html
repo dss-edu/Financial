@@ -452,53 +452,44 @@ a:hover{
       <div class="side">
         <div style="margin-top:300px">
         </div>
+    
+        <script>    
+          {% if last_month_number == 12 %}
+            var presentYear = {{ present_year }} - 1;
+          
+          {% else %}
+            var presentYear = {{ present_year }};
+          {% endif %}
+          var FY = parseInt({{ FY_year_1 }}, 10);
+        </script>
+    
+        {%if FY == presentYear  %}
 
-        {%if FY_year_1 == present_year %}
-    <a
-    class="text-secondary circle-container"
-    id="showCurrentMonth"
-    data-toggle="tooltip"
-    title="Show Current Month"
-    data-placement="left"
-    >
-    <i class="fa-solid fa-receipt"></i>
-  </a>
+          <a
+          class="text-secondary circle-container"
+          id="showCurrentMonth"
+          data-toggle="tooltip"
+          title="Show Current Month"
+          data-placement="left"
+          >
+          <i class="fa-solid fa-receipt"></i>
+        </a>
 
-  <a
-  class="text-secondary circle-container"
-  id="hideCurrentMonth"
-  data-toggle="tooltip"
-  title="Hide Current Month"
-  data-placement="left"
-  style="display:none;"
-  >
-  <i class="fa-solid fa-receipt"></i>
-</a>
-{%else %}
+        <a
+        class="text-secondary circle-container"
+        id="hideCurrentMonth"
+        data-toggle="tooltip"
+        title="Hide Current Month"
+        data-placement="left"
+        style="display:none;"
+        >
+        <i class="fa-solid fa-receipt"></i>
+        </a>
 
-<a
-class="text-secondary circle-container"
-id="showCurrentMonth"
-data-toggle="tooltip"
-title="Show Current Month"
-data-placement="left"
-hidden
->
-<i class="fa-solid fa-receipt"></i>
-</a>
 
-<a
-class="text-secondary circle-container"
-id="hideCurrentMonth"
-data-toggle="tooltip"
-title="Hide Current Month"
-data-placement="left"
-style="display:none;"
-hidden
->
-<i class="fa-solid fa-receipt"></i>
-</a>
-{%endif %}
+        {%endif %}
+
+
       <a 
       class="circle-container text-secondary" 
       href="/profit-loss-charts/{{ school }}" 
@@ -526,6 +517,7 @@ hidden
       data-placement="left"
       ><i class="fas fa-file-pdf"></i></a> -->
 
+      
       <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
         <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
             <i class="fas fa-download"></i>
@@ -565,6 +557,8 @@ hidden
   {% endif %}
 
 
+
+
   <a 
   class="text-secondary circle-container "
   id ="edit-button"
@@ -588,6 +582,7 @@ style="display:none;"
 >
 <i class="fa-solid fa-ban margintop" ></i>
 </a>
+
 
 
       </div> <!-- end of side class -->
