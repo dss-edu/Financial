@@ -8311,9 +8311,13 @@ def download_csv(request,school):
     start_year = current_year
     accper_month_number = int(current_date.strftime("%m"))
 
-    accper_str = str(accper_month_number).zfill(2)
-    print(accper_str)
+    print(accper_month_number)
+    if accper_month_number == 1:
+        start_year = start_year - 1 
 
+    accper_str = str(accper_month_number).zfill(2)
+   
+ 
     FY_year_1 = start_year
     FY_year_2 = start_year + 1 
     july_date_start  = datetime(FY_year_1, 7, 1).date()
