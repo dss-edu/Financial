@@ -156,7 +156,7 @@
           <tr class="rounded shadow">
             <th>
               <div class="net-section-head">
-                <div>Total Net Income</div>
+                <div class="net-title">Net Income</div>
                 <div class="quarter-net-total">{{totals.ytd_net_income}}</div>
                 <div class=""></div>
               </div>
@@ -256,7 +256,7 @@
             <th>
               <div class="net-section">
                 <div class="">Year-to-Date</div>
-                <div class=""> {{totals.ytd_net_income}} </div>
+                <div id="all-net-total"> {{totals.ytd_net_income}} </div>
                 <div class=""></div>
               </div>
             </th>
@@ -1167,13 +1167,9 @@
     })
 
 
-    //////////////////// total net income per quarter ///////////////////////
+    //////////////////// net income total months ///////////////////////
+    //
     computeNetIncomeVisible()
-
-
-
-
-
 
 
     ////////////////////////// functions /////////////////////////////////
@@ -1326,6 +1322,9 @@
         hideMonths()
       }
 
+      // change title of netIncome
+      const netTitle = event.currentTarget.textContent.trim() !== 'Show all' ? `${event.currentTarget.textContent} - Net Income` : 'Net Income'
+
       // only one button should be active 
       // check if there's any other active ones then deactivate them
       // ignore if inactive
@@ -1378,10 +1377,10 @@
           cells[idx].classList.toggle('d-none')
         }
       })
-
-
-      // update total net income
+      // update net income
       computeNetIncomeVisible()
+      // change title of net income
+      $('.net-title').text(netTitle)
 
     } // end of showMonths function
 
@@ -1402,8 +1401,18 @@
     } // end of hideMonths
 
     function computeNetIncomeVisible() {
-      const headerNetIncomes = document.querySelectorAll('.net-section > div:nth-child(2)')
-      const arrayNetIncomes = Array.from(headerNetIncomes).slice(0,-1)
+      // ytd net income 
+      const allNetIncome = $('#all-net-total').text()
+      // check quarter tabs if nothing is active return ytd net income
+      const quarterLinks = document.querySelectorAll('#quarter-tabs > a')
+      const quarterLinksNotActive = document.querySelectorAll('#quarter-tabs > a:not(.active)')
+      if (quarterLinksNotActive.length === quarterLinks.length) {
+        $('.quarter-net-total').text(allNetIncome)
+        return
+      }
+
+      const headerNetIncomes = document.querySelectorAll('.monthly-net-total')
+      const arrayNetIncomes = Array.from(headerNetIncomes)
       const totalNetIncome = arrayNetIncomes.reduce((acc, curr) => {
         const th = curr.closest('th')
         if (th.classList.contains('d-none')) return acc // ignore th that is not displayed
