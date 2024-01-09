@@ -8327,7 +8327,7 @@ def download_csv(request,school):
 
     if school in schoolCategory["ascender"]:
         cursor.execute(
-            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL';"
+           f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%')"
         )
     else:
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
