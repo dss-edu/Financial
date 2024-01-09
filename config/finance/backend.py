@@ -153,7 +153,7 @@ def profit_loss(school,year):
 
         if school in schoolCategory["ascender"]:
             cursor.execute(
-                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL-PAYABLES%'"
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL%'"
             )
         else:
             cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
