@@ -388,7 +388,7 @@
             <td id="local-revenue-total-4" > <a class="local-total" href="#" data-yr="10"> {{ totals.total_lr.10 }} </a></td>
             <td id="local-revenue-total-5" > <a class="local-total" href="#" data-yr="11"> {{ totals.total_lr.11 }} </a></td>
             <td id="local-revenue-total-6" > <a class="local-total" href="#" data-yr="12"> {{ totals.total_lr.12 }} </a></td>
-            <td id="local-revenue-total-7" > <a class="local-total" href="#" data-yr="01"> {{ totals.total_lr.01 }} </a></td>
+            <td id="local-revenue-total-7" > <a class="local-total" href="#" data-yr="01"> {{ totals.total_lr.01 }}</a></td>
             <td id="local-revenue-total-8" > <a class="local-total" href="#" data-yr="02"> {{ totals.total_lr.02 }} </a></td>
             <td id="local-revenue-total-9" > <a class="local-total" href="#" data-yr="03"> {{ totals.total_lr.03 }} </a></td>
             <td id="local-revenue-total-10" ><a class="local-total" href="#" data-yr="04"> {{ totals.total_lr.04 }} </a></td>
@@ -1801,15 +1801,18 @@
     } // end of showHideSubs
 
     function showMonths(event, quarter=0){
-      console.log(quarter)
+   
       event.preventDefault()
       // if active is not in the link that is clicked 
       // then either another button is active or there is no other button that is active
       // in that case hide all months
       if (!event.currentTarget.classList.contains('active')){
-        hideMonths()
+        hideMonths()     
+        
+        
       }
 
+   
       // change title of netIncome
       const netTitle = event.currentTarget.textContent.trim() !== 'Show all' ? `${event.currentTarget.textContent} - Net Income` : 'Net Income'
 
@@ -1835,10 +1838,15 @@
       const allRows = document.querySelectorAll('#table-main tbody tr')
       let monthIdx = []
 
+      
       var lm = parseInt("{{months.last_month_number}}",10); //last month number
+      
+
+
 
       //get the  start of the cell index to show/hide
-      if ('{{ September|lower }}' == 'true'){
+
+      if (sept == "True"){
         if(lm >=  9){
           th_start  = lm - 9
         }else{
@@ -1861,22 +1869,19 @@
                   th.classList.toggle('d-none')
                   monthIdx.push(th.cellIndex)
                 }) */
-      for (let i = 0; i <= th_start; i++){
-     
-          const th = monthHeaders[i] 
-          if (th){
-            th.classList.toggle('d-none')
-            monthIdx.push(th.cellIndex)
-  
-          }
+        for (let i = 0; i <= th_start; i++){
       
-        }
-
+            const th = monthHeaders[i] 
+            if (th){
+              th.classList.toggle('d-none')
+              monthIdx.push(th.cellIndex)
+            }
+          }
       }
       else {
         for (let i = 0; i < 3; i++) {
           const index = 3 * (quarter - 1) + i
-          console.log(index)
+        
           if (index < monthHeaders.length){
             const th = monthHeaders[index]
         
@@ -1903,16 +1908,54 @@
       // change title of net income
       $('.net-title').text(netTitle)
 
+
+
+
     } // end of showMonths function
 
     function hideMonths(){
+      var lm = parseInt("{{months.last_month_number}}",10); //last month number
       let monthIdx = []
-      monthHeaders.forEach(th => {
-        if (!th.classList.contains('d-none')){
-          th.classList.toggle('d-none')
-          monthIdx.push(th.cellIndex)
+      
+      let skipth = "";      
+
+      if (sept == "True"){
+        if(lm >=  9){
+          skipth  = lm - 7
+          
+        }else{
+          skipth  = lm + 4
+       
         }
-      })
+       
+      }else{
+        if(lm >  7){
+          skipth  = lm - 7
+          
+        }else{
+          skipth  = lm + 4
+        }
+      }
+      if (frontshowcurr == "True"){
+        monthHeaders.forEach((th, index) => {
+          // Skip hiding if the month header is the last month
+          if (index + 1 !== skipth) {
+            if (!th.classList.contains('d-none')) {
+              th.classList.toggle('d-none');
+              monthIdx.push(th.cellIndex);
+            }
+          }
+        });
+      }else{
+        monthHeaders.forEach(th => {
+          if (!th.classList.contains('d-none')){
+            th.classList.toggle('d-none')
+            monthIdx.push(th.cellIndex)
+          }
+        })
+      }
+
+ 
       allRows.forEach(row => {
         const cells = Array.from(row.children)
         for( const idx of monthIdx){

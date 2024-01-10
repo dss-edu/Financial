@@ -565,43 +565,47 @@
               </a>
             </div>
 
+            <div id="showMonthsFront">
+              <a class="text-secondary circle-container" id="showCurrentMonthFront" data-toggle="tooltip" title="Show Current Month" data-placement="left">
+                <i class="fa-solid fa-receipt"></i>
+                </a>
+                <a class="text-secondary circle-container" id="hideCurrentMonthFront" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;">
+                <i class="fa-solid fa-receipt"></i>
+                </a>
+              </div>
+
 
           {%if months.FY_year_1 == present_year %}
 
-          {% if '/profit-loss-date/' in request.path %}
-          
-          <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account Period" data-placement="left">
-            <i class="fa-solid fa-list-ol"></i>
-          </a>
-          {% elif '/profit-loss/' in request.path %}
-          
-          <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left">
-            <i class="fa-solid fa-clock"></i>
-          </a>
-          {% endif %}
+              {% if '/profit-loss-date/' in request.path %}
+              
+              <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account Period" data-placement="left">
+                <i class="fa-solid fa-list-ol"></i>
+              </a>
+              {% elif '/profit-loss/' in request.path %}
+              
+              <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left">
+                <i class="fa-solid fa-clock"></i>
+              </a>
+              {% endif %}
 
           
 
           {%else %}
           
-          {% if '/profit-loss-date/' in request.path %}
+              {% if '/profit-loss-date/' in request.path %}
+              
+              <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account Period" data-placement="left" hidden>
+              <i class="fa-solid fa-list-ol"></i>
+              </a>
+              {% elif '/profit-loss/' in request.path %}
+              
+              <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left" hidden>
+              <i class="fa-solid fa-clock"></i>
+              </a>
+              {% endif %}
           
-          <a class="text-secondary circle-container" href="/profit-loss/{{ school }}" data-toggle="tooltip" title="View Based on Account Period" data-placement="left" hidden>
-          <i class="fa-solid fa-list-ol"></i>
-          </a>
-          {% elif '/profit-loss/' in request.path %}
-          
-          <a class="text-secondary circle-container" href="/profit-loss-date/{{ school }}" data-toggle="tooltip" title="View Based on Date" data-placement="left" hidden>
-          <i class="fa-solid fa-clock"></i>
-          </a>
-          {% endif %}
-          
-          <a class="text-secondary circle-container" id="showCurrentMonth" data-toggle="tooltip" title="Show Current Month" data-placement="left" hidden>
-          <i class="fa-solid fa-receipt"></i>
-          </a>
-          <a class="text-secondary circle-container" id="hideCurrentMonth" data-toggle="tooltip" title="Hide Current Month" data-placement="left" style="display:none;" hidden>
-          <i class="fa-solid fa-receipt"></i>
-          </a>
+
           {%endif %}
   
 
@@ -620,14 +624,16 @@
                   $('#new-ui').toggleClass('d-none')
                   $('#insert-row-form').toggleClass('vh-100')
                   $('#showmonths').toggle();
+                  $('#showMonthsFront').toggle();
 
-
+                  
                   var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
                   $('#toggle-ui').attr('title', newTitle);
                   $('#toggle-ui').tooltip('dispose').tooltip({ title: newTitle });
    
                 })
               </script>
+
     
               <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
               <!-- <div style="position: relative;"> -->
@@ -7958,6 +7964,8 @@
     {% endif %}
   
     var ascender = "{{ascender}}";
+
+    var sept = "{{September}}";
   
   </script>
 
@@ -7974,7 +7982,94 @@
       document.getElementById("hideCurrentMonth").addEventListener("click", function () {
         hidecurrentMonth();
       });
+
+      document.getElementById("showCurrentMonthFront").addEventListener("click", function () {
+        showcurrentMonthFront();
+ 
+       });
+ 
+       document.getElementById("hideCurrentMonthFront").addEventListener("click", function () {
+        hidecurrentMonthFront();
+       });
     });    
+
+
+
+
+
+    var frontshowcurr = "False";
+    function showcurrentMonthFront() {
+      
+
+
+      frontshowcurr = "True" 
+      const show = document.getElementById("showCurrentMonthFront");
+      const hide = document.getElementById("hideCurrentMonthFront");      
+      hide.style.display = "flex";
+      show.style.display = "none";
+      var lm = last_month_number  - 2;    
+      var colorColumn = document.querySelectorAll(
+        "#table-main td:nth-child(" + lm + ")"
+      );
+
+      
+    
+      for (var k = 0; k < colorColumn.length; k++) {
+        colorColumn[k].classList.add("hidden-column");
+        colorColumn[k].classList.toggle('d-none');        
+      }
+   
+      const monthHeaders = document.querySelectorAll('.month')
+      const th = monthHeaders[lm - 4 ] 
+      if(th){
+        th.classList.toggle('d-none')
+
+     
+
+      }
+
+  }
+
+    function hidecurrentMonthFront() {
+       frontshowcurr = "False";
+
+
+        const show = document.getElementById("showCurrentMonthFront");
+        const hide = document.getElementById("hideCurrentMonthFront");
+        hide.style.display = "none";
+        show.style.display = "flex";
+      
+      
+        var lm = last_month_number  - 2;
+      
+        var colorColumn = document.querySelectorAll(
+          "#table-main td:nth-child(" + lm + ")"
+        );
+  
+        for (var k = 0; k < colorColumn.length; k++) {
+          colorColumn[k].classList.remove("hidden-column");
+          colorColumn[k].classList.toggle('d-none');  
+          
+        }
+  
+   
+     
+        const monthHeaders = document.querySelectorAll('.month')
+        const th = monthHeaders[lm - 4 ] 
+        if(th){
+          th.classList.toggle('d-none')
+        
+        }
+        
+      }
+  
+
+   
+
+      
+    
+    
+
 
     function checkValuesMatch() {
       const NetSurplusRow = document.getElementById("net-surplus-row1");
