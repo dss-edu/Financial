@@ -1716,7 +1716,6 @@
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           }
-
       }
 
       try {
@@ -1740,14 +1739,11 @@
       rows.forEach(row => {
         const columns = Array.from(row.children);
 
-        
-
         // count empty divs this is because we want to hide/remove these divs
         let emptyCounter = 0
 
         // skip 0 because 0 is just the title 
         for (let i = 1; i < columns.length; i++){
-          
           let existingLink = columns[i].querySelector('a');
 
           // handle nulls and undefined
@@ -1761,40 +1757,29 @@
             columns[i].textContent = '$' + columns[i].textContent.trim()
           }
 
-       
-
-
           // now for the up caret or down caret
-          if(columns[i].textContent.includes('(')) {   
-                
+          if (columns[i].textContent.includes('(')) {   
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML: columns[i].textContent}
-             
               <i class="fa-solid fa-caret-down downswing"></i>
             `
-            } 
+          } 
           else {
             columns[i].classList.add('upswing')
             if (existingLink) {
               existingLink.style.color = '#29ab87';
-              //
             }
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML :   columns[i].textContent}
-            
               <i class="fa-solid fa-caret-up"></i>
             `          
-            }
-
+          }
             existingLink ='null'
-
-         
-           
         }
 
         // remove empty rows
         //console.log(emptyCounter)
-        if (emptyCounter === (columns.length - 1) ){
+        if (emptyCounter === (columns.length - 1)){
           // row.style.display = 'none'
           row.remove()
         }
@@ -1853,7 +1838,7 @@
       var lm = parseInt("{{months.last_month_number}}",10); //last month number
 
       //get the  start of the cell index to show/hide
-      if ({{ September|lower }} == 'true'){
+      if ('{{ September|lower }}' == 'true'){
         if(lm >=  9){
           th_start  = lm - 9
         }else{
@@ -1961,6 +1946,7 @@
     } //end of computeNetIncomeVisible
 
   })
+
 </script>
 
 

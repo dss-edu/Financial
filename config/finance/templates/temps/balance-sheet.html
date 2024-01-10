@@ -498,25 +498,27 @@ a:hover{
       title="Chart" 
       >
       <i class="fas fa-chart-bar"></i></a>
+
+      <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show Printable Sheet" data-placement="left">
+        <i class="fas fa-vector-square"></i>
+      </a>
+
+
+      <script>
+        $('#toggle-ui').on('click', function(){
+          $('#table-box').toggleClass('d-none')
+          $('#new-ui').toggleClass('d-none')
+          $('#insert-row-form').toggleClass('vh-100')
+          $('#showmonths').toggle();
+
+
+          var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
+          $('#toggle-ui').attr('title', newTitle);
+          $('#toggle-ui').tooltip('dispose').tooltip({ title: newTitle });
+
+        })
+      </script>
       
-      <!-- <a 
-      id="export-excel-button"
-      class="circle-container text-secondary" 
-      href="#" 
-      data-toggle="tooltip" 
-      title="Export to Excel"
-      data-placement="left"
-      ><i class="fas fa-file-excel"></i></a>
-
-      <a 
-      id="export-pdf-button"
-      class="circle-container text-secondary" 
-      href="#" 
-      data-toggle="tooltip" 
-      title="Export to PDF"
-      data-placement="left"
-      ><i class="fas fa-file-pdf"></i></a> -->
-
       
       <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
         <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
@@ -647,6 +649,9 @@ style="display:none;"
 
     {% endif %}
   {% csrf_token %}
+
+  {% include 'mockup/balance-sheet.html' %}
+
   <div id="table-box">
     <table id="data-table-overview" class="table table-hover" style="display:none;width:auto;"></table>
     <table id="data-table" class="table table-hover" style="width:auto;">
