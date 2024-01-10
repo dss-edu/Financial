@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 {% extends 'temps/base.html' %}
 {% load static %}
 {% block title %}
@@ -181,6 +180,25 @@
               
           {%endif %}
 
+      <a id="toggle-ui" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show Printable Sheet" data-placement="left">
+        <i class="fas fa-vector-square"></i>
+      </a>
+
+
+      <script>
+        $('#toggle-ui').on('click', function(){
+          $('#table-box').toggleClass('d-none')
+          $('#new-ui').toggleClass('d-none')
+          $('#insert-row-form').toggleClass('vh-100')
+          $('#showmonths').toggle();
+
+
+          var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
+          $('#toggle-ui').attr('title', newTitle);
+          $('#toggle-ui').tooltip('dispose').tooltip({ title: newTitle });
+
+        })
+      </script>
                   <a 
                   class="text-secondary circle-container" 
                   href="/profit-loss-charts/{{ school }}" 
@@ -192,29 +210,6 @@
                    >
                    <i class="fas fa-chart-bar"></i></a>
                   
-                  <!-- <a 
-                  id="export-excel-button" 
-                  class="text-secondary circle-container" 
-                  href="#" 
-                  data-toggle="tooltip" 
-                  title="Export to Excel"
-                  data-placement="left"
-
-                  >
-                  <i class="fas fa-file-excel"></i></a>
-              
-
-                  <a 
-                  id="export-pdf-button" 
-                  class="text-secondary circle-container" 
-                  href="#" 
-                  data-toggle="tooltip" 
-                  title="Export to PDF"
-                  data-placement="left"
-
-                  >
-                  <i class="fas fa-file-pdf"></i></a> -->
-
               <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">
               <!-- <div style="position: relative;"> -->
                 <a id="export-button" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Export Page" data-placement="left">
@@ -247,7 +242,8 @@
             <form  id="insert-row-form" action="#" method="POST">
         
 
-                {% csrf_token %}
+            {% csrf_token %}
+            {% include 'mockup/cashflow.html' %}
 
             <div id="table-box">
                 <table id="data-table-overview" class="table table-hover" style="display:none; width: auto;"></table>
@@ -305,7 +301,7 @@
 
                             function hide17thColumn() {
                                 for (var i = last_month_number; i <= 15; i++) {
-                                    var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+                                    var columnsToHide = document.querySelectorAll("#table-box th:nth-child(" + i + "),#table-box td:nth-child(" + i + ")");
 
                                     for (var j = 0; j < columnsToHide.length; j++) {
                                         columnsToHide[j].style.display = "none";

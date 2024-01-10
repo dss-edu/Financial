@@ -10,10 +10,10 @@ th,
     td:nth-child(2) {
         white-space: nowrap;
     }
-    th:nth-child(3),
+    /* th:nth-child(3),
     td:nth-child(3) {
         display: none;
-    }
+    } */
     .right-align-td {
         text-align: right;
         padding-right: 250px;
