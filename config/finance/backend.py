@@ -6738,7 +6738,7 @@ def writeCodes(school, table, year):
 
     selectQuery = f"SELECT * FROM " + table + " where Date >= '2023-07-01' and Type != 'EN'"
     if school in schoolCategory['skyward']:
-        selectQuery = f"SELECT fund,func,obj,sobj,org,fscl_yr,PI,LOC,PostingDate,TransactionDescr,Month,Source,Subsource,Batch,Vendor,InvoiceDate,CheckNumber,CheckDate,Amount,budgetOrigin FROM " + table + " where PostingDate >= '" + str(year) + "-09-01' and source != 'RE'"
+        selectQuery = f"SELECT fund,func,obj,sobj,org,fscl_yr,PI,LOC,PostingDate,TransactionDescr,Month,Source,Subsource,Batch,Vendor,InvoiceDate,CheckNumber,CheckDate,Amount,budgetOrigin FROM " + table + " where PostingDate >= '2023-09-01' and source != 'RE'"
     cursor.execute(selectQuery)
     rows = cursor.fetchall()
 
