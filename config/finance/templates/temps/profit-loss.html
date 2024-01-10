@@ -230,6 +230,14 @@
   border: 1px solid black !important;
 
 }
+
+.hidepanel {
+  display: none;
+}
+
+#toggle-icon {
+  cursor: pointer;
+}
 </style>
 {% endblock %} {% block body %}
 
@@ -484,7 +492,9 @@
       </h5>
     </div>
     <div class="col-1">
-     
+      <a id="toggle-panel" class="text-secondary " href="#" data-toggle="tooltip" title="Sidebar" data-placement="left">
+        '<i class="fas fa-arrow-right"></i>
+    </a>
 
     </div>
     {% comment %} <div class="d-flex align-items-center">
@@ -550,9 +560,9 @@
     </div> {% endcomment %}
   </nav>
 
-  <div class="table-container" stlye="height:1330px!important; ">
+  <div class="table-container d-flex" id="body-container">
 
-    <div class="side-panel">
+    <div class="side-panel" id="side-Panel">
       <div class="side">
           <div style="margin-top:300px"></div>
 
@@ -664,7 +674,7 @@
 
    
 
-
+    
     <form id="insert-row-form" class="vh-100" action="{% url 'insert-row' %}" method="POST">
       <div id="save-container" style="display: none">
         <button
@@ -8119,6 +8129,55 @@
   
 
 
+  </script>
+  <script>
+    $(document).ready(function() {
+      var sidePanel = $('#side-Panel');
+      var insertRowForm = $('#new-ui');
+      var toggleIcon = $('#toggle-panel');
+      var bodycontainer =   $('#body-container');
+  
+      function toggleSidePanel() {
+        var formWidth = insertRowForm.width();
+        var sidePanelWidth = sidePanel.width();
+        var bodyWidth = bodycontainer.width();
+
+
+  
+        if (formWidth + sidePanelWidth + 200 > $(window).width()) {
+          sidePanel.addClass('hidepanel');
+          toggleIcon.html('<i class="fas fa-arrow-left"></i>');
+         
+        } else {
+          sidePanel.removeClass('hidepanel');
+          toggleIcon.html('<i class="fas fa-arrow-right"></i>');
+        }
+      }
+  
+      toggleSidePanel();
+  
+      $(window).resize(function() {
+        toggleSidePanel();
+      });
+  
+      toggleIcon.click(function() {
+        sidePanel.toggleClass('hidepanel');
+        if (sidePanel.hasClass('hidepanel')) {
+          toggleIcon.html('<i class="fas fa-arrow-left"></i>');
+         
+         
+        } else {
+          toggleIcon.html('<i class="fas fa-arrow-right"></i>');
+        }
+       
+      });
+
+      $('#quarter-tabs a').on('click', function(e) {
+        toggleSidePanel();
+    });
+
+
+    });
   </script>
 
   <script src="{% static 'js/plViewGL.js' %}"></script>
