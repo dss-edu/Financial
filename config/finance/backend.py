@@ -152,8 +152,11 @@ def profit_loss(school,year):
                 data2.append(row_dict)
 
         if school in schoolCategory["ascender"]:
+            # cursor.execute(
+            #     f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL%'"
+            # )
             cursor.execute(
-                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL%'"
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  "
             )
         else:
             cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
@@ -3436,6 +3439,8 @@ def balance_sheet(school,year):
             begbal_key = "BegBal"
 
 
+
+
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
         unique_act = []
@@ -3445,6 +3450,20 @@ def balance_sheet(school,year):
             if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities' or item['Category'] == 'Net Assets':
                 if Activity not in unique_act:
                     unique_act.append(Activity)
+
+        if school == 'goldenrule':
+            numberstack = set()
+
+            for item in data3:
+                if item["obj"] == '3600':
+                    
+                    numberstack.add(item["Number"])
+            
+            numberstack = list(numberstack)
+            print(numberstack)
+
+
+
                     
 
         for item in data_activitybs:
@@ -3503,6 +3522,27 @@ def balance_sheet(school,year):
                 else:
                     item["activity_fye"] = activity_fye
 
+            if school == 'goldenrule':
+                print(Activity)
+                item["fye_activity"] = sum(
+                    entry[bal_key]
+                    for entry in data3
+                    if entry["obj"] == obj
+                    and entry["Type"] == "GJ"
+                    and entry["Number"] in numberstack
+                )
+                if Activity =='Restr':
+                    print("test",item["fye_activity"])
+
+        if school == 'goldenrule':
+            for item in data_balancesheet:
+                Activity = item["Activity"]
+                item["FYE"] = sum(
+                    entry["fye_activity"]
+                    for entry in data_activitybs
+                    if entry["Activity"] == Activity
+                )
+                print(Activity,item["FYE"])
 
 
                 
@@ -3765,7 +3805,8 @@ def balance_sheet(school,year):
                 if school in schoolCategory["skyward"] or school in school_fye:
                     FYE_value = row["total_fye"]
                     
-                    
+                elif school =="goldenrule":
+                    FYE_value = float(row["FYE"])
                 else:
                     FYE_value = (float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", ""))
                         if row["FYE"]
@@ -3965,7 +4006,11 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
-                fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+
+                if school == "goldenrule":
+                    fye = float(row["FYE"])
+                else:
+                    fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
                 if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
 
@@ -4001,7 +4046,11 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 subcategory =  row["Subcategory"]
-                fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+                
+                if school == "goldenrule":
+                    fye = float(row["FYE"])
+                else:
+                    fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
                 if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
@@ -4010,12 +4059,16 @@ def balance_sheet(school,year):
                         if i == last_month_number:
                             last_month_total_liabilities += row[f"debt_{i}"] + total_current_liabilities[acct_per]
                     total_liabilities_fytd_2 += row["debt_fytd"]
-                    total_liabilities_fye +=  + total_current_liabilities_fye + fye
+                    total_liabilities_fye +=   total_current_liabilities_fye + fye
         total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
 
         for row in data_balancesheet:
             if row["school"] == school:
-                fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
+                
+                if school == "goldenrule":
+                    fye = float(row["FYE"])
+                else:
+                    fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
                 if school in schoolCategory["skyward"] or school in school_fye:
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
@@ -4080,6 +4133,14 @@ def balance_sheet(school,year):
                         row["total_fye"] = format_value_dollars(row["total_fye"]) 
                     else:
                         row["total_fye"] = format_value(row["total_fye"]) 
+
+                if school == 'goldenrule':
+                    if row["Activity"] == 'Cash' or row["Activity"] == 'AP':
+
+                        row["FYE"] = format_value_dollars(row["FYE"])
+                    else:
+                        row["FYE"] = format_value(row["FYE"])
+
                 if row["Activity"] == 'Cash':
                     
                     row["difference_9"] = format_value_dollars(row["difference_9"]) 
