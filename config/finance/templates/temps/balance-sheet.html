@@ -3498,7 +3498,7 @@ style="display:none;"
         
         function hide17thColumn() {
           for (var i = last_month_number; i <= 16; i++) {
-            var columnsToHide = document.querySelectorAll("th:nth-child(" + i + "), td:nth-child(" + i + ")");
+            var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "),#data-table td:nth-child(" + i + ")");
         
             for (var j = 0; j < columnsToHide.length; j++) {
                 columnsToHide[j].style.display = "none";

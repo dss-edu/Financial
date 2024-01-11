@@ -139,10 +139,10 @@
         </div>
         <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
           <a class="p-1" href="">Show all</a>
-          <a class="p-1 not-active" href="">1st Quarter</a>
+          <!-- <a class="p-1 not-active" href="">1st Quarter</a>
           <a class="p-1 not-active" href="">2nd Quarter</a>
           <a class="p-1 not-active" href="">3rd Quarter</a>
-          <a class="p-1 not-active"  href="">4th Quarter</a>
+          <a class="p-1 not-active"  href="">4th Quarter</a> -->
         </div>
       </div>
     </div>
@@ -696,29 +696,21 @@
     tableFormatter(tableMain)
 
     ///////////////////////// show hide stuff ///////////////////////////
-    // hide months
     const monthHeaders = document.querySelectorAll('.month')
     const allRows = document.querySelectorAll('#table-main tbody tr')
 
     hideMonths()
 
 
-    
-    // show per quarter
+    // add eventlister to quarter-tabs
     const quarterLinks = document.querySelectorAll('#quarter-tabs > a')
 
-
-    // make active quarter tab
-    const quarters = Math.ceil(monthHeaders.length / 3)
-    if (quarters >= 1){
-      for (let i=1; i <= quarters; i++){
-        quarterLinks[i].classList.remove('not-active')
-      }
-    }
 
     quarterLinks.forEach((link, index) => {
       link.addEventListener('click', (event) => showMonths(event, index))
     });
+
+    quarterLinks[0].click()
 
 
     // subs
@@ -897,23 +889,7 @@
         hideMonths()
       }
 
-      // only one button should be active 
-      // check if there's any other active ones then deactivate them
-      // ignore if inactive
-      const quarterLinks = document.querySelectorAll('#quarter-tabs > a:not(.not-active)')
-      quarterLinks.forEach(link => {
-        // ignore if th is the same as event
-        if(link.textContent === event.currentTarget.textContent){
-          return
-        }
-
-        if(link.classList.contains('active')){
-          link.classList.toggle('active')
-        }
-      })
       event.currentTarget.classList.toggle('active')
-
-      
 
       const monthHeaders = document.querySelectorAll('.month')
       const allRows = document.querySelectorAll('#table-main tbody tr')
