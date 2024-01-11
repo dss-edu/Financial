@@ -64,7 +64,6 @@
     /* padding: 1rem 1rem; */
   }
   #table-main tbody td{
-    /* padding: 0 0; */
     color: #1b4f72 ; 
   }
   #table-main tbody td:not(:first-child){
@@ -77,7 +76,15 @@
       /* You might want to adjust the width as needed */
   }
 
+  /* .super-dom {
+    font-size: 20px;
+  } */
+  .super-dom > :first-child{
+    cursor: pointer;
+  }
+
   .dom {
+    font-size: .85em;
     padding-left: 10px;
   }
   .dom > :first-child{
@@ -92,7 +99,7 @@
   .sub {
     height: 0 !important;
     font-weight: 400;
-    font-size: .9em;
+    font-size: .85em;
   }
   .sub-active {
     display: block;
@@ -377,6 +384,47 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Total Revenue -->
+          <tr class="super-dom">
+            <td>Total Revenue</td>
+            <td> {{totals.total_ammended}} </td>
+            <td> {{totals.ytd_ammended_total}} </td>
+
+            {% if September == "True" %}
+            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
+            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
+            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
+            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
+            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
+            <td id="fpr-total-15" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
+            <td id="fpr-total-16" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
+            {% else %}
+            <td id="fpr-total-3" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
+            <td id="fpr-total-4" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
+            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
+            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
+            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
+            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
+            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
+            {% endif %}
+
+
+
+            <td><a id="all-revenue-ytd-total" href="#"> {{totals.ytd_total_revenue}} </a></td>
+            <td> {{totals.variances_revenue}} </td>
+            <td> {{totals.var_ytd}} </td>
+          </tr>
+          <!-- End Total Revenue -->
         <!-- Local Revenue  -->
           <tr class="dom">
             <td>Local Revenue</td>
@@ -636,47 +684,6 @@
 
 
 
-          <!-- Total Revenue -->
-          <tr class="dom">
-            <td>Total Revenue</td>
-            <td> {{totals.total_ammended}} </td>
-            <td> {{totals.ytd_ammended_total}} </td>
-
-            {% if September == "True" %}
-            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
-            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
-            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
-            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
-            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
-            <td id="fpr-total-15" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
-            <td id="fpr-total-16" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
-            {% else %}
-            <td id="fpr-total-3" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
-            <td id="fpr-total-4" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
-            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
-            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
-            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
-            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
-            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
-            {% endif %}
-
-
-
-            <td><a id="all-revenue-ytd-total" href="#"> {{totals.ytd_total_revenue}} </a></td>
-            <td> {{totals.variances_revenue}} </td>
-            <td> {{totals.var_ytd}} </td>
-          </tr>
-          <!-- End Total Revenue -->
 
           <!-- TOTAL  -->
           <tr class="dom">
@@ -764,7 +771,7 @@
 
 
           <!-- Surplus Deficits before Depreciation -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Surplus (Deficits) before Depreciation</td>
             <td> {{totals.ammended_budget_SBD}} </td>
             <td> {{totals.ytd_ammended_SBD}} </td>
@@ -806,7 +813,7 @@
 
 
           <!-- Depreciation and Amortization  -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Depreciation and Amortization</td>
             <td> {{totals.dna_total}} </td>
             <td> {{totals.ytd_ammended_dna}} </td>
@@ -889,7 +896,7 @@
 
 
           <!-- Net Surplus -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Net Surplus(Deficit)</td>
             <td> {{totals.ammended_budget_netsurplus}} </td>
             <td> {{totals.ytd_ammended_netsurplus}} </td>
@@ -928,6 +935,48 @@
             <td> {{totals.var_netsurplus}} </td>
           </tr>
           <!-- End of Net surplus -->
+
+          <!-- Total Expense  -->
+          <tr class="super-dom">
+            <td>Total Expense</td>
+            <td> {{totals.total_expense}} </td>
+            <td> {{totals.total_expense_ytd_budget}} </td>
+
+            {% if September == "True" %}
+            <td> {{ totals.total_expense_months.09 }} </td>
+            <td> {{ totals.total_expense_months.10 }} </td>
+            <td> {{ totals.total_expense_months.11 }} </td>
+            <td> {{ totals.total_expense_months.12 }} </td>
+            <td> {{ totals.total_expense_months.01 }} </td>
+            <td> {{ totals.total_expense_months.02 }} </td>
+            <td> {{ totals.total_expense_months.03 }} </td>
+            <td> {{ totals.total_expense_months.04 }} </td>
+            <td> {{ totals.total_expense_months.05 }} </td>
+            <td> {{ totals.total_expense_months.06 }} </td>
+            <td> {{ totals.total_expense_months.07 }} </td>
+            <td> {{ totals.total_expense_months.08 }} </td>
+            {% else %}
+            <td> {{ totals.total_expense_months.07 }} </td>
+            <td> {{ totals.total_expense_months.08 }} </td>
+            <td> {{ totals.total_expense_months.09 }} </td>
+            <td> {{ totals.total_expense_months.10 }} </td>
+            <td> {{ totals.total_expense_months.11 }} </td>
+            <td> {{ totals.total_expense_months.12 }} </td>
+            <td> {{ totals.total_expense_months.01 }} </td>
+            <td> {{ totals.total_expense_months.02 }} </td>
+            <td> {{ totals.total_expense_months.03 }} </td>
+            <td> {{ totals.total_expense_months.04 }} </td>
+            <td> {{ totals.total_expense_months.05 }} </td>
+            <td> {{ totals.total_expense_months.06 }} </td>
+            {% endif %}
+
+
+
+            <td> {{totals.total_expense_ytd}} </td>
+            <td> {{totals.variances_total_expense}} </td>
+            <td> {{totals.var_total_expense}} </td>
+          </tr>
+          <!-- End of Total Expense  -->
 
 
           <!-- Payroll and Benefits -->
@@ -1490,50 +1539,9 @@
           {% endfor %}
           <!-- End of  Fixed Capital/Assets  -->
 
-          <!-- Total Expense  -->
-          <tr class="dom">
-            <td>Total Expense</td>
-            <td> {{totals.total_expense}} </td>
-            <td> {{totals.total_expense_ytd_budget}} </td>
-
-            {% if September == "True" %}
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
-            {% else %}
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
-            {% endif %}
-
-
-
-            <td> {{totals.total_expense_ytd}} </td>
-            <td> {{totals.variances_total_expense}} </td>
-            <td> {{totals.var_total_expense}} </td>
-          </tr>
-          <!-- End of Total Expense  -->
 
           <!-- Net Income -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Net Income</td>
             <td> {{totals.budget_net_income}} </td>
             <td> {{totals.ytd_budget_net_income}} </td>
@@ -1627,8 +1635,15 @@
       link.addEventListener('click', (event) => showMonths(event, index))
     });
 
+    // show/hide doms
+    const superDoms = document.querySelectorAll('.super-dom > :first-child')
+    
+    superDoms.forEach(element => {
+        // Add an event listener to each element
+        element.addEventListener('click', showHideDoms);
+    });
 
-    // subs
+    // show/hide subs
     const doms = document.querySelectorAll('.dom > :first-child')
     
     doms.forEach(element => {
@@ -1639,16 +1654,27 @@
 
     //////////////////// Modal table //////////////////////////////////////
     // add bottom borders to table
-    const domElements = document.querySelectorAll('.dom');
+    const domElements = document.querySelectorAll('.super-dom');
     domElements.forEach(element => {
-        // Check if the previous sibling of 'main' has class 'sub'
-        if (element.previousElementSibling && (element.previousElementSibling.classList.contains('sub') || element.previousElementSibling.classList.contains('dom')  )) {
-            // Perform actions on the 'sub' element
-            const cells = element.previousElementSibling.querySelectorAll('td')
-            cells.forEach(cell => cell.style.paddingBottom = '1rem')
-            element.style.borderTop = '2px solid #e4e4e4';
-        }
-    });
+      const previousSibling = element.previousElementSibling
+      if (previousSibling && previousSibling.classList.contains('dom')) {
+          // Perform actions on the 'sub' element
+          const cells = previousSibling.querySelectorAll('td')
+          cells.forEach(cell => cell.style.paddingBottom = '1rem')
+          previousSibling.style.borderTop = '2px solid #e4e4e4';
+      }
+      element.style.borderBottom = '2px solid #e4e4e4';
+
+    })
+    // domElements.forEach(element => {
+    //     // Check if the previous sibling of 'main' has class 'sub'
+    //     if (element.previousElementSibling && (element.previousElementSibling.classList.contains('sub') || element.previousElementSibling.classList.contains('dom')  )) {
+    //         // Perform actions on the 'sub' element
+    //         const cells = element.previousElementSibling.querySelectorAll('td')
+    //         cells.forEach(cell => cell.style.paddingBottom = '1rem')
+    //         element.style.borderTop = '2px solid #e4e4e4';
+    //     }
+    // });
 
 
     // add | borders to headers 
@@ -1786,6 +1812,43 @@
       })
     } //end of tableFormatter
 
+
+    function showHideDoms(event){
+      const section = event.currentTarget.closest('tr')
+      const rowIndex = section.rowIndex
+      const tBody = section.closest('tbody')
+      const rows = tBody.rows
+      console.log(rows.length)
+      for (let i=rowIndex; i<rows.length; i++){
+        if (rows[i].classList.contains('super-dom')){
+          break
+        }
+        // hide also the subs that does not have d-none
+        if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
+          continue
+        }
+        rows[i].classList.toggle('d-none')
+      }
+
+
+      // while (nextElem.classList.contains('dom') || nextElem.classList.contains('sub')) {
+      //   if(nextElem.classList.contains('sub')){
+      //     continue
+      //   }
+      //   // const cells = nextElem.querySelectorAll('td')
+      //   // console.log(cells)
+      //   // cells.forEach(cell => cell.classList.toggle('d-none'))
+      //   nextElem.classList.toggle('d-none')
+      //   nextElem = nextElem.nextElementSibling;
+      // }
+      // while (nextElem && (nextElem.classList.contains('dom') || nextElem.classList.contains('sub'))) {
+      //   if (nextElem.classList.contains('sub')) continue;
+      //   nextElem.classList.toggle('d-none');
+      //   nextElem = nextElem.nextElementSibling;
+      // }
+
+
+    }
 
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
