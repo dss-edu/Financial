@@ -3472,13 +3472,28 @@ def balance_sheet(school,year):
             item["fytd"] = 0
             
             for i, acct_per in enumerate(acct_per_values, start=1):
-                total_data3 = sum(
-                    entry[bal_key]
-                    for entry in data3
-                    if entry["obj"] == obj 
-                    and entry["AcctPer"] == acct_per
-                    and entry["fund"] != '000'
-                )
+                if school in schoolCategory["ascender"]:
+                    total_data3 = sum(
+                        entry[bal_key]
+                        for entry in data3
+                        if entry["obj"] == obj 
+                        and entry["AcctPer"] == acct_per
+                        and entry["fund"] != '000'
+                        and "BEG BAL" not in entry["WorkDescr"]
+                        and "BEGBAL" not in entry["WorkDescr"]
+                        and "BEGINNING BAL" not in entry["WorkDescr"]
+                    )
+                else:
+                    total_data3 = sum(
+                        entry[bal_key]
+                        for entry in data3
+                        if entry["obj"] == obj 
+                        and entry["AcctPer"] == acct_per
+                        and entry["fund"] != '000'
+                        and "BEG BAL" not in entry["WorkDescr"]
+                        and "BEGBAL" not in entry["WorkDescr"]
+                        and "BEGINNING BAL" not in entry["WorkDescr"]
+                    )
                 total_adjustment = sum(
                     entry[bal_key]
                     for entry in adjustment
