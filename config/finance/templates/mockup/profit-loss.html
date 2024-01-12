@@ -101,6 +101,22 @@
     font-weight: 400;
     font-size: .85em;
   }
+
+  .smallfont td{
+    height: 0 !important;
+    font-weight: 400;
+  
+    height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+   
+   
+  }
+
+  .smallfont{
+    border-top: 0 !important;
+  }
+
   .sub-active {
     display: block;
   }
@@ -728,7 +744,7 @@
 
           {% for row in data2 %}
           {% if row.category != 'Depreciation and Amortization' %}
-          <tr class="dom ">
+          <tr class="smallfont dom ">
               <td> {{ row.func_func }} - {{ row.desc }} </td>
               <td> {{row.total_budget}} </td>
               <td>{{row.ytd_budget}}</td>
