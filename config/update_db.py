@@ -4,7 +4,7 @@ from config.settings import SCHOOLS
 
 if __name__ == "__main__":
     for school in SCHOOLS.keys():
-        update_fy(school, '')
+        update_fy(school, '2023')
 
     # --- UPDATE ASCENDER CLIENTS ---
     cnxn = connect()
