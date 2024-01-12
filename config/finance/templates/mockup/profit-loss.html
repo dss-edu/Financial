@@ -113,7 +113,7 @@
    
   }
 
-  .smallfont{
+  .smallfont {
     border-top: 0 !important;
   }
 
@@ -391,7 +391,7 @@
             </th>
             <th>
               <div class="net-section">
-                <div class="">Var.(25%)</div>
+                <div class="">Var.({{months.format_ytd_budget}}%)</div>
                 <div class=""> {{totals.var_net_income}} </div>
                 <div class=""></div>
               </div>
@@ -913,7 +913,7 @@
 
 
           <!-- Net Surplus -->
-          <tr class="super-dom">
+          <tr class="super-dom" id="net-surplus-deficit">
             <td>Net Surplus(Deficit)</td>
             <td> {{totals.ammended_budget_netsurplus}} </td>
             <td> {{totals.ytd_ammended_netsurplus}} </td>
@@ -1558,7 +1558,7 @@
 
 
           <!-- Net Income -->
-          <tr class="super-dom">
+          <tr class="super-dom" id="net-income">
             <td>Net Income</td>
             <td> {{totals.budget_net_income}} </td>
             <td> {{totals.ytd_budget_net_income}} </td>
@@ -1619,6 +1619,9 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function(){
+    
+    checkBalance()
+
     // order is important here
     // formattings first (hide, show, format) then computations
 
@@ -2068,6 +2071,43 @@
       $('.quarter-net-total').text(integerToAccounting(totalNetIncome))
 
     } //end of computeNetIncomeVisible
+
+    
+    function checkBalance() {
+      const NetSurplusRow = document.getElementById("net-surplus-deficit");
+      const NetIncomeRow = document.getElementById("net-income");
+      
+      
+      if (!NetSurplusRow || !NetIncomeRow) {
+        return; 
+      }
+      
+      const NetSurplusCells = NetSurplusRow.cells;
+      const NetIncomeCells = NetIncomeRow.cells;
+      
+      let match = true;
+  
+      
+      for (let i=3; i <= last_month_number-2; i++) {
+        const NetSurplusValue = NetSurplusCells[i].textContent.trim();
+        const NetIncomeValue = NetIncomeCells[i].textContent.trim();
+        console.log("net",NetSurplusValue)
+        console.log(NetIncomeValue)
+      
+  
+        if (NetIncomeValue !== NetSurplusValue) {
+          NetSurplusCells[i].style.backgroundColor = "yellow";
+          NetIncomeCells[i].style.backgroundColor = "yellow";
+     
+          match = false;
+         
+        }
+      }
+
+
+      
+      return match;
+    }
 
   })
 
