@@ -3490,9 +3490,7 @@ def balance_sheet(school,year):
                         if entry["obj"] == obj 
                         and entry["AcctPer"] == acct_per
                         and entry["fund"] != '000'
-                        and "BEG BAL" not in entry["WorkDescr"]
-                        and "BEGBAL" not in entry["WorkDescr"]
-                        and "BEGINNING BAL" not in entry["WorkDescr"]
+
                     )
                 total_adjustment = sum(
                     entry[bal_key]
