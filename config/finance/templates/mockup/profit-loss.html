@@ -384,6 +384,7 @@
           </tr>
         </thead>
         <tbody>
+         
           <!-- Total Revenue -->
           <tr class="super-dom">
             <td>Total Revenue</td>
@@ -426,7 +427,7 @@
           </tr>
           <!-- End Total Revenue -->
         <!-- Local Revenue  -->
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>Local Revenue</td>
             <td> {{totals.total_ammended_lr}} </td>
             <td> {{totals.ytd_ammended_total_lr}} </td>
@@ -512,7 +513,7 @@
           <!-- End Local Revenue  -->
 
           <!-- State PRogram Revenue  -->
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>State Program Revenue</td>
             <td> {{totals.total_ammended_spr}} </td>
             <td> {{totals.ytd_ammended_total_spr}} </td>
@@ -598,7 +599,7 @@
           <!-- End of  State Program Revenue  -->
 
           <!-- Federal PRogram Revenue  -->
-          <tr class="dom">
+          <tr class="dom d-none">
             <td>Federal Program Revenue</td>
             <td> {{totals.total_ammended_fpr}} </td>
             <td> {{totals.ytd_ammended_total_fpr}} </td>
@@ -684,9 +685,8 @@
 
 
 
-
           <!-- TOTAL  -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Total</td>
             <td> {{totals.first_total}} </td>
             <td> {{totals.ytd_ammended_total_first}} </td>
@@ -725,9 +725,10 @@
             <td> {{totals.variances_first_total}} </td>
             <td> {{totals.var_ytd_first_total}} </td>
           </tr>
+
           {% for row in data2 %}
           {% if row.category != 'Depreciation and Amortization' %}
-          <tr class="sub d-none">
+          <tr class="dom ">
               <td> {{ row.func_func }} - {{ row.desc }} </td>
               <td> {{row.total_budget}} </td>
               <td>{{row.ytd_budget}}</td>
@@ -982,7 +983,7 @@
           <!-- Payroll and Benefits -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6100' %}
-          <tr class="dom">
+          <tr class="dom d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_pc}}</td>
             <td> {{totals.ytd_budget_pc}} </td>
@@ -1068,7 +1069,7 @@
           <!-- Professional and Contract Services  -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6200' %}
-          <tr class="dom">
+          <tr class="dom d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_pcs}}</td>
             <td> {{totals.ytd_budget_pcs}} </td>
@@ -1153,7 +1154,7 @@
           <!-- materials and Supplies -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6300' %}
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_sm}}</td>
             <td> {{totals.ytd_budget_sm}} </td>
@@ -1239,7 +1240,7 @@
           <!-- Other Operating Costs -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6400' %}
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_ooe}}</td>
             <td> {{totals.ytd_budget_ooe}} </td>
@@ -1326,7 +1327,7 @@
           <!-- depreciation -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6449' %}
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.dna_total_6449}}</td>
             <td> {{totals.ytd_ammended_dna_6449}} </td>
@@ -1370,7 +1371,7 @@
           <!-- Debt Services  -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6500'%}
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_te}}</td>
             <td> {{totals.ytd_budget_te}} </td>
@@ -1456,7 +1457,7 @@
           <!-- Fixed Capital/Assets  -->
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6600'%}
-          <tr class="dom">
+          <tr class="dom  d-none">
             <td>{{ row.obj }} - {{ row.Description }}</td>
             <td> {{totals.total_budget_cpa}}</td>
             <td> {{totals.ytd_budget_cpa}} </td>
@@ -1852,6 +1853,7 @@
 
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
+     
       let nextElem = section.nextElementSibling;
 
       while (nextElem.classList.contains('sub')) {
