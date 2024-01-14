@@ -33,7 +33,7 @@
   }
 
   .net-section-head div:nth-child(2){
-    color: #dd8600;
+    
     font-size: 1.25em;
   }
   .net-section div:nth-child(2){
@@ -401,47 +401,7 @@
         </thead>
         <tbody>
          
-          <!-- Total Revenue -->
-          <tr class="super-dom">
-            <td>Total Revenue</td>
-            <td> {{totals.total_ammended}} </td>
-            <td> {{totals.ytd_ammended_total}} </td>
-
-            {% if September == "True" %}
-            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
-            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
-            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
-            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
-            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
-            <td id="fpr-total-15" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
-            <td id="fpr-total-16" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
-            {% else %}
-            <td id="fpr-total-3" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
-            <td id="fpr-total-4" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
-            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
-            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
-            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
-            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
-            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
-            {% endif %}
-
-
-
-            <td><a id="all-revenue-ytd-total" href="#"> {{totals.ytd_total_revenue}} </a></td>
-            <td> {{totals.variances_revenue}} </td>
-            <td> {{totals.var_ytd}} </td>
-          </tr>
-          <!-- End Total Revenue -->
+         
         <!-- Local Revenue  -->
           <tr class="dom  d-none">
             <td>Local Revenue</td>
@@ -699,48 +659,52 @@
           {% endfor %}
           <!-- End of Federal Program Revenue  -->
 
-
-
-          <!-- TOTAL  -->
-          <tr class="super-dom">
-            <td>Total</td>
-            <td> {{totals.first_total}} </td>
-            <td> {{totals.ytd_ammended_total_first}} </td>
+           <!-- Total Revenue -->
+           <tr class="super-dom">
+            <td>Total Revenue</td>
+            <td> {{totals.total_ammended}} </td>
+            <td> {{totals.ytd_ammended_total}} </td>
 
             {% if September == "True" %}
-            <td id="total1-5"><a href="#" class="first-total" data-yr="09"> {{ totals.first_total_months.09 }} </a></td>
-            <td id="total1-6"><a href="#" class="first-total" data-yr="10"> {{ totals.first_total_months.10 }} </a></td>
-            <td id="total1-7"><a href="#" class="first-total" data-yr="11"> {{ totals.first_total_months.11 }} </a></td>
-            <td id="total1-8"><a href="#" class="first-total" data-yr="12"> {{ totals.first_total_months.12 }} </a></td>
-            <td id="total1-9"><a href="#" class="first-total" data-yr="01"> {{ totals.first_total_months.01 }} </a></td>
-            <td id="total1-10"><a href="#" class="first-total" data-yr="02"> {{ totals.first_total_months.02 }} </a></td>
-            <td id="total1-11"><a href="#" class="first-total" data-yr="03"> {{ totals.first_total_months.03 }} </a></td>
-            <td id="total1-12"><a href="#" class="first-total" data-yr="04"> {{ totals.first_total_months.04 }} </a></td>
-            <td id="total1-13"><a href="#" class="first-total" data-yr="05"> {{ totals.first_total_months.05 }} </a></td>
-            <td id="total1-14"><a href="#" class="first-total" data-yr="06"> {{ totals.first_total_months.06 }} </a></td>
-            <td id="total1-15"><a href="#" class="first-total" data-yr="07"> {{ totals.first_total_months.07 }} </a></td>
-            <td id="total1-16"><a href="#" class="first-total" data-yr="08"> {{ totals.first_total_months.08 }} </a></td>
+            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
+            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
+            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
+            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
+            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
+            <td id="fpr-total-15" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
+            <td id="fpr-total-16" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
             {% else %}
-            <td id="total1-3"><a href="#" class="first-total" data-yr="07"> {{ totals.first_total_months.07 }} </a></td>
-            <td id="total1-4"><a href="#" class="first-total" data-yr="08"> {{ totals.first_total_months.08 }} </a></td>
-            <td id="total1-5"><a href="#" class="first-total" data-yr="09"> {{ totals.first_total_months.09 }} </a></td>
-            <td id="total1-6"><a href="#" class="first-total" data-yr="10"> {{ totals.first_total_months.10 }} </a></td>
-            <td id="total1-7"><a href="#" class="first-total" data-yr="11"> {{ totals.first_total_months.11 }} </a></td>
-            <td id="total1-8"><a href="#" class="first-total" data-yr="12"> {{ totals.first_total_months.12 }} </a></td>
-            <td id="total1-9"><a href="#" class="first-total" data-yr="01"> {{ totals.first_total_months.01 }} </a></td>
-            <td id="total1-10"><a href="#" class="first-total" data-yr="02"> {{ totals.first_total_months.02 }} </a></td>
-            <td id="total1-11"><a href="#" class="first-total" data-yr="03"> {{ totals.first_total_months.03 }} </a></td>
-            <td id="total1-12"><a href="#" class="first-total" data-yr="04"> {{ totals.first_total_months.04 }} </a></td>
-            <td id="total1-13"><a href="#" class="first-total" data-yr="05"> {{ totals.first_total_months.05 }} </a></td>
-            <td id="total1-14"><a href="#" class="first-total" data-yr="06"> {{ totals.first_total_months.06 }} </a></td>
+            <td id="fpr-total-3" ><a href="#" class="total-revenue" data-yr="07"> {{ totals.total_revenue.07 }} </a></td>
+            <td id="fpr-total-4" ><a href="#" class="total-revenue" data-yr="08"> {{ totals.total_revenue.08 }} </a></td>
+            <td id="fpr-total-5" ><a href="#" class="total-revenue" data-yr="09"> {{ totals.total_revenue.09 }} </a></td>
+            <td id="fpr-total-6" ><a href="#" class="total-revenue" data-yr="10"> {{ totals.total_revenue.10 }} </a></td>
+            <td id="fpr-total-7" ><a href="#" class="total-revenue" data-yr="11"> {{ totals.total_revenue.11 }} </a></td>
+            <td id="fpr-total-8" ><a href="#" class="total-revenue" data-yr="12"> {{ totals.total_revenue.12 }} </a></td>
+            <td id="fpr-total-9" ><a href="#" class="total-revenue" data-yr="01"> {{ totals.total_revenue.01 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="total-revenue" data-yr="02"> {{ totals.total_revenue.02 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="total-revenue" data-yr="03"> {{ totals.total_revenue.03 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="total-revenue" data-yr="04"> {{ totals.total_revenue.04 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="total-revenue" data-yr="05"> {{ totals.total_revenue.05 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="total-revenue" data-yr="06"> {{ totals.total_revenue.06 }} </a></td>
             {% endif %}
 
 
 
-            <td><a id="total-ytd-total" href="#"> {{totals.first_ytd_total}} </a></td>
-            <td> {{totals.variances_first_total}} </td>
-            <td> {{totals.var_ytd_first_total}} </td>
+            <td><a id="all-revenue-ytd-total" href="#"> {{totals.ytd_total_revenue}} </a></td>
+            <td> {{totals.variances_revenue}} </td>
+            <td> {{totals.var_ytd}} </td>
           </tr>
+          <!-- End Total Revenue -->
+
+
+
+
+                    <!-- TOTAL  -->
 
           {% for row in data2 %}
           {% if row.category != 'Depreciation and Amortization' %}
@@ -784,6 +748,47 @@
           </tr>
           {% endif %}
           {% endfor %}
+
+
+                    <tr class="super-dom">
+                      <td>Total</td>
+                      <td> {{totals.first_total}} </td>
+                      <td> {{totals.ytd_ammended_total_first}} </td>
+          
+                      {% if September == "True" %}
+                      <td id="total1-5"><a href="#" class="first-total" data-yr="09"> {{ totals.first_total_months.09 }} </a></td>
+                      <td id="total1-6"><a href="#" class="first-total" data-yr="10"> {{ totals.first_total_months.10 }} </a></td>
+                      <td id="total1-7"><a href="#" class="first-total" data-yr="11"> {{ totals.first_total_months.11 }} </a></td>
+                      <td id="total1-8"><a href="#" class="first-total" data-yr="12"> {{ totals.first_total_months.12 }} </a></td>
+                      <td id="total1-9"><a href="#" class="first-total" data-yr="01"> {{ totals.first_total_months.01 }} </a></td>
+                      <td id="total1-10"><a href="#" class="first-total" data-yr="02"> {{ totals.first_total_months.02 }} </a></td>
+                      <td id="total1-11"><a href="#" class="first-total" data-yr="03"> {{ totals.first_total_months.03 }} </a></td>
+                      <td id="total1-12"><a href="#" class="first-total" data-yr="04"> {{ totals.first_total_months.04 }} </a></td>
+                      <td id="total1-13"><a href="#" class="first-total" data-yr="05"> {{ totals.first_total_months.05 }} </a></td>
+                      <td id="total1-14"><a href="#" class="first-total" data-yr="06"> {{ totals.first_total_months.06 }} </a></td>
+                      <td id="total1-15"><a href="#" class="first-total" data-yr="07"> {{ totals.first_total_months.07 }} </a></td>
+                      <td id="total1-16"><a href="#" class="first-total" data-yr="08"> {{ totals.first_total_months.08 }} </a></td>
+                      {% else %}
+                      <td id="total1-3"><a href="#" class="first-total" data-yr="07"> {{ totals.first_total_months.07 }} </a></td>
+                      <td id="total1-4"><a href="#" class="first-total" data-yr="08"> {{ totals.first_total_months.08 }} </a></td>
+                      <td id="total1-5"><a href="#" class="first-total" data-yr="09"> {{ totals.first_total_months.09 }} </a></td>
+                      <td id="total1-6"><a href="#" class="first-total" data-yr="10"> {{ totals.first_total_months.10 }} </a></td>
+                      <td id="total1-7"><a href="#" class="first-total" data-yr="11"> {{ totals.first_total_months.11 }} </a></td>
+                      <td id="total1-8"><a href="#" class="first-total" data-yr="12"> {{ totals.first_total_months.12 }} </a></td>
+                      <td id="total1-9"><a href="#" class="first-total" data-yr="01"> {{ totals.first_total_months.01 }} </a></td>
+                      <td id="total1-10"><a href="#" class="first-total" data-yr="02"> {{ totals.first_total_months.02 }} </a></td>
+                      <td id="total1-11"><a href="#" class="first-total" data-yr="03"> {{ totals.first_total_months.03 }} </a></td>
+                      <td id="total1-12"><a href="#" class="first-total" data-yr="04"> {{ totals.first_total_months.04 }} </a></td>
+                      <td id="total1-13"><a href="#" class="first-total" data-yr="05"> {{ totals.first_total_months.05 }} </a></td>
+                      <td id="total1-14"><a href="#" class="first-total" data-yr="06"> {{ totals.first_total_months.06 }} </a></td>
+                      {% endif %}
+          
+          
+          
+                      <td><a id="total-ytd-total" href="#"> {{totals.first_ytd_total}} </a></td>
+                      <td> {{totals.variances_first_total}} </td>
+                      <td> {{totals.var_ytd_first_total}} </td>
+                    </tr>
           <!-- END of TOTAL  -->
 
 
@@ -953,47 +958,7 @@
           </tr>
           <!-- End of Net surplus -->
 
-          <!-- Total Expense  -->
-          <tr class="super-dom">
-            <td>Total Expense</td>
-            <td> {{totals.total_expense}} </td>
-            <td> {{totals.total_expense_ytd_budget}} </td>
-
-            {% if September == "True" %}
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
-            {% else %}
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
-            {% endif %}
-
-
-
-            <td> {{totals.total_expense_ytd}} </td>
-            <td> {{totals.variances_total_expense}} </td>
-            <td> {{totals.var_total_expense}} </td>
-          </tr>
-          <!-- End of Total Expense  -->
+          
 
 
           <!-- Payroll and Benefits -->
@@ -1555,7 +1520,47 @@
           {% endif %}
           {% endfor %}
           <!-- End of  Fixed Capital/Assets  -->
+          <!-- Total Expense  -->
+          <tr class="super-dom">
+            <td>Total Expense</td>
+            <td> {{totals.total_expense}} </td>
+            <td> {{totals.total_expense_ytd_budget}} </td>
 
+            {% if September == "True" %}
+            <td> {{ totals.total_expense_months.09 }} </td>
+            <td> {{ totals.total_expense_months.10 }} </td>
+            <td> {{ totals.total_expense_months.11 }} </td>
+            <td> {{ totals.total_expense_months.12 }} </td>
+            <td> {{ totals.total_expense_months.01 }} </td>
+            <td> {{ totals.total_expense_months.02 }} </td>
+            <td> {{ totals.total_expense_months.03 }} </td>
+            <td> {{ totals.total_expense_months.04 }} </td>
+            <td> {{ totals.total_expense_months.05 }} </td>
+            <td> {{ totals.total_expense_months.06 }} </td>
+            <td> {{ totals.total_expense_months.07 }} </td>
+            <td> {{ totals.total_expense_months.08 }} </td>
+            {% else %}
+            <td> {{ totals.total_expense_months.07 }} </td>
+            <td> {{ totals.total_expense_months.08 }} </td>
+            <td> {{ totals.total_expense_months.09 }} </td>
+            <td> {{ totals.total_expense_months.10 }} </td>
+            <td> {{ totals.total_expense_months.11 }} </td>
+            <td> {{ totals.total_expense_months.12 }} </td>
+            <td> {{ totals.total_expense_months.01 }} </td>
+            <td> {{ totals.total_expense_months.02 }} </td>
+            <td> {{ totals.total_expense_months.03 }} </td>
+            <td> {{ totals.total_expense_months.04 }} </td>
+            <td> {{ totals.total_expense_months.05 }} </td>
+            <td> {{ totals.total_expense_months.06 }} </td>
+            {% endif %}
+
+
+
+            <td> {{totals.total_expense_ytd}} </td>
+            <td> {{totals.variances_total_expense}} </td>
+            <td> {{totals.var_total_expense}} </td>
+          </tr>
+          <!-- End of Total Expense  -->
 
           <!-- Net Income -->
           <tr class="super-dom" id="net-income">
@@ -1619,6 +1624,7 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function(){
+  
     
     checkBalance()
 
@@ -1710,7 +1716,7 @@
 
     // populate the modal table
     $('#sample-button').on('click', function(){
-      console.log(tableHeaders)
+    
       $('#view-modal').modal('show')
     })
 
@@ -1799,16 +1805,22 @@
           }
 
           // if has content but no dollar
-          if (!columns[i].textContent.includes('$')) {
+          /*if (!columns[i].textContent.includes('$')) {
             columns[i].textContent = '$' + columns[i].textContent.trim()
-          }
+          }*/
 
           // now for the up caret or down caret
-          if (columns[i].textContent.includes('(')) {   
+          if (columns[i].textContent.includes('(')) {  
+            if (existingLink) {
+              existingLink.style.color = 'red';
+            }else{
+              columns[i].style.setProperty('color', 'red', 'important');
+            } 
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML: columns[i].textContent}
-              <i class="fa-solid fa-caret-down downswing"></i>
+              
             `
+            //<i class="fa-solid fa-caret-down downswing"></i>
           } 
           else {
             columns[i].classList.add('upswing')
@@ -1817,8 +1829,9 @@
             }
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML :   columns[i].textContent}
-              <i class="fa-solid fa-caret-up"></i>
-            `          
+              
+            `  
+            //<i class="fa-solid fa-caret-up"></i>        
           }
             existingLink ='null'
         }
@@ -1838,8 +1851,8 @@
       const rowIndex = section.rowIndex
       const tBody = section.closest('tbody')
       const rows = tBody.rows
-      console.log(rows.length)
-      for (let i=rowIndex; i<rows.length; i++){
+ 
+      for (let i=rowIndex-2; i<rows.length; i--){
         if (rows[i].classList.contains('super-dom')){
           break
         }
@@ -2070,9 +2083,26 @@
 
       $('.quarter-net-total').text(integerToAccounting(totalNetIncome))
 
-    } //end of computeNetIncomeVisible
+      netIncomeColor();
+    } //end of computeNetIncomeVisible 
 
+    function netIncomeColor() {
+      const nets = document.getElementsByClassName('quarter-net-total');
     
+      for (let i = 0; i < nets.length; i++) {
+        const net = nets[i];
+    
+        if (net.textContent.includes('(')) {
+          net.style.color = 'red';
+        } else {
+          net.style.color = '#29ab87'; // You had 'red' here, consider changing it to another color if needed
+        }
+      }
+    }
+    netIncomeColor()
+
+
+
     function checkBalance() {
       const NetSurplusRow = document.getElementById("net-surplus-deficit");
       const NetIncomeRow = document.getElementById("net-income");
@@ -2091,8 +2121,7 @@
       for (let i=3; i <= last_month_number-2; i++) {
         const NetSurplusValue = NetSurplusCells[i].textContent.trim();
         const NetIncomeValue = NetIncomeCells[i].textContent.trim();
-        console.log("net",NetSurplusValue)
-        console.log(NetIncomeValue)
+
       
   
         if (NetIncomeValue !== NetSurplusValue) {
