@@ -614,6 +614,8 @@ def general_ledger(school, date_start="", date_end=""):
             #         date_without_time = date_str.strftime('%b. %d, %Y')
             # else:
             #         date_without_time = None
+
+            
             row_dict = {
                 "fund": row[0],
                 "func": row[1],
@@ -628,12 +630,12 @@ def general_ledger(school, date_start="", date_end=""):
                 "Number": row[10],
                 "Date": date_str,
                 "AcctPer": row[12],
-                "Est": row[13],
-                "Real": row[14],
-                "Appr": row[15],
-                "Encum": row[16],
-                "Expend": row[17],
-                "Bal": row[18],
+                "Est": '{:,.2f}'.format(float(row[13])),
+                "Real":'{:,.2f}'.format(float(row[14])),
+                "Appr": '{:,.2f}'.format(float(row[15])),
+                "Encum": '{:,.2f}'.format(float(row[16])),
+                "Expend": '{:,.2f}'.format(float(row[17])),
+                "Bal": '{:,.2f}'.format(float(row[18])),
                 "WorkDescr": row[19],
                 "Type": row[20],
                 "Contr": row[21],
