@@ -77,11 +77,22 @@
       /* You might want to adjust the width as needed */
   }
 
-  .dom > td{
+  .super-dom > :first-child {
+    cursor: pointer;
+  }
+
+  .dom {
+    font-size: .85em;
+  }
+  .dom > td, .super-dom > td{
     padding: 10px 25px;
   }
   .dom > :first-child{
+    padding-left: 40px;
     cursor: pointer;
+  }
+  .sub > :first-child {
+    padding-left: 40px;
   }
   .sub td {
     height: 0 !important;
@@ -90,7 +101,7 @@
   .sub {
     height: 0 !important;
     font-weight: 400;
-    font-size: .9em;
+    font-size: .85em;
   }
   .sub-active {
     display: block;
@@ -359,6 +370,46 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Total Current Assets  -->
+          <tr class="super-dom">
+            <td>Total Current Assets</td>
+            <td>{{totals_bs.total_current_assets_fye}}</td>
+
+            {% if September == "True" %}
+            <td> <a href="#" data-yr="09">{{totals_bs.total_current_assets.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_current_assets.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_current_assets.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_current_assets.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_current_assets.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_current_assets.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_current_assets.03}}</a></td>
+            <td><a href="#" data-yr="04">{{totals_bs.total_current_assets.04}}</a></td>
+            <td><a href="#" data-yr="05">{{totals_bs.total_current_assets.05}}</a></td>
+            <td><a href="#" data-yr="06">{{totals_bs.total_current_assets.06}}</a></td>
+            <td><a href="#" data-yr="07">{{totals_bs.total_current_assets.07}}</a></td>
+            <td><a href="#" data-yr="08">{{totals_bs.total_current_assets.08}}</a></td>
+
+            {% else %}
+            <td><a href="#" data-yr="07">{{totals_bs.total_current_assets.07}}</a></td>
+            <td><a href="#" data-yr="08">{{totals_bs.total_current_assets.08}}</a></td>
+            <td> <a href="#" data-yr="09">{{totals_bs.total_current_assets.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_current_assets.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_current_assets.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_current_assets.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_current_assets.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_current_assets.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_current_assets.03}}</a></td>
+            <td><a href="#" data-yr="04">{{totals_bs.total_current_assets.04}}</a></td>
+            <td><a href="#" data-yr="05">{{totals_bs.total_current_assets.05}}</a></td>
+            <td><a href="#" data-yr="06">{{totals_bs.total_current_assets.06}}</a></td>
+            {% endif %}
+
+
+            <td>{{totals_bs.total_current_assets_fytd}}</td>
+            <td>{{totals_bs.last_month_current_assets}}</td>
+          </tr>
+          <!-- End of Total CUrrent Assets  -->
+
         <!-- Cash and Cash Equivalents  -->
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Current Assets' and row.Activity == 'Cash' %}
@@ -873,46 +924,45 @@
           {% endfor %}
           <!-- End of PPD Prepaid Expenses -->
 
-          <!-- Total Current Assets  -->
-          <tr class="dom">
-            <td>Total Current Assets</td>
-            <td>{{totals_bs.total_current_assets_fye}}</td>
+          <!-- Total Capital Assets  -->
+          <tr class="super-dom">
+            <td>Total Capital Assets</td>
+            <td>{{totals_bs.total_capital_assets_fye}}</td>
 
             {% if September == "True" %}
-            <td> <a href="#" data-yr="09">{{totals_bs.total_current_assets.09}}</a></td>
-            <td> <a href="#" data-yr="10">{{totals_bs.total_current_assets.10}}</a></td>
-            <td> <a href="#" data-yr="11">{{totals_bs.total_current_assets.11}}</a></td>
-            <td> <a href="#" data-yr="12">{{totals_bs.total_current_assets.12}}</a></td>
-            <td> <a href="#" data-yr="01">{{totals_bs.total_current_assets.01}}</a></td>
-            <td> <a href="#" data-yr="02">{{totals_bs.total_current_assets.02}}</a></td>
-            <td> <a href="#" data-yr="03">{{totals_bs.total_current_assets.03}}</a></td>
-            <td><a href="#" data-yr="04">{{totals_bs.total_current_assets.04}}</a></td>
-            <td><a href="#" data-yr="05">{{totals_bs.total_current_assets.05}}</a></td>
-            <td><a href="#" data-yr="06">{{totals_bs.total_current_assets.06}}</a></td>
-            <td><a href="#" data-yr="07">{{totals_bs.total_current_assets.07}}</a></td>
-            <td><a href="#" data-yr="08">{{totals_bs.total_current_assets.08}}</a></td>
+            <td> <a href="#" data-yr="09">{{totals_bs.total_capital_assets.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_capital_assets.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_capital_assets.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_capital_assets.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_capital_assets.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_capital_assets.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_capital_assets.03}}</a></td>
+            <td><a href="#" data-yr="04">{{totals_bs.total_capital_assets.04}}</a></td>
+            <td><a href="#" data-yr="05">{{totals_bs.total_capital_assets.05}}</a></td>
+            <td><a href="#" data-yr="06">{{totals_bs.total_capital_assets.06}}</a></td>
+            <td><a href="#" data-yr="07">{{totals_bs.total_capital_assets.07}}</a></td>
+            <td><a href="#" data-yr="08">{{totals_bs.total_capital_assets.08}}</a></td>
 
             {% else %}
-            <td><a href="#" data-yr="07">{{totals_bs.total_current_assets.07}}</a></td>
-            <td><a href="#" data-yr="08">{{totals_bs.total_current_assets.08}}</a></td>
-            <td> <a href="#" data-yr="09">{{totals_bs.total_current_assets.09}}</a></td>
-            <td> <a href="#" data-yr="10">{{totals_bs.total_current_assets.10}}</a></td>
-            <td> <a href="#" data-yr="11">{{totals_bs.total_current_assets.11}}</a></td>
-            <td> <a href="#" data-yr="12">{{totals_bs.total_current_assets.12}}</a></td>
-            <td> <a href="#" data-yr="01">{{totals_bs.total_current_assets.01}}</a></td>
-            <td> <a href="#" data-yr="02">{{totals_bs.total_current_assets.02}}</a></td>
-            <td> <a href="#" data-yr="03">{{totals_bs.total_current_assets.03}}</a></td>
-            <td><a href="#" data-yr="04">{{totals_bs.total_current_assets.04}}</a></td>
-            <td><a href="#" data-yr="05">{{totals_bs.total_current_assets.05}}</a></td>
-            <td><a href="#" data-yr="06">{{totals_bs.total_current_assets.06}}</a></td>
+            <td><a href="#" data-yr="07">{{totals_bs.total_capital_assets.07}}</a></td>
+            <td><a href="#" data-yr="08">{{totals_bs.total_capital_assets.08}}</a></td>
+            <td> <a href="#" data-yr="09">{{totals_bs.total_capital_assets.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_capital_assets.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_capital_assets.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_capital_assets.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_capital_assets.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_capital_assets.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_capital_assets.03}}</a></td>
+            <td><a href="#" data-yr="04">{{totals_bs.total_capital_assets.04}}</a></td>
+            <td><a href="#" data-yr="05">{{totals_bs.total_capital_assets.05}}</a></td>
+            <td><a href="#" data-yr="06">{{totals_bs.total_capital_assets.06}}</a></td>
             {% endif %}
 
 
-            <td>{{totals_bs.total_current_assets_fytd}}</td>
-            <td>{{totals_bs.last_month_current_assets}}</td>
+            <td>{{totals_bs.total_capital_assets_fytd}}</td>
+            <td>{{totals_bs.last_month_total_capital_assets}}</td>
           </tr>
           <!-- End of Total CUrrent Assets  -->
-
 
           <!-- Land  -->
           {% for row in data_balancesheet %}
@@ -1508,49 +1558,10 @@
           <!-- End of OA -->
 
 
-          <!-- Total Capital Assets  -->
-          <tr class="dom">
-            <td>Total Capital Assets</td>
-            <td>{{totals_bs.total_capital_assets_fye}}</td>
-
-            {% if September == "True" %}
-            <td> <a href="#" data-yr="09">{{totals_bs.total_capital_assets.09}}</a></td>
-            <td> <a href="#" data-yr="10">{{totals_bs.total_capital_assets.10}}</a></td>
-            <td> <a href="#" data-yr="11">{{totals_bs.total_capital_assets.11}}</a></td>
-            <td> <a href="#" data-yr="12">{{totals_bs.total_capital_assets.12}}</a></td>
-            <td> <a href="#" data-yr="01">{{totals_bs.total_capital_assets.01}}</a></td>
-            <td> <a href="#" data-yr="02">{{totals_bs.total_capital_assets.02}}</a></td>
-            <td> <a href="#" data-yr="03">{{totals_bs.total_capital_assets.03}}</a></td>
-            <td><a href="#" data-yr="04">{{totals_bs.total_capital_assets.04}}</a></td>
-            <td><a href="#" data-yr="05">{{totals_bs.total_capital_assets.05}}</a></td>
-            <td><a href="#" data-yr="06">{{totals_bs.total_capital_assets.06}}</a></td>
-            <td><a href="#" data-yr="07">{{totals_bs.total_capital_assets.07}}</a></td>
-            <td><a href="#" data-yr="08">{{totals_bs.total_capital_assets.08}}</a></td>
-
-            {% else %}
-            <td><a href="#" data-yr="07">{{totals_bs.total_capital_assets.07}}</a></td>
-            <td><a href="#" data-yr="08">{{totals_bs.total_capital_assets.08}}</a></td>
-            <td> <a href="#" data-yr="09">{{totals_bs.total_capital_assets.09}}</a></td>
-            <td> <a href="#" data-yr="10">{{totals_bs.total_capital_assets.10}}</a></td>
-            <td> <a href="#" data-yr="11">{{totals_bs.total_capital_assets.11}}</a></td>
-            <td> <a href="#" data-yr="12">{{totals_bs.total_capital_assets.12}}</a></td>
-            <td> <a href="#" data-yr="01">{{totals_bs.total_capital_assets.01}}</a></td>
-            <td> <a href="#" data-yr="02">{{totals_bs.total_capital_assets.02}}</a></td>
-            <td> <a href="#" data-yr="03">{{totals_bs.total_capital_assets.03}}</a></td>
-            <td><a href="#" data-yr="04">{{totals_bs.total_capital_assets.04}}</a></td>
-            <td><a href="#" data-yr="05">{{totals_bs.total_capital_assets.05}}</a></td>
-            <td><a href="#" data-yr="06">{{totals_bs.total_capital_assets.06}}</a></td>
-            {% endif %}
-
-
-            <td>{{totals_bs.total_capital_assets_fytd}}</td>
-            <td>{{totals_bs.last_month_total_capital_assets}}</td>
-          </tr>
-          <!-- End of Total CUrrent Assets  -->
 
 
           <!-- Total Assets  -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Total Assets</td>
             <td>{{totals_bs.total_assets_fye}}</td>
 
@@ -2398,7 +2409,7 @@
 
 
           <!-- Total Liabilities  -->
-          <tr class="dom">
+          <tr class="super-dom">
             <td>Total Liabilities</td>
             <td>{{totals_bs.total_liabilities_fye}}</td>
 
@@ -2443,7 +2454,7 @@
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Net Assets' and row.Activity == 'Equity' %}
           <tr class="dom">
-            <td>{{row.obj}} - {{row.Description2}}</td>
+            <td>Net Assets</td>
             <td>{% if ascender == "False" %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
@@ -2566,7 +2577,17 @@
 
     quarterLinks[0].click()
 
-    // subs
+    $('#toggle-ui').click()
+
+    // show/hide doms
+    const superDoms = document.querySelectorAll('.super-dom > :first-child')
+    
+    superDoms.forEach(element => {
+        // Add an event listener to each element
+        element.addEventListener('click', showHideDoms);
+    });
+
+    // show/hide subs
     const doms = document.querySelectorAll('.dom > :first-child')
     
     doms.forEach(element => {
@@ -2719,6 +2740,23 @@
       })
     } //end of tableFormatter
 
+    function showHideDoms(event){
+      const section = event.currentTarget.closest('tr')
+      const rowIndex = section.rowIndex
+      const tBody = section.closest('tbody')
+      const rows = tBody.rows
+      console.log(rows.length)
+      for (let i=rowIndex; i<rows.length; i++){
+        if (rows[i].classList.contains('super-dom')){
+          break
+        }
+        // hide also the subs that does not have d-none
+        if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
+          continue
+        }
+        rows[i].classList.toggle('d-none')
+      }
+    } // end of showHideDoms
 
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
@@ -2760,9 +2798,9 @@
        
       }else{
         if(lm >  7){
-          th_start  = lm - 9
+          th_start  = lm - 7
         }else{
-          th_start  = lm + 3
+          th_start  = lm + 5
         }
       }
 
