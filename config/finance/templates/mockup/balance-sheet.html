@@ -77,22 +77,14 @@
       /* You might want to adjust the width as needed */
   }
 
-
-
   .title-dom > :first-child{
     cursor: pointer;
   }
 
-
-
   .title-dom > td{
     padding: 10px 25px!important;
     border-top: 2px solid rgb(228, 228, 228);
-  
-    
   }
-
-  
 
   .super-dom > :first-child{
     cursor: pointer;
@@ -110,7 +102,11 @@
     font-size: .9em;
   }
   .dom > :first-child{
+    padding-left: 40px;
     cursor: pointer;
+  }
+  .sub > :first-child {
+    padding-left: 40px;
   }
   .sub td {
     height: 0 !important;
@@ -120,7 +116,7 @@
   .sub {
     height: 0 !important;
     font-weight: 400;
-    font-size: .8em;
+    font-size: .85em;
   }
   .sub-active {
     display: block;
@@ -400,7 +396,6 @@
           </tr>
         </thead>
         <tbody>
-
           <!-- Total Current Assets  -->
           <tr class="super-dom">
             <td>Total Current Assets</td>
@@ -440,6 +435,7 @@
             <td>{{totals_bs.last_month_current_assets}}</td>
           </tr>
           <!-- End of Total CUrrent Assets  -->
+
           
         <!-- Cash and Cash Equivalents  -->
           {% for row in data_balancesheet %}
@@ -954,9 +950,7 @@
           {% endif %}
           {% endfor %}
           <!-- End of PPD Prepaid Expenses -->
-
     
-
 
                <!-- Total Capital Assets  -->
                <tr class="super-dom">
@@ -996,6 +990,7 @@
                 <td>{{totals_bs.total_capital_assets_fytd}}</td>
                 <td>{{totals_bs.last_month_total_capital_assets}}</td>
               </tr>
+
 
           <!-- Land  -->
           {% for row in data_balancesheet %}
@@ -1589,6 +1584,7 @@
           {% endif %}
           {% endfor %}
           <!-- End of OA -->
+
 
 
      
@@ -2444,6 +2440,7 @@
 
 
           <!-- Total Liabilities  -->
+
           <tr class="title-dom " >
             <td class="bigfont">Total Liabilities</td>
             <td>{{totals_bs.total_liabilities_fye}}</td>
@@ -2489,7 +2486,7 @@
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Net Assets' and row.Activity == 'Equity' %}
           <tr class="dom">
-            <td>{{row.obj}} - {{row.Description2}}</td>
+            <td>Net Assets</td>
             <td>{% if ascender == "False" %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
@@ -2636,7 +2633,17 @@
 
         
 
-    // subs
+    $('#toggle-ui').click()
+
+    // show/hide doms
+    const superDoms = document.querySelectorAll('.super-dom > :first-child')
+    
+    superDoms.forEach(element => {
+        // Add an event listener to each element
+        element.addEventListener('click', showHideDoms);
+    });
+
+    // show/hide subs
     const doms = document.querySelectorAll('.dom > :first-child')
     
     doms.forEach(element => {
@@ -2803,6 +2810,7 @@
       const rowIndex = section.rowIndex
       const tBody = section.closest('tbody')
       const rows = tBody.rows
+
      
       for (let i=rowIndex; i<rows.length; i++){
           
@@ -2824,6 +2832,7 @@
         }
         rows[i].classList.toggle('d-none')
       }
+
     }
 
     function showHideTitle(event){
@@ -2895,9 +2904,9 @@
        
       }else{
         if(lm >  7){
-          th_start  = lm - 9
+          th_start  = lm - 7
         }else{
-          th_start  = lm + 3
+          th_start  = lm + 5
         }
       }
 

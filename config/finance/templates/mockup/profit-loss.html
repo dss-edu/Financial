@@ -82,13 +82,16 @@
   .super-dom > :first-child{
     cursor: pointer;
   }
-
   .dom {
     font-size: .85em;
-    padding-left: 10px;
+    /* padding-left: 10px; */
   }
   .dom > :first-child{
+    padding-left: 40px;
     cursor: pointer;
+  }
+  .sub > :first-child {
+    padding-left: 40px;
   }
   .sub td {
     height: 0 !important;
@@ -1862,26 +1865,7 @@
         }
         rows[i].classList.toggle('d-none')
       }
-
-
-      // while (nextElem.classList.contains('dom') || nextElem.classList.contains('sub')) {
-      //   if(nextElem.classList.contains('sub')){
-      //     continue
-      //   }
-      //   // const cells = nextElem.querySelectorAll('td')
-      //   // console.log(cells)
-      //   // cells.forEach(cell => cell.classList.toggle('d-none'))
-      //   nextElem.classList.toggle('d-none')
-      //   nextElem = nextElem.nextElementSibling;
-      // }
-      // while (nextElem && (nextElem.classList.contains('dom') || nextElem.classList.contains('sub'))) {
-      //   if (nextElem.classList.contains('sub')) continue;
-      //   nextElem.classList.toggle('d-none');
-      //   nextElem = nextElem.nextElementSibling;
-      // }
-
-
-    }
+    } // end of showHideDoms
 
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
@@ -1936,11 +1920,7 @@
       let monthIdx = []
 
       
-      var lm = parseInt("{{months.last_month_number}}",10); //last month number
-      
-
-
-
+      var lm = parseInt("{{months.last_month_number}}", 10); //last month number
       //get the  start of the cell index to show/hide
 
       if (sept == "True"){
@@ -1952,9 +1932,9 @@
        
       }else{
         if(lm >  7){
-          th_start  = lm - 9
+          th_start  = lm - 7
         }else{
-          th_start  = lm + 3
+          th_start  = lm + 5
         }
       }
 
