@@ -6334,8 +6334,6 @@ def charter_first(school):
         prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
 
 
-    print(month_number)
-    print(curr_year)
     
     cursor.execute(prev_query)
     rows = cursor.fetchone()
@@ -6375,6 +6373,21 @@ def charter_first(school):
     totals_file = os.path.join(JSON_DIR, totals_file_path)
     with open(totals_file, "r") as f:
         pl_totals = json.load(f)
+
+        
+    data2_file_path = os.path.join("profit-loss", school, "data2.json")
+    # totals_file = JSON_DIR.path(totals_file_path)
+    data2_file = os.path.join(JSON_DIR, data2_file_path)
+    with open(data2_file, "r") as f:
+        data2 = json.load(f)
+
+
+    data3_file_path = os.path.join("profit-loss", school, "data3.json")
+    # totals_file = JSON_DIR.path(totals_file_path)
+    data3_file = os.path.join(JSON_DIR, data3_file_path)
+    with open(data3_file, "r") as f:
+        data3 = json.load(f)
+
     context["net_income_ytd"] = dollar_parser(pl_totals["ytd_netsurplus"])
 
     # get cash equivalents
@@ -6476,18 +6489,155 @@ def charter_first(school):
         lt_ratio = 0
     context["total_assets"] = round(lt_ratio, 2)
 
+
+    print(pl_lmn)
+    #debt_service = (deficitsurplus + 71 debt service)/ (-increase or decrease in bonds(cashflow) + debt service)
+    debtservice = 0
+    for row in data2:        
+        if row["category"] != 'Depreciation and Amortization' and row["func_func"] == '71':
+            debtservice = row[f"total_func{pl_lmn}"]
+            
+            break
+
+    
+    try:
+        deficitsurplus = dollar_parser(pl_totals["total_SBD"][key_month])
+    except KeyError:
+        deficitsurplus = 0
+
+    print(debtservice)
+
+    try:
+        if debtservice:
+            debtservice = float(debtservice.replace(',', '').replace('(', '-').replace(')', ''))
+        else:
+            debtservice = 0
+    except KeyError:
+        debtservice = 0
+
+    if debtservice != 0:
+        debt_service = (deficitsurplus+debtservice)/debtservice
+        debt_service = round(debt_service, 2)
+    else:
+        debt_service = 0
+
+
+   
+
+
+    ltd = 0
+    equity = 0
+    for item in balance_sheet:
+        if item["Activity"].strip().lower() == "ltd" and item["Subcategory"].strip().lower() == "long term debt" and item["Category"].strip().lower() == "debt" and item["school"].strip().lower() == school:
+            ltd = item[f"debt_{pl_lmn}"]
+        if item["Activity"].strip().lower() == "equity" and item["Category"].strip().lower() == "net assets" and item["school"].strip().lower() == school:
+            equity = item[f"net_assets{pl_lmn}"]
+
+    
+   
+    if equity:
+        equity = float(equity.replace(',', '').replace('(', '-').replace(')', ''))
+    else:
+        equity = 0
+
+    if ltd:
+        ltd = float(ltd.replace(',', '').replace('(', '-').replace(')', ''))
+    else:
+        ltd = 0
+
+    # ltd/(ltd+equity) x100
+    debt_capitalization = ltd/(ltd+equity)*100
+    debt_capitalization_ratio_rounded = round(debt_capitalization, 2)
+
+
+
+    expend_key = "Expend"
+    est_key = "Est"
+    expense_key = "Expend"
+    real_key = "Real"
+    appr_key = "Appr"
+    encum_key = "Encum"
+    if school in schoolCategory["skyward"]:
+        expense_key = "Amount"
+        expend_key = "Amount"
+        est_key = "Budget"
+        real_key = "Amount"
+        appr_key = "Budget"
+        encum_key = "Amount"
+
+
+    def calculate_first_func(func_value):
+        return sum(
+            entry[expend_key]
+            for entry in data3
+            if entry["fund"] in ['420', '199']
+            and 6100 <= int(entry["obj"]) <= 6499
+            and entry['func'] == func_value
+            and entry["AcctPer"] == key_month
+        )
+
+    def calculate_second_func(func_value):
+        return sum(
+            entry[expend_key]
+            for entry in data3
+            if entry["fund"] in ['420', '199','266','281','282','283']
+            and 6100 <= int(entry["obj"]) <= 6499
+            and entry['func'] == func_value
+            and entry["AcctPer"] == key_month
+        )
+
+    first_21 = calculate_first_func('21')
+    first_41 = calculate_first_func('41')
+    first_11 = calculate_first_func('11')
+    first_12 = calculate_first_func('12')
+    first_13 = calculate_first_func('13')
+    first_31 = calculate_first_func('31')
+
+    second_21 = calculate_second_func('21')
+    second_41 = calculate_second_func('41')
+    second_11 = calculate_second_func('11')
+    second_12 = calculate_second_func('12')
+    second_13 = calculate_second_func('13')
+    second_31 = calculate_second_func('31')
+
+    first_AR =  (first_21 + first_41) / (first_11 + first_12 + first_13 + first_31) * 100      
+    second_AR = (second_21 + second_41) / (second_11 + second_12 + second_13 + second_31) * 100
+    first_AR = round(first_AR, 2)
+    second_AR = round(second_AR, 2)
+
+    administrative_ratio = str(first_AR) + '% /' + str(second_AR) + '%'
+    
+    print(first_AR)
+    print(second_AR)
+  
+
+
+    
+
+
+
+
+
+
+        
+
+
+
+
+
     # debt_capitalization
     # skipped because there is no loan payable
 
     # administrative ratio
     # skipped because instructions are unclear
 
+
     context["indicators"] = "Pass"
     context["net_assets"] = "projected"
     context["budget_vs_revenue"] = "projected"
-    context["debt_service"] = -1.21
-    context["debt_capitalization"] = 0.70
-    context["ratio_administrative"] = "11%/9.2%"
+    context["debt_service"] = debt_service
+    context["debt_capitalization"] = debt_capitalization_ratio_rounded
+    context["ratio_administrative"] = administrative_ratio
     context["ratio_student_teacher"] = "Not measured by DSS"
     context["estimated_actual_ada"] = "projected"
     context["reporting_peims"] = "projected"

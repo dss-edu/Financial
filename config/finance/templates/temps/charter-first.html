@@ -246,7 +246,7 @@ td:nth-child(5)
                                                 <span style="color: gray;">{{ month.month_name }}</span>
                                                 <script>
                                                     var a = "{{month.month_name}}";
-                                                    console.log(a)
+                                                    
                                                 </script>
                                             </a>
                                         </li>
@@ -369,35 +369,35 @@ td:nth-child(5)
                                 (90%-110%)"
                             </td>
                         </tr>
-                        <tr>
+                        <tr id="num11">
                             <td><strong>#11 - LT Liabilities / Total Assets</strong></td>
                             <td id="total-assets" style="text-align:center;">{{ total_assets }}</td>
-                            <td style="text-align:center;">10</td>
-                            <td style="text-align:center;"><p class="green-circle">On Track</p></td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;"> <0.6 = 10pts, >1.0 = 0pts</td>
                         </tr>
-                        <tr>
+                        <tr id="num12">
                             <td><strong>#12 - Debt Service Coverage Ratio</strong></td>
                             <td id="debt-services" style="text-align:center;">{{ debt_service }}</td>
-                            <td style="text-align:center;">10</td>
-                            <td style="text-align:center;"><p class="red-circle">At Risk</p></td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;"> 10 pts >1.2X; 0 pts < 1.0X</td>
                         </tr>
-                        <tr>
+                        <tr id="num13">
                             <td><strong>#13 - Debt to Capitalization %</strong></td>
                             <td id="debt-capitalization" style="text-align:center;">{{ debt_capitalization }}</td>
-                            <td style="text-align:center;">5</td>
-                            <td style="text-align:center;"><p class="green-circle">On Track</p></td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;"> >95% = 0 pts;<95% = 5 pts </td>
                         </tr>
-                        <tr>
+                        <tr id="num14">
                             <td>
                                 <strong>#14 - Administrative Ratio</strong>
                                 <p style="font-size: 12px;">(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)</p>
                             </td>
                             <td id="ratio-administrative" style="text-align:center;">{{ ratio_administrative }}</td>
-                            <td style="text-align:center;">10</td>
-                            <td style="text-align:center;"><p class="green-circle">On Track</p></td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;"> Target &lt;=15.61% <br>
                                 &lt;=26.45% if less than 500 students"
                             </td>

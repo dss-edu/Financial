@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
     StatusChecker();
     commaSeparator();
 
+
+
+    function totalAssets(){
+
+    }
+
     function StatusChecker() {
         test("indicator", criteriaPassFail);
         test("net-assets", projectionCriteria);
@@ -20,20 +26,129 @@ document.addEventListener("DOMContentLoaded", function() {
         test("approved-geo-boundaries", measureCriteria);
         test("days-coh", cohCriteria);
         test("current-assets", currAssetsCriteria);
+        test("current-assets", currAssetsCriteria);
+        test("num11", num11Criteria);
+        test("num12", num12Criteria);
+        test("num13", num13Criteria);
+        
     }
 
     function test(rowId, criteriaFunc) {
         const row = document.getElementById(rowId);
+        
         const td = row.getElementsByTagName("td");
-        let itemVal = td[1].innerText.toLowerCase();
+        let itemVal = td[1].textContent.toLowerCase();
+       
         statusTD = td[3];
+        pointsTD = td[2];
+        
+        
         if (rowId === "estimated-first-rating") {
             statusTD = td[2];
+            pointsTD = "";
         }
 
-        criteriaFunc(itemVal, statusTD);
+        criteriaFunc(itemVal, statusTD, pointsTD);
     }
-    function criteriaPassFail(value, statusTD) {
+    function num13Criteria(value, statusTD, pointsTD) {
+   
+        
+      
+        value = parseFloat(value.replace('%', ''));
+        console.log(value)
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value < 95) {
+            points = 5;
+            status = "green-circle";
+         
+        }
+        else if (value >= 95) {
+            points = 0;
+            status = "red-circle";
+        }
+     
+
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function num12Criteria(value, statusTD, pointsTD) {
+   
+        value = parseFloat(value)
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value >= 1.20) {
+            points = 10;
+            status = "green-circle";
+         
+        } 
+        else if (value < 1.20  && value >= 1.15) {
+            points = 8;
+            status = "green-circle";
+        }
+        else if (value < 1.15 && value >= 1.10) {
+            points = 6;
+            status = "green-circle";
+        }
+        else if (value < 1.10 && value >= 1.05) {
+            points = 4;
+            status = "red-circle";
+        }
+        else if (value < 1.05 && value >= 1.00) {
+            points = 2;
+            status = "red-circle";
+        }
+        else if (value < 1.00 ) {
+            points = 0;
+            status = "red-circle";
+            
+        }
+
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function num11Criteria(value, statusTD, pointsTD) {
+   
+        value = parseFloat(value)
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value <= .60) {
+            points = 10;
+            status = "green-circle";
+         
+        } 
+        else if (value > .60 && value <= .70) {
+            points = 8;
+            status = "green-circle";
+        }
+        else if (value > .70 && value <= .80) {
+            points = 6;
+            status = "green-circle";
+        }
+        else if (value > .80 && value <= .90) {
+            points = 4;
+            status = "red-circle";
+        }
+        else if (value > .90 && value <= 1.00) {
+            points = 2;
+            status = "red-circle";
+        }
+        else if (value > 1.00 ) {
+            points = 0;
+            status = "red-circle";
+            
+        }
+
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+
+
+    function criteriaPassFail(value, statusTD,pointsTD) {
+        
         const p = statusTD.querySelector("p");
         let status = "";
         if (value === "pass") {
@@ -45,7 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
         p.textContent = circles[status];
     }
 
-    function projectionCriteria(value, statusTD) {
+    function projectionCriteria(value, statusTD,pointsTD) {
         const p = statusTD.querySelector("p");
         let status = "";
         if (value === "projected") {
@@ -56,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
-    function ratingCriteria(value, statusTD) {
+    function ratingCriteria(value, statusTD,pointsTD) {
         const rating = parseInt(value);
         const p = statusTD.querySelector("p");
         const grade = document.getElementById("rating-grade");
@@ -78,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function() {
         p.textContent = circles[status];
     }
 
-    function measureCriteria(value, statusTD) {
+    function measureCriteria(value, statusTD,pointsTD) {
         const rating = parseInt(value);
         const p = statusTD.querySelector("p");
         let status = "";
@@ -90,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
-    function cohCriteria(value, statusTD) {
+    function cohCriteria(value, statusTD,pointsTD) {
         const coh = parseInt(value);
         const p = statusTD.querySelector("p");
         let status = "";
@@ -105,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function() {
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
-    function currAssetsCriteria(value, statusTD) {
+    function currAssetsCriteria(value, statusTD, pointsTD) {
         const currAssets = parseFloat(value);
         const p = statusTD.querySelector("p");
         let status = "";
@@ -120,7 +235,22 @@ document.addEventListener("DOMContentLoaded", function() {
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
-    function netEarningsCriteria(value, statusTD) {
+    function netEarningsCriteria(value, statusTD,pointsTD) {
+        const currAssets = parseFloat(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+
+        if (currAssets > 2) {
+            status = "green-circle";
+        } else if (currAssets < 1) {
+            status = "red-circle";
+        } else {
+            status = "yellow-circle";
+        }
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function assetsCriteria(value, statusTD,pointsTD) {
         const currAssets = parseFloat(value);
         const p = statusTD.querySelector("p");
         let status = "";
