@@ -29,10 +29,26 @@ def dashboard(school,anchor_year,anchor_month):
     # last_month = current_month - relativedelta(days=1)
 
     # need to validate and sanitize school to avoid SQLi
+    global month_number
+    global curr_year
     cnxn = connect()
     cursor = cnxn.cursor()
 
-
+   
+    if school in schoolMonths["septemberSchool"]:
+        if month_number <= 8:
+            if month_number == 1:
+                month_number = 12
+                curr_year = curr_year - 1
+            else:
+                month_number = month_number - 1
+    else:
+        if month_number <= 6:
+            if month_number == 1:
+                month_number = 12
+                curr_year = curr_year - 1
+            else:
+                month_number = month_number - 1
 
     if anchor_month:
         query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
@@ -44,35 +60,17 @@ def dashboard(school,anchor_year,anchor_month):
         last_month = date(anchor_year, anchor_month + 1, 1)
         last_month = last_month - relativedelta(days=1)
 
-        for i in range(month_number - 1, 0, -1):
-            query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
-                        WHERE school = '{school}' \
-                        AND month = {i};"
-            cursor.execute(query)
-            row = cursor.fetchone()
-            if row is not None:
-                last_month = date(curr_year, i + 1, 1)
-                last_month = last_month - relativedelta(days=1)
-                break
-
-            net_income_ytd = row[3]
-            days_coh = row[6]
-            net_earnings = row[8]
-            debt_service = row[11]
-            ratio_administrative = row[13]
-
-    else: 
-        current_date = datetime.now()
-        # Extract the month number from the current date
-        curr_month = current_date.month
-        curr_year = current_date.year
-        last_month = date(curr_year, curr_month, 1)
-        last_month = last_month - relativedelta(days=1)
-        net_income_ytd = 0
-        days_coh = 0
-        net_earnings = 0 
-        debt_service = 0
-        ratio_administrative = ""
+    else:
+        query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}' \
+                    AND year = '{curr_year}' \
+                    AND month = {month_number};"
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row is not None:
+            last_month = date(curr_year, month_number, 1)
+            last_month = last_month + relativedelta(day=31)
+            
 
             
 
@@ -80,11 +78,11 @@ def dashboard(school,anchor_year,anchor_month):
         "school": school,
         "school_name": SCHOOLS[school],
         "date": last_month,
-        "net_income_ytd": net_income_ytd,
-        "days_coh": days_coh,
-        "net_earnings": net_earnings,
-        "debt_service": debt_service,
-        "ratio_administrative": ratio_administrative,
+        "net_income_ytd": row[3],
+        "days_coh": row[6],
+        "net_earnings": row[8],
+        "debt_service": row[11],
+        "ratio_administrative": row[13],
         "anchor_year": anchor_year,
         ## "ratio_student_teacher": row[14],
     }
