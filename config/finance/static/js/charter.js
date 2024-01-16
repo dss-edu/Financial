@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", function() {
     function StatusChecker() {
         test("indicator", criteriaPassFail);
         test("net-assets", projectionCriteriaNoPoints);
-        test("estimated-actual-ada", projectionCriteria);
+        test("estimated-actual-ada", projectionCriteria2);
         test("budget-vs-revenue", projectionCriteria);
         test("reporting-peims", projectionCriteriaNoPoints);
         test("annual-audit", projectionCriteria);
-        test("post-financial-info", projectionCriteria2);
+        test("post-financial-info", projectionCriteria2); //projectionCriteria2 function maximum of 5 points 
        
         test("ratio-student-teacher", measureCriteria);
         test("approved-geo-boundaries", measureCriteriaNoPoints);
