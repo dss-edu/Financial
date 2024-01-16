@@ -869,14 +869,11 @@
 
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
-      let nextElem = section.nextElementSibling;
+      let prevElem = section.previousElementSibling;
 
-      while (nextElem.classList.contains('sub')) {
-        // const cells = nextElem.querySelectorAll('td')
-        // console.log(cells)
-        // cells.forEach(cell => cell.classList.toggle('d-none'))
-        nextElem.classList.toggle('d-none')
-        nextElem = nextElem.nextElementSibling;
+      while (prevElem.classList.contains('sub')) {
+        prevElem.classList.toggle('d-none')
+        prevElem = prevElem.previousElementSibling;
       }
     } // end of showHideSubs
 
