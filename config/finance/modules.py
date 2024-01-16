@@ -70,6 +70,7 @@ def dashboard(school,anchor_year,anchor_month):
         if row is not None:
             last_month = date(curr_year, month_number, 1)
             last_month = last_month + relativedelta(day=31)
+            print("hey")
             
 
             
@@ -159,6 +160,22 @@ def charter_first(school,anchor_year,anchor_month):
     cnxn = connect()
     cursor = cnxn.cursor()
     global month_number
+    global curr_year
+    if school in schoolMonths["septemberSchool"]:
+        if month_number <= 8:
+            if month_number == 1:
+                month_number = 12
+                curr_year = curr_year - 1
+            else:
+                month_number = month_number - 1
+    else:
+        if month_number <= 6:
+            if month_number == 1:
+                month_number = 12
+                curr_year = curr_year - 1
+            else:
+                month_number = month_number - 1
+
     if anchor_month:
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
                 WHERE school = '{school}' \
@@ -167,16 +184,13 @@ def charter_first(school,anchor_year,anchor_month):
             cursor.execute(query)
             row = cursor.fetchone()
     else:
-        if month_number == 1:
-            month_number = 13
-        for i in range(month_number - 1, 0, -1):
-            query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
-                        WHERE school = '{school}' \
-                        AND month = {i};"
-            cursor.execute(query)
-            row = cursor.fetchone()
-            if row is not None:
-                break
+        query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
+                    WHERE school = '{school}' \
+                    AND year = '{curr_year}' \
+                    AND month = {month_number};"
+        cursor.execute(query)
+        row = cursor.fetchone()
+
 
     context = {
         "school": school,
@@ -222,13 +236,10 @@ def charter_first(school,anchor_year,anchor_month):
     month = context["month"]
     year = context["year"]
    
-    if month_number == 13:
-        next_month = datetime(year + 1, 1 , 1)
-        this_month = next_month - relativedelta(days=1)
-     
-    else:
-        next_month = datetime(year, month + 1, 1)
-        this_month = next_month - relativedelta(days=1)
+   
+
+    this_month = datetime(year, month , 31)
+ 
 
     context["date"] = this_month
 
