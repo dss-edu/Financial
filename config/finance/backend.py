@@ -3540,15 +3540,17 @@ def balance_sheet(school,year):
 
             if school == 'goldenrule':
                 print(Activity)
-                item["fye_activity"] = sum(
+                activity_fye = sum(
                     entry[bal_key]
                     for entry in data3
                     if entry["obj"] == obj
                     and entry["Type"] == "GJ"
                     and entry["Number"] in numberstack
                 )
-                if Activity =='Restr':
-                    print("test",item["fye_activity"])
+                if Activity in unique_act:
+                    item["fye_activity"] = -(activity_fye)
+                else:
+                    item["fye_activity"] = activity_fye
 
         if school == 'goldenrule':
             for item in data_balancesheet:
