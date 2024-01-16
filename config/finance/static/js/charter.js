@@ -15,15 +15,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function StatusChecker() {
         test("indicator", criteriaPassFail);
-        test("net-assets", projectionCriteria);
+        test("net-assets", projectionCriteriaNoPoints);
         test("estimated-actual-ada", projectionCriteria);
         test("budget-vs-revenue", projectionCriteria);
-        test("reporting-peims", projectionCriteria);
-        test("annual-audit", projectionCriteria);
+        test("reporting-peims", projectionCriteriaNoPoints);
+        test("annual-audit", projectionCriteriaNoPoints);
         test("post-financial-info", projectionCriteria2);
        
         test("ratio-student-teacher", measureCriteria);
-        test("approved-geo-boundaries", measureCriteria);
+        test("approved-geo-boundaries", measureCriteriaNoPoints);
         test("days-coh", cohCriteria);
         test("current-assets", currAssetsCriteria);
         test("net-earnings", netEarningsCriteria);
@@ -180,6 +180,20 @@ document.addEventListener("DOMContentLoaded", function() {
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
+    function projectionCriteriaNoPoints(value, statusTD, pointsTD) {
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "projected") {
+            status = "green-circle";
+          
+        } else {
+            status = "red-circle";
+           
+        }
+     
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
     function projectionCriteria2(value, statusTD, pointsTD) {
         const p = statusTD.querySelector("p");
         let status = "";
@@ -258,6 +272,22 @@ document.addEventListener("DOMContentLoaded", function() {
             points = 5;
         }
         pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    
+    function measureCriteriaNoPoints(value, statusTD,pointsTD) {
+        const rating = parseInt(value);
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "not measured by dss") {
+            status = "green-circle";
+            
+        } else {
+            status = "red-circle";
+          
+        }
+       
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
