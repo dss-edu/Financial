@@ -343,16 +343,14 @@ td:nth-child(5)
                         <tr id="current-assets">
                             <td><strong>#8 - Current Assets / Current Liab.</strong></td>
                             <td style="text-align:center;">{{ current_assets }}</td>
-                            <td style="text-align:center;">10
-                            </td>
+                            <td style="text-align:center;"></td>
                             <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">Benchmark 1 thru 2, <1.0 = 0 pts; >2 = 10 pts</td>
                             </tr>
                         <tr id="net-earnings">
                             <td><strong>#9 - Net Earnings > 0 (Exception DCOH >40 days.)</strong></td>
                             <td id="net-earnings-td" style="text-align:center;">{{ net_earnings }}</td>
-                            <td style="text-align:center;">5
-                            </td>
+                            <td style="text-align:center;"></td>
                             <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;">
                                 revenues &gt;= expenditures
@@ -397,7 +395,7 @@ td:nth-child(5)
                             </td>
                             <td id="ratio-administrative" style="text-align:center;">{{ ratio_administrative }}</td>
                             <td style="text-align:center;">10</td>
-                            <td style="text-align:center;"><p></p></td>
+                            <td style="text-align:center;"><p class="green-circle">On Track</p></td>
                             <td style="text-align:center;"> Target &lt;=15.61% <br>
                                 &lt;=26.45% if less than 500 students"
                             </td>
@@ -405,7 +403,7 @@ td:nth-child(5)
                                     <tr id="ratio-student-teacher">
                                         <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
                                         <td style="text-align:center;">{{ ratio_student_teacher }}</td>
-                                        <td style="text-align:center;">10</td>
+                                        <td style="text-align:center;"></td>
                                         <td style="text-align:center;"><p></p></td>
                                         <td style="text-align:center;">0  or 10 pts
                                         </td>
@@ -428,8 +426,8 @@ td:nth-child(5)
                                         <td><strong>#19 - Annual audit compliance
                                         </strong></td>
                                         <td style="text-align:center;">{{ annual_audit }}</td>
-                                        <td style="text-align:center;">10</td>
-                                        <td style="text-align:center;"><p class="green-circle">On Track</p></td>
+                                        <td style="text-align:center;"></td>
+                                        <td style="text-align:center;"><p ></p></td>
                                         <td style="text-align:center;">Free of any material noncompliance
                                         </td>
                                     </tr>
@@ -453,7 +451,8 @@ td:nth-child(5)
                                                 <strong>{{ fiscal_year }}-{{ next_fiscal_year }} School Year</strong>
                                             </td>
                                             <td colspan = "2" style="text-align:center;border-bottom:none;">
-                                                {{ estimated_first_rating }}<br>
+                                             
+                                            
                                                 <a id="rating-grade"></a>
                                             </td>
 
@@ -461,7 +460,7 @@ td:nth-child(5)
                                             <td style="text-align:left; padding-left:20px!important;">
                                                 F &lt; 69, C Meets Standard = 70-79, <br>
                                                 B Above Standard = 80-89, <br>
-                                                A Superior = 90-100"
+                                                A Superior > 90
                                             </td>
                                         </tr>
                {% comment %} <tr>

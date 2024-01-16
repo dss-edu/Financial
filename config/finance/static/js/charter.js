@@ -20,16 +20,20 @@ document.addEventListener("DOMContentLoaded", function() {
         test("budget-vs-revenue", projectionCriteria);
         test("reporting-peims", projectionCriteria);
         test("annual-audit", projectionCriteria);
-        test("post-financial-info", projectionCriteria);
-        test("estimated-first-rating", ratingCriteria);
+        test("post-financial-info", projectionCriteria2);
+       
         test("ratio-student-teacher", measureCriteria);
         test("approved-geo-boundaries", measureCriteria);
         test("days-coh", cohCriteria);
         test("current-assets", currAssetsCriteria);
+        test("net-earnings", netEarningsCriteria);
     
         test("num11", num11Criteria);
         test("num12", num12Criteria);
         test("num13", num13Criteria);
+
+
+        test("estimated-first-rating", ratingCriteria); //should always be the last
         
     }
 
@@ -45,7 +49,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (rowId === "estimated-first-rating") {
             statusTD = td[2];
-            pointsTD = "";
+            
+            pointsTD = td[1];
+       
         }
 
         criteriaFunc(itemVal, statusTD, pointsTD);
@@ -55,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
       
         value = parseFloat(value.replace('%', ''));
-        console.log(value)
+        
         const p = statusTD.querySelector("p");
         let status = "";
         if (value < 95) {
@@ -160,35 +166,82 @@ document.addEventListener("DOMContentLoaded", function() {
         p.textContent = circles[status];
     }
 
-    function projectionCriteria(value, statusTD,pointsTD) {
+    function projectionCriteria(value, statusTD, pointsTD) {
         const p = statusTD.querySelector("p");
         let status = "";
         if (value === "projected") {
             status = "green-circle";
+            points = 10;
         } else {
             status = "red-circle";
+            points = 0;
         }
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+    function projectionCriteria2(value, statusTD, pointsTD) {
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (value === "projected") {
+            status = "green-circle";
+            points = 5;
+        } else {
+            status = "red-circle";
+            points = 0;
+        }
+        pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
     function ratingCriteria(value, statusTD,pointsTD) {
+        const table = document.getElementById("data-table-body");
+        let sum = 0;
+        if (table) {
+            
+
+            // Select all the third column cells (index 2) in the table
+            const thirdColumnCells = table.querySelectorAll("tr td:nth-child(3)");
+        
+            // Loop through the selected cells
+            thirdColumnCells.forEach((cell) => {
+                
+                const cellContent = cell.textContent.trim();
+                console.log(cellContent)
+                    // Check if the content is a number
+                    if (!isNaN(cellContent) && cellContent != '') {
+                       
+                        sum += parseFloat(cellContent);
+                    }
+                  
+                  
+            });
+            
+        } else {
+            console.error("Table not found with the specified ID");
+        }
+        console.log(sum)
+       
+        
         const rating = parseInt(value);
         const p = statusTD.querySelector("p");
         const grade = document.getElementById("rating-grade");
         let status = "";
-        if (rating < 69) {
-            grade.innerText = "F - Fail";
+     
+        if (sum < 69) {
+            grade.innerHTML = `${sum}<br>F - Fail`;
             status = "red-circle";
-        } else if (rating < 80) {
-            grade.innerText = "C - Meets Standard";
+        } else if (sum < 80) {
+            grade.innerHTML = `${sum}<br>C - Meets Standard`;
             status = "yellow-circle";
-        } else if (rating < 90) {
-            grade.innerText = "B - Above Standard";
+        } else if (sum < 90) {
+            grade.innerHTML  = `${sum}<br>B - Above Standard`;
             status = "green-circle";
         } else {
-            grade.innerText = "A - Superior";
+            grade.innerHTML = `${sum}<br>A - Superior`;
             status = "green-circle";
         }
+        
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
@@ -199,9 +252,12 @@ document.addEventListener("DOMContentLoaded", function() {
         let status = "";
         if (value === "not measured by dss") {
             status = "green-circle";
+            points = 10;
         } else {
             status = "red-circle";
+            points = 5;
         }
+        pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
@@ -225,28 +281,51 @@ document.addEventListener("DOMContentLoaded", function() {
         const p = statusTD.querySelector("p");
         let status = "";
 
-        if (currAssets > 2) {
+        if (currAssets >= 2) {
             status = "green-circle";
-        } else if (currAssets < 1) {
-            status = "red-circle";
-        } else {
-            status = "yellow-circle";
+            points = 10;
+        } else if (currAssets < 2 && currAssets >= 1.75) {
+            status = "green-circle";
+            points = 8;
         }
+        else if (currAssets < 1.75 && currAssets >= 1.5) {
+            status = "green-circle";
+            points = 6;
+        } else if (currAssets < 1.5 && currAssets >= 1.25) {
+            status = "yellow-circle";
+            points = 4;
+        } else if (currAssets < 1.25 && currAssets >= 1) {
+            status = "red-circle";
+            points = 2;
+        } else {
+            status = "red-circle";
+            points = 0;
+        }
+
+        pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
     function netEarningsCriteria(value, statusTD,pointsTD) {
-        const currAssets = parseFloat(value);
+        const row = document.getElementById('days-coh');
+        
+        const td = row.getElementsByTagName("td");
+        let itemVal = td[1].textContent.toLowerCase();
+
+        itemVal = parseInt(itemVal)
+
         const p = statusTD.querySelector("p");
         let status = "";
+      
 
-        if (currAssets > 2) {
+        if (itemVal > 40) {
+            points = 5
             status = "green-circle";
-        } else if (currAssets < 1) {
+        } else  {
+            points = 0
             status = "red-circle";
-        } else {
-            status = "yellow-circle";
         }
+        pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
