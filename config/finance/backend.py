@@ -54,11 +54,11 @@ def update_fy(school,year):
     profit_loss(school,year) 
     balance_sheet(school,year)
     cashflow(school,year)
-    excel(school,year)
     charter_first(school)
     updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
+    excel(school,year)
     
 def profit_loss(school,year):
  
@@ -6120,40 +6120,46 @@ def excel(school,year):
         sorted_data = sorted(data, key=lambda x: x['obj'])
 
 
-        cursor.execute("SELECT * FROM [dbo].[AscenderData_CharterFirst]") 
-        rows = cursor.fetchall()
+        cursor.execute(f"SELECT * FROM [dbo].[AscenderData_CharterFirst]  \
+                WHERE school = '{school}' \
+                AND year = '{FY_year_1}' \
+                AND month = {last_month_number};") 
+        row = cursor.fetchone()
 
         data_charterfirst = []
+    
 
-        for row in rows:
+        # for row in rows:
+        #     print(row[1])
 
-            if row[0] == school and row[2]== (last_month_number - 1 ) and row[1] == FY_year_1:
-                
-                row_dict = {
-                    "school": row[0],
-                    "year": row[1],
-                    "month": row[2],
-                    "net_income_ytd":row[3],
-                    "indicators": row[4],
-                    "net_assets": row[5],
-                    "days_coh": row[6],
-                    "current_assets": row[7],
-                    "net_earnings": row[8],
-                    "budget_vs_revenue": row[9],
-                    "total_assets": row[10],
-                    "debt_service": row[11],
-                    "debt_capitalization": row[12],
-                    "ratio_administrative": row[13],
-                    "ratio_student_teacher": row[14],
-                    "estimated_actual_ada": row[15],
-                    "reporting_peims": row[16],
-                    "annual_audit": row[17],
-                    "post_financial_info": row[18],
-                    "approved_geo_boundaries": row[19],
-                    "estimated_first_rating": row[20],
-                }
+        #     if row[0] == school and row[2]== (last_month_number) and row[1] == FY_year_1:
+        #         print("enter")
+        if row is not None:
 
-                data_charterfirst.append(row_dict)
+            row_dict = {
+                "school": row[0],
+                "year": row[1],
+                "month": row[2],
+                "net_income_ytd":row[3],
+                "indicators": row[4],
+                "net_assets": row[5],
+                "days_coh": row[6],
+                "current_assets": row[7],
+                "net_earnings": row[8],
+                "budget_vs_revenue": row[9],
+                "total_assets": row[10],
+                "debt_service": row[11],
+                "debt_capitalization": row[12],
+                "ratio_administrative": row[13],
+                "ratio_student_teacher": row[14],
+                "estimated_actual_ada": row[15],
+                "reporting_peims": row[16],
+                "annual_audit": row[17],
+                "post_financial_info": row[18],
+                "approved_geo_boundaries": row[19],
+                "estimated_first_rating": row[20],
+            }
+            data_charterfirst.append(row_dict)
 
 
         context = {

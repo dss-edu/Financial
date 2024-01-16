@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
         test("approved-geo-boundaries", measureCriteria);
         test("days-coh", cohCriteria);
         test("current-assets", currAssetsCriteria);
-        test("current-assets", currAssetsCriteria);
+    
         test("num11", num11Criteria);
         test("num12", num12Criteria);
         test("num13", num13Criteria);

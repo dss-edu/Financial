@@ -2852,11 +2852,28 @@ def generate_excel(request,school,anchor_year):
     cnxn = connect()
     cursor = cnxn.cursor()
 
-    
+
+    global curr_year
+    global month_number #current month. not last month
+
+    if anchor_year + 1 == curr_year:    
+        if school in schoolMonths["septemberSchool"]:
+            if month_number <= 8:
+                curr_year = curr_year - 1
+        else:
+            if month_number <= 6:
+                curr_year = curr_year - 1
+
+
+                
+
+             
+
     if anchor_year != curr_year :
         JSON_DIR = os.path.join(settings.BASE_DIR, "finance","json", str(anchor_year),  "excel", school)
     else:
         JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "excel", school)
+
     
     with open(os.path.join(JSON_DIR, "data.json"), "r") as f:
         data = json.load(f)
@@ -2963,11 +2980,14 @@ def generate_excel(request,school,anchor_year):
         image_list_track.append(img_track)  
         image_list_risk.append(img_risk) 
 
-    
+    print(school_name)
     start = 1
     first_start_row = 4
     for row in data_charterfirst:
         if row['school'] == school:
+            print(school_name)
+            print("yes")
+            
   # Create a new Image object
     
             first_sheet[f'A{start}'] = school_name
@@ -3034,17 +3054,64 @@ def generate_excel(request,school,anchor_year):
                 first_sheet.add_image(image_list_risk[4],f'D{first_start_row}')
             
 
+            # num11 criteria
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['total_assets']
-            first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+            if float(row['total_assets']) <= .60:
+                first_sheet[f'C{first_start_row}'] = '10'
+                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+            elif float(row['total_assets']) > .60 and float(row['total_assets']) <= .70:
+                first_sheet[f'C{first_start_row}'] = '8'
+                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+            elif float(row['total_assets']) > .70 and float(row['total_assets']) <= .80:
+                first_sheet[f'C{first_start_row}'] = '6'
+                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+            elif float(row['total_assets']) > .80 and float(row['total_assets']) <= .90:
+                first_sheet[f'C{first_start_row}'] = '4'
+                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+            elif float(row['total_assets']) > .90 and float(row['total_assets']) <= 1.00:
+                first_sheet[f'C{first_start_row}'] = '2'
+                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+            elif float(row['total_assets']) > 1.00:
+                first_sheet[f'C{first_start_row}'] = '0'
+                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+
             
+
+            # num12 criteria
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['debt_service']
-            first_sheet.add_image(image_list_risk[6],f'D{first_start_row}') 
+            if float(row['debt_service']) >= 1.20:
+                first_sheet[f'C{first_start_row}'] = '10'
+                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+            elif float(row['debt_service']) < 1.20 and float(row['debt_service']) >= 1.15:
+                first_sheet[f'C{first_start_row}'] = '8'
+                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+            elif float(row['debt_service']) < 1.15 and float(row['debt_service']) >= 1.10:
+                first_sheet[f'C{first_start_row}'] = '6'
+                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+            elif float(row['debt_service']) < 1.10 and float(row['debt_service']) >= 1.05:
+                first_sheet[f'C{first_start_row}'] = '4'
+                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}')
+            elif float(row['debt_service']) < 1.05 and float(row['debt_service']) >= 1.00:
+                first_sheet[f'C{first_start_row}'] = '2'
+                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}')
+            elif float(row['debt_service']) < 1.00:
+                first_sheet[f'C{first_start_row}'] = '0'
+                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}') 
             
+
+            # num13 criteria
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
-            first_sheet.add_image(image_list_track[7],f'D{first_start_row}')
+            
+            if row['debt_capitalization'] < 95:
+                first_sheet[f'C{first_start_row}'] = '5'
+                first_sheet.add_image(image_list_track[7],f'D{first_start_row}')
+            else:
+                first_sheet[f'C{first_start_row}'] = '0'
+                first_sheet.add_image(image_list_risk[7],f'D{first_start_row}')
+            
            
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
