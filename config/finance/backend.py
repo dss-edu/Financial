@@ -61,6 +61,7 @@ def update_fy(school,year):
     profit_loss_date(school)
     
 def profit_loss(school,year):
+ 
     print("profit_loss")
     present_date = datetime.today().date()   
     present_year = present_date.year
@@ -72,7 +73,9 @@ def profit_loss(school,year):
 
     if year:
         year = int(year)
+     
         if today_month == 1:
+            
             start_year = year - 1
             present_year = present_year - 1
             FY_year_current = year - 1
@@ -4822,8 +4825,11 @@ def excel(school,year):
 
         #
         if school in schoolCategory["ascender"]:
-            cursor.execute(
-                 f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%')"
+            # cursor.execute(
+            #      f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%')"
+            # )
+                        cursor.execute(
+                f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  "
             )
         else:
             cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
@@ -6546,8 +6552,11 @@ def charter_first(school):
         ltd = 0
 
     # ltd/(ltd+equity) x100
-    debt_capitalization = ltd/(ltd+equity)*100
-    debt_capitalization_ratio_rounded = round(debt_capitalization, 2)
+    if ltd != 0:
+        debt_capitalization = ltd/(ltd+equity)*100
+        debt_capitalization_ratio_rounded = round(debt_capitalization, 2)
+    else:
+        debt_capitalization_ratio_rounded = 0
 
 
 
