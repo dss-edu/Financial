@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    function totalAssets(){
 
-    }
 
     function StatusChecker() {
         test("indicator", criteriaPassFail);
@@ -19,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
         test("estimated-actual-ada", projectionCriteria);
         test("budget-vs-revenue", projectionCriteria);
         test("reporting-peims", projectionCriteriaNoPoints);
-        test("annual-audit", projectionCriteriaNoPoints);
+        test("annual-audit", projectionCriteria);
         test("post-financial-info", projectionCriteria2);
        
         test("ratio-student-teacher", measureCriteria);
