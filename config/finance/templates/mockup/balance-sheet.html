@@ -158,7 +158,7 @@
 
 </style>
 
-<div id="new-ui" class="d-none">
+<div id="new-ui" >
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
     <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
       <div id="section-title">
@@ -1592,7 +1592,7 @@
 
 
           <!-- Total Assets  -->
-          <tr class="title-dom bordertopbot">
+          <tr class="title-dom bordertopbot" id="total-assets">
             <td class="bigfont">Total Assets</td>
             <td>{{totals_bs.total_assets_fye}}</td>
 
@@ -2528,7 +2528,7 @@
 
 
           <!-- Total Liabilities and Net Assets  -->
-          <tr class="title-dom bordertopbot">
+          <tr class="title-dom bordertopbot" id="total-LNA">
             <td class="bigfont">Total Liabilities and Net Assets</td>
             <td>{{totals_bs.total_LNA_fye}}</td>
 
@@ -2975,6 +2975,45 @@
         }
       })
     } // end of hideMonths
+
+
+    function checkBalance() {
+      const assetsRow = document.getElementById("total-assets");
+      const lnaROW = document.getElementById("total-LNA");
+      
+      
+      if (!assetsRow || !lnaROW) {
+        return; 
+      }
+      
+      const assetCells = assetsRow.cells;
+      const lnaCells = lnaROW.cells;
+      
+      let match = true;
+  
+      for (let i=1; i <= last_month_number-2; i++) {
+        
+        console.log("hey")
+        const assetValue = assetCells[i].textContent.trim();
+        const lnaValue = lnaCells[i].textContent.trim();
+
+      
+  
+        if (assetValue !== lnaValue) {
+          assetCells[i].style.backgroundColor = "yellow";
+          lnaCells[i].style.backgroundColor = "yellow";
+     
+          match = false;
+         
+        }
+      }
+
+
+      
+      return match;
+    }
+
+    checkBalance()
 
   })
 

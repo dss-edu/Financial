@@ -2098,7 +2098,8 @@
       let match = true;
   
       
-      for (let i=3; i <= last_month_number-2; i++) {
+      for (let i=1; i <= last_month_number-2; i++) {
+        console.log(NetSurplusCells[i])
         const NetSurplusValue = NetSurplusCells[i].textContent.trim();
         const NetIncomeValue = NetIncomeCells[i].textContent.trim();
 

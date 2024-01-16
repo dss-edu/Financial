@@ -597,7 +597,7 @@ style="display:none;"
   
     </div> <!-- end of side-panel -->
 
-<form  id="insert-row-form" action="{% url 'update_row' school FY_year_1 %}" method="POST">
+<form  id="insert-row-form" class="vh-100" action="{% url 'update_row' school FY_year_1 %}" method="POST">
   {% if role == "admin" %}
 
 
@@ -658,7 +658,7 @@ style="display:none;"
 
   {% include 'mockup/balance-sheet.html' %}
 
-  <div id="table-box">
+  <div id="table-box" class="d-none">
     <table id="data-table-overview" class="table table-hover" style="display:none;width:auto;"></table>
     <table id="data-table" class="table table-hover" style="width:auto;">
         <thead>
