@@ -237,8 +237,11 @@ def charter_first(school,anchor_year,anchor_month):
     year = context["year"]
    
    
+    def get_last_day(year, month):
+        _, last_day = calendar.monthrange(year, month)
+        return datetime(year, month, last_day)
 
-    this_month = datetime(year, month , 31)
+    this_month = get_last_day(year, month)
  
 
     context["date"] = this_month
@@ -276,6 +279,11 @@ def charter_first(school,anchor_year,anchor_month):
         charter_month_name = calendar.month_name[charter_month]
 
         charter_dict[charter_year].append({"month_number": charter_month, "month_name": charter_month_name})
+
+
+    #sort it base on the month
+    for year, months in charter_dict.items():
+        charter_dict[year] = sorted(months, key=lambda x: x["month_number"])
 
     context["charter_dict"] = charter_dict
     return context

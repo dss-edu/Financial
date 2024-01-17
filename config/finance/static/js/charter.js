@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function() {
             points = 10;
         } else {
             status = "red-circle";
-            points = 5;
+            points = 0;
         }
         pointsTD.textContent = points
         p.classList.toggle(status);
@@ -292,15 +292,32 @@ document.addEventListener("DOMContentLoaded", function() {
     function cohCriteria(value, statusTD,pointsTD) {
         const coh = parseInt(value);
         const p = statusTD.querySelector("p");
+        
         let status = "";
 
-        if (coh > 60) {
+        if (coh >= 60) {
             status = "green-circle";
-        } else if (coh < 20) {
-            status = "red-circle";
-        } else {
-            status = "yellow-circle";
+            points = 10;
+        } else if (coh <60 && coh >=50) {
+            status = "green-circle";
+            points = 8 ;
+        } else if (coh <50 && coh >=40) {
+            status = "green-circle";
+            points = 6;
         }
+        else if (coh <40 && coh >=30) {
+            status = "yellow-circle";
+            points = 4;
+        }
+        else if (coh <30 && coh >=20) {
+            status = "red-circle";
+            points = 2;
+        }
+        else {
+            status = "red-circle";
+            points = 0;
+        }
+        pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
