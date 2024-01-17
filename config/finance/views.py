@@ -3249,17 +3249,16 @@ def generate_excel(request,school,anchor_year):
 
             first_start_row += 1         
             first_sheet[f'B{first_start_row}'] = total_points
-            if row['estimated_first_rating'] < 69:
+            if total_points < 69:
                 first_sheet.add_image(image_list_risk[15],f'D{first_start_row}')
                 first_start_row += 1
 
                 first_sheet[f'B{first_start_row}'] = 'F - Fail'
-            elif row['estimated_first_rating'] < 80:
+            elif total_points < 80:
                 first_sheet.add_image(image_list_concern[15],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'C - Meets Standard'
-            elif row['estimated_first_rating'] < 90:
- 
+            elif total_points < 90:
                 first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'B - Above Standard'
@@ -5222,6 +5221,7 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY{months["FY_year_1"]}-{months["FY_year_2"]} Balance Sheet as of {months["last_month"]}'
     #--- BS INSERT
     header_bs = 3
+    bs_sheet[f'F{header_bs}'] = f'FYE {months["FY_year_1"]}'
     bs_sheet[f'U{header_bs}'] = f'As of {months["last_month_name"]}'
 
 
