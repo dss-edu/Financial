@@ -58,7 +58,7 @@ def update_fy(school,year):
     updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
-    # excel(school,year)
+    excel(school,year)
     
 def profit_loss(school,year):
  
