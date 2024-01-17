@@ -402,7 +402,7 @@
           <tr class="sub d-none">
 
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -442,7 +442,7 @@
           {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Current Assets' and row.Activity == 'Cash' %}
           <tr class="dom d-none">
             <td>{{ row.Description}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
 
             {% if September == "True" %}
             <td> <a href="#" data-yr="09">{{row.difference_9}}</a></td>
@@ -487,7 +487,7 @@
           {% if row.Activity == 'Restr' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -572,7 +572,7 @@
           {% if row.Activity == 'DFS+F' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -657,7 +657,7 @@
           {% if row.Activity == 'OTHR' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -742,7 +742,7 @@
           {% if row.Activity == 'Inventory' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -827,7 +827,7 @@
           {% if row.Activity == 'PPD' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -953,7 +953,7 @@
           {% if row.Activity == 'FA-L' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1038,7 +1038,7 @@
           {% if row.Activity == 'LI' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1123,7 +1123,7 @@
           {% if row.Activity == 'FA-FE' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1206,7 +1206,7 @@
           {% if row.Activity == 'Def-Exp' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1290,7 +1290,7 @@
           {% if row.Activity == 'FA-BFE' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1374,7 +1374,7 @@
           {% if row.Activity == 'FA-AD' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1458,7 +1458,7 @@
           {% if row.Activity == 'OA' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1625,7 +1625,7 @@
           {% if row.Activity == 'AP' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1710,7 +1710,7 @@
           {% if row.Activity == 'PL' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1795,7 +1795,7 @@
           {% if row.Activity == 'LOC' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1879,7 +1879,7 @@
           {% if row.Activity == 'Acc-Exp' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -1964,7 +1964,7 @@
           {% if row.Activity == 'OtherLiab' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -2049,7 +2049,7 @@
           {% if row.Activity == 'Debt-C' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -2134,7 +2134,7 @@
           {% if row.Activity == 'Debt-D' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -2219,7 +2219,7 @@
           {% if row.Activity == 'ACC-Int' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True'  or school == 'goldenrule'%}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
@@ -2308,7 +2308,7 @@
           {% if row.Activity == 'LTD' %}
           <tr class="sub d-none">
             <td>{{row.obj}} - {{row.Description2}}</td>
-            <td>{% if ascender == "False" or school_bs == 'True' %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school == 'goldenrule' %}{{ row.activity_fye }}{% endif %}</td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>

@@ -58,7 +58,7 @@ def update_fy(school,year):
     updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
-    excel(school,year)
+    # excel(school,year)
     
 def profit_loss(school,year):
  
@@ -3548,15 +3548,15 @@ def balance_sheet(school,year):
                     and entry["Number"] in numberstack
                 )
                 if Activity in unique_act:
-                    item["fye_activity"] = -(activity_fye)
+                    item["activity_fye"] = -(activity_fye)
                 else:
-                    item["fye_activity"] = activity_fye
+                    item["activity_fye"] = activity_fye
 
         if school == 'goldenrule':
             for item in data_balancesheet:
                 Activity = item["Activity"]
                 item["FYE"] = sum(
-                    entry["fye_activity"]
+                    entry["activity_fye"]
                     for entry in data_activitybs
                     if entry["Activity"] == Activity
                 )
@@ -4304,7 +4304,7 @@ def balance_sheet(school,year):
                         row[key] = "({:,.0f})".format(float(row[key]))
 
 
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
             for row in data_activitybs:
                 if row['Activity'] == "AP" or row["Activity"] == 'Cash':
                     row["activity_fye"] = format_value_dollars(row["activity_fye"])
@@ -6336,19 +6336,24 @@ def charter_first(school):
     # first check if previous month is in database already
     cnxn = connect()
     cursor = cnxn.cursor()
-    global month_number
-    global curr_year
 
-    # fix this query or else there will always be duplicates
+    current_date = datetime.now()
+    month_number = current_date.month
+    curr_year = current_date.year
+    # never use global declaration as it changes the variable and  when the page does not reload it will result to an error when the function is reused
+
+  
+    # if january query to dec last year else last month of current year 
     if month_number == 1:
         month_number = 12
         curr_year = curr_year - 1
         prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year} AND school='{school}';"
+        print("first_query")
     else:
         prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+        print("second_query")
 
-
-    
+   
     cursor.execute(prev_query)
     rows = cursor.fetchone()
 
@@ -6356,7 +6361,6 @@ def charter_first(school):
     if rows is not None:
         shouldUpdate = True
 
-    print(shouldUpdate)
 
     first_columns = [
         "school", "year", "month", "net_income_ytd", "indicators", "net_assets", 
@@ -6372,12 +6376,13 @@ def charter_first(school):
 
     context["school"] = school
     context["year"] = int(curr_year)
+
+    # should stay since the month is already declared as 12. otherwise other months should be last month
     if month_number == 12:
         context["month"] = int(month_number)
-
     else:
         context["month"] = int(month_number - 1)
-    print(curr_year)
+    
         
         
 
@@ -6624,21 +6629,6 @@ def charter_first(school):
 
     administrative_ratio = str(first_AR) + '% /' + str(second_AR) + '%'
     
-    print(first_AR)
-    print(second_AR)
-  
-
-
-    
-
-
-
-
-
-
-        
-
-
 
 
 
