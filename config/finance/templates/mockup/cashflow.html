@@ -833,16 +833,23 @@
           }
 
           // if has content but no dollar
-          if (!columns[i].textContent.includes('$')) {
+          /*if (!columns[i].textContent.includes('$')) {
             columns[i].textContent = '$' + columns[i].textContent.trim()
-          }
+          }*/
 
           // now for the up caret or down caret
-          if (columns[i].textContent.includes('(')) {   
+          if (columns[i].textContent.includes('(')) {
+            if (existingLink) {
+              existingLink.style.color = 'red';
+            }else{
+              columns[i].style.setProperty('color', 'red', 'important');
+            }    
+
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML: columns[i].textContent}
-              <i class="fa-solid fa-caret-down downswing"></i>
+              
             `
+           //<i class="fa-solid fa-caret-down downswing"></i> 
           } 
           else {
             columns[i].classList.add('upswing')
@@ -851,8 +858,9 @@
             }
             columns[i].innerHTML = `
             ${existingLink ? existingLink.outerHTML :   columns[i].textContent}
-              <i class="fa-solid fa-caret-up"></i>
+          
             `          
+            //<i class="fa-solid fa-caret-up"></i>
           }
             existingLink ='null'
         }
