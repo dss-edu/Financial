@@ -843,9 +843,9 @@ def home(request):
         school_data.append(row_data)
 
 
-        
+    sorted_school_data = sorted(school_data, key=lambda x: x["school_key"])
     context = {
-        'schools': school_data
+        'schools': sorted_school_data
     }
     role = request.session.get('user_role')
     context["role"] = role
