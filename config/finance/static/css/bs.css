@@ -47,7 +47,12 @@ td:first-child {
         justify-content: center;
     }
 
-
+    .headerNew{
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: white;
+      }
     .table th,
     .table td {
         padding: 0.3rem !important;
