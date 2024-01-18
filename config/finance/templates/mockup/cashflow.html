@@ -589,6 +589,8 @@
             <td>Cash at Beginning of Period</td>
 
             {% if September == "True" %}
+            
+            <td> {{row.FYE}}</td>
             <td> {{row.difference_9}}</td>
             <td> {{row.difference_10}}</td>
             <td> {{row.difference_11}}</td>
@@ -600,9 +602,10 @@
             <td> {{row.difference_5}}</td>
             <td> {{row.difference_6}}</td>
             <td> {{row.difference_7}}</td>
-            <td> {{row.difference_8}}</td>
 
             {% else %}
+
+            <td> {{row.FYE}}</td>            
             <td> {{row.difference_7}}</td>
             <td> {{row.difference_8}}</td>
             <td> {{row.difference_9}}</td>
@@ -614,7 +617,6 @@
             <td> {{row.difference_3}}</td>
             <td> {{row.difference_4}}</td>
             <td> {{row.difference_5}}</td>
-            <td> {{row.difference_6}}</td>
             {% endif %}
 
 
