@@ -118,7 +118,10 @@
       border-right: 2px solid #e4e4e4; /* Adjust border color and width as needed */
       width: 0;
   }
-
+.title-dom{
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
 </style>
 
 <div id="new-ui" >
@@ -347,37 +350,22 @@
 
         <tbody>
         <!-- Cash Flows from operating activities  -->
-          <tr class="dom">
+          <tr class="title-dom">
             <td>Cash Flows from Operating Activities</td>
 
-            {% if September == "True" %}
-            <td> <a href="#" data-yr="09"></a></td>
-            <td> <a href="#" data-yr="10"></a></td>
-            <td> <a href="#" data-yr="11"></a></td>
-            <td> <a href="#" data-yr="12"></a></td>
-            <td> <a href="#" data-yr="01"></a></td>
-            <td> <a href="#" data-yr="02"></a></td>
-            <td> <a href="#" data-yr="03"></a></td>
+            <td><a href="#" data-yr="09"></a></td>
+            <td><a href="#" data-yr="10"></a></td>
+            <td><a href="#" data-yr="11"></a></td>
+            <td><a href="#" data-yr="12"></a></td>
+            <td><a href="#" data-yr="01"></a></td>
+            <td><a href="#" data-yr="02"></a></td>
+            <td><a href="#" data-yr="03"></a></td>
             <td><a href="#" data-yr="04"></a></td>
             <td><a href="#" data-yr="05"></a></td>
             <td><a href="#" data-yr="06"></a></td>
             <td><a href="#" data-yr="07"></a></td>
             <td><a href="#" data-yr="08"></a></td>
 
-            {% else %}
-            <td><a href="#" data-yr="07"></a></td>
-            <td><a href="#" data-yr="08"></a></td>
-            <td> <a href="#" data-yr="09"></a></td>
-            <td> <a href="#" data-yr="10"></a></td>
-            <td> <a href="#" data-yr="11"></a></td>
-            <td> <a href="#" data-yr="12"></a></td>
-            <td> <a href="#" data-yr="01"></a></td>
-            <td> <a href="#" data-yr="02"></a></td>
-            <td> <a href="#" data-yr="03"></a></td>
-            <td><a href="#" data-yr="04"></a></td>
-            <td><a href="#" data-yr="05"></a></td>
-            <td><a href="#" data-yr="06"></a></td>
-            {% endif %}
             <td></td>
           </tr>
           <!-- End cashflow from operating activities  -->
@@ -521,7 +509,7 @@
           <!-- end of netcash  -->
 
           <!-- cash flows from investing activities  -->
-          <tr class="dom">
+          <tr class="title-dom">
             <td>Cash Flows from Investing Activities</td>
 
             <td></td>
@@ -821,6 +809,7 @@
       rows.forEach(row => {
         const columns = Array.from(row.children);
 
+        
         // count empty divs this is because we want to hide/remove these divs
         let emptyCounter = 0
 
@@ -830,6 +819,7 @@
 
           // handle nulls and undefined
           if(columns[i].textContent.trim() === '' || columns[i].textContent === ' ') {
+            
             emptyCounter++
             continue
           }
@@ -869,10 +859,16 @@
 
         // remove empty rows
         //console.log(emptyCounter)
-        if (emptyCounter === (columns.length - 1)){
+        if (emptyCounter === (columns.length - 1)) {
           // row.style.display = 'none'
-          row.remove()
+          console.log(row);
+          if (row.classList.contains('title-dom')) {
+            console.log(row);
+          } else {
+            row.remove();
+          }
         }
+        
       })
     } //end of tableFormatter
 
