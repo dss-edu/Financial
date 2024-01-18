@@ -657,6 +657,42 @@
           {% endfor %}
           <!-- Cash at End of period -->
 
+
+          <tr class="dom">
+            <td>CFS</td>
+
+            {% if September == "True" %}
+            <td> {{cfchecker.09}}</td>
+            <td> {{cfchecker.10}}</td>
+            <td> {{cfchecker.11}}</td>
+            <td> {{cfchecker.12}}</td>
+            <td> {{cfchecker.01}}</td>
+            <td> {{cfchecker.02}}</td>
+            <td> {{cfchecker.03}}</td>
+            <td> {{cfchecker.04}}</td>
+            <td> {{cfchecker.05}}</td>
+            <td> {{cfchecker.06}}</td>
+            <td> {{cfchecker.07}}</td>
+            <td> {{cfchecker.08}}</td>
+
+            {% else %}
+            <td> {{cfchecker.07}}</td>
+            <td> {{cfchecker.08}}</td>
+            <td> {{cfchecker.09}}</td>
+            <td> {{cfchecker.10}}</td>
+            <td> {{cfchecker.11}}</td>
+            <td> {{cfchecker.12}}</td>
+            <td> {{cfchecker.01}}</td>
+            <td> {{cfchecker.02}}</td>
+            <td> {{cfchecker.03}}</td>
+            <td> {{cfchecker.04}}</td>
+            <td> {{cfchecker.05}}</td>
+            <td> {{cfchecker.06}}</td>
+            {% endif %}
+
+
+            <td></td>
+          </tr>
         </tbody>
       </table>
     </div>

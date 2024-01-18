@@ -1750,6 +1750,7 @@ def profit_loss(school,year):
   
             with open(file_path, "w") as file:
                 json.dump(val, file)
+                
             print(file_path)
 
 def profit_loss_date(school):
@@ -4550,6 +4551,7 @@ def cashflow(school,year):
         with open(os.path.join(json_path, "totals.json"), "r") as f:
             totals = json.load(f)
 
+
         with open(os.path.join(json_path, "months.json"), "r") as f:
             months = json.load(f)
 
@@ -4582,6 +4584,10 @@ def cashflow(school,year):
 
         with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
             data_balancesheet = json.load(f)
+
+        with open(os.path.join(json_path, "total_netsurplus.json"), "r") as f:
+            total_netsurplus = json.load(f)
+
 
         acct_per_values = [
             "01",
@@ -4629,6 +4635,14 @@ def cashflow(school,year):
                         print(entry[key])
 
 
+        total_activity = {acct_per: 0 for acct_per in acct_per_values}
+
+        cfchecker= {acct_per: 0 for acct_per in acct_per_values}
+
+
+        dna_months = totals["dna_total_months"]
+
+
         for item in data_cashflow:
             activity = item["Activity"]
             item["fytd_1"] = 0
@@ -4640,9 +4654,18 @@ def cashflow(school,year):
                     for entry in data_activitybs
                     if entry["Activity"] == activity
                 )
+
+                total_activity[acct_per] += item[f"total_operating{i}"]
+
+
+                
                 if i != month_exception:
-                    item["fytd_1"] += item[f"total_operating{i}"] 
-            
+                    item["fytd_1"] += item[f"total_operating{i}"]
+        
+        
+        print("with operating",total_activity["09"])
+
+               
 
         for item in data_cashflow:
             obj = item["obj"]
@@ -4654,8 +4677,84 @@ def cashflow(school,year):
                     for entry in data3
                     if entry["obj"] == obj and entry["AcctPer"] == acct_per
                 )
+
+                total_activity[acct_per] += item[f"total_investing{i}"]
+                
+              
                 if i != month_exception:
                     item["fytd_2"] += item[f"total_investing{i}"] 
+        
+        print("with investing",total_activity["09"])
+
+        def stringParser(value):
+            print(value)
+            if value == "" or value == 0:
+                return 0
+
+           
+            if "(" in value:
+                
+                formatted = "".join(value.strip().replace("$", "").replace("(", "-").replace(")", "").split(","))
+                
+                if "." in formatted:
+                  
+                    return float(formatted)
+             
+                return int(formatted) 
+            
+            formatted = "".join(value.strip().replace("$", "").split(","))
+
+            if "." in formatted:
+                return float(formatted)
+            return int(formatted)
+            
+        
+
+        total_activity = {
+            acct_per: total_activity[acct_per] + stringParser(dna_months.get(acct_per, 0))
+            for acct_per in acct_per_values 
+        }
+     
+
+        total_activity = {
+            acct_per: total_activity[acct_per] - stringParser(total_netsurplus.get(acct_per, 0))
+            for acct_per in acct_per_values 
+        }
+
+       
+
+        
+
+        for row in data_balancesheet:
+            if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
+                begbal = stringParser(row["FYE"])
+                
+         
+                cfchecker["09"] = begbal- stringParser(row["difference_9"]) + total_activity["09"]
+                cfchecker["10"] = stringParser(row["difference_9"]) -  stringParser(row["difference_10"]) + total_activity["10"]
+                cfchecker["11"] = stringParser(row["difference_10"]) - stringParser(row["difference_11"]) + total_activity["11"]
+                cfchecker["12"] = stringParser(row["difference_11"]) - stringParser(row["difference_12"]) + total_activity["12"]
+                cfchecker["01"] = stringParser(row["difference_12"]) - stringParser(row["difference_1"]) + total_activity["01"]
+                cfchecker["02"] = stringParser(row["difference_1"]) -  stringParser(row["difference_2"]) + total_activity["02"]
+                cfchecker["03"] = stringParser(row["difference_2"]) -  stringParser(row["difference_3"]) + total_activity["03"]
+                cfchecker["04"] = stringParser(row["difference_3"]) -  stringParser(row["difference_4"]) + total_activity["04"]
+                cfchecker["05"] = stringParser(row["difference_4"]) -  stringParser(row["difference_5"]) + total_activity["05"]
+                cfchecker["06"] = stringParser(row["difference_5"]) -  stringParser(row["difference_6"]) + total_activity["06"]
+                cfchecker["07"] = stringParser(row["difference_6"]) -  stringParser(row["difference_7"]) + total_activity["07"]
+                cfchecker["08"] = stringParser(row["difference_7"]) -  stringParser(row["difference_8"]) + total_activity["08"]
+
+
+
+
+               
+        cfchecker = {acct_per: format_value_negative(value) for acct_per, value in cfchecker.items() if value != 0}
+    
+
+    
+        
+
+
+        
                 
 
         data_key = "Expend"
@@ -4740,8 +4839,13 @@ def cashflow(school,year):
 
 
         cashflow_file = os.path.join(cashflow_path, "data_cashflow.json")
+        
         with open(cashflow_file, "w") as f:
             json.dump(data_cashflow, f)
+
+        cashflow_file = os.path.join(cashflow_path, "cfchecker.json")  
+        with open(cashflow_file, "w") as f:
+            json.dump(cfchecker, f)
 
             
 
