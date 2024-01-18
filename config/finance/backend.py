@@ -6350,7 +6350,8 @@ def charter_first(school):
         prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year} AND school='{school}';"
         print("first_query")
     else:
-        prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+        month_number -= 1
+        prev_query = f"SELECT * from [dbo].[AscenderData_CharterFirst] WHERE month={month_number} AND year={curr_year} AND school='{school}';"
         print("second_query")
 
    
@@ -6378,10 +6379,9 @@ def charter_first(school):
     context["year"] = int(curr_year)
 
     # should stay since the month is already declared as 12. otherwise other months should be last month
-    if month_number == 12:
-        context["month"] = int(month_number)
-    else:
-        context["month"] = int(month_number - 1)
+
+    context["month"] = int(month_number)
+    
     
         
         
@@ -6407,7 +6407,7 @@ def charter_first(school):
     with open(data3_file, "r") as f:
         data3 = json.load(f)
 
-    context["net_income_ytd"] = dollar_parser(pl_totals["ytd_netsurplus"])
+    
 
     # get cash equivalents
     bs_file_path = os.path.join( "balance-sheet", school, "data_balancesheet.json")
@@ -6421,6 +6421,8 @@ def charter_first(school):
         if item["Activity"].strip().lower() == "cash" and item["Description"].strip().lower() == "cash and cash equivalents" and item["school"].strip().lower() == school:
             cash_equivalents = dollar_parser(item["last_month_difference"])
             break
+    
+    print("cash_equivalents",cash_equivalents)
 
     pl_activities_file_path = os.path.join( "profit-loss", school, "data_activities.json")
     # pl_activities_file = JSON_DIR.path(pl_activities_file_path)
@@ -6429,8 +6431,6 @@ def charter_first(school):
         pl_activities = json.load(f)
 
 
-    ytd_total = dollar_parser(pl_totals["total_expense_ytd"])
-    debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
 
     # get fy start
     pl_months_file_path = os.path.join( "profit-loss", school, "months.json")
@@ -6438,8 +6438,20 @@ def charter_first(school):
     pl_months_file = os.path.join(JSON_DIR, pl_months_file_path)
     with open(pl_months_file, "r") as f:
         pl_months = json.load(f)
+
+
+
     date_string = pl_months["last_month"]
+    pl_lmn = pl_months["last_month_number"]
+
+    key_month = "0" + str(pl_lmn) if pl_lmn < 10 else str(pl_lmn)
+
+
     
+    expense_month = dollar_parser(pl_totals["first_total_months"][key_month])
+    debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
+
+
     date_format = "%B %d, %Y"
     fy_curr = datetime.strptime(date_string, date_format)
 
@@ -6458,22 +6470,22 @@ def charter_first(school):
     fy_diff = fy_curr - fy_start
     days = fy_diff.days
 
-    expense_per_day = (ytd_total - debt_services) // days
+    expense_per_day = expense_month / days
 
     if expense_per_day != 0:
-        context["days_coh"] = cash_equivalents // expense_per_day
+        context["days_coh"] = cash_equivalents / expense_per_day
     else:
         # Handle the case where expense_per_day is zero
         context["days_coh"] = 0
 
+    print("days",context["days_coh"])
     # current assets
     bs_totals_file_path = os.path.join("balance-sheet", school, "totals_bs.json")
     # bs_totals_file = JSON_DIR.path(bs_totals_file_path)
     bs_totals_file = os.path.join(JSON_DIR, bs_totals_file_path)
     with open(bs_totals_file, "r") as f:
         bs_totals = json.load(f)
-    pl_lmn = pl_months["last_month_number"]
-    key_month = "0" + str(pl_lmn) if pl_lmn < 10 else str(pl_lmn)
+ 
     try:
         total_current_assets = dollar_parser(bs_totals["total_current_assets"][key_month])
         total_current_liabilities = dollar_parser(bs_totals["total_current_liabilities"][key_month])
@@ -6482,34 +6494,23 @@ def charter_first(school):
         total_current_assets = 0
         total_current_liabilities = 0
     
+    print("current",total_current_assets)
+    print("liabi",total_current_liabilities)
+    
     if total_current_liabilities != 0:
         current_ratio = total_current_assets / total_current_liabilities
     else:
         current_ratio = 0
-    context["current_assets"] = round(current_ratio, 1)
+  
 
 
     # net earnings 
-    context["net_earnings"] = dollar_parser(pl_totals["ytd_SBD"])
+ 
 
 
-    # LT liabilities
-    try:
-
-        total_assets = dollar_parser(bs_totals["total_assets"][key_month])
-        total_liabilities = dollar_parser(bs_totals["total_liabilities"][key_month])
-    except KeyError:
-        total_assets = 0
-        total_liabilities = 0
     
-    if total_assets != 0:
-        lt_ratio = total_liabilities / total_assets
-    else:
-        lt_ratio = 0
-    context["total_assets"] = round(lt_ratio, 2)
 
 
-    print(pl_lmn)
     #debt_service = (deficitsurplus + 71 debt service)/ (-increase or decrease in bonds(cashflow) + debt service)
     debtservice = 0
     for row in data2:        
@@ -6528,12 +6529,15 @@ def charter_first(school):
 
     try:
         if debtservice:
-            debtservice = float(debtservice.replace(',', '').replace('(', '-').replace(')', ''))
+            debtservice = dollar_parser(debtservice)
         else:
             debtservice = 0
     except KeyError:
         debtservice = 0
 
+
+    print("deficit",deficitsurplus)
+    print("debt",debtservice)
     if debtservice != 0:
         debt_service = (deficitsurplus+debtservice)/debtservice
         debt_service = round(debt_service, 2)
@@ -6553,14 +6557,14 @@ def charter_first(school):
             equity = item[f"net_assets{pl_lmn}"]
 
     
-   
+
     if equity:
-        equity = float(equity.replace(',', '').replace('(', '-').replace(')', ''))
+        equity = dollar_parser(equity)
     else:
         equity = 0
 
     if ltd:
-        ltd = float(ltd.replace(',', '').replace('(', '-').replace(')', ''))
+        ltd = dollar_parser(ltd)
     else:
         ltd = 0
 
@@ -6572,6 +6576,18 @@ def charter_first(school):
         debt_capitalization_ratio_rounded = 0
 
 
+
+
+    # num 11 criteria
+    try:
+        total_assets = dollar_parser(bs_totals["total_assets"][key_month])    
+    except KeyError:
+        total_assets = 0
+    
+    if total_assets != 0:
+        lt_ratio = ltd / total_assets
+    else:
+        lt_ratio = 0
 
     expend_key = "Expend"
     est_key = "Est"
@@ -6637,8 +6653,10 @@ def charter_first(school):
 
     # administrative ratio
     # skipped because instructions are unclear
-
-
+    context["net_income_ytd"] = dollar_parser(pl_totals["ytd_netsurplus"])
+    context["current_assets"] = round(current_ratio, 2)
+    context["net_earnings"] = dollar_parser(pl_totals["ytd_SBD"])
+    context["total_assets"] = round(lt_ratio, 2)
     context["indicators"] = "Pass"
     context["net_assets"] = "projected"
     context["budget_vs_revenue"] = "projected"
@@ -6657,7 +6675,7 @@ def charter_first(school):
     if shouldUpdate:
         update_query = f"UPDATE [dbo].[AscenderData_CharterFirst] \
         SET {', '.join([f'{col} = ?' for col in first_columns])} \
-        WHERE month={month_number-1} AND year={curr_year} AND school='{school}';"
+        WHERE month={month_number} AND year={curr_year} AND school='{school}';"
 
         cursor.execute(update_query, tuple((context[key] for key in first_columns)))
         cnxn.commit()
