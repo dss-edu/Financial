@@ -147,6 +147,13 @@
       width: 0;
   }
 
+  .bordertopbot{
+    border-top: 3px solid black!important;
+    border-bottom: 3px solid black!important;
+
+  }
+
+
 </style>
 
 
@@ -928,7 +935,7 @@
 
 
           <!-- Net Surplus -->
-          <tr class="super-dom" id="net-surplus-deficit">
+          <tr class="super-dom bordertopbot" id="net-surplus-deficit">
             <td>Net Surplus(Deficit)</td>
             <td> {{totals.ammended_budget_netsurplus}} </td>
             <td> {{totals.ytd_ammended_netsurplus}} </td>
@@ -1583,7 +1590,7 @@
           <!-- End of Total Expense  -->
 
           <!-- Net Income -->
-          <tr class="super-dom" id="net-income">
+          <tr class="super-dom bordertopbot" id="net-income">
             <td>Net Income</td>
             <td> {{totals.budget_net_income}} </td>
             <td> {{totals.ytd_budget_net_income}} </td>

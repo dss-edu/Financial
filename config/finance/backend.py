@@ -883,7 +883,12 @@ def profit_loss(school,year):
                         and entry[appr_key] is not None 
                         and not isinstance(entry[appr_key], str)
                     )
-                item['total_budget'] = -(total_func_func + total_adjustment_func)
+
+                if school in schoolCategory["skyward"]:
+                    item['total_budget'] = total_func_func + total_adjustment_func
+                else:
+                    item['total_budget'] = -(total_func_func + total_adjustment_func)
+
                 
                 for i, acct_per in enumerate(acct_per_values, start=1):
                     total_func = sum(
@@ -2383,7 +2388,7 @@ def profit_loss_date(school):
                     and entry[appr_key] is not None 
                     and not isinstance(entry[appr_key], str)
                 )
-            item['total_budget'] = -(total_func_func + total_adjustment_func)
+            item['total_budget'] = total_func_func + total_adjustment_func
             
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_func = sum(
