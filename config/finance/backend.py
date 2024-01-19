@@ -4594,8 +4594,7 @@ def cashflow(school,year):
         with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
             data_balancesheet = json.load(f)
 
-        # with open(os.path.join(json_path, "total_netsurplus.json"), "r") as f:
-        #     total_netsurplus = json.load(f)
+
 
 
         acct_per_values = [
