@@ -4641,6 +4641,9 @@ def cashflow(school,year):
 
         total_activity = {acct_per: 0 for acct_per in acct_per_values}
 
+        total_investing = {acct_per: 0 for acct_per in acct_per_values}
+        total_operating = {acct_per: 0 for acct_per in acct_per_values}
+
         cfchecker= {acct_per: 0 for acct_per in acct_per_values}
 
 
@@ -4661,6 +4664,7 @@ def cashflow(school,year):
                 )
 
                 total_activity[acct_per] += item[f"total_operating{i}"]
+                total_operating[acct_per] += item[f"total_operating{i}"]
 
 
                 
@@ -4668,7 +4672,7 @@ def cashflow(school,year):
                     item["fytd_1"] += item[f"total_operating{i}"]
         
         
-        print("with operating",total_activity["09"])
+   
 
                
 
@@ -4684,12 +4688,13 @@ def cashflow(school,year):
                 )
 
                 total_activity[acct_per] += item[f"total_investing{i}"]
+                total_investing[acct_per] += item[f"total_investing{i}"]
                 
               
                 if i != month_exception:
                     item["fytd_2"] += item[f"total_investing{i}"] 
         
-        print("with investing",total_activity["09"])
+        
 
         def stringParser(value):
             print(value)
@@ -4715,16 +4720,35 @@ def cashflow(school,year):
             
         
 
+
+
+        # PART OF TOTAL OPERATING
+
+        #add for CFS 
         total_activity = {
             acct_per: total_activity[acct_per] + stringParser(dna_months.get(acct_per, 0))
             for acct_per in acct_per_values 
         }
-     
+
 
         total_activity = {
             acct_per: total_activity[acct_per] - stringParser(total_netsurplus.get(acct_per, 0))
             for acct_per in acct_per_values 
         }
+
+        #add for total operating total
+        total_operating= {
+            acct_per: total_operating[acct_per] + stringParser(dna_months.get(acct_per, 0))
+            for acct_per in acct_per_values 
+        }
+
+        total_operating = {
+            acct_per: total_operating[acct_per] - stringParser(total_netsurplus.get(acct_per, 0))
+            for acct_per in acct_per_values 
+        }
+        #END OF TOTAL OPERATING
+
+
 
        
 
@@ -4753,11 +4777,24 @@ def cashflow(school,year):
 
                
         cfchecker = {acct_per: format_value_negative(value) for acct_per, value in cfchecker.items() if value != 0}
+        total_investing = {acct_per: format_value_negative(value) for acct_per, value in total_investing.items() if value != 0}
+        total_operating = {acct_per: format_value_negative(value) for acct_per, value in total_operating.items() if value != 0}
+        total_activity = {acct_per: format_value_negative(value) for acct_per, value in total_activity.items() if value != 0}
     
 
     
         
+        context = {
+            "cf_totals":{
+                "cfchecker":cfchecker,
+                "total_investing":total_investing,
+                "total_operating":total_operating,
+                "total_activity":total_activity,
 
+
+
+            }
+        }
 
         
                 
@@ -4839,6 +4876,8 @@ def cashflow(school,year):
 
         # cashflow_path = JSON_DIR.path(relative_path)
         cashflow_path = os.path.join(JSON_DIR, relative_path)
+        
+        shutil.rmtree(cashflow_path, ignore_errors=True)
         if not os.path.exists(cashflow_path):
             os.makedirs(cashflow_path)
 
@@ -4848,9 +4887,10 @@ def cashflow(school,year):
         with open(cashflow_file, "w") as f:
             json.dump(data_cashflow, f)
 
-        cashflow_file = os.path.join(cashflow_path, "cfchecker.json")  
-        with open(cashflow_file, "w") as f:
-            json.dump(cfchecker, f)
+        for key, val in context.items():
+            cashflow_file = os.path.join(cashflow_path, f"{key}.json")  
+            with open(cashflow_file, "w") as f:
+                json.dump(val, f)
 
             
 

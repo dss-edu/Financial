@@ -122,6 +122,13 @@
   border-top: 2px solid black;
   border-bottom: 2px solid black;
 }
+.headerNew{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+}
+
 </style>
 
 <div id="new-ui" >
@@ -486,10 +493,29 @@
           {% endfor %}
           <!-- end of all increase decrease  -->
 
+          <tr class="dom">
+            <td>Total Operating Activities</td>
+
+            <td>{{cf_totals.total_operating.09}}</td>
+            <td>{{cf_totals.total_operating.10}}</td>
+            <td>{{cf_totals.total_operating.11}}</td>
+            <td>{{cf_totals.total_operating.12}}</td>
+            <td>{{cf_totals.total_operating.01}}</td>
+            <td>{{cf_totals.total_operating.02}}</td>
+            <td>{{cf_totals.total_operating.03}}</td>
+            <td>{{cf_totals.total_operating.04}}</td>
+            <td>{{cf_totals.total_operating.05}}</td>
+            <td>{{cf_totals.total_operating.06}}</td>
+            <td>{{cf_totals.total_operating.07}}</td>
+            <td>{{cf_totals.total_operating.08}}</td>
+
+            <td></td>
+          </tr>
+
 
           <!-- net cash flows -->
           <tr class="dom">
-            <td>Net Cash Flows From Operating Acvities</td>
+            <td>Net Cash Flows From Operating Activities</td>
 
             <td></td>
             <td></td>
@@ -567,7 +593,81 @@
           </tr>
           {% endif %}
           {% endfor %}
+
+          <tr class="dom">
+            <td>Total Investing Activities</td>
+
+            {% if September == "True" %}
+            <td>{{cf_totals.total_investing.09}}</td>
+            <td>{{cf_totals.total_investing.10}}</td>
+            <td>{{cf_totals.total_investing.11}}</td>
+            <td>{{cf_totals.total_investing.12}}</td>
+            <td>{{cf_totals.total_investing.01}}</td>
+            <td>{{cf_totals.total_investing.02}}</td>
+            <td>{{cf_totals.total_investing.03}}</td>
+            <td>{{cf_totals.total_investing.04}}</td>
+            <td>{{cf_totals.total_investing.05}}</td>
+            <td>{{cf_totals.total_investing.06}}</td>
+            <td>{{cf_totals.total_investing.07}}</td>
+            <td>{{cf_totals.total_investing.08}}</td>
+            {% else %}
+
+            <td>{{cf_totals.total_investing.07}}</td>
+            <td>{{cf_totals.total_investing.08}}</td>
+            <td>{{cf_totals.total_investing.09}}</td>
+            <td>{{cf_totals.total_investing.10}}</td>
+            <td>{{cf_totals.total_investing.11}}</td>
+            <td>{{cf_totals.total_investing.12}}</td>
+            <td>{{cf_totals.total_investing.01}}</td>
+            <td>{{cf_totals.total_investing.02}}</td>
+            <td>{{cf_totals.total_investing.03}}</td>
+            <td>{{cf_totals.total_investing.04}}</td>
+            <td>{{cf_totals.total_investing.05}}</td>
+            <td>{{cf_totals.total_investing.06}}</td>
+            {% endif %}
+
+
+
+            <td></td>
+          </tr>
           <!-- end of all increase decrease  -->
+
+          <tr class="dom">
+            <td>Net Increase/Decrease in Cash</td>
+
+            {% if September == "True" %}
+            <td>{{cf_totals.total_activity.09}}</td>
+            <td>{{cf_totals.total_activity.10}}</td>
+            <td>{{cf_totals.total_activity.11}}</td>
+            <td>{{cf_totals.total_activity.12}}</td>
+            <td>{{cf_totals.total_activity.01}}</td>
+            <td>{{cf_totals.total_activity.02}}</td>
+            <td>{{cf_totals.total_activity.03}}</td>
+            <td>{{cf_totals.total_activity.04}}</td>
+            <td>{{cf_totals.total_activity.05}}</td>
+            <td>{{cf_totals.total_activity.06}}</td>
+            <td>{{cf_totals.total_activity.07}}</td>
+            <td>{{cf_totals.total_activity.08}}</td>
+            {% else %}
+
+            <td>{{cf_totals.total_activity.07}}</td>
+            <td>{{cf_totals.total_activity.08}}</td>
+            <td>{{cf_totals.total_activity.09}}</td>
+            <td>{{cf_totals.total_activity.10}}</td>
+            <td>{{cf_totals.total_activity.11}}</td>
+            <td>{{cf_totals.total_activity.12}}</td>
+            <td>{{cf_totals.total_activity.01}}</td>
+            <td>{{cf_totals.total_activity.02}}</td>
+            <td>{{cf_totals.total_activity.03}}</td>
+            <td>{{cf_totals.total_activity.04}}</td>
+            <td>{{cf_totals.total_activity.05}}</td>
+            <td>{{cf_totals.total_activity.06}}</td>
+            {% endif %}
+
+
+
+            <td></td>
+          </tr>
 
 
           <!-- Cash at beginning of period -->
@@ -662,32 +762,32 @@
             <td>CFS</td>
 
             {% if September == "True" %}
-            <td> {{cfchecker.09}}</td>
-            <td> {{cfchecker.10}}</td>
-            <td> {{cfchecker.11}}</td>
-            <td> {{cfchecker.12}}</td>
-            <td> {{cfchecker.01}}</td>
-            <td> {{cfchecker.02}}</td>
-            <td> {{cfchecker.03}}</td>
-            <td> {{cfchecker.04}}</td>
-            <td> {{cfchecker.05}}</td>
-            <td> {{cfchecker.06}}</td>
-            <td> {{cfchecker.07}}</td>
-            <td> {{cfchecker.08}}</td>
+            <td> {{cf_totals.cfchecker.09}}</td>
+            <td> {{cf_totals.cfchecker.10}}</td>
+            <td> {{cf_totals.cfchecker.11}}</td>
+            <td> {{cf_totals.cfchecker.12}}</td>
+            <td> {{cf_totals.cfchecker.01}}</td>
+            <td> {{cf_totals.cfchecker.02}}</td>
+            <td> {{cf_totals.cfchecker.03}}</td>
+            <td> {{cf_totals.cfchecker.04}}</td>
+            <td> {{cf_totals.cfchecker.05}}</td>
+            <td> {{cf_totals.cfchecker.06}}</td>
+            <td> {{cf_totals.cfchecker.07}}</td>
+            <td> {{cf_totals.cfchecker.08}}</td>
 
             {% else %}
-            <td> {{cfchecker.07}}</td>
-            <td> {{cfchecker.08}}</td>
-            <td> {{cfchecker.09}}</td>
-            <td> {{cfchecker.10}}</td>
-            <td> {{cfchecker.11}}</td>
-            <td> {{cfchecker.12}}</td>
-            <td> {{cfchecker.01}}</td>
-            <td> {{cfchecker.02}}</td>
-            <td> {{cfchecker.03}}</td>
-            <td> {{cfchecker.04}}</td>
-            <td> {{cfchecker.05}}</td>
-            <td> {{cfchecker.06}}</td>
+            <td> {{cf_totals.cfchecker.07}}</td>
+            <td> {{cf_totals.cfchecker.08}}</td>
+            <td> {{cf_totals.cfchecker.09}}</td>
+            <td> {{cf_totals.cfchecker.10}}</td>
+            <td> {{cf_totals.cfchecker.11}}</td>
+            <td> {{cf_totals.cfchecker.12}}</td>
+            <td> {{cf_totals.cfchecker.01}}</td>
+            <td> {{cf_totals.cfchecker.02}}</td>
+            <td> {{cf_totals.cfchecker.03}}</td>
+            <td> {{cf_totals.cfchecker.04}}</td>
+            <td> {{cf_totals.cfchecker.05}}</td>
+            <td> {{cf_totals.cfchecker.06}}</td>
             {% endif %}
 
 
