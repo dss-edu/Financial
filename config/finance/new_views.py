@@ -677,6 +677,13 @@ def all_schools(request, school):
 
         with open(os.path.join(js_path, "totals.json"), "r") as f:
             totals = json.load(f)
+        
+
+        if os.path.exists(os.path.join(js_path, "last_update.json")):
+            with open(os.path.join(js_path, "last_update.json"), "r") as f:
+                last_update = json.load(f)
+        else:
+            last_update = ""
 
         with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
             data_expensebyobject = json.load(f)
@@ -790,6 +797,11 @@ def all_schools(request, school):
                     
                         if total_LNA_value != total_assets_value:
                             BS_status = "NOT BALANCED"
+
+
+
+
+
         
         if key in schoolCategory["ascender"]:
             row_data = {
@@ -802,6 +814,7 @@ def all_schools(request, school):
                 "PLexpense_status":PLexpense_status,
                 "PLtotalexpense_status":PLtotalexpense_status,
                 "pl_balanced":pl_balanced,
+                "last_update": last_update,
             }
             school_data.append(row_data)
         else:
@@ -815,8 +828,10 @@ def all_schools(request, school):
                 "PLexpense_status":PLexpense_status,
                 "PLtotalexpense_status":PLtotalexpense_status,
                 "pl_balanced":pl_balanced,
+                "last_update": last_update,
             }
             school_data.append(row_data)
+
 
     sorted_school_data = sorted(school_data, key=lambda x: x["school_key"])
     context = {

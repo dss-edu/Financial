@@ -108,6 +108,7 @@
                             <th><div style="width:150px;">Balance Sheet</div></th>
                             <th><div style="width:150px;">Cashflow</div></th>
                             <th><div style="width:150px;">Download GL</div></th>
+                            <th><div style="width:150px;">Last Update</div></th>
                         </tr>
 
                         {% for row in school_data %} 
@@ -172,6 +173,12 @@
                             <td class="text-center">
                                 <a id="{{row.school_key}}"  class="DLGL"  data-toggle="tooltip" title="Download {{row.school_name}} GL" style="color: #007bff;">
                                     <i class="fa-solid fa-download"></i>
+                                </a>
+                            </td>
+
+                            <td class="text-center">
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: black;">
+                                    {{row.last_update}}
                                 </a>
                             </td>
                         </tr>

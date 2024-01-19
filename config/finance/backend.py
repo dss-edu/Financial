@@ -61,15 +61,17 @@ def update_fy(school,year):
     excel(school,year)
     
 def profit_loss(school,year):
- 
     print("profit_loss")
     present_date = datetime.today().date()   
     present_year = present_date.year
-    
-
     today_date = datetime.now()
-    # Extract the month number from the current date
     today_month = today_date.month
+    last_update = today_date.strftime('%Y-%m-%d')
+
+
+    #LAST UPDATE
+
+    
 
     if year:
         year = int(year)
@@ -116,6 +118,7 @@ def profit_loss(school,year):
         
       
 
+          
         cnxn = connect()
         cursor = cnxn.cursor()
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
@@ -1575,13 +1578,14 @@ def profit_loss(school,year):
         sorted_data = sorted(data, key=lambda x: x['obj'])
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
     
-      
+
         context = {
             "data": sorted_data,
             "data2": sorted_data2,
             "data3": data3,
             "data_expensebyobject": data_expensebyobject,
             "data_activities": data_activities,
+            "last_update": last_update,
             "months":
                     {
                 "last_month": formatted_last_month,
@@ -4645,6 +4649,7 @@ def cashflow(school,year):
 
         for item in data_cashflow:
             activity = item["Activity"]
+
             item["fytd_1"] = 0
 
             for i, acct_per in enumerate(acct_per_values, start=1):
@@ -4857,6 +4862,8 @@ def excel(school,year):
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
+    print("today_date",today_date)
+    print("present_date",present_date)
     
     today_month = today_date.month
  
