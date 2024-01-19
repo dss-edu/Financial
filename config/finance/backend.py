@@ -4589,8 +4589,8 @@ def cashflow(school,year):
         with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
             data_balancesheet = json.load(f)
 
-        with open(os.path.join(json_path, "total_netsurplus.json"), "r") as f:
-            total_netsurplus = json.load(f)
+        # with open(os.path.join(json_path, "total_netsurplus.json"), "r") as f:
+        #     total_netsurplus = json.load(f)
 
 
         acct_per_values = [
@@ -4648,6 +4648,10 @@ def cashflow(school,year):
 
 
         dna_months = totals["dna_total_months"]
+        total_netsurplus = totals["total_netsurplus_months"]
+
+
+        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
         for item in data_cashflow:
@@ -4689,6 +4693,7 @@ def cashflow(school,year):
 
                 total_activity[acct_per] += item[f"total_investing{i}"]
                 total_investing[acct_per] += item[f"total_investing{i}"]
+                print("total",(total_activity[acct_per]))
                 
               
                 if i != month_exception:
@@ -4756,7 +4761,15 @@ def cashflow(school,year):
 
         for row in data_balancesheet:
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
-                begbal = stringParser(row["FYE"])
+                if school == 'goldenrule':
+                    begbal = stringParser(row["FYE"])
+                else:
+                    beglbal = stringParser(row["FYE"])
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    begbal = stringParser(row["total_fye"])
+                
+
+        
                 
          
                 cfchecker["09"] = begbal- stringParser(row["difference_9"]) + total_activity["09"]
