@@ -391,6 +391,12 @@ def cashflow(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+
+    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
+
+    context["school_bs"] = "False"
+    if school in school_fye:
+        context["school_bs"] = "True"
     return render(request, "temps/cashflow.html", context)
 
 

@@ -4652,6 +4652,10 @@ def cashflow(school,year):
 
 
         dna_months = totals["dna_total_months"]
+        total_netsurplus = totals["total_netsurplus_months"]
+
+
+        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
         for item in data_cashflow:
@@ -4760,7 +4764,12 @@ def cashflow(school,year):
 
         for row in data_balancesheet:
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
-                begbal = stringParser(row["FYE"])
+                if school == 'goldenrule':
+                    begbal = stringParser(row["FYE"])
+                else:
+                    beglbal = stringParser(row["FYE"])
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    begbal = stringParser(row["total_fye"])
                 
          
                 cfchecker["09"] = begbal- stringParser(row["difference_9"]) + total_activity["09"]
