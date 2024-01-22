@@ -384,32 +384,32 @@
             <td>Change in Net Assets</td>
 
             {% if September == "True" %}
-            <td>{{ totals.total_netsurplus_months.09 }}</td>
-            <td>{{ totals.total_netsurplus_months.10 }}</td>
-            <td>{{ totals.total_netsurplus_months.11 }}</td>
-            <td>{{ totals.total_netsurplus_months.12 }}</td>
-            <td>{{ totals.total_netsurplus_months.01 }}</td>
-            <td>{{ totals.total_netsurplus_months.02 }}</td>
-            <td>{{ totals.total_netsurplus_months.03 }}</td>
-            <td>{{ totals.total_netsurplus_months.04 }}</td>
-            <td>{{ totals.total_netsurplus_months.05 }}</td>
-            <td>{{ totals.total_netsurplus_months.06 }}</td>
-            <td>{{ totals.total_netsurplus_months.07 }}</td>
-            <td>{{ totals.total_netsurplus_months.08 }}</td>
+            <td>{{ total_netsurplus.09 }}</td>
+            <td>{{ total_netsurplus.10 }}</td>
+            <td>{{ total_netsurplus.11 }}</td>
+            <td>{{ total_netsurplus.12 }}</td>
+            <td>{{ total_netsurplus.01 }}</td>
+            <td>{{ total_netsurplus.02 }}</td>
+            <td>{{ total_netsurplus.03 }}</td>
+            <td>{{ total_netsurplus.04 }}</td>
+            <td>{{ total_netsurplus.05 }}</td>
+            <td>{{ total_netsurplus.06 }}</td>
+            <td>{{ total_netsurplus.07 }}</td>
+            <td>{{ total_netsurplus.08 }}</td>
 
             {% else %}
-            <td>{{ totals.total_netsurplus_months.07 }}</td>
-            <td>{{ totals.total_netsurplus_months.08 }}</td>
-            <td>{{ totals.total_netsurplus_months.09 }}</td>
-            <td>{{ totals.total_netsurplus_months.10 }}</td>
-            <td>{{ totals.total_netsurplus_months.11 }}</td>
-            <td>{{ totals.total_netsurplus_months.12 }}</td>
-            <td>{{ totals.total_netsurplus_months.01 }}</td>
-            <td>{{ totals.total_netsurplus_months.02 }}</td>
-            <td>{{ totals.total_netsurplus_months.03 }}</td>
-            <td>{{ totals.total_netsurplus_months.04 }}</td>
-            <td>{{ totals.total_netsurplus_months.05 }}</td>
-            <td>{{ totals.total_netsurplus_months.06 }}</td>
+            <td>{{ total_netsurplus.07 }}</td>
+            <td>{{ total_netsurplus.08 }}</td>
+            <td>{{ total_netsurplus.09 }}</td>
+            <td>{{ total_netsurplus.10 }}</td>
+            <td>{{ total_netsurplus.11 }}</td>
+            <td>{{ total_netsurplus.12 }}</td>
+            <td>{{ total_netsurplus.01 }}</td>
+            <td>{{ total_netsurplus.02 }}</td>
+            <td>{{ total_netsurplus.03 }}</td>
+            <td>{{ total_netsurplus.04 }}</td>
+            <td>{{ total_netsurplus.05 }}</td>
+            <td>{{ total_netsurplus.06 }}</td>
             {% endif %}
             <td>{{ totals.ytd_netsurplus }}</td>
           </tr>
@@ -678,7 +678,7 @@
 
             {% if September == "True" %}
             
-            <td> {% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
+            <td> {{row.FYE}}</td>
             <td> {{row.difference_9}}</td>
             <td> {{row.difference_10}}</td>
             <td> {{row.difference_11}}</td>
