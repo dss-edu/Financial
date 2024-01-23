@@ -838,8 +838,14 @@ def all_schools(request, school):
             }
             school_data.append(row_data)
 
+    def custom_sort(entry):
 
-    sorted_school_data = sorted(school_data, key=lambda x: x["school_key"])
+        if entry["school_key"] == "advantage":
+            return (0, entry["school_key"])
+        else:
+            return (1, entry["school_key"])
+
+    sorted_school_data = sorted(school_data, key=custom_sort)
     context = {
         'school': school,
         'school_data': sorted_school_data
@@ -864,7 +870,13 @@ def home(request):
         school_data.append(row_data)
 
 
-    sorted_school_data = sorted(school_data, key=lambda x: x["school_key"])
+    def custom_sort(entry):
+
+        if entry["school_key"] == "advantage":
+            return (0, entry["school_key"])
+        else:
+            return (1, entry["school_key"])
+    sorted_school_data = sorted(school_data, key=custom_sort)
     context = {
         'schools': sorted_school_data
     }
