@@ -4496,7 +4496,7 @@ def cashflow(school,year):
         else:
             return ""
 
-    print("cashflow")
+    
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
@@ -4767,7 +4767,8 @@ def cashflow(school,year):
                 if school == 'goldenrule':
                     begbal = stringParser(row["FYE"])
                 else:
-                    beglbal = stringParser(row["FYE"])
+                    begbal = stringParser(row["FYE"])
+                    
                 if school in schoolCategory["skyward"] or school in school_fye:
                     begbal = stringParser(row["total_fye"])
                 
