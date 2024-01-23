@@ -1017,8 +1017,8 @@
             {% endif %}
 
             <td> <a id="payroll-ytd-total" href="#"> {{totals.ytd_EOC_pc}} </a> </td>
-            <td> {{totals.variances}} </td>
-            <td> {{totals.var_EOC}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
           </tr>
           {% endif %}
           {% endfor %} 
@@ -1105,8 +1105,8 @@
             {% endif %}
 
             <td> <a id="professional-ytd-total" href="#"> {{totals.ytd_EOC_pcs}} </a></td>
-            <td> {{totals.variances}} </td>
-            <td> {{totals.var_EOC}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
           </tr>
           {% endif %}
           {% endfor %} 
@@ -1193,8 +1193,8 @@
             {% endif %}
 
             <td><a id="supplies-ytd-total" href="#">{{totals.ytd_EOC_sm}} </a></td>
-            <td> {{totals.variances}} </td>
-            <td> {{totals.var_EOC}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
           </tr>
           {% endif %}
           {% endfor %} 
@@ -1280,8 +1280,8 @@
             {% endif %}
 
             <td> <a href="#" class="other-total" data-yr="08">{{totals.ytd_EOC_ooe}} </a> </td>
-            <td> {{totals.variances}} </td>
-            <td> {{totals.var_EOC}} </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
           </tr>
           {% endif %}
           {% endfor %}

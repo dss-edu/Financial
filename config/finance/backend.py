@@ -6801,8 +6801,20 @@ def charter_first(school):
     second_13 = calculate_second_func('13')
     second_31 = calculate_second_func('31')
 
-    first_AR =  (first_21 + first_41) / (first_11 + first_12 + first_13 + first_31) * 100      
-    second_AR = (second_21 + second_41) / (second_11 + second_12 + second_13 + second_31) * 100
+    first_denominator = first_11 + first_12 + first_13 + first_31
+    if first_denominator != 0:
+        first_AR =  (first_21 + first_41) / (first_denominator) * 100    
+    else: 
+        first_AR = 0  
+    
+    second_denominator = second_11 + second_12 + second_13 + second_31
+    
+    if second_denominator != 0:
+        
+        second_AR = (second_21 + second_41) / (second_denominator) * 100
+    else:
+        second_AR = 0
+
     first_AR = round(first_AR, 2)
     second_AR = round(second_AR, 2)
 
