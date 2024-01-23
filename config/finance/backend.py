@@ -6612,7 +6612,7 @@ def charter_first(school):
 
 
     
-    expense_month = dollar_parser(pl_totals["first_total_months"][key_month])
+    ytd_expense = dollar_parser(pl_totals["first_ytd_total"])
     debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
 
 
@@ -6634,7 +6634,7 @@ def charter_first(school):
     fy_diff = fy_curr - fy_start
     days = fy_diff.days
 
-    expense_per_day = expense_month / days
+    expense_per_day = ytd_expense / days
 
     if expense_per_day != 0:
         context["days_coh"] = cash_equivalents / expense_per_day
@@ -6642,7 +6642,7 @@ def charter_first(school):
         # Handle the case where expense_per_day is zero
         context["days_coh"] = 0
 
-    print("days",context["days_coh"])
+ 
     # current assets
     bs_totals_file_path = os.path.join("balance-sheet", school, "totals_bs.json")
     # bs_totals_file = JSON_DIR.path(bs_totals_file_path)
@@ -6658,8 +6658,7 @@ def charter_first(school):
         total_current_assets = 0
         total_current_liabilities = 0
     
-    print("current",total_current_assets)
-    print("liabi",total_current_liabilities)
+
     
     if total_current_liabilities != 0:
         current_ratio = total_current_assets / total_current_liabilities
@@ -6700,8 +6699,7 @@ def charter_first(school):
         debtservice = 0
 
 
-    print("deficit",deficitsurplus)
-    print("debt",debtservice)
+
     if debtservice != 0:
         debt_service = (deficitsurplus+debtservice)/debtservice
         debt_service = round(debt_service, 2)
