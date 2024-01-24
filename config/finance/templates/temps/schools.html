@@ -162,12 +162,25 @@
                                     <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED" style="color: red;">
                                     <i class="fa-solid fa-x"></i>
                                     {%endif%}
-                                </a>
+                                    </a>
                             </td>
                             <td class="text-center">
+
+                                {% if row.CF_status == "BALANCED" %}
                                 <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
-                                    <i class="fa-solid fa-check"></i>
+                                <i class="fa-solid fa-check"></i>
                                 </a>
+                                {% elif row.CF_status == "NO DATA" %}
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="NO DATA" style="color: red;">
+                                <i class="fa-solid fa-check"></i>
+                                </a>
+                                {% else %}
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED" style="color: red;">
+                                <i class="fa-solid fa-check"></i>
+                                </a>
+                                {% endif %}
+
+
                             </td>
 
                             <td class="text-center">

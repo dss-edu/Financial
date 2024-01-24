@@ -683,6 +683,9 @@ def all_schools(request, school):
 
         with open(os.path.join(js_path, "totals.json"), "r") as f:
             totals = json.load(f)
+
+        
+
         
 
         if os.path.exists(os.path.join(js_path, "last_update.json")):
@@ -698,6 +701,14 @@ def all_schools(request, school):
         json_path = JSON_DIR.path(relative_path)
         with open(os.path.join(json_path, "totals_bs.json"), "r") as f:
             totals_bs = json.load(f)
+
+        cashflow_path = os.path.join("cashflow", key)
+        cashflow_file = JSON_DIR.path(cashflow_path)
+        if os.path.exists(os.path.join(cashflow_file, "cf_totals.json")):
+            with open(os.path.join(cashflow_file, "cf_totals.json"), "r") as f:
+                cf_totals = json.load(f)
+        else:
+            cf_totals = ""
 
 
         PLbudget_status = "No Budget"
@@ -768,11 +779,23 @@ def all_schools(request, school):
             
             if PLtotalexpense_counter > 1:
                 PLtotalexpense_status = "True"
+
+            
       
 
+            if 'cfchecker' in cf_totals and isinstance(cf_totals['cfchecker'], dict):
+                
+                checker_values = [
+                    cf_totals['cfchecker'].get(month, 0) for month in ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"]
+                ]
+            
+                all_zero = all(value == 0 for value in checker_values)
 
-
-
+               
+                CF_status = "BALANCED" if all_zero else "NOT BALANCED"
+                print(key, CF_status)
+            else:
+                CF_status = "NO DATA"
 
 
 
@@ -821,6 +844,7 @@ def all_schools(request, school):
                 "PLtotalexpense_status":PLtotalexpense_status,
                 "pl_balanced":pl_balanced,
                 "last_update": last_update,
+                "CF_status": CF_status,
             }
             school_data.append(row_data)
         else:
