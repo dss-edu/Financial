@@ -2562,49 +2562,49 @@
 
 
           <!-- Total Equity  -->
-{% comment %} 
+
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Net Assets' and row.Activity == 'Equity' %}
-          <tr class="dom">
+          <tr class="title-dom">
             <td>Net Assets</td>
-            <td>{% if ascender == "False" %}{{ row.activity_fye }}{% endif %}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
 
             {% if September == "True" %}
-            <td> <a href="#" data-yr="09">{{row.total_bal9}}</a></td>
-            <td> <a href="#" data-yr="10">{{row.total_bal10}}</a></td>
-            <td> <a href="#" data-yr="11">{{row.total_bal11}}</a></td>
-            <td> <a href="#" data-yr="12">{{row.total_bal12}}</a></td>
-            <td> <a href="#" data-yr="01">{{row.total_bal1}}</a></td>
-            <td> <a href="#" data-yr="02">{{row.total_bal2}}</a></td>
-            <td> <a href="#" data-yr="03">{{row.total_bal3}}</a></td>
-            <td><a href="#" data-yr="04">{{row.total_bal4}}</a></td>
-            <td><a href="#" data-yr="05">{{row.total_bal5}}</a></td>
-            <td><a href="#" data-yr="06">{{row.total_bal6}}</a></td>
-            <td><a href="#" data-yr="07">{{row.total_bal7}}</a></td>
-            <td><a href="#" data-yr="08">{{row.total_bal8}}</a></td>
+            <td> <a href="#" data-yr="09">{{row.net_assets9}}</a></td>
+            <td> <a href="#" data-yr="10">{{row.net_assets10}}</a></td>
+            <td> <a href="#" data-yr="11">{{row.net_assets11}}</a></td>
+            <td> <a href="#" data-yr="12">{{row.net_assets12}}</a></td>
+            <td> <a href="#" data-yr="01">{{row.net_assets1}}</a></td>
+            <td> <a href="#" data-yr="02">{{row.net_assets2}}</a></td>
+            <td> <a href="#" data-yr="03">{{row.net_assets3}}</a></td>
+            <td><a href="#" data-yr="04"> {{row.net_assets4}}</a></td>
+            <td><a href="#" data-yr="05"> {{row.net_assets5}}</a></td>
+            <td><a href="#" data-yr="06"> {{row.net_assets6}}</a></td>
+            <td><a href="#" data-yr="07"> {{row.net_assets7}}</a></td>
+            <td><a href="#" data-yr="08"> {{row.net_assets8}}</a></td>
 
             {% else %}
-            <td><a href="#" data-yr="07">{{row.total_bal7}}</a></td>
-            <td><a href="#" data-yr="08">{{row.total_bal8}}</a></td>
-            <td> <a href="#" data-yr="09">{{row.total_bal9}}</a></td>
-            <td> <a href="#" data-yr="10">{{row.total_bal10}}</a></td>
-            <td> <a href="#" data-yr="11">{{row.total_bal11}}</a></td>
-            <td> <a href="#" data-yr="12">{{row.total_bal12}}</a></td>
-            <td> <a href="#" data-yr="01">{{row.total_bal1}}</a></td>
-            <td> <a href="#" data-yr="02">{{row.total_bal2}}</a></td>
-            <td> <a href="#" data-yr="03">{{row.total_bal3}}</a></td>
-            <td><a href="#" data-yr="04">{{row.total_bal4}}</a></td>
-            <td><a href="#" data-yr="05">{{row.total_bal5}}</a></td>
-            <td><a href="#" data-yr="06">{{row.total_bal6}}</a></td>
+            <td><a href="#" data-yr="07"> {{row.net_assets7}}  </a></td>
+            <td><a href="#" data-yr="08"> {{row.net_assets8}}  </a></td>
+            <td> <a href="#" data-yr="09">{{row.net_assets9}}  </a></td>
+            <td> <a href="#" data-yr="10">{{row.net_assets10}} </a></td>
+            <td> <a href="#" data-yr="11">{{row.net_assets11}} </a></td>
+            <td> <a href="#" data-yr="12">{{row.net_assets12}} </a></td>
+            <td> <a href="#" data-yr="01">{{row.net_assets1}}  </a></td>
+            <td> <a href="#" data-yr="02">{{row.net_assets2}}  </a></td>
+            <td> <a href="#" data-yr="03">{{row.net_assets3}}  </a></td>
+            <td><a href="#" data-yr="04"> {{row.net_assets4}}  </a></td>
+            <td><a href="#" data-yr="05"> {{row.net_assets5}}  </a></td>
+            <td><a href="#" data-yr="06"> {{row.net_assets6}}  </a></td>
             {% endif %}
 
 
-            <td>{{row.fytd}}</td>
-            <td></td>
+            <td>{{totals_bs.total_net_assets_fytd}}</td>
+            <td>{{row.last_month_net_assets}}</td>
           </tr>
           {% endif %}
           {% endfor %} 
-{% endcomment %}
+
         <!-- End of Equity  -->
 
 
