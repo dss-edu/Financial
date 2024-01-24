@@ -466,11 +466,7 @@ def balance_sheet(school, anchor_year):
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        # "last_month": formatted_last_month,
-        # "last_month_number": last_month_number,
-        # "last_month_name": last_month_name,
-        # "format_ytd_budget": formatted_ytd_budget,
-        # "ytd_budget": ytd_budget,
+
     }
 
     if formatted_ytd_budget.startswith("0."):
@@ -528,6 +524,82 @@ def balance_sheet(school, anchor_year):
     context["activity_options"] = options
 
     return context
+
+
+def balance_sheet_asc(school, anchor_year):
+    current_date = datetime.today().date()
+    current_month = current_date.replace(day=1)
+    last_month = current_month - relativedelta(days=1)
+    last_month_name = last_month.strftime("%B")
+    formatted_last_month = last_month.strftime("%B %d, %Y")
+    last_month_number = last_month.month
+    ytd_budget_test = last_month_number + 4
+    ytd_budget = ytd_budget_test / 12
+    formatted_ytd_budget = (
+        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
+    )
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+
+    }
+
+    if formatted_ytd_budget.startswith("0."):
+        formatted_ytd_budget = formatted_ytd_budget[2:]
+    print("ascender")
+
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet-asc", school)
+    if anchor_year:
+        JSON_DIR = os.path.join(
+            settings.BASE_DIR, "finance", "json", str(anchor_year), "balance-sheet-asc", school
+        )
+    files = os.listdir(JSON_DIR)
+
+    for file in files:
+        with open(os.path.join(JSON_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    context["anchor_year"] = anchor_year
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    query = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL or Activity = '';"
+
+    rows = cursor.execute(query)
+    missing_act_list = []
+    for row in rows:
+        if row[3] == school:
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
+            missing_act_list.append(data)
+
+    missing_act_list = sorted(missing_act_list, key=lambda x: x["obj"])
+    context["missing_activities"] = missing_act_list
+
+    query_notmissing = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NOT NULL or Activity != '';"
+
+    rows = cursor.execute(query_notmissing)
+    not_missing = []
+    for row in rows:
+        if row[3] == school:
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
+            not_missing.append(data)
+
+    not_missing = sorted(not_missing, key=lambda x: x["obj"])
+    context["not_missing"] = not_missing
+
+    query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
+    opts = cursor.execute(query)
+
+    options = []
+    for opt in opts:
+        if opt[0] not in [None, ""]:
+            options.append(opt[0])
+
+    context["activity_options"] = options
+
+    return context    
 
 
 def cashflow(school, anchor_year):

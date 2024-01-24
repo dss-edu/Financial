@@ -332,10 +332,36 @@ def balance_sheet(request, school, anchor_year=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
     school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
-
     context["school_bs"] = "False"
     if school in school_fye:
         context["school_bs"] = "True"
+    context["school_bs_asc"] = ""
+  
+    return render(request, "temps/balance-sheet.html", context)
+
+@custom_login_required
+@permission_required
+def balance_sheet_asc(request, school, anchor_year=""):
+    
+    context = modules.balance_sheet_asc(school, anchor_year)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+    context["present_year"] = present_year
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
+
+    school_fye = []
+    context["school_bs"] = ""
+    
+    context["school_bs_asc"] = "False"
+    if school in schoolCategory["ascender"]:
+        context["school_bs_asc"] = "True"
   
     return render(request, "temps/balance-sheet.html", context)
 

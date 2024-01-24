@@ -510,6 +510,18 @@ a:hover{
       </a>
 
 
+      {% if ascender == "True"%}
+            {% if '/balance-sheet-asc/' in request.path %}
+            <a id="toggle-data" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show Normal Data" data-placement="left">
+              <i class="fa-solid fa-hashtag"></i>
+            </a>
+            {% else %}
+            <a id="toggle-data-asc" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show OPL Based Data" data-placement="left">
+              <i class="fa-solid fa-hashtag"></i>
+            </a>
+            {% endif %}
+      {% endif %}
+
       <script>
         $('#toggle-ui').on('click', function(){
           $('#table-box').toggleClass('d-none')
@@ -523,7 +535,35 @@ a:hover{
           $('#toggle-ui').tooltip('dispose').tooltip({ title: newTitle });
 
         })
+
+        document.addEventListener("DOMContentLoaded", function() {
+          const school = $("#hidden-school").val();
+          const year = $("#hidden-year").val();
+          console.log("school",school)
+          console.log("year",year)
+          const currentPath = window.location.pathname;
+          $("#toggle-data").on("click", function(event) {
+            event.preventDefault();
+            if (year) {
+              window.location.href = "/balance-sheet/" + school + "/" + year;
+            } else {
+                window.location.href = "/balance-sheet/" + school;
+            }
+        });
+
+        $("#toggle-data-asc").on("click", function(event) {
+          event.preventDefault();
+          if (year) {
+            window.location.href = "/balance-sheet-asc/" + school + "/" + year;
+          } else {
+              window.location.href = "/balance-sheet-asc/" + school;
+          }
+      });
+    
+        })
       </script>
+
+
       
       
       <div style="position: relative; display: flex;flex-direction: column; justify-content: center; align-items: end;">

@@ -147,6 +147,8 @@ urlpatterns = [
     path("bs/activity-edits/<str:school>", new_views.activity_edits),
     path("balance-sheet/<str:school>", new_views.balance_sheet),
     path("balance-sheet/<str:school>/<int:anchor_year>", new_views.balance_sheet),
+    path("balance-sheet-asc/<str:school>", new_views.balance_sheet_asc),
+    path("balance-sheet-asc/<str:school>/<int:anchor_year>", new_views.balance_sheet_asc),
     path("balance-sheet-charts/<str:school>", new_views.balance_sheet_charts),
     path("cashflow-statement/<str:school>", new_views.cashflow),
     path("cashflow-statement/<str:school>/<int:anchor_year>", new_views.cashflow),
