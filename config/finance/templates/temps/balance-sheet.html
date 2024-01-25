@@ -510,7 +510,7 @@ a:hover{
       </a>
 
 
-      {% if ascender == "True"%}
+      <!--{% if ascender == "True"%}
             {% if '/balance-sheet-asc/' in request.path %}
             <a id="toggle-data" class="text-secondary circle-container" href="#" data-toggle="tooltip" title="Show FY Based" data-placement="left">
               <i class="fa-solid fa-hashtag"></i>
@@ -520,7 +520,7 @@ a:hover{
               <i class="fa-solid fa-hashtag"></i>
             </a>
             {% endif %}
-      {% endif %}
+      {% endif %} -->
 
       <script>
         $('#toggle-ui').on('click', function(){
@@ -528,7 +528,15 @@ a:hover{
           $('#new-ui').toggleClass('d-none')
           $('#insert-row-form').toggleClass('vh-100')
           $('#showmonths').toggle();
+          $('#showSheet').prop('checked', false);
 
+          if ($('#table-box').hasClass('d-none')) {
+          
+            $('#showCurrentMonth').addClass('d-none');
+        }else{
+          $('#showCurrentMonth').removeClass('d-none');
+
+        }
 
           var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
           $('#toggle-ui').attr('title', newTitle);
@@ -536,12 +544,29 @@ a:hover{
 
         })
 
+       /* $(document).ready(function() {
+          $('#showSheet').on('change', function(){
+           console.log("sheet")
+           $('#toggle-ui').click();
+
+          });
+        });*/
+
         document.addEventListener("DOMContentLoaded", function() {
+          if ($('#table-box').hasClass('d-none')) {
+          
+            $('#showCurrentMonth').addClass('d-none');
+        }else{
+          $('#showCurrentMonth').removeClass('d-none');
+
+        }
+
           const school = $("#hidden-school").val();
           const year = $("#hidden-year").val();
           console.log("school",school)
           console.log("year",year)
           const currentPath = window.location.pathname;
+
           $("#toggle-data").on("click", function(event) {
             event.preventDefault();
             if (year) {
@@ -559,6 +584,31 @@ a:hover{
               window.location.href = "/balance-sheet-asc/" + school;
           }
       });
+
+
+              if (currentPath.includes('asc')) {
+            $('#toggleOCL').prop('checked', true);
+          }
+    $("#toggleOCL").on("change", function(event) {
+        event.preventDefault();
+        
+        if ($(this).is(':checked')){
+          if (year) {
+          window.location.href = "/balance-sheet-asc/" + school + "/" + year;
+          } else {
+            window.location.href = "/balance-sheet-asc/" + school;
+          }
+          }else{
+            if (year) {
+              window.location.href = "/balance-sheet/" + school + "/" + year;
+              } else {
+                window.location.href = "/balance-sheet/" + school;
+              }
+
+        }
+    });
+
+
     
         })
       </script>

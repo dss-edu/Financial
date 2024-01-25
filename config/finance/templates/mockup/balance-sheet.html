@@ -165,11 +165,20 @@
     border-bottom: 2px solid green !important;
 
   }
+  .form-switch .form-check-input:checked {
+    background-position: right center;
+    background-color: #1b4f72;
+   
 
-  
+  }
+  .form-check-label{
+    font-size: 12px;
+  }
 
-
-</style>
+  .green{
+    background-color: lightgreen!important;
+  }
+</style>``
 
 <div id="new-ui" >
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
@@ -187,13 +196,37 @@
         <div>
           YE: {% if September == "True" %} August {% else %} June {% endif %}
         </div>
-        <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
-          <a class="p-1" href="">Show all</a>
+        <div>
+        <div class="form-check form-switch" class="p-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="toggleOCL" >
+          <label class="form-check-label" for="flexSwitchCheckChecked">Show OCL Based</label>
+        </div>
+        {% comment %} <div class="form-check form-switch" class="p-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="showSheet" >
+          <label class="form-check-label" for="showSheet">Show Printable sheet</label>
+        </div> {% endcomment %}
+        <div class="form-check form-switch" class="p-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
+          <label class="form-check-label" for="showCurrMonth">Show Current Month</label>
+        </div>
+        <div class="form-check form-switch" class="p-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
+          <label class="form-check-label" for="toggleRow">Expand Rows</label>
+        </div>
+        <div class="form-check form-switch" class="p-1">
+          <input class="form-check-input" type="checkbox" role="switch" id="showAllMonths" >
+          <label class="form-check-label" for="showAllMonths">Show Months</label>
+        </div>
+
+      </div>
+        {% comment %} <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
+
+          <a class="p-1" href="">Show Months</a>
           <!-- <a class="p-1 not-active" href="">1st Quarter</a>
           <a class="p-1 not-active" href="">2nd Quarter</a>
           <a class="p-1 not-active" href="">3rd Quarter</a>
           <a class="p-1 not-active"  href="">4th Quarter</a> -->
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
     
@@ -2682,16 +2715,17 @@
     hideMonths()
 
     // add eventlister to quarter-tabs
-    const quarterLinks = document.querySelectorAll('#quarter-tabs > a')
+   // const quarterLinks = document.querySelectorAll('#quarter-tabs > a')
 
-    quarterLinks.forEach((link, index) => {
-      link.addEventListener('click', (event) => showMonths(event, index))
-    });
+   // quarterLinks.forEach((link, index) => {
+   //   link.addEventListener('click', (event) => showMonths(event, index))
+    //});
 
     //quarterLinks[0].click()
 
-
-
+    const showAllMonths = document.getElementById('showAllMonths')
+    showAllMonths.addEventListener('change', showMonths);
+    
 
     // show/hide doms
     const titleDoms = document.querySelectorAll('.title-dom > :first-child')
@@ -2707,6 +2741,47 @@
         // Add an event listener to each element
         element.addEventListener('click', showHideDoms);
     });
+
+    $("#toggleRow").on("change", function(event) {
+    superDoms.forEach(element => {
+        const clickEvent = new Event('click');
+        const parentTR = element.closest('tr'); 
+        let prevTR = parentTR
+        
+        while (prevTR = prevTR.previousElementSibling) {
+          if (prevTR.classList.contains('dom')) {
+            if ($('#toggleRow').is(':checked')){
+              if (prevTR.classList.contains('d-none')){
+                
+                element.dispatchEvent(clickEvent);
+                break;
+                }else{
+                break;
+              }
+            }else{
+              if (prevTR.classList.contains('d-none')){
+                
+                break;
+                }else{
+                  element.dispatchEvent(clickEvent);
+                break;
+              }
+            }
+
+          }
+        }
+
+       
+        
+        
+
+
+        
+    });
+
+    })
+
+
 
     // show/hide subs
     const doms = document.querySelectorAll('.dom > :first-child')
@@ -2977,14 +3052,27 @@
   
       // figure out the index of months to hide or show
       if (quarter === 0){
+        
     
            /*  monthHeaders.forEach(th => {
                   th.classList.toggle('d-none')
                   monthIdx.push(th.cellIndex)
                 }) */
-      for (let i = 0; i <= th_start; i++){
+                if ($('#showCurrMonth').is(':checked')){
+                  th_check = th_start + 1
+                  if ($('#showAllMonths').is(':not(:checked)')) {
+                    th_check = th_start
+
+                  }
+                }else{
+                  th_check = th_start
+                }
+
+            
+      for (let i = 0; i <= th_check; i++){
      
           const th = monthHeaders[i] 
+         
           if (th){
             th.classList.toggle('d-none')
             monthIdx.push(th.cellIndex)
@@ -3003,6 +3091,7 @@
         
             // what if undefined header
             if (th){
+              console.log(th)
               th.classList.toggle('d-none')
               monthIdx.push(th.cellIndex)
             }
@@ -3040,6 +3129,34 @@
       })
     } // end of hideMonths
 
+
+    function showCurrMonth() {
+
+
+      var lm = last_month_number  - 1;    
+      var colorColumn = document.querySelectorAll(
+        "#table-main td:nth-child(" + lm + ")"
+      );
+
+    
+      for (var k = 0; k < colorColumn.length; k++) {
+        colorColumn[k].classList.toggle('green');      
+        colorColumn[k].classList.toggle('d-none');        
+      }
+   
+      const monthHeaders = document.querySelectorAll('.month')
+      const th = monthHeaders[lm - 4 ] 
+      if(th){
+        th.classList.toggle('d-none')
+
+      }
+
+  }
+
+  $("#showCurrMonth").on("change", function(event) {
+    showCurrMonth()
+    console.log("curr")
+    })
 
     function checkBalance() {
       const assetsRow = document.getElementById("total-assets");
