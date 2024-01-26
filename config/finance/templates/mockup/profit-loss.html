@@ -152,8 +152,18 @@
     border-bottom: 3px solid black!important;
 
   }
+  .blue{
+    color: #1b4f72;
+  }
+  .form-switch .form-check-input:checked {
+    background-position: right center;
+    background-color: #1b4f72;
+   
 
-
+  }
+  .form-check-label{
+    font-size: 12px;
+  }
 </style>
 
 
@@ -170,9 +180,19 @@
         </span>
       </div>
       <div>
-        <div>
-          YE: {% if September == "True" %} August {% else %} June {% endif %}
+        <div class="d-flex justify-content-between rounded py-2 px-1">
+
+        <div class="form-check form-switch"  style="margin-left:15px;">
+
+          <input class="form-check-input" type="checkbox" role="switch" id="showCurr" >
+          <label class="form-check-label" for="showCurr">Show Current Month</label>
         </div>
+        <div class="blue  align-sef-end" >
+          YE: {% if September == "True" %} August {% else %} June {% endif %}
+
+
+        </div>
+      </div>
         <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
           <a class="p-1" href="">Show all</a>
           <a class="p-1 not-active" href="">1st Quarter</a>
@@ -2067,6 +2087,42 @@
         }
       })
     } // end of hideMonths
+
+
+    function showCurr() {
+
+
+      var lm = last_month_number  - 2;    
+      var colorColumn = document.querySelectorAll(
+        "#table-main td:nth-child(" + lm + ")"
+      );
+
+    
+      for (var k = 0; k < colorColumn.length; k++) {
+        colorColumn[k].classList.toggle('hidden-column');      
+        colorColumn[k].classList.toggle('d-none');        
+      }
+   
+      const monthHeaders = document.querySelectorAll('.month')
+      const th = monthHeaders[lm - 4 ] 
+      if(th){
+        th.classList.toggle('d-none')
+
+      }
+
+  }
+
+  $("#showCurr").on("change", function(event) {
+    if ($('#showCurr').is(':checked')){
+      showcurrentMonthFront();
+  
+    }else{
+      hidecurrentMonthFront();
+    }
+
+
+    })
+
 
     function computeNetIncomeVisible() {
       // ytd net income 

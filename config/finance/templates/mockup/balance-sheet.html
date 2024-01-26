@@ -178,48 +178,66 @@
   .green{
     background-color: lightgreen!important;
   }
+  .blue{
+    color: #1b4f72;
+  }
+  .form-switch .form-check-input {
+    margin-left: -2.1rem!important;
+  }
+
 </style>``
 
 <div id="new-ui" >
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
-    <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
-      <div id="section-title">
-        <span>
-        FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet
-        </span>
-        <br>
-        <span>
-        as of {{last_month}}
-        </span>
-      </div>
-      <div>
-        <div>
-          YE: {% if September == "True" %} August {% else %} June {% endif %}
-        </div>
-        <div>
-        <div class="form-check form-switch" class="p-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="toggleOCL" >
-          <label class="form-check-label" for="flexSwitchCheckChecked">Show OCL Based</label>
-        </div>
-        {% comment %} <div class="form-check form-switch" class="p-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="showSheet" >
-          <label class="form-check-label" for="showSheet">Show Printable sheet</label>
-        </div> {% endcomment %}
-        <div class="form-check form-switch" class="p-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
-          <label class="form-check-label" for="showCurrMonth">Show Current Month</label>
-        </div>
-        <div class="form-check form-switch" class="p-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
-          <label class="form-check-label" for="toggleRow">Expand Rows</label>
-        </div>
-        <div class="form-check form-switch" class="p-1">
-          <input class="form-check-input" type="checkbox" role="switch" id="showAllMonths" >
-          <label class="form-check-label" for="showAllMonths">Show Months</label>
-        </div>
+    <div class="d-flex flex-row align-items-center p-3 mb-3">
+              <div id="section-title">
+                <span>
+                FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet
+                </span>
+                <br>
+                <span>
+                as of {{last_month}}
+                </span>
+              </div>
+             
+        
+    
+            <div class="d-flex flex-fill flex-row justify-content-end flex-wrap" >
+             
 
-      </div>
-        {% comment %} <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
+          
+              {% if ascender == "True" %}
+              <div class="form-check form-switch align-self-end" >
+                <input class="form-check-input" type="checkbox" role="switch" id="toggleOCL" >
+                <label class="form-check-label" for="flexSwitchCheckChecked">Use OCL Based</label>
+              </div>
+              {% endif %}
+              {% comment %} <div class="form-check form-switch" class="p-1">
+                <input class="form-check-input" type="checkbox" role="switch" id="showSheet" >
+                <label class="form-check-label" for="showSheet">Show Printable sheet</label>
+              </div> {% endcomment %}
+              <div class="form-check form-switch align-self-end" style="margin-left:20px;">
+                <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
+                <label class="form-check-label" for="showCurrMonth">Show Current Month</label>
+              </div>
+              <div class="form-check form-switch align-self-end" style="margin-left:20px;">
+                <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
+                <label class="form-check-label" for="toggleRow">Expand Rows</label>
+              </div>
+              <div class="form-check form-switch"  style="margin-left:20px;">
+                <div class ="blue">
+                  YE: {% if September == "True" %} August {% else %} June {% endif %}
+                </div>
+                <input class="form-check-input" type="checkbox" role="switch" id="showAllMonths" >
+                <label class="form-check-label" for="showAllMonths">Show Months</label>
+              </div>
+   
+          </div>
+   
+
+     
+    </div>
+            {% comment %} <div id="quarter-tabs" class="d-inline rounded py-2 px-1" style="background-color: #f5f6f7;">
 
           <a class="p-1" href="">Show Months</a>
           <!-- <a class="p-1 not-active" href="">1st Quarter</a>
@@ -227,9 +245,6 @@
           <a class="p-1 not-active" href="">3rd Quarter</a>
           <a class="p-1 not-active"  href="">4th Quarter</a> -->
         </div> {% endcomment %}
-      </div>
-    </div>
-    
     <div class="">
       <table id="table-main">
         <thead>
@@ -3155,7 +3170,7 @@
 
   $("#showCurrMonth").on("change", function(event) {
     showCurrMonth()
-    console.log("curr")
+  
     })
 
     function checkBalance() {
@@ -3174,7 +3189,7 @@
   
       for (let i=1; i <= last_month_number-2; i++) {
         
-        console.log("hey")
+       
         const assetValue = assetCells[i].textContent.trim();
         const lnaValue = lnaCells[i].textContent.trim();
 

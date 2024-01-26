@@ -574,7 +574,7 @@
               </a>
             </div>
 
-            <div id="showMonthsFront">
+            <div id="showMonthsFront" style="display: none;">
               <a class="text-secondary circle-container" id="showCurrentMonthFront" data-toggle="tooltip" title="Show Current Month" data-placement="left">
                 <i class="fa-solid fa-receipt"></i>
                 </a>
@@ -633,7 +633,7 @@
                   $('#new-ui').toggleClass('d-none')
                   $('#insert-row-form').toggleClass('vh-100')
                   $('#showmonths').toggle();
-                  $('#showMonthsFront').toggle();
+                  //$('#showMonthsFront').toggle();
 
                   
                   var newTitle = $('#insert-row-form').hasClass('vh-100') ? 'Show Printable Sheet' : 'Show Clear Table';
