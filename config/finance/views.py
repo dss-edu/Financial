@@ -6620,31 +6620,31 @@ def generate_excel(request,school,anchor_year):
     
     bs_sheet[f'F{start_row_bs}'] = total_bs["total_capital_assets_fye"]
     if school in schoolMonths["septemberSchool"]:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_capital_assets"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_capital_assets"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_capital_assets"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_capital_assets"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_capital_assets"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_capital_assets"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_capital_assets"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_capital_assets"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_capital_assets"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_capital_assets"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_capital_assets"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_capital_assets"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_capital_assets"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_capital_assets"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_capital_assets"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_capital_assets"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_capital_assets"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_capital_assets"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_capital_assets"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_capital_assets"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_capital_assets"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_capital_assets"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_capital_assets"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_capital_assets"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_capital_assets"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_capital_assets"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_capital_assets"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_capital_assets"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_capital_assets"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_capital_assets"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_capital_assets"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_capital_assets"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_capital_assets"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_capital_assets"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_capital_assets"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_capital_assets"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_capital_assets"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_capital_assets"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_capital_assets"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_capital_assets"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_capital_assets"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_capital_assets"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_capital_assets_fytd"]
     
@@ -6663,31 +6663,31 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'D{start_row_bs}'] = 'Total  Assets'
     bs_sheet[f'F{start_row_bs}'] = total_bs["total_assets_fye"]
     if school in schoolMonths["septemberSchool"]:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_assets"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_assets"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_assets"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_assets"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_assets"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_assets"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_assets"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_assets"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_assets"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_assets"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_assets"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_assets"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_assets"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_assets"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_assets"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_assets"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_assets"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_assets"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_assets"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_assets"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_assets"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_assets"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_assets"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_assets"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_assets"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_assets"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_assets"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_assets"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_assets"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_assets"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_assets"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_assets"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_assets"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_assets"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_assets"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_assets"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_assets"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_assets"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_assets"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_assets"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_assets"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_assets"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_assets_fye_fytd"]
     
