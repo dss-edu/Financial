@@ -4649,6 +4649,8 @@ def cashflow(school,year):
 
         total_investing = {acct_per: 0 for acct_per in acct_per_values}
         total_operating = {acct_per: 0 for acct_per in acct_per_values}
+        total_operating_ytd = 0 
+        total_investing_ytd = 0
 
         cfchecker= {acct_per: 0 for acct_per in acct_per_values}
 
@@ -4676,6 +4678,8 @@ def cashflow(school,year):
                 total_activity[acct_per] += item[f"total_operating{i}"]
                 total_operating[acct_per] += item[f"total_operating{i}"]
 
+               
+
 
                 
                 if i != month_exception:
@@ -4699,6 +4703,7 @@ def cashflow(school,year):
 
                 total_activity[acct_per] += item[f"total_investing{i}"]
                 total_investing[acct_per] += item[f"total_investing{i}"]
+                
                 
               
                 if i != month_exception:
@@ -4758,6 +4763,10 @@ def cashflow(school,year):
         }
         #END OF TOTAL OPERATING
 
+        total_activity_ytd = sum(total_activity.values())
+        total_operating_ytd = sum(total_operating.values())
+        total_investing_ytd = sum(total_investing.values())
+
 
 
        
@@ -4788,7 +4797,7 @@ def cashflow(school,year):
                 cfchecker["07"] = stringParser(row["difference_6"]) -  stringParser(row["difference_7"]) + total_activity["07"]
                 cfchecker["08"] = stringParser(row["difference_7"]) -  stringParser(row["difference_8"]) + total_activity["08"]
 
-
+        
 
 
                
@@ -4796,6 +4805,11 @@ def cashflow(school,year):
         total_investing = {acct_per: format_value_negative(value) for acct_per, value in total_investing.items() if value != 0}
         total_operating = {acct_per: format_value_negative(value) for acct_per, value in total_operating.items() if value != 0}
         total_activity = {acct_per: format_value_negative(value) for acct_per, value in total_activity.items() if value != 0}
+
+        total_operating_ytd = format_value(total_operating_ytd)
+        total_investing_ytd = format_value(total_investing_ytd)
+        total_activity_ytd = format_value(total_activity_ytd)
+
     
 
     
@@ -4806,6 +4820,10 @@ def cashflow(school,year):
                 "total_investing":total_investing,
                 "total_operating":total_operating,
                 "total_activity":total_activity,
+                "total_operating_ytd":total_operating_ytd,
+                "total_investing_ytd":total_investing_ytd,
+                "total_activity_ytd":total_activity_ytd,
+
 
 
 
