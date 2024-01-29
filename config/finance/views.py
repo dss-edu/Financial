@@ -9614,11 +9614,15 @@ def download_csv(request,school):
     september_date_end  = datetime(FY_year_2, 8, 31).date()
 
     if school in schoolCategory["ascender"]:
-        cursor.execute(
-           f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL-PAYABLES%'"
+        # cursor.execute(
+        #    f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL-PAYABLES%'"
+        # )
+                cursor.execute(
+            f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  "
         )
     else:
-        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+        # cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']};")
+        cursor.execute(f"SELECT * FROM [dbo].{db[school]['db']} where source != 'RE';")
     rows = cursor.fetchall()
     data3 = []
     
