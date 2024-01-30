@@ -854,8 +854,18 @@ def all_schools(request, school):
                             BS_status = "NOT BALANCED"
 
 
-
-
+            db_string = (db[key]['db'])
+            db_string = db_string.strip('[]')
+            cnxn = connect()
+            cursor = cnxn.cursor()
+            query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+            cursor.execute(query,db_string)
+            print(db_string)
+            row = cursor.fetchone()
+            update_status = ""
+            if row:
+                update_status = row[5]
+                print("db",row[4])
 
         
         if key in schoolCategory["ascender"]:
@@ -871,6 +881,7 @@ def all_schools(request, school):
                 "pl_balanced":pl_balanced,
                 "last_update": last_update,
                 "CF_status": CF_status,
+                "update_status":update_status,
             }
             school_data.append(row_data)
         else:
@@ -885,6 +896,7 @@ def all_schools(request, school):
                 "PLtotalexpense_status":PLtotalexpense_status,
                 "pl_balanced":pl_balanced,
                 "last_update": last_update,
+                "update_status":update_status,
             }
             school_data.append(row_data)
 
@@ -896,6 +908,10 @@ def all_schools(request, school):
             return (1, entry["school_key"])
 
     sorted_school_data = sorted(school_data, key=custom_sort)
+
+
+
+
     context = {
         'school': school,
         'school_data': sorted_school_data
