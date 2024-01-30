@@ -965,11 +965,12 @@ def profit_loss(school,year):
             for acct_per in acct_per_values
         }
         ammended_budget_netsurplus = ammended_budget_SBD - dna_total
+        print("ammended_budget_netsurplus",ammended_budget_netsurplus)
         ytd_ammended_netsurplus = ytd_ammended_SBD - ytd_ammended_dna
         ytd_netsurplus =  ytd_SBD - dna_ytd_total 
         bs_ytd_netsurplus = ytd_netsurplus
         variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
-        var_netsurplus = "{:d}%".format(round(abs(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else ""
+        var_netsurplus = "{:d}%".format(round(abs(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else "0%"
 
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
 
@@ -1203,11 +1204,14 @@ def profit_loss(school,year):
 
 
         budget_net_income = totals["total_ammended"] - total_expense
+        print("budget_net_income",budget_net_income)
+        print(totals["total_ammended"])
+        print(total_expense)
     
         ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
         ytd_net_income = ytd_total_revenue - total_expense_ytd
         variances_net_income = ytd_net_income - ytd_budget_net_income
-        var_net_income = "{:d}%".format(round(abs(ytd_net_income / budget_net_income * 100))) if budget_net_income != 0 else ""
+        var_net_income = "{:d}%".format(round(abs(ytd_net_income / budget_net_income * 100))) if budget_net_income != 0 else "0%"
     
         
         total_net_income_months = {
@@ -1329,7 +1333,14 @@ def profit_loss(school,year):
         
         #FORMAT NET SURPLUS 
         ammended_budget_netsurplus = format_value_dollars(ammended_budget_netsurplus)
+
+  
         ytd_ammended_netsurplus = format_value_dollars(ytd_ammended_netsurplus)
+
+        if ammended_budget_netsurplus == "":
+            ammended_budget_netsurplus = 0
+            ytd_ammended_netsurplus = 0
+
         ytd_netsurplus = format_value_dollars(ytd_netsurplus)
         variances_netsurplus = format_value_dollars(variances_netsurplus)
         
@@ -1411,7 +1422,11 @@ def profit_loss(school,year):
         
         #FORMAT NET INCOME
         budget_net_income = format_value_dollars(budget_net_income)
+
         ytd_budget_net_income = format_value_dollars(ytd_budget_net_income)
+        if budget_net_income == "":
+            budget_net_income = 0
+            ytd_budget_net_income = 0
         total_net_income_months = {acct_per: format_value_dollars(value) for acct_per, value in total_net_income_months.items() if value != 0}
         ytd_net_income = format_value_dollars(ytd_net_income)
         variances_net_income = format_value_dollars(variances_net_income)     

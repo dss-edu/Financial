@@ -476,7 +476,7 @@
           {% endwith %}
         {% else %}
           {% with 'skyward' as school %}
-            <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px;">
+            <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" title="{{ iconStatusCode }}" alt="school logo" style="height:35px;">
           {% endwith %}
         {% endif %}
 
