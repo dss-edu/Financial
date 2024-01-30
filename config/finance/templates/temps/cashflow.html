@@ -96,14 +96,14 @@
             <div class="d-flex align-items-center flex-grow-1 justify-content-center">
                 <div class="col-1">
                     {% if ascender == "True" %} 
-                    {% with 'ascender' as school %}
-                    <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px;">
-                {% endwith %}
-                {% else %}
-                {% with 'skyward' as school %}
-                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px;">
-            {% endwith %}
-                {% endif %}
+                        {% with 'ascender' as school %}
+                        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" title="{{ iconStatusCode }}" alt="school logo" style="height:35px;">
+                        {% endwith %}
+                    {% else %}
+                        {% with 'skyward' as school %}
+                        <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" title="{{ iconStatusCode }}" alt="school logo" style="height:35px;">
+                        {% endwith %}
+                    {% endif %}
             
                 
                 </div>

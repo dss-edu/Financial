@@ -239,6 +239,22 @@ def charter_first_charts(request, school):
     return render(request, "temps/charter-first-charts.html", context)
 
 
+def getStatusCode(school):
+    db_string = (db[school]['db'])
+    db_string = db_string.strip('[]')
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+    cursor.execute(query,db_string)
+    print(db_string)
+    row = cursor.fetchone()
+    status = ""
+    if row:
+        status = row[3]
+
+
+    return status
+
 @custom_login_required
 @permission_required
 def profit_loss(request, school, anchor_year=""):
@@ -256,7 +272,12 @@ def profit_loss(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+
+
+    context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/profit-loss.html", context)
+
+
 
 @custom_login_required
 @permission_required
@@ -336,7 +357,9 @@ def balance_sheet(request, school, anchor_year=""):
     if school in school_fye:
         context["school_bs"] = "True"
     context["school_bs_asc"] = ""
-  
+
+    
+    context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/balance-sheet.html", context)
 
 @custom_login_required
@@ -362,7 +385,7 @@ def balance_sheet_asc(request, school, anchor_year=""):
     context["school_bs_asc"] = "False"
     if school in schoolCategory["ascender"]:
         context["school_bs_asc"] = "True"
-  
+    context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -423,6 +446,7 @@ def cashflow(request, school, anchor_year=""):
     context["school_bs"] = "False"
     if school in school_fye:
         context["school_bs"] = "True"
+    context["iconStatusCode"] = getStatusCode(school)    
     return render(request, "temps/cashflow.html", context)
 
 
@@ -920,7 +944,8 @@ def all_schools(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
-
+    cursor.close()
+    cnxn.close()
     return render(request, "temps/schools.html", context)
 
 @custom_login_required
