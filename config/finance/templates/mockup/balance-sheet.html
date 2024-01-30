@@ -189,7 +189,7 @@
 
 <div id="new-ui" >
   <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
-    <div class="d-flex flex-row align-items-center p-3 mb-3">
+    <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
               <div id="section-title">
                 <span>
                 FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet
@@ -202,32 +202,43 @@
              
         
     
-            <div class="d-flex flex-fill flex-row justify-content-end flex-wrap" >
-             
-
-          
-              {% if ascender == "True" %}
-              <div class="form-check form-switch align-self-end" >
-                <input class="form-check-input" type="checkbox" role="switch" id="toggleOCL" >
-                <label class="form-check-label" for="flexSwitchCheckChecked">Use OCL Based</label>
+            {% comment %} <div class="d-flex flex-fill flex-row justify-content-end flex-wrap" > {% endcomment %}
+     
+            <div class="d-flex align-self-start flex-fill">
+              <div class= "blue ms-auto ">
+                YE: {% if September == "True" %} August {% else %} June {% endif %}
               </div>
-              {% endif %}
+            </div>
+
+       
+            <div class="d-flex  flex-row justify-content-end flex-wrap">
+          
+
               {% comment %} <div class="form-check form-switch" class="p-1">
                 <input class="form-check-input" type="checkbox" role="switch" id="showSheet" >
                 <label class="form-check-label" for="showSheet">Show Printable sheet</label>
               </div> {% endcomment %}
-              <div class="form-check form-switch align-self-end" style="margin-left:20px;">
+
+              <br>
+              <div class="form-check form-switch" style="margin-left:20px;">
+
+                {% if ascender == "True" %}
+       
+                  <input class="form-check-input" type="checkbox" role="switch" id="toggleOCL" title="toggle between OCL based and normal view">
+                  <label class="form-check-label" for="toggleOCL"  title="toggle between OCL based and normal view">Use OCL Based</label>
+        
+                  <br>
+                {% endif %}
+                 
+              
                 <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
                 <label class="form-check-label" for="showCurrMonth">Show Current Month</label>
-              </div>
-              <div class="form-check form-switch align-self-end" style="margin-left:20px;">
-                <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
-                <label class="form-check-label" for="toggleRow">Expand Rows</label>
+       
               </div>
               <div class="form-check form-switch"  style="margin-left:20px;">
-                <div class ="blue">
-                  YE: {% if September == "True" %} August {% else %} June {% endif %}
-                </div>
+                <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
+                <label class="form-check-label" for="toggleRow">Expand Rows</label>
+                <br>
                 <input class="form-check-input" type="checkbox" role="switch" id="showAllMonths" >
                 <label class="form-check-label" for="showAllMonths">Show Months</label>
               </div>
@@ -3172,6 +3183,12 @@
     showCurrMonth()
   
     })
+
+    /*function OCLtitle(){
+      if ($('#toggleOCL').is(':checked')){
+        
+      }
+    }*/
 
     function checkBalance() {
       const assetsRow = document.getElementById("total-assets");
