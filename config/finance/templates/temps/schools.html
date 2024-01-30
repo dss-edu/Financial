@@ -190,15 +190,21 @@
                                 </a>
                             </td>
                             <td class="text-center">
-                                {% if row.update_status == "PASS" %}
-                                <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
-                                    <i class="fa-solid fa-check"></i>
-                                </a>
-                                {%else%}
-                                <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
-                                    <i class="fa-solid fa-x"></i>
-                                </a>
-                                {%endif%}
+                                {% if row.ascender == "False" %}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                {% else %}
+                                    {% if row.update_status == "PASS" %}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                    {%else%}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
+                                        <i class="fa-solid fa-x"></i>
+                                    </a>
+                                    {%endif%}
+                                {% endif %}
                             </td>
 
                             <td class="text-center">

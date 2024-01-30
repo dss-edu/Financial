@@ -891,6 +891,10 @@ def all_schools(request, school):
                 update_status = row[5]
                 print("db",row[4])
 
+            ascender = 'True'
+            if key in schoolCategory["skyward"]:
+                ascender = 'False'
+
         
         if key in schoolCategory["ascender"]:
             row_data = {
@@ -906,6 +910,7 @@ def all_schools(request, school):
                 "last_update": last_update,
                 "CF_status": CF_status,
                 "update_status":update_status,
+                "ascender":ascender,
             }
             school_data.append(row_data)
         else:
@@ -921,6 +926,7 @@ def all_schools(request, school):
                 "pl_balanced":pl_balanced,
                 "last_update": last_update,
                 "update_status":update_status,
+                "ascender":ascender,
             }
             school_data.append(row_data)
 
