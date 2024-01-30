@@ -191,12 +191,12 @@
                             </td>
                             <td class="text-center">
                                 {% if row.update_status == "PASS" %}
-                                <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: black;">
-                                    {{row.update_status}}
+                                <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
                                 </a>
                                 {%else%}
                                 <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
-                                    {{row.update_status}}
+                                    <i class="fa-solid fa-x"></i>
                                 </a>
                                 {%endif%}
                             </td>
