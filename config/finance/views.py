@@ -9599,9 +9599,14 @@ def download_csv(request,school):
     start_year = current_year
     accper_month_number = int(current_date.strftime("%m"))
 
-    print(accper_month_number)
-    if accper_month_number == 1:
-        start_year = start_year - 1 
+    if school in schoolMonths["septemberSchool"]:
+        if accper_month_number <= 8:
+            start_year = start_year - 1 
+    else:
+        if accper_month_number <= 6:
+            start_year = start_year - 1 
+   
+        
 
     accper_str = str(accper_month_number).zfill(2)
    
@@ -9617,7 +9622,7 @@ def download_csv(request,school):
         # cursor.execute(
         #    f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL-PAYABLES%'"
         # )
-                cursor.execute(
+        cursor.execute(
             f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  "
         )
     else:
@@ -9759,6 +9764,7 @@ def download_csv(request,school):
     if school in schoolCategory["ascender"]:
         csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type'])  
         for row in data3:
+            print("data")
             csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'], row['AcctPer'], row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type']])        
     else:
         csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget','BegBal'])  
