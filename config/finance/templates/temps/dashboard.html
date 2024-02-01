@@ -81,11 +81,11 @@
                 <div class="col-1">
                     {% if ascender == "True" %} 
                     {% with 'ascender' as school %}
-                    <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px; width:35px;">
+                    <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}"  title="code : {{ iconStatusCode }}" alt="school logo" style="height:35px; width:35px;">
                 {% endwith %}
                 {% else %}
                 {% with 'skyward' as school %}
-                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px; width:60px;">
+                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" title="code : {{ iconStatusCode }}" alt="school logo" style="height:35px; width:60px;">
             {% endwith %}
                 {% endif %}
             

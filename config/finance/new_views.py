@@ -38,6 +38,24 @@ if present_month == 1:
 else:
     last_month_number = present_month - 1
 
+
+def getStatusCode(school):
+    db_string = (db[school]['db'])
+    db_string = db_string.strip('[]')
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+    cursor.execute(query,db_string)
+    print(db_string)
+    row = cursor.fetchone()
+    status = ""
+    if row:
+        status = row[3]
+
+
+    return status
+
+
 def dashboard_notes(request, school , anchor_year="" , anchor_month=""):
 
     cnxn = connect()
@@ -203,6 +221,9 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["iconStatusCode"] = getStatusCode(school)
+   
+    # title="code : {{ iconStatusCode }}"
     return render(request, "temps/dashboard.html", context)
 
 
@@ -223,6 +244,7 @@ def charter_first(request, school, anchor_year="",anchor_month=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/charter-first.html", context)
 
 
@@ -239,21 +261,7 @@ def charter_first_charts(request, school):
     return render(request, "temps/charter-first-charts.html", context)
 
 
-def getStatusCode(school):
-    db_string = (db[school]['db'])
-    db_string = db_string.strip('[]')
-    cnxn = connect()
-    cursor = cnxn.cursor()
-    query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
-    cursor.execute(query,db_string)
-    print(db_string)
-    row = cursor.fetchone()
-    status = ""
-    if row:
-        status = row[3]
 
-
-    return status
 
 @custom_login_required
 @permission_required
