@@ -587,23 +587,26 @@ a:hover{
 
 
               if (currentPath.includes('asc')) {
-            $('#toggleOCL').prop('checked', true);
+            $('#toggleOCL').prop('checked', false);
           }
     $("#toggleOCL").on("change", function(event) {
         event.preventDefault();
         
         if ($(this).is(':checked')){
+
           if (year) {
-          window.location.href = "/balance-sheet-asc/" + school + "/" + year;
-          } else {
-            window.location.href = "/balance-sheet-asc/" + school;
-          }
+            window.location.href = "/balance-sheet/" + school + "/" + year;
+            } else {
+              window.location.href = "/balance-sheet/" + school;
+            }
+            
           }else{
-            if (year) {
-              window.location.href = "/balance-sheet/" + school + "/" + year;
-              } else {
-                window.location.href = "/balance-sheet/" + school;
-              }
+           
+          if (year) {
+            window.location.href = "/balance-sheet-asc/" + school + "/" + year;
+            } else {
+              window.location.href = "/balance-sheet-asc/" + school;
+            }
 
         }
     });
