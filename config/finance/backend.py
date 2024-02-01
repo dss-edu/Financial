@@ -73,19 +73,39 @@ def profit_loss(school,year):
 
     #LAST UPDATE
 
-    
 
     if year:
-        year = int(year)
-     
-        if today_month == 1:
-            
-            start_year = year - 1
-            present_year = present_year - 1
-            FY_year_current = year - 1
-        else: 
+        if year == present_year:
+            year = int(year)
+            print("year",year)
+
+            if school in schoolMonths["septemberSchool"]:
+                if today_month <= 8:
+                    
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+            else:
+                if today_month <= 6:
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+        else:
             start_year = year 
             FY_year_current = year
+
+
+
+
+
+
+
         
         
         
@@ -3183,12 +3203,28 @@ def balance_sheet(school,year):
     today_month = today_date.month
 
     if year:
-        year = int(year)
-        if today_month == 1:
-            start_year = year - 1
-            present_year = present_year - 1
-            FY_year_current = year - 1
-        else: 
+        if year == present_year:
+            year = int(year)
+            print("year",year)
+
+            if school in schoolMonths["septemberSchool"]:
+                if today_month <= 8:
+                    
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+            else:
+                if today_month <= 6:
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+        else:
             start_year = year 
             FY_year_current = year
         
@@ -4521,15 +4557,30 @@ def cashflow(school,year):
     today_month = today_date.month
 
     if year:
-        year = int(year)
-        if today_month == 1:
-            start_year = year - 1
-            present_year = present_year - 1
-            FY_year_current = year - 1
-        else: 
+        if year == present_year:
+            year = int(year)
+            print("year",year)
+
+            if school in schoolMonths["septemberSchool"]:
+                if today_month <= 8:
+                    
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+            else:
+                if today_month <= 6:
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+        else:
             start_year = year 
             FY_year_current = year
-        
      
         if school in schoolMonths["julySchool"]:
             current_date = datetime(start_year, 7, 1).date()
@@ -7321,12 +7372,28 @@ def balance_sheet_asc(school,year):
     today_month = today_date.month
 
     if year:
-        year = int(year)
-        if today_month == 1:
-            start_year = year - 1
-            present_year = present_year - 1
-            FY_year_current = year - 1
-        else: 
+        if year == present_year:
+            year = int(year)
+            print("year",year)
+
+            if school in schoolMonths["septemberSchool"]:
+                if today_month <= 8:
+                    
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+            else:
+                if today_month <= 6:
+                    start_year = year - 1
+                    present_year = present_year - 1
+                    FY_year_current = year - 1
+                else: 
+                    start_year = year 
+                    FY_year_current = year
+        else:
             start_year = year 
             FY_year_current = year
         
