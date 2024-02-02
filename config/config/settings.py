@@ -189,7 +189,7 @@ SCHOOLS = {
     "imagineinternational": "Imagine International Academy of North Texas",
     "eastfortworthmontessori": "East Fort Worth Montessori Academy",
     "aacademy": "A+ Academy",
-    "inspirevision": "Inspired Vision",
+    "inspiredvision": "Inspired Vision",
 }
 
 db = {
