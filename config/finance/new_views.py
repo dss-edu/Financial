@@ -193,16 +193,18 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
 
     net_ytd = context["net_income_ytd"]
     net_earnings = context["net_earnings"]
+    
+    if net_ytd:
+        if net_ytd < 0:
+            context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
+        else:
+            context["net_income_ytd"] = f"${net_ytd:.0f}"
 
-    if net_ytd < 0:
-        context["net_income_ytd"] = f"$({net_ytd * -1:.0f})"
-    else:
-        context["net_income_ytd"] = f"${net_ytd:.0f}"
-
-    if net_earnings < 0:
-        context["net_earnings"] = f"$({net_earnings * -1:.0f})"
-    else:
-        context["net_earnings"] = f"${net_earnings:.0f}"
+    if net_earnings:
+        if net_earnings < 0:
+            context["net_earnings"] = f"$({net_earnings * -1:.0f})"
+        else:
+            context["net_earnings"] = f"${net_earnings:.0f}"
 
     # turn int into month name
     # context["month"] = calendar.month_name[context["month"]]

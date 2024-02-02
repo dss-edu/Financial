@@ -70,20 +70,35 @@ def dashboard(school,anchor_year,anchor_month):
         if row is not None:
             last_month = date(curr_year, month_number, 1)
             last_month = last_month + relativedelta(day=31)
-            print("hey")
+            net_income_ytd = row[3]
+            days_coh = row[6]
+            net_earnings = row[8]
+            debt_service = row[11]
+            ratio_administrative = row[13]
             
+        else:
+            last_month = ""
+            net_income_ytd = ""
+            days_coh = ""
+            net_earnings = ""
+            debt_service = ""
+            ratio_administrative = ""
 
             
+            
 
+
+    
+    print(school)
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
         "date": last_month,
-        "net_income_ytd": row[3],
-        "days_coh": row[6],
-        "net_earnings": row[8],
-        "debt_service": row[11],
-        "ratio_administrative": row[13],
+        "net_income_ytd":net_income_ytd,
+        "days_coh":days_coh,
+        "net_earnings": net_earnings,
+        "debt_service": debt_service,
+        "ratio_administrative": ratio_administrative,
         "anchor_year": anchor_year,
         ## "ratio_student_teacher": row[14],
     }
