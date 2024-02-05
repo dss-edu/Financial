@@ -64,6 +64,8 @@ def update_fy(school,year):
     
 def profit_loss(school,year):
     print("profit_loss")
+    print(school)
+    print(year)
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
@@ -75,8 +77,9 @@ def profit_loss(school,year):
 
 
     if year:
+        year = int(year)
         if year == present_year:
-            year = int(year)
+            
             print("year",year)
 
             if school in schoolMonths["septemberSchool"]:
@@ -3203,8 +3206,9 @@ def balance_sheet(school,year):
     today_month = today_date.month
 
     if year:
+        year = int(year)
         if year == present_year:
-            year = int(year)
+            
             print("year",year)
 
             if school in schoolMonths["septemberSchool"]:
@@ -4557,8 +4561,9 @@ def cashflow(school,year):
     today_month = today_date.month
 
     if year:
+        year = int(year)
         if year == present_year:
-            year = int(year)
+            
             print("year",year)
 
             if school in schoolMonths["septemberSchool"]:
@@ -7372,8 +7377,9 @@ def balance_sheet_asc(school,year):
     today_month = today_date.month
 
     if year:
+        year = int(year)
         if year == present_year:
-            year = int(year)
+            
             print("year",year)
 
             if school in schoolMonths["septemberSchool"]:

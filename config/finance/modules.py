@@ -12,7 +12,7 @@ import calendar
 
 # Get the current date
 current_date = datetime.now()
-# Extract the month number from the current date
+
 month_number = current_date.month
 curr_year = current_date.year
 
@@ -29,26 +29,21 @@ def dashboard(school,anchor_year,anchor_month):
     # last_month = current_month - relativedelta(days=1)
 
     # need to validate and sanitize school to avoid SQLi
-    global month_number
-    global curr_year
+    current_date = datetime.now()
+
+    month_number = current_date.month
+    curr_year = current_date.year
+
+    
     cnxn = connect()
     cursor = cnxn.cursor()
 
-   
-    if school in schoolMonths["septemberSchool"]:
-        if month_number <= 8:
-            if month_number == 1:
-                month_number = 12
-                curr_year = curr_year - 1
-            else:
-                month_number = month_number - 1
+        
+    if month_number == 1:
+        month_number_curr = 12
+        curr_year = curr_year - 1
     else:
-        if month_number <= 6:
-            if month_number == 1:
-                month_number = 12
-                curr_year = curr_year - 1
-            else:
-                month_number = month_number - 1
+        month_number = month_number - 1
 
     if anchor_month:
         query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
@@ -67,6 +62,9 @@ def dashboard(school,anchor_year,anchor_month):
                     AND month = {month_number};"
         cursor.execute(query)
         row = cursor.fetchone()
+        print(row)
+        print(curr_year)
+        print(month_number)
         if row is not None:
             last_month = date(curr_year, month_number, 1)
             last_month = last_month + relativedelta(day=31)
@@ -76,7 +74,9 @@ def dashboard(school,anchor_year,anchor_month):
             debt_service = row[11]
             ratio_administrative = row[13]
             
+            
         else:
+
             last_month = ""
             net_income_ytd = ""
             days_coh = ""
@@ -89,7 +89,7 @@ def dashboard(school,anchor_year,anchor_month):
 
 
     
-    print(school)
+    
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
@@ -174,22 +174,36 @@ def charter_first(school,anchor_year,anchor_month):
     # need to validate and sanitize school to avoid SQLi
     cnxn = connect()
     cursor = cnxn.cursor()
-    global month_number
-    global curr_year
-    if school in schoolMonths["septemberSchool"]:
-        if month_number <= 8:
-            if month_number == 1:
-                month_number = 12
-                curr_year = curr_year - 1
-            else:
-                month_number = month_number - 1
+    current_date = datetime.now()
+
+    month_number = current_date.month
+    curr_year = current_date.year
+
+
+    if month_number == 1:
+        month_number = 12
+        curr_year = curr_year - 1
     else:
-        if month_number <= 6:
-            if month_number == 1:
-                month_number = 12
-                curr_year = curr_year - 1
-            else:
-                month_number = month_number - 1
+        month_number = month_number - 1
+
+    print(month_number)
+    print(curr_year)
+
+
+    # if school in schoolMonths["septemberSchool"]:
+    #     if month_number <= 8:
+    #         if month_number == 1:
+    #             month_number = 12
+    #             curr_year = curr_year - 1
+    #         else:
+    #             month_number = month_number - 1
+    # else:
+    #     if month_number <= 6:
+    #         if month_number == 1:
+    #             month_number = 12
+    #             curr_year = curr_year - 1
+    #         else:
+    #             month_number = month_number - 1
 
     if anchor_month:
             query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
@@ -205,7 +219,10 @@ def charter_first(school,anchor_year,anchor_month):
                     AND month = {month_number};"
         cursor.execute(query)
         row = cursor.fetchone()
+        print("hello")
 
+
+    
 
     context = {
         "school": school,

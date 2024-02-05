@@ -2853,9 +2853,10 @@ def generate_excel(request,school,anchor_year):
     cursor = cnxn.cursor()
 
 
-    global curr_year
-    global month_number #current month. not last month
+    current_date = datetime.now()
 
+    month_number = current_date.month
+    curr_year = current_date.year
     if anchor_year + 1 == curr_year:    
         if school in schoolMonths["septemberSchool"]:
             if month_number <= 8:
