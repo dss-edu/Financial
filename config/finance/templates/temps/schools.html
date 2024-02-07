@@ -111,13 +111,19 @@
                             <th><div style="width:150px;">Update Status</div></th>
                             <th><div style="width:150px;">Download GL</div></th>
                         </tr>
+                        <tr>
+                            <td colspan="8" style="text-align: center;"><strong>ASCENDER</strong></td>
 
+                        </tr>
                         {% for row in school_data %} 
+                       
+                        {% if row.ascender == 'True' %}
+
                         <tr>
                         
                             <td>{{row.school_name}}</td>
                             <td class="text-center">
-                                {% if row.PLbudget_status == "True" %}
+                                {% if row.PLbudget_status == "False" %}
 
                                 <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="Has Budget" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
@@ -215,6 +221,120 @@
 
 
                         </tr>
+                        {% endif %}
+                        {% endfor %}
+
+                        <tr>
+                            <td colspan="8" style="text-align: center;"><strong>SKYWARD</strong></td>
+
+                        </tr>
+                        {% for row in school_data %} 
+                       
+                        {% if row.ascender == 'False' %}
+
+                        <tr>
+                        
+                            <td>{{row.school_name}}</td>
+                            <td class="text-center">
+                                {% if row.PLbudget_status == "False" %}
+
+                                <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="Has Budget" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
+                                {% else %}
+                                <a href="#" 
+                                class="viewPL" 
+                                data-school="{{row.school_key}}" 
+                                data-toggle="popover"
+                                data-content="{% if row.PLbudget_status != 'True' %}{{ row.PLbudget_status }}<br>{% endif %}"
+                                style="color: red;"
+                                >
+                                    <i class="fa-solid fa-x"></i>
+                                {% endif %}
+                                
+                            </td>
+                            <td class="text-center">
+                                {% if row.PLrevenue_status == "True" and row.PLexpense_status == "True" and row.PLtotalexpense_status == "True" and row.pl_balanced == "True" %}
+
+                                <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
+                                {% else %}
+                                <a href="#" 
+                                class="viewPL" 
+                                data-school="{{row.school_key}}" 
+                                data-toggle="popover"
+                                data-content=" {% if row.pl_balanced != 'True' %} {{ row.pl_balanced }}<br>{% endif %}
+                                {% if row.PLrevenue_status != 'True' %} {{ row.PLrevenue_status }}<br>{% endif %}
+                                {% if row.PLexpense_status != 'True' %}{{ row.PLexpense_status }}<br>{% endif %}
+                                {% if row.PLtotalexpense_status != 'True' %}{{ row.PLtotalexpense_status }}{% endif %}"
+                                style="color: red;"
+                                >
+                                    <i class="fa-solid fa-x"></i>
+                                {% endif %}
+                                
+                            </td>
+
+                            <td class="text-center">
+                               
+                                    {% if row.BS_status == "BALANCED" %}
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
+                                    <i class="fa-solid fa-check"></i>
+                                    {% else %}
+                                    <a href="#" class="viewBS" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED" style="color: red;">
+                                    <i class="fa-solid fa-x"></i>
+                                    {%endif%}
+                                    </a>
+                            </td>
+                            <td class="text-center">
+
+                                {% if row.CF_status == "BALANCED" %}
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="BALANCED" style="color: lightgreen;">
+                                <i class="fa-solid fa-check"></i>
+                                </a>
+                                {% elif row.CF_status == "NO DATA" %}
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="NO DATA" style="color: red;">
+                                <i class="fa-solid fa-x"></i>
+                                </a>
+                                {% else %}
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="NOT BALANCED" style="color: red;">
+                                <i class="fa-solid fa-x"></i>
+                                </a>
+                                {% endif %}
+
+
+                            </td>
+
+                            <td class="text-center">
+                                <a href="#" class="viewCF" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: black;">
+                                    {{row.last_update}}
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                {% if row.ascender == "False" %}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                {% else %}
+                                    {% if row.update_status == "PASS" %}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                        <i class="fa-solid fa-check"></i>
+                                    </a>
+                                    {%else%}
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
+                                        <i class="fa-solid fa-x"></i>
+                                    </a>
+                                    {%endif%}
+                                {% endif %}
+                            </td>
+
+                            <td class="text-center">
+                                <a id="{{row.school_key}}"  class="DLGL"  data-toggle="tooltip" title="Download {{row.school_name}} GL" style="color: #007bff;">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        {% endif %}
                         {% endfor %}
 
                         <script>
