@@ -25,6 +25,8 @@ SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
+school_fye = settings.school_fye
+
 
 def update_db():
     for school, name in SCHOOLS.items():
@@ -3511,7 +3513,6 @@ def balance_sheet(school,year):
 
 
 
-        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
         unique_act = []
         for item in data_balancesheet:

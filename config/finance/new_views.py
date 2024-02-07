@@ -24,6 +24,7 @@ SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
+school_fye = settings.school_fye
 media_root = settings.MEDIA_ROOT
 JSON_DIR = FileSystemStorage(location=media_root)
 
@@ -362,7 +363,6 @@ def balance_sheet(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
-    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
     context["school_bs"] = "False"
     if school in school_fye:
         context["school_bs"] = "True"
@@ -451,8 +451,7 @@ def cashflow(request, school, anchor_year=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
 
-    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
-
+    
     context["school_bs"] = "False"
     if school in school_fye:
         context["school_bs"] = "True"
