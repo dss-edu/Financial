@@ -187,6 +187,12 @@
           <input class="form-check-input" type="checkbox" role="switch" id="showCurr" >
           <label class="form-check-label" for="showCurr">Show Current Month</label>
         </div>
+        
+        <div class="form-check form-switch"  style="margin-left:15px;">
+
+          <input class="form-check-input" type="checkbox" role="switch" id="showBudget" checked>
+          <label class="form-check-label" for="showBudget">Show Budget</label>
+        </div>
         <div class="blue  align-sef-end" >
           YE: {% if September == "True" %} August {% else %} June {% endif %}
 
@@ -2089,7 +2095,7 @@
     } // end of hideMonths
 
 
-    function showCurr() {
+    /*function showCurr() {
 
 
       var lm = last_month_number  - 2;    
@@ -2110,7 +2116,33 @@
 
       }
 
-  }
+  }*/
+
+  function showBudget() {
+
+
+   
+    var budgetTable = document.querySelectorAll(
+      "#table-main th:nth-child(2), " +
+      "#table-main td:nth-child(2), " +
+      "#table-main th:nth-child(3), " +
+      "#table-main td:nth-child(3)"
+  );
+  
+    for (var k = 0; k < budgetTable.length; k++) {
+ 
+      budgetTable[k].classList.toggle('d-none');        
+    }
+ 
+    console.log("working")
+
+}
+
+$("#showBudget").on("change", function(event) {
+
+  showBudget();
+
+  })
 
   $("#showCurr").on("change", function(event) {
     if ($('#showCurr').is(':checked')){
