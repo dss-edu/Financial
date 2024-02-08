@@ -123,7 +123,7 @@
                         
                             <td>{{row.school_name}}</td>
                             <td class="text-center">
-                                {% if row.PLbudget_status == "False" %}
+                                {% if row.PLbudget_status == "True" %}
 
                                 <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="Has Budget" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
@@ -236,7 +236,7 @@
                         
                             <td>{{row.school_name}}</td>
                             <td class="text-center">
-                                {% if row.PLbudget_status == "False" %}
+                                {% if row.PLbudget_status == "True" %}
 
                                 <a href="#" class="viewPL" data-school="{{row.school_key}}" data-toggle="tooltip" title="Has Budget" style="color: lightgreen;">
                                     <i class="fa-solid fa-check"></i>
