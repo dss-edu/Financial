@@ -63,6 +63,7 @@ def update_fy(school,year):
     excel(school,year)
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)
+    school_status(school)
     
 def profit_loss(school,year):
     print("profit_loss")
@@ -8452,6 +8453,275 @@ def balance_sheet_asc(school,year):
             file = os.path.join(json_path, f"{key}.json")
             with open(file, "w") as f:
                 json.dump(val, f)
+
+
+def school_status(request):
+    month_names = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+    }
+
+    
+
+    sept = ["09","10","11","12","01","02","03","04","05","06","07","08"]
+    july = ["07","08","09","10","11","12","01","02","03","04","05","06"]
+    school_data = []
+    BS_status=""
+    for key,value in SCHOOLS.items():
+        print(key)
+        
+   
+        BS_status = ""
+        pl_path = os.path.join("profit-loss", key)
+        js_path = os.path.join(JSON_DIR, pl_path)
+        
+        with open(os.path.join(js_path, "months.json"), "r") as f:
+            months = json.load(f)
+
+        with open(os.path.join(js_path, "data.json"), "r") as f:
+            data = json.load(f)
+
+        with open(os.path.join(js_path, "data2.json"), "r") as f:
+            data2 = json.load(f)
+
+        with open(os.path.join(js_path, "totals.json"), "r") as f:
+            totals = json.load(f)
+
+        
+
+        
+
+        if os.path.exists(os.path.join(js_path, "last_update.json")):
+            with open(os.path.join(js_path, "last_update.json"), "r") as f:
+                last_update = json.load(f)
+        else:
+            last_update = ""
+
+        with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
+            data_expensebyobject = json.load(f)
+
+        relative_path = os.path.join("balance-sheet", key)
+        json_path = os.path.join(JSON_DIR, relative_path)
+        with open(os.path.join(json_path, "totals_bs.json"), "r") as f:
+            totals_bs = json.load(f)
+
+        cashflow_path = os.path.join("cashflow", key)
+        cashflow_file = os.path.join(JSON_DIR, cashflow_path)
+        if os.path.exists(os.path.join(cashflow_file, "cf_totals.json")):
+            with open(os.path.join(cashflow_file, "cf_totals.json"), "r") as f:
+                cf_totals = json.load(f)
+        else:
+            cf_totals = ""
+
+
+        PLbudget_status = "No Budget"
+        PLbudget_counter = 0
+        for row in data:
+            budget = row.get("total_budget")
+   
+            if budget != "":
+                PLbudget_counter += 1
+
+        if PLbudget_counter > 1:
+            PLbudget_status ="True"
+                
+               
+
+        
+
+     
+        if "month_exception" in months:
+            last_month_number = months["last_month_number"]
+           
+            month_exception = months["month_exception"]
+            month_exception_str = months["month_exception_str"]
+            last_month_number_str = str(last_month_number).zfill(2)
+            
+            total_LNA = totals_bs.get("total_LNA", {})
+            total_assets = totals_bs.get("total_assets", {})
+            month_exception_str = months["month_exception_str"]
+
+            ytd_netsurplus = totals["ytd_netsurplus"]
+            variances_netsurplus = totals["variances_netsurplus"]
+            ytd_netincome = totals["ytd_net_income"]
+            variances_netincome = totals["variances_net_income"]
+
+            pl_balanced = "Not Balanced"
+            if ytd_netsurplus == ytd_netincome and variances_netsurplus == variances_netincome:
+                pl_balanced = "True"
+               
+      
+            month_name = month_names.get(last_month_number, "Current")
+
+            PLrevenue_status = f"No Revenue for {month_name}"
+            PLrevenue_counter = 0
+            for row in data:
+                revenue = row.get(f'total_real{last_month_number}')
+                if revenue != "":
+                    PLrevenue_counter += 1
+
+            if PLrevenue_counter > 1:
+                PLrevenue_status ="True"
+
+            PLexpense_status =f"No Expense for {month_name}"
+            PLexpense_counter = 0
+            for row in data2:
+                expense = row.get(f'total_func{last_month_number}')
+                if expense != "":
+                    PLexpense_counter += 1
+
+            if PLexpense_counter>1:
+                PLexpense_status = "True"
+
+            PLtotalexpense_status = f"No Expense by object for {month_name}"
+            PLtotalexpense_counter = 0        
+            for row in data_expensebyobject:
+                total_expense = row.get(f'total_expense{last_month_number}')
+                if total_expense != "":
+                    PLtotalexpense_counter += 1
+            
+            if PLtotalexpense_counter > 1:
+                PLtotalexpense_status = "True"
+
+            
+      
+
+            if 'cfchecker' in cf_totals and isinstance(cf_totals['cfchecker'], dict):
+                
+                checker_values = [
+                    cf_totals['cfchecker'].get(month, 0) for month in ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"]
+                ]
+            
+                all_zero = all(value == 0 for value in checker_values)
+
+               
+                CF_status = "BALANCED" if all_zero else "NOT BALANCED"
+                print(key, CF_status)
+            else:
+                CF_status = "NO DATA"
+
+
+
+            if key in schoolMonths["septemberSchool"]:
+                for month in sept:
+                    if month == month_exception_str:
+         
+
+                        break
+                    
+                    else:
+                        total_LNA_value = int(total_LNA.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        total_assets_value = int(total_assets.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        BS_status = "BALANCED"
+                    
+                        if total_LNA_value != total_assets_value:
+                            BS_status = "NOT BALANCED"
+            else:
+                for month in july:
+                    if month == month_exception_str:
+                        
+                        break
+                    
+                    else:
+                        total_LNA_value = int(total_LNA.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        total_assets_value = int(total_assets.get(month, "0").replace(",", "").replace("$", "").replace("(", "-").replace(")", ""))
+                        BS_status = "BALANCED"
+                    
+                        if total_LNA_value != total_assets_value:
+                            BS_status = "NOT BALANCED"
+
+
+            db_string = (db[key]['db'])
+            db_string = db_string.strip('[]')
+            cnxn = connect()
+            cursor = cnxn.cursor()
+            query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+            cursor.execute(query,db_string)
+            print(db_string)
+            row = cursor.fetchone()
+            update_status = ""
+            if row:
+                update_status = row[5]
+                print("db",row[4])
+
+            ascender = 'True'
+            if key in schoolCategory["skyward"]:
+                ascender = 'False'
+
+        
+        if key in schoolCategory["ascender"]:
+            row_data = {
+                "school_key":key,
+                "school_name": value,
+                "school_category": "ascender",
+                "BS_status": BS_status,
+                "PLbudget_status":PLbudget_status,
+                "PLrevenue_status":PLrevenue_status,
+                "PLexpense_status":PLexpense_status,
+                "PLtotalexpense_status":PLtotalexpense_status,
+                "pl_balanced":pl_balanced,
+                "last_update": last_update,
+                "CF_status": CF_status,
+                "update_status":update_status,
+                "ascender":ascender,
+            }
+            school_data.append(row_data)
+        else:
+            row_data = {
+                "school_key":key,
+                "school_name": value,
+                "school_category": "skyward",
+                "BS_status": BS_status,
+                "PLbudget_status":PLbudget_status,
+                "PLrevenue_status":PLrevenue_status,
+                "PLexpense_status":PLexpense_status,
+                "PLtotalexpense_status":PLtotalexpense_status,
+                "pl_balanced":pl_balanced,
+                "last_update": last_update,
+                "update_status":update_status,
+                "ascender":ascender,
+            }
+            school_data.append(row_data)
+
+    def custom_sort(entry):
+
+        if entry["school_key"] == "advantage":
+            return (0, entry["school_key"])
+        else:
+            return (1, entry["school_key"])
+
+    sorted_school_data = sorted(school_data, key=custom_sort)
+
+
+
+
+    context = {
+      
+        'school_data': sorted_school_data
+    }
+
+    cursor.close()
+    cnxn.close()    
+
+
+    json_path = os.path.join(JSON_DIR,"school-status")
+    shutil.rmtree(json_path, ignore_errors=True)
+    if not os.path.exists(json_path):
+        os.makedirs(json_path)
+    for key, val in context.items():
+        file = os.path.join(json_path, f"{key}.json")
+        with open(file, "w") as f:
+            json.dump(val, f)
 
 
 if __name__ == "__main__":
