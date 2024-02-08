@@ -84,6 +84,7 @@ def updateschool(request,school):
     return redirect(f'/dashboard/{school}')
 
 def loginView(request):
+    context = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -118,7 +119,10 @@ def loginView(request):
                    
                     return redirect(f'/dashboard/{role}')
 
-        return redirect('login')
+        else:
+            context["error"] = "True"
+            
+            return render(request, 'login.html', context)
 
     elif request.method == "GET":
         return render(request, 'login.html')

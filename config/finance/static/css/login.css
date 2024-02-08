@@ -1,5 +1,5 @@
 html,body{
-    background-image: url("/static/img/3.jpeg");
+    /* background-image: url("/static/img/3.jpeg"); */
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -21,6 +21,7 @@ html,body{
     margin-bottom: auto;
     width: 400px;
     background-color: rgba(0,0,0,0.5) !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
     
     
@@ -35,9 +36,10 @@ html,body{
     
     .input-group-prepend span{
     width: 50px;
-    background-color: #0b29d3;
+    background-color: #114c8c;
     color: black;
     border:0 !important;
+    height:100%;
     }
     
     input:focus{
@@ -60,7 +62,7 @@ html,body{
     
     .login_btn{
     color: black;
-    background-color: #586acf;
+    background-color:#114c8c;
     width: 100px;
     }
     
@@ -76,3 +78,8 @@ html,body{
     .links a{
     margin-left: 4px;
     }
+
+    .modal{
+
+    }
+    

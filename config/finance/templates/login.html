@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 {% load static %}
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title%}
+            {%endblock%}
+        </title>
+       
+                    <!-------------------------- libraries  --------------------------->
+<!-- jQuery -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap 5 JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <!-- font-awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        {% block libraries %}
+
+        {% endblock %}
+        <!-------------------------- styles  --------------------------->
+        <link rel="stylesheet" href="{% static 'mockup/css/base.css'%}">
+
+        {% block stylesheets %}
+        {% endblock %}
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
     </head>
     <body  >
@@ -23,36 +43,77 @@
                     <div class="card-header">
                         <center><strong><h3>Sign In</h3><strong><center>
 
-                        </div>
-                            <div class="card-body">
-                                <form action="{% url 'login' %}" method="post">
-                                    {% csrf_token %}
-                                    <label for="user" class="label" >Username</label>
-                                    <div class="input-group form-group">
-
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" placeholder="username" name="username" required>
-
-                                    </div>
-                                    <label for="pass" class="label">Password</label>
-                                    <div class="input-group form-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                        </div>
-                                        <input type="password" class="form-control" placeholder="password" name="password" required>
-                                    </div>
-                                    &nbsp;
-
-                                    <div class="form-group">
-                                        <input type="submit" value="Login" class="btn float-right login_btn">
-                                    </div>
-                                </form>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <label for="user" class="label" >Username</label>
+                            <div class="input-group form-group py-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="username" name="username" required>
                             </div>
+                            <label for="pass" class="label" >Password</label>
+                            <div class="input-group form-group py-3 " >
 
-                        </div>
-                        </div>
-                        </div>
-                    </body>
-                </html>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="password" name="password" required>
+                            </div>
+                            &nbsp;
+                            &nbsp;
+                            <div class="form-group py-5"  style="float: right;" >
+                                <input type="submit" value="Login" class="btn login_btn">
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+   <div id="myModal" class="modal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style="height: 80%;">
+      
+            <div class="modal-body">
+               
+              <p style="text-align:center;">Wrong Username  or Password</p>
+            </div>
+            <div class="modal-footer" >
+           
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">OK</button>
+            </div>
+          </div>
+        </div>
+    </div> 
+
+</html>
+
+<!-------------------------- Javascripts here   --------------------------------->
+<!-- library javascript here  -->
+<!-- bootstrap  -->
+
+
+{% block javascript %}
+<script>
+    $(document).ready(function() {
+        var error = "{{error}}";
+        console.log(error)
+        if(error=='True'){
+            $('#myModal').modal('show'); // Show the modal on page load
+        }
+    
+    });
+    $('#close').on('click', function(){
+    
+        $('#myModal').modal('hide')
+      })
+</script>
+{% endblock %}
