@@ -26,8 +26,7 @@ SECRET_KEY = "django-insecure-6-e5$@l92n9ma)fq4z83dq6+ynf=!fpbzfb7ps3%_bk33@ys7d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [    
-    "ec2-13-230-82-195.ap-northeast-1.compute.amazonaws.com",
+ALLOWED_HOSTS = [        
     "data.dssedu.com",
     "financialreport.dssedu.com",
     "localhost"
@@ -191,6 +190,7 @@ SCHOOLS = {
     "aacademy": "A+ Academy",
     "inspiredvision": "Inspired Vision Academy Secondary",
     "trinitybasin": "Trinity Basin Preparatory",
+    "winfree": "Winfree Academy Charter Schools",
 }
 
 db = {
@@ -467,19 +467,32 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+    "winfree": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_Winfree]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori", "aacademy", "inspiredvision"],
-    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin"]
+    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree"]
 }
 
-school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa','aacademy']
+school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision"]
 
 
 # filters must be a dictionary with key = column and value = "(string of values to filter)"
