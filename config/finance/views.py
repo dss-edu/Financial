@@ -770,7 +770,7 @@ def delete_bsa(request, obj, Activity):
 
 def viewgl(request,fund,obj,yr,school,year,url):
     null_values = [None, 'null', 'None']
-    print(request)
+
     try:
         print(year)
         print(url)
@@ -791,11 +791,12 @@ def viewgl(request,fund,obj,yr,school,year,url):
             else:
                 return ""
 
-        
+
         cnxn = connect()
         cursor = cnxn.cursor()
-        date_string = f"{year}-09-01T00:00:00.0000000"
-        date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
+        # date_string = f"{year}-09-01T00:00:00.0000000"
+
+        # date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
         filters = settings.filters
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
@@ -804,29 +805,33 @@ def viewgl(request,fund,obj,yr,school,year,url):
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
             filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query}  fund = ? and obj = ? and AcctPer = ? "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query}  fund = ? and obj = ? and AcctPer = ?   "
                 cursor.execute(query, (fund,obj,yr))
                 
             else:
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and MONTH(Date) = ? "
-                cursor.execute(query, (fund,obj,date_object.month))
+                #cursor.execute(query, (fund,obj,date_object.month))
+                cursor.execute(query, (fund,obj,yr))
         else:
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+      
             filter_query = filter_query + ' AND'
             if url == 'acc':
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and Month = ? "
+  
                 cursor.execute(query, (fund,obj,yr))
-                
+      
             else:
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? and MONTH(PostingDate) = ? "
-                cursor.execute(query, (fund,obj,date_object.month))
+                #cursor.execute(query, (fund,obj,date_object.month))
+                cursor.execute(query, (fund,obj,yr))
 
 
-        
+
         rows = cursor.fetchall()
-    
+ 
         gl_data=[]
-    
+
         if school in schoolCategory["ascender"]:
             for row in rows:
                 date_str=row[11]
@@ -873,10 +878,13 @@ def viewgl(request,fund,obj,yr,school,year,url):
 
                     gl_data.append(row_dict)
         else:
+         
             for row in rows:
+      
                 amount = float(row[19])
                 date = row[9]
-                
+       
+
                 if isinstance(row[9], datetime):
                     date = row[9].strftime("%Y-%m-%d")
                 acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
@@ -887,12 +895,13 @@ def viewgl(request,fund,obj,yr,school,year,url):
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
                 invoice_date = row[16]
+   
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
-
+                
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
@@ -949,12 +958,16 @@ def viewgl(request,fund,obj,yr,school,year,url):
 
                         gl_data.append(row_dict)
 
-        if request.path.startswith('/viewgl/'):
+        print("itpassed")
+
+        # if request.path.startswith('/viewgl/'):
+        if school in schoolCategory["ascender"]:
             total_bal = sum(float(row['Real']) for row in gl_data)
         else:
             total_bal = sum(float(row['Amount']) for row in gl_data)
     
         total_bal = format_value(total_bal)
+        print(total_bal)
 
 
         context = { 
@@ -1105,10 +1118,10 @@ def viewgl_all(request, school, year, url, yr=""):
 
                 invoice_date = row[16]
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 
@@ -1580,10 +1593,10 @@ def viewgl_activitybs(request,yr,school,year,url):
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
                 invoice_date = row[16]
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 
@@ -1792,10 +1805,10 @@ def viewglfunc(request,func,yr,school,year,url):
 
                 invoice_date = row[16]
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 
@@ -2024,10 +2037,10 @@ def viewglfunc_all(request,school,year,url, yr=""):
 
                 invoice_date = row[16]
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 
@@ -2448,11 +2461,12 @@ def viewglexpense(request,obj,yr,school,year,url):
                     date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
 
                 invoice_date = row[16]
+                print(invoice_date)
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 
@@ -2709,10 +2723,10 @@ def viewglexpense_all(request,school,year,url,yr=""):
 
                 invoice_date = row[16]
 
-                if invoice_date not in null_values:
-                    invoice_date = invoice_date if invoice_date.year > 2021 else ''
-                else:
-                    invoice_date = ''
+                # if invoice_date not in null_values:
+                #     invoice_date = invoice_date if invoice_date.year > 2021 else ''
+                # else:
+                #     invoice_date = ''
 
                 if school in schoolMonths["julySchool"]:
                 

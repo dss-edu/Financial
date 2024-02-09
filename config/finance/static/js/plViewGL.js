@@ -200,13 +200,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
+  
+
   async function fetchDataAndPopulateModalYTD({fund, func, obj, school, year, url, endpointName}) {
     // TODO do something about this
     // get only months that are viewable in the table
-    const yr = ['09','10']
+    console.log(sept)
+    let yr = []
+    if(sept == 'True'){
+      
+      yr = ['09','10','11','12','01','02','03','04','05','06','07','08']
+
+    }else{
+      yr = ['07','08','09','10','11','12','01','02','03','04','05','06']
+
+    }
+    
     const ytdData = {gl_data: [], total_bal: 0}
 
-    for (const month of yr) {
+    if(last_month_ytd == 12){
+      last_month_ytd = 1
+    }else{
+      last_month_ytd = last_month_ytd +1
+    }
+   
+    const last_month_padded = last_month_ytd < 10 ? '0' + last_month_ytd : last_month_ytd.toString();
+    for (let i = 0; i < yr.length; i++)  {
+      const month = yr[i];
+      console.log(month)
+      
+      if (parseInt(month, 10) == parseInt(last_month_padded, 10)) {
+        break; // Exit the loop if the current month exceeds the last_month_ytd
+    }
       const endpoints = {
         'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
         'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
