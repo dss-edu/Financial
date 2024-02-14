@@ -7392,22 +7392,31 @@ def updateDescription(table, school):
     rows = cursor.fetchall()
 
     for row in rows:
-        queryStatement = "update [dbo].[ActivityBS] set Description = '" + my_obj[row[1]] + "' where obj = '" + row[1] + "' and school = '" + school + "'"
-        cursor.execute(queryStatement)
+        try:
+            queryStatement = "update [dbo].[ActivityBS] set Description = '" + my_obj[row[1]] + "' where obj = '" + row[1] + "' and school = '" + school + "'"
+            cursor.execute(queryStatement)
+        except:
+            pass
         
     cursor.execute(f"SELECT  * FROM [dbo].[PL_Activities] where school = '" + school + "'")
     rows = cursor.fetchall()
 
     for row in rows:
-        queryStatement = "update [dbo].[PL_Activities] set Description = '" + my_obj[row[0]] + "' where obj = '" + row[0] + "' and school = '" + school + "'"
-        cursor.execute(queryStatement)
+        try:
+            queryStatement = "update [dbo].[PL_Activities] set Description = '" + my_obj[row[0]] + "' where obj = '" + row[0] + "' and school = '" + school + "'"
+            cursor.execute(queryStatement)
+        except:
+            pass
 
     cursor.execute(f"SELECT  * FROM [dbo].[PL_Definition_obj] where school = '" + school + "'")
     rows = cursor.fetchall()
 
     for row in rows:
-        queryStatement = "update [dbo].[PL_Definition_obj] set Description = '" + my_fund[row[0] + '-' + row[1]] + "' where fund = '" + row[0] + "' and obj = '" + row[1] + "' and school = '" + school + "'"
-        cursor.execute(queryStatement)
+        try:
+            queryStatement = "update [dbo].[PL_Definition_obj] set Description = '" + my_fund[row[0] + '-' + row[1]] + "' where fund = '" + row[0] + "' and obj = '" + row[1] + "' and school = '" + school + "'"
+            cursor.execute(queryStatement)
+        except:
+            pass
 
     cnxn.commit()
 
