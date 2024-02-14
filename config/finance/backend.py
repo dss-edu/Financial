@@ -7376,13 +7376,13 @@ def updateDescription(table, school):
     my_obj = {}
     my_fund = {}
 
-    cursor.execute("SELECT distinct obj, AcctDescr FROM dbo." + table + " where AcctDescr != ''")
+    cursor.execute("SELECT distinct obj, AcctDescr FROM " + table + " where AcctDescr != ''")
     rows = cursor.fetchall()
 
     for row in rows:
         my_obj[row[0]] = row[1]
 
-    cursor.execute("SELECT distinct fund, obj, AcctDescr FROM dbo." + table + " where AcctDescr != ''")
+    cursor.execute("SELECT distinct fund, obj, AcctDescr FROM " + table + " where AcctDescr != ''")
     rows = cursor.fetchall()
 
     for row in rows:
