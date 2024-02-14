@@ -63,6 +63,7 @@ def update_fy(school,year):
     excel(school,year)
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)
+        updateDescription(db[school]['db'], school)
     school_status(school)
     
 def profit_loss(school,year):
@@ -7367,7 +7368,48 @@ def assignedType(objectCode):
         return ['Net Assets', 'Equity']
     return ''
     
+def updateDescription(table, school):
 
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    my_obj = {}
+    my_fund = {}
+
+    cursor.execute("SELECT distinct obj, AcctDescr FROM dbo." + table + " where AcctDescr != ''")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        my_obj[row[0]] = row[1]
+
+    cursor.execute("SELECT distinct fund, obj, AcctDescr FROM dbo." + table + " where AcctDescr != ''")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        my_fund[row[0] + '-' + row[1]] = row[2]
+                
+    cursor.execute(f"SELECT  * FROM [dbo].[ActivityBS] where school = '" + school + "'")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        queryStatement = "update [dbo].[ActivityBS] set Description = '" + my_obj[row[1]] + "' where obj = '" + row[1] + "' and school = '" + school + "'"
+        cursor.execute(queryStatement)
+        
+    cursor.execute(f"SELECT  * FROM [dbo].[PL_Activities] where school = '" + school + "'")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        queryStatement = "update [dbo].[PL_Activities] set Description = '" + my_obj[row[0]] + "' where obj = '" + row[0] + "' and school = '" + school + "'"
+        cursor.execute(queryStatement)
+
+    cursor.execute(f"SELECT  * FROM [dbo].[PL_Definition_obj] where school = '" + school + "'")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        queryStatement = "update [dbo].[PL_Definition_obj] set Description = '" + my_fund[row[0] + '-' + row[1]] + "' where fund = '" + row[0] + "' and obj = '" + row[1] + "' and school = '" + school + "'"
+        cursor.execute(queryStatement)
+
+    cnxn.commit()
 
 def balance_sheet_asc(school,year):
     print("balance_sheet_asc")
@@ -8722,7 +8764,6 @@ def school_status(request):
         file = os.path.join(json_path, f"{key}.json")
         with open(file, "w") as f:
             json.dump(val, f)
-
 
 if __name__ == "__main__":
     update_db()
