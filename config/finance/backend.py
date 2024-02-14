@@ -52,6 +52,7 @@ def update_school(school):
     profit_loss_date(school)  # 
 
 def update_fy(school,year):
+    updateDescription(db[school]['db'], school)
     writeCodes(school, db[school]['db'], year)
     profit_loss(school,year) 
     balance_sheet(school,year)
@@ -63,7 +64,7 @@ def update_fy(school,year):
     excel(school,year)
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)
-        updateDescription(db[school]['db'], school)
+        #updateDescription(db[school]['db'], school)
     school_status(school)
     
 def profit_loss(school,year):
