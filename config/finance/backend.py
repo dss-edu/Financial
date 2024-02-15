@@ -4375,12 +4375,12 @@ def balance_sheet(school,year):
                         row[key] = "({:,.0f})".format(float(row[key]))
 
 
-        # if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
-        #     for row in data_activitybs:
-        #         if row['Activity'] == "AP" or row["Activity"] == 'Cash':
-        #             row["activity_fye"] = format_value_dollars(row["activity_fye"])
-        #         else:
-        #             row["activity_fye"] = format_value(row["activity_fye"])
+        if school in schoolCategory["skyward"] or school in school_fye:
+            for row in data_activitybs:
+                if row['Activity'] == "AP" or row["Activity"] == 'Cash':
+                    row["activity_fye"] = format_value_dollars(row["activity_fye"])
+                else:
+                    row["activity_fye"] = format_value(row["activity_fye"])
 
         # for row in data_balancesheet:
         #     subcategory = row["Subcategory"]
@@ -4447,8 +4447,8 @@ def balance_sheet(school,year):
 
         # func_choice = list(set(row['func'] for row in data3 if 'func' in row))
         # func_choice_sorted = sorted(func_choice)
-    
 
+        data_activitybs = sorted(data_activitybs, key=lambda x: x['obj'])
         #difference_key = "difference_" + str(last_month_number)
         context = {
             "data_balancesheet": data_balancesheet,
