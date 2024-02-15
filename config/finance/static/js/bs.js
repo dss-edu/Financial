@@ -54,23 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
       var newRow = document.createElement("tr");
 
       if (ascender == "True") {
+
         newRow.innerHTML = `
-                    <td class="text-end">${row.fund}</td>
-                    <td class="text-end">${row.func}</td>
-                    <td class="text-end">${row.obj}</td>
+                    <td class="text-end  px-3">${row.fund}</td>
+                    <td class="text-end  px-3">${row.func}</td>
+                    <td class="text-end  px-3">${row.obj}</td>
 
 
-                    <td class="text-start text-nowrap"  style=" padding-left:30px !important;">${row.AcctDescr}</td>
-                    <td class="text-center">${row.Number}</td>
-                    <td class="text-center" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
+                      <td class="text-start text-nowrap  px-3"  style=" padding-left:30px !important;">${row.AcctDescr}</td>
+                    <td class="text-center  px-3">${row.Number}</td>
+                    <td class="text-center  px-3" style="white-space: nowrap;">${formatDateToYYYYMMDD(row.Date)}</td>
 
-                    <td class="text-end">${row.AcctPer}</td>
-                    <td class="text-end">${row.Real}</td>
-                    <td class="text-end">${row.Expend}</td>
-                    <td class="text-end">${row.Bal}</td>
+                    <td class="text-end  px-3">${ row.AcctPer}</td>
+                    <td class="text-end  px-3">${row.Real}</td>
+                    <td class="text-end  px-3">${row.Expend}</td>
+                    <td class="text-end  px-3">${row.Bal}</td>
 
-                    <td class="text-start" style="white-space: nowrap;  padding-left:30px !important;">${row.WorkDescr}</td>
-                    <td class="text-start">${row.Type}</td>
+                    <td class="text-start  px-3" style="white-space: nowrap;  padding-left:30px !important;">${row.WorkDescr}</td>
+                    <td class="text-start  px-3">${row.Type}</td>
                   `;
       } else {
         newRow.innerHTML = `
@@ -133,6 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
   //     .catch(function (error) {});
   // }
 
+
   function fetchDataAndPopulateModal(obj, yr, school, year, url) {
     data = {
       obj: obj
@@ -155,6 +157,13 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#spinner-modal").modal("hide");
 
         populateModal(data.data, data.total_bal);
+        const gltable = $('#balancesheet-data-table').DataTable()
+        if(ascender == 'True'){
+          gltable.column(7).visible(false);
+          gltable.column(8).visible(false);
+          
+        }
+
 
         // modal.style.display = "block";
 

@@ -958,7 +958,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
 
                         gl_data.append(row_dict)
 
-        print("itpassed")
+   
 
         # if request.path.startswith('/viewgl/'):
         if school in schoolCategory["ascender"]:
@@ -967,7 +967,12 @@ def viewgl(request,fund,obj,yr,school,year,url):
             total_bal = sum(float(row['Amount']) for row in gl_data)
     
         total_bal = format_value(total_bal)
-        print(total_bal)
+
+        for row in gl_data:
+            if school in schoolCategory["ascender"]:
+                row['Real'] = format_value(row['Real'])
+            else:
+                row['Amount'] = format_value(row['Amount'])
 
 
         context = { 
@@ -1194,6 +1199,11 @@ def viewgl_all(request, school, year, url, yr=""):
         total_bal = sum(float(row[expend_key]) for row in gl_data)
     
         total_bal = format_value(total_bal)
+
+        for row in gl_data:
+            row[expend_key] = format_value(row[expend_key])
+
+        
 
         context = { 
             'gl_data':gl_data,
@@ -1624,7 +1634,7 @@ def viewgl_activitybs(request,yr,school,year,url):
                             "CheckDate": row[18],
                             "Amount": float(row[19]) if row[19] not in null_values else '',
                         }
-                        print(amount)
+                     
                         glbs_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
@@ -1651,9 +1661,9 @@ def viewgl_activitybs(request,yr,school,year,url):
                             "CheckDate": row[18],
                             "Amount": amount,
                         }
-                        print(amount)
+                       
                         glbs_data.append(row_dict)
-        print("hm")
+
         total_expend = 0 
         bal_key = "Bal"
         if school in schoolCategory["skyward"]:
@@ -1669,9 +1679,12 @@ def viewgl_activitybs(request,yr,school,year,url):
             
         
         
-        print("hms")
+      
         # total_bal = sum(row['Bal'] for row in glbs_data)
         total_bal = format_value(total_expend)
+        for row in glbs_data:
+            row[bal_key] = format_value(row[bal_key])
+
         
         context = { 
             'glbs_data':glbs_data,
@@ -1896,6 +1909,9 @@ def viewglfunc(request,func,yr,school,year,url):
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
         total_bal = format_value(total_expend)
+
+        for row in gl_data:
+            row[expend_key] = format_value(row[expend_key])
         
        
         context = { 
@@ -2116,8 +2132,8 @@ def viewglfunc_all(request,school,year,url, yr=""):
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
         total_bal = format_value(total_expend)
-        
-       
+        for row in gl_data:
+            row[expend_key] = format_value(row[expend_key])
         context = { 
             'gl_data':gl_data,
             'total_bal':total_bal
@@ -2543,7 +2559,8 @@ def viewglexpense(request,obj,yr,school,year,url):
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
         total_bal = format_value(total_expend)
-        
+        for row in gl_data:
+            row[expend_key] = format_value(row[expend_key])
 
         context = { 
             'gl_data':gl_data,
@@ -2804,7 +2821,8 @@ def viewglexpense_all(request,school,year,url,yr=""):
         
         # total_bal = sum(float(row['Expend'].replace(',','')) for row in glfunc_data)
         total_bal = format_value(total_expend)
-        
+        for row in gl_data:
+            row[expend_key] = format_value(row[expend_key])
 
         context = { 
             'gl_data':gl_data,

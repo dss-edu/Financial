@@ -237,30 +237,31 @@ a:hover{
     </div>
 </div> <!-- End of spinner modal -->
 
-<div class="modal" id="myModal">
+<div class="modal" id="myModal"  role="dialog"   
+data-backdrop="static"
+data-keyboard="false">
   <div class="modal-dialog modal-dialog-centered"
   style="width: 95%; height: 80%; max-width: none; max-height: none">
     <div class="modal-content" style="height: 80%;">
       <div class="modal-body" style="max-height: 80%; overflow-y: auto;">
         <!-- Modify the table to display the data from the viewgl function -->
         <div id="modal-table-box">
-        <table id="balancesheet-data-table" class="table table-hover">
+        <table id="balancesheet-data-table" class="table table-hover w-100">
           <thead>
             {% if ascender == "True" %}
             <tr class="text-center black-header">
-              <th class="text-center">fund</th>
-              <th class="text-center">func</th>
-              <th class="text-center">obj</th>
-
-              <th class="text-center">AcctDescr</th>
-              <th class="text-center">Number</th>
-              <th class="text-center">Date</th>
-              <th class="text-center">AcctPer</th>
-              <th class="text-center width150">Real</th>
-              <th class="text-center width150">Expend</th>
-              <th class="text-center width150">Bal</th>
-              <th class="text-center">WorkDescr</th>
-              <th class="text-center">Type</th>
+              <th class="text-center px-5">fund</th>
+              <th class="text-center px-5">func</th>
+              <th class="text-center px-5">obj</th>
+              <th class="text-center px-5">AcctDescr</th>
+              <th class="text-center px-5">Number</th>
+              <th class="text-center px-5">Date</th>
+              <th class="text-center px-5">AcctPer</th>
+              <th class="text-center px-5">Real</th>
+              <th class="text-center px-5">Expend</th>
+              <th class="text-center px-5">Bal</th>
+              <th class="text-center px-5">WorkDescr</th>
+              <th class="text-center px-5">Type</th>
             </tr>
 
             {% else%}

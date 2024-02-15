@@ -142,6 +142,22 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   // REVENUE TOTAL
 
+  function removeColumn(request){
+    var viewGLdatatable = $("#balancesheet-data-table1").DataTable();
+    if (ascender == 'True'){
+      if (request == "viewgl" ){
+        
+        viewGLdatatable.column(8).visible(false);
+        viewGLdatatable.column(9).visible(false);
+      }
+      else if (request == "viewglfunc" || request == "viewglexpense"){
+        viewGLdatatable.column(7).visible(false);
+        viewGLdatatable.column(9).visible(false);
+
+      }
+    } 
+  }
+  
   function fetchDataAndPopulateModal(fund, obj, yr, school, year,url) {
     fetch(`/viewgl/${fund}/${obj}/${yr}/${school}/${year}/${url}`)
       .then(function (response) {
@@ -152,6 +168,8 @@ document.addEventListener("DOMContentLoaded", function () {
           $("#spinner-modal").modal("hide");
         
           populateModal(data.data, data.total_bal);
+          removeColumn("viewgl")
+
 
           modal.style.display = "block";
         } else {
@@ -301,6 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then(function (data) {
         if (data.status === "success") {
           populateModal(data.data, data.total_bal);
+          removeColumn("viewglfunc")
 
           modal.style.display = "block";
         } else {
@@ -354,6 +373,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.status === "success") {
           // Populate the modal with the fetched data
           populateModal(data.data, data.total_bal);
+          removeColumn("viewglexpense")
           // Show the modal
           modal.style.display = "block";
         } else {
@@ -532,6 +552,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data.status === 'success'){
         $("#spinner-modal").modal("hide");
         populateModal(data.data)
+        removeColumn("viewgl")
         modal.style.display = "block";
       }
       else {
@@ -593,6 +614,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data.status === 'success'){
         $("#spinner-modal").modal("hide");
         populateModal(data.data)
+        removeColumn("viewglfunc")
         modal.style.display = "block";
       }
       else {
@@ -712,6 +734,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data.status === 'success'){
         $("#spinner-modal").modal("hide");
         populateModal(data.data)
+        removeColumn("viewglexpense")
         modal.style.display = "block";
       }
       else {
