@@ -6702,6 +6702,8 @@ def charter_first(school):
 
 
     date_string = pl_months["last_month"]
+    FY_year_1 = pl_months["FY_year_1"]
+
     pl_lmn = pl_months["last_month_number"]
 
     key_month = "0" + str(pl_lmn) if pl_lmn < 10 else str(pl_lmn)
@@ -6714,20 +6716,17 @@ def charter_first(school):
 
     date_format = "%B %d, %Y"
     fy_curr = datetime.strptime(date_string, date_format)
+    print("fycurr",fy_curr)
 
     fy_start = ""
     if school in schoolMonths['julySchool']:
-        if int(pl_months["last_month_number"]) < 7:
-            fy_start = datetime(curr_year, 1, 1)
-        else:
-            fy_start = datetime(curr_year, 7, 1)    
+
+        fy_start = datetime(FY_year_1, 7, 1)    
     else: 
-        if int(pl_months["last_month_number"]) < 9:
-            fy_start = datetime(curr_year, 1, 1)
-        else:
-            fy_start = datetime(curr_year, 9, 1)
+        fy_start = datetime(FY_year_1, 9, 1)
 
     fy_diff = fy_curr - fy_start
+    print("FY_DIFF",fy_diff)
     days = fy_diff.days
 
     expense_per_day = ytd_expense / days
