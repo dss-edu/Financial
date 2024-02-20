@@ -789,7 +789,7 @@ def viewgl(request,fund,obj,yr,school,year,url):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
 
 
         cnxn = connect()
@@ -1014,7 +1014,7 @@ def viewgl_all(request, school, year, url, yr=""):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
 
         
         cnxn = connect()
@@ -1506,7 +1506,7 @@ def viewgl_activitybs(request,yr,school,year,url):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
         july_date_start  = datetime(FY_year_1, 7, 1).date()
@@ -1713,7 +1713,7 @@ def viewglfunc(request,func,yr,school,year,url):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
      
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
@@ -1942,7 +1942,7 @@ def viewglfunc_all(request,school,year,url, yr=""):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
      
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
@@ -2157,7 +2157,7 @@ def viewgldna(request,func,yr,school,year,url):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
         
         year = int(year)
         FY_year_1 = year
@@ -2340,7 +2340,7 @@ def viewglexpense(request,obj,yr,school,year,url):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
                 
         cnxn = connect()
         cursor = cnxn.cursor()
@@ -2598,7 +2598,7 @@ def viewglexpense_all(request,school,year,url,yr=""):
             elif value < 0:
                 return "({:,.2f})".format(abs(value))
             else:
-                return ""
+                return 0
                 
         cnxn = connect()
         cursor = cnxn.cursor()

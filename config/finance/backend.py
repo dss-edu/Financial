@@ -4377,10 +4377,8 @@ def balance_sheet(school,year):
 
         if school in schoolCategory["skyward"] or school in school_fye:
             for row in data_activitybs:
-                if row['Activity'] == "AP" or row["Activity"] == 'Cash':
-                    row["activity_fye"] = format_value_dollars(row["activity_fye"])
-                else:
-                    row["activity_fye"] = format_value(row["activity_fye"])
+
+                row["activity_fye"] = format_value(row["activity_fye"])
 
         # for row in data_balancesheet:
         #     subcategory = row["Subcategory"]
