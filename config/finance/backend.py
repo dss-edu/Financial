@@ -75,6 +75,7 @@ def profit_loss(school,year):
     present_year = present_date.year
     today_date = datetime.now()
     today_month = today_date.month
+    next_month = present_date + timedelta(days=30)
     last_update = today_date.strftime('%Y-%m-%d')
 
 
@@ -239,39 +240,40 @@ def profit_loss(school,year):
                 db_date = int(db_date)
                 curr_fy = int(FY_year_1)
    
-                    
+
                 if db_date == curr_fy:
-                    if date_checker > current_month:
-                        current_month = date_checker.replace(day=1)
+                    if next_month > date_checker: #checks whether the date in data3 will be greater than next month. 
+                        if date_checker > current_month:
+                            current_month = date_checker.replace(day=1)
+                            
                         
-                    
-                    
-                    
-                    row_dict = {
-                        "fund": row[0],
-                        "func": row[1],
-                        "obj": row[2],
-                        "sobj": row[3],
-                        "org": row[4],
-                        "fscl_yr": row[5],
-                        "pgm": row[6],
-                        "edSpan": row[7],
-                        "projDtl": row[8],
-                        "AcctDescr": row[9],
-                        "Number": row[10],
-                        "Date": date,
-                        "AcctPer": row[12],
-                        "Est": row[13],
-                        "Real": row[14],
-                        "Appr": row[15],
-                        "Encum": row[16],
-                        "Expend": expend,
-                        "Bal": row[18],
-                        "WorkDescr": row[19],
-                        "Type": row[20],
-                        "Contr": row[21],
-                    }
-                    data3.append(row_dict)
+                        
+                        
+                        row_dict = {
+                            "fund": row[0],
+                            "func": row[1],
+                            "obj": row[2],
+                            "sobj": row[3],
+                            "org": row[4],
+                            "fscl_yr": row[5],
+                            "pgm": row[6],
+                            "edSpan": row[7],
+                            "projDtl": row[8],
+                            "AcctDescr": row[9],
+                            "Number": row[10],
+                            "Date": date,
+                            "AcctPer": row[12],
+                            "Est": row[13],
+                            "Real": row[14],
+                            "Appr": row[15],
+                            "Encum": row[16],
+                            "Expend": expend,
+                            "Bal": row[18],
+                            "WorkDescr": row[19],
+                            "Type": row[20],
+                            "Contr": row[21],
+                        }
+                        data3.append(row_dict)
                 
         
 
