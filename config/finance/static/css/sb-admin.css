@@ -10907,3 +10907,7 @@
       border-color: #ebcccc;
       color: #a94442;
   }
+
+  .small-font{
+    font-size: 12px;
+  }
