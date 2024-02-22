@@ -7115,9 +7115,10 @@ def updateGraphDB(school, fye):
             startMonth = 9
             if school in schoolMonths['julySchool']:
                 startMonth = 7
-            if x < startMonth:
-                yearstore = int(year) + 1
+            if startMonth <= x:
+                yearstore = int(year) - 1
                 dateStore = str(yearstore) + "-{:02}".format(x)
+            
             if localRevenueTotal == 0 and stateprogramRevenueTotal == 0 and federalprogramRevenueTotal == 0 and expenseTotal == 0:
                 pass
             else:
