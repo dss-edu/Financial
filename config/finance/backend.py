@@ -53,8 +53,7 @@ def update_school(school):
 
 def update_fy(school,year):    
     writeCodes(school, db[school]['db'], year)
-    if school in schoolCategory["ascender"]:        
-        updateDescription(db[school]['db'], school)
+    updateDescription(db[school]['db'], school)
     profit_loss(school,year) 
     balance_sheet(school,year)
     cashflow(school,year)
