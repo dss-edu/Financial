@@ -63,6 +63,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    $("#expend-link").on("click", function(event) {
+        event.preventDefault();
+
+        // $("#page-load-spinner").modal("show");
+        if (year) {
+            window.location.href = "/ytd-expend/" + school + "/" + year;
+        } else {
+            window.location.href = "/ytd-expend/" + school;
+        }
+    });
+
+
     if (currentPath === "/charter-first/" + school || currentPath === "/charter-first/" + school + "/" + year) {
         highlightActiveLink("#first-link");
         highlightActiveLink("#first-link2");
@@ -79,6 +91,10 @@ document.addEventListener("DOMContentLoaded", function() {
     } else if (currentPath === "/general-ledger/" + school || currentPath === "/general-ledger/" + school + "/" + year) {
         highlightActiveLink("#gl-link");
         highlightActiveLink("#gl-link2");
+    }
+    else if (currentPath === "/ytd-expend/" + school || currentPath === "/ytd-expend/" + school + "/" + year) {
+        highlightActiveLink("#expend-link");
+        highlightActiveLink("#expend-link2");
     }
     else if (currentPath === "/dashboard/" + school || currentPath === "/dashboard/" + school + "/" + year) {
         highlightActiveLink("#dashboard-link");

@@ -140,6 +140,8 @@ urlpatterns = [
     path("charter-first-charts/<str:school>", new_views.charter_first_charts),
     path("profit-loss/<str:school>", new_views.profit_loss),
     path("profit-loss/<str:school>/<int:anchor_year>", new_views.profit_loss),
+    path("ytd-expend/<str:school>", new_views.ytd_expend),
+    path("ytd-expend/<str:school>/<int:anchor_year>", new_views.ytd_expend),
     path("profit-loss-date/<str:school>", new_views.profit_loss_date),
     path("profit-loss-date/<str:school>/<int:anchor_year>", new_views.profit_loss_date),
     path("profit-loss-charts/<str:school>", new_views.profit_loss_charts),

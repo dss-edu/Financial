@@ -1894,6 +1894,7 @@
         if (emptyCounter === (columns.length - 1)){
           // row.style.display = 'none'
           row.remove()
+          console.log(row)
         }
       })
     } //end of tableFormatter
@@ -2214,7 +2215,7 @@ $("#showBudget").on("change", function(event) {
   
       
       for (let i=1; i <= last_month_number-2; i++) {
-        console.log(NetSurplusCells[i])
+      
         const NetSurplusValue = NetSurplusCells[i].textContent.trim();
         const NetIncomeValue = NetIncomeCells[i].textContent.trim();
 

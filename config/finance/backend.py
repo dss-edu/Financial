@@ -1002,6 +1002,162 @@ def profit_loss(school,year):
         variances_netsurplus = ytd_netsurplus - ytd_ammended_netsurplus
         var_netsurplus = "{:d}%".format(round(abs(ytd_netsurplus / ammended_budget_netsurplus*100))) if ammended_budget_netsurplus != 0 else "0%"
 
+
+
+        # FOR YTD EXPEND PAGE
+        obj_ranges = ["61", "62", "63", "64", "65", "66"]
+        full_obj_ranges = ["6100","6200","6300","6400","6500","6600"]
+
+        expend_fund = {}
+        for item in data3:
+            fund_value = item["fund"]
+            if fund_value not in expend_fund and fund_value != '000':
+                expend_fund[fund_value] = {}
+                for i in range(1, len(acct_per_values) + 1):
+                    for obj_range in full_obj_ranges:
+                        expend_fund[fund_value][f"total_expend_{obj_range}_{i}"] = 0
+                        expend_fund[fund_value][f"total_expend_{obj_range}_ytd"] = 0
+                        expend_fund[fund_value][f"total_PB_{obj_range}"] = 0
+                    expend_fund[fund_value][f"total_PB"] = 0    
+                    expend_fund[fund_value][f"total_ytd"] = 0
+                    expend_fund[fund_value][f"total_{i}"] = 0
+                    expend_fund[fund_value][f"total_budget"] = 0
+                    for obj_range in obj_ranges:
+                        expend_fund[fund_value][f"total_budget_{obj_range}"] = 0
+
+
+
+
+
+        for fund_value in expend_fund.keys(): #total fund within each month
+            if school in schoolCategory["skyward"]:
+                for obj_range in obj_ranges:
+                    total_budget = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["fund"] == fund_value
+                        and entry["obj"].startswith(obj_range)
+                        )
+                
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget
+                    expend_fund[fund_value]["total_budget"] += total_budget
+            else:
+                for obj_range in obj_ranges:
+                    total_budget = sum(
+                        entry[appr_key]
+                        for entry in data3
+                        if entry["fund"] == fund_value
+                        and entry["Type"] == 'GJ'
+                        and entry["obj"].startswith(obj_range)
+                        )
+                
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget
+                    expend_fund[fund_value]["total_budget"] += total_budget
+
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                total_expend_6100 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("61")
+                )
+                
+                total_expend_6200 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("62")
+                )
+                total_expend_6300 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("63")
+                )
+                total_expend_6400 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("64")
+                )
+                total_expend_6500 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("65")
+                )
+                total_expend_6600 = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("66")
+                )
+                expend_fund[fund_value][f"total_expend_6100_{i}"] += total_expend_6100
+                expend_fund[fund_value][f"total_expend_6200_{i}"] += total_expend_6200
+                expend_fund[fund_value][f"total_expend_6300_{i}"] += total_expend_6300
+                expend_fund[fund_value][f"total_expend_6400_{i}"] += total_expend_6400
+                expend_fund[fund_value][f"total_expend_6500_{i}"] += total_expend_6500
+                expend_fund[fund_value][f"total_expend_6600_{i}"] += total_expend_6600
+                expend_fund[fund_value][f"total_{i}"] += total_expend_6100 + total_expend_6200 + total_expend_6300 + total_expend_6400 + total_expend_6500 + total_expend_6600
+
+                if i != month_exception:
+                    expend_fund[fund_value][f"total_expend_6100_ytd"] += total_expend_6100
+                    expend_fund[fund_value][f"total_expend_6200_ytd"] += total_expend_6200
+                    expend_fund[fund_value][f"total_expend_6300_ytd"] += total_expend_6300
+                    expend_fund[fund_value][f"total_expend_6400_ytd"] += total_expend_6400
+                    expend_fund[fund_value][f"total_expend_6500_ytd"] += total_expend_6500
+                    expend_fund[fund_value][f"total_expend_6600_ytd"] += total_expend_6600
+                    expend_fund[fund_value][f"total_ytd"] += total_expend_6100 + total_expend_6200 + total_expend_6300 + total_expend_6400 + total_expend_6500 +total_expend_6600
+
+            for obj_range in obj_ranges:
+                if school in schoolCategory["skyward"]:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] - expend_fund[fund_value][f"total_expend_{obj_range}00_ytd"]
+                else:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] + expend_fund[fund_value][f"total_expend_{obj_range}00_ytd"]
+                expend_fund[fund_value][f"total_PB"] += expend_fund[fund_value][f"total_PB_{obj_range}00"]
+
+
+
+        for fund_value in expend_fund:
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                expend_fund[fund_value][f"total_expend_6100_{i}"] = format_value(expend_fund[fund_value][f"total_expend_6100_{i}"])
+                expend_fund[fund_value][f"total_expend_6200_{i}"]   = format_value(expend_fund[fund_value][f"total_expend_6200_{i}"])
+                expend_fund[fund_value][f"total_expend_6300_{i}"]   = format_value(expend_fund[fund_value][f"total_expend_6300_{i}"]) 
+                expend_fund[fund_value][f"total_expend_6400_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6400_{i}"])
+                expend_fund[fund_value][f"total_expend_6500_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6500_{i}"])
+                expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6600_{i}"])
+                expend_fund[fund_value][f"total_{i}"] = format_value(expend_fund[fund_value][f"total_{i}"])
+            
+            expend_fund[fund_value][f"total_expend_6100_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6100_ytd"])
+            expend_fund[fund_value][f"total_expend_6200_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6200_ytd"])
+            expend_fund[fund_value][f"total_expend_6300_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6300_ytd"])
+            expend_fund[fund_value][f"total_expend_6400_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6400_ytd"])
+            expend_fund[fund_value][f"total_expend_6500_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6500_ytd"])
+            expend_fund[fund_value][f"total_expend_6600_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6600_ytd"])
+            expend_fund[fund_value][f"total_ytd"] = format_value(expend_fund[fund_value][f"total_ytd"]) 
+
+            if school in schoolCategory["skyward"]:
+                for obj_range in obj_ranges:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value(expend_fund[fund_value][f"total_PB_{obj_range}00"])
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = format_value(expend_fund[fund_value][f"total_budget_{obj_range}"])
+                expend_fund[fund_value]["total_budget"] = format_value(expend_fund[fund_value]["total_budget"])
+                expend_fund[fund_value][f"total_PB"] = format_value(expend_fund[fund_value][f"total_PB"])
+            else:
+                for obj_range in obj_ranges:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value_negative(expend_fund[fund_value][f"total_PB_{obj_range}00"])
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = format_value_negative(expend_fund[fund_value][f"total_budget_{obj_range}"])
+                expend_fund[fund_value]["total_budget"] = format_value_negative(expend_fund[fund_value]["total_budget"])
+                expend_fund[fund_value][f"total_PB"] = format_value_negative(expend_fund[fund_value][f"total_PB"])
+
+
+        # END OF YTD EXPEND PAGE
+             
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
 
         total_EOC_pc =  {acct_per: 0 for acct_per in acct_per_values} # PAYROLL COSTS
@@ -1638,6 +1794,7 @@ def profit_loss(school,year):
             "data_expensebyobject": data_expensebyobject,
             "data_activities": data_activities,
             "last_update": last_update,
+            "expend_fund": expend_fund,
             "months":
                     {
                 "last_month": formatted_last_month,

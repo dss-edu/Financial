@@ -289,6 +289,28 @@ def profit_loss(request, school, anchor_year=""):
     return render(request, "temps/profit-loss.html", context)
 
 
+@custom_login_required
+@permission_required
+def ytd_expend(request, school, anchor_year=""):
+    context = modules.profit_loss(school, anchor_year)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+    context["present_year"] = present_year
+    
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
+
+
+    context["iconStatusCode"] = getStatusCode(school)
+    return render(request, "temps/ytd-expend.html", context)
+
 
 @custom_login_required
 @permission_required
