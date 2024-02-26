@@ -653,7 +653,7 @@
 
 
 
-            <td> {{totals.ytd_total_fpr}} </td>
+            <td><a id="federal-revenue-ytd-total" href="#"> {{totals.ytd_total_fpr}}</a> </td>
             <td> {{totals.variances_revenue_fpr}} </td>
             <td> {{totals.var_ytd_fpr}} </td>
           </tr>
@@ -1305,7 +1305,7 @@
             <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
             {% endif %}
 
-            <td> <a href="#" class="other-total" data-yr="08">{{totals.ytd_EOC_ooe}} </a> </td>
+            <td> <a href="#" id="other-ytd-total" >{{totals.ytd_EOC_ooe}} </a> </td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1580,36 +1580,36 @@
             <td> {{totals.total_expense_ytd_budget}} </td>
 
             {% if September == "True" %}
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
+            <td> <a href="#" class="EOS-total" data-yr="09"> {{ totals.total_expense_months.09 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="10"> {{ totals.total_expense_months.10 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="11"> {{ totals.total_expense_months.11 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="12"> {{ totals.total_expense_months.12 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="01"> {{ totals.total_expense_months.01 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="02"> {{ totals.total_expense_months.02 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="03"> {{ totals.total_expense_months.03 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="04"> {{ totals.total_expense_months.04 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="05"> {{ totals.total_expense_months.05 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="06"> {{ totals.total_expense_months.06 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="07"> {{ totals.total_expense_months.07 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="08"> {{ totals.total_expense_months.08 }} </a></td>
             {% else %}
-            <td> {{ totals.total_expense_months.07 }} </td>
-            <td> {{ totals.total_expense_months.08 }} </td>
-            <td> {{ totals.total_expense_months.09 }} </td>
-            <td> {{ totals.total_expense_months.10 }} </td>
-            <td> {{ totals.total_expense_months.11 }} </td>
-            <td> {{ totals.total_expense_months.12 }} </td>
-            <td> {{ totals.total_expense_months.01 }} </td>
-            <td> {{ totals.total_expense_months.02 }} </td>
-            <td> {{ totals.total_expense_months.03 }} </td>
-            <td> {{ totals.total_expense_months.04 }} </td>
-            <td> {{ totals.total_expense_months.05 }} </td>
-            <td> {{ totals.total_expense_months.06 }} </td>
+            <td> <a href="#" class="EOS-total" data-yr="07">{{ totals.total_expense_months.07 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="08">{{ totals.total_expense_months.08 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="09">{{ totals.total_expense_months.09 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="10">{{ totals.total_expense_months.10 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="11">{{ totals.total_expense_months.11 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="12">{{ totals.total_expense_months.12 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="01">{{ totals.total_expense_months.01 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="02">{{ totals.total_expense_months.02 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="03">{{ totals.total_expense_months.03 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="04">{{ totals.total_expense_months.04 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="05">{{ totals.total_expense_months.05 }} </a></td>
+            <td> <a href="#" class="EOS-total" data-yr="06">{{ totals.total_expense_months.06 }} </a></td>
             {% endif %}
 
 
 
-            <td> {{totals.total_expense_ytd}} </td>
+            <td> <a id="EOC-ytd-total" href="#"> {{totals.total_expense_ytd}}</a> </td>
             <td> {{totals.variances_total_expense}} </td>
             <td> {{totals.var_total_expense}} </td>
           </tr>
