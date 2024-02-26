@@ -6540,7 +6540,7 @@ def excel(school,year):
 
         cursor.execute(f"SELECT * FROM [dbo].[AscenderData_CharterFirst]  \
                 WHERE school = '{school}' \
-                AND year = '{FY_year_1}' \
+                AND year = '{present_year}' \
                 AND month = {last_month_number};") 
         row = cursor.fetchone()
 
