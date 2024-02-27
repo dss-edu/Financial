@@ -3415,32 +3415,56 @@ def balance_sheet(school,year):
 
         cnxn = connect()
         cursor = cnxn.cursor()
-        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
-        rows = cursor.fetchall()
-        bs_checker = []
+        # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
+        # rows = cursor.fetchall()
+        # bs_checker = []
 
-        for row in rows:
-            if row[8] == school:
-                if FY_year_1 == row[9]:
-                    row_dict = {
-                        "Activity": row[0],
-                        "Description": row[1],
-                        "Category": row[2],
-                        "Subcategory": row[3],
-                        "FYE": row[4],
-                        "BS_id": row[5],
-                        "school": row[8],
+        # for row in rows:
+        #     if row[8] == school:
+        #         if FY_year_1 == row[9]:
+        #             row_dict = {
+        #                 "Activity": row[0],
+        #                 "Description": row[1],
+        #                 "Category": row[2],
+        #                 "Subcategory": row[3],
+        #                 "FYE": row[4],
+        #                 "BS_id": row[5],
+        #                 "school": row[8],
                 
-                    }
-                    bs_checker.append(row_dict)
+        #             }
+        #             bs_checker.append(row_dict)
+                    
             
+        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} ;  ")
+        rows = cursor.fetchall()
+
+        unique_bs_id = []
+        for row in rows:
+            if row[5] not in unique_bs_id:
+                unique_bs_id.append(row[5])
         
-        if bs_checker == []:
-            for i in range(1, 30):
+        largest_unique_id = max(unique_bs_id)
+     
+        for i in range(1, int(largest_unique_id)):
+            cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs_fye']} where  BS_id = {i} and school = '{school}' and year = '{FY_year_1}';  ")
+            row = cursor.fetchone()
+            if row is None:
                 fye = '0'
                 query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
                 cursor.execute(query, (i, fye, school,FY_year_1)) 
+                print(f"Data Inserted to BS_FYE DB  with BS_id = {i} and year = {FY_year_1}")
                 cnxn.commit()
+
+
+
+
+
+        # if bs_checker == []:
+        #     for i in range(1, int(largest_unique_id)):
+        #         fye = '0'
+        #         query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
+        #         cursor.execute(query, (i, fye, school,FY_year_1)) 
+        #         cnxn.commit()
                 
         
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs']} AS T1 LEFT JOIN [dbo].{db[school]['bs_fye']} AS T2 ON T1.BS_id = T2.BS_id ;  ")
@@ -3462,7 +3486,9 @@ def balance_sheet(school,year):
                         fyeformat = (
                             "{:,.0f}".format(abs(fye)) if fye >= 0 else "({:,.0f})".format(abs(fye))
                         )
+
                 if FY_year_1 == row[9]:
+                    print(row[0])
                     row_dict = {
                         "Activity": row[0],
                         "Description": row[1],
@@ -3678,6 +3704,7 @@ def balance_sheet(school,year):
         unique_act = []
         for item in data_balancesheet:
             Activity = item["Activity"]
+            
 
             if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities' or item['Category'] == 'Net Assets':
                 if Activity not in unique_act:
@@ -3870,6 +3897,7 @@ def balance_sheet(school,year):
 
         for row in data_balancesheet:
             activity = row["Activity"]
+            
             
             for i in range(1, 13):
                 key = (activity, i)
