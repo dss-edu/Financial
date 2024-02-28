@@ -1736,7 +1736,8 @@ def viewglfunc(request,func,yr,school,year,url):
             filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
             filter_query = filter_query + ' AND'
             if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL'; "
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where  func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL' and Type != 'EN' ; "
+                print("thisquery")
                 cursor.execute(query, (func,yr))
             else:
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and MONTH(Date) = ? and obj != '6449' and Number != 'BEGBAL'; "
@@ -1757,6 +1758,10 @@ def viewglfunc(request,func,yr,school,year,url):
     
         gl_data=[]
     
+        
+        present_date = datetime.today().date()   
+        
+        next_month = present_date + timedelta(days=30)
         if school in schoolCategory["ascender"]:
             for row in rows:
                 date_str=row[11]
@@ -1772,36 +1777,43 @@ def viewglfunc(request,func,yr,school,year,url):
 
                 db_date = str(db_date)
                 
+                if isinstance(row[11],datetime):
+                    date_checker = row[11].date()
+                else:
+                    date_checker = datetime.strptime(row[11], "%Y-%m-%d").date()
+                   
+                
                 if db_date == year:
+                    if next_month > date_checker:
                     
-                    row_dict = {
-                        'fund':row[0],
-                        'func':row[1],
-                        'obj':row[2],
-                        'sobj':row[3],
-                        'org':row[4],
-                        'fscl_yr':row[5],
-                        'pgm':row[6],
-                        'edSpan':row[7],
-                        'projDtl':row[8],
-                        'AcctDescr':row[9],
-                        'Number':row[10],
-                        'Date':date_str,
-                        'AcctPer':row[12],
-                        'Est':row[13],
-                        'Real':real,
-                        'Appr':row[15],
-                        'Encum':row[16],
-                        'Expend':row[17],
-                        'Bal':row[18],
-                        'WorkDescr':row[19],
-                        'Type':row[20],
-                        'Contr':row[21]
-                    }
+                        row_dict = {
+                            'fund':row[0],
+                            'func':row[1],
+                            'obj':row[2],
+                            'sobj':row[3],
+                            'org':row[4],
+                            'fscl_yr':row[5],
+                            'pgm':row[6],
+                            'edSpan':row[7],
+                            'projDtl':row[8],
+                            'AcctDescr':row[9],
+                            'Number':row[10],
+                            'Date':date_str,
+                            'AcctPer':row[12],
+                            'Est':row[13],
+                            'Real':real,
+                            'Appr':row[15],
+                            'Encum':row[16],
+                            'Expend':row[17],
+                            'Bal':row[18],
+                            'WorkDescr':row[19],
+                            'Type':row[20],
+                            'Contr':row[21]
+                        }
                 
 
 
-                    gl_data.append(row_dict)
+                        gl_data.append(row_dict)
         else:        
             for row in rows:
                 amount = float(row[19])
