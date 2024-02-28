@@ -495,7 +495,11 @@ def profit_loss(school,year):
 
 
         if school in schoolMonths["julySchool"]:
-                ytd_budget_test = last_month_number - 6
+                print("LAST_MONTH",last_month_number)
+                if last_month_number <= 7:
+                    ytd_budget_test = last_month_number + 6
+                else:
+                    ytd_budget_test = last_month_number - 6
                 if month_exception == 7:
                     month_exception = ""
                     month_exception_str = ""             
