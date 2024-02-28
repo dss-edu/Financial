@@ -1784,36 +1784,34 @@ def viewglfunc(request,func,yr,school,year,url):
                    
                 
                 if db_date == year:
-                    if next_month > date_checker:
                     
-                        row_dict = {
-                            'fund':row[0],
-                            'func':row[1],
-                            'obj':row[2],
-                            'sobj':row[3],
-                            'org':row[4],
-                            'fscl_yr':row[5],
-                            'pgm':row[6],
-                            'edSpan':row[7],
-                            'projDtl':row[8],
-                            'AcctDescr':row[9],
-                            'Number':row[10],
-                            'Date':date_str,
-                            'AcctPer':row[12],
-                            'Est':row[13],
-                            'Real':real,
-                            'Appr':row[15],
-                            'Encum':row[16],
-                            'Expend':row[17],
-                            'Bal':row[18],
-                            'WorkDescr':row[19],
-                            'Type':row[20],
-                            'Contr':row[21]
-                        }
-                
-
-
-                        gl_data.append(row_dict)
+                    
+                    row_dict = {
+                        'fund':row[0],
+                        'func':row[1],
+                        'obj':row[2],
+                        'sobj':row[3],
+                        'org':row[4],
+                        'fscl_yr':row[5],
+                        'pgm':row[6],
+                        'edSpan':row[7],
+                        'projDtl':row[8],
+                        'AcctDescr':row[9],
+                        'Number':row[10],
+                        'Date':date_str,
+                        'AcctPer':row[12],
+                        'Est':row[13],
+                        'Real':real,
+                        'Appr':row[15],
+                        'Encum':row[16],
+                        'Expend':row[17],
+                        'Bal':row[18],
+                        'WorkDescr':row[19],
+                        'Type':row[20],
+                        'Contr':row[21]
+                    }
+            
+                    gl_data.append(row_dict)
         else:        
             for row in rows:
                 amount = float(row[19])

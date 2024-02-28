@@ -241,9 +241,10 @@ def profit_loss(school,year):
    
 
                 if db_date == curr_fy:
-                    if next_month > date_checker: #checks whether the date in data3 will be greater than next month. 
+                    # if next_month > date_checker: #checks whether the date in data3 will be greater than next month. 
                         if date_checker > current_month:
-                            current_month = date_checker.replace(day=1)
+                            if next_month > date_checker:
+                                current_month = date_checker.replace(day=1)
                             
                         
                         
