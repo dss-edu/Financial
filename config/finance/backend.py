@@ -1009,9 +1009,15 @@ def profit_loss(school,year):
 
 
         # FOR YTD EXPEND PAGE
-        obj_ranges = ["61", "62", "63", "64", "65", "66"]
+
+
+        #OBJ RANGES FOR EXPENSE
+        obj_ranges = ["61", "62", "63", "64", "65", "66"] 
         full_obj_ranges = ["6100","6200","6300","6400","6500","6600"]
 
+        #OBJ RANGES FOR REVENUE
+        rev_obj_ranges = ["57","58","59"] 
+  
         expend_fund = {}
         for item in data3:
             fund_value = item["fund"]
@@ -1022,6 +1028,20 @@ def profit_loss(school,year):
                         expend_fund[fund_value][f"total_expend_{obj_range}_{i}"] = 0
                         expend_fund[fund_value][f"total_expend_{obj_range}_ytd"] = 0
                         expend_fund[fund_value][f"total_PB_{obj_range}"] = 0
+
+                    for obj_range in rev_obj_ranges:
+                        expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = 0
+                        expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = 0
+                        expend_fund[fund_value][f"total_PB_{obj_range}00"] = 0
+
+                    #for revenue
+                    expend_fund[fund_value][f"total_PB_revenue"] = 0    
+                    expend_fund[fund_value][f"total_revenue_ytd"] = 0
+                    expend_fund[fund_value][f"total_revenue_{i}"] = 0
+                    expend_fund[fund_value][f"total_budget_revenue"] = 0
+                    for obj_range in rev_obj_ranges:
+                        expend_fund[fund_value][f"total_budget_{obj_range}"] = 0
+                    #for expend
                     expend_fund[fund_value][f"total_PB"] = 0    
                     expend_fund[fund_value][f"total_ytd"] = 0
                     expend_fund[fund_value][f"total_{i}"] = 0
@@ -1045,6 +1065,16 @@ def profit_loss(school,year):
                 
                     expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget
                     expend_fund[fund_value]["total_budget"] += total_budget
+                for obj_range in rev_obj_ranges:
+                    total_budget_rev =sum( 
+                        entry[est_key]
+                        for entry in data3
+                        if entry["fund"] == fund_value
+                        and entry["obj"].startswith(obj_range)
+                        )
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget_rev
+                    expend_fund[fund_value]["total_budget_revenue"] += total_budget_rev
+                    
             else:
                 for obj_range in obj_ranges:
                     total_budget = sum(
@@ -1057,6 +1087,17 @@ def profit_loss(school,year):
                 
                     expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget
                     expend_fund[fund_value]["total_budget"] += total_budget
+            
+                for obj_range in rev_obj_ranges:
+                    total_budget_rev =sum( 
+                        entry[est_key]
+                        for entry in data3
+                        if entry["fund"] == fund_value
+                        and entry["Type"] == "GJ" 
+                        and entry["obj"].startswith(obj_range)
+                        )
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget_rev
+                    expend_fund[fund_value]["total_budget_revenue"] += total_budget_rev
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_expend_6100 = sum(
@@ -1102,6 +1143,27 @@ def profit_loss(school,year):
                     and entry["AcctPer"] == acct_per
                     and entry["obj"].startswith("66")
                 )
+                total_revenue_5700 = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("57")
+                )
+                total_revenue_5800 = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("58")
+                )
+                total_revenue_5900 = sum(
+                    entry[real_key]
+                    for entry in data3
+                    if entry["fund"] == fund_value
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"].startswith("59")
+                )
                 expend_fund[fund_value][f"total_expend_6100_{i}"] += total_expend_6100
                 expend_fund[fund_value][f"total_expend_6200_{i}"] += total_expend_6200
                 expend_fund[fund_value][f"total_expend_6300_{i}"] += total_expend_6300
@@ -1109,6 +1171,11 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_expend_6500_{i}"] += total_expend_6500
                 expend_fund[fund_value][f"total_expend_6600_{i}"] += total_expend_6600
                 expend_fund[fund_value][f"total_{i}"] += total_expend_6100 + total_expend_6200 + total_expend_6300 + total_expend_6400 + total_expend_6500 + total_expend_6600
+
+                expend_fund[fund_value][f"total_revenue_5700_{i}"] += total_revenue_5700
+                expend_fund[fund_value][f"total_revenue_5800_{i}"] += total_revenue_5800
+                expend_fund[fund_value][f"total_revenue_5900_{i}"] += total_revenue_5900
+                expend_fund[fund_value][f"total_revenue_{i}"] += total_revenue_5700 + total_revenue_5800 + total_revenue_5900 
 
                 if i != month_exception:
                     expend_fund[fund_value][f"total_expend_6100_ytd"] += total_expend_6100
@@ -1119,6 +1186,12 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_expend_6600_ytd"] += total_expend_6600
                     expend_fund[fund_value][f"total_ytd"] += total_expend_6100 + total_expend_6200 + total_expend_6300 + total_expend_6400 + total_expend_6500 +total_expend_6600
 
+                    expend_fund[fund_value][f"total_revenue_5700_ytd"] += total_revenue_5700
+                    expend_fund[fund_value][f"total_revenue_5800_ytd"] += total_revenue_5800
+                    expend_fund[fund_value][f"total_revenue_5900_ytd"] += total_revenue_5900
+                    expend_fund[fund_value][f"total_revenue_ytd"] += total_revenue_5700 + total_revenue_5800 + total_revenue_5900 
+
+
             for obj_range in obj_ranges:
                 if school in schoolCategory["skyward"]:
                     expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] - expend_fund[fund_value][f"total_expend_{obj_range}00_ytd"]
@@ -1126,6 +1199,12 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] + expend_fund[fund_value][f"total_expend_{obj_range}00_ytd"]
                 expend_fund[fund_value][f"total_PB"] += expend_fund[fund_value][f"total_PB_{obj_range}00"]
 
+            for obj_range in rev_obj_ranges:
+                if school in schoolCategory["skyward"]:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] - expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"]
+                else:
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] =   expend_fund[fund_value][f"total_budget_{obj_range}"] + expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"]
+                expend_fund[fund_value][f"total_PB_revenue"] += expend_fund[fund_value][f"total_PB_{obj_range}00"]
 
 
         for fund_value in expend_fund:
@@ -1137,7 +1216,14 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_expend_6500_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6500_{i}"])
                 expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6600_{i}"])
                 expend_fund[fund_value][f"total_{i}"] = format_value(expend_fund[fund_value][f"total_{i}"])
+                for obj_range in rev_obj_ranges:
+                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
+                expend_fund[fund_value][f"total_revenue_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{i}"])
             
+            for obj_range in rev_obj_ranges:
+                expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"])
+            expend_fund[fund_value][f"total_revenue_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_ytd"]) 
+
             expend_fund[fund_value][f"total_expend_6100_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6100_ytd"])
             expend_fund[fund_value][f"total_expend_6200_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6200_ytd"])
             expend_fund[fund_value][f"total_expend_6300_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6300_ytd"])
@@ -1145,6 +1231,12 @@ def profit_loss(school,year):
             expend_fund[fund_value][f"total_expend_6500_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6500_ytd"])
             expend_fund[fund_value][f"total_expend_6600_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6600_ytd"])
             expend_fund[fund_value][f"total_ytd"] = format_value(expend_fund[fund_value][f"total_ytd"]) 
+
+            for obj_range in rev_obj_ranges:
+                expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value(expend_fund[fund_value][f"total_PB_{obj_range}00"])
+                expend_fund[fund_value][f"total_budget_{obj_range}"] = format_value(expend_fund[fund_value][f"total_budget_{obj_range}"])
+            expend_fund[fund_value]["total_budget_revenue"] = format_value(expend_fund[fund_value]["total_budget_revenue"])
+            expend_fund[fund_value][f"total_PB_revenue"] = format_value(expend_fund[fund_value][f"total_PB_revenue"])
 
             if school in schoolCategory["skyward"]:
                 for obj_range in obj_ranges:
@@ -1789,7 +1881,8 @@ def profit_loss(school,year):
         sorted_data2 = sorted(data2, key=lambda x: x['func_func'])
         sorted_data = sorted(data, key=lambda x: x['obj'])
         data_activities = sorted(data_activities, key=lambda x: x['obj'])
-    
+     
+        expend_fund = dict(sorted(expend_fund.items()))
 
         context = {
             "data": sorted_data,
@@ -4109,24 +4202,42 @@ def balance_sheet(school,year):
                                 float(row[f"total_sum{i}"]) for i in range(1, 13)
                             ]
                 if school in schoolMonths['septemberSchool']:
-                
-                    # Calculate the differences and store them in the row dictionary
-                    row["difference_9"] = (FYE_value + total_sum9_value)
-                    row["difference_10"] =(row["difference_9"] + total_sum10_value)
-                    row["difference_11"] =(row["difference_10"] + total_sum11_value)
-                    row["difference_12"] =(row["difference_11"]  + total_sum12_value )
-                    row["difference_1"] = (row["difference_12"] + total_sum1_value )
-                    row["difference_2"] = (row["difference_1"] + total_sum2_value )
-                    row["difference_3"] = (row["difference_2"] + total_sum3_value )
-                    row["difference_4"] = (row["difference_3"] + total_sum4_value )
-                    row["difference_5"] = (row["difference_4"] + total_sum5_value )
-                    row["difference_6"] = (row["difference_5"] + total_sum6_value )
-                    row["difference_7"] = (row["difference_6"] + total_sum7_value )
-                    row["difference_8"] = (row["difference_7"] + total_sum8_value )
-    
-                
-                    row["last_month_difference"] = row[f"difference_{last_month_number}"] 
-              
+                    
+
+                    if school in schoolCategory['skyward']:
+                        # Calculate the differences and store them in the row dictionary
+                        row["difference_9"] = (FYE_value + total_sum9_value)
+                        row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                        row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                        row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                        row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                        row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                        row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                        row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                        row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                        row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                        row["difference_7"] = (row["difference_6"] + total_sum7_value )
+                        row["difference_8"] = (row["difference_7"] + total_sum8_value )
+        
+                    
+                        row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    else:
+                        row["difference_9"] = (FYE_value - total_sum9_value)
+                        row["difference_10"] =(row["difference_9"] - total_sum10_value)
+                        row["difference_11"] =(row["difference_10"] - total_sum11_value)
+                        row["difference_12"] =(row["difference_11"]  - total_sum12_value )
+                        row["difference_1"] = (row["difference_12"] - total_sum1_value )
+                        row["difference_2"] = (row["difference_1"] - total_sum2_value )
+                        row["difference_3"] = (row["difference_2"] - total_sum3_value )
+                        row["difference_4"] = (row["difference_3"] - total_sum4_value )
+                        row["difference_5"] = (row["difference_4"] - total_sum5_value )
+                        row["difference_6"] = (row["difference_5"] - total_sum6_value )
+                        row["difference_7"] = (row["difference_6"] - total_sum7_value )
+                        row["difference_8"] = (row["difference_7"] - total_sum8_value )
+        
+                    
+                        row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                        
 
                     if month_exception != "":
                         
@@ -4180,22 +4291,38 @@ def balance_sheet(school,year):
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
                     
                 else:
-                                    # Calculate the differences and store them in the row dictionary
-                    row["difference_7"] = (FYE_value + total_sum7_value )
-            
-                    row["difference_8"] = (row["difference_7"] + total_sum8_value )
-                    row["difference_9"] = (row["difference_8"]  + total_sum9_value)
-                    row["difference_10"] =(row["difference_9"] + total_sum10_value)
-                    row["difference_11"] =(row["difference_10"] + total_sum11_value)
-                    row["difference_12"] =(row["difference_11"]  + total_sum12_value )
-                    row["difference_1"] = (row["difference_12"] + total_sum1_value )
-                    row["difference_2"] = (row["difference_1"] + total_sum2_value )
-                    row["difference_3"] = (row["difference_2"] + total_sum3_value )
-                    row["difference_4"] = (row["difference_3"] + total_sum4_value )
-                    row["difference_5"] = (row["difference_4"] + total_sum5_value )
-                    row["difference_6"] = (row["difference_5"] + total_sum6_value )
-                    
-                    row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    if school in schoolCategory['skyward']:
+                        row["difference_7"] = (FYE_value + total_sum7_value )
+                
+                        row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                        row["difference_9"] = (row["difference_8"]  + total_sum9_value)
+                        row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                        row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                        row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                        row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                        row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                        row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                        row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                        row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                        row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                        
+                        row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    else:
+                        row["difference_7"] = (FYE_value - total_sum7_value )
+                
+                        row["difference_8"] = (row["difference_7"] - total_sum8_value )
+                        row["difference_9"] = (row["difference_8"]  - total_sum9_value)
+                        row["difference_10"] =(row["difference_9"] - total_sum10_value)
+                        row["difference_11"] =(row["difference_10"] - total_sum11_value)
+                        row["difference_12"] =(row["difference_11"]  - total_sum12_value )
+                        row["difference_1"] = (row["difference_12"] - total_sum1_value )
+                        row["difference_2"] = (row["difference_1"] - total_sum2_value )
+                        row["difference_3"] = (row["difference_2"] - total_sum3_value )
+                        row["difference_4"] = (row["difference_3"] - total_sum4_value )
+                        row["difference_5"] = (row["difference_4"] - total_sum5_value )
+                        row["difference_6"] = (row["difference_5"] - total_sum6_value )
+                        
+                        row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     
 
                     if month_exception != "":

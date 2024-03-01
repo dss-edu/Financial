@@ -164,6 +164,15 @@
   .form-check-label{
     font-size: 12px;
   }
+
+  .title-dom > :first-child{
+    cursor: pointer;
+  }
+
+  .title-dom > td{
+    padding: 10px 25px!important;
+    border-top: 2px solid rgb(228, 228, 228);
+  }
 </style>
 
 
@@ -194,8 +203,8 @@
         
         <div class="form-check form-switch"  style="margin-left:15px;">
 
-          <input class="form-check-input" type="checkbox" role="switch" id="showBudget" checked>
-          <label class="form-check-label" for="showBudget">Show Budget</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="toggleRow">
+          <label class="form-check-label" for="toggleRow">Expand Rows</label>
         </div>
         <div class=" align-sef-end" >
           YE: {% if September == "True" %} August {% else %} June {% endif %}
@@ -440,6 +449,133 @@
           </tr>
         </thead>
         <tbody>
+
+          <!-- START OF REVENUE -->
+          <tr class="title-dom">
+            <td>REVENUE</td>
+
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% for fund, data in expend_fund.items %}
+          <tr class="super-dom d-none">
+            <td>{{ fund }} </td>
+
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          </tr>
+
+          <tr class="dom d-none">
+            <td> 5700 - Local Revenue </td>
+            <td> {{ data.total_budget_57 }}</td>
+            <td>  {{  data.total_revenue_5700_9  }} </a></td>
+            <td>  {{  data.total_revenue_5700_10 }} </a></td>
+            <td>  {{  data.total_revenue_5700_11 }} </a></td>
+            <td>  {{  data.total_revenue_5700_12 }} </a></td>
+            <td>  {{  data.total_revenue_5700_1  }} </a></td>
+            <td>  {{  data.total_revenue_5700_2  }} </a></td>
+            <td>  {{  data.total_revenue_5700_3  }} </a></td>
+            <td>  {{  data.total_revenue_5700_4  }} </a></td>
+            <td>  {{  data.total_revenue_5700_5  }} </a></td>
+            <td>  {{  data.total_revenue_5700_6  }} </a></td>
+            <td>  {{  data.total_revenue_5700_7  }} </a></td>
+            <td>  {{  data.total_revenue_5700_8  }} </a></td>
+            <td> {{ data.total_revenue_5700_ytd}}</td>
+            <td>  {{ data.total_PB_5700 }} </td>
+            <td> </td>
+          </tr>
+          <tr class="dom d-none">
+            <td> 5800 - State Program Revenue </td>
+            <td> {{ data.total_budget_58 }} </td>
+            <td>  {{  data.total_revenue_5800_9  }} </a></td>
+            <td>  {{  data.total_revenue_5800_10 }} </a></td>
+            <td>  {{  data.total_revenue_5800_11 }} </a></td>
+            <td>  {{  data.total_revenue_5800_12 }} </a></td>
+            <td>  {{  data.total_revenue_5800_1  }} </a></td>
+            <td>  {{  data.total_revenue_5800_2  }} </a></td>
+            <td>  {{  data.total_revenue_5800_3  }} </a></td>
+            <td>  {{  data.total_revenue_5800_4  }} </a></td>
+            <td>  {{  data.total_revenue_5800_5  }} </a></td>
+            <td>  {{  data.total_revenue_5800_6  }} </a></td>
+            <td>  {{  data.total_revenue_5800_7  }} </a></td>
+            <td>  {{  data.total_revenue_5800_8  }} </a></td>
+            <td> {{ data.total_revenue_5800_ytd}}</td>
+            <td>  {{ data.total_PB_5800 }} </td>
+            <td> </td>
+          </tr>
+          <tr class="dom d-none">
+            <td> 5900 - Federal Program Revenue</td>
+            <td> {{ data.total_budget_59 }} </td>
+            <td>  {{  data.total_revenue_5900_9  }} </a></td>
+            <td>  {{  data.total_revenue_5900_10 }} </a></td>
+            <td>  {{  data.total_revenue_5900_11 }} </a></td>
+            <td>  {{  data.total_revenue_5900_12 }} </a></td>
+            <td>  {{  data.total_revenue_5900_1  }} </a></td>
+            <td>  {{  data.total_revenue_5900_2  }} </a></td>
+            <td>  {{  data.total_revenue_5900_3  }} </a></td>
+            <td>  {{  data.total_revenue_5900_4  }} </a></td>
+            <td>  {{  data.total_revenue_5900_5  }} </a></td>
+            <td>  {{  data.total_revenue_5900_6  }} </a></td>
+            <td>  {{  data.total_revenue_5900_7  }} </a></td>
+            <td>  {{  data.total_revenue_5900_8  }} </a></td>
+            <td>{{ data.total_revenue_5900_ytd}} </td>
+            <td>  {{ data.total_PB_5900 }} </td>
+            <td> </td>
+          </tr>
+         
+          
+          <tr class="dom d-none">
+            <td>Total  </td>
+            <td> {{ data.total_budget_revenue }}</td>
+            <td>  {{  data.total_revenue_9  }} </a></td>
+            <td>  {{  data.total_revenue_10 }} </a></td>
+            <td>  {{  data.total_revenue_11 }} </a></td>
+            <td>  {{  data.total_revenue_12 }} </a></td>
+            <td>  {{  data.total_revenue_1  }} </a></td>
+            <td>  {{  data.total_revenue_2  }} </a></td>
+            <td>  {{  data.total_revenue_3  }} </a></td>
+            <td>  {{  data.total_revenue_4  }} </a></td>
+            <td>  {{  data.total_revenue_5  }} </a></td>
+            <td>  {{  data.total_revenue_6  }} </a></td>
+            <td>  {{  data.total_revenue_7  }} </a></td>
+            <td>  {{  data.total_revenue_8  }} </a></td>
+            <td>{{ data.total_revenue_ytd}} </td>
+            <td> {{ data.total_PB_revenue }} </td>
+            <td> </td>
+          </tr>
+          
+
+          {% endfor %} 
+
+          <!-- END OF REVENUE-->
          
          
         
@@ -447,11 +583,30 @@
           
    
 
-          <!-- Payroll and Benefits -->
- 
 
+ 
+          <tr class="title-dom">
+            <td>EXPENSE</td>
+
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          </tr>
           {% for fund, data in expend_fund.items %}
-          <tr class="super-dom">
+          <tr class="super-dom d-none">
             <td>{{ fund }} </td>
 
             <td> </td>
@@ -611,7 +766,25 @@
           {% endfor %} 
 
           
-
+          <tr class="ender">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
           
 
 
@@ -671,7 +844,11 @@
     quarterLinks.forEach((link, index) => {
       link.addEventListener('click', (event) => showMonths(event, index))
     });
-
+    const titleDoms = document.querySelectorAll('.title-dom > :first-child')
+    titleDoms.forEach(element => {
+        // Add an event listener to each element
+        element.addEventListener('click', showHideTitle);
+    });
     // show/hide doms
     const superDoms = document.querySelectorAll('.super-dom > :first-child')
     
@@ -687,6 +864,46 @@
         // Add an event listener to each element
         element.addEventListener('click', showHideSubs);
     });
+
+    $("#toggleRow").on("change", function(event) {
+      titleDoms.forEach(element => {
+          const clickEvent = new Event('click');
+          const parentTR = element.closest('tr'); 
+          let prevTR = parentTR
+  
+          while (prevTR = prevTR.nextElementSibling) {
+            if (prevTR.classList.contains('super-dom')) {
+              console.log(prevTR)
+              if ($('#toggleRow').is(':checked')){
+                if (prevTR.classList.contains('d-none')){
+                  
+                  element.dispatchEvent(clickEvent);
+                  break;
+                  }else{
+                  break;
+                }
+              }else{
+                if (prevTR.classList.contains('d-none')){
+                  
+                  break;
+                  }else{
+                    element.dispatchEvent(clickEvent);
+                  break;
+                }
+              }
+  
+            }
+          }
+  
+         
+          
+          
+  
+  
+          
+      });
+  
+      })
 
 
     //////////////////// Modal table //////////////////////////////////////
@@ -851,12 +1068,12 @@
 
         // remove empty rows
         //console.log(emptyCounter)
-        console.log(emptyCounter)
+        //console.log(emptyCounter)
         if (emptyCounter === (columns.length - 1)){
           // row.style.display = 'none'
 
-          if (row.classList.contains('super-dom')) {
-            console.log("superdom")
+          if (row.classList.contains('super-dom') || row.classList.contains('title-dom')) {
+            console.log("0")
           }else{
             row.remove()
           }
@@ -869,7 +1086,39 @@
       })
     } //end of tableFormatter
 
+    function showHideTitle(event){
+      const section = event.currentTarget.closest('tr')
+      const rowIndex = section.rowIndex
+      const tBody = section.closest('tbody')
+    
+      const rows = tBody.rows
 
+
+      for (let i = rowIndex+1; i <= rows.length-1; i++){
+
+        if (rows[i].classList.contains('ender')){
+          
+          break
+        }
+        
+        if (rows[i].classList.contains('title-dom')){
+          
+          break
+        }
+        
+
+        if (rows[i].classList.contains('dom') && rows[i].classList.contains('d-none')){
+          continue
+        }
+
+        if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
+          continue
+        }
+        rows[i].classList.toggle('d-none')
+      }
+
+    }
+    
     function showHideDoms(event){
       const section = event.currentTarget.closest('tr')
       const rowIndex = section.rowIndex 
@@ -881,6 +1130,13 @@
     
         if (rows[i].classList.contains('super-dom')){
           break
+        }
+        
+        if (rows[i].classList.contains('title-dom')){
+          break
+        }
+        if (rows[i].classList.contains('title-dom') && rows[i].classList.contains('d-none')){
+          continue
         }
         // hide also the subs that does not have d-none
         if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
@@ -966,7 +1222,7 @@
         }
       }
 
-      console.log(quarter)
+
       // figure out the index of months to hide or show
       if (quarter === 0){
     
@@ -1108,7 +1364,7 @@
       budgetTable[k].classList.toggle('d-none');        
     }
  
-    console.log("working")
+
 
 }
 

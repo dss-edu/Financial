@@ -3504,7 +3504,7 @@ def generate_excel(request,school,anchor_year):
         pl_sheet[f'R{start_pl}'] = 'June'
 
 
-    pl_sheet[f'V{start_pl}'] = f'Var. (%{months["format_ytd_budget"]})'
+    pl_sheet[f'V{start_pl}'] = f'Var. ({months["format_ytd_budget"]}%)'
 
 
 
