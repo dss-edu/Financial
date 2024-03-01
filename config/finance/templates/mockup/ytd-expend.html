@@ -496,6 +496,7 @@
           <tr class="dom d-none">
             <td> 5700 - Local Revenue </td>
             <td> {{ data.total_budget_57 }}</td>
+            {% if September == "True" %}
             <td>  {{  data.total_revenue_5700_9  }} </a></td>
             <td>  {{  data.total_revenue_5700_10 }} </a></td>
             <td>  {{  data.total_revenue_5700_11 }} </a></td>
@@ -508,6 +509,20 @@
             <td>  {{  data.total_revenue_5700_6  }} </a></td>
             <td>  {{  data.total_revenue_5700_7  }} </a></td>
             <td>  {{  data.total_revenue_5700_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_revenue_5700_7  }} </a></td>
+            <td>  {{  data.total_revenue_5700_8  }} </a></td>
+            <td>  {{  data.total_revenue_5700_9  }} </a></td>
+            <td>  {{  data.total_revenue_5700_10 }} </a></td>
+            <td>  {{  data.total_revenue_5700_11 }} </a></td>
+            <td>  {{  data.total_revenue_5700_12 }} </a></td>
+            <td>  {{  data.total_revenue_5700_1  }} </a></td>
+            <td>  {{  data.total_revenue_5700_2  }} </a></td>
+            <td>  {{  data.total_revenue_5700_3  }} </a></td>
+            <td>  {{  data.total_revenue_5700_4  }} </a></td>
+            <td>  {{  data.total_revenue_5700_5  }} </a></td>
+            <td>  {{  data.total_revenue_5700_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_revenue_5700_ytd}}</td>
             <td>  {{ data.total_PB_5700 }} </td>
             <td> </td>
@@ -515,6 +530,7 @@
           <tr class="dom d-none">
             <td> 5800 - State Program Revenue </td>
             <td> {{ data.total_budget_58 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_revenue_5800_9  }} </a></td>
             <td>  {{  data.total_revenue_5800_10 }} </a></td>
             <td>  {{  data.total_revenue_5800_11 }} </a></td>
@@ -527,6 +543,20 @@
             <td>  {{  data.total_revenue_5800_6  }} </a></td>
             <td>  {{  data.total_revenue_5800_7  }} </a></td>
             <td>  {{  data.total_revenue_5800_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_revenue_5800_7  }} </a></td>
+            <td>  {{  data.total_revenue_5800_8  }} </a></td>
+            <td>  {{  data.total_revenue_5800_9  }} </a></td>
+            <td>  {{  data.total_revenue_5800_10 }} </a></td>
+            <td>  {{  data.total_revenue_5800_11 }} </a></td>
+            <td>  {{  data.total_revenue_5800_12 }} </a></td>
+            <td>  {{  data.total_revenue_5800_1  }} </a></td>
+            <td>  {{  data.total_revenue_5800_2  }} </a></td>
+            <td>  {{  data.total_revenue_5800_3  }} </a></td>
+            <td>  {{  data.total_revenue_5800_4  }} </a></td>
+            <td>  {{  data.total_revenue_5800_5  }} </a></td>
+            <td>  {{  data.total_revenue_5800_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_revenue_5800_ytd}}</td>
             <td>  {{ data.total_PB_5800 }} </td>
             <td> </td>
@@ -534,6 +564,7 @@
           <tr class="dom d-none">
             <td> 5900 - Federal Program Revenue</td>
             <td> {{ data.total_budget_59 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_revenue_5900_9  }} </a></td>
             <td>  {{  data.total_revenue_5900_10 }} </a></td>
             <td>  {{  data.total_revenue_5900_11 }} </a></td>
@@ -546,6 +577,20 @@
             <td>  {{  data.total_revenue_5900_6  }} </a></td>
             <td>  {{  data.total_revenue_5900_7  }} </a></td>
             <td>  {{  data.total_revenue_5900_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_revenue_5900_7  }} </a></td>
+            <td>  {{  data.total_revenue_5900_8  }} </a></td>
+            <td>  {{  data.total_revenue_5900_9  }} </a></td>
+            <td>  {{  data.total_revenue_5900_10 }} </a></td>
+            <td>  {{  data.total_revenue_5900_11 }} </a></td>
+            <td>  {{  data.total_revenue_5900_12 }} </a></td>
+            <td>  {{  data.total_revenue_5900_1  }} </a></td>
+            <td>  {{  data.total_revenue_5900_2  }} </a></td>
+            <td>  {{  data.total_revenue_5900_3  }} </a></td>
+            <td>  {{  data.total_revenue_5900_4  }} </a></td>
+            <td>  {{  data.total_revenue_5900_5  }} </a></td>
+            <td>  {{  data.total_revenue_5900_6  }} </a></td>
+            {% endif %}
             <td>{{ data.total_revenue_5900_ytd}} </td>
             <td>  {{ data.total_PB_5900 }} </td>
             <td> </td>
@@ -555,6 +600,7 @@
           <tr class="dom d-none">
             <td>Total  </td>
             <td> {{ data.total_budget_revenue }}</td>
+            {% if September == "True" %}
             <td>  {{  data.total_revenue_9  }} </a></td>
             <td>  {{  data.total_revenue_10 }} </a></td>
             <td>  {{  data.total_revenue_11 }} </a></td>
@@ -567,6 +613,20 @@
             <td>  {{  data.total_revenue_6  }} </a></td>
             <td>  {{  data.total_revenue_7  }} </a></td>
             <td>  {{  data.total_revenue_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_revenue_7  }} </a></td>
+            <td>  {{  data.total_revenue_8  }} </a></td>
+            <td>  {{  data.total_revenue_9  }} </a></td>
+            <td>  {{  data.total_revenue_10 }} </a></td>
+            <td>  {{  data.total_revenue_11 }} </a></td>
+            <td>  {{  data.total_revenue_12 }} </a></td>
+            <td>  {{  data.total_revenue_1  }} </a></td>
+            <td>  {{  data.total_revenue_2  }} </a></td>
+            <td>  {{  data.total_revenue_3  }} </a></td>
+            <td>  {{  data.total_revenue_4  }} </a></td>
+            <td>  {{  data.total_revenue_5  }} </a></td>
+            <td>  {{  data.total_revenue_6  }} </a></td>
+            {% endif %}
             <td>{{ data.total_revenue_ytd}} </td>
             <td> {{ data.total_PB_revenue }} </td>
             <td> </td>
@@ -630,6 +690,7 @@
           <tr class="dom d-none">
             <td> 6100 - Payroll And Benefits </td>
             <td> {{ data.total_budget_61 }}</td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6100_9  }} </a></td>
             <td>  {{  data.total_expend_6100_10 }} </a></td>
             <td>  {{  data.total_expend_6100_11 }} </a></td>
@@ -642,6 +703,20 @@
             <td>  {{  data.total_expend_6100_6  }} </a></td>
             <td>  {{  data.total_expend_6100_7  }} </a></td>
             <td>  {{  data.total_expend_6100_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6100_7  }} </a></td>
+            <td>  {{  data.total_expend_6100_8  }} </a></td>
+            <td>  {{  data.total_expend_6100_9  }} </a></td>
+            <td>  {{  data.total_expend_6100_10 }} </a></td>
+            <td>  {{  data.total_expend_6100_11 }} </a></td>
+            <td>  {{  data.total_expend_6100_12 }} </a></td>
+            <td>  {{  data.total_expend_6100_1  }} </a></td>
+            <td>  {{  data.total_expend_6100_2  }} </a></td>
+            <td>  {{  data.total_expend_6100_3  }} </a></td>
+            <td>  {{  data.total_expend_6100_4  }} </a></td>
+            <td>  {{  data.total_expend_6100_5  }} </a></td>
+            <td>  {{  data.total_expend_6100_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_expend_6100_ytd}}</td>
             <td>  {{ data.total_PB_6100 }} </td>
             <td> </td>
@@ -649,6 +724,7 @@
           <tr class="dom d-none">
             <td> 6200 - Professional and Contract Services </td>
             <td> {{ data.total_budget_62 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6200_9  }} </a></td>
             <td>  {{  data.total_expend_6200_10 }} </a></td>
             <td>  {{  data.total_expend_6200_11 }} </a></td>
@@ -661,6 +737,20 @@
             <td>  {{  data.total_expend_6200_6  }} </a></td>
             <td>  {{  data.total_expend_6200_7  }} </a></td>
             <td>  {{  data.total_expend_6200_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6200_7  }} </a></td>
+            <td>  {{  data.total_expend_6200_8  }} </a></td>
+            <td>  {{  data.total_expend_6200_9  }} </a></td>
+            <td>  {{  data.total_expend_6200_10 }} </a></td>
+            <td>  {{  data.total_expend_6200_11 }} </a></td>
+            <td>  {{  data.total_expend_6200_12 }} </a></td>
+            <td>  {{  data.total_expend_6200_1  }} </a></td>
+            <td>  {{  data.total_expend_6200_2  }} </a></td>
+            <td>  {{  data.total_expend_6200_3  }} </a></td>
+            <td>  {{  data.total_expend_6200_4  }} </a></td>
+            <td>  {{  data.total_expend_6200_5  }} </a></td>
+            <td>  {{  data.total_expend_6200_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_expend_6200_ytd}}</td>
             <td>  {{ data.total_PB_6200 }} </td>
             <td> </td>
@@ -668,6 +758,7 @@
           <tr class="dom d-none">
             <td> 6300 - Materials and Supplies</td>
             <td> {{ data.total_budget_63 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6300_9  }} </a></td>
             <td>  {{  data.total_expend_6300_10 }} </a></td>
             <td>  {{  data.total_expend_6300_11 }} </a></td>
@@ -680,6 +771,20 @@
             <td>  {{  data.total_expend_6300_6  }} </a></td>
             <td>  {{  data.total_expend_6300_7  }} </a></td>
             <td>  {{  data.total_expend_6300_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6300_7  }} </a></td>
+            <td>  {{  data.total_expend_6300_8  }} </a></td>
+            <td>  {{  data.total_expend_6300_9  }} </a></td>
+            <td>  {{  data.total_expend_6300_10 }} </a></td>
+            <td>  {{  data.total_expend_6300_11 }} </a></td>
+            <td>  {{  data.total_expend_6300_12 }} </a></td>
+            <td>  {{  data.total_expend_6300_1  }} </a></td>
+            <td>  {{  data.total_expend_6300_2  }} </a></td>
+            <td>  {{  data.total_expend_6300_3  }} </a></td>
+            <td>  {{  data.total_expend_6300_4  }} </a></td>
+            <td>  {{  data.total_expend_6300_5  }} </a></td>
+            <td>  {{  data.total_expend_6300_6  }} </a></td>
+            {% endif %}
             <td>{{ data.total_expend_6300_ytd}} </td>
             <td>  {{ data.total_PB_6300 }} </td>
             <td> </td>
@@ -687,6 +792,7 @@
           <tr class="dom d-none">
             <td>  6400 - Other Operating Costs</td>
             <td> {{ data.total_budget_64 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6400_9  }} </a></td>
             <td>  {{  data.total_expend_6400_10 }} </a></td>
             <td>  {{  data.total_expend_6400_11 }} </a></td>
@@ -699,6 +805,20 @@
             <td>  {{  data.total_expend_6400_6  }} </a></td>
             <td>  {{  data.total_expend_6400_7  }} </a></td>
             <td>  {{  data.total_expend_6400_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6400_7  }} </a></td>
+            <td>  {{  data.total_expend_6400_8  }} </a></td>
+            <td>  {{  data.total_expend_6400_9  }} </a></td>
+            <td>  {{  data.total_expend_6400_10 }} </a></td>
+            <td>  {{  data.total_expend_6400_11 }} </a></td>
+            <td>  {{  data.total_expend_6400_12 }} </a></td>
+            <td>  {{  data.total_expend_6400_1  }} </a></td>
+            <td>  {{  data.total_expend_6400_2  }} </a></td>
+            <td>  {{  data.total_expend_6400_3  }} </a></td>
+            <td>  {{  data.total_expend_6400_4  }} </a></td>
+            <td>  {{  data.total_expend_6400_5  }} </a></td>
+            <td>  {{  data.total_expend_6400_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_expend_6400_ytd}}</td>
             <td> {{ data.total_PB_6400 }}  </td>
             <td> </td>
@@ -706,6 +826,7 @@
           <tr class="dom d-none">
             <td> 6500 - Debt Services </td>
             <td> {{ data.total_budget_65 }}</td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6500_9  }} </a></td>
             <td>  {{  data.total_expend_6500_10 }} </a></td>
             <td>  {{  data.total_expend_6500_11 }} </a></td>
@@ -718,6 +839,20 @@
             <td>  {{  data.total_expend_6500_6  }} </a></td>
             <td>  {{  data.total_expend_6500_7  }} </a></td>
             <td>  {{  data.total_expend_6500_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6500_7  }} </a></td>
+            <td>  {{  data.total_expend_6500_8  }} </a></td>
+            <td>  {{  data.total_expend_6500_9  }} </a></td>
+            <td>  {{  data.total_expend_6500_10 }} </a></td>
+            <td>  {{  data.total_expend_6500_11 }} </a></td>
+            <td>  {{  data.total_expend_6500_12 }} </a></td>
+            <td>  {{  data.total_expend_6500_1  }} </a></td>
+            <td>  {{  data.total_expend_6500_2  }} </a></td>
+            <td>  {{  data.total_expend_6500_3  }} </a></td>
+            <td>  {{  data.total_expend_6500_4  }} </a></td>
+            <td>  {{  data.total_expend_6500_5  }} </a></td>
+            <td>  {{  data.total_expend_6500_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_expend_6500_ytd}}</td>
             <td> {{ data.total_PB_6500 }}  </td>
             <td> </td>
@@ -725,6 +860,7 @@
           <tr class="dom d-none">
             <td> 6600 - Fixed/Capital Assets</td>
             <td> {{ data.total_budget_66 }} </td>
+            {% if September == "True" %}
             <td>  {{  data.total_expend_6600_9  }} </a></td>
             <td>  {{  data.total_expend_6600_10 }} </a></td>
             <td>  {{  data.total_expend_6600_11 }} </a></td>
@@ -737,6 +873,20 @@
             <td>  {{  data.total_expend_6600_6  }} </a></td>
             <td>  {{  data.total_expend_6600_7  }} </a></td>
             <td>  {{  data.total_expend_6600_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_expend_6600_7  }} </a></td>
+            <td>  {{  data.total_expend_6600_8  }} </a></td>
+            <td>  {{  data.total_expend_6600_9  }} </a></td>
+            <td>  {{  data.total_expend_6600_10 }} </a></td>
+            <td>  {{  data.total_expend_6600_11 }} </a></td>
+            <td>  {{  data.total_expend_6600_12 }} </a></td>
+            <td>  {{  data.total_expend_6600_1  }} </a></td>
+            <td>  {{  data.total_expend_6600_2  }} </a></td>
+            <td>  {{  data.total_expend_6600_3  }} </a></td>
+            <td>  {{  data.total_expend_6600_4  }} </a></td>
+            <td>  {{  data.total_expend_6600_5  }} </a></td>
+            <td>  {{  data.total_expend_6600_6  }} </a></td>
+            {% endif %}
             <td> {{ data.total_expend_6600_ytd}}</td>
             <td> {{ data.total_PB_6600 }} </td>
             <td> </td>
@@ -745,6 +895,7 @@
           <tr class="dom d-none">
             <td>Total  </td>
             <td> {{ data.total_budget }}</td>
+            {% if September == "True" %}
             <td>  {{  data.total_9  }} </a></td>
             <td>  {{  data.total_10 }} </a></td>
             <td>  {{  data.total_11 }} </a></td>
@@ -757,6 +908,20 @@
             <td>  {{  data.total_6  }} </a></td>
             <td>  {{  data.total_7  }} </a></td>
             <td>  {{  data.total_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_7  }} </a></td>
+            <td>  {{  data.total_8  }} </a></td>
+            <td>  {{  data.total_9  }} </a></td>
+            <td>  {{  data.total_10 }} </a></td>
+            <td>  {{  data.total_11 }} </a></td>
+            <td>  {{  data.total_12 }} </a></td>
+            <td>  {{  data.total_1  }} </a></td>
+            <td>  {{  data.total_2  }} </a></td>
+            <td>  {{  data.total_3  }} </a></td>
+            <td>  {{  data.total_4  }} </a></td>
+            <td>  {{  data.total_5  }} </a></td>
+            <td>  {{  data.total_6  }} </a></td>
+            {% endif %}
             <td>{{ data.total_ytd}} </td>
             <td> {{ data.total_PB }} </td>
             <td> </td>
