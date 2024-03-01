@@ -4218,25 +4218,43 @@ def balance_sheet(school,year):
                         row["difference_6"] = (row["difference_5"] + total_sum6_value )
                         row["difference_7"] = (row["difference_6"] + total_sum7_value )
                         row["difference_8"] = (row["difference_7"] + total_sum8_value )
-        
+                        
                     
                         row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     else:
-                        row["difference_9"] = (FYE_value - total_sum9_value)
-                        row["difference_10"] =(row["difference_9"] - total_sum10_value)
-                        row["difference_11"] =(row["difference_10"] - total_sum11_value)
-                        row["difference_12"] =(row["difference_11"]  - total_sum12_value )
-                        row["difference_1"] = (row["difference_12"] - total_sum1_value )
-                        row["difference_2"] = (row["difference_1"] - total_sum2_value )
-                        row["difference_3"] = (row["difference_2"] - total_sum3_value )
-                        row["difference_4"] = (row["difference_3"] - total_sum4_value )
-                        row["difference_5"] = (row["difference_4"] - total_sum5_value )
-                        row["difference_6"] = (row["difference_5"] - total_sum6_value )
-                        row["difference_7"] = (row["difference_6"] - total_sum7_value )
-                        row["difference_8"] = (row["difference_7"] - total_sum8_value )
-        
+                        if row["Subcategory"] == "Current Liabilities":
+                            row["difference_9"] = (FYE_value - total_sum9_value)
+                            row["difference_10"] =(row["difference_9"] - total_sum10_value)
+                            row["difference_11"] =(row["difference_10"] - total_sum11_value)
+                            row["difference_12"] =(row["difference_11"]  - total_sum12_value )
+                            row["difference_1"] = (row["difference_12"] - total_sum1_value )
+                            row["difference_2"] = (row["difference_1"] - total_sum2_value )
+                            row["difference_3"] = (row["difference_2"] - total_sum3_value )
+                            row["difference_4"] = (row["difference_3"] - total_sum4_value )
+                            row["difference_5"] = (row["difference_4"] - total_sum5_value )
+                            row["difference_6"] = (row["difference_5"] - total_sum6_value )
+                            row["difference_7"] = (row["difference_6"] - total_sum7_value )
+                            row["difference_8"] = (row["difference_7"] - total_sum8_value )
+                            row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     
-                        row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                        else:
+        
+                            row["difference_9"] = (FYE_value + total_sum9_value)
+                            row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                            row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                            row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                            row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                            row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                            row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                            row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                            row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                            row["difference_6"] = (row["difference_5"] + total_sum6_value )
+                            row["difference_7"] = (row["difference_6"] + total_sum7_value )
+                            row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                            
+                        
+                            row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    
                         
 
                     if month_exception != "":
@@ -4308,22 +4326,40 @@ def balance_sheet(school,year):
                         
                         row["last_month_difference"] = row[f"difference_{last_month_number}"] 
                     else:
-                        row["difference_7"] = (FYE_value - total_sum7_value )
+                        if row["Subcategory"] == 'Current Liabilities':
+                                
+                            row["difference_7"] = (FYE_value - total_sum7_value )
+                    
+                            row["difference_8"] = (row["difference_7"] - total_sum8_value )
+                            row["difference_9"] = (row["difference_8"]  - total_sum9_value)
+                            row["difference_10"] =(row["difference_9"] - total_sum10_value)
+                            row["difference_11"] =(row["difference_10"] - total_sum11_value)
+                            row["difference_12"] =(row["difference_11"]  - total_sum12_value )
+                            row["difference_1"] = (row["difference_12"] - total_sum1_value )
+                            row["difference_2"] = (row["difference_1"] - total_sum2_value )
+                            row["difference_3"] = (row["difference_2"] - total_sum3_value )
+                            row["difference_4"] = (row["difference_3"] - total_sum4_value )
+                            row["difference_5"] = (row["difference_4"] - total_sum5_value )
+                            row["difference_6"] = (row["difference_5"] - total_sum6_value )
+                            
+                            row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                        else:
+                        row["difference_7"] = (FYE_value + total_sum7_value )
                 
-                        row["difference_8"] = (row["difference_7"] - total_sum8_value )
-                        row["difference_9"] = (row["difference_8"]  - total_sum9_value)
-                        row["difference_10"] =(row["difference_9"] - total_sum10_value)
-                        row["difference_11"] =(row["difference_10"] - total_sum11_value)
-                        row["difference_12"] =(row["difference_11"]  - total_sum12_value )
-                        row["difference_1"] = (row["difference_12"] - total_sum1_value )
-                        row["difference_2"] = (row["difference_1"] - total_sum2_value )
-                        row["difference_3"] = (row["difference_2"] - total_sum3_value )
-                        row["difference_4"] = (row["difference_3"] - total_sum4_value )
-                        row["difference_5"] = (row["difference_4"] - total_sum5_value )
-                        row["difference_6"] = (row["difference_5"] - total_sum6_value )
+                        row["difference_8"] = (row["difference_7"] + total_sum8_value )
+                        row["difference_9"] = (row["difference_8"]  + total_sum9_value)
+                        row["difference_10"] =(row["difference_9"] + total_sum10_value)
+                        row["difference_11"] =(row["difference_10"] + total_sum11_value)
+                        row["difference_12"] =(row["difference_11"]  + total_sum12_value )
+                        row["difference_1"] = (row["difference_12"] + total_sum1_value )
+                        row["difference_2"] = (row["difference_1"] + total_sum2_value )
+                        row["difference_3"] = (row["difference_2"] + total_sum3_value )
+                        row["difference_4"] = (row["difference_3"] + total_sum4_value )
+                        row["difference_5"] = (row["difference_4"] + total_sum5_value )
+                        row["difference_6"] = (row["difference_5"] + total_sum6_value )
                         
                         row["last_month_difference"] = row[f"difference_{last_month_number}"] 
-                    
+
 
                     if month_exception != "":
                         
