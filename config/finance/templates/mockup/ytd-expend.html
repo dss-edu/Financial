@@ -203,7 +203,7 @@
         
         <div class="form-check form-switch"  style="margin-left:15px;">
 
-          <input class="form-check-input" type="checkbox" role="switch" id="toggleRow">
+          <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" checked>
           <label class="form-check-label" for="toggleRow">Expand Rows</label>
         </div>
         <div class=" align-sef-end" >
@@ -472,7 +472,7 @@
             <td> </td>
           </tr>
           {% for fund, data in expend_fund.items %}
-          <tr class="super-dom d-none">
+          <tr class="super-dom ">
             <td>{{ fund }} </td>
 
             <td> </td>
@@ -493,7 +493,7 @@
             <td> </td>
           </tr>
 
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 5700 - Local Revenue </td>
             <td> {{ data.total_budget_57 }}</td>
             {% if September == "True" %}
@@ -527,7 +527,7 @@
             <td>  {{ data.total_PB_5700 }} </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 5800 - State Program Revenue </td>
             <td> {{ data.total_budget_58 }} </td>
             {% if September == "True" %}
@@ -561,7 +561,7 @@
             <td>  {{ data.total_PB_5800 }} </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 5900 - Federal Program Revenue</td>
             <td> {{ data.total_budget_59 }} </td>
             {% if September == "True" %}
@@ -597,7 +597,7 @@
           </tr>
          
           
-          <tr class="dom d-none">
+          <tr class="dom">
             <td>Total  </td>
             <td> {{ data.total_budget_revenue }}</td>
             {% if September == "True" %}
@@ -666,7 +666,7 @@
             <td> </td>
           </tr>
           {% for fund, data in expend_fund.items %}
-          <tr class="super-dom d-none">
+          <tr class="super-dom">
             <td>{{ fund }} </td>
 
             <td> </td>
@@ -687,7 +687,7 @@
             <td> </td>
           </tr>
 
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 6100 - Payroll And Benefits </td>
             <td> {{ data.total_budget_61 }}</td>
             {% if September == "True" %}
@@ -721,7 +721,7 @@
             <td>  {{ data.total_PB_6100 }} </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 6200 - Professional and Contract Services </td>
             <td> {{ data.total_budget_62 }} </td>
             {% if September == "True" %}
@@ -755,7 +755,7 @@
             <td>  {{ data.total_PB_6200 }} </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 6300 - Materials and Supplies</td>
             <td> {{ data.total_budget_63 }} </td>
             {% if September == "True" %}
@@ -789,7 +789,7 @@
             <td>  {{ data.total_PB_6300 }} </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td>  6400 - Other Operating Costs</td>
             <td> {{ data.total_budget_64 }} </td>
             {% if September == "True" %}
@@ -823,7 +823,7 @@
             <td> {{ data.total_PB_6400 }}  </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 6500 - Debt Services </td>
             <td> {{ data.total_budget_65 }}</td>
             {% if September == "True" %}
@@ -857,7 +857,7 @@
             <td> {{ data.total_PB_6500 }}  </td>
             <td> </td>
           </tr>
-          <tr class="dom d-none">
+          <tr class="dom">
             <td> 6600 - Fixed/Capital Assets</td>
             <td> {{ data.total_budget_66 }} </td>
             {% if September == "True" %}
@@ -892,7 +892,7 @@
             <td> </td>
           </tr>
           
-          <tr class="dom d-none">
+          <tr class="dom">
             <td>Total  </td>
             <td> {{ data.total_budget }}</td>
             {% if September == "True" %}
@@ -1037,7 +1037,7 @@
           let prevTR = parentTR
   
           while (prevTR = prevTR.nextElementSibling) {
-            if (prevTR.classList.contains('super-dom')) {
+            if (prevTR.classList.contains('super-dom') || prevTR.classList.contains('dom')) {
               console.log(prevTR)
               if ($('#toggleRow').is(':checked')){
                 if (prevTR.classList.contains('d-none')){
@@ -1067,6 +1067,42 @@
   
           
       });
+      superDoms.forEach(element => {
+        const clickEvent = new Event('click');
+        const parentTR = element.closest('tr'); 
+        let prevTR = parentTR
+
+        while (prevTR = prevTR.nextElementSibling) {
+          if (prevTR.classList.contains('super-dom') || prevTR.classList.contains('dom')) {
+            console.log(prevTR)
+            if ($('#toggleRow').is(':checked')){
+              if (prevTR.classList.contains('d-none')){
+                
+                element.dispatchEvent(clickEvent);
+                break;
+                }else{
+                break;
+              }
+            }else{
+              if (prevTR.classList.contains('d-none')){
+                
+                break;
+                }else{
+                  element.dispatchEvent(clickEvent);
+                break;
+              }
+            }
+
+          }
+        }
+
+       
+        
+        
+
+
+        
+    });
   
       })
 
@@ -1259,7 +1295,7 @@
       const rows = tBody.rows
 
 
-      for (let i = rowIndex+1; i <= rows.length-1; i++){
+      for (let i = rowIndex; i <= rows.length-1; i++){
 
         if (rows[i].classList.contains('ender')){
           
