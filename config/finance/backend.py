@@ -4525,9 +4525,9 @@ def balance_sheet(school,year):
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_noncurrent_liabilities[acct_per] += row[f"debt_{i}"]
                         if i == last_month_number:
-                            last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
-                    total_noncurrent_liabilities_fytd += row["debt_fytd"]
-                    total_noncurrent_liabilities_fye +=  fye
+                            last_month_total_noncurrent_liabilities -= row[f"debt_{i}"]
+                    total_noncurrent_liabilities_fytd -= row["debt_fytd"]
+                    total_noncurrent_liabilities_fye -=  fye
                     print(total_noncurrent_liabilities_fye)
                     print("FYEbts",fye)
 
