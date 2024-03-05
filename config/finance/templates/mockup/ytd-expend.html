@@ -471,6 +471,8 @@
             <td> </td>
             <td> </td>
           </tr>
+            
+         
           {% for fund, data in expend_fund.items %}
           <tr class="super-dom ">
             <td>{{ fund }} </td>
@@ -527,6 +529,53 @@
             <td>  {{ data.total_PB_5700 }} </td>
             <td> </td>
           </tr>
+       
+          {% for row in ytd_expenditure_data_revenue %}
+          {% if row.category == 'Local Revenue' %}
+          {% if row.fund == fund %}
+         
+          <tr class="sub d-none">
+
+            <td>{{ row.obj }} - {{ row.description }} </td>
+            <td> {{row.total_budget}} </td>
+    
+
+            {% if September == "True" %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            {% else %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            {% endif %}
+
+            <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+            <td></td>
+
+          </tr>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+      
           <tr class="dom">
             <td> 5800 - State Program Revenue </td>
             <td> {{ data.total_budget_58 }} </td>
@@ -561,6 +610,52 @@
             <td>  {{ data.total_PB_5800 }} </td>
             <td> </td>
           </tr>
+          {% for row in ytd_expenditure_data_revenue %}
+          {% if row.category == 'State Program Revenue' %}
+          {% if row.fund == fund %}
+         
+          <tr class="sub d-none">
+
+            <td>{{ row.obj }} - {{ row.description }} </td>
+            <td> {{row.total_budget}} </td>
+    
+
+            {% if September == "True" %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            {% else %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            {% endif %}
+
+            <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+            <td></td>
+
+          </tr>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+
           <tr class="dom">
             <td> 5900 - Federal Program Revenue</td>
             <td> {{ data.total_budget_59 }} </td>
@@ -595,7 +690,51 @@
             <td>  {{ data.total_PB_5900 }} </td>
             <td> </td>
           </tr>
+          {% for row in ytd_expenditure_data_revenue %}
+          {% if row.category == 'Federal Program Revenue' %}
+          {% if row.fund == fund %}
          
+          <tr class="sub d-none">
+
+            <td>{{ row.obj }} - {{ row.description }} </td>
+            <td> {{row.total_budget}} </td>
+    
+
+            {% if September == "True" %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            {% else %}
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+            {% endif %}
+
+            <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+            <td></td>
+
+          </tr>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
           
           <tr class="dom">
             <td>Total  </td>
@@ -721,6 +860,7 @@
             <td>  {{ data.total_PB_6100 }} </td>
             <td> </td>
           </tr>
+        
           <tr class="dom">
             <td> 6200 - Professional and Contract Services </td>
             <td> {{ data.total_budget_62 }} </td>
@@ -1371,6 +1511,7 @@
       const section = event.currentTarget.closest('tr')
      
       //let prevElem = section.previousElementSibling;
+      console.log("trigger")
 
       let nextElem = section.nextElementSibling;
 

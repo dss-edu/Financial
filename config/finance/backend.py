@@ -168,7 +168,7 @@ def profit_loss(school,year):
                     "school":row[5],
                 }
                 data.append(row_dict)
-
+        ytd_expenditure_data_revenue = data #also declare for ytd expenditure to use the data
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
 
         rows = cursor.fetchall()
@@ -539,6 +539,9 @@ def profit_loss(school,year):
             real_key = "Amount"
             appr_key = "Budget"
             encum_key = "Amount"
+
+ 
+
 
         
         acct_per_values = [
@@ -1010,7 +1013,6 @@ def profit_loss(school,year):
 
         # FOR YTD EXPEND PAGE
 
-
         #OBJ RANGES FOR EXPENSE
         obj_ranges = ["61", "62", "63", "64", "65", "66"] 
         full_obj_ranges = ["6100","6200","6300","6400","6500","6600"]
@@ -1048,6 +1050,7 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_budget"] = 0
                     for obj_range in obj_ranges:
                         expend_fund[fund_value][f"total_budget_{obj_range}"] = 0
+
 
 
 
@@ -1191,6 +1194,25 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_revenue_5900_ytd"] += total_revenue_5900
                     expend_fund[fund_value][f"total_revenue_ytd"] += total_revenue_5700 + total_revenue_5800 + total_revenue_5900 
 
+            # for item in ytd_expenditure_data_revenue:
+            #     fund = item["fund"]
+            #     obj = item["obj"]
+            #     category = item["category"]
+            #     ytd_total = 0
+                
+            #     for i, acct_per in enumerate(acct_per_values, start=1):
+            #         total_revenue_5700 = sum(
+            #             entry[real_key]
+            #             for entry in data3
+            #             if entry["fund"] == fund
+            #             and entry["AcctPer"] == acct_per
+            #             and entry["obj"] == obj
+            #         )
+
+            #         if fund == fund_value:
+            #             item[f"total_real{i}"] = total_revenue_5700
+
+                
 
             for obj_range in obj_ranges:
                 if school in schoolCategory["skyward"]:
@@ -1207,6 +1229,8 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_PB_revenue"] += expend_fund[fund_value][f"total_PB_{obj_range}00"]
 
 
+        
+
         for fund_value in expend_fund:
             for i, acct_per in enumerate(acct_per_values, start=1):
                 expend_fund[fund_value][f"total_expend_6100_{i}"] = format_value(expend_fund[fund_value][f"total_expend_6100_{i}"])
@@ -1217,8 +1241,8 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6600_{i}"])
                 expend_fund[fund_value][f"total_{i}"] = format_value(expend_fund[fund_value][f"total_{i}"])
                 for obj_range in rev_obj_ranges:
-                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
-                expend_fund[fund_value][f"total_revenue_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{i}"])
+                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
+                expend_fund[fund_value][f"total_revenue_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{i}"])
             
             for obj_range in rev_obj_ranges:
                 expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"])
@@ -1252,7 +1276,7 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_PB"] = format_value_negative(expend_fund[fund_value][f"total_PB"])
 
 
-
+        ytd_expenditure_data_revenue = data
         # END OF YTD EXPEND PAGE
              
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
@@ -1893,6 +1917,7 @@ def profit_loss(school,year):
             "data_activities": data_activities,
             "last_update": last_update,
             "expend_fund": expend_fund,
+            "ytd_expenditure_data_revenue":ytd_expenditure_data_revenue,
             "months":
                     {
                 "last_month": formatted_last_month,
