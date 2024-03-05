@@ -5092,6 +5092,7 @@ def cashflow(school,year):
 
         for item in data_cashflow:
             activity = item["Activity"]
+            category = item["Category"]
 
             item["fytd_1"] = 0
 
@@ -5103,8 +5104,10 @@ def cashflow(school,year):
                     if entry["Activity"] == activity
                 )
 
-                total_activity[acct_per] += item[f"total_operating{i}"]
-                total_operating[acct_per] += item[f"total_operating{i}"]
+                
+                if category == 'Operating':
+                    total_activity[acct_per] += item[f"total_operating{i}"]
+                    total_operating[acct_per] += item[f"total_operating{i}"]
 
                
 
@@ -5122,6 +5125,7 @@ def cashflow(school,year):
             # obj = item["obj"]
             item["fytd_2"] = 0
             activity = item["Activity"]
+            category = item["Category"]
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 key = f"total_bal{i}"
@@ -5131,8 +5135,10 @@ def cashflow(school,year):
                     if entry["Activity"] == activity
                 )
 
-                total_activity[acct_per] += item[f"total_investing{i}"]
-                total_investing[acct_per] += item[f"total_investing{i}"]
+                
+                if category == 'Investing':
+                    total_activity[acct_per] += item[f"total_investing{i}"]
+                    total_investing[acct_per] += item[f"total_investing{i}"]
                 
                 
               

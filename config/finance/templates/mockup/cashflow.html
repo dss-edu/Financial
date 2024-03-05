@@ -534,7 +534,7 @@
           {% for item in data_activitybs %}
           {% if item.Activity == row.Activity %}
           <tr class="sub d-none">
-            <td>{{item.obj}} - {{item.Description2}} - {{row.Activity}}</td>
+            <td>{{item.obj}} - {{item.Description2}} </td>
 
             {% if September == "True" %}
             <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ item.obj }}" data-yr="09"> {{item.total_bal9}}  </a></td>
