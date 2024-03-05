@@ -1252,6 +1252,7 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_PB"] = format_value_negative(expend_fund[fund_value][f"total_PB"])
 
 
+
         # END OF YTD EXPEND PAGE
              
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
@@ -4999,16 +5000,15 @@ def cashflow(school,year):
         data_cashflow = []
 
         for row in rows:
-            if school == row[4]:
-                row_dict = {
-                    "Category": row[0],
-                    "Activity": row[1],
-                    "Description": row[2],
-                    "obj": str(row[3]),
-                }
-            
-
-                data_cashflow.append(row_dict)
+         
+            row_dict = {
+                "Category": row[0],
+                "Activity": row[1],
+                "Description": row[2],
+                "obj": str(row[3]),
+            }
+        
+            data_cashflow.append(row_dict)
 
 
         if FY_year_1 == present_year:
