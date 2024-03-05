@@ -984,6 +984,7 @@
     ///////////////////////// format table //////////////////////////////////
     const tableMain = document.getElementById('table-main')
     tableFormatter(tableMain)
+    tableFormatter2(tableMain)
 
     ///////////////////////// show hide stuff ///////////////////////////
     // hide months
@@ -1228,6 +1229,8 @@
           let existingLink = columns[i].querySelector('a');
 
           // handle nulls and undefined
+
+
           if(columns[i].textContent.trim() === '' || columns[i].textContent === ' ') {
             
             emptyCounter++
@@ -1286,6 +1289,21 @@
         }
       })
     } //end of tableFormatter
+
+    function tableFormatter2(mainTableDiv){
+      const rows = mainTableDiv.querySelectorAll('tbody tr')
+     
+      rows.forEach((row, index) => {
+        const nextRow = rows[index + 1]; // Get the next row
+        
+        if (nextRow && nextRow.classList.contains('super-dom') && row.classList.contains('super-dom')) {
+          console.log(row);
+          row.remove(); // Remove the current row if it and the next row both have class 'super-dom'
+      }
+    });
+
+
+    } 
 
     function showHideTitle(event){
       const section = event.currentTarget.closest('tr')
