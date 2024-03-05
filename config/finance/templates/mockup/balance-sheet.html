@@ -2657,10 +2657,214 @@
             <td>{{totals_bs.last_month_total_current_liabilities}}</td>
           </tr>
 
+
+          {% for row in data_balancesheet %}
+          {% if row.school == school and row.Category == 'Liabilities and Net Assets' and row.Subcategory == 'Noncurrent Liabilities' and row.Activity == 'LP' %}
+          <tr class="dom d-none">
+            <td>{{ row.Description}}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
+
+            {% if September == "True" %}
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="09">{{row.difference_9}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="10">{{row.difference_10}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="11">{{row.difference_11}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="12">{{row.difference_12}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="01">{{row.difference_1}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="02">{{row.difference_2}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="03">{{row.difference_3}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="04">{{row.difference_4}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="05">{{row.difference_5}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="06">{{row.difference_6}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="07">{{row.difference_7}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="08">{{row.difference_8}}</a></td>
+            {% else %}
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="07">{{row.difference_7}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="08">{{row.difference_8}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="09">{{row.difference_9}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="10">{{row.difference_10}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="11">{{row.difference_11}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="12">{{row.difference_12}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="01">{{row.difference_1}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="02">{{row.difference_2}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="03">{{row.difference_3}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="04">{{row.difference_4}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="05">{{row.difference_5}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link LP-total" data-yr="06">{{row.difference_6}}</a></td>
+            {% endif %}
+
+
+            <td>{{row.fytd}}</td>
+            <td>{{row.last_month_difference}}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+
+          {% for row in data_activitybs %}
+          {% if row.Activity == 'LP' %}
+          <tr class="sub d-none">
+            <td>{{row.obj}} - {{row.Description2}}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school_bs_asc == 'True'%}{{ row.activity_fye }}{% endif %} </td>
+
+            {% if September == "True" %}
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="10"> {{row.total_bal10}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="11"> {{row.total_bal11}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="12"> {{row.total_bal12}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="01"> {{row.total_bal1}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="02"> {{row.total_bal2}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="03"> {{row.total_bal3}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="04"> {{row.total_bal4}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="05"> {{row.total_bal5}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="06"> {{row.total_bal6}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="07"> {{row.total_bal7}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="08"> {{row.total_bal8}} </a></td>
+            {% else %}
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="07"> {{row.total_bal7}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="08"> {{row.total_bal8}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="10"> {{row.total_bal10}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="11"> {{row.total_bal11}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="12"> {{row.total_bal12}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="01"> {{row.total_bal1}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="02"> {{row.total_bal2}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="03"> {{row.total_bal3}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="04"> {{row.total_bal4}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="05"> {{row.total_bal5}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="06"> {{row.total_bal6}} </a></td>
+            {% endif %}
+
+            <td>{{row.fytd}}</td>
+            <td>{{row.last_month_bal}}</td>
+   
+          </tr>
+          {% endif %}
+          {% endfor %}
           
-          <!-- End of  Total Current Liabilities  -->
+          {% for row in data_balancesheet %}
+          {% if row.school == school and row.Category == 'Liabilities and Net Assets' and row.Subcategory == 'Noncurrent Liabilities' and row.Activity == 'RULL' %}
+          <tr class="dom d-none">
+            <td>{{ row.Description}}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
+
+            {% if September == "True" %}
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="09">{{row.difference_9}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="10">{{row.difference_10}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="11">{{row.difference_11}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="12">{{row.difference_12}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="01">{{row.difference_1}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="02">{{row.difference_2}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="03">{{row.difference_3}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="04">{{row.difference_4}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="05">{{row.difference_5}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="06">{{row.difference_6}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="07">{{row.difference_7}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="08">{{row.difference_8}}</a></td>
+            {% else %}
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="07">{{row.difference_7}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="08">{{row.difference_8}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="09">{{row.difference_9}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="10">{{row.difference_10}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="11">{{row.difference_11}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="12">{{row.difference_12}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="01">{{row.difference_1}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="02">{{row.difference_2}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="03">{{row.difference_3}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="04">{{row.difference_4}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="05">{{row.difference_5}}</a></td>
+            <td><a href="#" class="viewgl_activitybs-link RULL-total" data-yr="06">{{row.difference_6}}</a></td>
+            {% endif %}
 
 
+            <td>{{row.fytd}}</td>
+            <td>{{row.last_month_difference}}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+
+          {% for row in data_activitybs %}
+          {% if row.Activity == 'RULL' %}
+          <tr class="sub d-none">
+            <td>{{row.obj}} - {{row.Description2}}</td>
+            <td>{% if ascender == "False" or school_bs == 'True' or school_bs_asc == 'True'%}{{ row.activity_fye }}{% endif %}</td>
+
+            {% if September == "True" %}
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="10"> {{row.total_bal10}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="11"> {{row.total_bal11}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="12"> {{row.total_bal12}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="01"> {{row.total_bal1}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="02"> {{row.total_bal2}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="03"> {{row.total_bal3}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="04"> {{row.total_bal4}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="05"> {{row.total_bal5}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="06"> {{row.total_bal6}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="07"> {{row.total_bal7}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="08"> {{row.total_bal8}} </a></td>
+            {% else %}
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="07"> {{row.total_bal7}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="08"> {{row.total_bal8}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="09"> {{row.total_bal9}}  </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="10"> {{row.total_bal10}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="11"> {{row.total_bal11}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="12"> {{row.total_bal12}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="01"> {{row.total_bal1}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="02"> {{row.total_bal2}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="03"> {{row.total_bal3}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="04"> {{row.total_bal4}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="05"> {{row.total_bal5}} </a></td>
+            <td><a class="viewgl_activitybs-link" href="#" data-obj="{{ row.obj }}" data-yr="06"> {{row.total_bal6}} </a></td>
+            {% endif %}
+
+            <td>{{row.fytd}}</td>
+            <td>{{row.last_month_bal}}</td>
+   
+          </tr>
+          {% endif %}
+          {% endfor %}
+
+
+
+ 
+          <tr class="super-dom">
+            <td>Total Noncurrent Liabilities</td>
+            <td>{{totals_bs.total_noncurrent_liabilities_fye}}</td>
+
+            {% if September == "True" %}
+            <td> <a href="#" data-yr="09">{{totals_bs.total_noncurrent_liabilities.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_noncurrent_liabilities.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_noncurrent_liabilities.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_noncurrent_liabilities.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_noncurrent_liabilities.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_noncurrent_liabilities.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_noncurrent_liabilities.03}}</a></td>
+            <td><a href="#" data-yr="04"> {{totals_bs.total_noncurrent_liabilities.04}}</a></td>
+            <td><a href="#" data-yr="05"> {{totals_bs.total_noncurrent_liabilities.05}}</a></td>
+            <td><a href="#" data-yr="06"> {{totals_bs.total_noncurrent_liabilities.06}}</a></td>
+            <td><a href="#" data-yr="07"> {{totals_bs.total_noncurrent_liabilities.07}}</a></td>
+            <td><a href="#" data-yr="08"> {{totals_bs.total_noncurrent_liabilities.08}}</a></td>
+
+            {% else %}
+            <td><a href="#" data-yr="07"> {{totals_bs.total_noncurrent_liabilities.07}}</a></td>
+            <td><a href="#" data-yr="08"> {{totals_bs.total_noncurrent_liabilities.08}}</a></td>
+            <td> <a href="#" data-yr="09">{{totals_bs.total_noncurrent_liabilities.09}}</a></td>
+            <td> <a href="#" data-yr="10">{{totals_bs.total_noncurrent_liabilities.10}}</a></td>
+            <td> <a href="#" data-yr="11">{{totals_bs.total_noncurrent_liabilities.11}}</a></td>
+            <td> <a href="#" data-yr="12">{{totals_bs.total_noncurrent_liabilities.12}}</a></td>
+            <td> <a href="#" data-yr="01">{{totals_bs.total_noncurrent_liabilities.01}}</a></td>
+            <td> <a href="#" data-yr="02">{{totals_bs.total_noncurrent_liabilities.02}}</a></td>
+            <td> <a href="#" data-yr="03">{{totals_bs.total_noncurrent_liabilities.03}}</a></td>
+            <td><a href="#" data-yr="04"> {{totals_bs.total_noncurrent_liabilities.04}}</a></td>
+            <td><a href="#" data-yr="05"> {{totals_bs.total_noncurrent_liabilities.05}}</a></td>
+            <td><a href="#" data-yr="06"> {{totals_bs.total_noncurrent_liabilities.06}}</a></td>
+            {% endif %}
+
+
+            <td>{{totals_bs.total_noncurrent_liabilities_fytd}}</td>
+            <td>{{totals_bs.last_month_total_noncurrent_liabilities}}</td>
+          </tr>
+          <!-- Total Liabilities  -->
+
+          
           {% for row in data_activitybs %}
           {% if row.Activity == 'LTD' %}
           <tr class="dom d-none">
@@ -2701,7 +2905,6 @@
           </tr>
           {% endif %}
           {% endfor %}
-
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Debt' and row.Subcategory == 'Long Term Debt' and row.Activity == 'LTD' %}
           <tr class="super-dom">
@@ -2742,9 +2945,6 @@
           </tr>
           {% endif %}
           {% endfor %}
-
-        
-          <!-- Total Liabilities  -->
 
           <tr class="title-dom " >
             <td class="bigfont">Total Liabilities</td>
@@ -2898,7 +3098,7 @@
 
     ///////////////////////// format table //////////////////////////////////
     const tableMain = document.getElementById('table-main')
-    tableFormatter(tableMain)
+   tableFormatter(tableMain)
 
     ///////////////////////// show hide stuff ///////////////////////////
     const monthHeaders = document.querySelectorAll('.month')

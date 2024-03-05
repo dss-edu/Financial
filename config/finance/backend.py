@@ -3568,10 +3568,12 @@ def balance_sheet(school,year):
                 unique_bs_id.append(row[5])
         
         largest_unique_id = max(unique_bs_id)
+        print(largest_unique_id)
      
-        for i in range(1, int(largest_unique_id)):
+        for i in range(1, int(largest_unique_id) + 1) :
             cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs_fye']} where  BS_id = {i} and school = '{school}' and year = '{FY_year_1}';  ")
             row = cursor.fetchone()
+
             if row is None:
                 fye = '0'
                 query = "INSERT INTO [dbo].[BS_FYE] (BS_id, FYE, school,year) VALUES (?, ?, ?,?)"
@@ -3626,7 +3628,7 @@ def balance_sheet(school,year):
                     }
 
                     data_balancesheet.append(row_dict)
-
+        print("BSyet",data_balancesheet)
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
         #
@@ -4441,6 +4443,8 @@ def balance_sheet(school,year):
         total_current_assets_fytd = 0 
         last_month_current_assets = 0 
 
+
+
         total_capital_assets = {acct_per: 0 for acct_per in acct_per_values}
         total_capital_assets_fye = 0
         total_capital_assets_fytd = 0 
@@ -4450,6 +4454,11 @@ def balance_sheet(school,year):
         total_current_liabilities_fye = 0
         total_current_liabilities_fytd = 0
         last_month_total_current_liabilities = 0
+
+        total_noncurrent_liabilities = {acct_per: 0 for acct_per in acct_per_values}
+        total_noncurrent_liabilities_fye = 0
+        total_noncurrent_liabilities_fytd = 0
+        last_month_total_noncurrent_liabilities = 0
 
         total_liabilities = {acct_per: 0 for acct_per in acct_per_values}
         total_liabilities_fye = 0
@@ -4511,6 +4520,18 @@ def balance_sheet(school,year):
                     total_current_liabilities_fytd += row["debt_fytd"]
                     total_current_liabilities_fye +=  fye
 
+                if subcategory == 'Noncurrent Liabilities':
+                    print(subcategory)
+                    for i, acct_per in enumerate(acct_per_values,start = 1):
+                        total_noncurrent_liabilities[acct_per] += row[f"debt_{i}"]
+                        if i == last_month_number:
+                            last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
+                    total_noncurrent_liabilities_fytd += row["debt_fytd"]
+                    total_noncurrent_liabilities_fye +=  fye
+                    print(total_noncurrent_liabilities_fye)
+                    print("FYEbts",fye)
+
+
         total_liabilities_fytd_2 = 0
         for row in data_balancesheet:
             if row["school"] == school:
@@ -4524,14 +4545,16 @@ def balance_sheet(school,year):
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
-                        total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per]
+                        total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per] + total_noncurrent_liabilities[acct_per]
                         if i == last_month_number:
-                            last_month_total_liabilities += row[f"debt_{i}"] + total_current_liabilities[acct_per]
+                            last_month_total_liabilities += row[f"debt_{i}"] + total_current_liabilities[acct_per] + total_noncurrent_liabilities[acct_per]
                     total_liabilities_fytd_2 += row["debt_fytd"]
-                    total_liabilities_fye +=   total_current_liabilities_fye + fye
+                    total_liabilities_fye +=   total_current_liabilities_fye + fye + total_noncurrent_liabilities_fye
+
         total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
 
         for row in data_balancesheet:
+            print(row['Activity'])
             if row["school"] == school:
                 
                 # if school == "goldenrule":
@@ -4567,6 +4590,7 @@ def balance_sheet(school,year):
         total_current_assets_fye = format_value(total_current_assets_fye)
         total_capital_assets_fye = format_value(total_capital_assets_fye)
         total_current_liabilities_fye = format_value(total_current_liabilities_fye)
+        total_noncurrent_liabilities_fye = format_value(total_noncurrent_liabilities_fye)
         total_liabilities_fye = format_value(total_liabilities_fye)
         total_assets_fye = format_value_dollars(total_assets_fye)
         total_LNA_fye = format_value_dollars(total_LNA_fye)
@@ -4574,6 +4598,7 @@ def balance_sheet(school,year):
         total_current_assets_fytd = format_value(total_current_assets_fytd)
         total_capital_assets_fytd = format_value(total_capital_assets_fytd)
         total_current_liabilities_fytd = format_value(total_current_liabilities_fytd)
+        total_noncurrent_liabilities_fytd = format_value(total_noncurrent_liabilities_fytd)
         total_liabilities_fytd = format_value(total_liabilities_fytd)
         total_assets_fye_fytd = format_value_dollars(total_assets_fye_fytd)
         total_LNA_fytd = format_value_dollars(total_LNA_fytd)
@@ -4581,6 +4606,7 @@ def balance_sheet(school,year):
         total_current_assets = {acct_per: format_value(value) for acct_per, value in total_current_assets.items() if value != 0}
         total_capital_assets = {acct_per: format_value(value) for acct_per, value in total_capital_assets.items() if value != 0}
         total_current_liabilities = {acct_per: format_value(value) for acct_per, value in total_current_liabilities.items() if value != 0}
+        total_noncurrent_liabilities = {acct_per: format_value(value) for acct_per, value in total_noncurrent_liabilities.items() if value != 0}
         total_liabilities = {acct_per: format_value(value) for acct_per, value in total_liabilities.items() if value != 0}
         total_assets = {acct_per: format_value_dollars(value) for acct_per, value in total_assets.items() if value != 0}
         total_LNA = {acct_per: format_value_dollars(value) for acct_per, value in total_LNA.items() if value != 0}
@@ -4589,6 +4615,7 @@ def balance_sheet(school,year):
         last_month_total_capital_assets = format_value(last_month_total_capital_assets)
         last_month_total_assets = format_value_dollars(last_month_total_assets)
         last_month_total_current_liabilities = format_value(last_month_total_current_liabilities)
+        last_month_total_noncurrent_liabilities = format_value(last_month_total_noncurrent_liabilities)
         last_month_total_liabilities = format_value(last_month_total_liabilities)
         last_month_total_LNA = format_value_dollars(last_month_total_LNA)
         
@@ -4866,7 +4893,13 @@ def balance_sheet(school,year):
                 "total_assets_fye_fytd":total_assets_fye_fytd,
                 "total_net_assets_fytd":total_net_assets_fytd,
                 "total_LNA_fytd":total_LNA_fytd,
-                "last_month_total_LNA":last_month_total_LNA
+                "last_month_total_LNA":last_month_total_LNA,
+                "total_noncurrent_liabilities":total_noncurrent_liabilities,
+                "total_noncurrent_liabilities_fye":total_noncurrent_liabilities_fye,
+                "total_noncurrent_liabilities_fytd":total_noncurrent_liabilities_fytd,
+                "last_month_total_noncurrent_liabilities":last_month_total_noncurrent_liabilities,
+
+
             }
 
             
