@@ -4999,15 +4999,16 @@ def cashflow(school,year):
         data_cashflow = []
 
         for row in rows:
-            row_dict = {
-                "Category": row[0],
-                "Activity": row[1],
-                "Description": row[2],
-                "obj": str(row[3]),
-            }
-          
+            if school == row[4]:
+                row_dict = {
+                    "Category": row[0],
+                    "Activity": row[1],
+                    "Description": row[2],
+                    "obj": str(row[3]),
+                }
+            
 
-            data_cashflow.append(row_dict)
+                data_cashflow.append(row_dict)
 
 
         if FY_year_1 == present_year:
@@ -5118,14 +5119,16 @@ def cashflow(school,year):
                
 
         for item in data_cashflow:
-            obj = item["obj"]
+            # obj = item["obj"]
             item["fytd_2"] = 0
+            activity = item["Activity"]
 
             for i, acct_per in enumerate(acct_per_values, start=1):
+                key = f"total_bal{i}"
                 item[f"total_investing{i}"] = sum(
-                    entry[activity_key]
-                    for entry in data3
-                    if entry["obj"] == obj and entry["AcctPer"] == acct_per
+                    entry[key]
+                    for entry in data_activitybs
+                    if entry["Activity"] == activity
                 )
 
                 total_activity[acct_per] += item[f"total_investing{i}"]
