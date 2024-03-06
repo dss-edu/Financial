@@ -1304,6 +1304,7 @@ def profit_loss(school,year):
             obj = item["obj"]
             fund = item["fund"]
             ytd_total = 0 
+            item["total_budget"] = 0
             if school in schoolCategory["skyward"]:
                 total_budget_data_activities = sum(
                     entry[appr_key]
@@ -1338,11 +1339,12 @@ def profit_loss(school,year):
             item["ytd_total"] = ytd_total
 
         for item in unique_objcodes:
-            
-            if item["total_budget"] is None or item["total_budget"] == 0:
+            total_budget = item["total_budget"]
+
+            if total_budget is None or total_budget == 0:
                 item["total_budget"] = ""
             else:
-                item["total_budget"] = format_value(item["total_budget"])
+                item["total_budget"] = format_value(total_budget)
             if item["ytd_total"] is None or item["ytd_total"] == 0:
                 item["ytd_total"] = ""
             else:
