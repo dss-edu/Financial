@@ -1054,9 +1054,29 @@ def profit_loss(school,year):
 
 
 
-
-
+        expensebyobject_list = data_activities
+        unique_objcodes = []
         for fund_value in expend_fund.keys(): #total fund within each month
+            distinct_obj = []
+            # Filter data3 to include only items related to the current fund
+            fund_items = [item for item in data3 if item["fund"] == fund_value]
+           
+            for item in fund_items:
+                if item["obj"] not in distinct_obj:
+                    distinct_obj.append(item["obj"])
+            
+            for item in data_activities:
+                if item["obj"] in distinct_obj:
+                    item_with_fund = item.copy()  # Create a copy of the item
+                    item_with_fund["fund"] = fund_value  # Append fund_value to the item
+                    unique_objcodes.append(item_with_fund)
+                    
+           
+
+                
+
+
+
             if school in schoolCategory["skyward"]:
                 for obj_range in obj_ranges:
                     total_budget = sum(
@@ -1277,6 +1297,58 @@ def profit_loss(school,year):
 
 
         ytd_expenditure_data_revenue = data
+
+
+        for item in unique_objcodes:
+            category = item["Category"]
+            obj = item["obj"]
+            fund = item["fund"]
+            ytd_total = 0 
+            if school in schoolCategory["skyward"]:
+                total_budget_data_activities = sum(
+                    entry[appr_key]
+                    for entry in data3
+                    if entry["obj"] == obj
+                    and entry["fund"] == fund
+
+                    )
+            else:
+                total_budget_data_activities = sum(
+                entry[appr_key]
+                for entry in data3
+                if entry["obj"] == obj
+                and entry["Type"] == 'GJ'
+                and entry["fund"] == fund
+        
+                )
+                item["total_budget"] = -(total_budget_data_activities)
+            for i, acct_per in enumerate(acct_per_values, start=1):
+                drop_total_expend = sum(
+                    entry[expend_key]
+                    for entry in data3
+                    if entry["fund"] == fund
+                    and entry["AcctPer"] == acct_per
+                    and entry["obj"] == obj
+                )
+                
+                item[f"total_activities{i}"] = drop_total_expend
+            for month_number in range(1, 13):
+                if month_number != month_exception:
+                    ytd_total += (item[f"total_activities{month_number}"])
+            item["ytd_total"] = ytd_total
+
+        for item in unique_objcodes:
+            
+            if item["total_budget"] is None or item["total_budget"] == 0:
+                item["total_budget"] = ""
+            else:
+                item["total_budget"] = format_value(item["total_budget"])
+            if item["ytd_total"] is None or item["ytd_total"] == 0:
+                item["ytd_total"] = ""
+            else:
+                item["ytd_total"] = format_value(item["ytd_total"])
+        print(unique_objcodes)
+
         # END OF YTD EXPEND PAGE
              
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
@@ -1873,6 +1945,15 @@ def profit_loss(school,year):
                 else:
                     row[key] = ""
 
+        for row in unique_objcodes:
+            for key in keys_to_check_expense:
+                value = float(row[key])
+                if value == 0:
+                    row[key] = ""
+                elif value < 0:
+                    row[key] = "({:,.0f})".format(abs(float(row[key])))
+                elif value != "":
+                    row[key] = "{:,.0f}".format(float(row[key]))
 
         for row in data2:
             for key in keys_to_check_func_2:
@@ -1918,6 +1999,7 @@ def profit_loss(school,year):
             "last_update": last_update,
             "expend_fund": expend_fund,
             "ytd_expenditure_data_revenue":ytd_expenditure_data_revenue,
+            "unique_objcodes":unique_objcodes,
             "months":
                     {
                 "last_month": formatted_last_month,
@@ -3229,6 +3311,9 @@ def profit_loss_date(school):
                 row[key] = "({:,.0f})".format(abs(float(row[key])))
             elif value != "":
                 row[key] = "{:,.0f}".format(float(row[key]))
+
+    
+
     for row in data_expensebyobject:
         for key in keys_to_check_expense2:
             value = float(row[key])

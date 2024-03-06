@@ -860,7 +860,44 @@
             <td>  {{ data.total_PB_6100 }} </td>
             <td> </td>
           </tr>
-        
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Payroll and Benefits' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td> {{  item.ytd_total  }}</td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           <tr class="dom">
             <td> 6200 - Professional and Contract Services </td>
             <td> {{ data.total_budget_62 }} </td>
@@ -895,6 +932,44 @@
             <td>  {{ data.total_PB_6200 }} </td>
             <td> </td>
           </tr>
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Professional and Contract Services' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td> {{  item.ytd_total  }}</td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           <tr class="dom">
             <td> 6300 - Materials and Supplies</td>
             <td> {{ data.total_budget_63 }} </td>
@@ -929,6 +1004,44 @@
             <td>  {{ data.total_PB_6300 }} </td>
             <td> </td>
           </tr>
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Materials and Supplies' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td> {{  item.ytd_total  }}</td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           <tr class="dom">
             <td>  6400 - Other Operating Costs</td>
             <td> {{ data.total_budget_64 }} </td>
@@ -963,6 +1076,44 @@
             <td> {{ data.total_PB_6400 }}  </td>
             <td> </td>
           </tr>
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Other Operating Costs' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td> {{  item.ytd_total  }}</td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           <tr class="dom">
             <td> 6500 - Debt Services </td>
             <td> {{ data.total_budget_65 }}</td>
@@ -997,6 +1148,44 @@
             <td> {{ data.total_PB_6500 }}  </td>
             <td> </td>
           </tr>
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Debt Services' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td>{{  item.ytd_total  }} </td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           <tr class="dom">
             <td> 6600 - Fixed/Capital Assets</td>
             <td> {{ data.total_budget_66 }} </td>
@@ -1031,6 +1220,44 @@
             <td> {{ data.total_PB_6600 }} </td>
             <td> </td>
           </tr>
+          {% for item in unique_objcodes %}
+          {% if item.Category == 'Fixed/Capital Assets' and fund == item.fund %}
+          <tr class="sub d-none">
+            <td> {{item.obj}}-{{item.Description}}</td>
+            <td> {{ item.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            {% else %}
+            <td>  {{  item.total_activities7  }} </a></td>
+            <td>  {{  item.total_activities8  }} </a></td>
+            <td>  {{  item.total_activities9  }} </a></td>
+            <td>  {{  item.total_activities10 }} </a></td>
+            <td>  {{  item.total_activities11 }} </a></td>
+            <td>  {{  item.total_activities12 }} </a></td>
+            <td>  {{  item.total_activities1  }} </a></td>
+            <td>  {{  item.total_activities2  }} </a></td>
+            <td>  {{  item.total_activities3  }} </a></td>
+            <td>  {{  item.total_activities4  }} </a></td>
+            <td>  {{  item.total_activities5  }} </a></td>
+            <td>  {{  item.total_activities6  }} </a></td>
+            {% endif %}
+            <td> {{  item.ytd_total  }}</td>
+            <td> </td>
+            <td> </td>
+          </tr>
+          {% endif %}
+          {%endfor%}
           
           <tr class="dom">
             <td>Total  </td>
