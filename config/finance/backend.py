@@ -4610,11 +4610,11 @@ def balance_sheet(school,year):
                 if subcategory == 'Noncurrent Liabilities':
                     print(subcategory)
                     for i, acct_per in enumerate(acct_per_values,start = 1):
-                        total_noncurrent_liabilities[acct_per] -= row[f"debt_{i}"]
+                        total_noncurrent_liabilities[acct_per] += row[f"debt_{i}"]
                         if i == last_month_number:
-                            last_month_total_noncurrent_liabilities -= row[f"debt_{i}"]
-                    total_noncurrent_liabilities_fytd -= row["debt_fytd"]
-                    total_noncurrent_liabilities_fye -=  fye
+                            last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
+                    total_noncurrent_liabilities_fytd += row["debt_fytd"]
+                    total_noncurrent_liabilities_fye +=  fye
                     print(total_noncurrent_liabilities_fye)
                     print("FYEbts",fye)
 
@@ -4638,7 +4638,12 @@ def balance_sheet(school,year):
                     total_liabilities_fytd_2 += row["debt_fytd"]
                     total_liabilities_fye +=   total_current_liabilities_fye + fye + total_noncurrent_liabilities_fye
 
-        total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd
+        total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd + total_noncurrent_liabilities_fytd
+        print("LABLAB",total_liabilities_fytd_2)
+        print("LABLAB1",total_current_liabilities_fytd)
+        print("LABLAB2",total_noncurrent_liabilities_fytd)
+
+      
 
         for row in data_balancesheet:
             print(row['Activity'])
@@ -4684,9 +4689,9 @@ def balance_sheet(school,year):
 
         total_current_assets_fytd = format_value(total_current_assets_fytd)
         total_capital_assets_fytd = format_value(total_capital_assets_fytd)
-        total_current_liabilities_fytd = format_negative(total_current_liabilities_fytd)
+        total_current_liabilities_fytd = format_value(total_current_liabilities_fytd)
         total_noncurrent_liabilities_fytd = format_value(total_noncurrent_liabilities_fytd)
-        total_liabilities_fytd = format_negative(total_liabilities_fytd)
+        total_liabilities_fytd = format_value(total_liabilities_fytd)
         total_assets_fye_fytd = format_value_dollars(total_assets_fye_fytd)
         total_LNA_fytd = format_value_dollars(total_LNA_fytd)
 
