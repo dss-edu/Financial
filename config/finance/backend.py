@@ -4684,9 +4684,9 @@ def balance_sheet(school,year):
 
         total_current_assets_fytd = format_value(total_current_assets_fytd)
         total_capital_assets_fytd = format_value(total_capital_assets_fytd)
-        total_current_liabilities_fytd = format_value(total_current_liabilities_fytd)
+        total_current_liabilities_fytd = format_negative(total_current_liabilities_fytd)
         total_noncurrent_liabilities_fytd = format_value(total_noncurrent_liabilities_fytd)
-        total_liabilities_fytd = format_value(total_liabilities_fytd)
+        total_liabilities_fytd = format_negative(total_liabilities_fytd)
         total_assets_fye_fytd = format_value_dollars(total_assets_fye_fytd)
         total_LNA_fytd = format_value_dollars(total_LNA_fytd)
 
