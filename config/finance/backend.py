@@ -65,7 +65,7 @@ def update_fy(school,year):
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)        
     school_status(school)
-    # 
+ 
 def profit_loss(school,year):
     print("profit_loss")
     print(school)
@@ -495,7 +495,7 @@ def profit_loss(school,year):
 
 
         if school in schoolMonths["julySchool"]:
-                print("LAST_MONTH",last_month_number)
+             
                 if last_month_number <= 7:
                     ytd_budget_test = last_month_number + 6
                 else:
@@ -1002,7 +1002,7 @@ def profit_loss(school,year):
             for acct_per in acct_per_values
         }
         ammended_budget_netsurplus = ammended_budget_SBD - dna_total
-        print("ammended_budget_netsurplus",ammended_budget_netsurplus)
+
         ytd_ammended_netsurplus = ytd_ammended_SBD - ytd_ammended_dna
         ytd_netsurplus =  ytd_SBD - dna_ytd_total 
         bs_ytd_netsurplus = ytd_netsurplus
@@ -1349,8 +1349,7 @@ def profit_loss(school,year):
                 item["ytd_total"] = ""
             else:
                 item["ytd_total"] = format_value(item["ytd_total"])
-        print(unique_objcodes)
-
+     
         # END OF YTD EXPEND PAGE
              
         #CALCULATION EXPENSE BY OBJECT(EOC) AND TOTAL EXPENSE
@@ -1585,9 +1584,7 @@ def profit_loss(school,year):
 
 
         budget_net_income = totals["total_ammended"] - total_expense
-        print("budget_net_income",budget_net_income)
-        print(totals["total_ammended"])
-        print(total_expense)
+
     
         ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
         ytd_net_income = ytd_total_revenue - total_expense_ytd
@@ -3655,8 +3652,7 @@ def balance_sheet(school,year):
                 unique_bs_id.append(row[5])
         
         largest_unique_id = max(unique_bs_id)
-        print(largest_unique_id)
-     
+ 
         for i in range(1, int(largest_unique_id) + 1) :
             cursor.execute(f"SELECT  * FROM [dbo].{db[school]['bs_fye']} where  BS_id = {i} and school = '{school}' and year = '{FY_year_1}';  ")
             row = cursor.fetchone()
@@ -3701,7 +3697,7 @@ def balance_sheet(school,year):
                         )
 
                 if FY_year_1 == row[9]:
-                    print(row[0])
+                
                     row_dict = {
                         "Activity": row[0],
                         "Description": row[1],
@@ -3715,7 +3711,7 @@ def balance_sheet(school,year):
                     }
 
                     data_balancesheet.append(row_dict)
-        print("BSyet",data_balancesheet)
+ 
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
         #
@@ -4116,8 +4112,7 @@ def balance_sheet(school,year):
             for i in range(1, 13):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
-                if activity == 'LTD':
-                    print("LATE",row[f"total_sum{i}"])
+
 
             if school in schoolCategory["skyward"] or school in school_fye:
                 total_fye = sum(
@@ -4531,8 +4526,7 @@ def balance_sheet(school,year):
                     row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
 
-                    if row["Activity"] == 'LTD':
-                        print("ELTD",row["difference_9"])
+
 
         total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
         total_current_assets_fye = 0
@@ -4616,28 +4610,23 @@ def balance_sheet(school,year):
                     total_current_liabilities_fytd += row["debt_fytd"]
                     total_current_liabilities_fye +=  fye
 
-                if school in schoolCategory["skyward"]:
-                    if subcategory == 'Noncurrent Liabilities':
-                        print(subcategory)
+         
+                if subcategory == 'Noncurrent Liabilities':
+
+                    if school in schoolCategory["skyward"]:
                         for i, acct_per in enumerate(acct_per_values,start = 1):
                             total_noncurrent_liabilities[acct_per] -= row[f"debt_{i}"]
                             if i == last_month_number:
                                 last_month_total_noncurrent_liabilities -= row[f"debt_{i}"]
                         total_noncurrent_liabilities_fytd -= row["debt_fytd"]
                         total_noncurrent_liabilities_fye -=  fye
-                        print(total_noncurrent_liabilities_fye)
-                else:
-                    if subcategory == 'Noncurrent Liabilities':
-                        print(subcategory)
+                    else:
                         for i, acct_per in enumerate(acct_per_values,start = 1):
                             total_noncurrent_liabilities[acct_per] += row[f"debt_{i}"]
                             if i == last_month_number:
                                 last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
                         total_noncurrent_liabilities_fytd += row["debt_fytd"]
                         total_noncurrent_liabilities_fye +=  fye
-                        print(total_noncurrent_liabilities_fye)
-
-                    print("FYEbts",fye)
 
 
         total_liabilities_fytd_2 = 0
@@ -4660,14 +4649,10 @@ def balance_sheet(school,year):
                     total_liabilities_fye +=   total_current_liabilities_fye + fye + total_noncurrent_liabilities_fye
 
         total_liabilities_fytd = total_liabilities_fytd_2 + total_current_liabilities_fytd + total_noncurrent_liabilities_fytd
-        print("LABLAB",total_liabilities_fytd_2)
-        print("LABLAB1",total_current_liabilities_fytd)
-        print("LABLAB2",total_noncurrent_liabilities_fytd)
 
-      
 
         for row in data_balancesheet:
-            print(row['Activity'])
+            
             if row["school"] == school:
                 
                 # if school == "goldenrule":
@@ -4692,9 +4677,7 @@ def balance_sheet(school,year):
 
         last_month_number_str = f"{last_month_number:02}"  
         last_month_total_assets  = total_assets[last_month_number_str]
-        
-        print("RAW",total_assets["10"])
-        print("RAW",total_LNA["10"])
+
         
 
         total_assets_fye = total_current_assets_fye + total_capital_assets_fye
@@ -5083,7 +5066,7 @@ def cashflow(school,year):
         else:
             return ""
     def stringParser(value):
-        print(value)
+      
         if value == "" or value == 0:
             return 0
         
@@ -6720,7 +6703,7 @@ def excel(school,year):
 
         for row in data_balancesheet:
             activity = row["Activity"]
-            print(activity)
+          
             for i in range(1, 13):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
@@ -7263,7 +7246,7 @@ def charter_first(school):
             cash_equivalents = dollar_parser(item["last_month_difference"])
             break
     
-    print("cash_equivalents",cash_equivalents)
+ 
 
     pl_activities_file_path = os.path.join( "profit-loss", school, "data_activities.json")
     # pl_activities_file = JSON_DIR.path(pl_activities_file_path)
@@ -7297,7 +7280,7 @@ def charter_first(school):
 
     date_format = "%B %d, %Y"
     fy_curr = datetime.strptime(date_string, date_format)
-    print("fycurr",fy_curr)
+  
 
     fy_start = ""
     if school in schoolMonths['julySchool']:
@@ -7307,7 +7290,7 @@ def charter_first(school):
         fy_start = datetime(FY_year_1, 9, 1)
 
     fy_diff = fy_curr - fy_start
-    print("FY_DIFF",fy_diff)
+
     days = fy_diff.days
 
     expense_per_day = ytd_expense / days
@@ -7364,7 +7347,7 @@ def charter_first(school):
     except KeyError:
         deficitsurplus = 0
 
-    print(debtservice)
+ 
 
     try:
         if debtservice:
@@ -8309,7 +8292,7 @@ def balance_sheet_asc(school,year):
                     and entry["Type"] == "GJ"
                     and entry["Number"] in numberstack
                 )
-                print(activity_fye)
+     
                 if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
@@ -8324,7 +8307,7 @@ def balance_sheet_asc(school,year):
                     for entry in data_activitybs
                     if entry["Activity"] == Activity
                 )
-                print(Activity,item["FYE"])
+         
 
 
                 
@@ -9280,12 +9263,12 @@ def school_status(request):
             cursor = cnxn.cursor()
             query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
             cursor.execute(query,db_string)
-            print(db_string)
+        
             row = cursor.fetchone()
             update_status = ""
             if row:
                 update_status = row[5]
-                print("db",row[4])
+       
 
             ascender = 'True'
             if key in schoolCategory["skyward"]:
