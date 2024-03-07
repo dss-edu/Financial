@@ -4048,6 +4048,7 @@ def balance_sheet(school,year):
                     else 0
                     for entry in data_activitybs
                 )
+                
                 activity_sum_dict[(Activity, i)] = total_sum_i
             
 
@@ -4115,6 +4116,8 @@ def balance_sheet(school,year):
             for i in range(1, 13):
                 key = (activity, i)
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
+                if activity == 'LTD':
+                    print("LATE",row[f"total_sum{i}"])
 
             if school in schoolCategory["skyward"] or school in school_fye:
                 total_fye = sum(
@@ -4265,9 +4268,12 @@ def balance_sheet(school,year):
             return "({})".format(formatted_value) if value > 0 else formatted_value
 
         def format_value_dollars(value):
+            
             if value > 0:
+             
                 return "${:,.0f}".format(round(value))
             elif value < 0:
+           
                 return "$({:,.0f})".format(abs(round(value)))
             else:
                 return ""
@@ -4525,6 +4531,9 @@ def balance_sheet(school,year):
                     row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
 
+                    if row["Activity"] == 'LTD':
+                        print("ELTD",row["difference_9"])
+
         total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
         total_current_assets_fye = 0
         total_current_assets_fytd = 0 
@@ -4657,7 +4666,7 @@ def balance_sheet(school,year):
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
                     for i, acct_per in enumerate(acct_per_values,start = 1):
-                        total_LNA[acct_per] += row[f"net_assets{i}"] + total_liabilities[acct_per]
+                        total_LNA[acct_per] += round( row[f"net_assets{i}"] + total_liabilities[acct_per],2)
                         if i == last_month_number:
                             last_month_total_LNA += row[f"net_assets{i}"] + total_liabilities[acct_per]
 
@@ -4672,6 +4681,8 @@ def balance_sheet(school,year):
         last_month_number_str = f"{last_month_number:02}"  
         last_month_total_assets  = total_assets[last_month_number_str]
         
+        print("RAW",total_assets["10"])
+        print("RAW",total_LNA["10"])
         
 
         total_assets_fye = total_current_assets_fye + total_capital_assets_fye
