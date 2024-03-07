@@ -576,7 +576,7 @@
 
           <tr class="dom">
             <td>Total Operating Activities</td>
-
+            {% if September == "True" %}
             <td>{{cf_totals.total_operating.09}}</td>
             <td>{{cf_totals.total_operating.10}}</td>
             <td>{{cf_totals.total_operating.11}}</td>
@@ -589,7 +589,20 @@
             <td>{{cf_totals.total_operating.06}}</td>
             <td>{{cf_totals.total_operating.07}}</td>
             <td>{{cf_totals.total_operating.08}}</td>
-
+            {% else %}
+            <td>{{cf_totals.total_operating.07}}</td>
+            <td>{{cf_totals.total_operating.08}}</td>
+            <td>{{cf_totals.total_operating.09}}</td>
+            <td>{{cf_totals.total_operating.10}}</td>
+            <td>{{cf_totals.total_operating.11}}</td>
+            <td>{{cf_totals.total_operating.12}}</td>
+            <td>{{cf_totals.total_operating.01}}</td>
+            <td>{{cf_totals.total_operating.02}}</td>
+            <td>{{cf_totals.total_operating.03}}</td>
+            <td>{{cf_totals.total_operating.04}}</td>
+            <td>{{cf_totals.total_operating.05}}</td>
+            <td>{{cf_totals.total_operating.06}}</td>
+            {% endif %}
             <td>{{cf_totals.total_operating_ytd}}</td>
           </tr>
 

@@ -5253,7 +5253,8 @@ def cashflow(school,year):
         total_netsurplus = totals["total_netsurplus_months"]
         dna_months = totals["dna_total_months"]
        
-
+        dna_ytd_total = 0
+        ytd_netsurplus =0
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
@@ -5269,10 +5270,10 @@ def cashflow(school,year):
         cb_ytd_padded = cb_ytd.zfill(2)
         lm_ytd = str(lm_ytd)
         lm_ytd_padded = lm_ytd.zfill(2)
-
-        dna_ytd_total = stringParser(totals["dna_total_months"][cb_ytd_padded]) - stringParser(totals["dna_total_months"][lm_ytd_padded])
         
-        ytd_netsurplus = stringParser(totals["total_netsurplus_months"][cb_ytd_padded]) - stringParser(totals["total_netsurplus_months"][lm_ytd_padded])
+        dna_ytd_total = stringParser(totals["dna_total_months"].get(cb_ytd_padded, "")) - stringParser(totals["dna_total_months"].get(lm_ytd_padded, ""))
+        
+        ytd_netsurplus = stringParser(totals["total_netsurplus_months"].get(cb_ytd_padded, "")) - stringParser(totals["total_netsurplus_months"].get(lm_ytd_padded, ""))
      
     
         for item in data_cashflow:
