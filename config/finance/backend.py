@@ -65,7 +65,7 @@ def update_fy(school,year):
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)        
     school_status(school)
-    
+    # 
 def profit_loss(school,year):
     print("profit_loss")
     print(school)
@@ -5274,15 +5274,16 @@ def cashflow(school,year):
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
-        if month_exception == '1':
-            lm_ytd = '12'
+        if month_exception == 1:
+            lm_ytd = 12
         else:
             lm_ytd = month_exception - 1    
+
         cb_ytd = '7'
-   
+    
         if school in schoolMonths["septemberSchool"]:
             cb_ytd = '9'
-
+        
         cb_ytd_padded = cb_ytd.zfill(2)
         lm_ytd = str(lm_ytd)
         lm_ytd_padded = lm_ytd.zfill(2)
