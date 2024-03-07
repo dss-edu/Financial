@@ -5054,6 +5054,25 @@ def cashflow(school,year):
             return "{:,.0f}".format(abs(round(value)))
         else:
             return ""
+    def stringParser(value):
+        print(value)
+        if value == "" or value == 0:
+            return 0
+        
+        if "(" in value:
+            
+            formatted = "".join(value.strip().replace("$", "").replace("(", "-").replace(")", "").split(","))
+            
+            if "." in formatted:
+              
+                return float(formatted)
+         
+            return int(formatted) 
+        
+        formatted = "".join(value.strip().replace("$", "").split(","))
+        if "." in formatted:
+            return float(formatted)
+        return int(formatted)
 
     
     present_date = datetime.today().date()   
@@ -5227,14 +5246,35 @@ def cashflow(school,year):
 
         cfchecker= {acct_per: 0 for acct_per in acct_per_values}
 
-
-        dna_months = totals["dna_total_months"]
+        cbp = {acct_per: 0 for acct_per in acct_per_values}
+        cbp_fye = 0
+        cpb_last = 0
+        
         total_netsurplus = totals["total_netsurplus_months"]
-
+        dna_months = totals["dna_total_months"]
+       
 
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
+        if month_exception == '1':
+            lm_ytd = '12'
+        else:
+            lm_ytd = month_exception - 1    
+        cb_ytd = '7'
+   
+        if school in schoolMonths["septemberSchool"]:
+            cb_ytd = '9'
+
+        cb_ytd_padded = cb_ytd.zfill(2)
+        lm_ytd = str(lm_ytd)
+        lm_ytd_padded = lm_ytd.zfill(2)
+
+        dna_ytd_total = stringParser(totals["dna_total_months"][cb_ytd_padded]) - stringParser(totals["dna_total_months"][lm_ytd_padded])
+        
+        ytd_netsurplus = stringParser(totals["total_netsurplus_months"][cb_ytd_padded]) - stringParser(totals["total_netsurplus_months"][lm_ytd_padded])
+     
+    
         for item in data_cashflow:
             activity = item["Activity"]
             category = item["Category"]
@@ -5258,9 +5298,9 @@ def cashflow(school,year):
 
 
                 
-                if i != month_exception:
-                    item["fytd_1"] += item[f"total_operating{i}"]
-        
+
+            if category == 'Operating':
+                item["fytd_1"] = item[f"total_operating{cb_ytd}"] - item[f"total_operating{lm_ytd}"] 
         
    
 
@@ -5287,32 +5327,12 @@ def cashflow(school,year):
                 
                 
               
-                if i != month_exception:
-                    item["fytd_2"] += item[f"total_investing{i}"] 
-        
-        
+                # if i != month_exception:
+                #     item["fytd_2"] += item[f"total_investing{i}"] 
+            if category == 'Investing':
+                item["fytd_2"] =  item[f"total_investing{lm_ytd}"] - item[f"total_investing{cb_ytd}"] 
 
-        def stringParser(value):
-            print(value)
-            if value == "" or value == 0:
-                return 0
 
-           
-            if "(" in value:
-                
-                formatted = "".join(value.strip().replace("$", "").replace("(", "-").replace(")", "").split(","))
-                
-                if "." in formatted:
-                  
-                    return float(formatted)
-             
-                return int(formatted) 
-            
-            formatted = "".join(value.strip().replace("$", "").split(","))
-
-            if "." in formatted:
-                return float(formatted)
-            return int(formatted)
             
         
 
@@ -5344,15 +5364,34 @@ def cashflow(school,year):
         }
         #END OF TOTAL OPERATING
 
-        total_activity_ytd = sum(total_activity.values())
-        total_operating_ytd = sum(total_operating.values())
-        total_investing_ytd = sum(total_investing.values())
+        total_activity_ytd = total_activity[cb_ytd_padded] - total_activity[lm_ytd_padded]
 
+        total_operating_ytd = total_operating[cb_ytd_padded] - total_operating[lm_ytd_padded]
+        total_investing_ytd = total_investing[lm_ytd_padded] - total_investing[cb_ytd_padded]
 
 
        
 
-        
+        for row in data_balancesheet:
+            if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
+  
+               
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    cbp_fye += stringParser(row["total_fye"])
+                else:
+                    cbp_fye += stringParser(row["FYE"])
+                for i, acct_per in enumerate(acct_per_values, start=1):
+                    cbp[acct_per] += stringParser(row[f"difference_{i}"])
+                cpb_last += stringParser(row[f"difference_{last_month_number}"]) 
+            if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Restr":
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    cbp_fye += stringParser(row["total_fye"])
+                else:
+                    cbp_fye += stringParser(row["FYE"])
+                for i, acct_per in enumerate(acct_per_values, start=1):
+                    cbp[acct_per] += stringParser(row[f"difference_{i}"])
+                cpb_last += stringParser(row[f"difference_{last_month_number}"]) 
+
 
         for row in data_balancesheet:
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
@@ -5391,10 +5430,11 @@ def cashflow(school,year):
         total_investing_ytd = format_value(total_investing_ytd)
         total_activity_ytd = format_value(total_activity_ytd)
 
-    
-
-    
-        
+        dna_ytd_total = format_value(dna_ytd_total)
+        ytd_netsurplus = format_value(ytd_netsurplus)
+        cbp= {acct_per: format_value(value) for acct_per, value in cbp.items() if value != 0}
+        cbp_fye = format_value(cbp_fye)
+        cpb_last = format_value(cpb_last)
         context = {
             "cf_totals":{
                 "cfchecker":cfchecker,
@@ -5404,6 +5444,11 @@ def cashflow(school,year):
                 "total_operating_ytd":total_operating_ytd,
                 "total_investing_ytd":total_investing_ytd,
                 "total_activity_ytd":total_activity_ytd,
+                "dna_ytd_total":dna_ytd_total,
+                "ytd_netsurplus":ytd_netsurplus,
+                "cbp_fye":cbp_fye,
+                "cbp":cbp,
+                "cpb_last":cpb_last,
 
 
 
