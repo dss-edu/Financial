@@ -347,7 +347,7 @@
 
             <th>
               <div class="net-section">
-                <div class="">YTD FY 2023</div>
+                <div class="">YTD FY {% if FY_year_1 == current_year %}{{FY_year_1}} {%else%} {{FY_year_2}}{%endif%}</div>
                 <div class=""></div>
                 <div class=""></div>
               </div>
@@ -411,7 +411,13 @@
             <td>{{ totals.total_netsurplus_months.05 }}</td>
             <td>{{ totals.total_netsurplus_months.06 }}</td>
             {% endif %}
-            <td>{{ cf_totals.ytd_netsurplus }}</td>
+            <td>
+              {% if ascender == "False" %}
+              {{ cf_totals.ytd_netsurplus }}
+              {% else %}
+              {{ totals.ytd_netsurplus }}
+              {% endif %}
+            </td>
           </tr>
           <!-- End of  Change in net assets  -->
 
@@ -448,7 +454,14 @@
             <td> {{ totals.dna_total_months.06 }} </td>
             {% endif %}
 
-            <td>{{ cf_totals.dna_ytd_total }}</td>
+            <td>
+              {% if ascender == "False" %}
+              {{ totals.dna_ytd_total}}
+          
+              {% else%}
+              {{ totals.ytd_SBD }}
+              {% endif %}
+            </td>
           </tr>
 
           {% for row in data2 %}

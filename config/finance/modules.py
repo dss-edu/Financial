@@ -659,6 +659,7 @@ def cashflow(school, anchor_year):
         "format_ytd_budget": formatted_ytd_budget,
         "ytd_budget": ytd_budget,
         "anchor_year": anchor_year,
+        "current_year":current_year,
     }
 
     # all  of profit loss

@@ -4840,6 +4840,7 @@ def balance_sheet(school,year):
                 Activity = row["Activity"]
 
                 if Activity in unique_act:
+                    print("Activity",Activity)
                     row["last_month_bal"] = format_negative(row["last_month_bal"])
                     for key in keys_to_check:
                         value = float(row[key])
@@ -5263,6 +5264,7 @@ def cashflow(school,year):
         
         total_netsurplus = totals["total_netsurplus_months"]
         dna_months = totals["dna_total_months"]
+        ytd_SBD = totals["ytd_SBD"]
        
         dna_ytd_total = 0
         ytd_netsurplus =0
@@ -5308,12 +5310,14 @@ def cashflow(school,year):
                     total_operating[acct_per] += item[f"total_operating{i}"]
 
                
-
-
+                
+                if i != month_exception:
+                    item["fytd_1"] += item[f"total_operating{i}"]
                 
 
             if category == 'Operating':
-                item["fytd_1"] = item[f"total_operating{cb_ytd}"] - item[f"total_operating{lm_ytd}"] 
+                if school in schoolCategory["skyward"]:
+                    item["fytd_1"] = item[f"total_operating{cb_ytd}"] - item[f"total_operating{lm_ytd}"] 
         
    
 
@@ -5340,10 +5344,11 @@ def cashflow(school,year):
                 
                 
               
-                # if i != month_exception:
-                #     item["fytd_2"] += item[f"total_investing{i}"] 
+                if i != month_exception:
+                    item["fytd_2"] += item[f"total_investing{i}"] 
             if category == 'Investing':
-                item["fytd_2"] =  item[f"total_investing{lm_ytd}"] - item[f"total_investing{cb_ytd}"] 
+                if school in schoolCategory["skyward"]:
+                    item["fytd_2"] =  item[f"total_investing{lm_ytd}"] - item[f"total_investing{cb_ytd}"] 
 
 
             
@@ -5377,12 +5382,14 @@ def cashflow(school,year):
         }
         #END OF TOTAL OPERATING
 
-        total_activity_ytd = total_activity[cb_ytd_padded] - total_activity[lm_ytd_padded]
-
-        total_operating_ytd = total_operating[cb_ytd_padded] - total_operating[lm_ytd_padded]
-        total_investing_ytd = total_investing[lm_ytd_padded] - total_investing[cb_ytd_padded]
-
-
+        if school in schoolCategory["skyward"]:
+            total_activity_ytd = total_activity[cb_ytd_padded] - total_activity[lm_ytd_padded]
+            total_operating_ytd = total_operating[cb_ytd_padded] - total_operating[lm_ytd_padded]
+            total_investing_ytd = total_investing[lm_ytd_padded] - total_investing[cb_ytd_padded]
+        else:
+            total_activity_ytd = sum(total_activity.values())
+            total_operating_ytd = sum(total_operating.values())
+            total_investing_ytd = sum(total_investing.values())
        
 
         for row in data_balancesheet:
@@ -5462,6 +5469,7 @@ def cashflow(school,year):
                 "cbp_fye":cbp_fye,
                 "cbp":cbp,
                 "cpb_last":cpb_last,
+                "ytd_SBD":ytd_SBD,
 
 
 
