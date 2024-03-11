@@ -4792,13 +4792,15 @@ def balance_sheet(school,year):
                         
                         if value == 0 or value == 0.00 or value == 0.0  :
                             row[key] = ""
-                        elif value >=0:
+                        elif value >= 0:
                             
                             row[key] = "({:,.0f})".format(abs(float(row[key])))
                         elif value < 0:                            
                             row[key] = "{:,.0f}".format(abs(float(row[key])))
                         elif value != "":
                             row[key] = "{:,.0f}".format(float(row[key]))
+                        # row[key] = format_value(row[key])
+
                 else:
                     
                     row["last_month_bal"] = format_value(row["last_month_bal"])
@@ -4814,16 +4816,26 @@ def balance_sheet(school,year):
 
         else:
             for row in data_activitybs:
+                Activity = row["Activity"]
 
-                for key in keys_to_check:
-                    value = float(row[key])
-                    if value == 0:
-                        row[key] = ""
-                    elif value > 0:
+
+                if Activity in unique_act:
+
+                    for key in keys_to_check:
+                        row[key] = format_negative(row[key])
+                else:
+                    for key in keys_to_check:
+                        row[key] = format_value(row[key])
+
+                # for key in keys_to_check:
+                #     value = float(row[key])
+                #     if value == 0:
+                #         row[key] = ""
+                #     elif value > 0:
                         
-                        row[key] = "{:,.0f}".format(abs(float(row[key])))
-                    elif value != "":
-                        row[key] = "({:,.0f})".format(float(row[key]))
+                #         row[key] = "{:,.0f}".format(abs(float(row[key])))
+                #     elif value != "":
+                #         row[key] = "({:,.0f})".format(float(row[key]))
 
 
         if school in schoolCategory["skyward"] or school in school_fye:
