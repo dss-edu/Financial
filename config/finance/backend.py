@@ -58,7 +58,7 @@ def update_fy(school,year):
     balance_sheet(school,year)
     cashflow(school,year)
     charter_first(school)
-    updateGraphDB(school, True)``
+    updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
     excel(school,year)
