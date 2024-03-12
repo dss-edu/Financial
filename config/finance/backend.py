@@ -58,7 +58,7 @@ def update_fy(school,year):
     balance_sheet(school,year)
     cashflow(school,year)
     charter_first(school)
-    updateGraphDB(school, True)
+    updateGraphDB(school, True)``
     profit_loss_chart(school)
     profit_loss_date(school)
     excel(school,year)
@@ -1051,6 +1051,12 @@ def profit_loss(school,year):
                     for obj_range in obj_ranges:
                         expend_fund[fund_value][f"total_budget_{obj_range}"] = 0
 
+                    #for overall total of RE (revenue and expenses) 
+                    expend_fund[fund_value][f"total_RE_{i}"] = 0
+                    expend_fund[fund_value][f"total_PB_RE"] = 0   #renamed as remaining balance
+                    expend_fund[fund_value][f"total_RE_ytd"] = 0
+                    expend_fund[fund_value][f"total_budget_RE"] = 0
+
 
 
 
@@ -1098,6 +1104,7 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget_rev
                     expend_fund[fund_value]["total_budget_revenue"] += total_budget_rev
                     
+                    
             else:
                 for obj_range in obj_ranges:
                     total_budget = sum(
@@ -1121,6 +1128,8 @@ def profit_loss(school,year):
                         )
                     expend_fund[fund_value][f"total_budget_{obj_range}"] = total_budget_rev
                     expend_fund[fund_value]["total_budget_revenue"] += total_budget_rev
+
+            expend_fund[fund_value][f"total_budget_RE"] = expend_fund[fund_value]["total_budget"] + expend_fund[fund_value]["total_budget_revenue"] 
 
             for i, acct_per in enumerate(acct_per_values, start=1):
                 total_expend_6100 = sum(
@@ -1213,7 +1222,9 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_revenue_5800_ytd"] += total_revenue_5800
                     expend_fund[fund_value][f"total_revenue_5900_ytd"] += total_revenue_5900
                     expend_fund[fund_value][f"total_revenue_ytd"] += total_revenue_5700 + total_revenue_5800 + total_revenue_5900 
-
+                    expend_fund[fund_value][f"total_RE_ytd"] += expend_fund[fund_value][f"total_revenue_ytd"] + expend_fund[fund_value][f"total_ytd"]
+                expend_fund[fund_value][f"total_RE_{i}"] += expend_fund[fund_value][f"total_revenue_{i}"]  + expend_fund[fund_value][f"total_{i}"]
+                
             # for item in ytd_expenditure_data_revenue:
             #     fund = item["fund"]
             #     obj = item["obj"]
@@ -1249,7 +1260,7 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_PB_revenue"] += expend_fund[fund_value][f"total_PB_{obj_range}00"]
 
 
-        
+            expend_fund[fund_value][f"total_PB_RE"] += expend_fund[fund_value][f"total_PB_revenue"] + expend_fund[fund_value][f"total_PB"]
 
         for fund_value in expend_fund:
             for i, acct_per in enumerate(acct_per_values, start=1):
@@ -1261,9 +1272,13 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6600_{i}"])
                 expend_fund[fund_value][f"total_{i}"] = format_value(expend_fund[fund_value][f"total_{i}"])
                 for obj_range in rev_obj_ranges:
-                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
-                expend_fund[fund_value][f"total_revenue_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{i}"])
-            
+                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
+                expend_fund[fund_value][f"total_revenue_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{i}"])
+                expend_fund[fund_value][f"total_RE_{i}"] = format_value(expend_fund[fund_value][f"total_RE_{i}"] )
+            expend_fund[fund_value][f"total_RE_ytd"] = format_value(expend_fund[fund_value][f"total_RE_ytd"])
+            expend_fund[fund_value][f"total_PB_RE"] = format_value(expend_fund[fund_value][f"total_PB_RE"])
+            expend_fund[fund_value][f"total_budget_RE"] = format_value(expend_fund[fund_value][f"total_budget_RE"])
+
             for obj_range in rev_obj_ranges:
                 expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"])
             expend_fund[fund_value][f"total_revenue_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_ytd"]) 
@@ -1290,10 +1305,10 @@ def profit_loss(school,year):
                 expend_fund[fund_value][f"total_PB"] = format_value(expend_fund[fund_value][f"total_PB"])
             else:
                 for obj_range in obj_ranges:
-                    expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value_negative(expend_fund[fund_value][f"total_PB_{obj_range}00"])
-                    expend_fund[fund_value][f"total_budget_{obj_range}"] = format_value_negative(expend_fund[fund_value][f"total_budget_{obj_range}"])
-                expend_fund[fund_value]["total_budget"] = format_value_negative(expend_fund[fund_value]["total_budget"])
-                expend_fund[fund_value][f"total_PB"] = format_value_negative(expend_fund[fund_value][f"total_PB"])
+                    expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value(expend_fund[fund_value][f"total_PB_{obj_range}00"])
+                    expend_fund[fund_value][f"total_budget_{obj_range}"] = format_value(expend_fund[fund_value][f"total_budget_{obj_range}"])
+                expend_fund[fund_value]["total_budget"] = format_value(expend_fund[fund_value]["total_budget"])
+                expend_fund[fund_value][f"total_PB"] = format_value(expend_fund[fund_value][f"total_PB"])
 
 
         ytd_expenditure_data_revenue = data

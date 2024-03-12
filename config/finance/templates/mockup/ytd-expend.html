@@ -80,6 +80,7 @@
     font-size: 20px;
   } */
   .super-dom > :first-child{
+    padding-left: 40px;
     cursor: pointer;
   }
   .dom {
@@ -87,11 +88,11 @@
     /* padding-left: 10px; */
   }
   .dom > :first-child{
-    padding-left: 40px;
+    padding-left: 80px;
     cursor: pointer;
   }
   .sub > :first-child {
-    padding-left: 40px;
+    padding-left: 80px;
   }
   .sub td {
     height: 0 !important;
@@ -451,47 +452,79 @@
         <tbody>
 
           <!-- START OF REVENUE -->
-          <tr class="title-dom">
-            <td>REVENUE</td>
 
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-          </tr>
             
          
           {% for fund, data in expend_fund.items %}
-          <tr class="super-dom ">
-            <td>{{ fund }} </td>
+          <tr class="title-dom">
+            <td>{{ fund }}  Total </td>
+            <td> {{ data.total_budget_RE }}</td>
 
+            {% if September == "True" %}
+            <td>  {{  data.total_RE_9  }}</td>
+            <td>  {{  data.total_RE_10 }}</td>
+            <td>  {{  data.total_RE_11 }}</td>
+            <td>  {{  data.total_RE_12 }}</td>
+            <td>  {{  data.total_RE_1  }}</td>
+            <td>  {{  data.total_RE_2  }}</td>
+            <td>  {{  data.total_RE_3  }}</td>
+            <td>  {{  data.total_RE_4  }}</td>
+            <td>  {{  data.total_RE_5  }}</td>
+            <td>  {{  data.total_RE_6  }}</td>
+            <td>  {{  data.total_RE_7  }}</td>
+            <td>  {{  data.total_RE_8  }}</td>
+            {% else %}
+            <td>  {{  data.total_RE_7  }}</td>
+            <td>  {{  data.total_RE_8  }}</td>
+            <td>  {{  data.total_RE_9  }}</td>
+            <td>  {{  data.total_RE_10 }}</td>
+            <td>  {{  data.total_RE_11 }}</td>
+            <td>  {{  data.total_RE_12 }}</td>
+            <td>  {{  data.total_RE_1  }}</td>
+            <td>  {{  data.total_RE_2  }}</td>
+            <td>  {{  data.total_RE_3  }}</td>
+            <td>  {{  data.total_RE_4  }}</td>
+            <td>  {{  data.total_RE_5  }}</td>
+            <td>  {{  data.total_RE_6  }}</td>
+            {% endif %}
+
+            <td>{{ data.total_RE_ytd}} </td>
+            <td> {{ data.total_PB_RE }} </td>
             <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
+          </tr>
+          
+          <tr class="super-dom">
+            <td>Total  Revenue </td>
+            <td> {{ data.total_budget_revenue }}</td>
+            {% if September == "True" %}
+            <td>  {{  data.total_revenue_9  }} </a></td>
+            <td>  {{  data.total_revenue_10 }} </a></td>
+            <td>  {{  data.total_revenue_11 }} </a></td>
+            <td>  {{  data.total_revenue_12 }} </a></td>
+            <td>  {{  data.total_revenue_1  }} </a></td>
+            <td>  {{  data.total_revenue_2  }} </a></td>
+            <td>  {{  data.total_revenue_3  }} </a></td>
+            <td>  {{  data.total_revenue_4  }} </a></td>
+            <td>  {{  data.total_revenue_5  }} </a></td>
+            <td>  {{  data.total_revenue_6  }} </a></td>
+            <td>  {{  data.total_revenue_7  }} </a></td>
+            <td>  {{  data.total_revenue_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_revenue_7  }} </a></td>
+            <td>  {{  data.total_revenue_8  }} </a></td>
+            <td>  {{  data.total_revenue_9  }} </a></td>
+            <td>  {{  data.total_revenue_10 }} </a></td>
+            <td>  {{  data.total_revenue_11 }} </a></td>
+            <td>  {{  data.total_revenue_12 }} </a></td>
+            <td>  {{  data.total_revenue_1  }} </a></td>
+            <td>  {{  data.total_revenue_2  }} </a></td>
+            <td>  {{  data.total_revenue_3  }} </a></td>
+            <td>  {{  data.total_revenue_4  }} </a></td>
+            <td>  {{  data.total_revenue_5  }} </a></td>
+            <td>  {{  data.total_revenue_6  }} </a></td>
+            {% endif %}
+            <td>{{ data.total_revenue_ytd}} </td>
+            <td> {{ data.total_PB_revenue }} </td>
             <td> </td>
           </tr>
 
@@ -639,7 +672,7 @@
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+            <td><a class="viewgl-link" href="#" data-fun`d="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
@@ -735,97 +768,45 @@
           {% endif %}
           {% endif %}
           {% endfor %}
-          
-          <tr class="dom">
-            <td>Total  </td>
-            <td> {{ data.total_budget_revenue }}</td>
-            {% if September == "True" %}
-            <td>  {{  data.total_revenue_9  }} </a></td>
-            <td>  {{  data.total_revenue_10 }} </a></td>
-            <td>  {{  data.total_revenue_11 }} </a></td>
-            <td>  {{  data.total_revenue_12 }} </a></td>
-            <td>  {{  data.total_revenue_1  }} </a></td>
-            <td>  {{  data.total_revenue_2  }} </a></td>
-            <td>  {{  data.total_revenue_3  }} </a></td>
-            <td>  {{  data.total_revenue_4  }} </a></td>
-            <td>  {{  data.total_revenue_5  }} </a></td>
-            <td>  {{  data.total_revenue_6  }} </a></td>
-            <td>  {{  data.total_revenue_7  }} </a></td>
-            <td>  {{  data.total_revenue_8  }} </a></td>
-            {% else %}
-            <td>  {{  data.total_revenue_7  }} </a></td>
-            <td>  {{  data.total_revenue_8  }} </a></td>
-            <td>  {{  data.total_revenue_9  }} </a></td>
-            <td>  {{  data.total_revenue_10 }} </a></td>
-            <td>  {{  data.total_revenue_11 }} </a></td>
-            <td>  {{  data.total_revenue_12 }} </a></td>
-            <td>  {{  data.total_revenue_1  }} </a></td>
-            <td>  {{  data.total_revenue_2  }} </a></td>
-            <td>  {{  data.total_revenue_3  }} </a></td>
-            <td>  {{  data.total_revenue_4  }} </a></td>
-            <td>  {{  data.total_revenue_5  }} </a></td>
-            <td>  {{  data.total_revenue_6  }} </a></td>
-            {% endif %}
-            <td>{{ data.total_revenue_ytd}} </td>
-            <td> {{ data.total_PB_revenue }} </td>
-            <td> </td>
-          </tr>
-          
-
-          {% endfor %} 
-
-          <!-- END OF REVENUE-->
-         
-         
-        
 
           
-   
 
 
- 
-          <tr class="title-dom">
-            <td>EXPENSE</td>
 
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-          </tr>
-          {% for fund, data in expend_fund.items %}
           <tr class="super-dom">
-            <td>{{ fund }} </td>
-
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
-            <td> </td>
+            <td>Total Expenses  </td>
+            <td> {{ data.total_budget }}</td>
+            {% if September == "True" %}
+            <td>  {{  data.total_9  }} </a></td>
+            <td>  {{  data.total_10 }} </a></td>
+            <td>  {{  data.total_11 }} </a></td>
+            <td>  {{  data.total_12 }} </a></td>
+            <td>  {{  data.total_1  }} </a></td>
+            <td>  {{  data.total_2  }} </a></td>
+            <td>  {{  data.total_3  }} </a></td>
+            <td>  {{  data.total_4  }} </a></td>
+            <td>  {{  data.total_5  }} </a></td>
+            <td>  {{  data.total_6  }} </a></td>
+            <td>  {{  data.total_7  }} </a></td>
+            <td>  {{  data.total_8  }} </a></td>
+            {% else %}
+            <td>  {{  data.total_7  }} </a></td>
+            <td>  {{  data.total_8  }} </a></td>
+            <td>  {{  data.total_9  }} </a></td>
+            <td>  {{  data.total_10 }} </a></td>
+            <td>  {{  data.total_11 }} </a></td>
+            <td>  {{  data.total_12 }} </a></td>
+            <td>  {{  data.total_1  }} </a></td>
+            <td>  {{  data.total_2  }} </a></td>
+            <td>  {{  data.total_3  }} </a></td>
+            <td>  {{  data.total_4  }} </a></td>
+            <td>  {{  data.total_5  }} </a></td>
+            <td>  {{  data.total_6  }} </a></td>
+            {% endif %}
+            <td>{{ data.total_ytd}} </td>
+            <td> {{ data.total_PB }} </td>
             <td> </td>
           </tr>
-
           <tr class="dom">
             <td> 6100 - Payroll And Benefits </td>
             <td> {{ data.total_budget_61 }}</td>
@@ -1259,43 +1240,47 @@
           {% endif %}
           {%endfor%}
           
-          <tr class="dom">
-            <td>Total  </td>
-            <td> {{ data.total_budget }}</td>
-            {% if September == "True" %}
-            <td>  {{  data.total_9  }} </a></td>
-            <td>  {{  data.total_10 }} </a></td>
-            <td>  {{  data.total_11 }} </a></td>
-            <td>  {{  data.total_12 }} </a></td>
-            <td>  {{  data.total_1  }} </a></td>
-            <td>  {{  data.total_2  }} </a></td>
-            <td>  {{  data.total_3  }} </a></td>
-            <td>  {{  data.total_4  }} </a></td>
-            <td>  {{  data.total_5  }} </a></td>
-            <td>  {{  data.total_6  }} </a></td>
-            <td>  {{  data.total_7  }} </a></td>
-            <td>  {{  data.total_8  }} </a></td>
-            {% else %}
-            <td>  {{  data.total_7  }} </a></td>
-            <td>  {{  data.total_8  }} </a></td>
-            <td>  {{  data.total_9  }} </a></td>
-            <td>  {{  data.total_10 }} </a></td>
-            <td>  {{  data.total_11 }} </a></td>
-            <td>  {{  data.total_12 }} </a></td>
-            <td>  {{  data.total_1  }} </a></td>
-            <td>  {{  data.total_2  }} </a></td>
-            <td>  {{  data.total_3  }} </a></td>
-            <td>  {{  data.total_4  }} </a></td>
-            <td>  {{  data.total_5  }} </a></td>
-            <td>  {{  data.total_6  }} </a></td>
-            {% endif %}
-            <td>{{ data.total_ytd}} </td>
-            <td> {{ data.total_PB }} </td>
-            <td> </td>
-          </tr>
-          
+         
 
           {% endfor %} 
+
+          <!-- END OF REVENUE-->
+         
+         
+        
+
+          
+   
+
+
+ 
+  
+          {% comment %} {% for fund, data in expend_fund.items %}
+          <tr class="super-dom">
+            <td>{{ fund }} </td>
+
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+            <td> </td>
+          </tr>
+
+          
+          
+
+          {% endfor %}  {% endcomment %}
 
           
           <tr class="ender">
@@ -1552,7 +1537,7 @@
       } 
     }
 
-    //  put in utils/formatters.js
+    //  put in utils/formatters.js``
     function integerToAccounting(num, decimal=false){
       let opts = {}
       // if NaN or undefined
@@ -1667,6 +1652,10 @@
           console.log(row);
           row.remove(); // Remove the current row if it and the next row both have class 'super-dom'
       }
+      if (nextRow && nextRow.classList.contains('title-dom') && row.classList.contains('super-dom')) {
+        console.log(row);
+        row.remove(); // Remove the current row if it and the next row both have class 'super-dom'
+    }
     });
 
 
