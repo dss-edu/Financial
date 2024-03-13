@@ -1173,7 +1173,7 @@
                 <a
                   id="row1"
                   class="expand-button"
-                  onclick="toggleRow(1); toggleborderlr();"
+                  onclick="toggleRow(1); toggleBorder(this);"
                 >
                 <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -1259,15 +1259,7 @@
               </td>
             </tr>
             <script>
-              function toggleborderlr() {
-                var fprTotalCells = document.querySelectorAll(
-                  '[id^="local-revenue-total-"]'
-                );
-
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
+     
             </script>
 
             <!-- STATE PROGRAM COLUMN START-->
@@ -1461,7 +1453,7 @@
                 <a
                   id="row2"
                   class="expand-button"
-                  onclick="toggleRow(2); toggleborderspr();"
+                  onclick="toggleRow(2); toggleBorder(this);"
                 >
                 <i  id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -1546,16 +1538,7 @@
                 {{totals.var_ytd_spr}}
               </td>
             </tr>
-            <script>
-              function toggleborderspr() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="spr-total-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <!-- Federal Program Revenue COLUMN START-->
             {% for row in data %} 
@@ -1751,7 +1734,7 @@
                 <a
                   id="row3"
                   class="expand-button"
-                  onclick="toggleRow(3); toggleborderfpr(); "
+                  onclick="toggleRow(3); toggleBorder(this);"
                 >
                 <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -1836,16 +1819,7 @@
                 {{totals.var_ytd_fpr}}
               </td>
             </tr>
-            <script>
-              function toggleborderfpr() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="fpr-total-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="total-row" class="ttl-0-row">
               <td class="firstcolumn"></td>
@@ -1961,7 +1935,7 @@
               <td id="fpr-total-18" class="right-align-td top-border strong">
                 {{totals.variances_revenue}}
               </td>
-              <td id="fpr-total-19" class="right-align-td strong">
+              <td id="fpr-total-19" class="right-align-td top-border strong">
                 {{totals.var_ytd}}
               </td>
             </tr>
@@ -2138,7 +2112,7 @@
                 <a
                   id="row11"
                   class="expand-button"
-                  onclick="toggleRow(11); togglebordertotal1();"
+                  onclick="toggleRow(11); toggleBorder(this);;"
                 >
                 <i  id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
               </a>
@@ -2255,20 +2229,11 @@
               <td id="total1-18" class="right-align-td top-border strong">
                 {{totals.variances_first_total}}
               </td>
-              <td id="total1-19" class="right-align-td strong">
+              <td id="total1-19" class="right-align-td top-border strong">
                 {{totals.var_ytd_first_total}}
               </td>
             </tr>
-            <script>
-              function togglebordertotal1() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="total1-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="surplus-row1" class="surplus-ttl-1-row">
               <td class="firstcolumn"></td>
@@ -2364,7 +2329,7 @@
               >
                 {{totals.variances_SBD}}
               </td>
-              <td id="surplus-total-19" class="right-align-td strong">
+              <td id="surplus-total-19" class="right-align-td top-border strong">
                 {{totals.var_SBD}}
               </td>
             </tr>
@@ -2539,7 +2504,7 @@
                 <a
                   id="row12"
                   class="expand-button"
-                  onclick="toggleRow(12); toggleborderDNA();"
+                  onclick="toggleRow(12); toggleBorder(this);"
                 >
                 <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -2594,20 +2559,11 @@
               <td id="DnA-total-18" class="right-align-td top-border">
                 {{totals.variances_dna}}
               </td>
-              <td id="DnA-total-19" class="right-align-td">
+              <td id="DnA-total-19" class="right-align-td top-border">
                 {{totals.var_ytd_dna}}
               </td>
             </tr>
-            <script>
-              function toggleborderDNA() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="DnA-total-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="net-surplus-row1" class="net-surplus-ttl-1-row">
               <td class="firstcolumn"></td>
@@ -2697,7 +2653,7 @@
               <td id="net-total-18" class="right-align-td top-border strong">
                 {{totals.variances_netsurplus}}
               </td>
-              <td id="net-total-19" class="right-align-td strong">
+              <td id="net-total-19" class="right-align-td top-border strong">
                 {{totals.var_netsurplus}}
               </td>
             </tr>
@@ -4436,7 +4392,7 @@
               <td id="EOC-total-18" class="right-align-td top-border strong">
                 {{totals.variances_total_expense}}
               </td>
-              <td id="EOC-total-19" class="right-align-td strong">
+              <td id="EOC-total-19" class="right-align-td top-border strong">
                 {{totals.var_total_expense}}
               </td>
             </tr>
@@ -4541,7 +4497,7 @@
               >
                 {{totals.variances_net_income}}
               </td>
-              <td id="netincome-total-19" class="right-align-td strong">
+              <td id="netincome-total-19" class="right-align-td top-border strong">
                 {{totals.var_net_income}}
               </td>
             </tr>
@@ -4846,7 +4802,7 @@
                 <a
                   id="row1"
                   class="expand-button"
-                  onclick="toggleRow(1); toggleborderlr();"
+                  onclick="toggleRow(1); toggleBorder(this);"
                 >
                 <i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -4906,17 +4862,7 @@
                 {{totals.var_ytd_lr}}
               </td>
             </tr>
-            <script>
-              function toggleborderlr() {
-                var fprTotalCells = document.querySelectorAll(
-                  '[id^="local-revenue-total-"]'
-                );
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <!-- STATE PROGRAM COLUMN START-->
             {% for row in data %} 
@@ -5109,7 +5055,7 @@
                 <a
                   id="row2"
                   class="expand-button"
-                  onclick="toggleRow(2); toggleborderspr();"
+                  onclick="toggleRow(2); toggleBorder(this);"
                 >
                 <i id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -5169,16 +5115,6 @@
                 {{totals.var_ytd_spr}}
               </td>
             </tr>
-            <script>
-              function toggleborderspr() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="spr-total-"]');
-
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <!-- Federal Program Revenue COLUMN START-->
             {% for row in data %} {% if row.category == 'Federal Program Revenue' %}
@@ -5370,7 +5306,7 @@
                 <a
                   id="row3"
                   class="expand-button"
-                  onclick="toggleRow(3); toggleborderfpr(); "
+                  onclick="toggleRow(3); toggleBorder(this);"
                 >
                 <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -5430,16 +5366,7 @@
                 {{totals.var_ytd_fpr}}
               </td>
             </tr>
-            <script>
-              function toggleborderfpr() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="fpr-total-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="total-row" class="ttl-0-row">
               <td class="firstcolumn"></td>
@@ -5703,7 +5630,7 @@
                 <a
                   id="row11"
                   class="expand-button"
-                  onclick="toggleRow(11); togglebordertotal1();"
+                  onclick="toggleRow(11); toggleBorder(this);"
                 >
                 <i id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
               </a>
@@ -5799,16 +5726,6 @@
                 {{totals.var_ytd_first_total}}
               </td>
             </tr>
-            <script>
-              function togglebordertotal1() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="total1-"]');
-
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="surplus-row1" class="surplus-ttl-1-row">
               <td class="firstcolumn"></td>
@@ -6079,7 +5996,7 @@
                 <a
                   id="row12"
                   class="expand-button"
-                  onclick="toggleRow(12); toggleborderDNA();"
+                  onclick="toggleRow(12); toggleBorder(this);"
                 >
                 <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -6139,16 +6056,7 @@
                 {{totals.var_ytd_dna}}
               </td>
             </tr>
-            <script>
-              function toggleborderDNA() {
-                var fprTotalCells =
-                  document.querySelectorAll('[id^="DnA-total-"]');
 
-                for (var i = 1; i <= 19; i++) {
-                  fprTotalCells[i - 1].classList.toggle("top-border");
-                }
-              }
-            </script>
 
             <tr id="net-surplus-row1" class="net-surplus-ttl-1-row">
               <td class="firstcolumn"></td>
@@ -7985,11 +7893,21 @@
       "{{months.last_month_number}}",
       10
     );
-  
+    function toggleBorder(element){
+      console.log("RUNNING")
+      var trElement = element.closest('tr');
+      var tds = trElement.querySelectorAll('td:nth-child(n+4)');
+
+      tds.forEach(function(td) {
+          td.classList.toggle("top-border");
+      });
+    }
   </script>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+
 
       checkValuesMatch();
 
@@ -8145,6 +8063,8 @@
       var insertRowForm = $('#new-ui');
       var toggleIcon = $('#toggle-panel');
       var bodycontainer =   $('#body-container');
+
+
   
       function toggleSidePanel() {
         var formWidth = insertRowForm.width();
