@@ -457,39 +457,24 @@
          
           {% for fund, data in expend_fund.items %}
           <tr class="title-dom">
-            <td>{{ fund }}  Total </td>
-            <td> {{ data.total_budget_RE }}</td>
+            <td>{{ fund }}  </td>
+            <td> </td>
 
-            {% if September == "True" %}
-            <td>  {{  data.total_RE_9  }}</td>
-            <td>  {{  data.total_RE_10 }}</td>
-            <td>  {{  data.total_RE_11 }}</td>
-            <td>  {{  data.total_RE_12 }}</td>
-            <td>  {{  data.total_RE_1  }}</td>
-            <td>  {{  data.total_RE_2  }}</td>
-            <td>  {{  data.total_RE_3  }}</td>
-            <td>  {{  data.total_RE_4  }}</td>
-            <td>  {{  data.total_RE_5  }}</td>
-            <td>  {{  data.total_RE_6  }}</td>
-            <td>  {{  data.total_RE_7  }}</td>
-            <td>  {{  data.total_RE_8  }}</td>
-            {% else %}
-            <td>  {{  data.total_RE_7  }}</td>
-            <td>  {{  data.total_RE_8  }}</td>
-            <td>  {{  data.total_RE_9  }}</td>
-            <td>  {{  data.total_RE_10 }}</td>
-            <td>  {{  data.total_RE_11 }}</td>
-            <td>  {{  data.total_RE_12 }}</td>
-            <td>  {{  data.total_RE_1  }}</td>
-            <td>  {{  data.total_RE_2  }}</td>
-            <td>  {{  data.total_RE_3  }}</td>
-            <td>  {{  data.total_RE_4  }}</td>
-            <td>  {{  data.total_RE_5  }}</td>
-            <td>  {{  data.total_RE_6  }}</td>
-            {% endif %}
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  </td>
+            <td>  
 
-            <td>{{ data.total_RE_ytd}} </td>
-            <td> {{ data.total_PB_RE }} </td>
+            <td></td>
+            <td></td>
             <td> </td>
           </tr>
           
@@ -1240,7 +1225,42 @@
           {% endif %}
           {%endfor%}
           
-         
+          <tr class="title-dom">
+            <td>{{ fund }}  Net Revenue(Expense) </td>
+            <td> {{ data.total_budget_RE }}</td>
+
+            {% if September == "True" %}
+            <td>  {{  data.total_RE_9  }}</td>
+            <td>  {{  data.total_RE_10 }}</td>
+            <td>  {{  data.total_RE_11 }}</td>
+            <td>  {{  data.total_RE_12 }}</td>
+            <td>  {{  data.total_RE_1  }}</td>
+            <td>  {{  data.total_RE_2  }}</td>
+            <td>  {{  data.total_RE_3  }}</td>
+            <td>  {{  data.total_RE_4  }}</td>
+            <td>  {{  data.total_RE_5  }}</td>
+            <td>  {{  data.total_RE_6  }}</td>
+            <td>  {{  data.total_RE_7  }}</td>
+            <td>  {{  data.total_RE_8  }}</td>
+            {% else %}
+            <td>  {{  data.total_RE_7  }}</td>
+            <td>  {{  data.total_RE_8  }}</td>
+            <td>  {{  data.total_RE_9  }}</td>
+            <td>  {{  data.total_RE_10 }}</td>
+            <td>  {{  data.total_RE_11 }}</td>
+            <td>  {{  data.total_RE_12 }}</td>
+            <td>  {{  data.total_RE_1  }}</td>
+            <td>  {{  data.total_RE_2  }}</td>
+            <td>  {{  data.total_RE_3  }}</td>
+            <td>  {{  data.total_RE_4  }}</td>
+            <td>  {{  data.total_RE_5  }}</td>
+            <td>  {{  data.total_RE_6  }}</td>
+            {% endif %}
+
+            <td>{{ data.total_RE_ytd}} </td>
+            <td> {{ data.total_PB_RE }} </td>
+            <td> </td>
+          </tr>
 
           {% endfor %} 
 
