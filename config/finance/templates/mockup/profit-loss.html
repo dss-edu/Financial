@@ -69,6 +69,22 @@
   #table-main tbody td:not(:first-child){
     text-align: end;
   }
+ /*  #table-main tbody td:first-child {
+    position: sticky!important; 
+    left: 0;
+    right:0;
+    z-index: -2!important;
+    background-color: red;
+  
+}
+#table-main:before tbody td:first-child {
+  position: sticky!important; 
+  left: 0!important;
+
+  z-index: 2!important;
+  background-color: red;
+
+} */
   #table-main tbody td {
       white-space: nowrap;  /* Prevent text wrapping */
       overflow: hidden;     /* Hide overflow */
@@ -476,7 +492,7 @@
             {% endif %}
 
 
-            <td> <a id="local-revenue-ytd-total" href="#">{{totals.ytd_total_lr}} </a></td>
+            <td> <a class="viewgl-link-allrevYTD" href="#" data-category="Local Revenue">{{totals.ytd_total_lr}} </a></td>
             <td> {{totals.variances_revenue_lr}} </td>
             <td> {{totals.var_ytd_lr}} </td>
           </tr>
@@ -517,7 +533,7 @@
             <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
             {% endif %}
 
-            <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+            <td><a href="#" class="viewgl-link-revYTD" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
             <td></td>
             <td></td>
           </tr>
@@ -564,7 +580,7 @@
 
             {% endif %}
 
-            <td><a id="state-revenue-ytd-total" href="#"> {{totals.ytd_total_spr}} </a></td>
+            <td><a class="viewgl-link-allrevYTD" href="#" data-category="State Program Revenue"> {{totals.ytd_total_spr}} </a></td>
             <td> {{totals.variances_revenue_spr}} </td>
             <td> {{totals.var_ytd_spr}} </td>
           </tr>
@@ -606,7 +622,7 @@
             <td><a class="viewgl-link" href="#"  data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06" > {{ row.total_real6 }} </a></td>
             {% endif %}
 
-            <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+            <td><a href="#" class="viewgl-link-revYTD" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
             <td></td>
             <td></td>
           </tr>
@@ -653,7 +669,7 @@
 
 
 
-            <td><a id="federal-revenue-ytd-total" href="#"> {{totals.ytd_total_fpr}}</a> </td>
+            <td><a class="viewgl-link-allrevYTD" href="#" data-category="Federal Program Revenue"> {{totals.ytd_total_fpr}}</a> </td>
             <td> {{totals.variances_revenue_fpr}} </td>
             <td> {{totals.var_ytd_fpr}} </td>
           </tr>
@@ -694,7 +710,7 @@
               <td><a class="viewgl-link" href="#"  data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07" > {{ row.total_real6 }} </a></td>
               {% endif %}
 
-              <td><a href="#" class="viewgl-link-ytd" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+              <td><a href="#" class="viewgl-link-revYTD" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -785,7 +801,7 @@
               <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="06" > {{ row.total_func6 }} </a></td>
               {% endif %}
 
-              <td><a href="#" class="viewglfunc-link-ytd" data-func="{{ row.func_func }}" >{{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="00">{{row.ytd_total}} </a></td>
               <td>{{row.variances}}</td>
               <td>{{row.var_ytd}}</td>
           </tr>
@@ -1042,7 +1058,7 @@
             <td id="payroll-row-total-14" > <a href="#" class="payroll-total" data-yr="06"> {{ totals.total_EOC_pc.06 }} </a></td>
             {% endif %}
 
-            <td> <a id="payroll-ytd-total" href="#"> {{totals.ytd_EOC_pc}} </a> </td>
+            <td> <a class="payroll-ytd-total" href="#"> {{totals.ytd_EOC_pc}} </a> </td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1084,7 +1100,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a></td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -1130,7 +1146,7 @@
             <td id="pcs-total-11" > <a href="#" class="professional-total" data-yr="06"> {{ totals.total_EOC_pcs.06 }} </a></td>
             {% endif %}
 
-            <td> <a id="professional-ytd-total" href="#"> {{totals.ytd_EOC_pcs}} </a></td>
+            <td> <a class="professional-ytd-total" href="#"> {{totals.ytd_EOC_pcs}} </a></td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1172,7 +1188,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -1218,7 +1234,7 @@
             <td id="sm-total-5"><a href="#" class="supplies-total" data-yr="06"> {{ totals.total_EOC_sm.06 }} </a></td>
             {% endif %}
 
-            <td><a id="supplies-ytd-total" href="#">{{totals.ytd_EOC_sm}} </a></td>
+            <td><a class="supplies-ytd-total" href="#">{{totals.ytd_EOC_sm}} </a></td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1259,7 +1275,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -1305,7 +1321,7 @@
             <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
             {% endif %}
 
-            <td> <a href="#" id="other-ytd-total" >{{totals.ytd_EOC_ooe}} </a> </td>
+            <td> <a href="#" class="other-ytd-total" >{{totals.ytd_EOC_ooe}} </a> </td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1346,7 +1362,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -1437,7 +1453,7 @@
             <td  id="oe-total-8">  <a href="#" class="ds-total" data-yr="06"> {{ totals.total_EOC_te.06 }} </a></td>
             {% endif %}
 
-            <td><a id="debt-ytd-total" href="#"> {{totals.ytd_EOC_te}} </a></td>
+            <td><a class="debt-ytd-total" href="#"> {{totals.ytd_EOC_te}} </a></td>
             <td> {{row.variances}} </td>
             <td> {{row.var_EOC}} </td>
           </tr>
@@ -1478,7 +1494,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>
@@ -1565,7 +1581,7 @@
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
-              <td><a href="#" class="viewglexpense-link-ytd" data-obj="{{row.obj}}" > {{row.ytd_total}} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
               <td></td>
               <td></td>
           </tr>

@@ -60,6 +60,7 @@ current_date = datetime.now()
 month_number = current_date.month
 curr_year = current_date.year
 
+month_number_string = str(month_number).zfill(2)
 
 def updatedb(request):
     if request.method == 'POST':
@@ -767,6 +768,451 @@ def delete_bsa(request, obj, Activity):
 
 # def pl_cumberlandchart(request):
 #     return render(request,'dashboard/cumberland/pl_cumberlandchart.html')
+def viewgltotalrevenueytd(request,school,year,url,category):
+    print(request)
+    print(category)
+    null_values = [None, 'null', 'None']
+
+    try:
+        print(year)
+        print(url)
+        
+        FY_year_1 = int(year)
+        FY_year_2 = int(year) + 1 
+        july_date_start  = datetime(FY_year_1, 7, 1).date()
+        
+        july_date_end  = datetime(FY_year_2, 6, 30).date()
+        september_date_start  = datetime(FY_year_1, 9, 1).date()
+        september_date_end  = datetime(FY_year_2, 8, 31).date()
+
+        def format_value(value):
+            if value > 0:
+                return "{:,.2f}".format(value)
+            elif value < 0:
+                return "({:,.2f})".format(abs(value))
+            else:
+                return 0
+
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+        query = f"SELECT * FROM [dbo].{db[school]['object']} where  category = ?  "
+        cursor.execute(query, (category))
+        data = []
+        rows = cursor.fetchall()
+        for row in rows:
+            if row[5] == school:
+                row_dict = {
+                    "fund": row[0],
+                    "obj": row[1],
+                }
+                data.append(row_dict)
+        print(data)
+        filters = settings.filters
+        gl_data=[]
+        for item in data:
+            if school in schoolCategory["ascender"]:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query}  fund = ? and obj = ?   "
+                    cursor.execute(query, (item["fund"],item["obj"]))
+                    
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ?  "
+                    #cursor.execute(query, (fund,obj,date_object.month))
+                    cursor.execute(query, (item["fund"],item["obj"]))
+            else:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+        
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ?  "
+    
+                    cursor.execute(query, (item["fund"],item["obj"]))
+        
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ?"
+                    #cursor.execute(query, (fund,obj,date_object.month))
+                    cursor.execute(query, (item["fund"],item["obj"]))
+
+
+
+            rows = cursor.fetchall()
+    
+ 
+
+            if school in schoolCategory["ascender"]:
+                for row in rows:
+                    date_str=row[11]
+                    date = row[11]
+                    if isinstance(row[11], datetime):
+                        date = row[11].strftime("%Y-%m-%d")
+                    acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                    acct_per_month = acct_per_month_string.strftime("%m")
+    
+                    db_date = row[22].split('-')[0]
+
+                    real = float(row[14]) if row[14] else 0
+
+                    db_date = str(db_date)
+                    
+                    if db_date == year:
+                        
+                        row_dict = {
+                            'fund':row[0],
+                            'func':row[1],
+                            'obj':row[2],
+                            'sobj':row[3],
+                            'org':row[4],
+                            'fscl_yr':row[5],
+                            'pgm':row[6],
+                            'edSpan':row[7],
+                            'projDtl':row[8],
+                            'AcctDescr':row[9],
+                            'Number':row[10],
+                            'Date':date_str,
+                            'AcctPer':row[12],
+                            'Est':row[13],
+                            'Real':real,
+                            'Appr':row[15],
+                            'Encum':row[16],
+                            'Expend':row[17],
+                            'Bal':row[18],
+                            'WorkDescr':row[19],
+                            'Type':row[20],
+                            'Contr':row[21]
+                        }
+                    
+
+
+                        gl_data.append(row_dict)
+            else:
+            
+                for row in rows:
+        
+                    amount = float(row[19])
+                    date = row[9]
+        
+
+                    if isinstance(row[9], datetime):
+                        date = row[9].strftime("%Y-%m-%d")
+                    acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                    acct_per_month = acct_per_month_string.strftime("%m")
+                    if isinstance(row[9], (datetime, datetime.date)):
+                        date_checker = row[9].date()
+                    else:
+                        date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                    invoice_date = row[16]
+    
+
+                    
+                    if school in schoolMonths["julySchool"]:
+                    
+                        if date_checker >= july_date_start and date_checker <= july_date_end:
+
+                            row_dict = {
+                                "fund": row[0] if row[0] not in null_values else '',
+                                "T": row[1] if row[1] not in null_values else '',
+                                "func": row[2] if row[2] not in null_values else '',
+                                "obj": row[3] if row[3] not in null_values else '',
+                                "sobj": row[4] if row[4] not in null_values else '',
+                                "org": row[5] if row[5] not in null_values else '',
+                                "fscl_yr": row[6] if row[6] not in null_values else '',
+                                "PI": row[7] if row[7] not in null_values else '',
+                                "LOC": row[8] if row[8] not in null_values else '',
+                                "Date": date,
+                                "AcctPer":  acct_per_month,
+                                "Source": row[11] if row[11] not in null_values else '',
+                                "Subsource": row[12] if row[12] not in null_values else '',
+                                "Batch": row[13] if row[13] not in null_values else '',
+                                "Vendor": row[14] if row[14] not in null_values else '',
+                                "TransactionDescr": row[15] if row[15] not in null_values else '',
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17] if row[17] not in null_values else '',
+                                "CheckDate": row[18],
+                                "Amount": row[19] if row[19] not in null_values else '',
+                            }
+                            print(amount)
+                            gl_data.append(row_dict)
+                    else:
+                        if date_checker >= september_date_start and date_checker <= september_date_end:
+
+                            row_dict = {
+                                "fund": row[0] if row[0] not in null_values else '',
+                                "T": row[1] if row[1] not in null_values else '',
+                                "func": row[2] if row[2] not in null_values else '',
+                                "obj": row[3] if row[3] not in null_values else '',
+                                "sobj": row[4] if row[4] not in null_values else '',
+                                "org": row[5] if row[5] not in null_values else '',
+                                "fscl_yr": row[6] if row[6] not in null_values else '',
+                                "PI": row[7] if row[7] not in null_values else '',
+                                "LOC": row[8] if row[8] not in null_values else '',
+                                "Date": date,
+                                "AcctPer":  row[10] if row[10] not in null_values else '',
+                                "Source": row[11] if row[11] not in null_values else '',
+                                "Subsource": row[12] if row[12] not in null_values else '',
+                                "Batch": row[13] if row[13] not in null_values else '',
+                                "Vendor": row[14] if row[14] not in null_values else '',
+                                "TransactionDescr": row[15] if row[15] not in null_values else '',
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17] if row[17] not in null_values else '',
+                                "CheckDate": row[18],
+                                "Amount": amount,
+                            }
+
+                            gl_data.append(row_dict)
+
+   
+
+        # if request.path.startswith('/viewgl/'):
+        if school in schoolCategory["ascender"]:
+            total_bal = sum(float(row['Real']) for row in gl_data)
+        else:
+            total_bal = sum(float(row['Amount']) for row in gl_data)
+    
+        total_bal = format_value(total_bal)
+
+        for row in gl_data:
+            if school in schoolCategory["ascender"]:
+                row['Real'] = format_value(row['Real'])
+            else:
+                row['Amount'] = format_value(row['Amount'])
+
+
+        context = { 
+            'gl_data':gl_data,
+            'total_bal':total_bal
+        }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status': 'error', 'message': str(e)})
+
+def viewglrevenueytd(request,fund,obj,school,year,url):
+    print(request)
+    null_values = [None, 'null', 'None']
+
+    try:
+        print(year)
+        print(url)
+        
+        FY_year_1 = int(year)
+        FY_year_2 = int(year) + 1 
+        july_date_start  = datetime(FY_year_1, 7, 1).date()
+        
+        july_date_end  = datetime(FY_year_2, 6, 30).date()
+        september_date_start  = datetime(FY_year_1, 9, 1).date()
+        september_date_end  = datetime(FY_year_2, 8, 31).date()
+
+        def format_value(value):
+            if value > 0:
+                return "{:,.2f}".format(value)
+            elif value < 0:
+                return "({:,.2f})".format(abs(value))
+            else:
+                return 0
+
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+
+
+        filters = settings.filters
+           
+
+        if school in schoolCategory["ascender"]:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            filter_query = filter_query + ' AND'
+            if url == 'acc':
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query}  fund = ? and obj = ?   "
+                cursor.execute(query, (fund,obj))
+                
+            else:
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ? ? "
+                #cursor.execute(query, (fund,obj,date_object.month))
+                cursor.execute(query, (fund,obj))
+        else:
+            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+      
+            filter_query = filter_query + ' AND'
+            if url == 'acc':
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ?  "
+  
+                cursor.execute(query, (fund,obj))
+      
+            else:
+                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} fund = ? and obj = ?"
+                #cursor.execute(query, (fund,obj,date_object.month))
+                cursor.execute(query, (fund,obj))
+
+
+
+        rows = cursor.fetchall()
+ 
+        gl_data=[]
+
+        if school in schoolCategory["ascender"]:
+            for row in rows:
+                date_str=row[11]
+                date = row[11]
+                if isinstance(row[11], datetime):
+                    date = row[11].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
+ 
+                db_date = row[22].split('-')[0]
+
+                real = float(row[14]) if row[14] else 0
+
+                db_date = str(db_date)
+                
+                if db_date == year:
+                    
+                    row_dict = {
+                        'fund':row[0],
+                        'func':row[1],
+                        'obj':row[2],
+                        'sobj':row[3],
+                        'org':row[4],
+                        'fscl_yr':row[5],
+                        'pgm':row[6],
+                        'edSpan':row[7],
+                        'projDtl':row[8],
+                        'AcctDescr':row[9],
+                        'Number':row[10],
+                        'Date':date_str,
+                        'AcctPer':row[12],
+                        'Est':row[13],
+                        'Real':real,
+                        'Appr':row[15],
+                        'Encum':row[16],
+                        'Expend':row[17],
+                        'Bal':row[18],
+                        'WorkDescr':row[19],
+                        'Type':row[20],
+                        'Contr':row[21]
+                    }
+                
+
+
+                    gl_data.append(row_dict)
+        else:
+         
+            for row in rows:
+      
+                amount = float(row[19])
+                date = row[9]
+       
+
+                if isinstance(row[9], datetime):
+                    date = row[9].strftime("%Y-%m-%d")
+                acct_per_month_string = datetime.strptime(date, "%Y-%m-%d")
+                acct_per_month = acct_per_month_string.strftime("%m")
+                if isinstance(row[9], (datetime, datetime.date)):
+                    date_checker = row[9].date()
+                else:
+                    date_checker = datetime.strptime(row[9], "%Y-%m-%d").date()
+
+                invoice_date = row[16]
+   
+
+                
+                if school in schoolMonths["julySchool"]:
+                
+                    if date_checker >= july_date_start and date_checker <= july_date_end:
+
+                        row_dict = {
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
+                            "Date": date,
+                            "AcctPer":  acct_per_month,
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
+                            "InvoiceDate": invoice_date,
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
+                            "CheckDate": row[18],
+                            "Amount": row[19] if row[19] not in null_values else '',
+                        }
+                        print(amount)
+                        gl_data.append(row_dict)
+                else:
+                    if date_checker >= september_date_start and date_checker <= september_date_end:
+
+                        row_dict = {
+                            "fund": row[0] if row[0] not in null_values else '',
+                            "T": row[1] if row[1] not in null_values else '',
+                            "func": row[2] if row[2] not in null_values else '',
+                            "obj": row[3] if row[3] not in null_values else '',
+                            "sobj": row[4] if row[4] not in null_values else '',
+                            "org": row[5] if row[5] not in null_values else '',
+                            "fscl_yr": row[6] if row[6] not in null_values else '',
+                            "PI": row[7] if row[7] not in null_values else '',
+                            "LOC": row[8] if row[8] not in null_values else '',
+                            "Date": date,
+                            "AcctPer":  row[10] if row[10] not in null_values else '',
+                            "Source": row[11] if row[11] not in null_values else '',
+                            "Subsource": row[12] if row[12] not in null_values else '',
+                            "Batch": row[13] if row[13] not in null_values else '',
+                            "Vendor": row[14] if row[14] not in null_values else '',
+                            "TransactionDescr": row[15] if row[15] not in null_values else '',
+                            "InvoiceDate": invoice_date,
+                            "CheckNumber": row[17] if row[17] not in null_values else '',
+                            "CheckDate": row[18],
+                            "Amount": amount,
+                        }
+
+                        gl_data.append(row_dict)
+
+   
+
+        # if request.path.startswith('/viewgl/'):
+        if school in schoolCategory["ascender"]:
+            total_bal = sum(float(row['Real']) for row in gl_data)
+        else:
+            total_bal = sum(float(row['Amount']) for row in gl_data)
+    
+        total_bal = format_value(total_bal)
+
+        for row in gl_data:
+            if school in schoolCategory["ascender"]:
+                row['Real'] = format_value(row['Real'])
+            else:
+                row['Amount'] = format_value(row['Amount'])
+
+
+        context = { 
+            'gl_data':gl_data,
+            'total_bal':total_bal
+        }
+
+        
+        cursor.close()
+        cnxn.close()
+
+        return JsonResponse({'status': 'success', 'data': context})
+
+    except Exception as e:
+        print(e)
+        return JsonResponse({'status': 'error', 'message': str(e)})
 
 def viewgl(request,fund,obj,yr,school,year,url):
     null_values = [None, 'null', 'None']
@@ -995,7 +1441,22 @@ def viewgl_all(request, school, year, url, yr=""):
     data = json.loads(request.body)
     # do something about the yr
     if not yr:
-        yr = ['09', '10', '11']
+        if school in schoolMonths["septemberSchool"]:
+            yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
+        else:
+            yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
     else:
         yr = [yr]
 
@@ -1706,6 +2167,8 @@ def viewgl_activitybs(request,yr,school,year,url):
 
 def viewglfunc(request,func,yr,school,year,url):
     null_values = [None, 'null', 'None']
+    print(yr)
+
     try:
         def format_value(value):
             if value > 0:
@@ -1725,37 +2188,65 @@ def viewglfunc(request,func,yr,school,year,url):
         cnxn = connect()
         cursor = cnxn.cursor()
 
-        date_string = f"{year}-09-01T00:00:00.0000000"
-        date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
+        if yr == "00":
+            print("Months not needed")
+        else:
+            date_string = f"{year}-09-01T00:00:00.0000000"
+            date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
 
         filters = settings.filters
+        if yr == "00":
+            if school in schoolCategory["ascender"]:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where  func = ? and obj != '6449' and Number != 'BEGBAL' and Type != 'EN' ; "
+                    
+                    cursor.execute(query, (func))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ?  and obj != '6449' and Number != 'BEGBAL'; "
+    
+                    cursor.execute(query, (func))
+                    
+            else:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ?  and obj != '6449'; "
+                    cursor.execute(query, (func))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and obj != '6449' "
+                    cursor.execute(query, (func))
 
-            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
-        if school in schoolCategory["ascender"]:
-            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
-            filter_query = filter_query + ' AND'
-            if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where  func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL' and Type != 'EN' ; "
-                print("thisquery")
-                cursor.execute(query, (func,yr))
-            else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and MONTH(Date) = ? and obj != '6449' and Number != 'BEGBAL'; "
-  
-                cursor.execute(query, (func,date_object.month))
-                
         else:
-            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
-            filter_query = filter_query + ' AND'
-            if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and Month = ? and obj != '6449'; "
-                cursor.execute(query, (func,yr))
+            # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+            if school in schoolCategory["ascender"]:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where  func = ? and AcctPer = ? and obj != '6449' and Number != 'BEGBAL' and Type != 'EN' ; "
+                    
+                    cursor.execute(query, (func,yr))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and MONTH(Date) = ? and obj != '6449' and Number != 'BEGBAL'; "
+    
+                    cursor.execute(query, (func,date_object.month))
+                    
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and obj != '6449' and MONTH(PostingDate) = ? "
-                cursor.execute(query, (func,date_object.month))
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+                filter_query = filter_query + ' AND'
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and Month = ? and obj != '6449'; "
+                    cursor.execute(query, (func,yr))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} func = ? and obj != '6449' and MONTH(PostingDate) = ? "
+                    cursor.execute(query, (func,date_object.month))
 
         rows = cursor.fetchall()
     
+    
+            
         gl_data=[]
     
         
@@ -1784,34 +2275,40 @@ def viewglfunc(request,func,yr,school,year,url):
                    
                 
                 if db_date == year:
+                    if row[12] != month_number_string:
+                        
+           
                     
                     
-                    row_dict = {
-                        'fund':row[0],
-                        'func':row[1],
-                        'obj':row[2],
-                        'sobj':row[3],
-                        'org':row[4],
-                        'fscl_yr':row[5],
-                        'pgm':row[6],
-                        'edSpan':row[7],
-                        'projDtl':row[8],
-                        'AcctDescr':row[9],
-                        'Number':row[10],
-                        'Date':date_str,
-                        'AcctPer':row[12],
-                        'Est':row[13],
-                        'Real':real,
-                        'Appr':row[15],
-                        'Encum':row[16],
-                        'Expend':row[17],
-                        'Bal':row[18],
-                        'WorkDescr':row[19],
-                        'Type':row[20],
-                        'Contr':row[21]
-                    }
-            
-                    gl_data.append(row_dict)
+                    
+                        row_dict = {
+                            'fund':row[0],
+                            'func':row[1],
+                            'obj':row[2],
+                            'sobj':row[3],
+                            'org':row[4],
+                            'fscl_yr':row[5],
+                            'pgm':row[6],
+                            'edSpan':row[7],
+                            'projDtl':row[8],
+                            'AcctDescr':row[9],
+                            'Number':row[10],
+                            'Date':date_str,
+                            'AcctPer':row[12],
+                            'Est':row[13],
+                            'Real':real,
+                            'Appr':row[15],
+                            'Encum':row[16],
+                            'Expend':row[17],
+                            'Bal':row[18],
+                            'WorkDescr':row[19],
+                            'Type':row[20],
+                            'Contr':row[21]
+                        }
+                
+                        gl_data.append(row_dict)
+                    else:
+                        print(row[12])
         else:        
             for row in rows:
                 amount = float(row[19])
@@ -1836,68 +2333,59 @@ def viewglfunc(request,func,yr,school,year,url):
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
-                        row_dict = {
-                            "fund": row[0] if row[0] not in null_values else '',
-                            "T": row[1] if row[1] not in null_values else '',
-                            "func": row[2] if row[2] not in null_values else '',
-                            "obj": row[3] if row[3] not in null_values else '',
-                            "sobj": row[4] if row[4] not in null_values else '',
-                            "org": row[5] if row[5] not in null_values else '',
-                            "fscl_yr": row[6] if row[6] not in null_values else '',
-                            "PI": row[7] if row[7] not in null_values else '',
-                            "LOC": row[8] if row[8] not in null_values else '',
-                            "Date": date,
-                            "AcctPer":  acct_per_month,
-                            "Source": row[11] if row[11] not in null_values else '',
-                            "Subsource": row[12] if row[12] not in null_values else '',
-                            "Batch": row[13] if row[13] not in null_values else '',
-                            "Vendor": row[14] if row[14] not in null_values else '',
-                            "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": invoice_date,
-                            "CheckNumber": row[17] if row[17] not in null_values else '',
-                            "CheckDate": row[18],
-                            "Amount": row[19] if row[19] not in null_values else '',
-                        }
-                        gl_data.append(row_dict)
+                        if row[10] != month_number_string:
+                            row_dict = {
+                                "fund": row[0] if row[0] not in null_values else '',
+                                "T": row[1] if row[1] not in null_values else '',
+                                "func": row[2] if row[2] not in null_values else '',
+                                "obj": row[3] if row[3] not in null_values else '',
+                                "sobj": row[4] if row[4] not in null_values else '',
+                                "org": row[5] if row[5] not in null_values else '',
+                                "fscl_yr": row[6] if row[6] not in null_values else '',
+                                "PI": row[7] if row[7] not in null_values else '',
+                                "LOC": row[8] if row[8] not in null_values else '',
+                                "Date": date,
+                                "AcctPer":  acct_per_month,
+                                "Source": row[11] if row[11] not in null_values else '',
+                                "Subsource": row[12] if row[12] not in null_values else '',
+                                "Batch": row[13] if row[13] not in null_values else '',
+                                "Vendor": row[14] if row[14] not in null_values else '',
+                                "TransactionDescr": row[15] if row[15] not in null_values else '',
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17] if row[17] not in null_values else '',
+                                "CheckDate": row[18],
+                                "Amount": row[19] if row[19] not in null_values else '',
+                            }
+                            gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
+                        if row[10] != month_number_string:
 
-                        row_dict = {
-                            "fund": row[0] if row[0] not in null_values else '',
-                            "T": row[1] if row[1] not in null_values else '',
-                            "func": row[2] if row[2] not in null_values else '',
-                            "obj": row[3] if row[3] not in null_values else '',
-                            "sobj": row[4] if row[4] not in null_values else '',
-                            "org": row[5] if row[5] not in null_values else '',
-                            "fscl_yr": row[6] if row[6] not in null_values else '',
-                            "PI": row[7] if row[7] not in null_values else '',
-                            "LOC": row[8] if row[8] not in null_values else '',
-                            "Date": date,
-                            "AcctPer":  row[10] if row[10] not in null_values else '',
-                            "Source": row[11] if row[11] not in null_values else '',
-                            "Subsource": row[12] if row[12] not in null_values else '',
-                            "Batch": row[13] if row[13] not in null_values else '',
-                            "Vendor": row[14] if row[14] not in null_values else '',
-                            "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": invoice_date,
-                            "CheckNumber": row[17] if row[17] not in null_values else '',
-                            "CheckDate": row[18],
-                            "Amount": amount,
-                        }
+                            row_dict = {
+                                "fund": row[0] if row[0] not in null_values else '',
+                                "T": row[1] if row[1] not in null_values else '',
+                                "func": row[2] if row[2] not in null_values else '',
+                                "obj": row[3] if row[3] not in null_values else '',
+                                "sobj": row[4] if row[4] not in null_values else '',
+                                "org": row[5] if row[5] not in null_values else '',
+                                "fscl_yr": row[6] if row[6] not in null_values else '',
+                                "PI": row[7] if row[7] not in null_values else '',
+                                "LOC": row[8] if row[8] not in null_values else '',
+                                "Date": date,
+                                "AcctPer":  row[10] if row[10] not in null_values else '',
+                                "Source": row[11] if row[11] not in null_values else '',
+                                "Subsource": row[12] if row[12] not in null_values else '',
+                                "Batch": row[13] if row[13] not in null_values else '',
+                                "Vendor": row[14] if row[14] not in null_values else '',
+                                "TransactionDescr": row[15] if row[15] not in null_values else '',
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17] if row[17] not in null_values else '',
+                                "CheckDate": row[18],
+                                "Amount": amount,
+                            }
 
-                        # row_dict = {
-                        #     "fund": row[0],
-                        #     "func": row[2],
-                        #     "obj": row[3],
-                        #     "sobj": row[4],
-                        #     "org": row[5],
-                        #     "fscl_yr": row[6],
-                        #     "Date": date,
-                        #     "AcctPer": row[10],
-                        #     "Amount": amount,
-                        #     "Budget":row[20],
-                        # }
-                        gl_data.append(row_dict)
+
+                            gl_data.append(row_dict)
 
        
         total_expend = 0    
@@ -1941,7 +2429,22 @@ def viewglfunc(request,func,yr,school,year,url):
 def viewglfunc_all(request,school,year,url, yr=""):
     null_values = [None, 'None', 'null']
     if not yr:
-        yr = ['09', '10', '11']
+        if school in schoolMonths["septemberSchool"]:
+            yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
+        else:
+            yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
     else:
         yr = [yr]
     data = json.loads(request.body)
@@ -2355,49 +2858,14 @@ def viewglexpense(request,obj,yr,school,year,url):
         cnxn = connect()
         cursor = cnxn.cursor()
 
-        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['code']};")
-        rows = cursor.fetchall()
-
-        data_expensebyobject=[]
-
-
-        for row in rows:
-
-            row_dict = {
-                'obj':row[0],
-                'Description':row[1],
-                'budget':row[2],
-
-                }
-
-            data_expensebyobject.append(row_dict)
-
-        cursor.execute(f"SELECT  * FROM [dbo].{db[school]['activities']};")
-        rows = cursor.fetchall()
-
-        data_activities=[]
-
-
-        for row in rows:
-
-        
-            row_dict = {
-                'obj':row[0],
-                'Description':row[1],
-                'Category':row[2],
-
-                }
-
-            data_activities.append(row_dict)
+    
         
 
-
-            
-        
- 
- 
-        date_string = f"{year}-09-01T00:00:00.0000000"
-        date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
+        if yr == "00":
+            print("YR not needed")
+        else:
+            date_string = f"{year}-09-01T00:00:00.0000000"
+            date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
         # filters must be a dictionary with key = column and value = (tuple of values to filter)
         # this filter only works for categorical or string values
@@ -2406,22 +2874,41 @@ def viewglexpense(request,obj,yr,school,year,url):
 
             # filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
 
-        if school in schoolCategory["ascender"]:
-            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
-            if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
-                cursor.execute(query, (obj,yr))
+        if yr == "00":
+            if school in schoolCategory["ascender"]:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+                if url == 'acc':
+                    print("triggered")
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ?  "    
+                    cursor.execute(query, (obj))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ?  "    
+                    cursor.execute(query, (obj))
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(Date) = ? "    
-                cursor.execute(query, (obj,date_object.month))
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? "    
+                    cursor.execute(query, (obj))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? "    
+                    cursor.execute(query, (obj))
         else:
-            filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
-            if url == 'acc':
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and Month = ? "    
-                cursor.execute(query, (obj,yr))
+            if school in schoolCategory["ascender"]:
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['ascender'].items()])
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and AcctPer = ? "    
+                    cursor.execute(query, (obj,yr))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(Date) = ? "    
+                    cursor.execute(query, (obj,date_object.month))
             else:
-                query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(PostingDate) = ? "    
-                cursor.execute(query, (obj,date_object.month))
+                filter_query = ' AND '.join([f"{column} NOT IN {value}" for column, value in filters['skyward'].items()])
+                if url == 'acc':
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and Month = ? "    
+                    cursor.execute(query, (obj,yr))
+                else:
+                    query = f"SELECT * FROM [dbo].{db[school]['db']} where obj = ? and MONTH(PostingDate) = ? "    
+                    cursor.execute(query, (obj,date_object.month))
         rows = cursor.fetchall()
     
         gl_data=[]
@@ -2443,35 +2930,35 @@ def viewglexpense(request,obj,yr,school,year,url):
                 db_date = str(db_date)
                 
                 if db_date == year:
+                    if row[12] != month_number_string:
+                        row_dict = {
+                            'fund':row[0],
+                            'func':row[1],
+                            'obj':row[2],
+                            'sobj':row[3],
+                            'org':row[4],
+                            'fscl_yr':row[5],
+                            'pgm':row[6],
+                            'edSpan':row[7],
+                            'projDtl':row[8],
+                            'AcctDescr':row[9],
+                            'Number':row[10],
+                            'Date':date_str,
+                            'AcctPer':row[12],
+                            'Est':row[13],
+                            'Real':real,
+                            'Appr':row[15],
+                            'Encum':row[16],
+                            'Expend':row[17],
+                            'Bal':row[18],
+                            'WorkDescr':row[19],
+                            'Type':row[20],
+                            'Contr':row[21]
+                        }
                     
-                    row_dict = {
-                        'fund':row[0],
-                        'func':row[1],
-                        'obj':row[2],
-                        'sobj':row[3],
-                        'org':row[4],
-                        'fscl_yr':row[5],
-                        'pgm':row[6],
-                        'edSpan':row[7],
-                        'projDtl':row[8],
-                        'AcctDescr':row[9],
-                        'Number':row[10],
-                        'Date':date_str,
-                        'AcctPer':row[12],
-                        'Est':row[13],
-                        'Real':real,
-                        'Appr':row[15],
-                        'Encum':row[16],
-                        'Expend':row[17],
-                        'Bal':row[18],
-                        'WorkDescr':row[19],
-                        'Type':row[20],
-                        'Contr':row[21]
-                    }
-                
 
 
-                    gl_data.append(row_dict)
+                        gl_data.append(row_dict)
         else:
             for row in rows:
                 amount = float(row[19])
@@ -2497,57 +2984,57 @@ def viewglexpense(request,obj,yr,school,year,url):
                 if school in schoolMonths["julySchool"]:
                 
                     if date_checker >= july_date_start and date_checker <= july_date_end:
-
-                        row_dict = {
-                            "fund": row[0] if row[0] not in null_values else '',
-                            "T": row[1] if row[1] not in null_values else '',
-                            "func": row[2] if row[2] not in null_values else '',
-                            "obj": row[3] if row[3] not in null_values else '',
-                            "sobj": row[4] if row[4] not in null_values else '',
-                            "org": row[5] if row[5] not in null_values else '',
-                            "fscl_yr": row[6] if row[6] not in null_values else '',
-                            "PI": row[7] if row[7] not in null_values else '',
-                            "LOC": row[8] if row[8] not in null_values else '',
-                            "Date": date,
-                            "AcctPer":  acct_per_month,
-                            "Source": row[11] if row[11] not in null_values else '',
-                            "Subsource": row[12] if row[12] not in null_values else '',
-                            "Batch": row[13] if row[13] not in null_values else '',
-                            "Vendor": row[14] if row[14] not in null_values else '',
-                            "TransactionDescr": row[15] if row[15] not in null_values else '',
-                            "InvoiceDate": invoice_date,
-                            "CheckNumber": row[17] if row[17] not in null_values else '',
-                            "CheckDate": row[18],
-                            "Amount": amount
-                        }
-                        print(amount)
-                        gl_data.append(row_dict)
+                        if row[10] != month_number_string:
+                            row_dict = {
+                                "fund": row[0] if row[0] not in null_values else '',
+                                "T": row[1] if row[1] not in null_values else '',
+                                "func": row[2] if row[2] not in null_values else '',
+                                "obj": row[3] if row[3] not in null_values else '',
+                                "sobj": row[4] if row[4] not in null_values else '',
+                                "org": row[5] if row[5] not in null_values else '',
+                                "fscl_yr": row[6] if row[6] not in null_values else '',
+                                "PI": row[7] if row[7] not in null_values else '',
+                                "LOC": row[8] if row[8] not in null_values else '',
+                                "Date": date,
+                                "AcctPer":  acct_per_month,
+                                "Source": row[11] if row[11] not in null_values else '',
+                                "Subsource": row[12] if row[12] not in null_values else '',
+                                "Batch": row[13] if row[13] not in null_values else '',
+                                "Vendor": row[14] if row[14] not in null_values else '',
+                                "TransactionDescr": row[15] if row[15] not in null_values else '',
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17] if row[17] not in null_values else '',
+                                "CheckDate": row[18],
+                                "Amount": amount
+                            }
+                            print(amount)
+                            gl_data.append(row_dict)
                 else:
                     if date_checker >= september_date_start and date_checker <= september_date_end:
-
-                        row_dict = {
-                            "fund": row[0],
-                            "T": row[1],
-                            "func": row[2],
-                            "obj": row[3],
-                            "sobj": row[4],
-                            "org": row[5],
-                            "fscl_yr": row[6],
-                            "PI": row[7],
-                            "LOC": row[8],
-                            "Date": date,
-                            "AcctPer": row[10],
-                            "Source": row[11],
-                            "Subsource": row[12],
-                            "Batch": row[13],
-                            "Vendor": row[14],
-                            "TransactionDescr": row[15],
-                            "InvoiceDate": invoice_date,
-                            "CheckNumber": row[17],
-                            "CheckDate": row[18],
-                            "Amount": amount
-                        }
-                        gl_data.append(row_dict)
+                        if row[10] != month_number_string:
+                            row_dict = {
+                                "fund": row[0],
+                                "T": row[1],
+                                "func": row[2],
+                                "obj": row[3],
+                                "sobj": row[4],
+                                "org": row[5],
+                                "fscl_yr": row[6],
+                                "PI": row[7],
+                                "LOC": row[8],
+                                "Date": date,
+                                "AcctPer": row[10],
+                                "Source": row[11],
+                                "Subsource": row[12],
+                                "Batch": row[13],
+                                "Vendor": row[14],
+                                "TransactionDescr": row[15],
+                                "InvoiceDate": invoice_date,
+                                "CheckNumber": row[17],
+                                "CheckDate": row[18],
+                                "Amount": amount
+                            }
+                            gl_data.append(row_dict)
 
 
         expend_key = "Expend"
@@ -2589,11 +3076,30 @@ def viewglexpense(request,obj,yr,school,year,url):
 def viewglexpense_all(request,school,year,url,yr=""):
     null_values = ['null', None, 'None']
     data = json.loads(request.body)
+    print("data",data)
+    print(yr)
+ 
     if not yr:
-        yr = ['09', '10', '11']
+        if school in schoolMonths["septemberSchool"]:
+            yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
+        else:
+            yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+            yr = []
+            for y in yr_complete:
+                if y == month_number_string:
+                    break
+                else:
+                    yr.append(y)
     else:
         yr = [yr]
     try:
+        print(yr)
         FY_year_1 = int(year)
         FY_year_2 = int(year) + 1 
         july_date_start  = datetime(FY_year_1, 7, 1).date()
@@ -2652,7 +3158,7 @@ def viewglexpense_all(request,school,year,url,yr=""):
         # date_object = datetime.strptime(f"{date_string[:4]}-{yr}-01", "%Y-%m-%d")
 
         query_obj = " OR ".join("obj = ?" for _ in data)
-
+        print(query_obj)
 
         filters = settings.filters
 
@@ -2665,7 +3171,9 @@ def viewglexpense_all(request,school,year,url,yr=""):
                 data.extend(yr)
                 query_date = " OR ".join("AcctPer = ?" for _ in yr)
                 query = f"SELECT * FROM [dbo].{db[school]['db']} where {filter_query} ({query_obj}) and ({query_date}) "    
+          
                 cursor.execute(query, data)
+               
             else:
                 data.extend([int(x) for x in yr])
                 query_date = " OR ".join("MONTH(Date) = ?" for _ in yr)

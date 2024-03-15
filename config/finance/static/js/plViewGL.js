@@ -198,117 +198,198 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // for Year to Date
-  function parseTotal(value){
-    if (!value){
-      return 0
-    }
-    let multiplier = 1
-    if (value && value.includes('(')) {
-      multiplier = -1
-    }
-    const numbersOnly = value.replace(/[^\d.]/g, '')
-    try{
-      const numericValue = parseFloat(numbersOnly, 10)
-      return numericValue * multiplier
-    }
-    catch(error) {
-      return 0
-    }
+  function fetchDataAndPopulateModal_revYTD(fund, obj, school, year,url) {
+    fetch(`/viewglrevenueytd/${fund}/${obj}/${school}/${year}/${url}`)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.status === "success") {
+          $("#spinner-modal").modal("hide");
+          console.log("WORKING")
+          populateModal(data.data, data.total_bal);
+          removeColumn("viewgl")
 
+
+          modal.style.display = "block";
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error fetching data:", error);
+      });
   }
+
+
+  var viewGLLinksytd = document.querySelectorAll(".viewgl-link-revYTD");
+  viewGLLinksytd.forEach(function (link) {
+ 
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+     
+      event.preventDefault();
+      event.stopPropagation();
+      var fund = link.dataset.fund;
+      var obj = link.dataset.obj;
+ 
+      console.log(url)
+      fetchDataAndPopulateModal_revYTD(fund, obj, school, year , url);
+      console.log("PASSED")
+    });
+  });
+
+  function fetchDataAndPopulateModal_allrevYTD( school, year,url, category) {
+    fetch(`/viewgltotalrevenueytd/${school}/${year}/${url}/${category}`)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        if (data.status === "success") {
+          $("#spinner-modal").modal("hide");
+          console.log("WORKING")
+          populateModal(data.data, data.total_bal);
+          removeColumn("viewgl")
+
+
+          modal.style.display = "block";
+        } else {
+          console.error(data.message);
+        }
+      })
+      .catch(function (error) {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+
+  var viewGLLinksallytd = document.querySelectorAll(".viewgl-link-allrevYTD");
+  viewGLLinksallytd.forEach(function (link) {
+ 
+    link.addEventListener("click", function (event) {
+      $("#spinner-modal").modal("show");
+     
+      event.preventDefault();
+      event.stopPropagation();
+
+      var category = link.dataset.category;
+      console.log(category)
+      console.log(url)
+      fetchDataAndPopulateModal_allrevYTD( school, year , url,category);
+      console.log("PASSED")
+    });
+  });
+  // for Year to Date
+  // function parseTotal(value){
+  //   if (!value){
+  //     return 0
+  //   }
+  //   let multiplier = 1
+  //   if (value && value.includes('(')) {
+  //     multiplier = -1
+  //   }
+  //   const numbersOnly = value.replace(/[^\d.]/g, '')
+  //   try{
+  //     const numericValue = parseFloat(numbersOnly, 10)
+  //     return numericValue * multiplier
+  //   }
+  //   catch(error) {
+  //     return 0
+  //   }
+
+  // }
 
   
 
-  async function fetchDataAndPopulateModalYTD({fund, func, obj, school, year, url, endpointName}) {
-    // TODO do something about this
-    // get only months that are viewable in the table
-    console.log(sept)
-    let yr = []
-    if(sept == 'True'){
+  // async function fetchDataAndPopulateModalYTD({fund, func, obj, school, year, url, endpointName}) {
+  //   // TODO do something about this
+  //   // get only months that are viewable in the table
+  //   console.log(sept)
+  //   let yr = []
+  //   if(sept == 'True'){
       
-      yr = ['09','10','11','12','01','02','03','04','05','06','07','08']
+  //     yr = ['09','10','11','12','01','02','03','04','05','06','07','08']
 
-    }else{
-      yr = ['07','08','09','10','11','12','01','02','03','04','05','06']
+  //   }else{
+  //     yr = ['07','08','09','10','11','12','01','02','03','04','05','06']
 
-    }
+  //   }
     
-    const ytdData = {gl_data: [], total_bal: 0}
+  //   const ytdData = {gl_data: [], total_bal: 0}
 
-    if(last_month_ytd == 12){
-      last_month_ytd = 1
-    }else{
-      last_month_ytd = last_month_ytd +1
-    }
+  //   if(last_month_ytd == 12){
+  //     last_month_ytd = 1
+  //   }else{
+  //     last_month_ytd = last_month_ytd +1
+  //   }
    
-    const last_month_padded = last_month_ytd < 10 ? '0' + last_month_ytd : last_month_ytd.toString();
-    for (let i = 0; i < yr.length; i++)  {
-      const month = yr[i];
-      console.log(month)
+  //   const last_month_padded = last_month_ytd < 10 ? '0' + last_month_ytd : last_month_ytd.toString();
+  //   for (let i = 0; i < yr.length; i++)  {
+  //     const month = yr[i];
+  //     console.log(month)
       
-      if (parseInt(month, 10) == parseInt(last_month_padded, 10)) {
-        break; // Exit the loop if the current month exceeds the last_month_ytd
-    }
-      const endpoints = {
-        'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
-        'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
-        'viewglexpense': `/viewglexpense/${obj}/${month}/${school}/${year}/${url}`,
-        'viewgldna': `/viewgldna/${func}/${month}/${school}/${year}/${url}`,
-      }
-      try {
-        const response = await fetch(endpoints[endpointName])
-        if (response.status !== 200){
-          return
-        }
+  //     if (parseInt(month, 10) == parseInt(last_month_padded, 10)) {
+  //       break; // Exit the loop if the current month exceeds the last_month_ytd
+  //   }
+  //     const endpoints = {
+  //       'viewgl': `/viewgl/${fund}/${obj}/${month}/${school}/${year}/${url}`,
+  //       'viewglfunc': `/viewglfunc/${func}/${month}/${school}/${year}/${url}`,
+  //       'viewglexpense': `/viewglexpense/${obj}/${month}/${school}/${year}/${url}`,
+  //       'viewgldna': `/viewgldna/${func}/${month}/${school}/${year}/${url}`,
+  //     }
+  //     try {
+  //       const response = await fetch(endpoints[endpointName])
+  //       if (response.status !== 200){
+  //         return
+  //       }
 
-        const data = await response.json()
-        ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
-        ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
-      } catch(error){
-        console.log(error)
-      }
-    }
+  //       const data = await response.json()
+  //       ytdData.gl_data = ytdData.gl_data.concat(data.data.gl_data)
+  //       ytdData.total_bal = ytdData.total_bal + parseTotal(data.data.total_bal)
+  //     } catch(error){
+  //       console.log(error)
+  //     }
+  //   }
 
-      if (ytdData.total_bal < 0) {
-        let formattedTotal = ytdData.total_bal.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })
-        ytdData.total_bal = '(' + formattedTotal.replace('-', '') + ')'
-      }
-      else {
-        ytdData.total_bal = ytdData.total_bal.toLocaleString("en-US", {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2
-        })
-      }
+  //     if (ytdData.total_bal < 0) {
+  //       let formattedTotal = ytdData.total_bal.toLocaleString("en-US", {
+  //         minimumFractionDigits: 2,
+  //         maximumFractionDigits: 2
+  //       })
+  //       ytdData.total_bal = '(' + formattedTotal.replace('-', '') + ')'
+  //     }
+  //     else {
+  //       ytdData.total_bal = ytdData.total_bal.toLocaleString("en-US", {
+  //         minimumFractionDigits: 2,
+  //         maximumFractionDigits: 2
+  //       })
+  //     }
 
-      $("#spinner-modal").modal("hide");
-      populateModal(ytdData);
-      modal.style.display = "block";
-  }
+  //     $("#spinner-modal").modal("hide");
+  //     populateModal(ytdData);
+  //     modal.style.display = "block";
+  // }
 
   // Add click event listeners to all year to date column links
-  const viewGLYearToDate = document.querySelectorAll(".viewgl-link-ytd")
-  viewGLYearToDate.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      const args = {
-        fund: link.dataset.fund,
-        obj: link.dataset.obj,
-        school: school,
-        year: year,
-        url: url,
-        endpointName: 'viewgl'
-      }
-      console.log(args)
-      // var fund = link.dataset.fund;
-      // var obj = link.dataset.obj;
-      fetchDataAndPopulateModalYTD(args);
-    });
-  })
+  // const viewGLYearToDate = document.querySelectorAll(".viewgl-link-ytd")
+  // viewGLYearToDate.forEach((link) => {
+  //   link.addEventListener("click", function (event) {
+  //     $("#spinner-modal").modal("show");
+  //     event.preventDefault();
+  //     const args = {
+  //       fund: link.dataset.fund,
+  //       obj: link.dataset.obj,
+  //       school: school,
+  //       year: year,
+  //       url: url,
+  //       endpointName: 'viewgl'
+  //     }
+  //     console.log(args)
+  //     // var fund = link.dataset.fund;
+  //     // var obj = link.dataset.obj;
+  //     fetchDataAndPopulateModalYTD(args);
+  //   });
+  // })
 
   // FIRST TOTAL
   function fetchDataAndPopulateModal2(func, yr, school, year, url) {
@@ -343,24 +424,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Add click event listeners to all year to date column links in first total
-  const viewGLFuncYearToDate = document.querySelectorAll(".viewglfunc-link-ytd")
-  viewGLFuncYearToDate.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      const args = {
-        func: link.dataset.func,
-        school: school,
-        year: year,
-        url: url,
-        endpointName: 'viewglfunc'
-      }
+  // // Add click event listeners to all year to date column links in first total
+  // const viewGLFuncYearToDate = document.querySelectorAll(".viewglfunc-link-ytd")
+  // viewGLFuncYearToDate.forEach((link) => {
+  //   link.addEventListener("click", function (event) {
+  //     $("#spinner-modal").modal("show");
+  //     event.preventDefault();
+  //     const args = {
+  //       func: link.dataset.func,
+  //       school: school,
+  //       year: year,
+  //       url: url,
+  //       endpointName: 'viewglfunc'
+  //     }
 
-      // var yr = link.dataset.yr;
-      fetchDataAndPopulateModalYTD(args);
-    });
-  })
+  //     // var yr = link.dataset.yr;
+  //     fetchDataAndPopulateModalYTD(args);
+  //   });
+  // })
 
   //FOR EXPENSE BY Object
   function fetchDataAndPopulateModal3(func, yr, school , year, url) {
@@ -393,26 +474,27 @@ document.addEventListener("DOMContentLoaded", function () {
       event.preventDefault();
       var obj = link.dataset.obj;
       var yr = link.dataset.yr;
+      console.log("Triggered")
       fetchDataAndPopulateModal3(obj, yr, school, year , url);
     });
   });
 
-  const viewGLExpenseYearToDate = document.querySelectorAll(".viewglexpense-link-ytd")
-  viewGLExpenseYearToDate.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      const args = {
-        obj: link.dataset.obj,
-        school: school,
-        year: year,
-        url: url,
-        endpointName: 'viewglexpense'
-      }
+  // const viewGLExpenseYearToDate = document.querySelectorAll(".viewglexpense-link-ytd")
+  // viewGLExpenseYearToDate.forEach((link) => {
+  //   link.addEventListener("click", function (event) {
+  //     $("#spinner-modal").modal("show");
+  //     event.preventDefault();
+  //     const args = {
+  //       obj: link.dataset.obj,
+  //       school: school,
+  //       year: year,
+  //       url: url,
+  //       endpointName: 'viewglexpense'
+  //     }
 
-      fetchDataAndPopulateModalYTD(args);
-    });
-  })
+  //     fetchDataAndPopulateModalYTD(args);
+  //   });
+  // })
 
   //FOR DnA
 
@@ -447,29 +529,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const viewGLDnaYearToDate = document.querySelectorAll(".viewgldna-link-ytd")
-  viewGLDnaYearToDate.forEach((link) => {
-    link.addEventListener("click", function (event) {
-      $("#spinner-modal").modal("show");
-      event.preventDefault();
-      const args = {
-        func: link.dataset.func,
-        school: school,
-        year: year,
-        url: url,
-        endpointName: 'viewgldna'
-      }
+  // const viewGLDnaYearToDate = document.querySelectorAll(".viewgldna-link-ytd")
+  // viewGLDnaYearToDate.forEach((link) => {
+  //   link.addEventListener("click", function (event) {
+  //     $("#spinner-modal").modal("show");
+  //     event.preventDefault();
+  //     const args = {
+  //       func: link.dataset.func,
+  //       school: school,
+  //       year: year,
+  //       url: url,
+  //       endpointName: 'viewgldna'
+  //     }
 
-      fetchDataAndPopulateModalYTD(args);
-    });
-  })
+  //     fetchDataAndPopulateModalYTD(args);
+  //   });
+  // })
 
   //////////////////////////// For the totals of each section /////////////////////////////
-  // Local Revenue YTD Total
-  const localRevenueYtd = document.getElementById('local-revenue-ytd-total')
-  localRevenueYtd.addEventListener('click', () => viewglAll({classes:'.local-revenue-row'}))
+  // // Local Revenue YTD Total
+  // const localRevenueYtd = document.getElementById('local-revenue-ytd-total')
+  // localRevenueYtd.addEventListener('click', () => viewglAll({classes:'.local-revenue-row'}))
 
-  // local revenue total for each month
+  // // local revenue total for each month
   const localTotals = document.querySelectorAll('.local-total')
   for(let i=0; i < localTotals.length; i++){
     const month = localTotals[i].dataset.yr
@@ -477,9 +559,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   }
 
-  // State Program Revenue YTD Total
-  const stateRevenueYtd = document.getElementById('state-revenue-ytd-total')
-  stateRevenueYtd.addEventListener('click', () => viewglAll({classes: '.spr-row'}))
+  // // State Program Revenue YTD Total
+  // const stateRevenueYtd = document.getElementById('state-revenue-ytd-total')
+  // stateRevenueYtd.addEventListener('click', () => viewglAll({classes: '.spr-row'}))
 
   // state program revenue total for each month
   const sprTotals = document.querySelectorAll('.spr-total')
@@ -489,8 +571,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Federal Revenuew YTD Total
-  const federalRevenueYtd = document.getElementById('federal-revenue-ytd-total')
-  federalRevenueYtd.addEventListener('click', () => viewglAll({classes:'.fpr-row'}))
+  // const federalRevenueYtd = document.getElementById('federal-revenue-ytd-total')
+  // federalRevenueYtd.addEventListener('click', () => viewglAll({classes:'.fpr-row'}))
 
   // federal revenue total for each month
   const fprTotals = document.querySelectorAll('.fpr-total')
@@ -499,16 +581,16 @@ document.addEventListener("DOMContentLoaded", function () {
     fprTotals[i].addEventListener('click', () => viewglAll({classes:'.fpr-row', yr:month}))
   }
 
-  // Revenue YTD Total
-  const revenueYtd = document.getElementById('all-revenue-ytd-total')
-  revenueYtd.addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row']}))
+  // // Revenue YTD Total
+  // const revenueYtd = document.getElementById('all-revenue-ytd-total')
+  // revenueYtd.addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row']}))
 
-  // revenue total for each month
-  const revenueTotals = document.querySelectorAll('.total-revenue')
-  for(let i=0; i < revenueTotals.length; i++){
-    const month = revenueTotals[i].dataset.yr
-    revenueTotals[i].addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row'], yr:month}))
-  }
+  // // revenue total for each month
+  // const revenueTotals = document.querySelectorAll('.total-revenue')
+  // for(let i=0; i < revenueTotals.length; i++){
+  //   const month = revenueTotals[i].dataset.yr
+  //   revenueTotals[i].addEventListener('click', () => viewglAll({classes:['.local-revenue-row', '.spr-row', '.fpr-row'], yr:month}))
+  // }
 
   async function viewglAll({classes, yr}){
     $("#spinner-modal").modal("show");
@@ -628,9 +710,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Payroll row
-  const payrollYtdTotal = document.getElementById('payroll-ytd-total')
-  payrollYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.payroll-row'}))
-
+  // const payrollYtdTotal = document.getElementById('payroll-ytd-total')
+  // payrollYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.payroll-row'}))
+  const payrollYtdTotals = document.querySelectorAll('.payroll-ytd-total');
+  payrollYtdTotals.forEach(payrollYtdTotal => {
+      payrollYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.payroll-row'}));
+  });
   // payroll total per month
   const payrollTotals = document.querySelectorAll('.payroll-total')
   for(let i=0; i<payrollTotals.length; i++){
@@ -640,9 +725,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Professional and Contract Services
-  const professionalYtdTotal = document.getElementById('professional-ytd-total')
-  professionalYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.PCS-row'}))
-
+  // const professionalYtdTotal = document.getElementById('professional-ytd-total')
+  // professionalYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.PCS-row'}))
+  const professionalYtdTotals = document.querySelectorAll('.professional-ytd-total');
+  professionalYtdTotals.forEach(professionalYtdTotal => {
+      professionalYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.PCS-row'}));
+  });
   // professional and contract services total per month
   const proTotals = document.querySelectorAll('.professional-total')
   for(let i=0; i<proTotals.length; i++){
@@ -652,8 +740,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Supplies and Materials
-  const suppliesYtdTotal = document.getElementById('supplies-ytd-total')
-  suppliesYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.sm-row'}))
+  // const suppliesYtdTotal = document.getElementById('supplies-ytd-total')
+  // suppliesYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.sm-row'}))
+  const suppliesYtdTotals = document.querySelectorAll('.supplies-ytd-total');
+  suppliesYtdTotals.forEach(suppliesYtdTotal => {
+      suppliesYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.sm-row'}));
+  });
 
   //  supplies and materials total per month
   const suppliesTotals = document.querySelectorAll('.supplies-total')
@@ -663,8 +755,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Other operating costs
-  const otherYtdTotal = document.getElementById('other-ytd-total')
-  otherYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.ooe-row'}))
+  // const otherYtdTotal = document.getElementById('other-ytd-total')
+  // otherYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.ooe-row'}))
+  const otherYtdTotals = document.querySelectorAll('.other-ytd-total');
+  otherYtdTotals.forEach(otherYtdTotal => {
+      otherYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.ooe-row'}));
+  });
 
   //  other operating cost total per month
   const otherTotals = document.querySelectorAll('.other-total')
@@ -674,9 +770,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Debt Services
-  const debtYtdTotal = document.getElementById('debt-ytd-total')
-  debtYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.expense-row'}))
-
+  // const debtYtdTotal = document.getElementById('debt-ytd-total')
+  // debtYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.expense-row'}))
+  const debtYtdTotals = document.querySelectorAll('.debt-ytd-total');
+  debtYtdTotals.forEach(debtYtdTotal => {
+      debtYtdTotal.addEventListener('click', () => viewglExpenseAll({classes:'.expense-row'}));
+  });
   //  debt services total per month
   const debtTotals = document.querySelectorAll('.ds-total')
   for(let i=0; i<debtTotals.length; i++){
@@ -685,8 +784,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Expense all 
+
+  //for temps page
+  const EocYtdTotal2 = document.getElementById('EOC-ytd-total2')
+  EocYtdTotal2.addEventListener('click', () => {viewglExpenseAll({classes:['.expense-row', '.ooe-row', '.sm-row', '.PCS-row', '.payroll-row']})})
+ // for mockup page
   const EocYtdTotal = document.getElementById('EOC-ytd-total')
   EocYtdTotal.addEventListener('click', () => {viewglExpenseAll({classes:['.expense-row', '.ooe-row', '.sm-row', '.PCS-row', '.payroll-row']})})
+  // const EocYtdTotalElements = document.querySelectorAll('#EOC-ytd-total');
+
+  // EocYtdTotalElements.forEach(element => {
+  //     element.addEventListener('click', () => {
+  //         viewglExpenseAll({classes:['.expense-row', '.ooe-row', '.sm-row', '.PCS-row', '.payroll-row']});
+  //     });
+  // });
 
   const EocTotals = document.querySelectorAll('.EOC-total')
   for (let i=0; i<EocTotals.length; i++){

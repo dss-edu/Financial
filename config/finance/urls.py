@@ -54,6 +54,12 @@ urlpatterns = [
     ),
     path("delete_func/<str:func>/", views.delete_func, name="delete_func"),
     path(
+        "viewgltotalrevenueytd/<str:school>/<str:year>/<str:url>/<str:category>/", views.viewgltotalrevenueytd, name="viewgltotalrevenueytd"
+    ),
+    path(
+        "viewglrevenueytd/<str:fund>/<str:obj>/<str:school>/<str:year>/<str:url>/", views.viewglrevenueytd, name="viewglrevenueytd"
+    ),
+    path(
         "viewgl/<str:fund>/<str:obj>/<str:yr>/<str:school>/<str:year>/<str:url>/", views.viewgl, name="viewgl"
     ),
     path(
