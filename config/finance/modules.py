@@ -323,25 +323,11 @@ def charter_first(school,anchor_year,anchor_month):
 
 
 def profit_loss(school, anchor_year):
-    current_date = datetime.today().date()
-    # current_year = current_date.year
-    # last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    formatted_last_month = last_month.strftime("%B %d, %Y")
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
+
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
-        # "last_month": formatted_last_month,
-        # "last_month_number": last_month_number,
-        # "format_ytd_budget": formatted_ytd_budget,
-        # "ytd_budget": ytd_budget,
+
     }
 
     # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
@@ -357,23 +343,74 @@ def profit_loss(school, anchor_year):
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
 
-    # if school in schoolCategory["ascender"]:
-    #     lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
-    #     lr_funds_sorted = sorted(lr_funds)
-    #     lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
-    #     lr_obj_sorted = sorted(lr_obj)
-
-    #     func_choice = list(
-    #         set(row["func"] for row in context["data3"] if "func" in row)
-    #     )
-    #     func_choice_sorted = sorted(func_choice)
-
-    #     context["lr_funds"] = lr_funds_sorted
-    #     context["lr_obj"] = lr_obj_sorted
-        # context["func_choice"] = func_choice_sorted
     context["anchor_year"] = anchor_year
 
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
+    print(context["view_months"] )
     return context
+
+def profit_loss_monthly(school,anchor_year,monthly):
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+
+    }
+
+    # JSON_DIR = os.path.join(BASE_DIR, "finance", "json", "profit-loss", school)
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + monthly, school)
+    if anchor_year:  # anchor_year is by default = ""
+        JSON_DIR = os.path.join(
+            settings.BASE_DIR, "finance","json", str(anchor_year), "profit-loss-" + monthly, school
+        )
+    files = os.listdir(JSON_DIR)
+
+    for file in files:
+        with open(os.path.join(JSON_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    context["anchor_year"] = anchor_year
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
+    
+    return context
+
+def get_months_dict(school):
+    current_date = datetime.today().date()
+    month_number = current_date.month
+    month_number += 1
+    month_number_string = str(month_number).zfill(2)
+    yr = []
+    months_dict = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+    }
+    if school in schoolMonths["septemberSchool"]:
+        yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
+
+    else:
+        yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+    for month in yr_complete:
+        if month == month_number_string:
+            break
+        else:
+            yr.append((month, months_dict[month])) 
+
+
+    return yr
+        
 
 def profit_loss_date(school, anchor_year):
     current_date = datetime.today().date()

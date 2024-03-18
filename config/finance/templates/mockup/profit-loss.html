@@ -198,12 +198,21 @@
       <div>
         <div class="d-flex justify-content-between rounded py-2 px-1">
 
-        <div class="form-check form-switch"  style="margin-left:15px;">
+        {% comment %} <div class="form-check form-switch"  style="margin-left:15px;">
 
           <input class="form-check-input" type="checkbox" role="switch" id="showCurr" >
           <label class="form-check-label" for="showCurr">Show Current Month</label>
-        </div>
-        
+        </div> {% endcomment %}
+        <div style="background-color: #f5f6f7;">
+          <select class="d-flex" name="fyear" id="month-select">
+              <option value="" selected>select month</option> 
+              {% for month_number, month_name in view_months %}
+              <option value="{{ month_number }}">{{ month_name }}</option>
+              {% endfor %}
+
+          </select>
+       </div>
+
         <div class="form-check form-switch"  style="margin-left:15px;">
 
           <input class="form-check-input" type="checkbox" role="switch" id="showBudget" checked>
@@ -2252,6 +2261,24 @@ $("#showBudget").on("change", function(event) {
     }
 
   })
+
+
+
+  $(document).ready(function() {
+    const currentPath = window.location.pathname;
+    $("#month-select").on("change", function() {
+        const month = $(this).val();
+        const school = $("#hidden-school").val();
+ 
+        console.log(month);
+        if (month === "") {
+            window.location.href = "/profit-loss/" + school;
+        } else {
+            $("#page-load-spinner").modal("show");
+            window.location.href = "/profit-loss-monthly/" + school + "/" + month ;
+        }
+    });
+});
 
 </script>
 
