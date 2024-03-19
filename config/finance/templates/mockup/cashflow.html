@@ -380,6 +380,7 @@
 
           
           <!-- Change in net assets  -->
+          {% if ascender == "False" %}
           <tr class="dom">
             <td>Change in Net Assets</td>
 
@@ -415,7 +416,8 @@
               {{totals.ytd_SBD}}
             </td>
           </tr>
-          {% comment %} <tr class="dom">
+        {% else %}
+        <tr class="dom">
             <td>Change in Net Assets</td>
 
             {% if September == "True" %}
@@ -453,7 +455,9 @@
               {{ totals.ytd_netsurplus }}
               {% endif %}
             </td>
-          </tr> {% endcomment %}
+          </tr> 
+
+          {% endif %}
           <!-- End of  Change in net assets  -->
 
 

@@ -5272,8 +5272,12 @@ def cashflow(school,year):
         cbp_fye = 0
         cpb_last = 0
         
-        #total_netsurplus = totals["total_netsurplus_months"] 
-        total_netsurplus = totals["total_SBD"]
+        if school in schoolCategory["ascender"]:
+
+            total_netsurplus = totals["total_netsurplus_months"]
+        else:
+            total_netsurplus = totals["total_SBD"]
+            
         dna_months = totals["dna_total_months"]
         ytd_SBD = totals["ytd_SBD"]
        
