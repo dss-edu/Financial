@@ -9,6 +9,7 @@ import re
 from collections import defaultdict
 from config import settings
 import shutil
+import copy
 # from django.core.files.base import ContentFile
 # from django.core.files.storage import default_storage
 # from django.core.files.storage import FileSystemStorage
@@ -1702,14 +1703,14 @@ def profit_loss(school,year):
         ytd_ammended_dna = format_value_dollars(ytd_ammended_dna)
         ytd_ammended_total_first = format_value_dollars(ytd_ammended_total_first)
         
-        dna_ytd_total = format_value_dollars(dna_ytd_total)
+        dna_ytd_total = format_value_dollars_negative(dna_ytd_total)
         first_ytd_total = format_value_dollars(first_ytd_total)
 
         variances_first_total = format_value_dollars(variances_first_total)
         variances_dna = format_value_dollars(variances_dna)
 
         first_total_months = {acct_per: format_value_dollars(value) for acct_per, value in first_total_months.items() if value != 0}
-        dna_total_months = {acct_per: format_value_dollars(value) for acct_per, value in dna_total_months.items() if value != 0}
+        dna_total_months = {acct_per: format_value_dollars_negative(value) for acct_per, value in dna_total_months.items() if value != 0}
 
         for row in data2:
             ytd_budget =float(row[f"ytd_budget"])
@@ -4455,6 +4456,9 @@ def balance_sheet(school,year):
                     row["difference_6"] = (row["difference_5"] + total_sum6_value )
                     
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+
+         
+                    print(row["last_month_difference"] , "-", row["Activity"] , '-', last_month_number , row[f"difference_{last_month_number}"] )
                  
                         
 
@@ -4590,6 +4594,7 @@ def balance_sheet(school,year):
                         if i == last_month_number:
                             last_month_total_current_liabilities += row[f"debt_{i}"]
                     total_current_liabilities_fytd += row["debt_fytd"]
+                    print("TOTALCURRENT",total_current_liabilities_fytd)
                     total_current_liabilities_fye +=  fye
 
          
@@ -4660,6 +4665,8 @@ def balance_sheet(school,year):
             for acct_per in acct_per_values
 
         }
+
+        data_activitybs_CF = copy.deepcopy(data_activitybs)
 
         last_month_number_str = f"{last_month_number:02}"  
         last_month_total_assets  = total_assets[last_month_number_str]
@@ -4820,6 +4827,8 @@ def balance_sheet(school,year):
             "fytd"
         ]
 
+
+      
         threshold = 0.50
         if school in schoolCategory["skyward"] or school in school_fye:
             for row in data_activitybs:
@@ -4952,10 +4961,13 @@ def balance_sheet(school,year):
 
         data_activitybs = sorted(data_activitybs, key=lambda x: x['obj'])
         #difference_key = "difference_" + str(last_month_number)
+
         context = {
             "data_balancesheet": data_balancesheet,
+            "data_activitybs_CF":data_activitybs_CF,
             "data_activitybs": data_activitybs,
             # "data3": data3,
+        
             "bs_activity_list": bs_activity_list_sorted,
             "gl_obj": gl_obj_sorted,
             # "button_rendered": button_rendered,
@@ -4997,7 +5009,7 @@ def balance_sheet(school,year):
                 "last_month_total_noncurrent_liabilities":last_month_total_noncurrent_liabilities,
 
 
-            }
+        }
 
             
             #"difference_key": difference_key,
@@ -5192,7 +5204,7 @@ def cashflow(school,year):
         
         # json_path = JSON_DIR.path(relative_path)
         json_path = os.path.join(JSON_DIR, relative_path)
-        with open(os.path.join(json_path, "data_activitybs.json"), "r") as f:
+        with open(os.path.join(json_path, "data_activitybs_CF.json"), "r") as f:
             data_activitybs = json.load(f)
 
         with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
@@ -5232,19 +5244,19 @@ def cashflow(school,year):
 
 
         chars_to_remove = r'[(),]'
-        for i, acct_per in enumerate(acct_per_values, start=1):
-            key = f"total_bal{i}"
-            for entry in data_activitybs:
-                sign = 1
-                if '(' in entry[key]:
-                    sign = -1
-                try:
-                    entry[key] = float(re.sub(chars_to_remove, '', entry[key])) * sign
-                except (TypeError, ValueError):
-                    if entry[key] == '':
-                        entry[key] = 0
-                    else:
-                        print(entry[key])
+        # for i, acct_per in enumerate(acct_per_values, start=1):
+        #     key = f"total_bal{i}"
+        #     for entry in data_activitybs:
+        #         sign = 1
+        #         if '(' in entry[key]:
+        #             sign = -1
+        #         try:
+        #             entry[key] = float(re.sub(chars_to_remove, '', entry[key])) * sign
+        #         except (TypeError, ValueError):
+        #             if entry[key] == '':
+        #                 entry[key] = 0
+        #             else:
+        #                 print(entry[key])
 
 
         total_activity = {acct_per: 0 for acct_per in acct_per_values}

@@ -6182,8 +6182,8 @@ def generate_excel(request,school,anchor_year):
 
 
 
-    school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
-
+    # school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
+    school_fye = settings.school_fye
     
     start_bs = 1
     bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY{months["FY_year_1"]}-{months["FY_year_2"]} Balance Sheet as of {months["last_month"]}'
@@ -6252,7 +6252,7 @@ def generate_excel(request,school,anchor_year):
                 
             bs_sheet[f'D{start_row_bs}'].style = indent_style
             bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-            if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+            if school in schoolCategory["skyward"] or school in school_fye:
                 bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
 
             if school in schoolMonths["septemberSchool"]:
@@ -6311,7 +6311,7 @@ def generate_excel(request,school,anchor_year):
 
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6367,7 +6367,7 @@ def generate_excel(request,school,anchor_year):
                    
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -6417,7 +6417,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle 
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6466,7 +6466,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = stringStyle 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
 
                 if school in schoolMonths["septemberSchool"]:
@@ -6518,7 +6518,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6567,7 +6567,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = stringStyle 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
 
@@ -6620,7 +6620,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6668,7 +6668,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -6719,7 +6719,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6820,7 +6820,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -6919,7 +6919,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -6969,7 +6969,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7017,7 +7017,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7067,7 +7067,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7116,7 +7116,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7166,7 +7166,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7310,7 +7310,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7361,7 +7361,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7410,7 +7410,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7460,7 +7460,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7507,7 +7507,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7558,7 +7558,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7606,7 +7606,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7656,7 +7656,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7704,7 +7704,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye :
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7755,7 +7755,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye :
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
@@ -7855,7 +7855,7 @@ def generate_excel(request,school,anchor_year):
                     cell.style = normal_cell 
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                if school in schoolCategory["skyward"] or school in school_fye:
                     bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
                 if school in schoolMonths["septemberSchool"]:
                     bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
@@ -7905,7 +7905,7 @@ def generate_excel(request,school,anchor_year):
                             cell.style = stringStyle
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
                         bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye or school == 'goldenrule':
+                        if school in schoolCategory["skyward"] or school in school_fye:
                             bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                         else:
                             bs_sheet[f'F{start_row_bs}'] = row['FYE']
