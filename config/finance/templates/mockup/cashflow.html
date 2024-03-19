@@ -378,9 +378,44 @@
           <!-- End cashflow from operating activities  -->
 
 
-
+          
           <!-- Change in net assets  -->
           <tr class="dom">
+            <td>Change in Net Assets</td>
+
+            {% if September == "True" %}
+            <td>{{ totals.total_SBD.09 }}</td>
+            <td>{{ totals.total_SBD.10 }}</td>
+            <td>{{ totals.total_SBD.11 }}</td>
+            <td>{{ totals.total_SBD.12 }}</td>
+            <td>{{ totals.total_SBD.01 }}</td>
+            <td>{{ totals.total_SBD.02 }}</td>
+            <td>{{ totals.total_SBD.03 }}</td>
+            <td>{{ totals.total_SBD.04 }}</td>
+            <td>{{ totals.total_SBD.05 }}</td>
+            <td>{{ totals.total_SBD.06 }}</td>
+            <td>{{ totals.total_SBD.07 }}</td>
+            <td>{{ totals.total_SBD.08 }}</td>
+
+            {% else %}
+            <td>{{ totals.total_SBD.07 }}</td>
+            <td>{{ totals.total_SBD.08 }}</td>
+            <td>{{ totals.total_SBD.09 }}</td>
+            <td>{{ totals.total_SBD.10 }}</td>
+            <td>{{ totals.total_SBD.11 }}</td>
+            <td>{{ totals.total_SBD.12 }}</td>
+            <td>{{ totals.total_SBD.01 }}</td>
+            <td>{{ totals.total_SBD.02 }}</td>
+            <td>{{ totals.total_SBD.03 }}</td>
+            <td>{{ totals.total_SBD.04 }}</td>
+            <td>{{ totals.total_SBD.05 }}</td>
+            <td>{{ totals.total_SBD.06 }}</td>
+            {% endif %}
+            <td>
+              {{totals.ytd_SBD}}
+            </td>
+          </tr>
+          {% comment %} <tr class="dom">
             <td>Change in Net Assets</td>
 
             {% if September == "True" %}
@@ -418,7 +453,7 @@
               {{ totals.ytd_netsurplus }}
               {% endif %}
             </td>
-          </tr>
+          </tr> {% endcomment %}
           <!-- End of  Change in net assets  -->
 
 
@@ -511,7 +546,7 @@
           {% for row in data_cashflow %}
           {% if row.Category == 'Operating' %}
           <tr class="dom">
-            <td>{{ row.Description }} </td>
+            <td>{{ row.Description }} {{row.Activity}}</td>
 
             {% if September == "True" %}
             <td>{{row.total_operating9}}</td>
@@ -666,7 +701,7 @@
           {% for row in data_cashflow %}
           {% if row.Category == 'Investing' %}
           <tr class="dom">
-            <td>{{ row.Description }}</td>
+            <td>{{ row.Description }} {{row.Activity}}</td>
 
             {% if September == "True" %}
             <td>{{row.total_investing9}}</td>
