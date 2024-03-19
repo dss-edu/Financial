@@ -77,6 +77,24 @@
             </a>
         </li>
 
-   
+        <li class="nav-item" >
+            <a
+                id=""
+                class="nav-link"
+                href="/users/"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="School Status"
+                style="color: gray;"
+             
+            >
+            {% with 'users' as school %}
+            <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}" alt="school logo" style="height:35px; width:35px;">
+        {% endwith %}
+                {% comment %} <i class="fa-solid fa-trophy"></i> {% endcomment %}
+                <!-- <span id="first-link2" style="color: gray;" >Analytics</span> -->
+                <span style="color: gray;" >Users</span>
+            </a>
+        </li>
     </ul>
 </nav>

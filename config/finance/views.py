@@ -156,7 +156,38 @@ def change_password(request,school):
 
     return redirect(f'/dashboard/{school}')
 
+def users(request):
+    context = {}
 
+
+
+    roles = []
+    for category_roles in schoolCategory.values():
+        roles.extend(category_roles)
+    context["roles"] = roles
+    return render(request, "temps/users.html",context)
+
+def add_user(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+
+        hashed_password = make_password(password)
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        try:
+            cursor.execute("INSERT INTO [dbo].[User] (Username, Password, Role) VALUES (?, ?, ?)", (username, hashed_password, role))
+            cnxn.commit()
+      
+            messages.success(request, 'User has been successfully created.')
+            return redirect(users)
+        except Exception as e:
+            messages.error(request, 'Error creating user.')  
+
+    return redirect(users)
     
 # def update_row(request,school,year):
 #     if request.method == 'POST':
