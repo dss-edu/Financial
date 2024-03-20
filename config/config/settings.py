@@ -29,7 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = [        
     "data.dssedu.com",
     "financialreport.dssedu.com",
-    "localhost"
+    "localhost",
+    "ec2-13-230-82-195.ap-northeast-1.compute.amazonaws.com"
 ]
 
 # Application definition
