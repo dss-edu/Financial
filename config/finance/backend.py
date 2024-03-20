@@ -4667,6 +4667,7 @@ def balance_sheet(school,year):
         }
 
         data_activitybs_CF = copy.deepcopy(data_activitybs)
+        data_balancesheet_CF = copy.deepcopy(data_balancesheet)
 
         last_month_number_str = f"{last_month_number:02}"  
         last_month_total_assets  = total_assets[last_month_number_str]
@@ -4964,6 +4965,7 @@ def balance_sheet(school,year):
 
         context = {
             "data_balancesheet": data_balancesheet,
+            "data_balancesheet_CF":data_balancesheet_CF,
             "data_activitybs_CF":data_activitybs_CF,
             "data_activitybs": data_activitybs,
             # "data3": data3,
@@ -5207,7 +5209,7 @@ def cashflow(school,year):
         with open(os.path.join(json_path, "data_activitybs_CF.json"), "r") as f:
             data_activitybs = json.load(f)
 
-        with open(os.path.join(json_path, "data_balancesheet.json"), "r") as f:
+        with open(os.path.join(json_path, "data_balancesheet_CF.json"), "r") as f:
             data_balancesheet = json.load(f)
 
 
@@ -5257,7 +5259,16 @@ def cashflow(school,year):
         #                 entry[key] = 0
         #             else:
         #                 print(entry[key])
+        if school in schoolCategory["skyward"] or school in school_fye:
 
+            fye_key = "total_fye"
+        else:
+            fye_key = "FYE"
+
+        # for entry in data_balancesheet:
+        #     sign = 1
+        #     print(entry[fye_key])
+        #     entry[fye_key] = (entry[fye_key])
 
         total_activity = {acct_per: 0 for acct_per in acct_per_values}
 
@@ -5320,19 +5331,19 @@ def cashflow(school,year):
                 )
 
                 
-                if category == 'Operating':
-                    total_activity[acct_per] += item[f"total_operating{i}"]
-                    total_operating[acct_per] += item[f"total_operating{i}"]
+                # if category == 'Operating':
+                #     total_activity[acct_per] += item[f"total_operating{i}"]
+                #     total_operating[acct_per] += item[f"total_operating{i}"]
 
                
                 
-                if i != month_exception:
-                    item["fytd_1"] += item[f"total_operating{i}"]
+            #     if i != month_exception:
+            #         item["fytd_1"] += item[f"total_operating{i}"]
                 
 
-            if category == 'Operating':
-                if school in schoolCategory["skyward"]:
-                    item["fytd_1"] = item[f"total_operating{cb_ytd}"] - item[f"total_operating{lm_ytd}"] 
+            # if category == 'Operating':
+            #     if school in schoolCategory["skyward"]:
+            #         item["fytd_1"] = item[f"total_operating{cb_ytd}"] - item[f"total_operating{lm_ytd}"] 
         
    
 
@@ -5366,10 +5377,88 @@ def cashflow(school,year):
                     item["fytd_2"] =  item[f"total_investing{lm_ytd}"] - item[f"total_investing{cb_ytd}"] 
 
 
-            
+        positive_activity = ['DFS+F']
         
+        for item in data_cashflow:
+            activity = item["Activity"]
+            category = item["Category"]
+            fye_values = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
+            fye_sum = sum(fye_values)
+
+            print("FYE",fye_sum)
+            
+            if category == 'Operating':
+                if activity in positive_activity:
+                    if school in schoolMonths["septemberSchool"]:
+                        item[f"total_operating_months_09"] = abs(fye_sum) - item["total_operating9"]
+                        item[f"total_operating_months_10"] = abs(item[f"total_operating_months_09"]) - item["total_operating10"]
+                        item[f"total_operating_months_11"] = abs(item[f"total_operating_months_10"]) - item["total_operating11"]
+                        item[f"total_operating_months_12"] = abs(item[f"total_operating_months_11"]) - item["total_operating12"]
+                        item[f"total_operating_months_01"] = abs(item[f"total_operating_months_12"]) - item["total_operating1"]
+                        item[f"total_operating_months_02"] = abs(item[f"total_operating_months_01"]) - item["total_operating2"]
+                        item[f"total_operating_months_03"] = abs(item[f"total_operating_months_02"]) - item["total_operating3"]
+                        item[f"total_operating_months_04"] = abs(item[f"total_operating_months_03"]) - item["total_operating4"]
+                        item[f"total_operating_months_05"] = abs(item[f"total_operating_months_04"]) - item["total_operating5"]
+                        item[f"total_operating_months_06"] = abs(item[f"total_operating_months_05"]) - item["total_operating6"]
+                        item[f"total_operating_months_07"] = abs(item[f"total_operating_months_06"]) - item["total_operating7"]
+                        item[f"total_operating_months_08"] = abs(item[f"total_operating_months_07"]) - item["total_operating8"]
+                    else:
+                        item[f"total_operating_months_07"] = abs(fye_sum) - item["total_operating7"]
+                        item[f"total_operating_months_08"] = abs(item[f"total_operating_months_07"]) - item["total_operating8"]
+                        item[f"total_operating_months_09"] = abs(item[f"total_operating_months_08"]) - item["total_operating9"]
+                        item[f"total_operating_months_10"] = abs(item[f"total_operating_months_09"]) - item["total_operating10"]
+                        item[f"total_operating_months_11"] = abs(item[f"total_operating_months_10"]) - item["total_operating11"]
+                        item[f"total_operating_months_12"] = abs(item[f"total_operating_months_11"]) - item["total_operating12"]
+                        item[f"total_operating_months_01"] = abs(item[f"total_operating_months_12"]) - item["total_operating1"]
+                        item[f"total_operating_months_02"] = abs(item[f"total_operating_months_01"]) - item["total_operating2"]
+                        item[f"total_operating_months_03"] = abs(item[f"total_operating_months_02"]) - item["total_operating3"]
+                        item[f"total_operating_months_04"] = abs(item[f"total_operating_months_03"]) - item["total_operating4"]
+                        item[f"total_operating_months_05"] = abs(item[f"total_operating_months_04"]) - item["total_operating5"]
+                        item[f"total_operating_months_06"] = abs(item[f"total_operating_months_05"]) - item["total_operating6"]
+
+                else:
+                    if school in schoolMonths["septemberSchool"]:
+                        item[f"total_operating_months_09"] = abs(item["total_operating9"])  -  fye_sum 
+                        item[f"total_operating_months_10"] = abs(item["total_operating10"]) - item[f"total_operating_months_09"] 
+                        item[f"total_operating_months_11"] = abs(item["total_operating11"]) - item[f"total_operating_months_10"] 
+                        item[f"total_operating_months_12"] = abs(item["total_operating12"]) - item[f"total_operating_months_11"] 
+                        item[f"total_operating_months_01"] = abs(item["total_operating1"] ) - item[f"total_operating_months_12"] 
+                        item[f"total_operating_months_02"] = abs(item["total_operating2"] ) - item[f"total_operating_months_01"] 
+                        item[f"total_operating_months_03"] = abs(item["total_operating3"] ) - item[f"total_operating_months_02"] 
+                        item[f"total_operating_months_04"] = abs(item["total_operating4"] ) - item[f"total_operating_months_03"] 
+                        item[f"total_operating_months_05"] = abs(item["total_operating5"] ) - item[f"total_operating_months_04"] 
+                        item[f"total_operating_months_06"] = abs(item["total_operating6"] ) - item[f"total_operating_months_05"] 
+                        item[f"total_operating_months_07"] = abs(item["total_operating7"] ) - item[f"total_operating_months_06"] 
+                        item[f"total_operating_months_08"] = abs(item["total_operating8"] ) - item[f"total_operating_months_07"] 
+
+                    else:
+                        item[f"total_operating_months_07"] = abs(item["total_operating7"])   - fye_sum 
+                        item[f"total_operating_months_08"] = abs(item["total_operating8"])   - item[f"total_operating_months_07"] 
+                        item[f"total_operating_months_09"] = abs(item["total_operating9"])   - item[f"total_operating_months_08"] 
+                        item[f"total_operating_months_10"] = abs(item["total_operating10"])  - item[f"total_operating_months_09"] 
+                        item[f"total_operating_months_11"] = abs(item["total_operating11"] ) - item[f"total_operating_months_10"] 
+                        item[f"total_operating_months_12"] = abs(item["total_operating12"] ) - item[f"total_operating_months_11"] 
+                        item[f"total_operating_months_01"] = abs(item["total_operating1"] )  - item[f"total_operating_months_12"] 
+                        item[f"total_operating_months_02"] = abs(item["total_operating2"] )  - item[f"total_operating_months_01"] 
+                        item[f"total_operating_months_03"] = abs(item["total_operating3"] )  - item[f"total_operating_months_02"] 
+                        item[f"total_operating_months_04"] = abs(item["total_operating4"] )  - item[f"total_operating_months_03"] 
+                        item[f"total_operating_months_05"] = abs(item["total_operating5"] )  - item[f"total_operating_months_04"] 
+                        item[f"total_operating_months_06"] = abs(item["total_operating6"] )  - item[f"total_operating_months_05"] 
 
 
+        
+        for item in data_cashflow:
+            activity = item["Activity"]
+            category = item["Category"]
+            item["fytd_1"] = 0
+            if category == 'Operating':            
+                for acct_per in acct_per_values: 
+                    total_activity[acct_per] += item[f"total_operating_months_{acct_per}"]
+                    total_operating[acct_per] += item[f"total_operating_months_{acct_per}"]
+                    if acct_per != lm_ytd_padded:
+                        item["fytd_1"] += item[f"total_operating_months_{acct_per}"]
+                        print("fytd1",item["fytd_1"])
+                
 
         # PART OF TOTAL OPERATING
 
@@ -5412,45 +5501,45 @@ def cashflow(school,year):
   
                
                 if school in schoolCategory["skyward"] or school in school_fye:
-                    cbp_fye += stringParser(row["total_fye"])
+                    cbp_fye += (row["total_fye"])
                 else:
-                    cbp_fye += stringParser(row["FYE"])
+                    cbp_fye += (row["FYE"])
                 for i, acct_per in enumerate(acct_per_values, start=1):
-                    cbp[acct_per] += stringParser(row[f"difference_{i}"])
-                cpb_last += stringParser(row[f"difference_{last_month_number}"]) 
+                    cbp[acct_per] += (row[f"difference_{i}"])
+                cpb_last += (row[f"difference_{last_month_number}"]) 
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Restr":
                 if school in schoolCategory["skyward"] or school in school_fye:
-                    cbp_fye += stringParser(row["total_fye"])
+                    cbp_fye += (row["total_fye"])
                 else:
-                    cbp_fye += stringParser(row["FYE"])
+                    cbp_fye += (row["FYE"])
                 for i, acct_per in enumerate(acct_per_values, start=1):
-                    cbp[acct_per] += stringParser(row[f"difference_{i}"])
-                cpb_last += stringParser(row[f"difference_{last_month_number}"]) 
+                    cbp[acct_per] += (row[f"difference_{i}"])
+                cpb_last += (row[f"difference_{last_month_number}"]) 
 
 
         for row in data_balancesheet:
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
                 if school == 'goldenrule':
-                    begbal = stringParser(row["FYE"])
+                    begbal = (row["FYE"])
                 else:
-                    begbal = stringParser(row["FYE"])
+                    begbal = (row["FYE"])
                     
                 if school in schoolCategory["skyward"] or school in school_fye:
-                    begbal = stringParser(row["total_fye"])
+                    begbal = (row["total_fye"])
                 
          
-                cfchecker["09"] = begbal- stringParser(row["difference_9"]) + total_activity["09"]
-                cfchecker["10"] = stringParser(row["difference_9"]) -  stringParser(row["difference_10"]) + total_activity["10"]
-                cfchecker["11"] = stringParser(row["difference_10"]) - stringParser(row["difference_11"]) + total_activity["11"]
-                cfchecker["12"] = stringParser(row["difference_11"]) - stringParser(row["difference_12"]) + total_activity["12"]
-                cfchecker["01"] = stringParser(row["difference_12"]) - stringParser(row["difference_1"]) + total_activity["01"]
-                cfchecker["02"] = stringParser(row["difference_1"]) -  stringParser(row["difference_2"]) + total_activity["02"]
-                cfchecker["03"] = stringParser(row["difference_2"]) -  stringParser(row["difference_3"]) + total_activity["03"]
-                cfchecker["04"] = stringParser(row["difference_3"]) -  stringParser(row["difference_4"]) + total_activity["04"]
-                cfchecker["05"] = stringParser(row["difference_4"]) -  stringParser(row["difference_5"]) + total_activity["05"]
-                cfchecker["06"] = stringParser(row["difference_5"]) -  stringParser(row["difference_6"]) + total_activity["06"]
-                cfchecker["07"] = stringParser(row["difference_6"]) -  stringParser(row["difference_7"]) + total_activity["07"]
-                cfchecker["08"] = stringParser(row["difference_7"]) -  stringParser(row["difference_8"]) + total_activity["08"]
+                cfchecker["09"] = begbal- (row["difference_9"]) + total_activity["09"]
+                cfchecker["10"] = (row["difference_9"]) -  (row["difference_10"]) + total_activity["10"]
+                cfchecker["11"] = (row["difference_10"]) - (row["difference_11"]) + total_activity["11"]
+                cfchecker["12"] = (row["difference_11"]) - (row["difference_12"]) + total_activity["12"]
+                cfchecker["01"] = (row["difference_12"]) - (row["difference_1"]) + total_activity["01"]
+                cfchecker["02"] = (row["difference_1"]) -  (row["difference_2"]) + total_activity["02"]
+                cfchecker["03"] = (row["difference_2"]) -  (row["difference_3"]) + total_activity["03"]
+                cfchecker["04"] = (row["difference_3"]) -  (row["difference_4"]) + total_activity["04"]
+                cfchecker["05"] = (row["difference_4"]) -  (row["difference_5"]) + total_activity["05"]
+                cfchecker["06"] = (row["difference_5"]) -  (row["difference_6"]) + total_activity["06"]
+                cfchecker["07"] = (row["difference_6"]) -  (row["difference_7"]) + total_activity["07"]
+                cfchecker["08"] = (row["difference_7"]) -  (row["difference_8"]) + total_activity["08"]
 
         
 
@@ -5500,18 +5589,18 @@ def cashflow(school,year):
             data_key = "Amount"
 
         keys_to_check_cashflow = [
-            "total_operating1",
-            "total_operating2",
-            "total_operating3",
-            "total_operating4",
-            "total_operating5",
-            "total_operating6",
-            "total_operating7",
-            "total_operating8",
-            "total_operating9",
-            "total_operating10",
-            "total_operating11",
-            "total_operating12",
+            "total_operating_months_01",
+            "total_operating_months_02",
+            "total_operating_months_03",
+            "total_operating_months_04",
+            "total_operating_months_05",
+            "total_operating_months_06",
+            "total_operating_months_07",
+            "total_operating_months_08",
+            "total_operating_months_09",
+            "total_operating_months_10",
+            "total_operating_months_11",
+            "total_operating_months_12",
             
         ]
         keys_to_check_cashflow2 = [
@@ -5530,14 +5619,15 @@ def cashflow(school,year):
             
         ]
         for row in data_cashflow:
-            for key in keys_to_check_cashflow:
-                value = float(row[key])
-                if value == 0:
-                    row[key] = ""
-                elif value > 0:
-                    row[key] = "({:,.0f})".format(abs(float(row[key])))
-                else:
-                    row[key] = "{:,.0f}".format(abs(float(row[key])))
+            if row["Category"] == 'Operating':
+                for key in keys_to_check_cashflow:
+                    value = float(row[key])
+                    if value == 0:
+                        row[key] = ""
+                    elif value > 0:
+                        row[key] = "({:,.0f})".format(abs(float(row[key])))
+                    else:
+                        row[key] = "{:,.0f}".format(abs(float(row[key])))
             
         for row in data_cashflow:
             for key in keys_to_check_cashflow2:
