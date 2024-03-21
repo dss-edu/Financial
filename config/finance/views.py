@@ -5246,926 +5246,7 @@ def generate_excel(request,school,anchor_year):
         start_row += 4 #Total expense and Net income
 
 
-    # # FOR PROFIT_LOSS OF MANARA AND PREPSCHOOL   
-    # else:
-    #     for col in range(7, 20 ):
-    #         col_letter = get_column_letter(col)
-    #         pl_sheet.column_dimensions[col_letter].outline_level = 1
-    #         pl_sheet.column_dimensions[col_letter].hidden = True
-
-    #     last_number = months["last_month_number"]
-    #     # PL START OF DESIGN
-    #     if last_number <= 6:
-    #         last_number += 13
-    #     else:
-    #         last_number += 1
-
-     
-    #     for col in range(last_number,19):
-    #         col_letter = get_column_letter(col)     
-    #         pl_sheet.column_dimensions[col_letter].outline_level = 2
-    #         pl_sheet.column_dimensions[col_letter].hidden = True
-           
-    #     start_pl = 1
-    #     pl_sheet[f'B{start_pl}'] = f'{school_name}\nFY2022-2023 Statement of\nActivities as of {months["last_month"]}'
-    #     start_pl += 2
-    #     pl_sheet[f'E{start_pl}'] = f'{months["format_ytd_budget"]}% YTD \nBUDGET'
-    #     pl_sheet[f'G{start_pl}'] = 'July'
-    #     pl_sheet[f'H{start_pl}'] = 'August'
-    #     pl_sheet[f'I{start_pl}'] = 'September'
-    #     pl_sheet[f'J{start_pl}'] = 'October'
-    #     pl_sheet[f'K{start_pl}'] = 'November'
-    #     pl_sheet[f'L{start_pl}'] = 'December'
-    #     pl_sheet[f'M{start_pl}'] = 'January'
-    #     pl_sheet[f'N{start_pl}'] = 'February'
-    #     pl_sheet[f'O{start_pl}'] = 'March'
-    #     pl_sheet[f'P{start_pl}'] = 'April'
-    #     pl_sheet[f'Q{start_pl}'] = 'May'
-    #     pl_sheet[f'R{start_pl}'] = 'June'
-    #     pl_sheet[f'V{start_pl}'] = f'Var. {months["format_ytd_budget"]}'
-    #     start_row = 5
-    #     lr_row_start = start_row
-    #     lr_row_end = None
-    #     for row_data in data:
-    #         if row_data['category'] == 'Local Revenue':
-    #             all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell 
-    #                 pl_sheet[f'A{start_row}'] = row_data['fund']
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-
-    #                 pl_sheet[f'G{start_row}'] = -(row_data['total_real7'])
-    #                 pl_sheet[f'H{start_row}'] = -(row_data['total_real8'])
-    #                 pl_sheet[f'I{start_row}'] = -(row_data['total_real9'])
-    #                 pl_sheet[f'J{start_row}'] = -(row_data['total_real10'])
-    #                 pl_sheet[f'K{start_row}'] = -(row_data['total_real11'])
-    #                 pl_sheet[f'L{start_row}'] = -(row_data['total_real12'])
-    #                 pl_sheet[f'M{start_row}'] = -(row_data['total_real1'])
-    #                 pl_sheet[f'N{start_row}'] = -(row_data['total_real2'])
-    #                 pl_sheet[f'O{start_row}'] = -(row_data['total_real3'])
-    #                 pl_sheet[f'P{start_row}'] = -(row_data['total_real4'])
-    #                 pl_sheet[f'Q{start_row}'] = -(row_data['total_real5'])
-    #                 pl_sheet[f'R{start_row}'] = -(row_data['total_real6'])
-    #                 pl_sheet[f'T{start_row}'] = -(row_data['ytd_total'])
-    #                 lr_row_end = start_row
-
-
-
-    #                 start_row += 1
-       
-    #     if lr_row_end is not None:
-    #         for col in range(4, 22):
-    #             try:  # Columns G to U
-    #                 cell = pl_sheet.cell(row=lr_row_end, column=col)
-
-    #                 cell.style = normal_cell_bottom_border
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {col}: {e}")           
-        
-    #         for row in range(lr_row_start, lr_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")           
-    #     lr_end = start_row
-    #     #local revenue total
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns G to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-            
-    #         cell.style = currency_style_noborder
-    #     pl_sheet[f'B{start_row}'] = 'Local Revenue'
-    #     pl_sheet[f'D{start_row}'] =  totals["total_ammended_lr"]
-    #     pl_sheet[f'E{start_row}'] =  totals["ytd_ammended_total_lr"]
-    #     pl_sheet[f'G{start_row}'] =  -(totals["total_lr"]["07"])
-    #     pl_sheet[f'H{start_row}'] =  -(totals["total_lr"]["08"])
-    #     pl_sheet[f'I{start_row}'] =  -(totals["total_lr"]["09"])
-    #     pl_sheet[f'J{start_row}'] =  -(totals["total_lr"]["10"])
-    #     pl_sheet[f'K{start_row}'] =  -(totals["total_lr"]["11"])
-    #     pl_sheet[f'L{start_row}'] =  -(totals["total_lr"]["12"])
-    #     pl_sheet[f'M{start_row}'] =  -(totals["total_lr"]["01"])
-    #     pl_sheet[f'N{start_row}'] =  -(totals["total_lr"]["02"])
-    #     pl_sheet[f'O{start_row}'] =  -(totals["total_lr"]["03"])
-    #     pl_sheet[f'P{start_row}'] =  -(totals["total_lr"]["04"])
-    #     pl_sheet[f'Q{start_row}'] =  -(totals["total_lr"]["05"])
-    #     pl_sheet[f'R{start_row}'] =  -(totals["total_lr"]["06"])
-    #     pl_sheet[f'T{start_row}'] =  -(totals["ytd_total_lr"])
-    #     pl_sheet[f'U{start_row}'] =  totals["variances_revenue_lr"]
-    #     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'
-        
-        
-    #     start_row += 1  
-    
-        
-    
-    #     spr_row_start = start_row
-    #     spr_row_end = None
-    #     for row_data in data:
-    #         if row_data['category'] == 'State Program Revenue':
-    #             all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell
-
-    #                 pl_sheet[f'A{start_row}'] = row_data['fund']
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-
-    #                 pl_sheet[f'G{start_row}'] = -(row_data['total_real7'])
-    #                 pl_sheet[f'H{start_row}'] = -(row_data['total_real8'])
-    #                 pl_sheet[f'I{start_row}'] = -(row_data['total_real9'])
-    #                 pl_sheet[f'J{start_row}'] = -(row_data['total_real10'])
-    #                 pl_sheet[f'K{start_row}'] = -(row_data['total_real11'])
-    #                 pl_sheet[f'L{start_row}'] = -(row_data['total_real12'])
-    #                 pl_sheet[f'M{start_row}'] = -(row_data['total_real1'])
-    #                 pl_sheet[f'N{start_row}'] = -(row_data['total_real2'])
-    #                 pl_sheet[f'O{start_row}'] = -(row_data['total_real3'])
-    #                 pl_sheet[f'P{start_row}'] = -(row_data['total_real4'])
-    #                 pl_sheet[f'Q{start_row}'] = -(row_data['total_real5'])
-    #                 pl_sheet[f'R{start_row}'] = -(row_data['total_real6'])
-    #                 pl_sheet[f'T{start_row}'] = -(row_data['ytd_total'])
-
-    #                 pl_sheet[f'U{start_row}']= (row_data['variances'])
-    #                 spr_row_end = start_row
-
-
-
-    #                 start_row += 1
-    
-    #     if spr_row_end is not None:
-    #         for col in range(4, 22):  # Columns G to U
-    #             cell = pl_sheet.cell(row=spr_row_end, column=col)
-
-    #             cell.style = normal_cell_bottom_border
-
-    #         for row in range(spr_row_start, spr_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")    
-                
-               
-    #     spr_end = start_row
-    #     # STATE PROGRAM TOTAL      
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns G to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)        
-    #         cell.style = currency_style_noborder
-    #     pl_sheet[f'B{start_row}'] = 'State Program Revenue'
-    #     pl_sheet[f'D{start_row}'] =  totals["total_ammended_spr"]    
-    #     pl_sheet[f'E{start_row}'] =  totals["ytd_ammended_total_spr"]
-    #     pl_sheet[f'G{start_row}'] =  -(totals["total_spr"]["07"])
-    #     pl_sheet[f'H{start_row}'] =  -(totals["total_spr"]["08"])
-    #     pl_sheet[f'I{start_row}'] =  -(totals["total_spr"]["09"])
-    #     pl_sheet[f'J{start_row}'] =  -(totals["total_spr"]["10"])
-    #     pl_sheet[f'K{start_row}'] =  -(totals["total_spr"]["11"])
-    #     pl_sheet[f'L{start_row}'] =  -(totals["total_spr"]["12"])
-    #     pl_sheet[f'M{start_row}'] =  -(totals["total_spr"]["01"])
-    #     pl_sheet[f'N{start_row}'] =  -(totals["total_spr"]["02"])
-    #     pl_sheet[f'O{start_row}'] =  -(totals["total_spr"]["03"])
-    #     pl_sheet[f'P{start_row}'] =  -(totals["total_spr"]["04"])
-    #     pl_sheet[f'Q{start_row}'] =  -(totals["total_spr"]["05"])
-    #     pl_sheet[f'R{start_row}'] =  -(totals["total_spr"]["06"])
-    #     pl_sheet[f'T{start_row}'] =  -(totals["ytd_total_spr"])
-    #     pl_sheet[f'U{start_row}'] =  totals["variances_revenue_spr"]
-    #     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'
-    
-    
-    #     start_row += 1
-        
-        
-    #     fpr_row_start = start_row
-    #     fpr_row_end = None
-    #     for row_data in data:
-    #         if row_data['category'] == 'Federal Program Revenue':
-    #             all_zeros = all(row_data[f'total_real{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell 
-
-    #                 pl_sheet[f'A{start_row}'] = row_data['fund']
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget']             
-    #                 pl_sheet[f'G{start_row}'] = -(row_data['total_real7'])
-    #                 pl_sheet[f'H{start_row}'] = -(row_data['total_real8'])
-    #                 pl_sheet[f'I{start_row}'] = -(row_data['total_real9'])
-    #                 pl_sheet[f'J{start_row}'] = -(row_data['total_real10'])
-    #                 pl_sheet[f'K{start_row}'] = -(row_data['total_real11'])
-    #                 pl_sheet[f'L{start_row}'] = -(row_data['total_real12'])
-    #                 pl_sheet[f'M{start_row}'] = -(row_data['total_real1'])
-    #                 pl_sheet[f'N{start_row}'] = -(row_data['total_real2'])
-    #                 pl_sheet[f'O{start_row}'] = -(row_data['total_real3'])
-    #                 pl_sheet[f'P{start_row}'] = -(row_data['total_real4'])
-    #                 pl_sheet[f'Q{start_row}'] = -(row_data['total_real5'])
-    #                 pl_sheet[f'R{start_row}'] = -(row_data['total_real6'])
-    #                 pl_sheet[f'T{start_row}'] = -(row_data['ytd_total'])             
-    #                 pl_sheet[f'U{start_row}'].value = (row_data['variances'])
-
-    #                 fpr_row_end = start_row
-
-
-    #                 start_row += 1
-                
-    #     fpr_end = start_row
-        
-    #     if fpr_row_end is not None:
-    #         for col in range(4, 22):  # Columns G to U
-    #             cell = pl_sheet.cell(row=fpr_row_end, column=col)
-
-    #             cell.style = normal_cell_bottom_border
-
-    #         for row in range(fpr_row_start, fpr_end):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-                
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}") 
-    #         # FEDERAL PROGRAM REVENUE TOTAL
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns G to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)        
-    #         cell.style = currency_style_noborder
-    #     pl_sheet[f'B{start_row}'] = 'Federal Program Revenue'
-    #     pl_sheet[f'D{start_row}'] = totals["total_ammended_fpr"]    
-    #     pl_sheet[f'E{start_row}'] =  totals["ytd_ammended_total_fpr"]
-    #     pl_sheet[f'G{start_row}'] =  -(totals["total_fpr"]["07"])
-    #     pl_sheet[f'H{start_row}'] =  -(totals["total_fpr"]["08"])
-    #     pl_sheet[f'I{start_row}'] =  -(totals["total_fpr"]["09"])
-    #     pl_sheet[f'J{start_row}'] =  -(totals["total_fpr"]["10"])
-    #     pl_sheet[f'K{start_row}'] =  -(totals["total_fpr"]["11"])
-    #     pl_sheet[f'L{start_row}'] =  -(totals["total_fpr"]["12"])
-    #     pl_sheet[f'M{start_row}'] =  -(totals["total_fpr"]["01"])
-    #     pl_sheet[f'N{start_row}'] =  -(totals["total_fpr"]["02"])
-    #     pl_sheet[f'O{start_row}'] =  -(totals["total_fpr"]["03"])
-    #     pl_sheet[f'P{start_row}'] =  -(totals["total_fpr"]["04"])
-    #     pl_sheet[f'Q{start_row}'] =  -(totals["total_fpr"]["05"])
-    #     pl_sheet[f'R{start_row}'] =  -(totals["total_fpr"]["06"])
-    #     pl_sheet[f'T{start_row}'] =  -(totals["ytd_total_fpr"])
-    #     pl_sheet[f'U{start_row}'] =  totals["variances_revenue_fpr"]
-    #     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'   
-    #     start_row += 1
-    
-    #     total_revenue_row = start_row
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    
-        
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Total Revenue'
-    #     pl_sheet[f'D{start_row}'] = totals["total_ammended"]    
-    #     pl_sheet[f'E{start_row}'] =  totals["ytd_ammended_total"]
-    #     pl_sheet[f'G{start_row}'] =  -(totals["total_revenue"]["07"])
-    #     pl_sheet[f'H{start_row}'] =  -(totals["total_revenue"]["08"])
-    #     pl_sheet[f'I{start_row}'] =  -(totals["total_revenue"]["09"])
-    #     pl_sheet[f'J{start_row}'] =  -(totals["total_revenue"]["10"])
-    #     pl_sheet[f'K{start_row}'] =  -(totals["total_revenue"]["11"])
-    #     pl_sheet[f'L{start_row}'] =  -(totals["total_revenue"]["12"])
-    #     pl_sheet[f'M{start_row}'] =  -(totals["total_revenue"]["01"])
-    #     pl_sheet[f'N{start_row}'] =  -(totals["total_revenue"]["02"])
-    #     pl_sheet[f'O{start_row}'] =  -(totals["total_revenue"]["03"])
-    #     pl_sheet[f'P{start_row}'] =  -(totals["total_revenue"]["04"])
-    #     pl_sheet[f'Q{start_row}'] =  -(totals["total_revenue"]["05"])
-    #     pl_sheet[f'R{start_row}'] =  -(totals["total_revenue"]["06"])
-    #     pl_sheet[f'T{start_row}'] =  -(totals["ytd_total_revenue"])
-    #     pl_sheet[f'U{start_row}'] =  totals["variances_revenue"]
-    #     pl_sheet[f'V{start_row}'].value = f'=+T{start_row}/D{start_row}'     
-    
-    #     start_row += 1   
-    #     first_total_start = start_row
-    #     first_total_end = None
-    
-    #     for row_data in data2: #1st TOTAL
-    #         if row_data["category"] != 'Depreciation and Amortization':
-    #             all_zeros = all(row_data[f'total_func{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-                    
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell 
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_func7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_func8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_func9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_func10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_func11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_func12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_func1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_func2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_func3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_func4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_func5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_func6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 pl_sheet[f'U{start_row}'] = row_data['variances']
-    #                 pl_sheet[f'v{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'
-    #                 first_total_end = start_row
-    #                 start_row += 1
-
-
-    #     if first_total_end is not None:
-    #         for row in range(first_total_start, first_total_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-
-
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")   
-    
-    #     first_total_row = start_row
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns D to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-            
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Total'
-    #     pl_sheet[f'D{start_row}'] = totals["first_total"] 
-    #     pl_sheet[f'E{start_row}'] = totals["ytd_ammended_total_first"] 
-    #     pl_sheet[f'G{start_row}'] = totals["first_total_months"]["07"] 
-    #     pl_sheet[f'H{start_row}'] = totals["first_total_months"]["08"] 
-    #     pl_sheet[f'I{start_row}'] = totals["first_total_months"]["09"] 
-    #     pl_sheet[f'J{start_row}'] = totals["first_total_months"]["10"] 
-    #     pl_sheet[f'K{start_row}'] = totals["first_total_months"]["11"] 
-    #     pl_sheet[f'L{start_row}'] = totals["first_total_months"]["12"] 
-    #     pl_sheet[f'M{start_row}'] = totals["first_total_months"]["01"] 
-    #     pl_sheet[f'N{start_row}'] = totals["first_total_months"]["02"] 
-    #     pl_sheet[f'O{start_row}'] = totals["first_total_months"]["03"] 
-    #     pl_sheet[f'P{start_row}'] = totals["first_total_months"]["04"] 
-    #     pl_sheet[f'Q{start_row}'] = totals["first_total_months"]["05"] 
-    #     pl_sheet[f'R{start_row}'] = totals["first_total_months"]["06"] 
-    #     pl_sheet[f'T{start_row}'] = totals["first_ytd_total"]
-    #     pl_sheet[f'U{start_row}'] = totals["variances_first_total"]
-    
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(+T{start_row}/E{start_row},"    ")'
-        
-    #     start_row += 2 #surplus (deficits) before depreciation
-    #     surplus_row = start_row
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns D to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-            
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Surplus (Deficits) before Depreciation'
-    #     pl_sheet[f'D{start_row}'] = totals["ammended_budget_SBD"] 
-    #     pl_sheet[f'E{start_row}'] = totals["ytd_ammended_SBD"] 
-    #     pl_sheet[f'G{start_row}'] = totals["total_SBD"]["07"] 
-    #     pl_sheet[f'H{start_row}'] = totals["total_SBD"]["08"] 
-    #     pl_sheet[f'I{start_row}'] = totals["total_SBD"]["09"] 
-    #     pl_sheet[f'J{start_row}'] = totals["total_SBD"]["10"] 
-    #     pl_sheet[f'K{start_row}'] = totals["total_SBD"]["11"] 
-    #     pl_sheet[f'L{start_row}'] = totals["total_SBD"]["12"] 
-    #     pl_sheet[f'M{start_row}'] = totals["total_SBD"]["01"] 
-    #     pl_sheet[f'N{start_row}'] = totals["total_SBD"]["02"] 
-    #     pl_sheet[f'O{start_row}'] = totals["total_SBD"]["03"] 
-    #     pl_sheet[f'P{start_row}'] = totals["total_SBD"]["04"] 
-    #     pl_sheet[f'Q{start_row}'] = totals["total_SBD"]["05"] 
-    #     pl_sheet[f'R{start_row}'] = totals["total_SBD"]["06"] 
-    #     pl_sheet[f'T{start_row}'] = totals["ytd_SBD"] 
-    #     pl_sheet[f'U{start_row}'] = totals["variances_SBD"] 
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-    
-    #     start_row += 2
-    
-    #     dna_row_start = start_row
-    #     dna_row_end = None
-    #     for row_data in data2: #Depreciation and amortization
-    #         if row_data["category"] == 'Depreciation and Amortization':
-    #             all_zeros = all(row_data[f'total_func2_{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell 
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["func_func"]} - {row_data["desc"]}'
-
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
-
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_func2_7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_func2_8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_func2_9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_func2_10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_func2_11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_func2_12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_func2_1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_func2_2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_func2_3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_func2_4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_func2_5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_func2_6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 pl_sheet[f'U{start_row}'] = row_data['variances']
-    #                 pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'  
-    #                 dna_row_end = start_row
-    #                 start_row += 1
-    
-    
-    #     dna_row = start_row
-        
-    #     for col in range(4, 22):  # Columns D to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-            
-    #         cell.style = currency_style
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     pl_sheet[f'B{start_row}'] = 'Depreciation and Amortization'
-    #     pl_sheet[f'D{start_row}'] = totals["dna_total"]
-    #     pl_sheet[f'E{start_row}'] = totals["ytd_ammended_dna"]
-    #     pl_sheet[f'G{start_row}'] = totals["dna_total_months"]["07"] 
-    #     pl_sheet[f'H{start_row}'] = totals["dna_total_months"]["08"] 
-    #     pl_sheet[f'I{start_row}'] = totals["dna_total_months"]["09"] 
-    #     pl_sheet[f'J{start_row}'] = totals["dna_total_months"]["10"] 
-    #     pl_sheet[f'K{start_row}'] = totals["dna_total_months"]["11"] 
-    #     pl_sheet[f'L{start_row}'] = totals["dna_total_months"]["12"] 
-    #     pl_sheet[f'M{start_row}'] = totals["dna_total_months"]["01"] 
-    #     pl_sheet[f'N{start_row}'] = totals["dna_total_months"]["02"] 
-    #     pl_sheet[f'O{start_row}'] = totals["dna_total_months"]["03"] 
-    #     pl_sheet[f'P{start_row}'] = totals["dna_total_months"]["04"] 
-    #     pl_sheet[f'Q{start_row}'] = totals["dna_total_months"]["05"] 
-    #     pl_sheet[f'R{start_row}'] = totals["dna_total_months"]["06"] 
-    #     pl_sheet[f'T{start_row}'] = totals["dna_ytd_total"] 
-    #     pl_sheet[f'U{start_row}'] = totals["variances_dna"]
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/E{start_row},"    ")' 
-    
-    #     start_row += 2
-    #     netsurplus_row = start_row
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    
-    #     for col in range(4, 22):  # Columns D to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.border = thin_border
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Net Surplus(Deficit)'
-    #     pl_sheet[f'D{start_row}'] = totals["ammended_budget_netsurplus"]
-    #     pl_sheet[f'E{start_row}'] = totals["ytd_ammended_netsurplus"]
-    #     pl_sheet[f'G{start_row}'] = totals["total_netsurplus_months"]["07"]
-    #     pl_sheet[f'H{start_row}'] = totals["total_netsurplus_months"]["08"]
-    #     pl_sheet[f'I{start_row}'] = totals["total_netsurplus_months"]["09"]
-    #     pl_sheet[f'J{start_row}'] = totals["total_netsurplus_months"]["10"]
-    #     pl_sheet[f'K{start_row}'] = totals["total_netsurplus_months"]["11"]
-    #     pl_sheet[f'L{start_row}'] = totals["total_netsurplus_months"]["12"]
-    #     pl_sheet[f'M{start_row}'] = totals["total_netsurplus_months"]["01"]
-    #     pl_sheet[f'N{start_row}'] = totals["total_netsurplus_months"]["02"]
-    #     pl_sheet[f'O{start_row}'] = totals["total_netsurplus_months"]["03"]
-    #     pl_sheet[f'P{start_row}'] = totals["total_netsurplus_months"]["04"]
-    #     pl_sheet[f'Q{start_row}'] = totals["total_netsurplus_months"]["05"]
-    #     pl_sheet[f'R{start_row}'] = totals["total_netsurplus_months"]["06"]
-    #     pl_sheet[f'T{start_row}'] = totals["ytd_netsurplus"] 
-    #     pl_sheet[f'U{start_row}'] = totals["variances_netsurplus"]
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")'   
-        
-    
-    
-    
-    #     start_row += 2
-    #     pl_sheet[f'B{start_row}'] = 'Expense By Object Codes'
-    #     pl_sheet[f'B{start_row}'].font = fontbold
-    
-    #     start_row += 1
-    #     payroll_row_start = start_row
-    #     payroll_row_end = None
-    #     for row_data in data_activities: 
-    #         if row_data['Category'] == 'Payroll and Benefits':
-    #             all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  # Columns G to U
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell 
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
-
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 payroll_row_end = start_row
-    #                 start_row += 1
-
-
-    #     if payroll_row_end is not None:
-
-    #         for row in range(payroll_row_start, payroll_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")    
-    
-    #     payroll_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6100':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell 
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals["total_budget_pc"]
-    #             pl_sheet[f'E{start_row}'] = totals["ytd_budget_pc"]
-    #             pl_sheet[f'G{start_row}'] = totals["total_EOC_pc"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["total_EOC_pc"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["total_EOC_pc"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["total_EOC_pc"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["total_EOC_pc"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["total_EOC_pc"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["total_EOC_pc"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["total_EOC_pc"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["total_EOC_pc"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["total_EOC_pc"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["total_EOC_pc"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["total_EOC_pc"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["ytd_EOC_pc"]
-    #             pl_sheet[f'U{start_row}'] = row_data['variances']
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-    #             start_row += 1
-    
-    #     pcs_row_start = start_row
-    #     pcs_row_end = None
-    #     for row_data in data_activities: 
-    #         if row_data['Category'] == 'Professional and Contract Services':
-    #             all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 pcs_row_end = start_row
-    #                 start_row += 1
-    
-
-    #     if pcs_row_end is not None:
-    #         for row in range(pcs_row_start, pcs_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")    
-    
-    #     pcs_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6200':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals["total_budget_pcs"]
-    #             pl_sheet[f'E{start_row}'] = totals["ytd_budget_pcs"]
-    #             pl_sheet[f'G{start_row}'] = totals["total_EOC_pcs"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["total_EOC_pcs"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["total_EOC_pcs"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["total_EOC_pcs"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["total_EOC_pcs"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["total_EOC_pcs"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["total_EOC_pcs"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["total_EOC_pcs"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["total_EOC_pcs"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["total_EOC_pcs"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["total_EOC_pcs"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["total_EOC_pcs"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["ytd_EOC_pcs"]
-               
-    #             pl_sheet[f'U{start_row}'] = row_data['variances'] 
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-    #             start_row += 1
-    
-    #     sm_row_start = start_row
-    #     sm_row_end = None
-    #     for row_data in data_activities: 
-    #         if row_data['Category'] == 'Materials and Supplies':
-    #             all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget']
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 sm_row_end = start_row
-    #                 start_row += 1
-    
-
-    #     if sm_row_end is not None:
-    #         for row in range(sm_row_start, sm_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")   
-
-    #     sm_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6300':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals['total_budget_sm']
-    #             pl_sheet[f'E{start_row}'] = totals['ytd_budget_sm'] 
-    #             pl_sheet[f'G{start_row}'] = totals["total_EOC_sm"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["total_EOC_sm"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["total_EOC_sm"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["total_EOC_sm"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["total_EOC_sm"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["total_EOC_sm"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["total_EOC_sm"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["total_EOC_sm"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["total_EOC_sm"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["total_EOC_sm"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["total_EOC_sm"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["total_EOC_sm"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["ytd_EOC_sm"] 
-                
-    #             pl_sheet[f'U{start_row}'] = row_data['variances'] 
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-    #             start_row += 1
-            
-    #     ooe_row_start = start_row
-    #     ooe_row_end = None
-    #     for row_data in data_activities: 
-    #         if row_data['Category'] == 'Other Operating Costs':
-    #             all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-    #                 ooe_row_end = start_row
-    #                 start_row += 1
-    
-    #     if ooe_row_end is not None:
-    #         for row in range(ooe_row_start, ooe_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")  
-    
-    #     ooe_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6400':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals['total_budget_ooe']
-    #             pl_sheet[f'E{start_row}'] = totals['ytd_budget_ooe'] 
-    #             pl_sheet[f'G{start_row}'] = totals["total_EOC_ooe"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["total_EOC_ooe"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["total_EOC_ooe"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["total_EOC_ooe"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["total_EOC_ooe"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["total_EOC_ooe"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["total_EOC_ooe"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["total_EOC_ooe"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["total_EOC_ooe"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["total_EOC_ooe"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["total_EOC_ooe"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["total_EOC_ooe"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["ytd_EOC_ooe"]
-               
-    #             pl_sheet[f'U{start_row}'] = row_data['variances']  
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-                
-    #             start_row += 1
-    
-        
-    
-    #     oe_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6449':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals['dna_total']
-    #             pl_sheet[f'E{start_row}'] = totals['ytd_ammended_dna'] 
-    #             pl_sheet[f'G{start_row}'] = totals["dna_total_months"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["dna_total_months"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["dna_total_months"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["dna_total_months"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["dna_total_months"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["dna_total_months"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["dna_total_months"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["dna_total_months"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["dna_total_months"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["dna_total_months"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["dna_total_months"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["dna_total_months"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["dna_ytd_total"]               
-    #             pl_sheet[f'U{start_row}'] = totals['variances_dna']  
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-                
-    #             start_row += 1
-    
-    
-    #     total_expense_row_start = start_row
-    #     total_expense_row_end = None
-    #     for row_data in data_activities: 
-    #         if row_data['Category'] == 'Debt Services':
-    #             all_zeros = all(row_data[f'total_activities{i}'] == 0 for i in range(1, 12))
-    #             if not all_zeros:
-    #                 for col in range(4, 22):  
-    #                     cell = pl_sheet.cell(row=start_row, column=col)
-    #                     cell.style = normal_cell
-    #                 pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #                 pl_sheet[f'D{start_row}'] = row_data['total_budget']
-    #                 pl_sheet[f'E{start_row}'] = row_data['ytd_budget'] 
-    #                 pl_sheet[f'G{start_row}'] = row_data['total_activities7']
-    #                 pl_sheet[f'H{start_row}'] = row_data['total_activities8']
-    #                 pl_sheet[f'I{start_row}'] = row_data['total_activities9']
-    #                 pl_sheet[f'J{start_row}'] = row_data['total_activities10']
-    #                 pl_sheet[f'K{start_row}'] = row_data['total_activities11']
-    #                 pl_sheet[f'L{start_row}'] = row_data['total_activities12']
-    #                 pl_sheet[f'M{start_row}'] = row_data['total_activities1']
-    #                 pl_sheet[f'N{start_row}'] = row_data['total_activities2']
-    #                 pl_sheet[f'O{start_row}'] = row_data['total_activities3']
-    #                 pl_sheet[f'P{start_row}'] = row_data['total_activities4']
-    #                 pl_sheet[f'Q{start_row}'] = row_data['total_activities5']
-    #                 pl_sheet[f'R{start_row}'] = row_data['total_activities6']
-    #                 pl_sheet[f'T{start_row}'] = row_data['ytd_total']
-
-
-    #                 total_expense_row_end = start_row
-    #                 start_row += 1
-    
-    #     if total_expense_row_end is not None:
-    #         for row in range(total_expense_row_start, total_expense_row_end+1):
-    #             try:
-    #                 pl_sheet.row_dimensions[row].outline_level = 1
-    #                 pl_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")  
-    
-    #     total_expense_row = start_row
-    #     for row_data in data_expensebyobject: 
-    #         if row_data['obj'] == '6500':
-    #             for col in range(4, 22):  
-    #                 cell = pl_sheet.cell(row=start_row, column=col)
-    #                 cell.style = normal_cell
-    #             pl_sheet[f'B{start_row}'] = f'{row_data["obj"]} - {row_data["Description"]}'
-    #             pl_sheet[f'D{start_row}'] = totals['total_budget_te']
-    #             pl_sheet[f'E{start_row}'] = totals['ytd_budget_te'] 
-    #             pl_sheet[f'G{start_row}'] = totals["total_EOC_te"]["07"]
-    #             pl_sheet[f'H{start_row}'] = totals["total_EOC_te"]["08"]
-    #             pl_sheet[f'I{start_row}'] = totals["total_EOC_te"]["09"]
-    #             pl_sheet[f'J{start_row}'] = totals["total_EOC_te"]["10"]
-    #             pl_sheet[f'K{start_row}'] = totals["total_EOC_te"]["11"]
-    #             pl_sheet[f'L{start_row}'] = totals["total_EOC_te"]["12"]
-    #             pl_sheet[f'M{start_row}'] = totals["total_EOC_te"]["01"]
-    #             pl_sheet[f'N{start_row}'] = totals["total_EOC_te"]["02"]
-    #             pl_sheet[f'O{start_row}'] = totals["total_EOC_te"]["03"]
-    #             pl_sheet[f'P{start_row}'] = totals["total_EOC_te"]["04"]
-    #             pl_sheet[f'Q{start_row}'] = totals["total_EOC_te"]["05"]
-    #             pl_sheet[f'R{start_row}'] = totals["total_EOC_te"]["06"]
-    #             pl_sheet[f'T{start_row}'] = totals["ytd_EOC_te"]
-                
-    #             pl_sheet[f'U{start_row}'] = row_data['variances'] 
-    #             pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-    #             start_row += 1
-    
-    #     start_row += 1
-    
-    #     total_expense_total = start_row
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns G to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.border = thin_border
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Total Expense'
-    #     pl_sheet[f'D{start_row}'] = totals["total_expense"]
-    #     pl_sheet[f'E{start_row}'] = totals["total_expense_ytd_budget"] 
-    #     pl_sheet[f'G{start_row}'] = totals["total_expense_months"]["07"]
-    #     pl_sheet[f'H{start_row}'] = totals["total_expense_months"]["08"]
-    #     pl_sheet[f'I{start_row}'] = totals["total_expense_months"]["09"]
-    #     pl_sheet[f'J{start_row}'] = totals["total_expense_months"]["10"]
-    #     pl_sheet[f'K{start_row}'] = totals["total_expense_months"]["11"]
-    #     pl_sheet[f'L{start_row}'] = totals["total_expense_months"]["12"]
-    #     pl_sheet[f'M{start_row}'] = totals["total_expense_months"]["01"]
-    #     pl_sheet[f'N{start_row}'] = totals["total_expense_months"]["02"]
-    #     pl_sheet[f'O{start_row}'] = totals["total_expense_months"]["03"]
-    #     pl_sheet[f'P{start_row}'] = totals["total_expense_months"]["04"]
-    #     pl_sheet[f'Q{start_row}'] = totals["total_expense_months"]["05"]
-    #     pl_sheet[f'R{start_row}'] = totals["total_expense_months"]["06"]
-         
-    #     pl_sheet[f'T{start_row}'] = totals["total_expense_ytd"] 
-    #     pl_sheet[f'U{start_row}'] = totals["variances_total_expense"]
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-        
-    
-    #     start_row += 1
-    #     for col in range(2, 22):  
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.font = fontbold
-    #     for col in range(4, 22):  # Columns G to U
-    #         cell = pl_sheet.cell(row=start_row, column=col)
-    #         cell.border = thin_border
-    #         cell.style = currency_style
-    #     pl_sheet[f'B{start_row}'] = 'Net Income'
-    #     pl_sheet[f'D{start_row}'] = totals["budget_net_income"] 
-    #     pl_sheet[f'E{start_row}'] = totals["ytd_budget_net_income"] 
-    #     pl_sheet[f'G{start_row}'] = totals["total_net_income_months"]["07"]
-    #     pl_sheet[f'H{start_row}'] = totals["total_net_income_months"]["08"]
-    #     pl_sheet[f'I{start_row}'] = totals["total_net_income_months"]["09"]
-    #     pl_sheet[f'J{start_row}'] = totals["total_net_income_months"]["10"]
-    #     pl_sheet[f'K{start_row}'] = totals["total_net_income_months"]["11"]
-    #     pl_sheet[f'L{start_row}'] = totals["total_net_income_months"]["12"]
-    #     pl_sheet[f'M{start_row}'] = totals["total_net_income_months"]["01"]
-    #     pl_sheet[f'N{start_row}'] = totals["total_net_income_months"]["02"]
-    #     pl_sheet[f'O{start_row}'] = totals["total_net_income_months"]["03"]
-    #     pl_sheet[f'P{start_row}'] = totals["total_net_income_months"]["04"]
-    #     pl_sheet[f'Q{start_row}'] = totals["total_net_income_months"]["05"]
-    #     pl_sheet[f'R{start_row}'] = totals["total_net_income_months"]["06"]
-        
-    #     pl_sheet[f'T{start_row}'] = totals["ytd_net_income"] 
-    #     pl_sheet[f'U{start_row}'] = totals["variances_net_income"] 
-    #     pl_sheet[f'V{start_row}'].value = f'=IFERROR(T{start_row}/D{start_row},"    ")' 
-        
-    
-    
-    #     start_row += 4 #Total expense and Net income
+   
  
     #BS DESIGN
 
@@ -6273,622 +5354,123 @@ def generate_excel(request,school,anchor_year):
     hide_row_bs_start = start_row_bs
     hide_row_bs_end= None
     bs_sheet[f'D{start_row_bs}'] = 'Current Assets'
-    for row in data_activitybs:
-        if row['Activity'] == 'Cash':      
-            start_row_bs += 1
-            hide_row_bs_end = start_row_bs
-            for col in range(4, 22):  # Columns G to U
-                cell = bs_sheet.cell(row=start_row_bs, column=col)
-                cell.style = stringStyle 
-                
-                
-            bs_sheet[f'D{start_row_bs}'].style = indent_style
-            bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-            if school in schoolCategory["skyward"] or school in school_fye:
-                bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-
-            if school in schoolMonths["septemberSchool"]:
-                bs_sheet[f'G{start_row_bs}'] =  row['total_bal9']
-                bs_sheet[f'H{start_row_bs}'] =  row['total_bal10']
-                bs_sheet[f'I{start_row_bs}'] =  row['total_bal11']
-                bs_sheet[f'J{start_row_bs}'] =  row['total_bal12']
-                bs_sheet[f'K{start_row_bs}'] =  row['total_bal1']
-                bs_sheet[f'L{start_row_bs}'] =  row['total_bal2']
-                bs_sheet[f'M{start_row_bs}'] =  row['total_bal3']
-                bs_sheet[f'N{start_row_bs}'] =  row['total_bal4']
-                bs_sheet[f'O{start_row_bs}'] =  row['total_bal5']
-                bs_sheet[f'P{start_row_bs}'] =  row['total_bal6']
-                bs_sheet[f'Q{start_row_bs}'] =  row['total_bal7']
-                bs_sheet[f'R{start_row_bs}'] =  row['total_bal8']
-            else:
-                bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
-            bs_sheet[f'T{start_row_bs}'] =  row['fytd']
-            last_month_row_bal =f'total_bal{months["last_month_number"]}'
-            bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-                            
     
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for col in range(5, 22):  
-        cell = bs_sheet.cell(row=start_row_bs, column=col)
-        cell.style = stringStyle 
-        
-    
+
+     
     for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'Cash':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9'] 
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        cash_row_bs = start_row_bs
-                        for col in range(last_number,19):
-                            col_letter = get_column_letter(col)
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.value = None
-
-    hide_row_bs_end = None
-    hide_row_bs_start = start_row_bs
-    for row in data_activitybs:
-        if row['Activity'] == 'Restr':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            
+        if row['school'] == school and row['Category'] == 'Assets' and row['Subcategory'] == 'Current Assets':
+            hide_row_bs_start = start_row_bs
+            all_zeros = all(row[f'difference_{i}'] == 0 or row[f'difference_{i}'] == "" for i in range(1, 13))
             if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
-                   
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-                    
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-            try:
-                bs_sheet.row_dimensions[row].outline_level = 1
-                bs_sheet.row_dimensions[row].hidden = True
-            except KeyError as e:
-                print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'Restr':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
+                for item in data_activitybs:
+                    if item['Activity'] == row['Activity']:      
                         start_row_bs += 1
-                        for col in range(6, 22):  
+                        hide_row_bs_end = start_row_bs
+                        for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
                             cell.style = stringStyle 
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
                             
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        restr_row_bs = start_row_bs
-    hide_row_bs_end = None
-    hide_row_bs_start = start_row_bs
-    for row in data_activitybs: 
-        if row['Activity'] == 'DFS+F':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'DFS+F':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
+                            
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
+                        bs_sheet[f'D{start_row_bs}'] = item['obj'] + ' - ' + item['Description2']
                         if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                            bs_sheet[f'F{start_row_bs}'] = item.get('activity_fye', "")
+
                         if school in schoolMonths["septemberSchool"]:
-
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal6']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal8']
                         else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal8']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal6']
 
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        dfs_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs 
-    hide_row_bs_end = None  
-    for row in data_activitybs: 
-        if row['Activity'] == 'OTHR':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
+                        bs_sheet[f'T{start_row_bs}'] =  item['fytd']
+                        last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                        bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
+
                 start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
+        
+                for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
+                    cell.style = stringStyle
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
+                bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                 else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                if school in schoolMonths["septemberSchool"]:
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9'] 
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                else:
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_6']
                 bs_sheet[f'T{start_row_bs}'] = row['fytd']
                 
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
+                last_month_row = f'difference_{months["last_month_number"]}'
+                bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
+                cash_row_bs = start_row_bs
+                for col in range(last_number,19):
+                    col_letter = get_column_letter(col)
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.value = None
+
             
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'OTHR':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        othr_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs   
-    hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'Inventory':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                                
         
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'Inventory':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
+            if hide_row_bs_end is not None:
+                for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                        try:
+                            bs_sheet.row_dimensions[row].outline_level = 1
+                            bs_sheet.row_dimensions[row].hidden = True
+                        except KeyError as e:
+                            print(f"Error hiding row {row}: {e}")
+            for col in range(5, 22):  
+                cell = bs_sheet.cell(row=start_row_bs, column=col)
+                cell.style = stringStyle 
+            
+   
 
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        inventory_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs   
-    hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'PPD':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-
-                if school in schoolMonths["septemberSchool"]:
-                        
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'PPD':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Current Assets':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                            
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        ppd_row_bs = start_row_bs
+   
     start_row_bs += 1    
     for col in range(2, 22):  
         cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -6940,299 +5522,119 @@ def generate_excel(request,school,anchor_year):
     bs_sheet.row_dimensions[start_row_bs].height = 37 
     hide_row_bs_start = start_row_bs   
     hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'FA-L':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
 
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
     for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'FA-L':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Capital Assets, Net':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        fal_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs
-    hide_row_bs_end = None   
-    for row in data_activitybs: 
-        if row['Activity'] == 'FA-BFE':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+        if row['school'] == school and row['Category'] == 'Assets' and row['Subcategory'] == 'Capital Assets, Net':
+            hide_row_bs_start = start_row_bs
+            all_zeros = all(row[f'difference_{i}'] == 0 or row[f'difference_{i}'] == "" for i in range(1, 13))
             if not all_zeros:
+                for item in data_activitybs:
+                    if item['Activity'] == row['Activity']:      
+                        start_row_bs += 1
+                        hide_row_bs_end = start_row_bs
+                        for col in range(4, 22):  # Columns G to U
+                            cell = bs_sheet.cell(row=start_row_bs, column=col)
+                            cell.style = stringStyle 
+                            
+                            
+                        bs_sheet[f'D{start_row_bs}'].style = indent_style
+                        bs_sheet[f'D{start_row_bs}'] = item['obj'] + ' - ' + item['Description2']
+                        if school in schoolCategory["skyward"] or school in school_fye:
+                            bs_sheet[f'F{start_row_bs}'] = item.get('activity_fye', "")
+
+                        if school in schoolMonths["septemberSchool"]:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal6']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal8']
+                        else:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal8']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal6']
+
+                        bs_sheet[f'T{start_row_bs}'] =  item['fytd']
+                        last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                        bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
+
                 start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
+        
+                for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
+                    cell.style = stringStyle
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
+                bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                 else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-                    
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                if school in schoolMonths["septemberSchool"]:
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_9'] 
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_8']
+                else:
+                    bs_sheet[f'G{start_row_bs}'] = row['difference_7']
+                    bs_sheet[f'H{start_row_bs}'] = row['difference_8']
+                    bs_sheet[f'I{start_row_bs}'] = row['difference_9']
+                    bs_sheet[f'J{start_row_bs}'] = row['difference_10']
+                    bs_sheet[f'K{start_row_bs}'] = row['difference_11']
+                    bs_sheet[f'L{start_row_bs}'] = row['difference_12']
+                    bs_sheet[f'M{start_row_bs}'] = row['difference_1']
+                    bs_sheet[f'N{start_row_bs}'] = row['difference_2']
+                    bs_sheet[f'O{start_row_bs}'] = row['difference_3']
+                    bs_sheet[f'P{start_row_bs}'] = row['difference_4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
+                    bs_sheet[f'R{start_row_bs}'] = row['difference_6']
                 bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'FA-BFE':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Capital Assets, Net':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye:
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                                
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        fabfe_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs   
-    hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'FA-AD':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
+                
+                last_month_row = f'difference_{months["last_month_number"]}'
+                bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
+                cash_row_bs = start_row_bs
+                for col in range(last_number,19):
+                    col_letter = get_column_letter(col)
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
+                    cell.value = None
 
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'FA-AD':
-                if row['Category'] == 'Assets':
-                    if row['Subcategory'] == 'Capital Assets, Net':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['difference_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['difference_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['difference_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['difference_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['difference_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['difference_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['difference_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['difference_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['difference_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['difference_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['difference_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['difference_6']
+                
+                                    
+            
+                if hide_row_bs_end is not None:
+                    for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                            try:
+                                bs_sheet.row_dimensions[row].outline_level = 1
+                                bs_sheet.row_dimensions[row].hidden = True
+                            except KeyError as e:
+                                print(f"Error hiding row {row}: {e}")
+                for col in range(5, 22):  
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.style = stringStyle 
 
-                        bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                        last_month_row = f'difference_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        faad_row_bs = start_row_bs
+    
     start_row_bs += 1    
     for col in range(2, 22):  
         cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -7331,501 +5733,117 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'D{start_row_bs}'] = 'Current Liabilities'
     hide_row_bs_start = start_row_bs   
     hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'AP':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] =  row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] =  row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] =  row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] =  row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] =  row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] =  row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] =  row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] =  row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] =  row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] =  row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] =  row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] =  row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")      
     for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'AP':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Current Liabilities':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                                
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        ap_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs 
-    hide_row_bs_end = None  
-    for row in data_activitybs: 
-        if row['Activity'] == 'Acc-Exp':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+        if row['school'] == school and row['Category'] == 'Liabilities and Net Assets' and row['Subcategory'] == 'Current Liabilities':
+            hide_row_bs_start = start_row_bs
+            all_zeros = all(row[f'debt_{i}'] == 0 or row[f'debt_{i}'] == "" for i in range(1, 13))
             if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye:
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'Acc-Exp':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Current Liabilities':
+                for item in data_activitybs:
+                    if item['Activity'] == row['Activity']:      
                         start_row_bs += 1
-                        for col in range(6, 22):  
+                        hide_row_bs_end = start_row_bs
+                        for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
+                            cell.style = stringStyle 
+                            
+                            
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        accexp_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs  
-    hide_row_bs_end = None 
-    for row in data_activitybs: 
-        if row['Activity'] == 'OtherLiab':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
+                        bs_sheet[f'D{start_row_bs}'] = item['obj'] + ' - ' + item['Description2']
+                        if school in schoolCategory["skyward"] or school in school_fye:
+                            bs_sheet[f'F{start_row_bs}'] = item.get('activity_fye', "")
 
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
+                        if school in schoolMonths["septemberSchool"]:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal6']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal8']
+                        else:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal8']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal6']
+
+                        bs_sheet[f'T{start_row_bs}'] =  item['fytd']
+                        last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                        bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
+
+                start_row_bs += 1
         
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'OtherLiab':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Current Liabilities':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        otherlab_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs   
-    hide_row_bs_end = None
-    for row in data_activitybs: 
-        if row['Activity'] == 'Debt-C':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
+                for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
+                    cell.style = stringStyle
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                bs_sheet[f'D{start_row_bs}'] = row['Description']
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                 else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal8']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal6']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'Debt-C':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Current Liabilities':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        debtc_row_bs = start_row_bs
-    hide_row_bs_start = start_row_bs 
-    hide_row_bs_end = None  
-    for row in data_activitybs: 
-        if row['Activity'] == 'ACC-Int':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                if school in schoolMonths["septemberSchool"]:
+                    bs_sheet[f'G{start_row_bs}'] = row['debt_9'] 
+                    bs_sheet[f'H{start_row_bs}'] = row['debt_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['debt_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['debt_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['debt_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['debt_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['debt_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['debt_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['debt_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['debt_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['debt_8']
+                else:
+                    bs_sheet[f'G{start_row_bs}'] = row['debt_7']
+                    bs_sheet[f'H{start_row_bs}'] = row['debt_8']
+                    bs_sheet[f'I{start_row_bs}'] = row['debt_9']
+                    bs_sheet[f'J{start_row_bs}'] = row['debt_10']
+                    bs_sheet[f'K{start_row_bs}'] = row['debt_11']
+                    bs_sheet[f'L{start_row_bs}'] = row['debt_12']
+                    bs_sheet[f'M{start_row_bs}'] = row['debt_1']
+                    bs_sheet[f'N{start_row_bs}'] = row['debt_2']
+                    bs_sheet[f'O{start_row_bs}'] = row['debt_3']
+                    bs_sheet[f'P{start_row_bs}'] = row['debt_4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
+                    bs_sheet[f'R{start_row_bs}'] = row['debt_6']
+                bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
+                
+                last_month_row = f'debt_{months["last_month_number"]}'
+                bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
+                cash_row_bs = start_row_bs
+                for col in range(last_number,19):
+                    col_letter = get_column_letter(col)
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
+                    cell.value = None
 
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'ACC-Int':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Current Liabilities':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                                
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-                        accint_row_bs = start_row_bs
-
-
-                        
+                
+                                    
+            
+                if hide_row_bs_end is not None:
+                    for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                            try:
+                                bs_sheet.row_dimensions[row].outline_level = 1
+                                bs_sheet.row_dimensions[row].hidden = True
+                            except KeyError as e:
+                                print(f"Error hiding row {row}: {e}")
+                for col in range(5, 22):  
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.style = stringStyle 
+                            
     start_row_bs += 1    
     for col in range(2, 22):  
         cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -7878,203 +5896,119 @@ def generate_excel(request,school,anchor_year):
     start_row_bs += 1 
     hide_row_bs_start = start_row_bs 
     hide_row_bs_end = None  
-    for row in data_activitybs: 
-        if row['Activity'] == 'LP':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-            if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
 
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    
     for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'LP':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Noncurrent Liabilities':
-                        start_row_bs += 1
-                        for col in range(6, 22):  
-                            cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
-                        bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                                
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-    start_row_bs += 1 
-    hide_row_bs_start = start_row_bs 
-    hide_row_bs_end = None  
-    for row in data_activitybs: 
-        if row['Activity'] == 'RULL':
-            all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
+        if row['school'] == school and row['Category'] == 'Liabilities and Net Assets' and row['Subcategory'] == 'Noncurrent Liabilities':
+            hide_row_bs_start = start_row_bs
+            all_zeros = all(row[f'debt_{i}'] == 0 or row[f'debt_{i}'] == "" for i in range(1, 13))
             if not all_zeros:
-                start_row_bs += 1
-                hide_row_bs_end = start_row_bs
-                for col in range(5, 22): 
-                    cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = normal_cell 
-                bs_sheet[f'D{start_row_bs}'].style = indent_style
-                bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-                if school in schoolCategory["skyward"] or school in school_fye :
-                    bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-                if school in schoolMonths["septemberSchool"]:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-                else:
-                    bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-                    bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-                    bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-                    bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-                    bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-                    bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-                    bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-                    bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-                    bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-                    bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-                    bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-                    bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-
-                bs_sheet[f'T{start_row_bs}'] = row['fytd']
-                last_month_row_bal =f'total_bal{months["last_month_number"]}'
-                bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    if hide_row_bs_end is not None:
-        for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-                try:
-                    bs_sheet.row_dimensions[row].outline_level = 1
-                    bs_sheet.row_dimensions[row].hidden = True
-                except KeyError as e:
-                    print(f"Error hiding row {row}: {e}")
-    
-    for row in data_balancesheet:
-        if row['school'] == school:
-            if row['Activity'] == 'RULL':
-                if row['Category'] == 'Liabilities and Net Assets':
-                    if row['Subcategory'] == 'Noncurrent Liabilities':
+                for item in data_activitybs:
+                    if item['Activity'] == row['Activity']:      
                         start_row_bs += 1
-                        for col in range(6, 22):  
+                        hide_row_bs_end = start_row_bs
+                        for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle
+                            cell.style = stringStyle 
+                            
+                            
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
-                        bs_sheet[f'D{start_row_bs}'] = row['Description']
-                        if school in schoolCategory["skyward"] or school in school_fye :
-                            bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-                        else:
-                            bs_sheet[f'F{start_row_bs}'] = row['FYE']
-                        if school in schoolMonths["septemberSchool"]:
-                                
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-                        else:
-                            bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-                            bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-                            bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-                            bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-                            bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-                            bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-                            bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-                            bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-                            bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-                            bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-                            bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-                            bs_sheet[f'R{start_row_bs}'] = row['debt_6']
+                        bs_sheet[f'D{start_row_bs}'] = item['obj'] + ' - ' + item['Description2']
+                        if school in schoolCategory["skyward"] or school in school_fye:
+                            bs_sheet[f'F{start_row_bs}'] = item.get('activity_fye', "")
 
-                        bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-                        last_month_row = f'debt_{months["last_month_number"]}'
-                        bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
+                        if school in schoolMonths["septemberSchool"]:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal6']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal8']
+                        else:
+                            bs_sheet[f'G{start_row_bs}'] =  item['total_bal7']
+                            bs_sheet[f'H{start_row_bs}'] =  item['total_bal8']
+                            bs_sheet[f'I{start_row_bs}'] =  item['total_bal9']
+                            bs_sheet[f'J{start_row_bs}'] =  item['total_bal10']
+                            bs_sheet[f'K{start_row_bs}'] =  item['total_bal11']
+                            bs_sheet[f'L{start_row_bs}'] =  item['total_bal12']
+                            bs_sheet[f'M{start_row_bs}'] =  item['total_bal1']
+                            bs_sheet[f'N{start_row_bs}'] =  item['total_bal2']
+                            bs_sheet[f'O{start_row_bs}'] =  item['total_bal3']
+                            bs_sheet[f'P{start_row_bs}'] =  item['total_bal4']
+                            bs_sheet[f'Q{start_row_bs}'] =  item['total_bal5']
+                            bs_sheet[f'R{start_row_bs}'] =  item['total_bal6']
+
+                        bs_sheet[f'T{start_row_bs}'] =  item['fytd']
+                        last_month_row_bal =f'total_bal{months["last_month_number"]}'
+                        bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
+
+                start_row_bs += 1
+        
+                for col in range(6, 22):  
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.style = stringStyle
+                bs_sheet[f'D{start_row_bs}'].style = indent_style
+                bs_sheet[f'D{start_row_bs}'] = row['Description']
+                if school in schoolCategory["skyward"] or school in school_fye:
+                    bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
+                else:
+                    bs_sheet[f'F{start_row_bs}'] = row['FYE']
+                if school in schoolMonths["septemberSchool"]:
+                    bs_sheet[f'G{start_row_bs}'] = row['debt_9'] 
+                    bs_sheet[f'H{start_row_bs}'] = row['debt_10']
+                    bs_sheet[f'I{start_row_bs}'] = row['debt_11']
+                    bs_sheet[f'J{start_row_bs}'] = row['debt_12']
+                    bs_sheet[f'K{start_row_bs}'] = row['debt_1']
+                    bs_sheet[f'L{start_row_bs}'] = row['debt_2']
+                    bs_sheet[f'M{start_row_bs}'] = row['debt_3']
+                    bs_sheet[f'N{start_row_bs}'] = row['debt_4']
+                    bs_sheet[f'O{start_row_bs}'] = row['debt_5']
+                    bs_sheet[f'P{start_row_bs}'] = row['debt_6']
+                    bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
+                    bs_sheet[f'R{start_row_bs}'] = row['debt_8']
+                else:
+                    bs_sheet[f'G{start_row_bs}'] = row['debt_7']
+                    bs_sheet[f'H{start_row_bs}'] = row['debt_8']
+                    bs_sheet[f'I{start_row_bs}'] = row['debt_9']
+                    bs_sheet[f'J{start_row_bs}'] = row['debt_10']
+                    bs_sheet[f'K{start_row_bs}'] = row['debt_11']
+                    bs_sheet[f'L{start_row_bs}'] = row['debt_12']
+                    bs_sheet[f'M{start_row_bs}'] = row['debt_1']
+                    bs_sheet[f'N{start_row_bs}'] = row['debt_2']
+                    bs_sheet[f'O{start_row_bs}'] = row['debt_3']
+                    bs_sheet[f'P{start_row_bs}'] = row['debt_4']
+                    bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
+                    bs_sheet[f'R{start_row_bs}'] = row['debt_6']
+                bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
+                
+                last_month_row = f'debt_{months["last_month_number"]}'
+                bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
+                cash_row_bs = start_row_bs
+                for col in range(last_number,19):
+                    col_letter = get_column_letter(col)
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.value = None
+
+                
+                                    
+            
+                if hide_row_bs_end is not None:
+                    for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
+                            try:
+                                bs_sheet.row_dimensions[row].outline_level = 1
+                                bs_sheet.row_dimensions[row].hidden = True
+                            except KeyError as e:
+                                print(f"Error hiding row {row}: {e}")
+                for col in range(5, 22):  
+                    cell = bs_sheet.cell(row=start_row_bs, column=col)
+                    cell.style = stringStyle 
+
+    
                     
     start_row_bs += 1    
     for col in range(2, 22):  
@@ -8125,108 +6059,6 @@ def generate_excel(request,school,anchor_year):
     
     bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities"][acc_per]
 
-    # start_row_bs += 1
-    # bs_sheet.row_dimensions[start_row_bs].height = 37 
-    # bs_sheet[f'D{start_row_bs}'] ='Long Term Debt'
-    # hide_row_bs_start = start_row_bs
-    # hide_row_bs_end = None   
-    # for row in data_activitybs: 
-    #     if row['Activity'] == 'LTD':
-    #         all_zeros = all(row[f'total_bal{i}'] == 0 for i in range(1, 12))
-    #         if not all_zeros:
-    #             start_row_bs += 1
-    #             hide_row_bs_end = start_row_bs
-    #             for col in range(5, 22): 
-    #                 cell = bs_sheet.cell(row=start_row_bs, column=col)
-    #                 cell.style = normal_cell 
-    #             bs_sheet[f'D{start_row_bs}'].style = indent_style
-    #             bs_sheet[f'D{start_row_bs}'] = row['obj'] + ' - ' + row['Description2']
-    #             if school in schoolCategory["skyward"] or school in school_fye:
-    #                 bs_sheet[f'F{start_row_bs}'] = row.get('activity_fye', "")
-    #             if school in schoolMonths["septemberSchool"]:
-    #                 bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-    #                 bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-    #                 bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-    #                 bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-    #                 bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-    #                 bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-    #                 bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-    #                 bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-    #                 bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-    #                 bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-    #                 bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-    #                 bs_sheet[f'R{start_row_bs}'] = row['total_bal8']
-    #             else:
-    #                 bs_sheet[f'G{start_row_bs}'] = row['total_bal9']
-    #                 bs_sheet[f'H{start_row_bs}'] = row['total_bal10']
-    #                 bs_sheet[f'I{start_row_bs}'] = row['total_bal11']
-    #                 bs_sheet[f'J{start_row_bs}'] = row['total_bal12']
-    #                 bs_sheet[f'K{start_row_bs}'] = row['total_bal1']
-    #                 bs_sheet[f'L{start_row_bs}'] = row['total_bal2']
-    #                 bs_sheet[f'M{start_row_bs}'] = row['total_bal3']
-    #                 bs_sheet[f'N{start_row_bs}'] = row['total_bal4']
-    #                 bs_sheet[f'O{start_row_bs}'] = row['total_bal5']
-    #                 bs_sheet[f'P{start_row_bs}'] = row['total_bal6']
-    #                 bs_sheet[f'Q{start_row_bs}'] = row['total_bal7']
-    #                 bs_sheet[f'R{start_row_bs}'] = row['total_bal8']           
-
-    #             bs_sheet[f'T{start_row_bs}'] = row['fytd']
-    #             last_month_row_bal =f'total_bal{months["last_month_number"]}'
-    #             bs_sheet[f'U{start_row_bs}'] = row[last_month_row_bal]
-    # if hide_row_bs_end is not None:
-    #     for row in range(hide_row_bs_start+1, hide_row_bs_end+1):
-    #             try:
-    #                 bs_sheet.row_dimensions[row].outline_level = 1
-    #                 bs_sheet.row_dimensions[row].hidden = True
-    #             except KeyError as e:
-    #                 print(f"Error hiding row {row}: {e}")
-    # for row in data_balancesheet:
-    #     if row['school'] == school:
-    #         if row['Activity'] == 'LTD':
-    #             if row['Category'] == 'Debt':
-    #                 if row['Subcategory'] == 'Long Term Debt':
-    #                     start_row_bs += 1
-    #                     for col in range(6, 22):  
-    #                         cell = bs_sheet.cell(row=start_row_bs, column=col)
-    #                         cell.style = stringStyle
-    #                     bs_sheet[f'D{start_row_bs}'].style = indent_style
-    #                     bs_sheet[f'D{start_row_bs}'] = 'test'
-    #                     if school in schoolCategory["skyward"] or school in school_fye:
-    #                         bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
-    #                     else:
-    #                         bs_sheet[f'F{start_row_bs}'] = row['FYE']
-    #                     if school in schoolMonths["septemberSchool"]:
-                                
-    #                         bs_sheet[f'G{start_row_bs}'] = row['debt_9']
-    #                         bs_sheet[f'H{start_row_bs}'] = row['debt_10']
-    #                         bs_sheet[f'I{start_row_bs}'] = row['debt_11']
-    #                         bs_sheet[f'J{start_row_bs}'] = row['debt_12']
-    #                         bs_sheet[f'K{start_row_bs}'] = row['debt_1']
-    #                         bs_sheet[f'L{start_row_bs}'] = row['debt_2']
-    #                         bs_sheet[f'M{start_row_bs}'] = row['debt_3']
-    #                         bs_sheet[f'N{start_row_bs}'] = row['debt_4']
-    #                         bs_sheet[f'O{start_row_bs}'] = row['debt_5']
-    #                         bs_sheet[f'P{start_row_bs}'] = row['debt_6']
-    #                         bs_sheet[f'Q{start_row_bs}'] = row['debt_7']
-    #                         bs_sheet[f'R{start_row_bs}'] = row['debt_8']
-    #                     else:
-    #                         bs_sheet[f'G{start_row_bs}'] = row['debt_7']
-    #                         bs_sheet[f'H{start_row_bs}'] = row['debt_8']
-    #                         bs_sheet[f'I{start_row_bs}'] = row['debt_9']
-    #                         bs_sheet[f'J{start_row_bs}'] = row['debt_10']
-    #                         bs_sheet[f'K{start_row_bs}'] = row['debt_11']
-    #                         bs_sheet[f'L{start_row_bs}'] = row['debt_12']
-    #                         bs_sheet[f'M{start_row_bs}'] = row['debt_1']
-    #                         bs_sheet[f'N{start_row_bs}'] = row['debt_2']
-    #                         bs_sheet[f'O{start_row_bs}'] = row['debt_3']
-    #                         bs_sheet[f'P{start_row_bs}'] = row['debt_4']
-    #                         bs_sheet[f'Q{start_row_bs}'] = row['debt_5']
-    #                         bs_sheet[f'R{start_row_bs}'] = row['debt_6']
-
-    #                     bs_sheet[f'T{start_row_bs}'] = row['debt_fytd']
-    #                     last_month_row = f'debt_{months["last_month_number"]}'
-    #                     bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
-    #                     ltd_row_bs = start_row_bs
     start_row_bs += 1
     total_liabilites_row_bs = start_row_bs
 
@@ -8321,51 +6153,7 @@ def generate_excel(request,school,anchor_year):
                     bs_sheet[f'T{start_row_bs}'] = '$' + total_bs["total_net_assets_fytd"]
                     
                     bs_sheet[f'U{start_row_bs}'] = '$' + row["last_month_net_assets"]
-    # for row in data_balancesheet:
-    #     if row['school'] == school:
-    #         if row['Activity'] == 'Equity':
-    #             if row['Category'] == 'Net Assets':
-                
-    #                 start_row_bs += 1
-
-    #                 for col in range(6, 22):  
-    #                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-    #                     cell.style = stringStyle
-                    
-    #                 bs_sheet[f'D{start_row_bs}'].font = fontbold
-    #                 bs_sheet[f'D{start_row_bs}'] = 'Net Assets'
-    #                 bs_sheet[f'F{start_row_bs}'] = row['FYE']
-    #                 if school in schoolMonths["septemberSchool"]:
-    #                     bs_sheet[f'G{start_row_bs}'] = row['net_assets9']
-    #                     bs_sheet[f'H{start_row_bs}'] = row['net_assets10']
-    #                     bs_sheet[f'I{start_row_bs}'] = row['net_assets11']
-    #                     bs_sheet[f'J{start_row_bs}'] = row['net_assets12']
-    #                     bs_sheet[f'K{start_row_bs}'] = row['net_assets1']
-    #                     bs_sheet[f'L{start_row_bs}'] = row['net_assets2']
-    #                     bs_sheet[f'M{start_row_bs}'] = row['net_assets3']
-    #                     bs_sheet[f'N{start_row_bs}'] = row['net_assets4']
-    #                     bs_sheet[f'O{start_row_bs}'] = row['net_assets5']
-    #                     bs_sheet[f'P{start_row_bs}'] = row['net_assets6']
-    #                     bs_sheet[f'Q{start_row_bs}'] = row['net_assets7']
-    #                     bs_sheet[f'R{start_row_bs}'] = row['net_assets8']
-    #                 else:
-    #                     bs_sheet[f'G{start_row_bs}'] = row['net_assets7']
-    #                     bs_sheet[f'H{start_row_bs}'] = row['net_assets8']
-    #                     bs_sheet[f'I{start_row_bs}'] = row['net_assets9']
-    #                     bs_sheet[f'J{start_row_bs}'] = row['net_assets10']
-    #                     bs_sheet[f'K{start_row_bs}'] = row['net_assets11']
-    #                     bs_sheet[f'L{start_row_bs}'] = row['net_assets12']
-    #                     bs_sheet[f'M{start_row_bs}'] = row['net_assets1']
-    #                     bs_sheet[f'N{start_row_bs}'] = row['net_assets2']
-    #                     bs_sheet[f'O{start_row_bs}'] = row['net_assets3']
-    #                     bs_sheet[f'P{start_row_bs}'] = row['net_assets4']
-    #                     bs_sheet[f'Q{start_row_bs}'] = row['net_assets5']
-    #                     bs_sheet[f'R{start_row_bs}'] = row['net_assets6']
-
-    #                 bs_sheet[f'T{start_row_bs}'] = total_bs['total_net_assets_fytd']
-    #                 last_month_row_net =f'net_assets{months["last_month_number"]}'
-    #                 bs_sheet[f'U{start_row_bs}'] = row[last_month_row_net]
-    #                 net_assets_row_bs = start_row_bs
+  
     start_row_bs += 1    
     for col in range(2, 22):  
         cell = bs_sheet.cell(row=start_row_bs, column=col)
