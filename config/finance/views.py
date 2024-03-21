@@ -6347,39 +6347,71 @@ def generate_excel(request,school,anchor_year):
     cashflow_start_row = 7
     
     operating_start_row = cashflow_start_row
+    
     for col in range(4, 22):  
         cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
         cell.style = stringStyle 
-    
     cashflow_sheet[f'B{cashflow_start_row}'] = 'Change in Net Assets'
-    if school in schoolMonths["septemberSchool"]:
-        cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"].get("09", "")
-        cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"].get("10", "")
-        cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"].get("11", "")
-        cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"].get("12", "")
-        cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"].get("01", "")
-        cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"].get("02", "")
-        cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"].get("03", "")
-        cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"].get("04", "")
-        cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"].get("05", "")
-        cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"].get("06", "")
-        cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"].get("07", "")
-        cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"].get("08", "")
-    else:
-        cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"].get("07", "")
-        cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"].get("08", "")
-        cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"].get("09", "")
-        cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"].get("10", "")
-        cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"].get("11", "")
-        cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"].get("12", "")
-        cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"].get("01", "")
-        cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"].get("02", "")
-        cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"].get("03", "")
-        cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"].get("04", "")
-        cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"].get("05", "")
-        cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"].get("06", "")
+    if school in schoolCategory["ascender"]:
 
-    cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("ytd_netsurplus","")
+        
+        if school in schoolMonths["septemberSchool"]:
+            cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"].get("09", "")
+            cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"].get("10", "")
+            cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"].get("11", "")
+            cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"].get("12", "")
+            cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"].get("01", "")
+            cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"].get("02", "")
+            cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"].get("03", "")
+            cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"].get("04", "")
+            cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"].get("05", "")
+            cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"].get("06", "")
+            cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"].get("07", "")
+            cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"].get("08", "")
+        else:
+            cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_netsurplus_months"].get("07", "")
+            cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_netsurplus_months"].get("08", "")
+            cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_netsurplus_months"].get("09", "")
+            cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_netsurplus_months"].get("10", "")
+            cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_netsurplus_months"].get("11", "")
+            cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_netsurplus_months"].get("12", "")
+            cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_netsurplus_months"].get("01", "")
+            cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_netsurplus_months"].get("02", "")
+            cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_netsurplus_months"].get("03", "")
+            cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_netsurplus_months"].get("04", "")
+            cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_netsurplus_months"].get("05", "")
+            cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_netsurplus_months"].get("06", "")
+
+        cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("ytd_netsurplus","")
+    else:
+        if school in schoolMonths["septemberSchool"]:
+            cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_SBD"].get("09", "")
+            cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_SBD"].get("10", "")
+            cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_SBD"].get("11", "")
+            cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_SBD"].get("12", "")
+            cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_SBD"].get("01", "")
+            cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_SBD"].get("02", "")
+            cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_SBD"].get("03", "")
+            cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_SBD"].get("04", "")
+            cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_SBD"].get("05", "")
+            cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_SBD"].get("06", "")
+            cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_SBD"].get("07", "")
+            cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_SBD"].get("08", "")
+        else:
+            cashflow_sheet[f'D{cashflow_start_row}'] = totals["total_SBD"].get("07", "")
+            cashflow_sheet[f'E{cashflow_start_row}'] = totals["total_SBD"].get("08", "")
+            cashflow_sheet[f'F{cashflow_start_row}'] = totals["total_SBD"].get("09", "")
+            cashflow_sheet[f'G{cashflow_start_row}'] = totals["total_SBD"].get("10", "")
+            cashflow_sheet[f'H{cashflow_start_row}'] = totals["total_SBD"].get("11", "")
+            cashflow_sheet[f'I{cashflow_start_row}'] = totals["total_SBD"].get("12", "")
+            cashflow_sheet[f'J{cashflow_start_row}'] = totals["total_SBD"].get("01", "")
+            cashflow_sheet[f'K{cashflow_start_row}'] = totals["total_SBD"].get("02", "")
+            cashflow_sheet[f'L{cashflow_start_row}'] = totals["total_SBD"].get("03", "")
+            cashflow_sheet[f'M{cashflow_start_row}'] = totals["total_SBD"].get("04", "")
+            cashflow_sheet[f'N{cashflow_start_row}'] = totals["total_SBD"].get("05", "")
+            cashflow_sheet[f'O{cashflow_start_row}'] = totals["total_SBD"].get("06", "")
+
+        cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("ytd_SBD","")
 
     cashflow_start_row += 2
     for col in range(4, 22):  
@@ -6413,13 +6445,17 @@ def generate_excel(request,school,anchor_year):
         cashflow_sheet[f'N{cashflow_start_row}'] = totals["dna_total_months"].get("05", "")
         cashflow_sheet[f'O{cashflow_start_row}'] = totals["dna_total_months"].get("06", "")
 
-    cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("dna_ytd_total","")
+    if school in schoolCategory["ascender"]:
+        cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("ytd_SBD","")
+    else:
+        cashflow_sheet[f'Q{cashflow_start_row}'] = totals.get("dna_ytd_total","")
 
 
     #CASHFLOW FROM OPERATING ACTIVITIES
     for row in data_cashflow:
         if row['Category'] == 'Operating':
-            all_zeros = all(row[f'total_operating{i}'] == 0 for i in range(1, 12))
+            all_zeros = all(row[f'total_all_months_{str(i).zfill(2)}'] == "" for i in range(1, 12))
+            print("ALLZERO",row["Activity"],all_zeros)
             if not all_zeros:
                 cashflow_start_row += 1
                 for col in range(4, 22):  
@@ -6427,38 +6463,39 @@ def generate_excel(request,school,anchor_year):
                     cell.style = stringStyle 
                 cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                 if school in schoolMonths["septemberSchool"]:
-                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating9']
-                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating10']
-                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating11']
-                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating12']
-                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating1']
-                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating2']
-                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating3']
-                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating4']
-                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating5']
-                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating6']
-                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating7']
-                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating8']
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_06']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_08']
                 else:
-                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_operating7']
-                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_operating8']
-                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_operating9']
-                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_operating10']
-                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_operating11']
-                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_operating12']
-                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_operating1']
-                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_operating2']
-                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_operating3']
-                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_operating4']
-                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_operating5']
-                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_operating6']
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_08']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_06']
 
-                cashflow_sheet[f'Q{cashflow_start_row}'] = row['fytd_1']
+                cashflow_sheet[f'Q{cashflow_start_row}'] = row['fytd']
+                
     operating_end_row = cashflow_start_row
     cashflow_start_row += 1
     net_operating_total_row = cashflow_start_row
     
-    # NET OPERATING TOTAL
+
     for col in range(1, 22):
         try:  
             cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
@@ -6503,7 +6540,7 @@ def generate_excel(request,school,anchor_year):
     #CASHFLOW FROM INVESTING ACTIVITIES
     for row in data_cashflow:
         if row['Category'] == 'Investing':
-            all_zeros = all(row[f'total_investing{i}'] == 0 for i in range(1, 12))
+            all_zeros = all(row[f'total_all_months_{str(i).zfill(2)}'] == "" for i in range(1, 12))
             if not all_zeros:
                 cashflow_start_row += 1
                 for col in range(4, 22):  
@@ -6512,33 +6549,33 @@ def generate_excel(request,school,anchor_year):
                 
                 cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                 if school in schoolMonths["septemberSchool"]:
-                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing9']
-                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing10']
-                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing11']
-                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing12']
-                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing1']
-                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing2']
-                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing3']
-                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing4']
-                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing5']
-                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing6']
-                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing7']
-                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing8']
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_06']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_08']
                 else:
-                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_investing7']
-                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_investing8']
-                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_investing9']
-                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_investing10']
-                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_investing11']
-                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_investing12']
-                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_investing1']
-                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_investing2']
-                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_investing3']
-                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_investing4']
-                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_investing5']
-                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_investing6']
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_08']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_06']
 
-                cashflow_sheet[f'Q{cashflow_start_row}'] = row['fytd_2']
+                cashflow_sheet[f'Q{cashflow_start_row}'] = row['fytd']
     investing_row_end = cashflow_start_row
     cashflow_start_row += 1
     #NET INVESTING TOTAL
@@ -6582,6 +6619,92 @@ def generate_excel(request,school,anchor_year):
         cashflow_sheet[f'O{cashflow_start_row}'] = cf_totals["total_investing"].get("06","")
         cashflow_sheet[f'Q{cashflow_start_row}'] = cf_totals["total_investing"].get("07","")
 
+
+
+
+
+ #CASHFLOW FROM INVESTING ACTIVITIES
+    for row in data_cashflow:
+        if row['Category'] == 'Financing':
+            all_zeros = all(row[f'total_all_months_{str(i).zfill(2)}'] == "" for i in range(1, 12))
+            if not all_zeros:
+                cashflow_start_row += 1
+                for col in range(4, 22):  
+                    cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+                    cell.style = stringStyle 
+                
+                cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
+                if school in schoolMonths["septemberSchool"]:
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_06']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_08']
+                else:
+                    cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_07']
+                    cashflow_sheet[f'E{cashflow_start_row}'] = row['total_all_months_08']
+                    cashflow_sheet[f'F{cashflow_start_row}'] = row['total_all_months_09']
+                    cashflow_sheet[f'G{cashflow_start_row}'] = row['total_all_months_10']
+                    cashflow_sheet[f'H{cashflow_start_row}'] = row['total_all_months_11']
+                    cashflow_sheet[f'I{cashflow_start_row}'] = row['total_all_months_12']
+                    cashflow_sheet[f'J{cashflow_start_row}'] = row['total_all_months_01']
+                    cashflow_sheet[f'K{cashflow_start_row}'] = row['total_all_months_02']
+                    cashflow_sheet[f'L{cashflow_start_row}'] = row['total_all_months_03']
+                    cashflow_sheet[f'M{cashflow_start_row}'] = row['total_all_months_04']
+                    cashflow_sheet[f'N{cashflow_start_row}'] = row['total_all_months_05']
+                    cashflow_sheet[f'O{cashflow_start_row}'] = row['total_all_months_06']
+
+                cashflow_sheet[f'Q{cashflow_start_row}'] = row['fytd']
+
+    investing_row_end = cashflow_start_row
+    cashflow_start_row += 1
+    #NET INVESTING TOTAL
+    for col in range(1, 22):
+        try:  
+            cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+            cell.font = fontbold
+        except KeyError as e:
+            print(f"Error hiding row {col}: {e}")
+    for col in range(4, 18):  
+        cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
+        cell.style = currency_style_topdown_border 
+    net_investing_total_row = cashflow_start_row
+    cashflow_sheet[f'A{cashflow_start_row}'] = 'Total Financing Activities'
+    if school in schoolMonths["septemberSchool"]:
+        cashflow_sheet[f'D{cashflow_start_row}'] = cf_totals["total_financing"].get("09","")
+        cashflow_sheet[f'E{cashflow_start_row}'] = cf_totals["total_financing"].get("10","")
+        cashflow_sheet[f'F{cashflow_start_row}'] = cf_totals["total_financing"].get("11","")
+        cashflow_sheet[f'G{cashflow_start_row}'] = cf_totals["total_financing"].get("12","")
+        cashflow_sheet[f'H{cashflow_start_row}'] = cf_totals["total_financing"].get("01","")
+        cashflow_sheet[f'I{cashflow_start_row}'] = cf_totals["total_financing"].get("02","")
+        cashflow_sheet[f'J{cashflow_start_row}'] = cf_totals["total_financing"].get("03","")
+        cashflow_sheet[f'K{cashflow_start_row}'] = cf_totals["total_financing"].get("04","")
+        cashflow_sheet[f'L{cashflow_start_row}'] = cf_totals["total_financing"].get("05","")
+        cashflow_sheet[f'M{cashflow_start_row}'] = cf_totals["total_financing"].get("06","")
+        cashflow_sheet[f'N{cashflow_start_row}'] = cf_totals["total_financing"].get("07","")
+        cashflow_sheet[f'O{cashflow_start_row}'] = cf_totals["total_financing"].get("08","")
+        cashflow_sheet[f'Q{cashflow_start_row}'] = cf_totals["total_financing"].get("09","")
+    else:
+        cashflow_sheet[f'D{cashflow_start_row}'] = cf_totals["total_financing"].get("07","")
+        cashflow_sheet[f'E{cashflow_start_row}'] = cf_totals["total_financing"].get("08","")
+        cashflow_sheet[f'F{cashflow_start_row}'] = cf_totals["total_financing"].get("09","")
+        cashflow_sheet[f'G{cashflow_start_row}'] = cf_totals["total_financing"].get("10","")
+        cashflow_sheet[f'H{cashflow_start_row}'] = cf_totals["total_financing"].get("11","")
+        cashflow_sheet[f'I{cashflow_start_row}'] = cf_totals["total_financing"].get("12","")
+        cashflow_sheet[f'J{cashflow_start_row}'] = cf_totals["total_financing"].get("01","")
+        cashflow_sheet[f'K{cashflow_start_row}'] = cf_totals["total_financing"].get("02","")
+        cashflow_sheet[f'L{cashflow_start_row}'] = cf_totals["total_financing"].get("03","")
+        cashflow_sheet[f'M{cashflow_start_row}'] = cf_totals["total_financing"].get("04","")
+        cashflow_sheet[f'N{cashflow_start_row}'] = cf_totals["total_financing"].get("05","")
+        cashflow_sheet[f'O{cashflow_start_row}'] = cf_totals["total_financing"].get("06","")
+        cashflow_sheet[f'Q{cashflow_start_row}'] = cf_totals["total_financing"].get("07","")
     #NET INCREASE Decrease in cash
     cashflow_start_row += 2
     for col in range(1, 22):
