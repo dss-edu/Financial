@@ -3748,12 +3748,12 @@ def balance_sheet(school,year):
                         "FYE": fyeformat, #should now be total fye coming from GL(data3)
                         "BS_id": row[5], #wont be used
                         "school": row[8],
-                
+
 
                     }
 
                     data_balancesheet.append(row_dict)
- 
+        print("DATA_BS",data_balancesheet)
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
         #
@@ -3812,7 +3812,7 @@ def balance_sheet(school,year):
                 }
         
                 data_activitybs.append(row_dict)
-
+       
         with open(os.path.join(json_path, "data3.json"), "r") as f:
             data3 = json.load(f)
         # if not school == "village-tech":

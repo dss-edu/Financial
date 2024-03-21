@@ -188,13 +188,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // code for totals
       if (!obj[0]){
         const section =  Array.from(link.classList).filter(cls => /-total$/.test(cls));
+        console.log(section)
         const sectionName = section[0].split("-")[0]
         const sectionElements = document.querySelectorAll(`.${sectionName}-section`)
+        console.log(sectionElements)
         sectionElements.forEach((element) => {
           obj.push(element.querySelector('.viewgl_activitybs-link').dataset.obj)
         })
       }
-      
+      console.log("this runs")
       fetchDataAndPopulateModal(obj, yr, school, year, url);
     });
   });
@@ -1154,8 +1156,8 @@ function hideRowsOnLoad() {
   });
 
   // Hide local revenue rows
-  hideRowsByClass(".balancesheet-activity-row");
-  hideRowsByClass(".liabilities-activity-row");
+  // hideRowsByClass(".balancesheet-activity-row");
+  // hideRowsByClass(".liabilities-activity-row");
   // Hide state program revenue rows
 }
 
