@@ -550,7 +550,7 @@
           {% for row in data_cashflow %}
           {% if row.Category == 'Operating' %}
           <tr class="dom">
-            <td>{{ row.Description }} {{row.Activity}}</td>
+            <td>{{ row.Description }} </td>
 
             {% if September == "True" %}
             <td>{{row.total_operating_months_09}}</td>
@@ -705,7 +705,7 @@
           {% for row in data_cashflow %}
           {% if row.Category == 'Investing' %}
           <tr class="dom">
-            <td>{{ row.Description }} {{row.Activity}}</td>
+            <td>{{ row.Description }} </td>
 
             {% if September == "True" %}
             <td>{{row.total_investing9}}</td>
