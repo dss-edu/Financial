@@ -5388,9 +5388,20 @@ def cashflow(school,year):
         for item in data_cashflow:
             activity = item["Activity"]
             category = item["Category"]
-            fye_values = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
-            fye_sum = sum(fye_values)
-
+            
+            
+            
+            if school in schoolCategory["skyward"] or school in school_fye:
+                fye_values = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
+                
+                fye_sum = sum(fye_values)
+            else:
+                matching_entries = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
+                fye_value = matching_entries[0] if matching_entries else None
+                if fye_value:
+                    fye_sum = stringParser(fye_value)
+                else:
+                    fye_sum = 0
             print("FYE",fye_sum)
             
             if category == 'Operating':
@@ -5509,7 +5520,7 @@ def cashflow(school,year):
                 if school in schoolCategory["skyward"] or school in school_fye:
                     cbp_fye += (row["total_fye"])
                 else:
-                    cbp_fye += (row["FYE"])
+                    cbp_fye += stringParser(row["FYE"])
                 for i, acct_per in enumerate(acct_per_values, start=1):
                     cbp[acct_per] += (row[f"difference_{i}"])
                 cpb_last += (row[f"difference_{last_month_number}"]) 
@@ -5517,7 +5528,7 @@ def cashflow(school,year):
                 if school in schoolCategory["skyward"] or school in school_fye:
                     cbp_fye += (row["total_fye"])
                 else:
-                    cbp_fye += (row["FYE"])
+                    cbp_fye += stringParser(row["FYE"])
                 for i, acct_per in enumerate(acct_per_values, start=1):
                     cbp[acct_per] += (row[f"difference_{i}"])
                 cpb_last += (row[f"difference_{last_month_number}"]) 
@@ -5526,9 +5537,9 @@ def cashflow(school,year):
         for row in data_balancesheet:
             if row["school"] == school and row["Category"] == "Assets" and row["Activity"] == "Cash":
                 if school == 'goldenrule':
-                    begbal = (row["FYE"])
+                    begbal = stringParser(row["FYE"])
                 else:
-                    begbal = (row["FYE"])
+                    begbal = stringParser(row["FYE"])
                     
                 if school in schoolCategory["skyward"] or school in school_fye:
                     begbal = (row["total_fye"])
