@@ -94,6 +94,8 @@ def run_monthly_profit_loss(school,year):
             profit_loss_monthly(school,year,yr)
 
 def profit_loss(school,year):
+    school_fye = settings.school_fye
+
     print("profit_loss")
     print(school)
     print(year)
@@ -3610,6 +3612,8 @@ def profit_loss_date(school):
         print(file_path)
 
 def balance_sheet(school,year):
+    school_fye = settings.school_fye
+
     print("balance")
     present_date = datetime.today().date()   
     present_year = present_date.year
@@ -5045,6 +5049,8 @@ def balance_sheet(school,year):
                 json.dump(val, f)
 
 def cashflow(school,year):
+    school_fye = settings.school_fye
+
 
     def format_value_dollars(value):
             if value > 0:
@@ -8327,7 +8333,6 @@ def balance_sheet_asc(school,year):
 
 
 
-        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
         unique_act = []
         for item in data_balancesheet:
