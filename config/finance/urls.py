@@ -11,6 +11,10 @@ urlpatterns = [
     path("change_password/<str:school>/", views.change_password, name="change_password"),
     path("users/", views.users, name="users"),
     path("add_user/", views.add_user, name="add_user"),
+    path("view_user/<str:username>", views.view_user, name="view_user"),
+    path("edit_user", views.edit_user, name="edit_user"),
+    path("delete_user", views.delete_user, name="delete_user"),
+
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
     # path('first_advantage/', views.first_advantage, name='first_advantage'),

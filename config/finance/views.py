@@ -148,6 +148,8 @@ def change_password(request,school):
             cursor.execute(query,(hashed_password,username))
             cnxn.commit()
             messages.success(request, 'Password has been changed successfully.')
+            cursor.close()
+            cnxn.close()
             return redirect(f'/dashboard/{school}')
 
         else:
@@ -159,15 +161,109 @@ def change_password(request,school):
 def users(request):
     context = {}
 
+    cnxn = connect()
+    cursor = cnxn.cursor()
+    query = ("SELECT *  FROM [dbo].[User]")
+    cursor.execute(query)
+    rows = cursor.fetchall()
+    user_data = []
+    for row in rows:
+        row_dict = {
+            "username": row[0],
+            "role": row[2],
+        }
+        user_data.append(row_dict)
 
+ 
+        
 
     roles = []
     for category_roles in schoolCategory.values():
         roles.extend(category_roles)
-    context["roles"] = roles
+
+    roles.append("admin")
+    roles.sort()
+    context ={
+        "roles": roles,
+        "users": user_data
+    }
+
+    cursor.close()
+    cnxn.close()
     return render(request, "temps/users.html",context)
 
+def view_user(request, username):
+    if request.method == 'GET':
+
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        cursor.execute("SELECT * FROM [dbo].[User] WHERE Username = ?", (username,))
+        user_row = cursor.fetchone()
+
+        if user_row:
+            context={
+                "username": user_row[0],
+                "password": user_row[1],
+                "user_role": user_row[2]
+            }
+
+            return JsonResponse(context, safe=False)
+
+def edit_user(request):
+    if request.method == "POST":
+        username = request.POST.get('edit-username')
+        password = request.POST.get('edit-password')
+        role = request.POST.get('edit-role')
+        print(role)
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        try:
+           # hashed_password = make_password(password)
+            query = ("UPDATE [dbo].[User] SET Role = ?  WHERE Username = ? ")
+            cursor.execute(query,(role,username))
+            cnxn.commit()
+
+            messages.success(request, 'User has been successfully updated.')
+            cursor.close()
+            cnxn.close()
+        except Exception as e:
+            messages.error(request, 'Error updating user.')  
+
+        return redirect(users)
+
+    else:
+        messages.error(request, 'Error updating user.') 
+        return redirect(users)
+
+def delete_user(request):
+    if request.method == "POST":
+        username = request.POST.get('deleteusername')
+    
+
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        try:
+           # hashed_password = make_password(password)
+            query = "DELETE FROM [dbo].[User] WHERE Username = ?"
+            cursor.execute(query, (username,))
+            
+            cnxn.commit()
+
+            messages.success(request, 'User has been successfully removed.')
+            cursor.close()
+            cnxn.close()
+        except Exception as e:
+            messages.error(request, 'Error removing user.')  
+
+        return redirect(users)
+
+    else:
+        messages.error(request, 'Error removing user.') 
+        return redirect(users)
+
 def add_user(request):
+
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -183,6 +279,8 @@ def add_user(request):
             cnxn.commit()
       
             messages.success(request, 'User has been successfully created.')
+            cursor.close()
+            cnxn.close()
             return redirect(users)
         except Exception as e:
             messages.error(request, 'Error creating user.')  

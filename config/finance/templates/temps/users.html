@@ -64,13 +64,115 @@ Admin Homepage
     button:hover {
         background-color: #0056b3;
     }
+    #new-ui{
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        max-height: 70vh;
+      
+      }
+      #table-main thead{
+        text-align: center;
+      }
+      #table-main th  {
+       /*   padding-top: .75rem;
+        padding-bottom: .75rem;
+       padding: 1rem 1rem; */
+       text-align: center;
+       padding: .5rem;
+      }
+      #table-main tbody td{
+        color: #1b4f72 ; 
+      }
+
+      #table-main tbody td {
+        white-space: nowrap;  /* Prevent text wrapping */
+        overflow: hidden;     /* Hide overflow */
+        text-overflow: ellipsis; /* Add an ellipsis for overflowed text */
+        
+        padding-top: .1rem;
+        padding-bottom: .2rem;
+        padding-right: 150px!important;
+    
+        /* You might want to adjust the width as needed */
+    }
+    #table-main tbody td:nth-child(3) {
+        text-align: center;
+      }
+      
+    .red-icon {
+        color: red;
+    }
+    .fa-edit{
+        padding-right:20px;
+    }
+    #new-ui span {
+        color: #007bff;
+        font-weight: 900;
+      }
+
+      .modal-title{
+        font-family: 'Lato', sans-serif;
+      
+        font-weight: 900;
+      }
+
 </style>
 {% endblock %}
 
 
 {% block body %}
+<div id="new-ui">
 
-<div class="container">
+    <div id="new-table-box" class="rounded shadow-lg p-3 h-100">
+
+      <div class="d-flex flex-row justify-content-between align-items-center p-3 mb-3">
+
+        <div id="section-title">
+            <span >
+              USERS 
+            </span>
+
+        </div>
+        <div>
+            <button id="add-user-btn" class="btn btn-success" onclick="openUserModal('{{data.username}}');">Add User</button>
+        </div>
+    </div>
+      
+
+      <div class="">
+        <table id="table-main" class="table table-hover">
+          <thead>
+            <tr class="rounded shadow headerNew">
+              <th>Username</th>
+              <th>Role</th>
+              <th>Action</th>
+  
+            </tr>
+          </thead>
+          <tbody>
+            {% for data in users %}
+            <tr>
+                <td>{{data.username}}</td>
+                <td>{{data.role}}</td>
+                <td > 
+              
+                  <a href="#" title="Edit" onclick="openUserModal('{{data.username}}');"> <i class="far fa-edit "></i></a>
+                   
+                  <a href="#" title="Delete" onclick="openDeleteModal('{{data.username}}');"> <i class="far fa-minus-square red-icon"></i></a>
+                    
+                </td>
+            </tr>    
+              {% comment %} <a href=" {% url 'aduser' user.pk  %}"><button type="button" class="btn btn-danger"  > Delete</button></a> {% endcomment %}
+            {% comment %} <a href=" {% url 'student_detail' user.pk  %}"><button type="button" class="btn btn-info"  > View </button></a> {% endcomment %}
+            {% comment %} <a href=" {% url 'editstudent' user.pk  %} "><button type="button" class="btn btn-primary"  > Edit</button></a> {% endcomment %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+  </div>
+{% comment %} <div class="container">
     <form method="POST" action="{% url 'add_user'  %}">
         {% csrf_token %}
         <h2>Create User</h2>
@@ -92,32 +194,219 @@ Admin Homepage
         </div>
         <button type="submit">Create</button>
     </form>
-</div>
+</div> {% endcomment %}
+<div class="modal fade" id="user-edit-modal" tabindex="-1" aria-labelledby="userEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="userEditModalLabel">Edit User</h5>
+         
+        </div>
+        <div class="modal-body">
+          <form id="edit-user-form" action="{% url 'edit_user'  %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="edit-username">Username:</label>
+                <input type="text" id="edit-username" name="edit-username" required readonly>
+            </div>
+            {% comment %} <div class="form-group">
+                <label for="edit-password">Password:</label>
+                <input type="password" id="edit-password" name="edit-password" required>
+            </div> {% endcomment %}
+            <div class="form-group">
+                <label for="edit-role">Role:</label>
+                <select id="edit-role" name="edit-role" required>
+                    
+                    {% for role in roles %}
+                    <option value="{{ role }}">{{ role }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit">Save changes</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button id="edit-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="delete-user-modal" tabindex="-1" aria-labelledby="delete-user-modal-Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="delete-user-modal-Label">Delete User</h5>
+         
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'delete_user'  %}">
+                {% csrf_token %}
+      
+                <div>
+                    Are you sure you want to delete   <span id="deleteuser"></span> ?
+                       
+                    
+                </div>
+                <input type="hidden" id="deleteusername" name="deleteusername">
+                <div>
+                <button type="submit">Yes</button>
+                
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button id="delete-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           
+          </div>
 
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="add-user-modal" tabindex="-1" aria-labelledby="add-user-modal-Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="add-user-modal-Label">Create User</h5>
+         
+        </div>
+        <div class="modal-body">
+            <form method="POST" action="{% url 'add_user'  %}">
+                {% csrf_token %}
+      
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        {% for role in roles %}
+                        <option value="{{ role }}">{{ role }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit">Create</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button id="add-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="messageModalLabel">Message</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="messageModalLabel" >Message</h5>
+     
             </div>
             <div class="modal-body">
                 <div id="messageContent">
                     <!-- Messages will be displayed here -->
                 </div>
             </div>
+            <div class="modal-footer">
+                <button id="message-close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               
+              </div>
         </div>
     </div>
 </div>
 
+
+
+
 {% endblock %}
 
 {% block javascript %}
+<script>
+    function openUserModal(username){
+      
+         $.ajax({
+             type: "GET",
+             url: `/view_user/${username}`,
+             success: function (data) {
+                 $('#user-edit-modal').modal('show');
 
+                 var roleValue = data.user_role;
+           
+                 $('#edit-username').val(data.username).trigger('change');
+                 $('#edit-password').val(data.password).trigger('change');
+           
+
+                 $('#edit-role').append($('<option>', {
+                    value: roleValue,
+                    text: roleValue,
+                    selected: true
+                }));
+     
+             }
+         });
+     }
+
+     function openDeleteModal(username){
+        $.ajax({
+            type: "GET",
+            url: `/view_user/${username}`,
+            success: function (data) {
+                $('#delete-user-modal').modal('show');
+                $('#deleteusername').val(data.username);
+                $('#deleteuser').text(data.username);
+    
+            }
+        });
+
+     }
+     const closeEdit = document.getElementById('edit-close')
+
+     closeEdit.addEventListener('click', function() {
+        $('#user-edit-modal').modal('hide');
+    });
+    const closeAdd = document.getElementById('add-close')
+
+    closeAdd.addEventListener('click', function() {
+       $('#add-user-modal').modal('hide');
+   });
+   const closeMessage = document.getElementById('message-close')
+
+   closeMessage.addEventListener('click', function() {
+      $('#messageModal').modal('hide');
+  });
+  const closeDelete = document.getElementById('delete-close')
+
+  closeDelete.addEventListener('click', function() {
+     $('#delete-user-modal').modal('hide');
+ });
+
+    const AddUserButton = document.getElementById('add-user-btn')
+    AddUserButton.addEventListener('click', function() {
+        $('#add-user-modal').modal('show');
+    });
+
+</script>
 <script>
     $(document).ready(function() {
+
+        $('#table-main').DataTable({
+            lengthChange: false, // Disable the "Show x entries" dropdown
+            pageLength: 50,
+            searching: false,
+            columnDefs: [
+                { targets: 2, orderable: false } // Disable sorting for the 3rd column (index 2)
+            ],
+
+      
+        });
+
         // Trigger the modal when you have messages to display
         if (messages.length > 0) {
             $('#messageModal').modal('show');
@@ -132,6 +421,10 @@ Admin Homepage
         messages.forEach(function(message) {
             messageContent.append('<p>' + message + '</p>');
         });
+
+
+
+
     });
 </script>
 {% endblock %}

@@ -90,6 +90,14 @@
                 .modal-footer {
                     z-index: 2;
                 }
+                .sidebarfix {
+                    position: fixed;
+                    top: 10;
+                    left: 0;
+                    height: 100%; /* Set the height to fill the entire viewport */
+                    width: 100%; /* Set the width of the sidebar */
+                   
+                }
             </style>
 
         {% block stylesheet %}
@@ -224,7 +232,7 @@
         </div>
 
         <div class="d-flex flex-row">
-            <div id="wrapper">
+            <div id="wrapper" >
                 <!-- Sidebar -->
                 {% include 'temps/sidebar_home.html' %}
                 <!---->
