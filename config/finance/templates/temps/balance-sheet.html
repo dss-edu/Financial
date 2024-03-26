@@ -828,7 +828,7 @@ style="display:none;"
     <tbody id="data-table-body">
 
 
-
+      {% if September == "True" %}
 
       <script>
         var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
@@ -861,6 +861,34 @@ style="display:none;"
           }
       }
       </script> 
+{% else %}
+      <script>
+        var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
+         // Add 11 to it
+        if (last_month_number <= 6 ) {
+          last_month_number += 10
+      } 
+      else {
+          last_month_number -= 1;
+      }
+        
+        function hide17thColumn() {
+          for (var i = last_month_number; i <= 16; i++) {
+            var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "),#data-table td:nth-child(" + i + ")");
+        
+            for (var j = 0; j < columnsToHide.length; j++) {
+                columnsToHide[j].style.display = "none";
+            }
+        }
+        if(showcurr == 'True'){
+          showcurrentMonth();
+          }else{
+            hidecurrentMonth();
+          }
+      }
+    
+      </script>
+      {% endif %}
         <tr class="header">
             <th class="firstcolumn"></th>
             <th></th>
@@ -1325,11 +1353,11 @@ style="display:none;"
         <tr id="row3-{{ forloop.counter }}" class="dom current-liabilities-row">
           <td class="firstcolumn">
             <a
-            id="row27"
+      
             class="expand-button"
             onclick="oldshowHideSubs(event); "
             >
-          <i id="row27-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+          <i id="" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
           </td>
           <td>
             <input type="hidden"  name="updateID[]" value="{{row.BS_id}}" >
@@ -1377,9 +1405,8 @@ style="display:none;"
         {% for item in data_activitybs %}
         {% if item.Activity == row.Activity %}
         
-        <tr id="row27-{{ forloop.counter }}" class="sub d-none liabilities-activity-row {{row.Activity}}-section">
+        <tr id="" class="sub d-none liabilities-activity-row {{row.Activity}}-section">
           <td class="firstcolumn">
-          
           </td>
           <td>{{item.obj}}</td>
           <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
@@ -1411,8 +1438,8 @@ style="display:none;"
           <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
           <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
           {% endif %}
-          <td class="right-align-td">{{row.fytd}}</td>
-          <td class="right-align-td">{{row.last_month_bal}}</td>
+          <td class="right-align-td">{{item.fytd}}</td>
+          <td class="right-align-td">{{item.last_month_bal}}</td>
         </tr>
 
     {% endif %}
@@ -1552,7 +1579,7 @@ style="display:none;"
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
   {% endif %}
-  <td class="right-align-td">{{item.fytd}}</td>
+  <td class="right-align-td">{{item.fytd}} </td>
   <td class="right-align-td">{{item.last_month_bal}}</td>
 </tr>
 
@@ -1863,32 +1890,7 @@ style="display:none;"
         
 
       <!-- START OF MANARA AND PREPSCHOOL-->
-      {% comment %} <script>
-        var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
-         // Add 11 to it
-        if (last_month_number <= 6 ) {
-          last_month_number += 10
-      } 
-      else {
-          last_month_number -= 1;
-      }
-        
-        function hide17thColumn() {
-          for (var i = last_month_number; i <= 16; i++) {
-            var columnsToHide = document.querySelectorAll("#data-table th:nth-child(" + i + "),#data-table td:nth-child(" + i + ")");
-        
-            for (var j = 0; j < columnsToHide.length; j++) {
-                columnsToHide[j].style.display = "none";
-            }
-        }
-        if(showcurr == 'True'){
-          showcurrentMonth();
-          }else{
-            hidecurrentMonth();
-          }
-      }
-      
-      </script>  {% endcomment %}
+      {% comment %}   {% endcomment %}
      
 </tbody>
 </table>
