@@ -10,14 +10,41 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const parts = currentPath.split('/');
     const month = parts[parts.length - 1];
-  
-
+    let September 
+    if (typeof sept !== 'undefined' && sept !== null) {
+        September = sept;
+    } else {
+        September = "True";
+    }
+    console.log(September)
+    if (September == 'True'){
+        console.log(September)
+        }
     $("#first-link").on("click", function(event) {
         event.preventDefault();
 
         if (currentPath.includes("monthly")) {
+            let  currentYear = new Date().getFullYear().toString();
+            let monthValue = parseInt(month, 10); // Convert to integer
+   
+            
+            if (September == 'True'){
+                
+                if (monthValue > 9 ){
+                    currentYear = (parseInt(currentYear, 10) - 1).toString();
+                   
+                }
+                console.log(currentYear)
+            }else{
+                if (monthValue > 7 ){
+                    currentYear = (parseInt(currentYear, 10) - 1).toString();
+                }
+            }
           
-            window.location.href = "/charter-first-monthly/" + school + "/" + month;
+            if (monthValue < 10) {
+                monthValue = monthValue.toString(); // Convert back to string
+            }
+          window.location.href = "/charter-first/" + school + "/" + currentYear + "/" + monthValue;
 
     }
         else{
@@ -38,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.location.href = "/profit-loss-monthly/" + school + "/" + month;
 
     }else{
+        console.log("THIS RUNS")
         if (year) {
             window.location.href = "/profit-loss/" + school + "/" + year;
         } else {

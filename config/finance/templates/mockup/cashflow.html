@@ -1235,7 +1235,7 @@
     $("#month-select").on("change", function() {
         const month = $(this).val();
         const school = $("#hidden-school").val();
-        $("#hidden-month").val(month);
+ 
       
         if (month === "") {
             window.location.href = "/cashflow-statement/" + school;
