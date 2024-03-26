@@ -293,6 +293,7 @@ def profit_loss(request, school, anchor_year=""):
 @custom_login_required
 @permission_required
 def profit_loss_monthly(request, school, monthly):
+    print("MONTHLY",monthly)
     anchor_year=""
     context = modules.profit_loss_monthly(school, anchor_year, monthly)
 
@@ -419,6 +420,37 @@ def balance_sheet(request, school, anchor_year=""):
     context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/balance-sheet.html", context)
 
+
+@custom_login_required
+@permission_required
+def balance_sheet_monthly(request, school, monthly):
+    anchor_year=""
+    context = modules.balance_sheet_monthly(school, anchor_year, monthly)
+    
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+    context["present_year"] = present_year
+
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
+
+    context["school_bs"] = "False"
+    if school in school_fye:
+        context["school_bs"] = "True"
+    context["school_bs_asc"] = ""
+
+    
+    context["iconStatusCode"] = getStatusCode(school)
+    return render(request, "temps/balance-sheet.html", context)
+
+
 @custom_login_required
 @permission_required
 def balance_sheet_asc(request, school, anchor_year=""):
@@ -505,6 +537,30 @@ def cashflow(request, school, anchor_year=""):
     context["iconStatusCode"] = getStatusCode(school)    
     return render(request, "temps/cashflow.html", context)
 
+@custom_login_required
+@permission_required
+def cashflow_monthly(request, school, monthly):
+    anchor_year=""
+    context = modules.cashflow_monthly(school, anchor_year, monthly)
+    role = request.session.get('user_role')
+    context["role"] = role
+    username = request.session.get('username')
+    context["username"] = username
+    context["September"] = 'True'
+    if school in schoolMonths["julySchool"]:
+        context["September"] = 'False'
+    context["present_year"] = present_year
+    context["ascender"] = 'True'
+    if school in schoolCategory["skyward"]:
+        context["ascender"] = 'False'
+
+    
+    context["school_bs"] = "False"
+    if school in school_fye:
+        context["school_bs"] = "True"
+    context["iconStatusCode"] = getStatusCode(school) 
+
+    return render(request, "temps/cashflow.html", context)
 
 @custom_login_required
 @permission_required

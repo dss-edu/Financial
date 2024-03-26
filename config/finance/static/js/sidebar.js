@@ -8,48 +8,79 @@ document.addEventListener("DOMContentLoaded", function() {
         $(linkId).addClass("activebg"); // Add a class for styling
     }
 
+    const parts = currentPath.split('/');
+    const month = parts[parts.length - 1];
+  
+
     $("#first-link").on("click", function(event) {
         event.preventDefault();
 
-        // $("#page-load-spinner").modal("show");
-        if (year) {
-            window.location.href = "/charter-first/" + school + "/" + year;
-        } else {
-            window.location.href = "/charter-first/" + school;
+        if (currentPath.includes("monthly")) {
+          
+            window.location.href = "/charter-first-monthly/" + school + "/" + month;
+
+    }
+        else{
+            if (year) {
+                window.location.href = "/charter-first/" + school + "/" + year;
+            } else {
+                window.location.href = "/charter-first/" + school;
+            }
         }
+  
     });
 
     $("#pl-link").on("click", function(event) {
         event.preventDefault();
 
-        // $("#page-load-spinner").modal("show");
+        if (currentPath.includes("monthly")) {
+          
+            window.location.href = "/profit-loss-monthly/" + school + "/" + month;
+
+    }else{
         if (year) {
             window.location.href = "/profit-loss/" + school + "/" + year;
         } else {
             window.location.href = "/profit-loss/" + school;
         }
+    }
+
     });
 
     $("#bs-link").on("click", function(event) {
         event.preventDefault();
 
-        // $("#page-load-spinner").modal("show");
+        if (currentPath.includes("monthly")) {
+          
+            window.location.href = "/balance-sheet-monthly/" + school + "/" + month;
+
+    }else{
         if (year) {
             window.location.href = "/balance-sheet/" + school + "/" + year;
         } else {
             window.location.href = "/balance-sheet/" + school;
         }
+
+    }
+
     });
 
     $("#cs-link").on("click", function(event) {
         event.preventDefault();
 
-        // $("#page-load-spinner").modal("show");
-        if (year) {
-            window.location.href = "/cashflow-statement/" + school + "/" + year;
-        } else {
-            window.location.href = "/cashflow-statement/" + school;
+        if (currentPath.includes("monthly")) {
+          
+                window.location.href = "/cashflow-statement-monthly/" + school + "/" + month;
+  
         }
+        else{
+            if (year) {
+                window.location.href = "/cashflow-statement/" + school + "/" + year;
+            } else {
+                window.location.href = "/cashflow-statement/" + school;
+            }
+        }
+
     });
 
     $("#gl-link").on("click", function(event) {

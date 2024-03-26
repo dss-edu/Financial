@@ -521,25 +521,14 @@ def profit_loss_chart(school, anchor_year):
 
 
 def balance_sheet(school, anchor_year):
-    current_date = datetime.today().date()
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_name = last_month.strftime("%B")
-    formatted_last_month = last_month.strftime("%B %d, %Y")
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = (
-        f"{ytd_budget:.2f}"  # Formats the float to have 2 decimal places
-    )
+
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
 
     }
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+
 
     JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet", school)
     if anchor_year:
@@ -591,8 +580,77 @@ def balance_sheet(school, anchor_year):
             options.append(opt[0])
 
     context["activity_options"] = options
-
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
     return context
+
+
+def balance_sheet_monthly(school, anchor_year,monthly):
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+
+    }
+    print(monthly)
+
+
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet-" + monthly, school)
+    if anchor_year:
+        JSON_DIR = os.path.join(
+            settings.BASE_DIR, "finance", "json", str(anchor_year), "balance-sheet-" + monthly, school
+        )
+    files = os.listdir(JSON_DIR)
+
+    for file in files:
+        with open(os.path.join(JSON_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    context["anchor_year"] = anchor_year
+
+    cnxn = connect()
+    cursor = cnxn.cursor()
+
+    query = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NULL or Activity = '';"
+
+    rows = cursor.execute(query)
+    missing_act_list = []
+    for row in rows:
+        if row[3] == school:
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
+            missing_act_list.append(data)
+
+    missing_act_list = sorted(missing_act_list, key=lambda x: x["obj"])
+    context["missing_activities"] = missing_act_list
+
+    query_notmissing = f"SELECT * FROM [dbo].{db[school]['bs_activity']} WHERE Activity IS NOT NULL or Activity != '';"
+
+    rows = cursor.execute(query_notmissing)
+    not_missing = []
+    for row in rows:
+        if row[3] == school:
+            data = {"Activity": row[0], "obj": row[1], "Description": row[2]}
+            not_missing.append(data)
+
+    not_missing = sorted(not_missing, key=lambda x: x["obj"])
+    context["not_missing"] = not_missing
+
+    query = f"SELECT DISTINCT Activity FROM [dbo].{db[school]['bs_activity']}"
+    opts = cursor.execute(query)
+
+    options = []
+    for opt in opts:
+        if opt[0] not in [None, ""]:
+            options.append(opt[0])
+
+    context["activity_options"] = options
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
+    print(view_months)
+    return context
+
+
 
 
 def balance_sheet_asc(school, anchor_year):
@@ -672,18 +730,18 @@ def balance_sheet_asc(school, anchor_year):
 
 
 def cashflow(school, anchor_year):
-    current_date = datetime.today().date()
-    current_year = current_date.year
-    last_year = current_date - timedelta(days=365)
-    current_month = current_date.replace(day=1)
-    last_month = current_month - relativedelta(days=1)
-    last_month_number = last_month.month
-    ytd_budget_test = last_month_number + 4
-    ytd_budget = ytd_budget_test / 12
-    formatted_ytd_budget = f"{ytd_budget:.2f}"
+    # current_date = datetime.today().date()
+    # current_year = current_date.year
+    # last_year = current_date - timedelta(days=365)
+    # current_month = current_date.replace(day=1)
+    # last_month = current_month - relativedelta(days=1)
+    # last_month_number = last_month.month
+    # ytd_budget_test = last_month_number + 4
+    # ytd_budget = ytd_budget_test / 12
+    # formatted_ytd_budget = f"{ytd_budget:.2f}"
 
-    if formatted_ytd_budget.startswith("0."):
-        formatted_ytd_budget = formatted_ytd_budget[2:]
+    # if formatted_ytd_budget.startswith("0."):
+    #     formatted_ytd_budget = formatted_ytd_budget[2:]
 
     context = {
         "school": school,
@@ -691,12 +749,13 @@ def cashflow(school, anchor_year):
         # "data_cashflow": data_cashflow,
         # "data_activitybs": data_activitybs,
         # "data_balancesheet": data_balancesheet,
-        "last_month": last_month,
-        "last_month_number": last_month_number,
-        "format_ytd_budget": formatted_ytd_budget,
-        "ytd_budget": ytd_budget,
-        "anchor_year": anchor_year,
-        "current_year":current_year,
+
+        # "last_month": last_month,
+        # "last_month_number": last_month_number,
+        # "format_ytd_budget": formatted_ytd_budget,
+        # "ytd_budget": ytd_budget,
+        # "anchor_year": anchor_year,
+        # "current_year":current_year,
     }
 
     # all  of profit loss
@@ -741,7 +800,84 @@ def cashflow(school, anchor_year):
         with open(os.path.join(CF_DIR, file), "r") as f:
             basename = os.path.splitext(file)[0]
             context[basename] = json.load(f)
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
+    print(view_months)
+    return context
 
+def cashflow_monthly(school, anchor_year,monthly):
+    # current_date = datetime.today().date()
+    # current_year = current_date.year
+    # last_year = current_date - timedelta(days=365)
+    # current_month = current_date.replace(day=1)
+    # last_month = current_month - relativedelta(days=1)
+    # last_month_number = last_month.month
+    # ytd_budget_test = last_month_number + 4
+    # ytd_budget = ytd_budget_test / 12
+    # formatted_ytd_budget = f"{ytd_budget:.2f}"
+
+    # if formatted_ytd_budget.startswith("0."):
+    #     formatted_ytd_budget = formatted_ytd_budget[2:]
+
+    context = {
+        "school": school,
+        "school_name": SCHOOLS[school],
+        # "data_cashflow": data_cashflow,
+        # "data_activitybs": data_activitybs,
+        # "data_balancesheet": data_balancesheet,
+        
+        # "last_month": last_month,
+        # "last_month_number": last_month_number,
+        # "format_ytd_budget": formatted_ytd_budget,
+        # "ytd_budget": ytd_budget,
+        "anchor_year": anchor_year,
+        # "current_year":current_year,
+    }
+
+    # all  of profit loss
+    JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json")
+    if anchor_year:
+        JSON_DIR = os.path.join(settings.BASE_DIR, "finance", str(anchor_year))
+    PL_DIR = os.path.join(JSON_DIR, "profit-loss-" + monthly, school)
+    files = os.listdir(PL_DIR)
+
+    for file in files:
+        with open(os.path.join(PL_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    if school in schoolCategory["ascender"]:
+        lr_funds = list(set(row["fund"] for row in context["data3"] if "fund" in row))
+        lr_funds_sorted = sorted(lr_funds)
+        lr_obj = list(set(row["obj"] for row in context["data3"] if "obj" in row))
+        lr_obj_sorted = sorted(lr_obj)
+
+        func_choice = list(
+            set(row["func"] for row in context["data3"] if "func" in row)
+        )
+        func_choice_sorted = sorted(func_choice)
+
+        context["lr_funds"] = lr_funds_sorted
+        context["lr_obj"] = lr_obj_sorted
+        context["func_choice"] = func_choice_sorted
+
+    BS_DIR = os.path.join(JSON_DIR, "balance-sheet-" + monthly, school)
+    files = os.listdir(BS_DIR)
+
+    for file in files:
+        with open(os.path.join(BS_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+
+    CF_DIR = os.path.join(JSON_DIR, "cashflow-" + monthly, school)
+    files = os.listdir(CF_DIR)
+
+    for file in files:
+        with open(os.path.join(CF_DIR, file), "r") as f:
+            basename = os.path.splitext(file)[0]
+            context[basename] = json.load(f)
+    view_months = get_months_dict(school)   
+    context["view_months"] = view_months
     return context
 
 

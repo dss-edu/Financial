@@ -859,7 +859,7 @@
 
     
 
-
+            {% if September == "True" %}
             <script>
               var last_month_number = parseInt(
                 "{{months.last_month_number}}",
@@ -895,6 +895,40 @@
                   }
               }
             </script>
+{% else %}
+            <script>
+              var last_month_number = parseInt(
+                "{{months.last_month_number}}",
+                10
+              ); // Parse it as an integer
+              // Add 11 to it
+         
+              if (last_month_number <= 6) {
+                last_month_number += 12;
+              }
+
+              function hide17thColumn() {
+                for (var i = last_month_number; i <= 17; i++) {
+                  var columnsToHide = document.querySelectorAll(
+                    "#data-table th:nth-child(" +
+                      i +
+                      "), #data-table td:nth-child(" +
+                      i +
+                      ")"
+                  );
+
+                  for (var j = 0; j < columnsToHide.length; j++) {
+                    columnsToHide[j].style.display = "none";
+                  }
+                }
+                if(showcurr == 'True'){
+                  showcurrentMonth();
+                  }else{
+                    hidecurrentMonth();
+                  }
+              }
+            </script>
+            {% endif %}
             <tr class="header">
               <th class="firstcolumn"></th>
               <th class="collapsed"></th>

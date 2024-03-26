@@ -231,9 +231,17 @@
                 {% endif %}
                  
               
-                <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
-                <label class="form-check-label" for="showCurrMonth">Show Current Month</label>
-       
+                {% comment %} <input class="form-check-input" type="checkbox" role="switch" id="showCurrMonth" >
+                <label class="form-check-label" for="showCurrMonth">Show Current Month</label> {% endcomment %}
+                <div style="background-color: #f5f6f7;">
+                  <select class="d-flex" name="fyear" id="month-select">
+                      <option value="" selected>select month</option> 
+                      {% for month_number, month_name in view_months %}
+                      <option value="{{ month_number }}">{{ month_name }}</option>
+                      {% endfor %}
+        
+                  </select>
+               </div>
               </div>
               <div class="form-check form-switch"  style="margin-left:20px;">
                 <input class="form-check-input" type="checkbox" role="switch" id="toggleRow" >
@@ -1240,8 +1248,29 @@
 <!-- save this later in a separate file when the mockup gets the pass  -->
 <!-- save this later in a separate file when the mockup gets the pass  -->
 
-
 <script>
+  $(document).ready(function() {
+    const currentPath = window.location.pathname;
+    console.log("Hey")
+    $("#month-select").on("change", function() {
+        const month = $(this).val();
+        const school = $("#hidden-school").val();
+      console.log("hello")
+        console.log(month);
+        if (month === "") {
+            window.location.href = "/balance-sheet/" + school;
+        } else {
+            $("#page-load-spinner").modal("show");
+            window.location.href = "/balance-sheet-monthly/" + school + "/" + month ;
+        }
+    });
+});
+
+</script>
+<script>
+  
+
+
   document.addEventListener('DOMContentLoaded', function(){
     // order is important here
     // formattings first (hide, show, format) then computations
