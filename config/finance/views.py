@@ -6127,35 +6127,35 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'F{start_row_bs}'] ='$' +  total_bs["total_current_liabilities_fye"]
     if school in schoolMonths["septemberSchool"]:
             
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities_fytd"]
     
-    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities"].get(acc_per,"")
 
     start_row_bs += 1
     total_liabilites_row_bs = start_row_bs
@@ -6169,36 +6169,36 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'F{start_row_bs}'] = '$' + total_bs["total_liabilities_fye"]
     if school in schoolMonths["septemberSchool"]:
             
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("08","")
     else:
         
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] = '$' + total_bs["total_liabilities_fytd"]
     
-    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_liabilities"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_liabilities"].get(acc_per,"")
 
 
     start_row_bs += 1
@@ -6267,35 +6267,35 @@ def generate_excel(request,school,anchor_year):
     bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities and Net Assets'
     bs_sheet[f'F{start_row_bs}'] = total_bs["total_LNA_fye"]
     if school in schoolMonths["septemberSchool"]:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_LNA"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_LNA"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_LNA"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_LNA"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_LNA"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_LNA"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_LNA"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_LNA"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_LNA"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_LNA"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_LNA"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_LNA"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_LNA"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_LNA"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_LNA"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_LNA"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_LNA"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_LNA"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_LNA"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_LNA"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = total_bs["total_LNA"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = total_bs["total_LNA"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = total_bs["total_LNA"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = total_bs["total_LNA"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = total_bs["total_LNA"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = total_bs["total_LNA"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = total_bs["total_LNA"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = total_bs["total_LNA"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = total_bs["total_LNA"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = total_bs["total_LNA"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_LNA"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_LNA"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_LNA"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_LNA"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_LNA"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_LNA"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_LNA"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_LNA"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_LNA"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_LNA"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_LNA"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_LNA"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_LNA_fytd"]
     
-    bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"].get(acc_per,"")
 
     while start_bs_for_hiding <= start_row_bs:
         for col in range(last_number,19):
