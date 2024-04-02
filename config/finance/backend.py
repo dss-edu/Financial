@@ -5423,8 +5423,14 @@ def cashflow(school,year):
             else:
                 matching_entries = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
                 fye_value = matching_entries[0] if matching_entries else None
+                print("FYE",fye_value)
                 if fye_value:
-                    fye_sum = stringParser(fye_value)
+                    if isinstance(fye_value, str):
+                        
+                        fye_sum = stringParser(fye_value)
+                    else:
+                        fye_sum = fye_value
+
                 else:
                     fye_sum = 0
  
@@ -13273,7 +13279,10 @@ def cashflow_monthly(school,year,monthly):
                 matching_entries = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
                 fye_value = matching_entries[0] if matching_entries else None
                 if fye_value:
-                    fye_sum = stringParser(fye_value)
+                    if isinstance(fye_value, str):    
+                        fye_sum = stringParser(fye_value)
+                    else:
+                        fye_sum = fye_value
                 else:
                     fye_sum = 0
  
