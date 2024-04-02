@@ -5306,10 +5306,16 @@ def cashflow(school,year):
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
-        if month_exception == 1:
-            lm_ytd = 12
+        if month_exception: 
+            if month_exception == 1:
+                lm_ytd = 12
+            else:
+                lm_ytd = month_exception - 1    
         else:
-            lm_ytd = month_exception - 1    
+            if school in schoolMonths["septemberSchool"]:
+                lm_ytd = 9
+            else:
+                lm_ytd = 7   
 
         cb_ytd = '7'
     
@@ -13202,11 +13208,19 @@ def cashflow_monthly(school,year,monthly):
         ytd_netsurplus =0
         school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
+        lm_ytd = ""
 
-        if month_exception == 1:
-            lm_ytd = 12
+        
+        if month_exception: 
+            if month_exception == 1:
+                lm_ytd = 12
+            else:
+                lm_ytd = month_exception - 1    
         else:
-            lm_ytd = month_exception - 1    
+            if school in schoolMonths["septemberSchool"]:
+                lm_ytd = 9
+            else:
+                lm_ytd = 7 
 
         cb_ytd = '7'
     
