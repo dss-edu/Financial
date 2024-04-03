@@ -145,7 +145,7 @@ urlpatterns = [
     path("dashboard/notes/<str:school>", new_views.dashboard_notes),
     path("dashboard/notes/<str:school>/<int:anchor_year>/<int:anchor_month>", new_views.dashboard_notes),
     path("dashboard/<str:school>/<int:anchor_year>", new_views.dashboard),
-    path("dashboard/<str:school>/<int:anchor_year>/<int:anchor_month>", new_views.dashboard),
+    path("dashboard-monthly/<str:school>/<int:anchor_year>/<int:anchor_month>", new_views.dashboard),
     path("charter-first/<str:school>", new_views.charter_first),
     path("charter-first/<str:school>/<int:anchor_year>", new_views.charter_first),
     path("charter-first-monthly/<str:school>/<int:anchor_year>/<int:anchor_month>", new_views.charter_first),

@@ -52,8 +52,8 @@ def dashboard(school,anchor_year,anchor_month):
             AND month = {anchor_month};"
         cursor.execute(query)
         row = cursor.fetchone()
-        last_month = date(anchor_year, anchor_month + 1, 1)
-        last_month = last_month - relativedelta(days=1)
+      
+
 
     else:
         query = f"SELECT * FROM [dbo].[AscenderData_CharterFirst] \
@@ -62,34 +62,39 @@ def dashboard(school,anchor_year,anchor_month):
                     AND month = {month_number};"
         cursor.execute(query)
         row = cursor.fetchone()
-        print(row)
-        print(curr_year)
-        print(month_number)
-        if row is not None:
+
+    if row is not None:
+        if anchor_month:
+            if anchor_month == 12:
+                last_month = date(anchor_year, 1, 1)
+            else:
+                last_month = date(anchor_year, anchor_month + 1, 1)
+            last_month = last_month - relativedelta(days=1)
+        else:
+         
             last_month = date(curr_year, month_number, 1)
             last_month = last_month + relativedelta(day=31)
-            net_income_ytd = row[3]
-            days_coh = row[6]
-            net_earnings = row[8]
-            debt_service = row[11]
-            ratio_administrative = row[13]
-            
-            
-        else:
-
-            last_month = ""
-            net_income_ytd = ""
-            days_coh = ""
-            net_earnings = ""
-            debt_service = ""
-            ratio_administrative = ""
+        net_income_ytd = row[3]
+        days_coh = row[6]
+        net_earnings = row[8]
+        debt_service = row[11]
+        ratio_administrative = row[13]
+        
+        
+    else:
+        last_month = ""
+        net_income_ytd = ""
+        days_coh = ""
+        net_earnings = ""
+        debt_service = ""
+        ratio_administrative = ""
 
             
             
 
 
     
-    
+    print("LAST_MONTH",last_month)
     context = {
         "school": school,
         "school_name": SCHOOLS[school],

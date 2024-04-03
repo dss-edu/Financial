@@ -17,9 +17,44 @@ document.addEventListener("DOMContentLoaded", function() {
         September = "True";
     }
 
-    if (September == 'True'){
-        console.log(September)
+
+
+        $("#dashboard-link").on("click", function(event) {
+            event.preventDefault();
+    
+            if (currentPath.includes("monthly")) {
+                let  currentYearcharter = new Date().getFullYear().toString();
+                let monthValue = parseInt(month, 10); // Convert to integer
+       
+                
+                if (September == 'True'){
+                    
+                    if (monthValue > 9 ){
+                        currentYearcharter = (parseInt(currentYearcharter, 10) - 1).toString();
+                       
+                    }
+           
+                }else{
+                    if (monthValue > 7 ){
+                        currentYearcharter = (parseInt(currentYearcharter, 10) - 1).toString();
+                    }
+                }
+              
+                if (monthValue < 10) {
+                    monthValue = monthValue.toString(); // Convert back to string
+                }
+              window.location.href = "/dashboard-monthly/" + school + "/" + currentYearcharter + "/" + monthValue;
+    
         }
+            else{
+                if (year) {
+                    window.location.href = "/dashboard/" + school + "/" + year;
+                } else {
+                    window.location.href = "/dashboard/" + school;
+                }
+            }
+      
+        });
     $("#first-link").on("click", function(event) {
         event.preventDefault();
 
