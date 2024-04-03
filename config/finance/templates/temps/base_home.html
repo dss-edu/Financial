@@ -98,6 +98,7 @@
                     width: 100%; /* Set the width of the sidebar */
                    
                 }
+
             </style>
 
         {% block stylesheet %}
@@ -246,6 +247,9 @@
                     if (thispath.includes("/school-status/")) {
                     
                         bodyBlock.classList.add("flex-grow-1");
+                    }else if(thispath.includes("/users/")) {
+                      
+                        bodyBlock.classList.add("d-flex", "flex-grow-1", "justify-content-center", "align-items-baseline");
                     } else {
                         bodyBlock.classList.add("d-flex", "flex-grow-1", "justify-content-center", "align-items-center");
                     }
