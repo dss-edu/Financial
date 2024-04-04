@@ -456,7 +456,7 @@
             
          
           {% for fund, data in expend_fund.items %}
-          <tr class="title-dom">
+          {% comment %} <tr class="title-dom">
             <td>{{ fund }}  </td>
             <td> </td>
 
@@ -476,7 +476,7 @@
             <td></td>
             <td></td>
             <td> </td>
-          </tr>
+          </tr> {% endcomment %}
           
           <tr class="super-dom">
             <td>Total  Revenue </td>
@@ -1689,7 +1689,7 @@
       const rows = tBody.rows
 
 
-      for (let i = rowIndex; i <= rows.length-1; i++){
+      for (let i = rowIndex-2; i <= rows.length; i--){
 
         if (rows[i].classList.contains('ender')){
           
