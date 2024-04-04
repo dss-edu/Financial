@@ -2278,6 +2278,18 @@ $("#showBudget").on("change", function(event) {
             window.location.href = "/profit-loss-monthly/" + school + "/" + month ;
         }
     });
+    $("#old-month-select").on("change", function() {
+      const month = $(this).val();
+      const school = $("#hidden-school").val();
+
+      console.log(month);
+      if (month === "") {
+          window.location.href = "/profit-loss/" + school;
+      } else {
+          $("#page-load-spinner").modal("show");
+          window.location.href = "/profit-loss-monthly/" + school + "/" + month ;
+      }
+  });
 });
 
 </script>

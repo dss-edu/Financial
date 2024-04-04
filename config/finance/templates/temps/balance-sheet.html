@@ -768,17 +768,26 @@ style="display:none;"
          
             <th colspan="16" style="white-space: nowrap; text-align: center;">
 
-                <h5 style="text-align: center; display: inline;">FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet <br></h5>
-                <h5 style="text-align: center; display: inline; padding-left:20px;">as of {{last_month}}</h5>
-
+                <h5 style="text-align: center;">FY{{FY_year_1}}-{{FY_year_2}} Balance Sheet <br></h5>
+                <h5 style="text-align: center; display: inline; padding-left:100px;">as of {{last_month}}</h5>
+                <div style="float: right">
+                  <select class="d-flex" name="fyear" id="old-month-select">
+                      <option value="" selected>select month</option> 
+                      {% for month_number, month_name in view_months %}
+                      <option value="{{ month_number }}">{{ month_name }}</option>
+                      {% endfor %}
+        
+                  </select>
+              
                 <a
                   id="toggle-button"
                   class="expand-button"
                   onclick="toggleColumns(); hide17thColumn();"
-                  style="float: right"
+                  style=""
                 >
                 <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
               </a>
+            </div>
             </th>
            
             

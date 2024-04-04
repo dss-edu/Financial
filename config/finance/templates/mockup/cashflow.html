@@ -1244,6 +1244,18 @@
             window.location.href = "/cashflow-statement-monthly/" + school + "/" + month ;
         }
     });
+    $("#old-month-select").on("change", function() {
+      const month = $(this).val();
+      const school = $("#hidden-school").val();
+
+    
+      if (month === "") {
+          window.location.href = "/cashflow-statement/" + school;
+      } else {
+          $("#page-load-spinner").modal("show");
+          window.location.href = "/cashflow-statement-monthly/" + school + "/" + month ;
+      }
+  });
 });
 </script>
 <script>

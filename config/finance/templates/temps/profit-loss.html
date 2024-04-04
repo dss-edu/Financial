@@ -755,15 +755,25 @@
                 >
                   as of {{months.last_month}}
                 </h5>
+                <div style=" float: right">
+                  <select class="d-flex" name="fyear" id="old-month-select">
+                      <option value="" selected>select month</option> 
+                      {% for month_number, month_name in view_months %}
+                      <option value="{{ month_number }}">{{ month_name }}</option>
+                      {% endfor %}
+        
+                  </select>
+            
                 <a
                   id="toggle-button"
                   class="expand-button"
 
                   onclick="toggleColumns(); hide17thColumn();"
-                  style="float: right"
+                  style=""
                 >
                 <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
               </a>
+            </div>
               </th>
             </tr>
             {% comment %}
