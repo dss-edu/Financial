@@ -777,82 +777,118 @@
                                 {{cf_totals.total_financing_ytd}}
                             </td>
                         </tr>
-                          
-                            {% for row in data_balancesheet %}
-                                {% if row.school == school %}
+                        <tr class="investing-row-total">
+                            <td></td>
+                            <td><strong>Net Increase/Decrease in Cash</strong></td>
+                            <td></td>
+                            {% if September == "True" %}
+                            <td id="investing-total-3" class="collapsed right-align-td">{{cf_totals.total_activity.09}}</td>
+                            <td id="investing-total-4" class="collapsed right-align-td">{{cf_totals.total_activity.10}}</td>
+                            <td id="investing-total-5" class="collapsed right-align-td">{{cf_totals.total_activity.11}}</td>
+                            <td id="investing-total-6" class="collapsed right-align-td">{{cf_totals.total_activity.12}}</td>
+                            <td id="investing-total-7" class="collapsed right-align-td">{{cf_totals.total_activity.01}}</td>
+                            <td id="investing-total-8" class="collapsed right-align-td">{{cf_totals.total_activity.02}}</td>
+                            <td id="investing-total-9" class="collapsed right-align-td">{{cf_totals.total_activity.03}}</td>
+                            <td id="investing-total-10"class="collapsed right-align-td">{{cf_totals.total_activity.04}}</td>
+                            <td id="investing-total-11"class="collapsed right-align-td">{{cf_totals.total_activity.05}}</td>
+                            <td id="investing-total-12"class="collapsed right-align-td">{{cf_totals.total_activity.06}}</td>
+                            <td id="investing-total-13"class="collapsed right-align-td">{{cf_totals.total_activity.07}}</td>
+                            <td id="investing-total-14"class="collapsed right-align-td">{{cf_totals.total_activity.08}}</td>
+                            {% else %}
+                            <td id="investing-total-13"class="collapsed right-align-td">{{cf_totals.total_activity.07}}</td>
+                            <td id="investing-total-14"class="collapsed right-align-td">{{cf_totals.total_activity.08}}</td>
+                            <td id="investing-total-3" class="collapsed right-align-td">{{cf_totals.total_activity.09}}</td>
+                            <td id="investing-total-4" class="collapsed right-align-td">{{cf_totals.total_activity.10}}</td>
+                            <td id="investing-total-5" class="collapsed right-align-td">{{cf_totals.total_activity.11}}</td>
+                            <td id="investing-total-6" class="collapsed right-align-td">{{cf_totals.total_activity.12}}</td>
+                            <td id="investing-total-7" class="collapsed right-align-td">{{cf_totals.total_activity.01}}</td>
+                            <td id="investing-total-8" class="collapsed right-align-td">{{cf_totals.total_activity.02}}</td>
+                            <td id="investing-total-9" class="collapsed right-align-td">{{cf_totals.total_activity.03}}</td>
+                            <td id="investing-total-10"class="collapsed right-align-td">{{cf_totals.total_activity.04}}</td>
+                            <td id="investing-total-11"class="collapsed right-align-td">{{cf_totals.total_activity.05}}</td>
+                            <td id="investing-total-12"class="collapsed right-align-td">{{cf_totals.total_activity.06}}</td>
 
-                                    {% if row.Category == 'Assets' %}
-                                        {% if row.Subcategory == 'Current Assets' %}
-                                            {% if row.Activity == 'Cash' %}
-                                                <tr class="CBP-row">
-                                                    <td></td>
-                                                    <td><strong>Cash at Beginning of Period</strong></td>
-                                                    <td></td>
-                                                    <td class="collapsed right-align-td" > {{row.FYE}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_9}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_10}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_11}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_12}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_1}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_2}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_3}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_4}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_5}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_6}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_7}}</td>
-                                                    <td class="right-align-td"> {{row.FYE}}</td>
-                                                </tr>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                            <tr class="local-revenue-row">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="collapsed" ></td>
-                                <td class="collapsed" ></td>
-                                <td class="collapsed" ></td>
-                                <td class="collapsed" ></td>
-                                <td class="collapsed" ></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td class="collapsed"></td>
-                                <td></td>
-                            </tr>
-                            {% for row in data_balancesheet %}
-                                {% if row.school == school %}
-                                    {% if row.Category == 'Assets' %}
-                                        {% if row.Subcategory == 'Current Assets' %}
-                                            {% if row.Activity == 'Cash' %}
-                                                <tr class="CEP-row">
-                                                    <td></td>
-                                                    <td><strong>Cash at End of Period</strong></td>
-                                                    <td></td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_9}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_10}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_11}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_12}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_1}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_2}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_3}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_4}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_5}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_6}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_7}}</td>
-                                                    <td class="collapsed right-align-td" > {{row.difference_8}}</td>
-                                                    <td class="right-align-td">{{row.last_month_difference}}</td>
-                                                </tr>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
+                            {% endif %}
+
+                            
+                            <td id="investing-total-15"class="right-align-td">
+                                {{cf_totals.total_financing_ytd}}
+                            </td>
+                        </tr>
+
+                        <tr class="CBP-row">
+                            <td></td>
+                            <td><strong>Cash at Beginning of Period</strong></td>
+                            <td></td>
+                            {% if September == "True" %}
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp_fye}}</td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.09}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.10}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.11}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.12}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.01}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.02}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.03}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.04}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.05}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.06}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.07}} </td>
+                            {% else %}
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp_fye}}</td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.07}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.08}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.09}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.10}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.11}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.12}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.01}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.02}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.03}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.04}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.05}} </td>
+      
+                    
+                            {% endif %}
+                            <td class="right-align-td">{{cf_totals.cbp_fye}}</td>
+                        </tr>
+                        <tr class="CBP-row">
+                            <td></td>
+                            <td><strong>Cash at End of Period</strong></td>
+                            <td></td>
+                            {% if September == "True" %}
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.09}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.10}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.11}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.12}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.01}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.02}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.03}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.04}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.05}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.06}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.07}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.08}} </td>
+                            {% else %}
+
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.07}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.08}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.09}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.10}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.11}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.12}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.01}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.02}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.03}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.04}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.05}} </td>
+                            <td class="collapsed right-align-td" > {{cf_totals.cbp.06}} </td>
+      
+                    
+                            {% endif %}
+                            <td class="right-align-td">{{cf_totals.cpb_last}}</td>
+                        </tr>
+
+                          
 
 
             
