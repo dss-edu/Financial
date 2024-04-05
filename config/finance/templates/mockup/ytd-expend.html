@@ -1357,7 +1357,7 @@
     const tableMain = document.getElementById('table-main')
     tableFormatter(tableMain)
     tableFormatter2(tableMain)
-
+    tableFormatter3(tableMain)
     ///////////////////////// show hide stuff ///////////////////////////
     // hide months
     const monthHeaders = document.querySelectorAll('.month')
@@ -1669,17 +1669,33 @@
         const nextRow = rows[index + 1]; // Get the next row
         
         if (nextRow && nextRow.classList.contains('super-dom') && row.classList.contains('super-dom')) {
-          console.log(row);
+       
           row.remove(); // Remove the current row if it and the next row both have class 'super-dom'
       }
       if (nextRow && nextRow.classList.contains('title-dom') && row.classList.contains('super-dom')) {
-        console.log(row);
+
         row.remove(); // Remove the current row if it and the next row both have class 'super-dom'
     }
     });
 
 
     } 
+    function tableFormatter3(mainTableDiv){
+      const rows = mainTableDiv.querySelectorAll('tbody tr')
+     
+      rows.forEach((row, index) => {
+        const nextRow = rows[index + 1]; // Get the next row
+        
+        if (nextRow && nextRow.classList.contains('title-dom') && row.classList.contains('title-dom')) {
+          console.log(row);
+          nextRow.remove(); // Remove the current row if it and the next row both have class 'super-dom'
+      }
+
+    });
+
+
+    } 
+
 
     function showHideTitle(event){
       const section = event.currentTarget.closest('tr')
