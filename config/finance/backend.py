@@ -1054,9 +1054,16 @@ def profit_loss(school,year):
   
         expend_fund = {}
         for item in data3:
+            if school in schoolCategory["ascender"]:
+                AcctDescr = item["AcctDescr"]
+                
+        
+
             fund_value = item["fund"]
             if fund_value not in expend_fund and fund_value != '000':
                 expend_fund[fund_value] = {}
+                if school in schoolCategory["ascender"]:
+                    expend_fund[fund_value][f"name"] = AcctDescr
                 for i in range(1, len(acct_per_values) + 1):
                     for obj_range in full_obj_ranges:
                         expend_fund[fund_value][f"total_expend_{obj_range}_{i}"] = 0
@@ -1296,32 +1303,32 @@ def profit_loss(school,year):
 
         for fund_value in expend_fund:
             for i, acct_per in enumerate(acct_per_values, start=1):
-                expend_fund[fund_value][f"total_expend_6100_{i}"] = format_value(expend_fund[fund_value][f"total_expend_6100_{i}"])
-                expend_fund[fund_value][f"total_expend_6200_{i}"]   = format_value(expend_fund[fund_value][f"total_expend_6200_{i}"])
-                expend_fund[fund_value][f"total_expend_6300_{i}"]   = format_value(expend_fund[fund_value][f"total_expend_6300_{i}"]) 
-                expend_fund[fund_value][f"total_expend_6400_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6400_{i}"])
-                expend_fund[fund_value][f"total_expend_6500_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6500_{i}"])
-                expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value(expend_fund[fund_value][f"total_expend_6600_{i}"])
-                expend_fund[fund_value][f"total_{i}"] = format_value(expend_fund[fund_value][f"total_{i}"])
+                expend_fund[fund_value][f"total_expend_6100_{i}"] = format_value_negative(expend_fund[fund_value][f"total_expend_6100_{i}"])
+                expend_fund[fund_value][f"total_expend_6200_{i}"]   = format_value_negative(expend_fund[fund_value][f"total_expend_6200_{i}"])
+                expend_fund[fund_value][f"total_expend_6300_{i}"]   = format_value_negative(expend_fund[fund_value][f"total_expend_6300_{i}"]) 
+                expend_fund[fund_value][f"total_expend_6400_{i}"]  = format_value_negative(expend_fund[fund_value][f"total_expend_6400_{i}"])
+                expend_fund[fund_value][f"total_expend_6500_{i}"]  = format_value_negative(expend_fund[fund_value][f"total_expend_6500_{i}"])
+                expend_fund[fund_value][f"total_expend_6600_{i}"]  = format_value_negative(expend_fund[fund_value][f"total_expend_6600_{i}"])
+                expend_fund[fund_value][f"total_{i}"] = format_value_negative(expend_fund[fund_value][f"total_{i}"])
                 for obj_range in rev_obj_ranges:
-                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
-                expend_fund[fund_value][f"total_revenue_{i}"] = format_value(expend_fund[fund_value][f"total_revenue_{i}"])
-                expend_fund[fund_value][f"total_RE_{i}"] = format_value(expend_fund[fund_value][f"total_RE_{i}"] )
+                    expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
+                expend_fund[fund_value][f"total_revenue_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{i}"])
+                expend_fund[fund_value][f"total_RE_{i}"] = format_value_negative(expend_fund[fund_value][f"total_RE_{i}"] )
             expend_fund[fund_value][f"total_RE_ytd"] = format_value(expend_fund[fund_value][f"total_RE_ytd"])
             expend_fund[fund_value][f"total_PB_RE"] = format_value(expend_fund[fund_value][f"total_PB_RE"])
             expend_fund[fund_value][f"total_budget_RE"] = format_value(expend_fund[fund_value][f"total_budget_RE"])
 
             for obj_range in rev_obj_ranges:
-                expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"])
-            expend_fund[fund_value][f"total_revenue_ytd"] = format_value(expend_fund[fund_value][f"total_revenue_ytd"]) 
+                expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{obj_range}00_ytd"])
+            expend_fund[fund_value][f"total_revenue_ytd"] = format_value_negative(expend_fund[fund_value][f"total_revenue_ytd"]) 
 
-            expend_fund[fund_value][f"total_expend_6100_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6100_ytd"])
-            expend_fund[fund_value][f"total_expend_6200_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6200_ytd"])
-            expend_fund[fund_value][f"total_expend_6300_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6300_ytd"])
-            expend_fund[fund_value][f"total_expend_6400_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6400_ytd"])
-            expend_fund[fund_value][f"total_expend_6500_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6500_ytd"])
-            expend_fund[fund_value][f"total_expend_6600_ytd"] = format_value(expend_fund[fund_value][f"total_expend_6600_ytd"])
-            expend_fund[fund_value][f"total_ytd"] = format_value(expend_fund[fund_value][f"total_ytd"]) 
+            expend_fund[fund_value][f"total_expend_6100_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6100_ytd"])
+            expend_fund[fund_value][f"total_expend_6200_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6200_ytd"])
+            expend_fund[fund_value][f"total_expend_6300_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6300_ytd"])
+            expend_fund[fund_value][f"total_expend_6400_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6400_ytd"])
+            expend_fund[fund_value][f"total_expend_6500_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6500_ytd"])
+            expend_fund[fund_value][f"total_expend_6600_ytd"] = format_value_negative(expend_fund[fund_value][f"total_expend_6600_ytd"])
+            expend_fund[fund_value][f"total_ytd"] = format_value_negative(expend_fund[fund_value][f"total_ytd"]) 
 
             for obj_range in rev_obj_ranges:
                 expend_fund[fund_value][f"total_PB_{obj_range}00"] = format_value(expend_fund[fund_value][f"total_PB_{obj_range}00"])
