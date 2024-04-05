@@ -465,6 +465,48 @@
          
         <!-- Local Revenue  -->
 
+        {% for row in data %}
+        {% if row.category == 'Local Revenue' %}
+        <tr class="sub d-none">
+
+          <td>{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
+          <td> {{row.total_budget}} </td>
+          <td>{{row.ytd_budget}}</td>
+
+          {% if September == "True" %}
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+          {% else %}
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }}  </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
+          <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
+          {% endif %}
+
+          <td><a href="#" class="viewgl-link-revYTD" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
+          <td></td>
+          <td></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
 
           <tr class="dom d-none">
             <td>Local Revenue</td>
@@ -506,93 +548,11 @@
             <td> {{totals.var_ytd_lr}} </td>
           </tr>
 
-          {% for row in data %}
-          {% if row.category == 'Local Revenue' %}
-          <tr class="sub d-none">
-
-            <td>{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
-            <td> {{row.total_budget}} </td>
-            <td>{{row.ytd_budget}}</td>
-
-            {% if September == "True" %}
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
-            {% else %}
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="07"> {{ row.total_real7 }}  </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="08"> {{ row.total_real8 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="09"> {{ row.total_real9 }}  </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="10"> {{ row.total_real10 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="11"> {{ row.total_real11 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="12"> {{ row.total_real12 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="01"> {{ row.total_real1 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="02"> {{ row.total_real2 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="03"> {{ row.total_real3 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="04"> {{ row.total_real4 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="05"> {{ row.total_real5 }} </a></td>
-            <td><a class="viewgl-link" href="#" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" data-yr="06"> {{ row.total_real6 }} </a></td>
-            {% endif %}
-
-            <td><a href="#" class="viewgl-link-revYTD" data-fund="{{ row.fund }}" data-obj="{{ row.obj }}" > {{ row.ytd_total }} </a></td>
-            <td></td>
-            <td></td>
-          </tr>
-          {% endif %}
-          {% endfor %}
+          
 
           <!-- End Local Revenue  -->
 
           <!-- State PRogram Revenue  -->
-
-
-          <tr class="dom  d-none">
-            <td>State Program Revenue</td>
-            <td> {{totals.total_ammended_spr}} </td>
-            <td> {{totals.ytd_ammended_total_spr}} </td>
-
-            {% if September == "True" %}
-            <td id="spr-total-5" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.09 }} </a></td>
-            <td id="spr-total-6" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.10 }} </a></td>
-            <td id="spr-total-7" ><a class="spr-total" href="#" data-yr="11">{{ totals.total_spr.11 }} </a></td>
-            <td id="spr-total-8" ><a class="spr-total" href="#" data-yr="12">{{ totals.total_spr.12 }} </a></td>
-            <td id="spr-total-9" ><a class="spr-total" href="#" data-yr="01">{{ totals.total_spr.01 }} </a></td>
-            <td id="spr-total-10" ><a class="spr-total" href="#" data-yr="02">{{ totals.total_spr.02 }} </a></td>
-            <td id="spr-total-11" ><a class="spr-total" href="#" data-yr="03">{{ totals.total_spr.03 }} </a></td>
-            <td id="spr-total-12" ><a class="spr-total" href="#" data-yr="04">{{ totals.total_spr.04 }} </a></td>
-            <td id="spr-total-13" ><a class="spr-total" href="#" data-yr="05">{{ totals.total_spr.05 }} </a></td>
-            <td id="spr-total-14" ><a class="spr-total" href="#" data-yr="06">{{ totals.total_spr.06 }} </a></td>
-            <td id="spr-total-15" ><a class="spr-total" href="#" data-yr="07">{{ totals.total_spr.07 }} </a></td>
-            <td id="spr-total-16" ><a class="spr-total" href="#" data-yr="08">{{ totals.total_spr.08 }} </a></td>
-
-            {% else %}
-            <td id="spr-total-3" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.07 }} </a></td>
-            <td id="spr-total-4" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.08 }} </a></td>
-            <td id="spr-total-5" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.09 }} </a></td>
-            <td id="spr-total-6" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.10 }} </a></td>
-            <td id="spr-total-7" ><a class="spr-total" href="#" data-yr="11">{{ totals.total_spr.11 }} </a></td>
-            <td id="spr-total-8" ><a class="spr-total" href="#" data-yr="12">{{ totals.total_spr.12 }} </a></td>
-            <td id="spr-total-9" ><a class="spr-total" href="#" data-yr="01">{{ totals.total_spr.01 }} </a></td>
-            <td id="spr-total-10" ><a class="spr-total" href="#" data-yr="02">{{ totals.total_spr.02 }} </a></td>
-            <td id="spr-total-11" ><a class="spr-total" href="#" data-yr="03">{{ totals.total_spr.03 }} </a></td>
-            <td id="spr-total-12" ><a class="spr-total" href="#" data-yr="04">{{ totals.total_spr.04 }} </a></td>
-            <td id="spr-total-13" ><a class="spr-total" href="#" data-yr="05">{{ totals.total_spr.05 }} </a></td>
-            <td id="spr-total-14" ><a class="spr-total" href="#" data-yr="06">{{ totals.total_spr.06 }} </a></td>
-
-            {% endif %}
-
-            <td><a class="viewgl-link-allrevYTD" href="#" data-category="State Program Revenue"> {{totals.ytd_total_spr}} </a></td>
-            <td> {{totals.variances_revenue_spr}} </td>
-            <td> {{totals.var_ytd_spr}} </td>
-          </tr>
 
           {% for row in data %}
           {% if row.category == 'State Program Revenue' %}
@@ -638,51 +598,50 @@
           {% endif %}
           {% endfor %}
 
+          <tr class="dom  d-none">
+            <td>State Program Revenue</td>
+            <td> {{totals.total_ammended_spr}} </td>
+            <td> {{totals.ytd_ammended_total_spr}} </td>
+
+            {% if September == "True" %}
+            <td id="spr-total-5" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.09 }} </a></td>
+            <td id="spr-total-6" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.10 }} </a></td>
+            <td id="spr-total-7" ><a class="spr-total" href="#" data-yr="11">{{ totals.total_spr.11 }} </a></td>
+            <td id="spr-total-8" ><a class="spr-total" href="#" data-yr="12">{{ totals.total_spr.12 }} </a></td>
+            <td id="spr-total-9" ><a class="spr-total" href="#" data-yr="01">{{ totals.total_spr.01 }} </a></td>
+            <td id="spr-total-10" ><a class="spr-total" href="#" data-yr="02">{{ totals.total_spr.02 }} </a></td>
+            <td id="spr-total-11" ><a class="spr-total" href="#" data-yr="03">{{ totals.total_spr.03 }} </a></td>
+            <td id="spr-total-12" ><a class="spr-total" href="#" data-yr="04">{{ totals.total_spr.04 }} </a></td>
+            <td id="spr-total-13" ><a class="spr-total" href="#" data-yr="05">{{ totals.total_spr.05 }} </a></td>
+            <td id="spr-total-14" ><a class="spr-total" href="#" data-yr="06">{{ totals.total_spr.06 }} </a></td>
+            <td id="spr-total-15" ><a class="spr-total" href="#" data-yr="07">{{ totals.total_spr.07 }} </a></td>
+            <td id="spr-total-16" ><a class="spr-total" href="#" data-yr="08">{{ totals.total_spr.08 }} </a></td>
+
+            {% else %}
+            <td id="spr-total-3" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.07 }} </a></td>
+            <td id="spr-total-4" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.08 }} </a></td>
+            <td id="spr-total-5" ><a class="spr-total" href="#" data-yr="09">{{ totals.total_spr.09 }} </a></td>
+            <td id="spr-total-6" ><a class="spr-total" href="#" data-yr="10">{{ totals.total_spr.10 }} </a></td>
+            <td id="spr-total-7" ><a class="spr-total" href="#" data-yr="11">{{ totals.total_spr.11 }} </a></td>
+            <td id="spr-total-8" ><a class="spr-total" href="#" data-yr="12">{{ totals.total_spr.12 }} </a></td>
+            <td id="spr-total-9" ><a class="spr-total" href="#" data-yr="01">{{ totals.total_spr.01 }} </a></td>
+            <td id="spr-total-10" ><a class="spr-total" href="#" data-yr="02">{{ totals.total_spr.02 }} </a></td>
+            <td id="spr-total-11" ><a class="spr-total" href="#" data-yr="03">{{ totals.total_spr.03 }} </a></td>
+            <td id="spr-total-12" ><a class="spr-total" href="#" data-yr="04">{{ totals.total_spr.04 }} </a></td>
+            <td id="spr-total-13" ><a class="spr-total" href="#" data-yr="05">{{ totals.total_spr.05 }} </a></td>
+            <td id="spr-total-14" ><a class="spr-total" href="#" data-yr="06">{{ totals.total_spr.06 }} </a></td>
+
+            {% endif %}
+
+            <td><a class="viewgl-link-allrevYTD" href="#" data-category="State Program Revenue"> {{totals.ytd_total_spr}} </a></td>
+            <td> {{totals.variances_revenue_spr}} </td>
+            <td> {{totals.var_ytd_spr}} </td>
+          </tr>
+
+          
           <!-- End of  State Program Revenue  -->
 
           <!-- Federal PRogram Revenue  -->
-
-
-          <tr class="dom d-none">
-            <td>Federal Program Revenue</td>
-            <td> {{totals.total_ammended_fpr}} </td>
-            <td> {{totals.ytd_ammended_total_fpr}} </td>
-
-            {% if September == "True" %}
-            <td id="fpr-total-5" > <a href="#" class="fpr-total" data-yr="09"> {{ totals.total_fpr.09 }} </a></td>
-            <td id="fpr-total-6" > <a href="#" class="fpr-total" data-yr="10"> {{ totals.total_fpr.10 }} </a></td>
-            <td id="fpr-total-7" > <a href="#" class="fpr-total" data-yr="11"> {{ totals.total_fpr.11 }} </a></td>
-            <td id="fpr-total-8" > <a href="#" class="fpr-total" data-yr="12"> {{ totals.total_fpr.12 }} </a></td>
-            <td id="fpr-total-9" > <a href="#" class="fpr-total" data-yr="01"> {{ totals.total_fpr.1 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="fpr-total" data-yr="02"> {{ totals.total_fpr.2 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="fpr-total" data-yr="03"> {{ totals.total_fpr.3 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="fpr-total" data-yr="04"> {{ totals.total_fpr.4 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="fpr-total" data-yr="05"> {{ totals.total_fpr.5 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="fpr-total" data-yr="06"> {{ totals.total_fpr.6 }} </a></td>
-            <td id="fpr-total-15" ><a href="#" class="fpr-total" data-yr="07"> {{ totals.total_fpr.7 }} </a></td>
-            <td id="fpr-total-16" ><a href="#" class="fpr-total" data-yr="08"> {{ totals.total_fpr.8 }} </a></td>
-            {% else %}
-            <td id="fpr-total-3" ><a href="#" class="fpr-total" data-yr="07"> {{ totals.total_fpr.07 }} </a></td>
-            <td id="fpr-total-4" ><a href="#" class="fpr-total" data-yr="08"> {{ totals.total_fpr.08 }} </a></td>
-            <td id="fpr-total-5" ><a href="#" class="fpr-total" data-yr="09"> {{ totals.total_fpr.09 }} </a></td>
-            <td id="fpr-total-6" ><a href="#" class="fpr-total" data-yr="10"> {{ totals.total_fpr.10 }} </a></td>
-            <td id="fpr-total-7" ><a href="#" class="fpr-total" data-yr="11"> {{ totals.total_fpr.11 }} </a></td>
-            <td id="fpr-total-8" ><a href="#" class="fpr-total" data-yr="12"> {{ totals.total_fpr.12 }} </a></td>
-            <td id="fpr-total-9" > <a href="#" class="fpr-total" data-yr="01"> {{ totals.total_fpr.1 }} </a></td>
-            <td id="fpr-total-10" ><a href="#" class="fpr-total" data-yr="02"> {{ totals.total_fpr.2 }} </a></td>
-            <td id="fpr-total-11" ><a href="#" class="fpr-total" data-yr="03"> {{ totals.total_fpr.3 }} </a></td>
-            <td id="fpr-total-12" ><a href="#" class="fpr-total" data-yr="04"> {{ totals.total_fpr.4 }} </a></td>
-            <td id="fpr-total-13" ><a href="#" class="fpr-total" data-yr="05"> {{ totals.total_fpr.5 }} </a></td>
-            <td id="fpr-total-14" ><a href="#" class="fpr-total" data-yr="06"> {{ totals.total_fpr.6 }} </a></td>
-            {% endif %}
-
-
-
-            <td><a class="viewgl-link-allrevYTD" href="#" data-category="Federal Program Revenue"> {{totals.ytd_total_fpr}}</a> </td>
-            <td> {{totals.variances_revenue_fpr}} </td>
-            <td> {{totals.var_ytd_fpr}} </td>
-          </tr>
-
           {% for row in data %}
           {% if row.category == 'Federal Program Revenue' %}
           <tr class="sub d-none">
@@ -725,6 +684,48 @@
           </tr>
           {% endif %}
           {% endfor %}
+
+          <tr class="dom d-none">
+            <td>Federal Program Revenue</td>
+            <td> {{totals.total_ammended_fpr}} </td>
+            <td> {{totals.ytd_ammended_total_fpr}} </td>
+
+            {% if September == "True" %}
+            <td id="fpr-total-5" > <a href="#" class="fpr-total" data-yr="09"> {{ totals.total_fpr.09 }} </a></td>
+            <td id="fpr-total-6" > <a href="#" class="fpr-total" data-yr="10"> {{ totals.total_fpr.10 }} </a></td>
+            <td id="fpr-total-7" > <a href="#" class="fpr-total" data-yr="11"> {{ totals.total_fpr.11 }} </a></td>
+            <td id="fpr-total-8" > <a href="#" class="fpr-total" data-yr="12"> {{ totals.total_fpr.12 }} </a></td>
+            <td id="fpr-total-9" > <a href="#" class="fpr-total" data-yr="01"> {{ totals.total_fpr.1 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="fpr-total" data-yr="02"> {{ totals.total_fpr.2 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="fpr-total" data-yr="03"> {{ totals.total_fpr.3 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="fpr-total" data-yr="04"> {{ totals.total_fpr.4 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="fpr-total" data-yr="05"> {{ totals.total_fpr.5 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="fpr-total" data-yr="06"> {{ totals.total_fpr.6 }} </a></td>
+            <td id="fpr-total-15" ><a href="#" class="fpr-total" data-yr="07"> {{ totals.total_fpr.7 }} </a></td>
+            <td id="fpr-total-16" ><a href="#" class="fpr-total" data-yr="08"> {{ totals.total_fpr.8 }} </a></td>
+            {% else %}
+            <td id="fpr-total-3" ><a href="#" class="fpr-total" data-yr="07"> {{ totals.total_fpr.07 }} </a></td>
+            <td id="fpr-total-4" ><a href="#" class="fpr-total" data-yr="08"> {{ totals.total_fpr.08 }} </a></td>
+            <td id="fpr-total-5" ><a href="#" class="fpr-total" data-yr="09"> {{ totals.total_fpr.09 }} </a></td>
+            <td id="fpr-total-6" ><a href="#" class="fpr-total" data-yr="10"> {{ totals.total_fpr.10 }} </a></td>
+            <td id="fpr-total-7" ><a href="#" class="fpr-total" data-yr="11"> {{ totals.total_fpr.11 }} </a></td>
+            <td id="fpr-total-8" ><a href="#" class="fpr-total" data-yr="12"> {{ totals.total_fpr.12 }} </a></td>
+            <td id="fpr-total-9" > <a href="#" class="fpr-total" data-yr="01"> {{ totals.total_fpr.1 }} </a></td>
+            <td id="fpr-total-10" ><a href="#" class="fpr-total" data-yr="02"> {{ totals.total_fpr.2 }} </a></td>
+            <td id="fpr-total-11" ><a href="#" class="fpr-total" data-yr="03"> {{ totals.total_fpr.3 }} </a></td>
+            <td id="fpr-total-12" ><a href="#" class="fpr-total" data-yr="04"> {{ totals.total_fpr.4 }} </a></td>
+            <td id="fpr-total-13" ><a href="#" class="fpr-total" data-yr="05"> {{ totals.total_fpr.5 }} </a></td>
+            <td id="fpr-total-14" ><a href="#" class="fpr-total" data-yr="06"> {{ totals.total_fpr.6 }} </a></td>
+            {% endif %}
+
+
+
+            <td><a class="viewgl-link-allrevYTD" href="#" data-category="Federal Program Revenue"> {{totals.ytd_total_fpr}}</a> </td>
+            <td> {{totals.variances_revenue_fpr}} </td>
+            <td> {{totals.var_ytd_fpr}} </td>
+          </tr>
+
+          
           <!-- End of Federal Program Revenue  -->
 
            <!-- Total Revenue -->
@@ -1031,6 +1032,47 @@
 
           <!-- Payroll and Benefits -->
  
+          {% for row in data_activities %} 
+          {% if row.Category == 'Payroll and Benefits' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
+
+              {% if September == "True" %}
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9  }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a></td>
+              {% else %}
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7  }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9  }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a></td>
+              {% endif %}
+
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %}
 
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6100' %}
@@ -1074,39 +1116,44 @@
           {% endif %}
           {% endfor %} 
 
+          
+          <!-- End of Payroll and Benefits -->
+
+          <!-- Professional and Contract Services  -->
+
           {% for row in data_activities %} 
-          {% if row.Category == 'Payroll and Benefits' %}
+          {% if row.Category == 'Professional and Contract Services' %}
           <tr class="sub d-none">
               <td> {{ row.obj }} - {{ row.Description }} </td>
               <td> {{row.total_budget}} </td>
               <td>{{row.ytd_budget}}</td>
 
               {% if September == "True" %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9  }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
               {% else %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7  }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9  }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
               {% endif %}
 
               <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
@@ -1115,10 +1162,6 @@
           </tr>
           {% endif %}
           {% endfor %}
-          <!-- End of Payroll and Benefits -->
-
-          <!-- Professional and Contract Services  -->
-
 
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6200' %}
@@ -1162,8 +1205,12 @@
           {% endif %}
           {% endfor %} 
 
+          
+          <!-- End of Professional and Contract Services  -->
+
+          <!-- materials and Supplies -->
           {% for row in data_activities %} 
-          {% if row.Category == 'Professional and Contract Services' %}
+          {% if row.Category == 'Materials and Supplies' %}
           <tr class="sub d-none">
               <td> {{ row.obj }} - {{ row.Description }} </td>
               <td> {{row.total_budget}} </td>
@@ -1203,10 +1250,6 @@
           </tr>
           {% endif %}
           {% endfor %}
-          <!-- End of Professional and Contract Services  -->
-
-          <!-- materials and Supplies -->
-
 
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6300' %}
@@ -1249,93 +1292,11 @@
           </tr>
           {% endif %}
           {% endfor %} 
-          {% for row in data_activities %} 
-          {% if row.Category == 'Materials and Supplies' %}
-          <tr class="sub d-none">
-              <td> {{ row.obj }} - {{ row.Description }} </td>
-              <td> {{row.total_budget}} </td>
-              <td>{{row.ytd_budget}}</td>
-
-              {% if September == "True" %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
-              {% else %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
-              {% endif %}
-
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
-              <td></td>
-              <td></td>
-          </tr>
-          {% endif %}
-          {% endfor %}
+          
           <!-- end of materials and Supplies -->
 
           <!-- Other Operating Costs -->
 
-
-          {% for row in data_expensebyobject %} 
-          {% if row.obj == '6400' %}
-          <tr class="dom  d-none">
-            <td>{{ row.obj }} - {{ row.Description }}</td>
-            <td> {{totals.total_budget_ooe}}</td>
-            <td> {{totals.ytd_budget_ooe}} </td>
-
-            {% if September == "True" %}
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="09"> {{ totals.total_EOC_ooe.09 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="10"> {{ totals.total_EOC_ooe.10 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="11"> {{ totals.total_EOC_ooe.11 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="12"> {{ totals.total_EOC_ooe.12 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="01"> {{ totals.total_EOC_ooe.01 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="02"> {{ totals.total_EOC_ooe.02 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="03"> {{ totals.total_EOC_ooe.03 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="04"> {{ totals.total_EOC_ooe.04 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="05"> {{ totals.total_EOC_ooe.05 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="07"> {{ totals.total_EOC_ooe.07 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="08"> {{ totals.total_EOC_ooe.08 }} </a></td>
-            {% else %}
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="07"> {{ totals.total_EOC_ooe.07 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="08"> {{ totals.total_EOC_ooe.08 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="09"> {{ totals.total_EOC_ooe.09 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="10"> {{ totals.total_EOC_ooe.10 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="11"> {{ totals.total_EOC_ooe.11 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="12"> {{ totals.total_EOC_ooe.12 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="01"> {{ totals.total_EOC_ooe.01 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="02"> {{ totals.total_EOC_ooe.02 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="03"> {{ totals.total_EOC_ooe.03 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="04"> {{ totals.total_EOC_ooe.04 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="05"> {{ totals.total_EOC_ooe.05 }} </a></td>
-            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
-            {% endif %}
-
-            <td> <a href="#" class="other-ytd-total" >{{totals.ytd_EOC_ooe}} </a> </td>
-            <td> {{row.variances}} </td>
-            <td> {{row.var_EOC}} </td>
-          </tr>
-          {% endif %}
-          {% endfor %}
           {% for row in data_activities %} 
           {% if row.Category == 'Other Operating Costs' %}
           <tr class="sub d-none">
@@ -1377,6 +1338,48 @@
           </tr>
           {% endif %}
           {% endfor %} 
+
+          {% for row in data_expensebyobject %} 
+          {% if row.obj == '6400' %}
+          <tr class="dom  d-none">
+            <td>{{ row.obj }} - {{ row.Description }}</td>
+            <td> {{totals.total_budget_ooe}}</td>
+            <td> {{totals.ytd_budget_ooe}} </td>
+
+            {% if September == "True" %}
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="09"> {{ totals.total_EOC_ooe.09 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="10"> {{ totals.total_EOC_ooe.10 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="11"> {{ totals.total_EOC_ooe.11 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="12"> {{ totals.total_EOC_ooe.12 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="01"> {{ totals.total_EOC_ooe.01 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="02"> {{ totals.total_EOC_ooe.02 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="03"> {{ totals.total_EOC_ooe.03 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="04"> {{ totals.total_EOC_ooe.04 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="05"> {{ totals.total_EOC_ooe.05 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="07"> {{ totals.total_EOC_ooe.07 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="08"> {{ totals.total_EOC_ooe.08 }} </a></td>
+            {% else %}
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="07"> {{ totals.total_EOC_ooe.07 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="08"> {{ totals.total_EOC_ooe.08 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="09"> {{ totals.total_EOC_ooe.09 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="10"> {{ totals.total_EOC_ooe.10 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="11"> {{ totals.total_EOC_ooe.11 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="12"> {{ totals.total_EOC_ooe.12 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="01"> {{ totals.total_EOC_ooe.01 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="02"> {{ totals.total_EOC_ooe.02 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="03"> {{ totals.total_EOC_ooe.03 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="04"> {{ totals.total_EOC_ooe.04 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="05"> {{ totals.total_EOC_ooe.05 }} </a></td>
+            <td id="ooe-total-5">   <a href="#" class="other-total" data-yr="06"> {{ totals.total_EOC_ooe.06 }} </a></td>
+            {% endif %}
+
+            <td> <a href="#" class="other-ytd-total" >{{totals.ytd_EOC_ooe}} </a> </td>
+            <td> {{row.variances}} </td>
+            <td> {{row.var_EOC}} </td>
+          </tr>
+          {% endif %}
+           {% endfor %} 
           <!-- End of Other Operating Costs -->
 
 
@@ -1425,7 +1428,47 @@
           <!-- end of depreciation -->
 
           <!-- Debt Services  -->
+          {% for row in data_activities %} 
+          {% if row.Category == 'Debt Services' %}
+          <tr class="sub d-none">
+              <td> {{ row.obj }} - {{ row.Description }} </td>
+              <td> {{row.total_budget}} </td>
+              <td>{{row.ytd_budget}}</td>
 
+              {% if September == "True" %}
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
+              {% else %}
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
+              {% endif %}
+
+              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
+              <td></td>
+              <td></td>
+          </tr>
+          {% endif %}
+          {% endfor %} 
 
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6500'%}
@@ -1468,8 +1511,12 @@
           </tr>
           {% endif %}
           {% endfor %}
+         
+          <!-- End of  Debt Services  -->
+
+          <!-- Fixed Capital/Assets  -->
           {% for row in data_activities %} 
-          {% if row.Category == 'Debt Services' %}
+          {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
           <tr class="sub d-none">
               <td> {{ row.obj }} - {{ row.Description }} </td>
               <td> {{row.total_budget}} </td>
@@ -1509,10 +1556,6 @@
           </tr>
           {% endif %}
           {% endfor %} 
-          <!-- End of  Debt Services  -->
-
-          <!-- Fixed Capital/Assets  -->
-
 
           {% for row in data_expensebyobject %} 
           {% if row.obj == '6600'%}
@@ -1555,47 +1598,7 @@
           </tr>
           {% endif %}
           {% endfor %}
-          {% for row in data_activities %} 
-          {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
-          <tr class="sub d-none">
-              <td> {{ row.obj }} - {{ row.Description }} </td>
-              <td> {{row.total_budget}} </td>
-              <td>{{row.ytd_budget}}</td>
-
-              {% if September == "True" %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
-              {% else %}
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="07" > {{ row.total_activities7 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="08" > {{ row.total_activities8 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="09" > {{ row.total_activities9 }}  </a></td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="10" > {{ row.total_activities10 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="11" > {{ row.total_activities11 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="12" > {{ row.total_activities12 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="01" > {{ row.total_activities1 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="02" > {{ row.total_activities2 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="03" > {{ row.total_activities3 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="04" > {{ row.total_activities4 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="05" > {{ row.total_activities5 }} </a> </td>
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="06" > {{ row.total_activities6 }} </a> </td>
-              {% endif %}
-
-              <td><a href="#" class="viewglexpense-link" data-obj="{{row.obj}}" data-yr="00">  {{row.ytd_total}} </a></td>
-              <td></td>
-              <td></td>
-          </tr>
-          {% endif %}
-          {% endfor %} 
+        
           <!-- End of  Fixed Capital/Assets  -->
 
           <!-- Total Expense  -->
@@ -1935,7 +1938,7 @@
         if (rows[i].classList.contains('super-dom')){
           break
         }
-        // hide also the subs that does not have d-none
+        // hide also the subs that does not have d-none``
         if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
           continue
         }
@@ -1946,17 +1949,17 @@
     function showHideSubs(event){
       const section = event.currentTarget.closest('tr')
      
-      //let prevElem = section.previousElementSibling;
+      let prevElem = section.previousElementSibling;
 
-      let nextElem = section.nextElementSibling;
+      //let nextElem = section.nextElementSibling;
 
 
-      while (nextElem.classList.contains('sub')) {
+      while (prevElem.classList.contains('sub')) {
         // const cells = nextElem.querySelectorAll('td')
         // console.log(cells)
         // cells.forEach(cell => cell.classList.toggle('d-none'))
-        nextElem.classList.toggle('d-none')
-        nextElem = nextElem.nextElementSibling;
+        prevElem.classList.toggle('d-none')
+        prevElem = prevElem.previousElementSibling;
       }
     } // end of showHideSubs
 

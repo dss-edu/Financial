@@ -989,8 +989,8 @@
               <td class="firstcolumn">
                 <a href=" {% url 'delete' row.fund row.obj  %}" style="display: none"><i class="fas fa-times"></i></a>
               </td>
-              <td class="collapsed"> <input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" />{{row.fund}}</td>
-              <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}"/>{{ row.obj }} - {{ row.description }}</td>
+              <td class="collapsed"> <input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" /></td>
+              <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}"/>{{row.fund}} - {{ row.obj }} - {{ row.description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{% if row.total_budget == 0.0 %}
                 <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description" value="{{ row.value }}"/>
                 {% else %}
@@ -1081,8 +1081,8 @@
             {% for row in data %} {% if row.category == 'State Program Revenue' %}
             <tr id="row2-{{ forloop.counter }}" class="spr-row">
               <td class="firstcolumn"></td>
-              <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" />{{row.fund}}</td>
-              <td> <input type="hidden" class="form-control" name="updateobj[]"  placeholder="Description" value="{{row.obj}}" />{{ row.obj }} - {{ row.description }} </td>
+              <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" /></td>
+              <td> <input type="hidden" class="form-control" name="updateobj[]"  placeholder="Description" value="{{row.obj}}" />{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">
                 {% if row.total_budget == 0.0 %}
                 <input type="hidden" class="form-control"  id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description" value="{{ row.total_budget }}"/>
@@ -1179,8 +1179,8 @@
             {% if row.category == 'Federal Program Revenue' %}
             <tr id="row3-{{ forloop.counter }}" class="fpr-row">
               <td class="firstcolumn"></td>
-              <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" />{{row.fund}}</td>
-              <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}" />{{ row.obj }} - {{ row.description }}</td>
+              <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" /></td>
+              <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}" />{{row.fund}} - {{ row.obj }} - {{ row.description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{% if row.total_budget == 0.0 %}
                 <input type="hidden" class="form-control" id="updatevalue-{{ forloop.counter }}" name="updatevalue[]" placeholder="Description" value="{{ row.total_budget }}"/>
                 {% else %}
