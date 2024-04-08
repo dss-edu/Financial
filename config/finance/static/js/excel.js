@@ -2,13 +2,26 @@ $(document).ready(function(){
     document.getElementById('export-excel-button').addEventListener('click', function() {
         generateExcel(school);
         console.log(year)
+
+
     });
 
    
     
     function generateExcel(school) {
         $('#spinner-modal').modal('show');
-        fetch('/generate_excel/' + school + '/' + year )
+        const currentPath = window.location.pathname;
+        const parts = currentPath.split('/');
+        const month = parts[parts.length - 1].toString().padStart(2, '0');
+        console.log(month)
+        let fetchPromise;
+        if (currentPath.includes("monthly")) {
+            fetchPromise =fetch('/generate_excel/' + school + '/' + year  + '/' + month)
+            console.log("montly")
+        }else{
+            fetchPromise = fetch('/generate_excel/' + school + '/' + year )
+        }
+        fetchPromise
             .then(function(response) {
                 
                 return response.blob();

@@ -820,6 +820,7 @@ def all_schools(request, school):
     username = request.session.get('username')
     context["username"] = username
 
+
     return render(request, "temps/schools.html", context)
 
 @custom_login_required

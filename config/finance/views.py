@@ -3531,7 +3531,7 @@ def general_ledger_excel(request, school, start="", end=""):
     return response
 
 
-def generate_excel(request,school,anchor_year):
+def generate_excel(request,school,anchor_year,monthly=""):
     cnxn = connect()
     cursor = cnxn.cursor()
 
@@ -3553,22 +3553,29 @@ def generate_excel(request,school,anchor_year):
                 
 
              
-
+    # JSON_DIR NOT USED ANYMORE CAN DELETE
     if anchor_year != curr_year :
         JSON_DIR = os.path.join(settings.BASE_DIR, "finance","json", str(anchor_year),  "excel", school)
     else:
         JSON_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "excel", school)
 
     
-
-    if anchor_year != curr_year :
+    if monthly:
+        print("MONTHLY",monthly)
+        BS_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet-" + monthly ,school)
+        PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + monthly ,school)
+        CF_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "cashflow-" + monthly ,school)
+        print("MONTHLY TRIGGERED")
+    elif anchor_year != curr_year :
         BS_DIR = os.path.join(settings.BASE_DIR, "finance", "json",str(anchor_year), "balance-sheet",school)
         PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json",str(anchor_year), "profit-loss",school)
         CF_DIR = os.path.join(settings.BASE_DIR, "finance", "json",str(anchor_year), "cashflow",school)
+        print("OLD YEAR TRIGGERED")
     else:
         BS_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "balance-sheet",school)
         PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss",school)
         CF_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "cashflow",school)
+        print("CURRENT YEAR TRIGGERED")
 
 
     
