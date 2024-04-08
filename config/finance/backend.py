@@ -9450,39 +9450,51 @@ def school_status(request):
                 ascender = 'False'
 
         
-        if key in schoolCategory["ascender"]:
-            row_data = {
-                "school_key":key,
-                "school_name": value,
-                "school_category": "ascender",
-                "BS_status": BS_status,
-                "PLbudget_status":PLbudget_status,
-                "PLrevenue_status":PLrevenue_status,
-                "PLexpense_status":PLexpense_status,
-                "PLtotalexpense_status":PLtotalexpense_status,
-                "pl_balanced":pl_balanced,
-                "last_update": last_update,
-                "CF_status": CF_status,
-                "update_status":update_status,
-                "ascender":ascender,
-            }
-            school_data.append(row_data)
-        else:
-            row_data = {
-                "school_key":key,
-                "school_name": value,
-                "school_category": "skyward",
-                "BS_status": BS_status,
-                "PLbudget_status":PLbudget_status,
-                "PLrevenue_status":PLrevenue_status,
-                "PLexpense_status":PLexpense_status,
-                "PLtotalexpense_status":PLtotalexpense_status,
-                "pl_balanced":pl_balanced,
-                "last_update": last_update,
-                "update_status":update_status,
-                "ascender":ascender,
-            }
-            school_data.append(row_data)
+        db_string = (db[key]['db'])
+        db_string = db_string.strip('[]')
+        cnxn = connect()
+        cursor = cnxn.cursor()
+        query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+        cursor.execute(query,db_string)
+        print(db_string)
+        row = cursor.fetchone()
+        active_status = ""
+        if row:
+            active_status = row[7]
+        print("ACTIVE_STATUS",active_status)
+        row_data = {
+            "school_key":key,
+            "school_name": value,
+            "school_category": "ascender" if key in schoolCategory["ascender"] else "skyward",
+            "BS_status": BS_status,
+            "PLbudget_status":PLbudget_status,
+            "PLrevenue_status":PLrevenue_status,
+            "PLexpense_status":PLexpense_status,
+            "PLtotalexpense_status":PLtotalexpense_status,
+            "pl_balanced":pl_balanced,
+            "last_update": last_update,
+            "CF_status": CF_status,
+            "update_status":update_status,
+            "ascender":ascender,
+            "active_status":active_status,
+        }
+        school_data.append(row_data)
+        # else:
+        #     row_data = {
+        #         "school_key":key,
+        #         "school_name": value,
+        #         "school_category": "skyward",
+        #         "BS_status": BS_status,
+        #         "PLbudget_status":PLbudget_status,
+        #         "PLrevenue_status":PLrevenue_status,
+        #         "PLexpense_status":PLexpense_status,
+        #         "PLtotalexpense_status":PLtotalexpense_status,
+        #         "pl_balanced":pl_balanced,
+        #         "last_update": last_update,
+        #         "update_status":update_status,
+        #         "ascender":ascender,
+        #     }
+        #     school_data.append(row_data)
 
     def custom_sort(entry):
 
