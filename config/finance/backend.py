@@ -55,20 +55,20 @@ def update_school(school):
     profit_loss_date(school)  # 
 
 def update_fy(school,year):    
-    # writeCodes(school, db[school]['db'], year)
-    # updateDescription(db[school]['db'], school)
+    writeCodes(school, db[school]['db'], year)
+    updateDescription(db[school]['db'], school)
     profit_loss(school,year) 
-    # balance_sheet(school,year)
-    # cashflow(school,year)
-    # charter_first(school)
-    # updateGraphDB(school, True)
-    # profit_loss_chart(school)
-    # profit_loss_date(school)
-    # excel(school,year)
-    # if school in schoolCategory["ascender"]:
-    #     balance_sheet_asc(school,year)        
-    # school_status(school)
-    # run_all_monthly(school,year)
+    balance_sheet(school,year)
+    cashflow(school,year)
+    charter_first(school)
+    updateGraphDB(school, True)
+    profit_loss_chart(school)
+    profit_loss_date(school)
+    excel(school,year)
+    if school in schoolCategory["ascender"]:
+        balance_sheet_asc(school,year)        
+    school_status(school)
+    run_all_monthly(school,year)
     
 
 
