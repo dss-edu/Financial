@@ -30,7 +30,8 @@ ALLOWED_HOSTS = [
     "data.dssedu.com",
     "financialreport.dssedu.com",
     "localhost",
-    "ec2-13-230-82-195.ap-northeast-1.compute.amazonaws.com"
+    "ec2-13-230-82-195.ap-northeast-1.compute.amazonaws.com",
+    "13.230.82.195"
 ]
 
 # Application definition
