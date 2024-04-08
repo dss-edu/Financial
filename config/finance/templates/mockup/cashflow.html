@@ -131,6 +131,11 @@
 .blue{
   color: #1b4f72;
 }
+
+.topborder{
+  border-top: 0 !important;
+
+}
 </style>
 
 <div id="new-ui" >
@@ -490,6 +495,47 @@
 
 
           <!-- Depreciation and Amortization  -->
+          {% for row in data2 %}
+          {% if row.category == 'Depreciation and Amortization' %}
+          <tr class="sub d-none">
+              <td> {{ row.func_func }} - {{ row.desc }} </td>
+
+
+              {% if September == "True" %}
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="09" > {{ row.total_func2_9 }}  </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="10" > {{ row.total_func2_10 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="11" > {{ row.total_func2_11 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="12" > {{ row.total_func2_12 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="01" > {{ row.total_func2_1 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="02" > {{ row.total_func2_2 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="03" > {{ row.total_func2_3 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="04" > {{ row.total_func2_4 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="05" > {{ row.total_func2_5 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="06" > {{ row.total_func2_6 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="07" > {{ row.total_func2_7 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="08" > {{ row.total_func2_8 }} </a></td>
+              
+              {% else %}
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="07" > {{ row.total_func2_7 }}  </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="08" > {{ row.total_func2_8 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="09" > {{ row.total_func2_9 }}  </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="10" > {{ row.total_func2_10 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="11" > {{ row.total_func2_11 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="12" > {{ row.total_func2_12 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="01" > {{ row.total_func2_1 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="02" > {{ row.total_func2_2 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="03" > {{ row.total_func2_3 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="04" > {{ row.total_func2_4 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="05" > {{ row.total_func2_5 }} </a></td>
+              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="06" > {{ row.total_func2_6 }} </a></td>
+              {% endif %}
+
+              <td><a  href="#"  class="viewglfunc-link-ytd"  data-func="{{ row.func_func }}">{{row.ytd_total}}</a></td>
+
+          </tr>
+          {% endif %}
+          {% endfor %}
+
           <tr class="dom">
             <td>Depreciation and Amortization</td>
 
@@ -531,86 +577,15 @@
             </td>
           </tr>
 
-          {% for row in data2 %}
-          {% if row.category == 'Depreciation and Amortization' %}
-          <tr class="sub d-none">
-              <td> {{ row.func_func }} - {{ row.desc }} </td>
-
-
-              {% if September == "True" %}
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="09" > {{ row.total_func2_9 }}  </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="10" > {{ row.total_func2_10 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="11" > {{ row.total_func2_11 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="12" > {{ row.total_func2_12 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="01" > {{ row.total_func2_1 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="02" > {{ row.total_func2_2 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="03" > {{ row.total_func2_3 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="04" > {{ row.total_func2_4 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="05" > {{ row.total_func2_5 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="06" > {{ row.total_func2_6 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="07" > {{ row.total_func2_7 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="08" > {{ row.total_func2_8 }} </a></td>
-              
-              {% else %}
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="07" > {{ row.total_func2_7 }}  </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="08" > {{ row.total_func2_8 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="09" > {{ row.total_func2_9 }}  </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="10" > {{ row.total_func2_10 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="11" > {{ row.total_func2_11 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="12" > {{ row.total_func2_12 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="01" > {{ row.total_func2_1 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="02" > {{ row.total_func2_2 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="03" > {{ row.total_func2_3 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="04" > {{ row.total_func2_4 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="05" > {{ row.total_func2_5 }} </a></td>
-              <td><a href="#" class="viewglfunc-link" data-func="{{ row.func_func }}" data-yr="06" > {{ row.total_func2_6 }} </a></td>
-              {% endif %}
-
-              <td><a  href="#"  class="viewglfunc-link-ytd"  data-func="{{ row.func_func }}">{{row.ytd_total}}</a></td>
-
-          </tr>
-          {% endif %}
-          {% endfor %}
+          
           <!-- Depreciation and Amortization  -->
 
 
           <!-- All increase decrease -->
           {% for row in data_cashflow %}
           {% if row.Category == 'Operating' %}
-          <tr class="dom">
-            <td>{{ row.Description }} </td>
 
-            {% if September == "True" %}
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            {% else %}
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            {% endif %}
 
-            <td>{{row.fytd}}</td>
-          </tr>
-        
           {% for item in data_activitybs %}
           {% if item.Activity == row.Activity %}
           <tr class="sub d-none">
@@ -650,6 +625,42 @@
           </tr>
           {% endif %}
           {% endfor %}
+
+          <tr class="dom">
+            <td>{{ row.Description }} </td>
+
+            {% if September == "True" %}
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            {% else %}
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            {% endif %}
+
+            <td>{{row.fytd}}</td>
+          </tr>
+        
+          
           {% endif %}
           {% endfor %}
           <!-- end of all increase decrease  -->
@@ -732,39 +743,6 @@
           <!-- Investing -->
           {% for row in data_cashflow %}
           {% if row.Category == 'Investing' %}
-          <tr class="dom">
-            <td>{{ row.Description }} </td>
-
-            {% if September == "True" %}
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            {% else %}
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            {% endif %}
-
-            <td>{{row.fytd}}</td>
-          </tr>
 
 
           {% for item in data_activitybs %}
@@ -806,6 +784,43 @@
           </tr>
           {% endif %}
           {% endfor %}
+
+          <tr class="dom">
+            <td>{{ row.Description }} </td>
+
+            {% if September == "True" %}
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            {% else %}
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            {% endif %}
+
+            <td>{{row.fytd}}</td>
+          </tr>
+
+
+          
           {% endif %}
           {% endfor %}
 
@@ -866,40 +881,6 @@
           </tr>
           {% for row in data_cashflow %}
           {% if row.Category == 'Financing' %}
-          <tr class="dom">
-            <td>{{ row.Description }} </td>
-
-            {% if September == "True" %}
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            {% else %}
-            <td>{{row.total_all_months_07}}</td>
-            <td>{{row.total_all_months_08}}</td>
-            <td>{{row.total_all_months_09}}</td>
-            <td>{{row.total_all_months_10}}</td>
-            <td>{{row.total_all_months_11}}</td>
-            <td>{{row.total_all_months_12}}</td>
-            <td>{{row.total_all_months_01}}</td>
-            <td>{{row.total_all_months_02}}</td>
-            <td>{{row.total_all_months_03}}</td>
-            <td>{{row.total_all_months_04}}</td>
-            <td>{{row.total_all_months_05}}</td>
-            <td>{{row.total_all_months_06}}</td>
-            {% endif %}
-
-            <td>{{row.fytd}}</td>
-          </tr>
-
 
           {% for item in data_activitybs %}
           {% if item.Activity == row.Activity %}
@@ -940,6 +921,43 @@
           </tr>
           {% endif %}
           {% endfor %}
+          
+          <tr class="dom">
+            <td>{{ row.Description }} </td>
+
+            {% if September == "True" %}
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            {% else %}
+            <td>{{row.total_all_months_07}}</td>
+            <td>{{row.total_all_months_08}}</td>
+            <td>{{row.total_all_months_09}}</td>
+            <td>{{row.total_all_months_10}}</td>
+            <td>{{row.total_all_months_11}}</td>
+            <td>{{row.total_all_months_12}}</td>
+            <td>{{row.total_all_months_01}}</td>
+            <td>{{row.total_all_months_02}}</td>
+            <td>{{row.total_all_months_03}}</td>
+            <td>{{row.total_all_months_04}}</td>
+            <td>{{row.total_all_months_05}}</td>
+            <td>{{row.total_all_months_06}}</td>
+            {% endif %}
+
+            <td>{{row.fytd}}</td>
+          </tr>
+
+
+          
           {% endif %}
           {% endfor %}
 
@@ -1455,14 +1473,18 @@
       })
     } //end of tableFormatter
 
-
     function showHideSubs(event){
+      
       const section = event.currentTarget.closest('tr')
-      let nextElem = section.nextElementSibling;
-
-      while (nextElem.classList.contains('sub')) {
-        nextElem.classList.toggle('d-none')
-        nextElem = nextElem.nextElementSibling;
+      let prevElem = section.previousElementSibling;
+      //let nextElem = section.nextElementSibling;
+      section.classList.toggle('topborder')
+      
+      
+      while (prevElem.classList.contains('sub')) {
+      
+        prevElem.classList.toggle('d-none')
+        prevElem = prevElem.previousElementSibling;
       }
     } // end of showHideSubs
 
