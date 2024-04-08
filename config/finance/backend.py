@@ -790,7 +790,6 @@ def profit_loss(school,year):
                     
                 if category == 'State Program Revenue':
                     total_spr[acct_per] += (item[f"total_real{i}"])
-                    print("SPR", acct_per,total_spr[acct_per])
                     if i != month_exception:
                         ytd_total_spr += (item[f"total_real{i}"])
                     

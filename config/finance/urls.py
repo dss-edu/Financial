@@ -49,6 +49,11 @@ urlpatterns = [
         name="generate_excel",
     ),
     path(
+        "generate_excel/<str:school>/<int:anchor_year>/<str:monthly>/",
+        views.generate_excel,
+        name="generate_excel",
+    ),
+    path(
         "general-ledger/export/excel/<str:school>/<str:start>/<str:end>/",
         views.general_ledger_excel,
         name="general_ledger_excel",
