@@ -1261,7 +1261,7 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_revenue_5800_ytd"] += total_revenue_5800
                     expend_fund[fund_value][f"total_revenue_5900_ytd"] += total_revenue_5900
                     expend_fund[fund_value][f"total_revenue_ytd"] += total_revenue_5700 + total_revenue_5800 + total_revenue_5900 
-                    expend_fund[fund_value][f"total_RE_ytd"] += expend_fund[fund_value][f"total_revenue_ytd"] + expend_fund[fund_value][f"total_ytd"]
+                    expend_fund[fund_value][f"total_RE_ytd"] = expend_fund[fund_value][f"total_revenue_ytd"] + expend_fund[fund_value][f"total_ytd"]
                 expend_fund[fund_value][f"total_RE_{i}"] += expend_fund[fund_value][f"total_revenue_{i}"]  + expend_fund[fund_value][f"total_{i}"]
                 
             # for item in ytd_expenditure_data_revenue:
@@ -1314,7 +1314,7 @@ def profit_loss(school,year):
                     expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{obj_range}00_{i}"])
                 expend_fund[fund_value][f"total_revenue_{i}"] = format_value_negative(expend_fund[fund_value][f"total_revenue_{i}"])
                 expend_fund[fund_value][f"total_RE_{i}"] = format_value_negative(expend_fund[fund_value][f"total_RE_{i}"] )
-            expend_fund[fund_value][f"total_RE_ytd"] = format_value(expend_fund[fund_value][f"total_RE_ytd"])
+            expend_fund[fund_value][f"total_RE_ytd"] = format_value_negative(expend_fund[fund_value][f"total_RE_ytd"])
             expend_fund[fund_value][f"total_PB_RE"] = format_value(expend_fund[fund_value][f"total_PB_RE"])
             expend_fund[fund_value][f"total_budget_RE"] = format_value(expend_fund[fund_value][f"total_budget_RE"])
 

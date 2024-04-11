@@ -6960,27 +6960,28 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
 
     # FOR YTD EXPEND 
-    for col in range(5, 17 ):
+    for col in range(5, 18 ):
         col_letter = get_column_letter(col)
         
         ytd_expend_sheet.column_dimensions[col_letter].outline_level = 1
         ytd_expend_sheet.column_dimensions[col_letter].hidden = True
     last_number = months["last_month_number"]
-    # if school in schoolMonths["septemberSchool"]:
-    #     if last_number <= 8:
-    #         last_number += 11
-    #     else:
-    #         last_number -= 1
-    # else:
-    #     if last_number <= 6:
-    #         last_number += 13
-    #     else:
-    #         last_number += 1
 
-    # for col in range(last_number,19):
-    #     col_letter = get_column_letter(col)
-    #     ytd_expend_sheet.column_dimensions[col_letter].outline_level = 2
-    #     ytd_expend_sheet.column_dimensions[col_letter].hidden = True
+    if school in schoolMonths["septemberSchool"]:
+        if last_number <= 8:
+            last_number += 9
+        else:
+            last_number -= 3
+    else:
+        if last_number <= 6:
+            last_number += 11
+        else:
+            last_number -= 1
+
+    for col in range(last_number,17):
+        col_letter = get_column_letter(col)
+        ytd_expend_sheet.column_dimensions[col_letter].outline_level = 2
+        ytd_expend_sheet.column_dimensions[col_letter].hidden = True
        
     
     start_ytd_expend = 1
