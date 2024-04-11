@@ -35,8 +35,7 @@
                 style="background-color: gray; width: 80%; margin: auto; height: 2px"
             />
         </span>
-
-       
+        {% if role == "admin" %}
         <li class="nav-item" >
             <a
                 id="analytics-link"
@@ -96,5 +95,6 @@
                 <span style="color: gray;" >Users</span>
             </a>
         </li>
+        {% endif %}
     </ul>
 </nav>

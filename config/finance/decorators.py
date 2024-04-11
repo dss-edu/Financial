@@ -12,6 +12,8 @@ def permission_required(view_func):
            
         if user_role == school :
                 return view_func(request, *args, **kwargs)
+        if user_role == 'all' :
+                return view_func(request, *args, **kwargs)
         return HttpResponse(status=403)
     return wrapper
     

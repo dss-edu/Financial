@@ -96,7 +96,7 @@ def loginView(request):
         user_row = cursor.fetchone()
         
         if user_row and check_password(password, user_row[1]):
-                if user_row[2] == 'admin':
+                if user_row[2] == 'admin' or user_row[2] == 'all':
                     role = user_row[2]
                     request.session['user_role'] = role
                     request.session['username'] = user_row[0]
@@ -182,6 +182,7 @@ def users(request):
         roles.extend(category_roles)
 
     roles.append("admin")
+    roles.append("all")
     roles.sort()
     context ={
         "roles": roles,
