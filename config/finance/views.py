@@ -5791,8 +5791,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("06","")
 
     bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_capital_assets_fytd"]
-    
-    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_capital_assets"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get(acc_per,"")
     
     start_row_bs += 1
     for col in range(2, 22):  
@@ -5835,7 +5834,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_assets_fye_fytd"]
     
-    bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"].get(acc_per,"")
     start_row_bs += 1
     bs_sheet.row_dimensions[start_row_bs].height = 37 
     
@@ -6005,7 +6004,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
     bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_current_liabilities_fytd"]
     
-    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_current_liabilities"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_current_liabilities"].get(acc_per,"")
     
     start_row_bs += 1 
     hide_row_bs_start = start_row_bs 
@@ -6569,7 +6568,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
     for row in data_cashflow:
         if row['Category'] == 'Operating':
             all_zeros = all(row[f'total_all_months_{str(i).zfill(2)}'] == "" for i in range(1, 12))
-            print("ALLZERO",row["Activity"],all_zeros)
+
             if not all_zeros:
                 cashflow_start_row += 1
                 for col in range(4, 22):  
