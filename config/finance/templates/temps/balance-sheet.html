@@ -1126,7 +1126,7 @@ style="display:none;"
       <tr >
         <td class="firstcolumn"> </td>
         <td></td>
-        <td>Capital Assets , Net</td>
+        <td>Noncurrent Assets</td>
         <td></td>
         <td class="collapsed"></td>
         <td class="collapsed"></td>
@@ -1147,7 +1147,7 @@ style="display:none;"
 
 
       {% for row in data_balancesheet %}
-      {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Capital Assets, Net'  %}
+      {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Noncurrent Assets'  %}
       <tr id="row2-{{ forloop.counter }}" class="dom capital-assets-row">
         <td class="firstcolumn">
           
@@ -1248,7 +1248,7 @@ style="display:none;"
       <tr id="ttl-row" class="total-assets-row">
             <td class="firstcolumn"> </td>
             <td></td>
-            <td class="space-before-total"><strong>Total Capital Assets</strong></td>
+            <td class="space-before-total"><strong>Total Noncurrent Assets</strong></td>
             <td id="capital-assets-total-3" class="right-align-td top-border">{{totals_bs.total_capital_assets_fye}}</td>
             {% if September == "True" %}
             <td id="capital-assets-total-4" class="collapsed right-align-td top-border" >{{totals_bs.total_capital_assets.09}}</td>
