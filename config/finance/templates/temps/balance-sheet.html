@@ -980,6 +980,51 @@ style="display:none;"
     {% for row in data_balancesheet %}
     {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Current Assets' %}
 
+    {% for item in data_activitybs %}
+    {% if item.Activity == row.Activity %}
+
+      <tr  id="row{{counters}}-{{ forloop.counter }}" class="sub d-none balancesheet-activity-row {{row.Activity}}-section">
+      <td class="firstcolumn">
+
+      </td>
+      <td>{{item.obj}}</td>
+      <td class="space-before">{{item.obj}} - {{item.Description2}} {{ counters }}</td>
+      <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
+
+      {% if September == "True" %}
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+      {% else %}
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+      {% endif %}
+      <td class="right-align-td">{{item.fytd}}</td>
+      <td class="right-align-td">{{item.last_month_bal}}</td>
+      </tr>
+
+
+    {% endif %}
+    {% endfor %}
 
     <tr id="row1-{{ forloop.counter }}" class="dom current-assets-row">
       <td class="firstcolumn">
@@ -1033,51 +1078,7 @@ style="display:none;"
     </tr> 
 
 
-    {% for item in data_activitybs %}
-    {% if item.Activity == row.Activity %}
-
-      <tr  id="row{{counters}}-{{ forloop.counter }}" class="sub d-none balancesheet-activity-row {{row.Activity}}-section">
-      <td class="firstcolumn">
-
-      </td>
-      <td>{{item.obj}}</td>
-      <td class="space-before">{{item.obj}} - {{item.Description2}} {{ counters }}</td>
-      <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
-
-      {% if September == "True" %}
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-      {% else %}
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-      {% endif %}
-      <td class="right-align-td">{{item.fytd}}</td>
-      <td class="right-align-td">{{item.last_month_bal}}</td>
-      </tr>
-
-
-    {% endif %}
-    {% endfor %}
+   
     {% endif %}
     {% endfor %}
 
@@ -1148,6 +1149,52 @@ style="display:none;"
 
       {% for row in data_balancesheet %}
       {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Noncurrent Assets'  %}
+
+      {% for item in data_activitybs %}
+      {% if item.Activity == row.Activity%}
+
+      <tr id="row26-{{ forloop.counter }}" class="sub d-none balancesheet-activity-row {{row.Activity}}-section">
+      <td class="firstcolumn">
+      
+      </td>
+      <td>{{item.obj}}</td>
+      <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
+      <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
+      {% if September == "True" %}
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+      {% else %}
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+      {% endif %}
+      <td class="right-align-td">{{item.fytd}}</td>
+      <td class="right-align-td">{{item.last_month_bal}}</td>
+      </tr>
+
+
+      {% endif %}
+      {% endfor %}
+
       <tr id="row2-{{ forloop.counter }}" class="dom capital-assets-row">
         <td class="firstcolumn">
           
@@ -1199,52 +1246,10 @@ style="display:none;"
         <td class="right-align-td">{{row.last_month_difference}}</td>
       </tr>
 
-      {% for item in data_activitybs %}
-      {% if item.Activity == row.Activity%}
-
-      <tr id="row26-{{ forloop.counter }}" class="sub d-none balancesheet-activity-row {{row.Activity}}-section">
-      <td class="firstcolumn">
       
-      </td>
-      <td>{{item.obj}}</td>
-      <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
-      <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
-      {% if September == "True" %}
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-      {% else %}
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-      <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-      {% endif %}
-      <td class="right-align-td">{{item.fytd}}</td>
-      <td class="right-align-td">{{item.last_month_bal}}</td>
-      </tr>
-
-
       {% endif %}
       {% endfor %}
-      {% endif %}
-      {% endfor %}
+
       <tr id="ttl-row" class="total-assets-row">
             <td class="firstcolumn"> </td>
             <td></td>
@@ -1359,6 +1364,49 @@ style="display:none;"
   {% for row in data_balancesheet %}
   {% if row.school == school and row.Category == 'Liabilities and Net Assets' and row.Subcategory == 'Current Liabilities' %}
        
+  {% for item in data_activitybs %}
+        {% if item.Activity == row.Activity %}
+        
+        <tr id="" class="sub d-none liabilities-activity-row {{row.Activity}}-section">
+          <td class="firstcolumn">
+          </td>
+          <td>{{item.obj}}</td>
+          <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
+          <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
+          {% if September == "True" %}
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+          {% else %}
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+          {% endif %}
+          <td class="right-align-td">{{item.fytd}}</td>
+          <td class="right-align-td">{{item.last_month_bal}}</td>
+        </tr>
+
+    {% endif %}
+  {% endfor %}
+
         <tr id="row3-{{ forloop.counter }}" class="dom current-liabilities-row">
           <td class="firstcolumn">
             <a
@@ -1411,48 +1459,7 @@ style="display:none;"
         </tr>
 
 
-        {% for item in data_activitybs %}
-        {% if item.Activity == row.Activity %}
         
-        <tr id="" class="sub d-none liabilities-activity-row {{row.Activity}}-section">
-          <td class="firstcolumn">
-          </td>
-          <td>{{item.obj}}</td>
-          <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
-          <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
-          {% if September == "True" %}
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-          {% else %}
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-          <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-          {% endif %}
-          <td class="right-align-td">{{item.fytd}}</td>
-          <td class="right-align-td">{{item.last_month_bal}}</td>
-        </tr>
-
-    {% endif %}
-  {% endfor %}
 
   {% endif %}
   {% endfor %}
@@ -1498,7 +1505,50 @@ style="display:none;"
 {% for row in data_balancesheet %}
 {% if row.school == school and row.Category == 'Liabilities and Net Assets' and row.Subcategory == 'Noncurrent Liabilities' %}
 
+{% for item in data_activitybs %}
+{% if item.Activity == row.Activity %}
 
+<tr id="row27-{{ forloop.counter }}" class="sub d-none nonliabilities-activity-row {{row.Activity}}-section">
+  <td class="firstcolumn">
+  </td>
+  <td>{{item.obj}}</td>
+  <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
+  <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
+  {% if September == "True" %}
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+  {% else %}
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
+  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
+  {% endif %}
+  <td class="right-align-td">{{item.fytd}} </td>
+  <td class="right-align-td">{{item.last_month_bal}}</td>
+</tr>
+
+
+
+  {% endif %}
+{% endfor %}
      
       <tr id="row3-{{ forloop.counter }}" class="dom noncurrent-liabilities-row">
         <td class="firstcolumn">
@@ -1552,50 +1602,7 @@ style="display:none;"
 
       </tr>
 
-{% for item in data_activitybs %}
-{% if item.Activity == row.Activity %}
 
-<tr id="row27-{{ forloop.counter }}" class="sub d-none nonliabilities-activity-row {{row.Activity}}-section">
-  <td class="firstcolumn">
-  </td>
-  <td>{{item.obj}}</td>
-  <td class="space-before">{{item.obj}} - {{item.Description2}}</td>
-  <td class="right-align-td">{% if ascender == "False" or school_bs == 'True' %}{{ item.activity_fye }}{% endif %}</td>
-  {% if September == "True" %}
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-  {% else %}
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="07">{{item.total_bal7}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="08">{{item.total_bal8}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="09">{{item.total_bal9}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="10">{{item.total_bal10}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="11">{{item.total_bal11}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="12">{{item.total_bal12}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="01">{{item.total_bal1}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="02">{{item.total_bal2}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="03">{{item.total_bal3}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="04">{{item.total_bal4}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="05">{{item.total_bal5}}</td>
-  <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
-  {% endif %}
-  <td class="right-align-td">{{item.fytd}} </td>
-  <td class="right-align-td">{{item.last_month_bal}}</td>
-</tr>
-
-
-
-  {% endif %}
-{% endfor %}
 
 {% endif %}
 {% endfor %}
@@ -2056,16 +2063,24 @@ style="display:none;"
 
   function oldshowHideSubs(event){
     const section = event.currentTarget.closest('tr')
+    const icon = section.querySelector('i');
     
-    //let prevElem = section.previousElementSibling;
-    let nextElem = section.nextElementSibling;
+    let prevElem = section.previousElementSibling;
+    //let nextElem = section.nextElementSibling;
     //section.classList.toggle('topborder')
     
-    while (nextElem.classList.contains('sub')) {
+    while (prevElem.classList.contains('sub')) {
     
-      nextElem.classList.toggle('d-none')
-      nextElem = nextElem.nextElementSibling;
+      prevElem.classList.toggle('d-none')
+      prevElem = prevElem.previousElementSibling;
     }
+    if (icon.classList.contains('fa-chevron-down')) {
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+  } else {
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+  }
     /*while (prevElem.classList.contains('sub')) {
     
       prevElem.classList.toggle('d-none')
