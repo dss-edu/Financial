@@ -85,6 +85,9 @@
       #data-table-body td:last-child {
         border-right: 1px solid #dee2e6;
       }
+      .d-none {
+        display: none !important;
+    }
 </style>
 {% endblock %}
 
@@ -344,7 +347,34 @@
                             }
                         </script>
                         {% endif %}
-
+                        <script>
+                
+                                function oldshowHideSubs(event){
+                                    console.log("triggered")
+                                    const section = event.currentTarget.closest('tr')
+                                    const icon = section.querySelector('i');
+                                    
+                                    let prevElem = section.previousElementSibling;
+                                    //let nextElem = section.nextElementSibling;
+                                    //section.classList.toggle('topborder')
+                                  
+                                    while (prevElem.classList.contains('sub')) {
+                                        console.log(prevElem)
+                                      prevElem.classList.toggle('d-none')
+                                      prevElem = prevElem.previousElementSibling;
+                                    }
+                                    if (icon.classList.contains('fa-chevron-down')) {
+                                        icon.classList.remove('fa-chevron-down');
+                                        icon.classList.add('fa-chevron-up');
+                                    } else {
+                                        icon.classList.remove('fa-chevron-up');
+                                        icon.classList.add('fa-chevron-down');
+                                    }
+                                
+                                  } 
+                            
+                       
+                        </script>
                         <tbody id="data-table-body">
                             <tr class="header">
                                 <th></th>
@@ -384,7 +414,7 @@
                                 <td></td>
                             </tr>
                             {% if ascender == "False" %}
-                            <tr class="netcash-row">
+                            <tr class="dom">
                                 <td> </td>
                                 <td>&nbsp;&nbsp;Change in Net Assets</td>
                                 <td></td>
@@ -421,7 +451,7 @@
                                 </td>
                             </tr>
                             {% else %}
-                            <tr class="netcash-row">
+                            <tr class="dom">
                                 <td> </td>
                                 <td>&nbsp;&nbsp;Change in Net Assets</td>
                                 <td></td>
@@ -465,8 +495,55 @@
 
                             {% endif %}
 
-                            <tr class="netcash-row">
+                            {% for row in data2 %}
+                            {% if row.category == 'Depreciation and Amortization' %}
+                            <tr class="sub d-none">
                                 <td></td>
+                           
+                                <td> &nbsp;&nbsp;{{ row.func_func }} - {{ row.desc }} </td>
+                                <td></td>
+                  
+                                {% if September == "True" %}
+                                <td class="collapsed right-align-td" >{{ row.total_func2_9 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_10 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_11 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_12 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_1 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_2 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_3 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_4 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_5 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_6 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_7 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_8 }} </td>
+                                
+                                {% else %}
+                                <td class="collapsed right-align-td" >{{ row.total_func2_7 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_8 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_9 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_10 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_11 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_12 }}</td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_1 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_2 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_3 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_4 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_5 }} </td>
+                                <td class="collapsed right-align-td" >{{ row.total_func2_6 }} </td>
+                                {% endif %}
+                  
+                                <td class="right-align-td">{{row.ytd_total}}</td>
+                  
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            <tr class="dom">
+                                <td>
+                                    <a class="expand-button"
+                                    onclick="oldshowHideSubs(event); ">
+                                    <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                                    </a>
+                                </td>
                                 <td>&nbsp;&nbsp;Depreciation and Amortization</td>
                                 <td></td>
                                 {% if September == "True" %}
@@ -509,8 +586,55 @@
                             
                             {% for row in data_cashflow %}
                                 {% if row.Category == 'Operating' %}
-                                    <tr class="netcash-row">
-                                        <td></td>
+
+                                {% for item in data_activitybs %}
+                                {% if item.Activity == row.Activity %}
+                                <tr class="sub d-none">
+                                    <td></td>
+                                    <td> &nbsp;&nbsp; {{item.obj}} - {{item.Description2}} </td>
+                                    <td></td>
+                                    {% if September == "True" %}
+                                    <td class="collapsed right-align-td" > {{item.total_bal9}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal10}}</td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal11}}</td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal12}}</td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal1}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal2}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal3}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal4}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal5}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal6}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal7}} </td>
+                                    <td class="collapsed right-align-td" > {{item.total_bal8}} </td>
+                                    {% else %}
+                                    <td class="collapsed right-align-td" >{{item.total_bal7}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal8}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal9}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal10}} </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal11}} </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal12}} </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal1}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal2}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal3}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal4}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal5}}  </td>
+                                    <td class="collapsed right-align-td" >{{item.total_bal6}}  </td>
+                                    {% endif %}
+
+                                    <td class="right-align-td">{{item.fytd}}</td>
+
+                        
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+
+                                    <tr class="dom netcash-row">
+                                        <td>
+                                            <a class="expand-button"
+                                            onclick="oldshowHideSubs(event); ">
+                                            <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                                            </a>
+                                        </td>
                                         <td>&nbsp;&nbsp;{{ row.Description }}</td>
                                         <td></td>
                                         {% if September == "True" %}
@@ -581,7 +705,7 @@
                                 <td class="right-align-td">{{cf_totals.total_operating_ytd}}</td>
                               </tr>
 
-                            <tr class="netcash-row-total">
+                            {% comment %} <tr class="netcash-row-total">
                                 <td></td>
                                 <td><strong>NET CASH FLOWS FROM OPERATING ACTIVITIES</strong></td>
                                 <td></td>
@@ -618,11 +742,56 @@
                                 <td class="collapsed"></td>
                                 <td class="collapsed"></td>
                                 <td></td>
-                            </tr>
+                            </tr> {% endcomment %}
+                            
                             {% for row in data_cashflow %}
                                 {% if row.Category == 'Investing' %}
+
+                                {% for item in data_activitybs %}
+                                {% if item.Activity == row.Activity %}
+                                <tr class="sub d-none">
+                                    <td></td>
+                                    <td>&nbsp;&nbsp;{{item.obj}} - {{item.Description2}} </td>
+                                    <td></td>
+                                    {% if September == "True" %}
+                                    <td class="collapsed right-align-td"> {{item.total_bal9}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal10}} </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal11}} </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal12}} </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal1}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal2}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal3}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal4}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal5}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal6}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal7}}  </td>
+                                    <td class="collapsed right-align-td"> {{item.total_bal8}}  </td>
+                                    {% else %}
+                                    <td class="collapsed right-align-td">{{item.total_bal7}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal8}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal9}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal10}}</td>
+                                    <td class="collapsed right-align-td">{{item.total_bal11}}</td>
+                                    <td class="collapsed right-align-td">{{item.total_bal12}}</td>
+                                    <td class="collapsed right-align-td">{{item.total_bal1}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal2}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal3}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal4}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal5}} </td>
+                                    <td class="collapsed right-align-td">{{item.total_bal6}} </td>
+                                    {% endif %}
+
+                                    <td class="right-align-td">{{item.fytd}}</td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
                                     <tr class="investing-row">
-                                        <td></td>
+                                        <td>
+                                            <a class="expand-button"
+                                            onclick="oldshowHideSubs(event); ">
+                                            <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                                            </a>
+                                        </td>
                                         <td>&nbsp;&nbsp;{{ row.Description }}</td>
                                         <td></td>
                                         {% if September == "True" %}
@@ -701,8 +870,57 @@
             
                         {% for row in data_cashflow %}
                             {% if row.Category == 'Financing' %}
+
+                            {% for item in data_activitybs %}
+                            {% if item.Activity == row.Activity %}
+                            <tr class="sub d-none">
+                                <td>
+
+                                </td>
+                              <td> &nbsp;&nbsp;{{item.obj}} - {{item.Description2}} </td>
+                              <td></td>
+                              {% if September == "True" %}
+                              <td class="collapsed right-align-td" >{{item.total_bal9}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal10}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal11}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal12}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal1}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal2}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal3}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal4}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal5}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal6}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal7}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal8}}  </td>
+                              {% else %}
+                              <td class="collapsed right-align-td" >{{item.total_bal7}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal8}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal9}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal10}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal11}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal12}} </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal1}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal2}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal3}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal4}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal5}}  </td>
+                              <td class="collapsed right-align-td" >{{item.total_bal6}}  </td>
+                              {% endif %}
+                  
+                              <td class="right-align-td">{{item.fytd}}</td>
+                  
+                     
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+
                                 <tr class="investing-row">
-                                    <td></td>
+                                    <td>
+                                        <a class="expand-button"
+                                        onclick="oldshowHideSubs(event); ">
+                                        <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                                        </a>
+                                    </td>
                                     <td>&nbsp;&nbsp;{{ row.Description }}</td>
                                     <td></td>
                                     {% if September == "True" %}
@@ -921,8 +1139,12 @@
 
 {% block javascript %}
 
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+
+          
         document.getElementById("showCurrentMonth").addEventListener("click", function () {
 
           showcurrentMonth();
@@ -944,7 +1166,9 @@
         var year = "{{FY_year_1}}";
         var sept = "{{September}}";
 
-       
+     
+        
+
 var columnsCollapsed = true;
 
 
@@ -1042,7 +1266,10 @@ function hidecurrentMonth() {
 
 
 }
+
+
     </script>
+
  <script src="{% static 'js/cashflow2.js' %}"></script>
 
 
