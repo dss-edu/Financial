@@ -220,10 +220,19 @@ def profit_loss(school,year):
           
         cnxn = connect()
         cursor = cnxn.cursor()
+        cursor.execute(f"SELECT  * FROM [dbo].[fundTitle];")
+        rows = cursor.fetchall()
+        fund_title_data = []
+
+        for row in rows:
+            row_dict = {
+                "fund": row[0],
+                "title": row[1],
+            }
+            fund_title_data.append(row_dict)
+
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         rows = cursor.fetchall()
-        
-
         data = []
         for row in rows:
             if row[5] == school:
@@ -1099,8 +1108,10 @@ def profit_loss(school,year):
             fund_value = item["fund"]
             if fund_value not in expend_fund and fund_value != '000':
                 expend_fund[fund_value] = {}
-                if school in schoolCategory["ascender"]:
-                    expend_fund[fund_value][f"name"] = AcctDescr
+                expend_fund[fund_value][f"name"] = ""
+                for item in fund_title_data:
+                    if item["fund"] == fund_value:
+                        expend_fund[fund_value][f"name"] = item["title"]
                 for i in range(1, len(acct_per_values) + 1):
                     for obj_range in full_obj_ranges:
                         expend_fund[fund_value][f"total_expend_{obj_range}_{i}"] = 0
