@@ -4588,7 +4588,7 @@ def balance_sheet(school,year):
                     total_current_assets_fytd += row["fytd"]
 
                     total_current_assets_fye +=  fye
-                if subcategory == 'Capital Assets, Net':
+                if subcategory == 'Noncurrent Assets':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_capital_assets[acct_per] += row[f"difference_{i}"]
                         if i == last_month_number:
@@ -7053,7 +7053,7 @@ def excel(school,year):
                     total_current_assets_fytd += row["fytd"]
 
                     total_current_assets_fye +=  fye
-                if subcategory == 'Capital Assets, Net':
+                if subcategory == 'Noncurrent Assets':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_capital_assets[acct_per] += row[f"difference_{i}"]
                     total_capital_assets_fytd += row["fytd"]
@@ -8881,7 +8881,7 @@ def balance_sheet_asc(school,year):
                     total_current_assets_fytd += row["fytd"]
 
                     total_current_assets_fye +=  fye
-                if subcategory == 'Capital Assets, Net':
+                if subcategory == 'Noncurrent Assets':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_capital_assets[acct_per] += row[f"difference_{i}"]
                         if i == last_month_number:
@@ -12529,7 +12529,7 @@ def balance_sheet_monthly(school,year,monthly):
                     total_current_assets_fytd += row["fytd"]
 
                     total_current_assets_fye +=  fye
-                if subcategory == 'Capital Assets, Net':
+                if subcategory == 'Noncurrent Assets':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_capital_assets[acct_per] += row[f"difference_{i}"]
                         if i == last_month_number:
