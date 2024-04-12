@@ -53,6 +53,7 @@ def update_school(school):
     updateGraphDB(school, False)
     profit_loss_chart(school) #
     profit_loss_date(school)  # 
+    run_all_monthly_fy(school)
 
 def update_fy(school,year):    
     writeCodes(school, db[school]['db'], year)
@@ -73,6 +74,30 @@ def update_fy(school,year):
 
 
       
+def run_all_monthly_fy(school):
+    year = datetime.now().year
+    current_date = datetime.now()
+    month_number = current_date.month
+    last_month_number = month_number - 1
+    month_number += 1
+    month_number_string = str(month_number).zfill(2)
+    last_month_number_string = str(last_month_number).zfill(2)
+    yr = []
+    if school in schoolMonths["septemberSchool"]:
+        yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
+
+    else:
+        yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+        
+    for month in yr_complete:
+        if month == month_number_string:
+            break
+        else:
+            yr.append(month)
+            profit_loss_monthly(school,year,yr)
+            balance_sheet_monthly(school,year,yr)
+            cashflow_monthly(school,year,yr)
+    
         
 
 def run_all_monthly(school,year):
