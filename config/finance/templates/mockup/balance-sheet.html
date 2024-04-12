@@ -609,7 +609,7 @@
 
 
           {% for row in data_balancesheet %}
-          {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Capital Assets, Net'  %}
+          {% if row.school == school and row.Category == 'Assets' and row.Subcategory == 'Noncurrent Assets'  %}
 
           {% for item in data_activitybs %}
           {% if item.Activity == row.Activity %}
@@ -695,7 +695,7 @@
           {% endfor %}
           <!-- Total Capital Assets  -->
           <tr class="super-dom">
-          <td>Total Capital Assets</td>
+          <td>Total Noncurrent Assets</td>
           <td>{{totals_bs.total_capital_assets_fye}}</td>
 
           {% if September == "True" %}
@@ -952,7 +952,7 @@
           </tr>
           {% endif %}
           {% endfor %}
-          
+
           <tr class="dom d-none">
             <td>{{ row.Description}} </td>
             <td>{% if ascender == "False" or school_bs == 'True' %}{{row.total_fye}}{%else%}{{row.FYE}}{%endif%}</td>
@@ -1079,6 +1079,7 @@
           </tr>
           {% endif %}
           {% endfor %}
+          
           {% for row in data_balancesheet %}
           {% if row.school == school and row.Category == 'Debt' and row.Subcategory == 'Long Term Debt' and row.Activity == 'LTD' %}
           <tr class="super-dom">
