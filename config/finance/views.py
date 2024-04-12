@@ -5632,13 +5632,13 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_current_assets"][acc_per]
     
     start_row_bs += 1
-    bs_sheet[f'D{start_row_bs}'] = 'Capital Assets , Net'
+    bs_sheet[f'D{start_row_bs}'] = 'Noncurrent Assets'
     bs_sheet.row_dimensions[start_row_bs].height = 37 
     hide_row_bs_start = start_row_bs   
     hide_row_bs_end = None
 
     for row in data_balancesheet:
-        if row['school'] == school and row['Category'] == 'Assets' and row['Subcategory'] == 'Capital Assets, Net':
+        if row['school'] == school and row['Category'] == 'Assets' and row['Subcategory'] == 'Noncurrent Assets':
             hide_row_bs_start = start_row_bs
             all_zeros = all(row[f'difference_{i}'] == 0 or row[f'difference_{i}'] == "" for i in range(1, 13))
             if not all_zeros:
@@ -5760,7 +5760,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
     total_capital_assets_row_bs = start_row_bs
     bs_sheet[f'D{start_row_bs}'].style = indent_style2
     bs_sheet[f'D{start_row_bs}'].font = fontbold
-    bs_sheet[f'D{start_row_bs}'] = 'Total Capital Assets'
+    bs_sheet[f'D{start_row_bs}'] = 'Total Noncurrent Assets'
     
     bs_sheet[f'F{start_row_bs}'] = '$' + total_bs["total_capital_assets_fye"]
     if school in schoolMonths["septemberSchool"]:
