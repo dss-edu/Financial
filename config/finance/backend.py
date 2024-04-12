@@ -8048,74 +8048,106 @@ def writeCodes(school, table, year):
 
 def assignedType(objectCode):
     if objectCode < 1200:
-        return ['Cash and Cash Equivalent', 'Cash' ]
-    elif objectCode == 1210:
-        return ['Property Taxes To Be Passed Through School Districts', 'DFS+F']
-    elif objectCode == 1220:
-        return ['Contributions Receivable', 'DFS+F']
-    elif objectCode == 1220:
-        return ['Allowance for Uncollected Receivables (credit)', 'DFS+F']
-    elif objectCode < 1242:
-        return ['Receivables', 'DFS+F']
-    elif objectCode < 1251:
-        return ['Due from other Governments', 'DFS+F']
-    elif objectCode < 1294:
-        return ['General Fund', 'OTHR']
-    elif objectCode < 1311:
-        return ['Inventories- Supplies and Materials', 'Inventory']
-    elif objectCode < 1411:
-        return ['Deferred Expenses', 'OTHR']
-    elif objectCode < 1421:
-        return ['Pre-paid Workers Comp', 'Acc-Exp']
+        return ['default', 'CASH' ]
+    elif objectCode < 1300:
+        return ['default', 'REC']
+    elif objectCode < 1400:
+        return ['default', 'INV']
+    elif objectCode < 1420:
+        return ['Deferred Expenses', 'OCA']
     elif objectCode < 1490:
-        return ['Capitalized Bond Costs', 'LTD']
+        return ['Capitalized Bond Costs', 'OCA']
     elif objectCode < 1500:
-        return ['Other Current Assets', 'OTHR']
+        return ['Other Current Assets', 'OCA']
     elif objectCode < 1520:
-        return ['Land Purchase and Improvements', 'FA-L']
+        return ['Land Purchase and Improvements', 'LBE']    
     elif objectCode < 1530:
-        return ['Buildings and Improvements', 'FA-BFE']
-    elif objectCode < 1538:
-        return ['Vehicles', 'FA-L']
-    elif objectCode == 1538:
-        return ['Equipment- Technology', 'FA-BFE']
+        return ['Buildings and Improvements', 'LBE']
     elif objectCode < 1550:
-        return ['Furniture and Equipment', 'FA-BFE']
-    elif objectCode < 1581:
-        return ['Capital Leases- Equipment', 'FA-BFE']
+        return ['Furniture and Equipment', 'LBE']
+    elif objectCode < 1560:
+        return ['Right-of-Use Assets', 'LBE']
+    elif objectCode < 1570:
+        return ['Library Books and Media', 'LBE']
+    elif objectCode < 1580:
+        return ['Accumulated Depreciation', 'LBE']
     elif objectCode < 1590:
-        return ['Accumulated Depreciation', 'FA-AD']
+        return ['Construction in Progress', 'LBE']
+    elif objectCode < 1600:
+        return ['Other Capital Assets', 'LBE']
     elif objectCode < 1699:
-        return ['Infrastructure Assets', 'OCA']
+        return ['Infrastructure Assets', 'LBE']
     elif objectCode < 1799:
-        return ['Deferred Outflows of Resources', 'DR']
-    elif objectCode < 1828:
-        return ['Restricted Cash', 'Restr']
-    elif objectCode < 2110:
-        return ['Long-term Investments', 'OTHR']
+        return ['Deferred Outflows of Resources', 'LBE']
+    elif objectCode < 1990:
+        return ['Long-Term Investments', 'OA']
+    elif objectCode < 2000:
+        return ['Other Assets', 'OA']
     elif objectCode < 2120:
-        return ['Accounts Payable', 'AP']
-    elif objectCode < 2124:
-        return ['Bonds and Loans Payable', 'OtherLiab']
+        return ['default', 'AP']
+    elif objectCode == 2121:
+        return ['Bonds Payable - Current Year', 'BLC']
+    elif objectCode == 2122:
+        return ['Loans Payable - Current Year', 'BLC']
+    elif objectCode < 2130:
+        return ['Other Liabilities - Current', 'BLC']
     elif objectCode < 2131:
-        return ['Capital Leases Payable- Current Year', 'Debt-C']
+        return ['ROU Finance Lease Payable - Current Year', 'RUL']
+    elif objectCode < 2140:
+        return ['ROU Operating Lease Payable - Current Year', 'RUL']
+    elif objectCode == 2141:
+        return ['Loan Interest Payable', 'IP']
+    elif objectCode == 2142:
+        return ['ROU Finance Lease Interest Payable', 'IP']
     elif objectCode < 2151:
-        return ['Loan Interest Payable', 'ACC-Int']
-    elif objectCode < 2162:
-        return ['Payroll Deductions and Withholdings', 'Acc-Exp']
+        return ['ROU Operating Lease Interest Payable', 'IP']
+    elif objectCode == 2151:
+        return ['Federal Income Tax', 'PRP']
+    elif objectCode == 2151:
+        return ['FICA and Medicare Taxes', 'PRP']
+    elif objectCode == 2153:
+        return ['Group Health and Life Insurance', 'PRP']
+    elif objectCode == 2154:
+        return ['Employee Designated Accounts', 'PRP']
+    elif objectCode == 2155:
+        return ['Teacher Retirement', 'PRP']
+    elif objectCode < 2160:
+        return ['Other', 'PRP']
+    elif objectCode < 2170:
+        return ['Accrued Wages Payable', 'PRP']
     elif objectCode < 2180:
         return ['Special Revenue Fund', 'OTHR']
-    elif objectCode < 2190:
-        return ['Due to Other Governments', 'AP']
+    elif objectCode == 2181:
+        return ['Due to State', 'DOG']
+    elif objectCode == 2182:
+        return ['Due to Federal Agencies', 'DOG']
+    elif objectCode == 2183:
+        return ['Due to Other Governments', 'DOG']
     elif objectCode < 2220:
-        return ['ACCRUED PAYROLL EXPENSES', 'Acc-Exp']
-    elif objectCode < 2300:
         return ['Accrued Expenditures or Expenses', 'Acc-Exp']
     elif objectCode < 2400:
         return ['Deferred Revenue', 'Debt-D']
+    elif objectCode < 2240:
+        return ['Accrued Interest', 'PRA']
     elif objectCode < 2500:
-        return ['Payable from Restricted Assets', 'ACC-Int']
-    elif objectCode < 3000:
+        return ['Other', 'PRA']
+    elif objectCode == 2510:
+        return ['Bonds Payable - Long-Term', 'BPLT']
+    elif objectCode == 2511:
+        return ['Deferred Gain or Loss on Defeasance of Bonds', 'BPLT']
+    elif objectCode == 2512:
+        return ['Accumulated Accretion on Capital Bonds', 'BPLT']
+    elif objectCode < 2516:
+        return ['Premium and Discount on Issuance of Bonds', 'BPLT']
+    elif objectCode < 2521:
+        return ['Loans Payable - Long-Term', 'BPLT']
+    elif objectCode == 2531:
+        return ['ROU Finance Lease Payable - Long-Term', 'OLTDP']
+    elif objectCode == 2532:
+        return ['Vested Vacation Benefits Payable', 'OLTDP']
+    elif objectCode == 2533:
+        return ['ROU Operating Lease Payable - Long-Term', 'OLTDP']
+    elif objectCode == 3000:
         return ['Bonds and Loans Payable- Long Term', 'LTD']
     elif objectCode >= 3000:
         return ['Net Assets', 'Equity']
