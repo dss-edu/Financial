@@ -302,7 +302,7 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
-    "ptaa": {
+    "ptaa-colorado": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
         "db": "[Skyward_PTAA_Colorado]",
