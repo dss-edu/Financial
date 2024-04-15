@@ -178,7 +178,7 @@ SCHOOLS = {
     "manara": "Manara Academy",
     "legacy": "Legacy Preparatory Charter Academy",
     "cityscape": "Cityscape Schools Inc",
-    "ptaa": "Pioneer Technology and Arts Academy",
+    "ptaa": "Pioneer Technology and Arts Academy - Texas",
     "aca": "Arlington Classics Academy",
     "trivium": "Trivium Academy",
     "pro-vision": "Pro-Vision Academy",
@@ -194,6 +194,7 @@ SCHOOLS = {
     "trinitybasin": "Trinity Basin Preparatory",
     "winfree": "Winfree Academy Charter Schools",
     "aama": "AAMA - George I. Sanchez Charter Schools",
+    "ptaa-colorado": "Pioneer Technology & Arts Academy - Colorado",
 }
 
 db = {
@@ -292,6 +293,19 @@ db = {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
         "db": "[Skyward_PTAA]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
+    "ptaa": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_PTAA_Colorado]",
         "code": "[PL_ExpensesbyObjectCode]",
         "activities": "[PL_Activities]",
         "bs": "[AscenderData_Advantage_Balancesheet]",
@@ -500,12 +514,12 @@ db = {
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori", "aacademy", "inspiredvision", "aama"],
-    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree"]
+    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree", "ptaa-colorado"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado"]
 }
 
 school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
