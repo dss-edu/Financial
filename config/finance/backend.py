@@ -8214,8 +8214,10 @@ def updateDescription(table, school):
 
     for row in rows:
         try:
-            queryStatement = "update [dbo].[ActivityBS] set Description = '" + my_obj[row[1]] + "' where obj = '" + row[1] + "' and school = '" + school + "'"
-            cursor.execute(queryStatement)
+            actType = assignedType(int(row[1]))
+            if actType[0] == 'default':
+                queryStatement = "update [dbo].[ActivityBS] set Description = '" + my_obj[row[1]] + "' where obj = '" + row[1] + "' and school = '" + school + "'"
+                cursor.execute(queryStatement)
         except:
             pass
         
