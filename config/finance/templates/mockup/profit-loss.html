@@ -508,7 +508,7 @@
         {% endif %}
         {% endfor %}
 
-          <tr class="dom d-none">
+          <tr class="dom">
             <td>Local Revenue</td>
             <td> {{totals.total_ammended_lr}} </td>
             <td> {{totals.ytd_ammended_total_lr}} </td>
@@ -598,7 +598,7 @@
           {% endif %}
           {% endfor %}
 
-          <tr class="dom  d-none">
+          <tr class="dom">
             <td>State Program Revenue</td>
             <td> {{totals.total_ammended_spr}} </td>
             <td> {{totals.ytd_ammended_total_spr}} </td>
@@ -685,7 +685,7 @@
           {% endif %}
           {% endfor %}
 
-          <tr class="dom d-none">
+          <tr class="dom">
             <td>Federal Program Revenue</td>
             <td> {{totals.total_ammended_fpr}} </td>
             <td> {{totals.ytd_ammended_total_fpr}} </td>
@@ -1768,7 +1768,7 @@
           // Perform actions on the 'sub' element
           const cells = previousSibling.querySelectorAll('td')
           cells.forEach(cell => cell.style.paddingBottom = '1rem')
-          previousSibling.style.borderTop = '2px solid #e4e4e4';
+          //previousSibling.style.borderTop = '2px solid #e4e4e4';
       }
       element.style.borderBottom = '2px solid #e4e4e4';
 
@@ -1933,7 +1933,7 @@
       const rowIndex = section.rowIndex
       const tBody = section.closest('tbody')
       const rows = tBody.rows
- 
+
       for (let i=rowIndex-2; i<rows.length; i--){
         if (rows[i].classList.contains('super-dom')){
           break
@@ -1947,6 +1947,7 @@
     } // end of showHideDoms
 
     function showHideSubs(event){
+      
       const section = event.currentTarget.closest('tr')
      
       let prevElem = section.previousElementSibling;
