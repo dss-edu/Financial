@@ -225,7 +225,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
     context["iconStatusCode"] = getStatusCode(school)
-   
+    context["background_status"] =  request.session.get('background_task_status')
     # title="code : {{ iconStatusCode }}"
     return render(request, "temps/dashboard.html", context)
 
@@ -248,6 +248,7 @@ def charter_first(request, school, anchor_year="",anchor_month=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
     context["iconStatusCode"] = getStatusCode(school)
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/charter-first.html", context)
 
 
@@ -261,6 +262,7 @@ def charter_first_charts(request, school):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/charter-first-charts.html", context)
 
 
@@ -285,7 +287,7 @@ def profit_loss(request, school, anchor_year=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
 
-
+    context["background_status"] =  request.session.get('background_task_status')
     context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/profit-loss.html", context)
 
@@ -311,7 +313,7 @@ def profit_loss_monthly(request, school, monthly):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
 
-
+    context["background_status"] =  request.session.get('background_task_status')
     context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/profit-loss.html", context)
 
@@ -333,7 +335,7 @@ def ytd_expend(request, school, anchor_year=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
 
-
+    context["background_status"] =  request.session.get('background_task_status')
     context["iconStatusCode"] = getStatusCode(school)
     return render(request, "temps/ytd-expend.html", context)
 
@@ -355,6 +357,7 @@ def profit_loss_date(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/profit-loss.html", context)
 
 @custom_login_required
@@ -392,6 +395,7 @@ def profit_loss_charts(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/profit-loss-charts.html", context)
 
 
@@ -418,6 +422,7 @@ def balance_sheet(request, school, anchor_year=""):
 
     
     context["iconStatusCode"] = getStatusCode(school)
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -448,6 +453,7 @@ def balance_sheet_monthly(request, school, monthly):
 
     
     context["iconStatusCode"] = getStatusCode(school)
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -475,6 +481,7 @@ def balance_sheet_asc(request, school, anchor_year=""):
     if school in schoolCategory["ascender"]:
         context["school_bs_asc"] = "True"
     context["iconStatusCode"] = getStatusCode(school)
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/balance-sheet.html", context)
 
 
@@ -512,6 +519,7 @@ def balance_sheet_charts(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -535,6 +543,7 @@ def cashflow(request, school, anchor_year=""):
     if school in school_fye:
         context["school_bs"] = "True"
     context["iconStatusCode"] = getStatusCode(school)    
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/cashflow.html", context)
 
 @custom_login_required
@@ -559,7 +568,7 @@ def cashflow_monthly(request, school, monthly):
     if school in school_fye:
         context["school_bs"] = "True"
     context["iconStatusCode"] = getStatusCode(school) 
-
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/cashflow.html", context)
 
 @custom_login_required
@@ -596,6 +605,7 @@ def cashflow_charts(request, school, anchor_year=""):
     context["ascender"] = 'True'
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
+    context["background_status"] =  request.session.get('background_task_status')
     return render(request, "temps/profit-loss-charts.html", context)
 
 @custom_login_required
@@ -606,6 +616,7 @@ def general_ledger(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["background_status"] =  request.session.get('background_task_status')
     if school in schoolCategory["skyward"]:
         return render(request, "temps/gl-vtech.html", context)
     return render(request, "temps/general-ledger.html", context)
@@ -634,6 +645,7 @@ def manual_adjustments(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["background_status"] =  request.session.get('background_task_status')
     
     return render(request, "temps/manual-adjustments.html", context)
 
@@ -819,6 +831,7 @@ def all_schools(request, school):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["background_status"] =  request.session.get('background_task_status')
 
 
     return render(request, "temps/schools.html", context)
@@ -850,6 +863,7 @@ def home(request):
     context["role"] = role
     username = request.session.get('username')
     context["username"] = username
+    context["background_status"] =  request.session.get('background_task_status')
 
     return render(request, "temps/home.html", context)
 
