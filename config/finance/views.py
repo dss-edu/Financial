@@ -3565,6 +3565,25 @@ def general_ledger_excel(request, school, start="", end=""):
 
 
 def generate_excel(request,school,anchor_year,monthly=""):
+    def stringParser(value):
+      
+        if value == "" or value == 0:
+            return 0
+        
+        if "(" in value:
+            
+            formatted = "".join(value.strip().replace("$", "").replace("(", "-").replace(")", "").split(","))
+            
+            if "." in formatted:
+              
+                return float(formatted)
+         
+            return int(formatted) 
+        
+        formatted = "".join(value.strip().replace("$", "").split(","))
+        if "." in formatted:
+            return float(formatted)
+        return int(formatted)
     cnxn = connect()
     cursor = cnxn.cursor()
 
@@ -3614,33 +3633,73 @@ def generate_excel(request,school,anchor_year,monthly=""):
     
     with open(os.path.join(PL_DIR, "data.json"), "r") as f:
         data = json.load(f)
+    for row in data:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total', 'variances', 'ytd']):
+                row[key] = stringParser(value)    
+
     
 
 
     with open(os.path.join(PL_DIR, "data2.json"), "r") as f:
         data2 = json.load(f)
-    
+    for row in data2:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total', 'variances', 'budget']):
+                row[key] = stringParser(value)   
+        
     with open(os.path.join(PL_DIR, "data3.json"), "r") as f:
         data3 = json.load(f)
-    
+
     with open(os.path.join(PL_DIR, "data_expensebyobject.json"), "r") as f:
         data_expensebyobject = json.load(f)
-    
+    for row in data_expensebyobject:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total', 'ytd']):
+                row[key] = stringParser(value) 
+             
     with open(os.path.join(PL_DIR, "data_activities.json"), "r") as f:
         data_activities = json.load(f)
+    for row in data_activities:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total', 'variances', 'ytd']):
+                row[key] = stringParser(value) 
 
     with open(os.path.join(BS_DIR, "data_balancesheet.json"), "r") as f:
         data_balancesheet = json.load(f)
-  
+    for row in data_balancesheet:
+        for key, value in row.items():
+                if any(substring in key.lower() for substring in ['debt', 'fytd', 'fye', 'net', 'difference']):
+                    row[key] = stringParser(value) 
+
     with open(os.path.join(BS_DIR, "data_activitybs.json"), "r") as f:
         data_activitybs = json.load(f)
-  
+    for row in data_activitybs:
+        for key, value in row.items():
+                if any(substring in key.lower() for substring in ['total', 'fytd', 'fye',]):
+                    row[key] = stringParser(value)
     with open(os.path.join(CF_DIR, "data_cashflow.json"), "r") as f:
         data_cashflow = json.load(f)
-    
+    for row in data_cashflow:
+        for key, value in row.items():
+                if any(substring in key.lower() for substring in ['months', 'fytd']):
+                    row[key] = stringParser(value)   
     with open(os.path.join(CF_DIR, "cf_totals.json"), "r") as f:
         cf_totals = json.load(f)
+    for key, value in cf_totals.items():
+        if isinstance(value, dict):
+            for key_row , value_row in value.items():
+                value[key_row] = stringParser(value_row)
+        else:
+            cf_totals[key] = stringParser(value)   
+        # for row in value:
+        #     if isinstance(row, dict):
+        #         for key_row, value_row in row.items():
+        #             print(key_row)
+        #             row[key_row] = stringParser(value_row)
+        #     else:
 
+        #         pass
     # with open(os.path.join(JSON_DIR, "data_charterfirst.json"), "r") as f:
     #     data_charterfirst = json.load(f)
  
@@ -3648,14 +3707,49 @@ def generate_excel(request,school,anchor_year,monthly=""):
         months = json.load(f)
     with open(os.path.join(PL_DIR, "totals.json"), "r") as f: #FOR PL
         totals = json.load(f)
+    for key, value in totals.items():
+        if isinstance(value, dict):
+            for key_row , value_row in value.items():
+                value[key_row] = stringParser(value_row)
+        else:
+            if any(substring in key.lower() for substring in ['var_', 'bs_ytd_netsurplus']):
+                pass
+            else:
+                totals[key] = stringParser(value)
+ 
     with open(os.path.join(PL_DIR, "expend_fund.json"), "r") as f: #FOR PL
         expend_fund = json.load(f)
+    for key, value in expend_fund.items():
+        if isinstance(value, dict):
+            for key_row , value_row in value.items():
+                if any(substring in key_row.lower() for substring in ['name']):
+                    pass
+                else:
+                    value[key_row] = stringParser(value_row)
+        else:
+            pass
     with open(os.path.join(PL_DIR, "ytd_expenditure_data_revenue.json"), "r") as f: #FOR PL
         ytd_expenditure_data_revenue = json.load(f)
+    for row in ytd_expenditure_data_revenue:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total']):
+                row[key] = stringParser(value)   
+    
     with open(os.path.join(PL_DIR, "unique_objcodes.json"), "r") as f: #FOR PL
         unique_objcodes = json.load(f)
+    for row in unique_objcodes:
+        for key, value in row.items():
+            if any(substring in key.lower() for substring in ['total']):
+                row[key] = stringParser(value)   
+
     with open(os.path.join(BS_DIR, "totals_bs.json"), "r") as f: #FOR BS
         total_bs = json.load(f)
+    for key, value in total_bs.items():
+        if isinstance(value, dict):
+            for key_row , value_row in value.items():
+                value[key_row] = stringParser(value_row)
+        else:
+            total_bs[key] = stringParser(value)
 
     school_name = SCHOOLS[school]
 
@@ -5514,7 +5608,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         hide_row_bs_end = start_row_bs
                         for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle 
+                            cell.style = normal_cell 
                             
                             
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
@@ -5557,7 +5651,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         
                 for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle
+                    cell.style = normal_cell
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
@@ -5612,7 +5706,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                             print(f"Error hiding row {row}: {e}")
             for col in range(5, 22):  
                 cell = bs_sheet.cell(row=start_row_bs, column=col)
-                cell.style = stringStyle 
+                cell.style = normal_cell 
             
    
 
@@ -5629,39 +5723,39 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'D{start_row_bs}'].style = indent_style2
     bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Current Assets'
-    bs_sheet[f'F{start_row_bs}'] = '$' + total_bs["total_current_assets_fye"]
+    bs_sheet[f'F{start_row_bs}'] = total_bs["total_current_assets_fye"]
     if school in schoolMonths["septemberSchool"]:
         
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_current_assets"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_current_assets"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_current_assets"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_current_assets"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_current_assets"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_current_assets"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_current_assets"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_current_assets"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_current_assets"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_current_assets"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_current_assets"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_current_assets"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_current_assets"]["09"]
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_current_assets"]["10"]
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_current_assets"]["11"]
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_current_assets"]["12"]
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_current_assets"]["01"]
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_current_assets"]["02"]
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_current_assets"]["03"]
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_current_assets"]["04"]
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_current_assets"]["05"]
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_current_assets"]["06"]
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_assets"]["07"]
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_assets"]["08"]
     else:
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_current_assets"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_current_assets"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_current_assets"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_current_assets"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_current_assets"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_current_assets"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_current_assets"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_current_assets"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_current_assets"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_current_assets"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_current_assets"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_current_assets"]["06"]
+        bs_sheet[f'G{start_row_bs}'] =  total_bs["total_current_assets"]["07"]
+        bs_sheet[f'H{start_row_bs}'] =  total_bs["total_current_assets"]["08"]
+        bs_sheet[f'I{start_row_bs}'] =  total_bs["total_current_assets"]["09"]
+        bs_sheet[f'J{start_row_bs}'] =  total_bs["total_current_assets"]["10"]
+        bs_sheet[f'K{start_row_bs}'] =  total_bs["total_current_assets"]["11"]
+        bs_sheet[f'L{start_row_bs}'] =  total_bs["total_current_assets"]["12"]
+        bs_sheet[f'M{start_row_bs}'] =  total_bs["total_current_assets"]["01"]
+        bs_sheet[f'N{start_row_bs}'] =  total_bs["total_current_assets"]["02"]
+        bs_sheet[f'O{start_row_bs}'] =  total_bs["total_current_assets"]["03"]
+        bs_sheet[f'P{start_row_bs}'] =  total_bs["total_current_assets"]["04"]
+        bs_sheet[f'Q{start_row_bs}'] =  total_bs["total_current_assets"]["05"]
+        bs_sheet[f'R{start_row_bs}'] =  total_bs["total_current_assets"]["06"]
 
-    bs_sheet[f'T{start_row_bs}'] = '$' + total_bs["total_current_assets_fytd"]
+    bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_assets_fytd"]
     
     
-    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_current_assets"][acc_per]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][acc_per]
     
     start_row_bs += 1
     bs_sheet[f'D{start_row_bs}'] = 'Noncurrent Assets'
@@ -5680,7 +5774,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         hide_row_bs_end = start_row_bs
                         for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle 
+                            cell.style = normal_cell 
                             
                             
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
@@ -5723,7 +5817,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         
                 for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle
+                    cell.style = normal_cell
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
@@ -5778,7 +5872,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                                 print(f"Error hiding row {row}: {e}")
                 for col in range(5, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
 
     
     start_row_bs += 1    
@@ -5794,36 +5888,36 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Noncurrent Assets'
     
-    bs_sheet[f'F{start_row_bs}'] = '$' + total_bs["total_capital_assets_fye"]
+    bs_sheet[f'F{start_row_bs}'] =  total_bs["total_capital_assets_fye"]
     if school in schoolMonths["septemberSchool"]:
-        bs_sheet[f'G{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("09","")
-        bs_sheet[f'H{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("10","")
-        bs_sheet[f'I{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("11","")
-        bs_sheet[f'J{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("12","")
-        bs_sheet[f'K{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("01","")
-        bs_sheet[f'L{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("02","")
-        bs_sheet[f'M{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("03","")
-        bs_sheet[f'N{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("04","")
-        bs_sheet[f'O{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("05","")
-        bs_sheet[f'P{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("06","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("07","")
-        bs_sheet[f'R{start_row_bs}'] = '$' +  total_bs["total_capital_assets"].get("08","")
+        bs_sheet[f'G{start_row_bs}'] =   total_bs["total_capital_assets"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] =   total_bs["total_capital_assets"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] =   total_bs["total_capital_assets"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] =   total_bs["total_capital_assets"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] =   total_bs["total_capital_assets"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] =   total_bs["total_capital_assets"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] =   total_bs["total_capital_assets"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] =   total_bs["total_capital_assets"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] =   total_bs["total_capital_assets"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] =   total_bs["total_capital_assets"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] =   total_bs["total_capital_assets"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] =   total_bs["total_capital_assets"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("07","")
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("08","")
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("09","")
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("10","")
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("11","")
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("12","")
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("01","")
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("02","")
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("03","")
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("04","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("05","")
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get("06","")
+        bs_sheet[f'G{start_row_bs}'] =  total_bs["total_capital_assets"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] =  total_bs["total_capital_assets"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] =  total_bs["total_capital_assets"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] =  total_bs["total_capital_assets"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] =  total_bs["total_capital_assets"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] =  total_bs["total_capital_assets"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] =  total_bs["total_capital_assets"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] =  total_bs["total_capital_assets"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] =  total_bs["total_capital_assets"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] =  total_bs["total_capital_assets"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] =  total_bs["total_capital_assets"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] =  total_bs["total_capital_assets"].get("06","")
 
-    bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_capital_assets_fytd"]
-    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_capital_assets"].get(acc_per,"")
+    bs_sheet[f'T{start_row_bs}'] = total_bs["total_capital_assets_fytd"]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"].get(acc_per,"")
     
     start_row_bs += 1
     for col in range(2, 22):  
@@ -5889,7 +5983,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         hide_row_bs_end = start_row_bs
                         for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle 
+                            cell.style = normal_cell 
                             
                             
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
@@ -5932,7 +6026,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         
                 for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle
+                    cell.style = normal_cell
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
@@ -5987,7 +6081,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                                 print(f"Error hiding row {row}: {e}")
                 for col in range(5, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
                             
     start_row_bs += 1    
     for col in range(2, 22):  
@@ -6005,38 +6099,37 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'D{start_row_bs}'].font = fontbold
 
     bs_sheet[f'D{start_row_bs}'] ='Total Current Liabilities'
-    bs_sheet[f'F{start_row_bs}'] ='$' +  total_bs["total_current_liabilities_fye"]
+    bs_sheet[f'F{start_row_bs}'] = total_bs["total_current_liabilities_fye"]
     if school in schoolMonths["septemberSchool"]:
             
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["09"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["10"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["11"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["12"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["01"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["02"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["03"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["04"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["05"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["06"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["07"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["08"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_current_liabilities"]["09"]
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_current_liabilities"]["10"]
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_current_liabilities"]["11"]
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_current_liabilities"]["12"]
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_current_liabilities"]["01"]
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_current_liabilities"]["02"]
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_current_liabilities"]["03"]
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_current_liabilities"]["04"]
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_current_liabilities"]["05"]
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_current_liabilities"]["06"]
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_liabilities"]["07"]
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_liabilities"]["08"]
     else:
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["07"]
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["08"]
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["09"]
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["10"]
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["11"]
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["12"]
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["01"]
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["02"]
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["03"]
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["04"]
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["05"]
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_current_liabilities"]["06"]
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_current_liabilities"]["07"]
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_current_liabilities"]["08"]
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_current_liabilities"]["09"]
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_current_liabilities"]["10"]
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_current_liabilities"]["11"]
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_current_liabilities"]["12"]
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_current_liabilities"]["01"]
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_current_liabilities"]["02"]
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_current_liabilities"]["03"]
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_current_liabilities"]["04"]
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_current_liabilities"]["05"]
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_current_liabilities"]["06"]
 
-    bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_current_liabilities_fytd"]
-    
-    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_current_liabilities"].get(acc_per,"")
+    bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_liabilities_fytd"]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"].get(acc_per,"")
     
     start_row_bs += 1 
     hide_row_bs_start = start_row_bs 
@@ -6053,7 +6146,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         hide_row_bs_end = start_row_bs
                         for col in range(4, 22):  # Columns G to U
                             cell = bs_sheet.cell(row=start_row_bs, column=col)
-                            cell.style = stringStyle 
+                            cell.style = normal_cell 
                             
                             
                         bs_sheet[f'D{start_row_bs}'].style = indent_style
@@ -6096,7 +6189,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         
                 for col in range(6, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle
+                    cell.style = normal_cell
                 bs_sheet[f'D{start_row_bs}'].style = indent_style
                 bs_sheet[f'D{start_row_bs}'] = row['Description']
                 if school in schoolCategory["skyward"] or school in school_fye:
@@ -6151,7 +6244,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                                 print(f"Error hiding row {row}: {e}")
                 for col in range(5, 22):  
                     cell = bs_sheet.cell(row=start_row_bs, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
 
     
                     
@@ -6171,38 +6264,37 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'D{start_row_bs}'].font = fontbold
 
     bs_sheet[f'D{start_row_bs}'] ='Total Noncurrent Liabilities'
-    bs_sheet[f'F{start_row_bs}'] ='$' +  total_bs["total_current_liabilities_fye"]
+    bs_sheet[f'F{start_row_bs}'] = total_bs["total_current_liabilities_fye"]
     if school in schoolMonths["septemberSchool"]:
             
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("09","")
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("10","")
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("11","")
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("12","")
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("01","")
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("02","")
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("03","")
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("04","")
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("05","")
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("06","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("07","")
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("08","")
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("08","")
     else:
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("07","")
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("08","")
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("09","")
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("10","")
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("11","")
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("12","")
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("01","")
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("02","")
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("03","")
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("04","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("05","")
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_noncurrent_liabilities"].get("06","")
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get("06","")
 
-    bs_sheet[f'T{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities_fytd"]
-    
-    bs_sheet[f'U{start_row_bs}'] ='$' +  total_bs["total_noncurrent_liabilities"].get(acc_per,"")
+    bs_sheet[f'T{start_row_bs}'] = total_bs["total_noncurrent_liabilities_fytd"]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get(acc_per,"")
 
     start_row_bs += 1
     total_liabilites_row_bs = start_row_bs
@@ -6213,39 +6305,38 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
     bs_sheet[f'D{start_row_bs}'].font = fontbold
     bs_sheet[f'D{start_row_bs}'] = 'Total Liabilities'
-    bs_sheet[f'F{start_row_bs}'] = '$' + total_bs["total_liabilities_fye"]
+    bs_sheet[f'F{start_row_bs}'] =  total_bs["total_liabilities_fye"]
     if school in schoolMonths["septemberSchool"]:
             
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("09","")
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("10","")
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("11","")
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("12","")
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("01","")
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("02","")
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("03","")
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("04","")
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("05","")
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("06","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("07","")
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("08","")
+        bs_sheet[f'G{start_row_bs}'] =  total_bs["total_liabilities"].get("09","")
+        bs_sheet[f'H{start_row_bs}'] =  total_bs["total_liabilities"].get("10","")
+        bs_sheet[f'I{start_row_bs}'] =  total_bs["total_liabilities"].get("11","")
+        bs_sheet[f'J{start_row_bs}'] =  total_bs["total_liabilities"].get("12","")
+        bs_sheet[f'K{start_row_bs}'] =  total_bs["total_liabilities"].get("01","")
+        bs_sheet[f'L{start_row_bs}'] =  total_bs["total_liabilities"].get("02","")
+        bs_sheet[f'M{start_row_bs}'] =  total_bs["total_liabilities"].get("03","")
+        bs_sheet[f'N{start_row_bs}'] =  total_bs["total_liabilities"].get("04","")
+        bs_sheet[f'O{start_row_bs}'] =  total_bs["total_liabilities"].get("05","")
+        bs_sheet[f'P{start_row_bs}'] =  total_bs["total_liabilities"].get("06","")
+        bs_sheet[f'Q{start_row_bs}'] =  total_bs["total_liabilities"].get("07","")
+        bs_sheet[f'R{start_row_bs}'] =  total_bs["total_liabilities"].get("08","")
     else:
         
-        bs_sheet[f'G{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("07","")
-        bs_sheet[f'H{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("08","")
-        bs_sheet[f'I{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("09","")
-        bs_sheet[f'J{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("10","")
-        bs_sheet[f'K{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("11","")
-        bs_sheet[f'L{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("12","")
-        bs_sheet[f'M{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("01","")
-        bs_sheet[f'N{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("02","")
-        bs_sheet[f'O{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("03","")
-        bs_sheet[f'P{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("04","")
-        bs_sheet[f'Q{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("05","")
-        bs_sheet[f'R{start_row_bs}'] = '$' + total_bs["total_liabilities"].get("06","")
+        bs_sheet[f'G{start_row_bs}'] = total_bs["total_liabilities"].get("07","")
+        bs_sheet[f'H{start_row_bs}'] = total_bs["total_liabilities"].get("08","")
+        bs_sheet[f'I{start_row_bs}'] = total_bs["total_liabilities"].get("09","")
+        bs_sheet[f'J{start_row_bs}'] = total_bs["total_liabilities"].get("10","")
+        bs_sheet[f'K{start_row_bs}'] = total_bs["total_liabilities"].get("11","")
+        bs_sheet[f'L{start_row_bs}'] = total_bs["total_liabilities"].get("12","")
+        bs_sheet[f'M{start_row_bs}'] = total_bs["total_liabilities"].get("01","")
+        bs_sheet[f'N{start_row_bs}'] = total_bs["total_liabilities"].get("02","")
+        bs_sheet[f'O{start_row_bs}'] = total_bs["total_liabilities"].get("03","")
+        bs_sheet[f'P{start_row_bs}'] = total_bs["total_liabilities"].get("04","")
+        bs_sheet[f'Q{start_row_bs}'] = total_bs["total_liabilities"].get("05","")
+        bs_sheet[f'R{start_row_bs}'] = total_bs["total_liabilities"].get("06","")
 
-    bs_sheet[f'T{start_row_bs}'] = '$' + total_bs["total_liabilities_fytd"]
-    
-    bs_sheet[f'U{start_row_bs}'] = '$' + total_bs["total_liabilities"].get(acc_per,"")
+    bs_sheet[f'T{start_row_bs}'] = total_bs["total_liabilities_fytd"]
+    bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"].get(acc_per,"")
 
 
     start_row_bs += 1
@@ -6263,41 +6354,40 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     bs_sheet[f'D{start_row_bs}'].font = fontbold
                     bs_sheet[f'D{start_row_bs}'] = 'Net Assets'
                     if school in schoolCategory["skyward"] or school in school_fye :
-                        bs_sheet[f'F{start_row_bs}'] = '$' + row.get('total_fye',"")
+                        bs_sheet[f'F{start_row_bs}'] = row.get('total_fye',"")
                     else:
-                        bs_sheet[f'F{start_row_bs}'] = '$' +  row['FYE']
+                        bs_sheet[f'F{start_row_bs}'] = row['FYE']
                     if school in schoolMonths["septemberSchool"]:
                             
-                        bs_sheet[f'G{start_row_bs}'] = '$' + row['net_assets9']
-                        bs_sheet[f'H{start_row_bs}'] = '$' + row['net_assets10']
-                        bs_sheet[f'I{start_row_bs}'] = '$' + row['net_assets11']
-                        bs_sheet[f'J{start_row_bs}'] = '$' + row['net_assets12']
-                        bs_sheet[f'K{start_row_bs}'] = '$' + row['net_assets1']
-                        bs_sheet[f'L{start_row_bs}'] = '$' + row['net_assets2']
-                        bs_sheet[f'M{start_row_bs}'] = '$' + row['net_assets3']
-                        bs_sheet[f'N{start_row_bs}'] = '$' + row['net_assets4']
-                        bs_sheet[f'O{start_row_bs}'] = '$' + row['net_assets5']
-                        bs_sheet[f'P{start_row_bs}'] = '$' + row['net_assets6']
-                        bs_sheet[f'Q{start_row_bs}'] = '$' + row['net_assets7']
-                        bs_sheet[f'R{start_row_bs}'] = '$' + row['net_assets8']
+                        bs_sheet[f'G{start_row_bs}'] = row['net_assets9']
+                        bs_sheet[f'H{start_row_bs}'] = row['net_assets10']
+                        bs_sheet[f'I{start_row_bs}'] = row['net_assets11']
+                        bs_sheet[f'J{start_row_bs}'] = row['net_assets12']
+                        bs_sheet[f'K{start_row_bs}'] = row['net_assets1']
+                        bs_sheet[f'L{start_row_bs}'] = row['net_assets2']
+                        bs_sheet[f'M{start_row_bs}'] = row['net_assets3']
+                        bs_sheet[f'N{start_row_bs}'] = row['net_assets4']
+                        bs_sheet[f'O{start_row_bs}'] = row['net_assets5']
+                        bs_sheet[f'P{start_row_bs}'] = row['net_assets6']
+                        bs_sheet[f'Q{start_row_bs}'] = row['net_assets7']
+                        bs_sheet[f'R{start_row_bs}'] = row['net_assets8']
                     else:
                         
-                        bs_sheet[f'G{start_row_bs}'] = '$' + row['net_assets7']
-                        bs_sheet[f'H{start_row_bs}'] = '$' + row['net_assets8']
-                        bs_sheet[f'I{start_row_bs}'] = '$' + row['net_assets9']
-                        bs_sheet[f'J{start_row_bs}'] = '$' + row['net_assets10']
-                        bs_sheet[f'K{start_row_bs}'] = '$' + row['net_assets11']
-                        bs_sheet[f'L{start_row_bs}'] = '$' + row['net_assets12']
-                        bs_sheet[f'M{start_row_bs}'] = '$' + row['net_assets1']
-                        bs_sheet[f'N{start_row_bs}'] = '$' + row['net_assets2']
-                        bs_sheet[f'O{start_row_bs}'] = '$' + row['net_assets3']
-                        bs_sheet[f'P{start_row_bs}'] = '$' + row['net_assets4']
-                        bs_sheet[f'Q{start_row_bs}'] = '$' + row['net_assets5']
-                        bs_sheet[f'R{start_row_bs}'] = '$' + row['net_assets6']
+                        bs_sheet[f'G{start_row_bs}'] = row['net_assets7']
+                        bs_sheet[f'H{start_row_bs}'] = row['net_assets8']
+                        bs_sheet[f'I{start_row_bs}'] = row['net_assets9']
+                        bs_sheet[f'J{start_row_bs}'] = row['net_assets10']
+                        bs_sheet[f'K{start_row_bs}'] = row['net_assets11']
+                        bs_sheet[f'L{start_row_bs}'] = row['net_assets12']
+                        bs_sheet[f'M{start_row_bs}'] = row['net_assets1']
+                        bs_sheet[f'N{start_row_bs}'] = row['net_assets2']
+                        bs_sheet[f'O{start_row_bs}'] = row['net_assets3']
+                        bs_sheet[f'P{start_row_bs}'] = row['net_assets4']
+                        bs_sheet[f'Q{start_row_bs}'] = row['net_assets5']
+                        bs_sheet[f'R{start_row_bs}'] = row['net_assets6']
 
-                    bs_sheet[f'T{start_row_bs}'] = '$' + total_bs["total_net_assets_fytd"]
-                    
-                    bs_sheet[f'U{start_row_bs}'] = '$' + row["last_month_net_assets"]
+                    bs_sheet[f'T{start_row_bs}'] = total_bs["total_net_assets_fytd"]
+                    bs_sheet[f'U{start_row_bs}'] = row["last_month_net_assets"]
   
     start_row_bs += 1    
     for col in range(2, 22):  
@@ -6406,10 +6496,10 @@ def generate_excel(request,school,anchor_year,monthly=""):
     normal_font_bottom_border = Font(name='Calibri', size=11, bold=False)
     normal_cell_bottom_border.font = normal_font_bottom_border
 
-    normal_cell = NamedStyle(name="normal_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
-    normal_cell.alignment = Alignment(horizontal='right', vertical='top')
-    normal_font = Font(name='Calibri', size=11, bold=False)
-    normal_cell.font = normal_font
+    # normal_cell = NamedStyle(name="normal_cell", number_format='_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)')
+    # normal_cell.alignment = Alignment(horizontal='right', vertical='top')
+    # normal_font = Font(name='Calibri', size=11, bold=False)
+    # normal_cell.font = normal_font
 
 
     currency_style_noborder = NamedStyle(name="currency_style_noborder", number_format='_($* #,##0_);_($* (#,##0);_($* "-"_);_(@_)')
@@ -6495,7 +6585,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
     
     for col in range(4, 22):  
         cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
-        cell.style = stringStyle 
+        cell.style = normal_cell 
     cashflow_sheet[f'B{cashflow_start_row}'] = 'Change in Net Assets'
     if school in schoolCategory["ascender"]:
 
@@ -6561,7 +6651,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
     cashflow_start_row += 2
     for col in range(4, 22):  
         cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
-        cell.style = stringStyle 
+        cell.style = normal_cell 
     cashflow_sheet[f'B{cashflow_start_row}'] = 'Depreciation and Amortization'
     if school in schoolMonths["septemberSchool"]:
         cashflow_sheet[f'D{cashflow_start_row}'] = totals["dna_total_months"].get("09", "")
@@ -6605,7 +6695,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 cashflow_start_row += 1
                 for col in range(4, 22):  
                     cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
                 cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                 if school in schoolMonths["septemberSchool"]:
                     cashflow_sheet[f'D{cashflow_start_row}'] = row['total_all_months_09']
@@ -6690,7 +6780,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 cashflow_start_row += 1
                 for col in range(4, 22):  
                     cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
                 
                 cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                 if school in schoolMonths["septemberSchool"]:
@@ -6776,7 +6866,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 cashflow_start_row += 1
                 for col in range(4, 22):  
                     cell = cashflow_sheet.cell(row=cashflow_start_row, column=col)
-                    cell.style = stringStyle 
+                    cell.style = normal_cell 
                 
                 cashflow_sheet[f'B{cashflow_start_row}'] = row['Description']
                 if school in schoolMonths["septemberSchool"]:
@@ -7060,7 +7150,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7101,7 +7191,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'5700 - Local Revenue'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_57']
@@ -7152,7 +7242,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7194,7 +7284,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'5800 - State Program Revenue'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_58']
@@ -7245,7 +7335,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["description"]}'
@@ -7287,7 +7377,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'5900 - Federal Program Revenue'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_59']
@@ -7337,7 +7427,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7377,7 +7467,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6100 - Payroll And Benefits'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_61']
@@ -7426,7 +7516,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7466,7 +7556,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6200 - Professional and Contract Services '
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_62']
@@ -7515,7 +7605,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7555,7 +7645,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6300 - Materials and Supplies'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_63']
@@ -7604,7 +7694,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7644,7 +7734,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6400 - Other Operating Costs'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_64']
@@ -7693,7 +7783,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7733,7 +7823,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6500 - Debt Services'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_65']
@@ -7782,7 +7872,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 if not all_zeros or all_budget:
                     for col in range(4, 22):  # Columns G to U
                         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                        cell.style = stringStyle
+                        cell.style = normal_cell
                     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
                     ytd_expend_sheet[f'B{ytd_start_row}'] = f'{row["obj"]} - {row["Description"]}'
                     ytd_expend_sheet[f'D{ytd_start_row}'] = row['total_budget']
@@ -7822,7 +7912,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
         if not all_zeros or all_budget:
             for col in range(4, 22):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle
+                cell.style = normal_cell
             ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
             ytd_expend_sheet[f'B{ytd_start_row}'] = f'6600 - Fixed/Capital Assets'
             ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_66']
@@ -7871,7 +7961,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
             
             for col in range(4, 20):  # Columns G to U
                 cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = stringStyle 
+                cell.style = normal_cell 
                 cell.border = thin_border 
                 cell.font = fontbold
             ytd_expend_sheet[f'B{ytd_start_row}'].style = stringStyle3   
