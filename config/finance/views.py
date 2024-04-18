@@ -47,6 +47,7 @@ from . import new_views
 from django.urls import reverse
 import hashlib
 from django.http import HttpResponseBadRequest
+import threading
 
 
 SCHOOLS = settings.SCHOOLS
@@ -62,22 +63,53 @@ curr_year = current_date.year
 
 month_number_string = str(month_number).zfill(2)
 
+
+
+
 def updatedb(request):
     if request.method == 'POST':
         update_db()
     return redirect('/dashboard/advantage')
 
+class UpdateThread(threading.Thread):
+    def __init__(self, school, year=""):
+        super().__init__()
+        self.school = school
+        self.year = year
+        self.thread_id = None
+        self.ready_event = threading.Event()  # Event to signal when thread is ready
+
+    def run(self):
+        # Run the update_fy function
+        update_fy(self.school, self.year)
+        self.thread_id = threading.get_ident()
+        self.ready_event.set() 
 def updatefy(request, school, year=""):
     if request.method == 'POST':
         if year:
             print("that")
-            update_fy(school,year)
+            # update_fy(school,year)
+            thread = UpdateThread(school, year)
         else:
             print("this")
             year = curr_year
-            update_fy(school,year)
-    return redirect(f'/dashboard/{school}')
-
+            # update_fy(school,year)
+            thread = UpdateThread(school, year)
+        thread.start()
+        thread.ready_event.wait()
+      
+        request.session['background_task_status'] = 'completed'
+        return JsonResponse({'status': 'completed', 'thread_id': thread.thread_id})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+    # return redirect(f'/dashboard/{school}')
+def check_thread_status(request):
+    if request.method == 'POST':
+        new_status = request.POST.get('new_status')
+        request.session['background_task_status'] = new_status
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
 def updateschool(request,school):
     if request.method == 'POST':

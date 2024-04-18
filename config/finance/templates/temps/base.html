@@ -212,7 +212,7 @@
                                     <script>
                                         $('#fy1-button').on('click', function() {
                                             $('#fy1-form').submit()
-                                            $('#page-load-spinner').modal('show'); 
+                                            //$('#page-load-spinner').modal('show'); 
                                         })
                                     </script>
                                 </form>
@@ -221,11 +221,85 @@
                                         {% csrf_token %}
                                     <a id="fy2-button" class="dropdown-item" style="cursor: pointer;">Update FY</a>
                                     <script>
-                                        $('#fy2-button').on('click', function() {
-                                            $('#fy2-form').submit()
-                                            $('#page-load-spinner').modal('show'); 
-                                        })
+                                        $(document).ready(function() {
+                                            let backgroundStatus = "{{ background_status }}";
+                                        
+                                            // Function to check the background task status
+                                            function checkBackgroundTaskStatus() {
+                                                console.log(backgroundStatus)
+                                                
+                                                if (backgroundStatus === 'completed') {
+                                                    $('#endupdateModal').modal('show');
+                                                    backgroundStatus = 'finished'
+                                                    // Update background task status
+                                                    console.log("WORKING")
+                                                    updateBackgroundTaskStatus('finished');
+                                                }
+                                            }
+                                        
+                                            // Check the background task status periodically
+                                            setInterval(checkBackgroundTaskStatus, 1000);
+                                            function getCookie(name) {
+                                                var cookieValue = null;
+                                                if (document.cookie && document.cookie !== '') {
+                                                    var cookies = document.cookie.split(';');
+                                                    for (var i = 0; i < cookies.length; i++) {
+                                                        var cookie = cookies[i].trim();
+                                                        // Check if the cookie name matches the CSRF token name (csrftoken)
+                                                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                return cookieValue;
+                                            }
+                                            // Function to update the background task status
+                                            function updateBackgroundTaskStatus(newStatus) {
+                                                $.ajax({
+                                                    url: '/check_thread_status/',
+                                                    method: 'POST',
+                                                    hec
+                                                    aders: { 'X-CSRFToken': getCookie('csrftoken') }, 
+                                                    data: { new_status: newStatus },
+                                                    success: function(response) {
+                                                        console.log('Background task status updated successfully');
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        console.error('Failed to update background task status');
+                                                    }
+                                                });
+                                            }
+                                        
+                                            // Function to start the background task
+                                            function startBackgroundTask() {
+                                                $('#startupdateModal').modal('show'); // Show processing modal
+                                                $.ajax({
+                                                    url: $('#fy2-form').attr('action'),
+                                                    method: 'POST',
+                                                    data: $('#fy2-form').serialize(),
+                                                    success: function(response) {
+                                                        $('#endupdateModal').modal('show'); // Show endupdateModal
+                                                        // Update background task status
+                                                        updateBackgroundTaskStatus('finished');
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        $('#startupdateModal').modal('hide'); // Hide processing modal on error
+                                                        // Handle error, if needed
+                                                    }
+                                                });
+                                            }
+                                        
+                                            // Event handler for starting the background task
+                                            $(document).on('click', '#fy2-button', function() {
+                                                startBackgroundTask();
+                                            });
+                                        });
+                                    
+                                    
                                     </script>
+                                   
+                                      <input type="hidden" id="thread_id" value="{{ thread_id }}">
                                 </form>
                                 {% endif %}
                                 <form id="update-school-form" method="post" action="{% url 'updateschool' school %}">
@@ -234,7 +308,7 @@
                                     <script>
                                         $('#update-school-btn').on('click', function() {
                                             $('#update-school-form').submit()
-                                            $('#page-load-spinner').modal('show'); 
+                                         //   $('#page-load-spinner').modal('show'); 
                                         })
                                     </script>
                                 </form>
@@ -255,6 +329,38 @@
         </nav>
 
         <div style="width:100%;height:40px;">
+        </div>
+        <div class="modal fade" id="startupdateModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                   
+
+                    </div>
+                    <div class="modal-body">
+                        <span>Data update in progress. Please refrain from navigating to other pages to avoid potential data loss.</span>
+                    </div>
+                    <button type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+          <div class="modal fade" id="endupdateModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        {% comment %} <h5 class="modal-title" id="messageModalLabel">Message</h5> {% endcomment %}
+        
+                    </div>
+                    <div class="modal-body">
+                        <span> Update complete. Please reload the page or navigate to another page to view the latest data.</span>
+                    </div>
+                    <button type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
         </div>
 
 <div class="marquee">
@@ -318,7 +424,6 @@
                 
             </div>
         </div> <!-- end of spinner modal -->
-
 
 <!-- /#wrapper -->
 

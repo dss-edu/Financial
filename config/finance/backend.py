@@ -49,7 +49,7 @@ def update_school(school):
     balance_sheet(school,anchor_year) #
     cashflow(school,anchor_year) #
     charter_first(school) #
-    excel(school,anchor_year) #
+    # excel(school,anchor_year) #
     updateGraphDB(school, False)
     profit_loss_chart(school) #
     profit_loss_date(school)  # 
@@ -65,12 +65,12 @@ def update_fy(school,year):
     updateGraphDB(school, True)
     profit_loss_chart(school)
     profit_loss_date(school)
-    excel(school,year)
     if school in schoolCategory["ascender"]:
         balance_sheet_asc(school,year)        
     school_status(school)
     run_all_monthly(school,year)
-    
+    # excel(school,year)
+    print("DONE UPDATING")
 
 
       
@@ -1446,11 +1446,11 @@ def profit_loss(school,year):
             if total_budget is None or total_budget == 0:
                 item["total_budget"] = ""
             else:
-                item["total_budget"] = format_value(total_budget)
+                item["total_budget"] = format_value_negative(total_budget)
             if item["ytd_total"] is None or item["ytd_total"] == 0:
                 item["ytd_total"] = ""
             else:
-                item["ytd_total"] = format_value(item["ytd_total"])
+                item["ytd_total"] = format_value_negative(item["ytd_total"])
      
         # END OF YTD EXPEND PAGE
              
@@ -2048,13 +2048,17 @@ def profit_loss(school,year):
 
         for row in unique_objcodes:
             for key in keys_to_check_expense:
-                value = float(row[key])
-                if value == 0:
+                if key in row and row[key] is not None:
+                    row[key] = format_value_negative(row[key])
+                else:
                     row[key] = ""
-                elif value < 0:
-                    row[key] = "({:,.0f})".format(abs(float(row[key])))
-                elif value != "":
-                    row[key] = "{:,.0f}".format(float(row[key]))
+                # value = float(row[key])
+                # if value == 0:
+                #     row[key] = ""
+                # elif value < 0:
+                #     row[key] = "({:,.0f})".format(abs(float(row[key])))
+                # elif value != "":
+                #     row[key] = "{:,.0f}".format(float(row[key]))
 
         for row in data2:
             for key in keys_to_check_func_2:

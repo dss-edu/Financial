@@ -14,7 +14,7 @@ urlpatterns = [
     path("view_user/<str:username>", views.view_user, name="view_user"),
     path("edit_user", views.edit_user, name="edit_user"),
     path("delete_user", views.delete_user, name="delete_user"),
-
+    path('check_thread_status/', views.check_thread_status, name='check_thread_status'),
     # path('pl_advantage/',views.pl_advantage,name = 'pl_advantage'),
     # path('pl_advantagechart/', views.pl_advantagechart, name='pl_advantagechart'),
     # path('first_advantage/', views.first_advantage, name='first_advantage'),
