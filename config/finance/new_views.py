@@ -228,12 +228,13 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     context["iconStatusCode"] = getStatusCode(school)
     context["background_status"] =  request.session.get('background_task_status')
 
+       
     update_dir = os.path.join(settings.BASE_DIR,"finance","json","profit-loss",school,"dashboard_last_update.json")
-
-
-    with open(update_dir,"r") as f:
-        update = json.load(f)
-    
+    update = ""
+    if os.path.exists(update_dir):
+        with open(update_dir,"r") as f:
+            update = json.load(f)
+        
     print("UP",update)
 
     context["dashboard_last_update"] = update
