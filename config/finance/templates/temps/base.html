@@ -259,8 +259,7 @@
                                                 $.ajax({
                                                     url: '/check_thread_status/',
                                                     method: 'POST',
-                                                    hec
-                                                    aders: { 'X-CSRFToken': getCookie('csrftoken') }, 
+                                                    headers: { 'X-CSRFToken': getCookie('csrftoken') }, 
                                                     data: { new_status: newStatus },
                                                     success: function(response) {
                                                         console.log('Background task status updated successfully');
