@@ -144,7 +144,9 @@ def profit_loss(school,year):
     today_date = datetime.now()
     today_month = today_date.month
     next_month = present_date + timedelta(days=30)
+    dashboard_last_update = today_date.strftime('%Y-%m-%d %H:%M:%S')
     last_update = today_date.strftime('%Y-%m-%d')
+    print("dashboard_last_update",dashboard_last_update)
 
 
     #LAST UPDATE
@@ -2102,6 +2104,7 @@ def profit_loss(school,year):
             "data_expensebyobject": data_expensebyobject,
             "data_activities": data_activities,
             "last_update": last_update,
+            "dashboard_last_update":dashboard_last_update,
             "expend_fund": expend_fund,
             "ytd_expenditure_data_revenue":ytd_expenditure_data_revenue,
             "unique_objcodes":unique_objcodes,

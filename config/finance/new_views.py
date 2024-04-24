@@ -217,6 +217,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
     context["data"] = data
     context["anchor_year"] = anchor_year
     context["anch_month"] = anchor_month
+    
     role = request.session.get('user_role')
     context["role"] = role
     username = request.session.get('username')
@@ -226,6 +227,16 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
         context["ascender"] = 'False'
     context["iconStatusCode"] = getStatusCode(school)
     context["background_status"] =  request.session.get('background_task_status')
+
+    update_dir = os.path.join(settings.BASE_DIR,"finance","json","profit-loss",school,"dashboard_last_update.json")
+
+
+    with open(update_dir,"r") as f:
+        update = json.load(f)
+    
+    print("UP",update)
+
+    context["dashboard_last_update"] = update
     # title="code : {{ iconStatusCode }}"
     return render(request, "temps/dashboard.html", context)
 
