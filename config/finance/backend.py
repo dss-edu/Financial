@@ -4029,6 +4029,7 @@ def balance_sheet(school,year):
             if item['Subcategory'] == 'Long Term Debt' or  item['Subcategory'] == 'Current Liabilities' or item['Category'] == 'Net Assets' or item["Subcategory"] == "Noncurrent Liabilities":
                 if Activity not in unique_act:
                     unique_act.append(Activity)
+             
 
         # if school == 'goldenrule':
         #     numberstack = set()
@@ -4082,6 +4083,8 @@ def balance_sheet(school,year):
                 )
              
                 item[f"total_bal{i}"] = total_data3 + total_adjustment
+
+
                 if i != month_exception:
                     item["fytd"] += item[f"total_bal{i}"]
 
@@ -4159,6 +4162,8 @@ def balance_sheet(school,year):
                 activity_sum_dict[(Activity, i)] = total_sum_i
             
 
+            
+
 
       
         if school in schoolCategory["skyward"] or school in school_fye:
@@ -4188,12 +4193,13 @@ def balance_sheet(school,year):
                     item["last_month_bal"] = item[f'total_bal{last_month_number}']
 
                 else:
+
                     if Activity in unique_act:
                         item["total_bal7"] -= item["activity_fye"] 
                     else:
                         item["total_bal7"] += item["activity_fye"] 
 
-                    item["total_bal7"] += item["activity_fye"] 
+                    #item["total_bal7"] += item["activity_fye"] 
                     item["total_bal8"] += item["total_bal7"]
                     item["total_bal9"] +=  item["total_bal8"]
                     item["total_bal10"] += item["total_bal9"]
@@ -4222,6 +4228,7 @@ def balance_sheet(school,year):
             
             for i in range(1, 13):
                 key = (activity, i)
+            
                 row[f"total_sum{i}"] = (activity_sum_dict.get(key, 0))
 
 
@@ -4507,7 +4514,7 @@ def balance_sheet(school,year):
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
                     
                 else:
-                   
+                    
                     row["difference_7"] = (FYE_value + total_sum7_value )
             
                     row["difference_8"] = (row["difference_7"] + total_sum8_value )
@@ -4524,8 +4531,9 @@ def balance_sheet(school,year):
                     
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
 
+
          
-                    print(row["last_month_difference"] , "-", row["Activity"] , '-', last_month_number , row[f"difference_{last_month_number}"] )
+                   
                  
                         
 
