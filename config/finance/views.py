@@ -7186,52 +7186,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_hide_end = ytd_start_row
 
         
-        all_zeros = all(data[f'total_revenue_5700_{i}'] == 0 or data[f'total_revenue_5700_{i}'] == "" for i in range(1, 13))
-        all_budget = data['total_budget_57']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'5700 - Local Revenue'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_57']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5700_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5700_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5700_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5700_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5700_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5700_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5700_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5700_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5700_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5700_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5700_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5700_8']
-            else:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5700_7']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5700_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5700_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5700_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5700_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5700_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5700_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5700_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5700_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5700_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5700_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5700_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5700_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5700']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row
+        # all_zeros = all(data[f'total_revenue_5700_{i}'] == 0 or data[f'total_revenue_5700_{i}'] == "" for i in range(1, 13))
+        # all_budget = data['total_budget_57']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'5700 - Local Revenue'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_57']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5700_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5700_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5700_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5700_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5700_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5700_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5700_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5700_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5700_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5700_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5700_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5700_8']
+        #     else:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5700_7']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5700_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5700_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5700_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5700_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5700_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5700_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5700_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5700_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5700_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5700_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5700_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5700_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5700']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row
 
 
         for row in ytd_expenditure_data_revenue:
@@ -7278,53 +7278,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_hide_end = ytd_start_row
 
         
-        all_zeros = all(data[f'total_revenue_5800_{i}'] == 0 or data[f'total_revenue_5800_{i}'] == "" for i in range(1, 13))
-        
-        all_budget = data['total_budget_58']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'5800 - State Program Revenue'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_58']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5800_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5800_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5800_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5800_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5800_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5800_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5800_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5800_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5800_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5800_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5800_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5800_8']
-            else:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5800_7']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5800_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5800_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5800_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5800_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5800_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5800_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5800_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5800_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5800_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5800_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5800_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5800_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5800']
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row
+        # all_zeros = all(data[f'total_revenue_5800_{i}'] == 0 or data[f'total_revenue_5800_{i}'] == "" for i in range(1, 13))
+        # all_budget = data['total_budget_58']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'5800 - State Program Revenue'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_58']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5800_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5800_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5800_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5800_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5800_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5800_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5800_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5800_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5800_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5800_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5800_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5800_8']
+        #     else:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5800_7']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5800_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5800_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5800_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5800_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5800_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5800_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5800_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5800_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5800_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5800_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5800_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5800_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5800']
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row
 
 
         for row in ytd_expenditure_data_revenue:
@@ -7372,52 +7371,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_hide_end = ytd_start_row
 
         
-        all_zeros = all(data[f'total_revenue_5900_{i}'] == 0 or data[f'total_revenue_5900_{i}'] == ""   for i in range(1, 13))
-        all_budget = data['total_budget_59']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'5900 - Federal Program Revenue'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_59']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5900_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5900_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5900_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5900_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5900_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5900_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5900_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5900_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5900_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5900_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5900_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5900_8']
-            else:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5900_7']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5900_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5900_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5900_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5900_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5900_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5900_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5900_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5900_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5900_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5900_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5900_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5900_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5900']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_revenue_5900_{i}'] == 0 or data[f'total_revenue_5900_{i}'] == ""   for i in range(1, 13))
+        # all_budget = data['total_budget_59']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'5900 - Federal Program Revenue'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_59']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5900_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5900_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5900_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5900_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5900_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5900_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5900_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5900_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5900_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5900_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5900_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5900_8']
+        #     else:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_revenue_5900_7']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_revenue_5900_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_revenue_5900_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_revenue_5900_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_revenue_5900_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_revenue_5900_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_revenue_5900_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_revenue_5900_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_revenue_5900_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_revenue_5900_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_revenue_5900_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_revenue_5900_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_revenue_5900_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_5900']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
 
         for row in unique_objcodes:
@@ -7462,52 +7461,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6100_{i}'] == 0 or data[f'total_expend_6100_{i}'] == "" for i in range(1, 13))
-        all_budget = data['total_budget_61']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6100 - Payroll And Benefits'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_61']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6100_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6100_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6100_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6100_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6100_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6100_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6100_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6100_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6100_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6100_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6100_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6100_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6100_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6100_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6100_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6100_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6100_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6100_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6100_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6100_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6100_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6100_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6100_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6100_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6100_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6100']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_expend_6100_{i}'] == 0 or data[f'total_expend_6100_{i}'] == "" for i in range(1, 13))
+        # all_budget = data['total_budget_61']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6100 - Payroll And Benefits'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_61']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6100_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6100_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6100_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6100_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6100_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6100_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6100_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6100_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6100_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6100_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6100_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6100_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6100_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6100_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6100_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6100_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6100_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6100_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6100_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6100_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6100_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6100_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6100_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6100_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6100_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6100']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
         for row in unique_objcodes:
             if row['Category'] == 'Professional and Contract Services' and row['fund'] == fund:
@@ -7551,52 +7550,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6200_{i}'] == 0 or data[f'total_expend_6200_{i}'] == ""  for i in range(1, 13))
-        all_budget = data['total_budget_62']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6200 - Professional and Contract Services '
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_62']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6200_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6200_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6200_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6200_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6200_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6200_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6200_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6200_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6200_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6200_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6200_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6200_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6200_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6200_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6200_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6200_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6200_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6200_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6200_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6200_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6200_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6200_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6200_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6200_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6200_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6200']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_expend_6200_{i}'] == 0 or data[f'total_expend_6200_{i}'] == ""  for i in range(1, 13))
+        # all_budget = data['total_budget_62']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6200 - Professional and Contract Services '
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_62']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6200_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6200_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6200_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6200_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6200_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6200_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6200_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6200_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6200_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6200_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6200_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6200_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6200_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6200_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6200_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6200_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6200_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6200_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6200_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6200_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6200_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6200_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6200_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6200_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6200_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6200']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
         for row in unique_objcodes:
             if row['Category'] == 'Materials and Supplies' and row['fund'] == fund:
@@ -7640,52 +7639,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6300_{i}'] == 0 or data[f'total_expend_6300_{i}'] == "" for i in range(1, 13))
-        all_budget = data['total_budget_63']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6300 - Materials and Supplies'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_63']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6300_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6300_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6300_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6300_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6300_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6300_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6300_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6300_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6300_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6300_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6300_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6300_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6300_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6300_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6300_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6300_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6300_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6300_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6300_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6300_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6300_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6300_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6300_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6300_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6300_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6300']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_expend_6300_{i}'] == 0 or data[f'total_expend_6300_{i}'] == "" for i in range(1, 13))
+        # all_budget = data['total_budget_63']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6300 - Materials and Supplies'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_63']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6300_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6300_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6300_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6300_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6300_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6300_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6300_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6300_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6300_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6300_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6300_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6300_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6300_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6300_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6300_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6300_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6300_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6300_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6300_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6300_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6300_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6300_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6300_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6300_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6300_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6300']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
         for row in unique_objcodes:
             if row['Category'] == 'Other Operating Costs' and row['fund'] == fund:
@@ -7729,52 +7728,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6400_{i}'] == 0 or data[f'total_expend_6400_{i}'] == ""  for i in range(1, 13))
-        all_budget = data['total_budget_64']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6400 - Other Operating Costs'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_64']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6400_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6400_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6400_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6400_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6400_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6400_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6400_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6400_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6400_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6400_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6400_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6400_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6400_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6400_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6400_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6400_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6400_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6400_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6400_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6400_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6400_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6400_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6400_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6400_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6400_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6400']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_expend_6400_{i}'] == 0 or data[f'total_expend_6400_{i}'] == ""  for i in range(1, 13))
+        # all_budget = data['total_budget_64']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6400 - Other Operating Costs'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_64']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6400_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6400_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6400_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6400_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6400_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6400_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6400_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6400_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6400_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6400_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6400_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6400_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6400_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6400_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6400_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6400_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6400_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6400_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6400_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6400_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6400_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6400_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6400_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6400_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6400_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6400']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
         for row in unique_objcodes:
             if row['Category'] == 'Debt Services' and row['fund'] == fund:
@@ -7818,52 +7817,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6500_{i}'] == 0 or data[f'total_expend_6500_{i}'] == ""  for i in range(1, 13))
-        all_budget = data['total_budget_65']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6500 - Debt Services'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_65']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6500_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6500_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6500_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6500_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6500_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6500_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6500_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6500_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6500_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6500_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6500_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6500_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6500_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6500_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6500_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6500_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6500_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6500_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6500_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6500_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6500_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6500_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6500_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6500_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6500_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6500']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row 
+        # all_zeros = all(data[f'total_expend_6500_{i}'] == 0 or data[f'total_expend_6500_{i}'] == ""  for i in range(1, 13))
+        # all_budget = data['total_budget_65']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6500 - Debt Services'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_65']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6500_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6500_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6500_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6500_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6500_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6500_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6500_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6500_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6500_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6500_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6500_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6500_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6500_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6500_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6500_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6500_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6500_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6500_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6500_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6500_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6500_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6500_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6500_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6500_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6500_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6500']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row 
 
         for row in unique_objcodes:
             if row['Category'] == 'Fixed/Capital Assets' and row['fund'] == fund:
@@ -7907,52 +7906,52 @@ def generate_excel(request,school,anchor_year,monthly=""):
                     ytd_start_row += 1
                     ytd_hide_end = ytd_start_row
 
-        all_zeros = all(data[f'total_expend_6600_{i}'] == 0 or data[f'total_expend_6600_{i}'] == ""  for i in range(1, 13))
-        all_budget = data['total_budget_66']
-        if not all_zeros or all_budget:
-            for col in range(4, 22):  # Columns G to U
-                cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
-                cell.style = normal_cell
-            ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
-            ytd_expend_sheet[f'B{ytd_start_row}'] = f'6600 - Fixed/Capital Assets'
-            ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_66']
-            if school in schoolMonths["septemberSchool"]:
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6600_9']
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6600_10']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6600_11']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6600_12']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6600_1']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6600_2']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6600_3']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6600_4']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6600_5']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6600_6']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6600_7']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6600_8']
-            else:
-                ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6600_7']
-                ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6600_8']
-                ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6600_9']
-                ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6600_10']
-                ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6600_11']
-                ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6600_12']
-                ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6600_1']
-                ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6600_2']
-                ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6600_3']
-                ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6600_4']
-                ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6600_5']
-                ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6600_6']
-            ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6600_ytd']
-            ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6600']            
-            if ytd_hide_end:
-                for row in range(ytd_hide_start, ytd_hide_end):
-                    try:
-                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
-                        ytd_expend_sheet.row_dimensions[row].hidden = True
-                    except KeyError as e:
-                        print(f"Error hiding row {row}: {e}")
-            ytd_start_row += 1
-            ytd_hide_start = ytd_start_row   
+        # all_zeros = all(data[f'total_expend_6600_{i}'] == 0 or data[f'total_expend_6600_{i}'] == ""  for i in range(1, 13))
+        # all_budget = data['total_budget_66']
+        # if not all_zeros or all_budget:
+        #     for col in range(4, 22):  # Columns G to U
+        #         cell = ytd_expend_sheet.cell(row=ytd_start_row, column=col)
+        #         cell.style = normal_cell
+        #     ytd_expend_sheet[f'B{ytd_start_row}'].style = indent_style
+        #     ytd_expend_sheet[f'B{ytd_start_row}'] = f'6600 - Fixed/Capital Assets'
+        #     ytd_expend_sheet[f'D{ytd_start_row}'] = data['total_budget_66']
+        #     if school in schoolMonths["septemberSchool"]:
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6600_9']
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6600_10']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6600_11']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6600_12']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6600_1']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6600_2']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6600_3']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6600_4']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6600_5']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6600_6']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6600_7']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6600_8']
+        #     else:
+        #         ytd_expend_sheet[f'F{ytd_start_row}'] = data['total_expend_6600_7']
+        #         ytd_expend_sheet[f'E{ytd_start_row}'] = data['total_expend_6600_8']
+        #         ytd_expend_sheet[f'G{ytd_start_row}'] = data['total_expend_6600_9']
+        #         ytd_expend_sheet[f'H{ytd_start_row}'] = data['total_expend_6600_10']
+        #         ytd_expend_sheet[f'I{ytd_start_row}'] = data['total_expend_6600_11']
+        #         ytd_expend_sheet[f'J{ytd_start_row}'] = data['total_expend_6600_12']
+        #         ytd_expend_sheet[f'K{ytd_start_row}'] = data['total_expend_6600_1']
+        #         ytd_expend_sheet[f'L{ytd_start_row}'] = data['total_expend_6600_2']
+        #         ytd_expend_sheet[f'M{ytd_start_row}'] = data['total_expend_6600_3']
+        #         ytd_expend_sheet[f'N{ytd_start_row}'] = data['total_expend_6600_4']
+        #         ytd_expend_sheet[f'O{ytd_start_row}'] = data['total_expend_6600_5']
+        #         ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_expend_6600_6']
+        #     ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_expend_6600_ytd']
+        #     ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_6600']            
+        #     if ytd_hide_end:
+        #         for row in range(ytd_hide_start, ytd_hide_end):
+        #             try:
+        #                 ytd_expend_sheet.row_dimensions[row].outline_level = 1
+        #                 ytd_expend_sheet.row_dimensions[row].hidden = True
+        #             except KeyError as e:
+        #                 print(f"Error hiding row {row}: {e}")
+        #     ytd_start_row += 1
+        #     ytd_hide_start = ytd_start_row   
 
         all_zeros = all(data[f'total_RE_{i}'] == 0 or data[f'total_RE_{i}'] == ""  for i in range(1, 13))
         all_budget = data['total_budget_RE']
@@ -7995,13 +7994,13 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 ytd_expend_sheet[f'P{ytd_start_row}'] = data['total_RE_6']
             ytd_expend_sheet[f'R{ytd_start_row}'] = data['total_RE_ytd']
             ytd_expend_sheet[f'S{ytd_start_row}'] = data['total_PB_RE']            
-            # if ytd_hide_end:
-            #     for row in range(ytd_hide_start, ytd_hide_end):
-            #         try:
-            #             ytd_expend_sheet.row_dimensions[row].outline_level = 1
-            #             ytd_expend_sheet.row_dimensions[row].hidden = True
-            #         except KeyError as e:
-            #             print(f"Error hiding row {row}: {e}")
+            if ytd_hide_end:
+                for row in range(ytd_hide_start, ytd_hide_end):
+                    try:
+                        ytd_expend_sheet.row_dimensions[row].outline_level = 1
+                        ytd_expend_sheet.row_dimensions[row].hidden = True
+                    except KeyError as e:
+                        print(f"Error hiding row {row}: {e}")
             ytd_start_row += 1
             ytd_hide_start = ytd_start_row   
         
