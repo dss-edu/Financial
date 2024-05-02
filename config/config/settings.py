@@ -195,6 +195,7 @@ SCHOOLS = {
     "winfree": "Winfree Academy Charter Schools",
     "aama": "AAMA - George I. Sanchez Charter Schools",
     "ptaa-colorado": "Pioneer Technology & Arts Academy - Colorado",
+    "nyos": "NYOS Charter School",
 }
 
 db = {
@@ -497,6 +498,19 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+    "nyos": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[Skyward_NYOS]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
     "aama": {
         "object": "[PL_Definition_obj]",
         "function": "[PL_Definition_func]",
@@ -514,12 +528,12 @@ db = {
 
 schoolCategory = {
     "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori", "aacademy", "inspiredvision", "aama"],
-    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree", "ptaa-colorado"]
+    "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree", "ptaa-colorado", "nyos"]
 }
 
 schoolMonths ={
     "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado"]
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado", "nyos"]
 }
 
 school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
