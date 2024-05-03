@@ -532,8 +532,8 @@ schoolCategory = {
 }
 
 schoolMonths ={
-    "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational"],
-    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado", "nyos"]
+    "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational", "nyos"],
+    "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado"]
 }
 
 school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
