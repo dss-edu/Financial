@@ -164,7 +164,7 @@ def logoutView(request):
     logout(request)
     return redirect('login')
 
-def change_password(request,school):
+def change_password(request,school=""):
     print(request)
     if request.method == 'POST':
         password1 = request.POST.get('password1')
@@ -182,7 +182,10 @@ def change_password(request,school):
             messages.success(request, 'Password has been changed successfully.')
             cursor.close()
             cnxn.close()
-            return redirect(f'/dashboard/{school}')
+            if school:
+                return redirect(f'/dashboard/{school}')
+            else:
+                return redirect('/home/schools')
 
         else:
             messages.error(request, 'Passwords do not match.')
