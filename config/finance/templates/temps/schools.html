@@ -196,13 +196,13 @@
                                 </a>
                             </td>
                             <td class="text-center">
-
+                               
                                     {% if row.update_status == "PASS" %}
-                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.log_message}}" style="color: lightgreen;">
                                         <i class="fa-solid fa-check"></i>
                                     </a>
                                     {%else%}
-                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.log_message}}" style="color: red;">
                                         <i class="fa-solid fa-x"></i>
                                     </a>
                                     {%endif%}
@@ -307,11 +307,11 @@
                             <td class="text-center">
 
                                     {% if row.update_status == "PASS" %}
-                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: lightgreen;">
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.log_message}}" style="color: lightgreen;">
                                         <i class="fa-solid fa-check"></i>
                                     </a>
                                     {%else%}
-                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.school_key}}" style="color: red;">
+                                    <a href="#" class="" data-school="{{row.school_key}}" data-toggle="tooltip" title="{{row.log_message}}" style="color: red;">
                                         <i class="fa-solid fa-x"></i>
                                     </a>
                                     {%endif%}

@@ -10,6 +10,7 @@ from collections import defaultdict
 from config import settings
 import shutil
 import copy
+import time
 # from django.core.files.base import ContentFile
 # from django.core.files.storage import default_storage
 # from django.core.files.storage import FileSystemStorage
@@ -69,7 +70,7 @@ def update_fy(school,year):
         balance_sheet_asc(school,year)        
     school_status(school)
     run_all_monthly(school,year)
-    # excel(school,year)
+    #excel(school,year)
     print("DONE UPDATING")
 
 
@@ -416,10 +417,11 @@ def profit_loss(school,year):
                             "BegBal":row[21],
                             
                         }
-
-                   
+                        if row[20] != '0':
+                            print("BUDGET",row[20])
                         data3.append(row_dict)
-  
+
+        
         if FY_year_1 == present_year:
             print("current_month")
     
@@ -4151,7 +4153,7 @@ def balance_sheet(school,year):
 
         for item in data_activitybs:
             Activity = item["Activity"]
-            
+            print("Activity", item["obj"] , Activity)
             for i in range(1, 13):
                 total_sum_i = sum(
                     float(entry[f"total_bal{i}"])
@@ -7671,6 +7673,7 @@ def charter_first(school):
             for entry in data3
             if entry["fund"] in ['420', '199']
             and 6100 <= int(entry["obj"]) <= 6499
+            and 6600 <= int(entry["obj"]) <= 6699
             and entry['func'] == func_value
             and entry["AcctPer"] == key_month
         )
@@ -7681,6 +7684,7 @@ def charter_first(school):
             for entry in data3
             if entry["fund"] in ['420', '199','266','281','282','283']
             and 6100 <= int(entry["obj"]) <= 6499
+            and 6600 <= int(entry["obj"]) <= 6699
             and entry['func'] == func_value
             and entry["AcctPer"] == key_month
         )
@@ -9373,6 +9377,8 @@ def school_status(request):
         BS_status = ""
         pl_path = os.path.join("profit-loss", key)
         js_path = os.path.join(JSON_DIR, pl_path)
+        school_status = os.path.join("school-status")
+        school_status_path = os.path.join(JSON_DIR, school_status)
         
         with open(os.path.join(js_path, "months.json"), "r") as f:
             months = json.load(f)
@@ -9390,11 +9396,20 @@ def school_status(request):
 
         
 
-        if os.path.exists(os.path.join(js_path, "last_update.json")):
-            with open(os.path.join(js_path, "last_update.json"), "r") as f:
-                last_update = json.load(f)
+        if os.path.exists(os.path.join(school_status_path, "school_data.json")):
+            with open(os.path.join(school_status_path, "school_data.json"), "r") as f:
+                school_data = json.load(f)
+            if school_data:
+                for school in school_data:
+                    if school.get("school_key") == key:
+                        last_update = school.get('last_update','')
+                   
+                        break
+
+            
         else:
             last_update = ""
+
 
         with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
             data_expensebyobject = json.load(f)
@@ -9539,27 +9554,41 @@ def school_status(request):
         
             row = cursor.fetchone()
             update_status = ""
+            log_message = ''
+            active_status = ""
+            
             if row:
+                active_status = row[7]
                 update_status = row[5]
-       
+                log = row[6]
+            
+                #print('log_message',log)
+                
+                if update_status == 'PASS':
+                    last_update = log.split()[0]
+                else:
+                    error_message_parts =  log.split()[2:]
+                    log_message = ' '.join(error_message_parts)
+                
+            
 
-            ascender = 'True'
-            if key in schoolCategory["skyward"]:
-                ascender = 'False'
+        ascender = 'True'
+        if key in schoolCategory["skyward"]:
+            ascender = 'False'
 
         
-        db_string = (db[key]['db'])
-        db_string = db_string.strip('[]')
-        cnxn = connect()
-        cursor = cnxn.cursor()
-        query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
-        cursor.execute(query,db_string)
-        print(db_string)
-        row = cursor.fetchone()
-        active_status = ""
-        if row:
-            active_status = row[7]
-        print("ACTIVE_STATUS",active_status)
+        # db_string = (db[key]['db'])
+        # db_string = db_string.strip('[]')
+        # cnxn = connect()
+        # cursor = cnxn.cursor()
+        # query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
+        # cursor.execute(query,db_string)
+        # print(db_string)
+        # row = cursor.fetchone()
+        # active_status = ""
+        # if row:
+        #     active_status = row[7]
+
         row_data = {
             "school_key":key,
             "school_name": value,
@@ -9574,9 +9603,13 @@ def school_status(request):
             "CF_status": CF_status,
             "update_status":update_status,
             "ascender":ascender,
+            "log_message":log_message,
             "active_status":active_status,
+       
         }
+
         school_data.append(row_data)
+
         # else:
         #     row_data = {
         #         "school_key":key,
@@ -9617,12 +9650,17 @@ def school_status(request):
 
     json_path = os.path.join(JSON_DIR,"school-status")
     shutil.rmtree(json_path, ignore_errors=True)
+
     if not os.path.exists(json_path):
         os.makedirs(json_path)
+    print("starting to write json file")
     for key, val in context.items():
+        print(key)
+        #file = os.path.join(json_path, f"{key}.json")
         file = os.path.join(json_path, f"{key}.json")
         with open(file, "w") as f:
             json.dump(val, f)
+            
 
 
 def profit_loss_monthly(school,year,monthly):
