@@ -146,18 +146,18 @@ function hidecurrentMonth() {
     });
 
     // Hide local revenue rows
-    hideRowsByClass('.local-revenue-row');
+    //hideRowsByClass('.local-revenue-row');
     // Hide state program revenue rows
-    hideRowsByClass('.spr-row');
+    //hideRowsByClass('.spr-row');
     // Hide federal program revenue rows
-    hideRowsByClass('.fpr-row');
-    hideRowsByClass('.PCS-row');
-    hideRowsByClass('.sm-row');
-    hideRowsByClass('.ooe-row');
-    hideRowsByClass('.expense-row');
-    hideRowsByClass('.payroll-row');
+    //hideRowsByClass('.fpr-row');
+    //hideRowsByClass('.PCS-row');
+    //hideRowsByClass('.sm-row');
+    //hideRowsByClass('.ooe-row');
+    //hideRowsByClass('.expense-row');
+    //hideRowsByClass('.payroll-row');
     // hideRowsByClass('.total-row1');
-    hideRowsByClass('.DnA-row');
+    //hideRowsByClass('.DnA-row');
    
   }
 

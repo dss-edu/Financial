@@ -742,20 +742,12 @@
               <th class="collapsed"></th>
 
               <th colspan="18" style="white-space: nowrap; text-align: center">
-                <h5 style="text-align: center">
-                  FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of
-                  Activities<br />
-                </h5>
-                <h5
-                  style="
-                    text-align: center;
-                    display: inline;
-                    padding-left: 30px;
-                  "
-                >
-                  as of {{months.last_month}}
-                </h5>
                 <div style=" float: right">
+                  <div  class="form-check form-switch" style=" float: right">
+                    <input class="form-check-input" type="checkbox" role="switch" id="toggleRowold" >
+                    <label class="form-check-label" for="toggleRowold">Expand Rows</label>
+                  </div>
+                  <br>
                   <select class="d-flex" name="fyear" id="old-month-select">
                       <option value="" selected>select month</option> 
                       {% for month_number, month_name in view_months %}
@@ -774,6 +766,23 @@
                 <i id="toggle-icon" class="fa-solid fa-chevron-right" style="color: #756c70;"></i>
               </a>
             </div>
+                <h5 style="text-align: center;  padding-left: 80px;">
+                  FY{{months.FY_year_1}}-{{months.FY_year_2}} Statement of
+                  Activities<br />
+                </h5>
+
+                <h5
+                  style="
+                    text-align: center;
+                    display: inline;
+                    padding-left: 30px;
+                  "
+                >
+                  as of {{months.last_month}}
+                </h5>
+
+   
+
               </th>
             </tr>
             {% comment %}
@@ -985,7 +994,7 @@
             {% for row in data %} 
             {% if row.category == 'Local Revenue' %}
 
-            <tr id="row1-{{ forloop.counter }}" class="local-revenue-row">
+            <tr id="row1-{{ forloop.counter }}" class="local-revenue-row sub d-none">
               <td class="firstcolumn">
                 <a href=" {% url 'delete' row.fund row.obj  %}" style="display: none"><i class="fas fa-times"></i></a>
               </td>
@@ -1035,13 +1044,17 @@
             {% endif %} 
             {% endfor %}
 
-            <tr id="ttl-row" class="ttl-lr-row">
-              <td class="firstcolumn"><a id="row1" class="expand-button" onclick="toggleRow(1); toggleBorder(this);"><i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+            <tr id="ttl-row" class="old-dom">
+
+              {% comment %} <td class="firstcolumn"><a id="row1" class="expand-button" onclick="toggleRow(1); toggleBorder(this);"><i id="row1-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+              {% endcomment %}
+    
+              <td class="firstcolumn"><a id="row1" class="expand-button" onclick="toggleBorder(this);">
+                <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
               <td class="collapsed"></td>
               <td><strong>Local Revenue</strong></td>
               <td id="local-revenue-total-3" class="right-align-td">{{totals.total_ammended_lr }}</td>
               <td id="local-revenue-total-4" class="right-align-td"> {{totals.ytd_ammended_total_lr}}</td>
-
               {% if September == "True" %}
               <td id="local-revenue-total-5"  class="collapsed right-align-td"><a class="local-total" href="#" data-yr="09">{{ totals.total_lr.09 }}</a></td>
               <td id="local-revenue-total-6"  class="collapsed right-align-td"><a class="local-total" href="#" data-yr="10">{{ totals.total_lr.10 }}</a></td>
@@ -1079,7 +1092,7 @@
 
             <!-- STATE PROGRAM COLUMN START-->
             {% for row in data %} {% if row.category == 'State Program Revenue' %}
-            <tr id="row2-{{ forloop.counter }}" class="spr-row">
+            <tr id="row2-{{ forloop.counter }}" class="spr-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" /></td>
               <td> <input type="hidden" class="form-control" name="updateobj[]"  placeholder="Description" value="{{row.obj}}" />{{row.fund}} - {{ row.obj }} - {{ row.description }} </td>
@@ -1126,14 +1139,14 @@
             {% endif %} 
             {% endfor %}
 
-            <tr id="ttl-row" class="ttl-spr-row">
+            <tr id="ttl-row" class="ttl-spr-row old-dom">
               <td class="firstcolumn">
                 <a
                   id="row2"
                   class="expand-button"
-                  onclick="toggleRow(2); toggleBorder(this);"
+                  onclick=" toggleBorder(this);"
                 >
-                <i  id="row2-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                <i  class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
               </td>
               <td class="collapsed"></td>
@@ -1177,7 +1190,7 @@
             <!-- Federal Program Revenue COLUMN START-->
             {% for row in data %} 
             {% if row.category == 'Federal Program Revenue' %}
-            <tr id="row3-{{ forloop.counter }}" class="fpr-row">
+            <tr id="row3-{{ forloop.counter }}" class="fpr-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"><input type="hidden" class="form-control" name="updatefund[]" placeholder="Description" value="{{row.fund}}" /></td>
               <td><input type="hidden" class="form-control" name="updateobj[]" placeholder="Description" value="{{row.obj}}" />{{row.fund}} - {{ row.obj }} - {{ row.description }}</td>
@@ -1225,12 +1238,12 @@
             {% endif %} 
             {% endfor %}
 
-            <tr id="ttl-row" class="ttl-fpr-row">
+            <tr id="ttl-row" class="ttl-fpr-row old-dom">
               <td class="firstcolumn">
                 <a
                   id="row3"
                   class="expand-button"
-                  onclick="toggleRow(3); toggleBorder(this);"
+                  onclick=" toggleBorder(this);"
                 >
                 <i id="row3-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
@@ -1316,7 +1329,7 @@
             {% for row in data2 %} 
             {% if row.category != 'Depreciation and Amortization' %}
 
-            <tr id="row11-{{ forloop.counter }}" class="total-row1">
+            <tr id="row11-{{ forloop.counter }}" class="total-row1 sub">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"/>{{ row.func_func }} - {{ row.desc }}</td>
@@ -1363,14 +1376,14 @@
             {% endif %} 
             {% endfor %}
 
-            <tr id="total-row1" class="ttl-1-row">
+            <tr id="total-row1" class="ttl-1-row old-dom">
               <td class="firstcolumn">
                 <a
-                  id="row11"
+           
                   class="expand-button"
-                  onclick="toggleRow(11); toggleBorder(this);;"
+                  onclick=" toggleBorder(this);"
                 >
-                <i  id="row11-icon" class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
+                <i  class="fa-solid fa-chevron-up" style="color: #756c70;"></i>
               </a>
               </td>
               <td class="collapsed"></td>
@@ -1464,7 +1477,7 @@
             {% for row in data2 %} 
             {% if row.category == 'Depreciation and Amortization' %}
 
-            <tr id="row12-{{ forloop.counter }}" class="DnA-row">
+            <tr id="row12-{{ forloop.counter }}" class="DnA-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td style="white-space: nowrap">
@@ -1537,14 +1550,14 @@
             {% endif %} 
             {% endfor %}
 
-            <tr class="DnA-row-total">
+            <tr class="DnA-row-total old-dom">
               <td class="firstcolumn">
                 <a
                   id="row12"
                   class="expand-button"
-                  onclick="toggleRow(12); toggleBorder(this);"
+                  onclick="toggleBorder(this);"
                 >
-                <i id="row12-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                <i  class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
               </td>
               <td class="collapsed"></td>
@@ -1648,7 +1661,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'Payroll and Benefits' %}
 
-            <tr id="row6-{{ forloop.counter }}" class="payroll-row">
+            <tr id="row6-{{ forloop.counter }}" class="payroll-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -1689,15 +1702,14 @@
             {%endfor%} 
             {% for row in data_expensebyobject %} {% if row.obj == '6100' %}
 
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
               <td class="firstcolumn">
                 <a
                   id="row6"
                   class="expand-button"
-                  onclick="toggleRow(6); "
                   style="float: left"
                 >
-                <i id="row6-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
               </td>
               <td class="collapsed"></td>
@@ -1745,7 +1757,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'Professional and Contract Services' %}
 
-            <tr id="row7-{{ forloop.counter }}" class="PCS-row">
+            <tr id="row7-{{ forloop.counter }}" class="PCS-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -1787,8 +1799,8 @@
             {%endfor%} 
             {% for row in data_expensebyobject %} {% if row.obj == '6200' %}
 
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
-              <td class="firstcolumn"><a id="row7" class="expand-button" onclick="toggleRow(7)"style="float: left"><i id="row7-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
+              <td class="firstcolumn"><a id="row7" class="expand-button" style="float: left"><i  class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"/>{{ row.obj }} - {{ row.Description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{{totals.total_budget_pcs}}</td>
@@ -1834,7 +1846,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'Materials and Supplies' %}
 
-            <tr id="row8-{{ forloop.counter }}" class="sm-row">
+            <tr id="row8-{{ forloop.counter }}" class="sm-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -1876,8 +1888,8 @@
             {% for row in data_expensebyobject %} 
             {% if row.obj == '6300' %}
 
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
-              <td class="firstcolumn"><a id="row8" class="expand-button" onclick="toggleRow(8)" style="float: left"><i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
+              <td class="firstcolumn"><a id="row8" class="expand-button"  style="float: left"><i id="row8-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}" />{{ row.obj }} - {{ row.Description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{{totals.total_budget_sm}}</td>
@@ -1924,7 +1936,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'Other Operating Costs' %}
 
-            <tr id="row9-{{ forloop.counter }}" class="ooe-row">
+            <tr id="row9-{{ forloop.counter }}" class="ooe-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -1966,8 +1978,8 @@
             {% for row in data_expensebyobject %} 
             {% if row.obj == '6400' %}
 
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
-              <td class="firstcolumn"><a id="row9" class="expand-button" onclick="toggleRow(9)" style="float: left"><i id="row9-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
+              <td class="firstcolumn"><a id="row9" class="expand-button"  style="float: left"><i  class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"/>{{ row.obj }} - {{ row.Description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{{totals.total_budget_ooe}}</td>
@@ -2063,7 +2075,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'Debt Services' %}
 
-            <tr id="row10-{{ forloop.counter }}" class="expense-row">
+            <tr id="row10-{{ forloop.counter }}" class="expense-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -2104,15 +2116,13 @@
             {%endfor%} 
             {% for row in data_expensebyobject %} 
             {% if row.obj == '6500'%}
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
               <td class="firstcolumn">
                 <a
-                  id="row10"
                   class="expand-button"
-                  onclick="toggleRow(10)"
                   style="float: left"
                 >
-                <i id="row10-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
+                <i class="fa-solid fa-chevron-down" style="color: #756c70;"></i>
               </a>
               </td>
               <td class="collapsed"></td>
@@ -2159,7 +2169,7 @@
             {% for row in data_activities %} 
             {% if row.Category == 'FIXED/CAPITAL ASSETS' %}
 
-            <tr id="row13-{{ forloop.counter }}" class="expense-row">
+            <tr id="row13-{{ forloop.counter }}" class="expense-row sub d-none">
               <td class="firstcolumn"></td>
               <td class="collapsed"></td>
               <td>{{ row.obj }} - {{ row.Description }}</td>
@@ -2201,8 +2211,8 @@
 
             {% for row in data_expensebyobject %} 
             {% if row.obj == '6600'%}
-            <tr id="row5-{{ forloop.counter }}" class="EOC-row">
-              <td class="firstcolumn"> <a id="row13" class="expand-button" onclick="toggleRow(13)" style="float: left"><i id="row13-icon" class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
+            <tr id="row5-{{ forloop.counter }}" class="EOC-row old-dom">
+              <td class="firstcolumn"> <a class="expand-button"  style="float: left"><i class="fa-solid fa-chevron-down" style="color: #756c70;"></i></a></td>
               <td class="collapsed"></td>
               <td><input type="hidden" class="form-control" name="updatefuncfunc[]" placeholder="Description" value="{{row.func_func}}"/> {{ row.obj }} - {{ row.Description }}</td>
               <td id="value-cell-{{ forloop.counter }}" contenteditable="false" class="right-align-td">{{totals.total_budget_cpa}}</td>
@@ -2387,7 +2397,7 @@
       10
     );
     function toggleBorder(element){
-      console.log("RUNNING")
+     
       var trElement = element.closest('tr');
       var tds = trElement.querySelectorAll('td:nth-child(n+4)');
 
@@ -2400,7 +2410,97 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
 
+      const oldsuperDoms = document.querySelectorAll('.old-super-dom > :first-child')
+    
+      oldsuperDoms.forEach(element => {
+          // Add an event listener to each element
+          element.addEventListener('click', showHideDoms);
+      });
 
+      const olddoms = document.querySelectorAll('.old-dom > :first-child')
+    
+      olddoms.forEach(element => {
+          // Add an event listener to each element
+          element.addEventListener('click', oldshowHideSubs);
+      });
+      function oldshowHideSubs(event){
+
+        const section = event.currentTarget.closest('tr')
+        const icon = section.querySelector('i.fa-solid');
+        if (icon.classList.contains('fa-chevron-down')) {
+          icon.classList.remove('fa-chevron-down');
+          icon.classList.add('fa-chevron-up');
+      } else {
+        icon.classList.remove('fa-chevron-up');
+          icon.classList.add('fa-chevron-down');
+      }
+       
+        let prevElem = section.previousElementSibling;
+  
+        //let nextElem = section.nextElementSibling;
+  
+
+        while (prevElem && prevElem.classList.contains('sub')) {
+          // const cells = nextElem.querySelectorAll('td')
+          // console.log(cells)
+          // cells.forEach(cell => cell.classList.toggle('d-none'))
+          prevElem.classList.toggle('d-none')
+
+          prevElem = prevElem.previousElementSibling;
+        }
+      }
+  
+      function hey(event){
+        const section = event.currentTarget.closest('tr')
+        const rowIndex = section.rowIndex
+        const tBody = section.closest('tbody')
+        const rows = tBody.rows
+        console.log("HEY")
+        for (let i=rowIndex-2; i<rows.length; i--){
+          if (rows[i].classList.contains('super-dom')){
+            break
+          }
+          // hide also the subs that does not have d-none``
+          if (rows[i].classList.contains('sub') && rows[i].classList.contains('d-none')){
+            continue
+          }
+          rows[i].classList.toggle('d-none')
+        }
+      }
+
+      $("#toggleRowold").on("change", function(event) {
+
+        olddoms.forEach(element => {
+          const clickEvent = new Event('click');
+          const parentTR = element.closest('tr'); 
+          let prevTR = parentTR
+          
+          while (prevTR = prevTR.previousElementSibling) {
+            if (prevTR.classList.contains('sub')) {
+              if ($('#toggleRowold').is(':checked')){
+                if (prevTR.classList.contains('d-none')){
+                  
+                  element.dispatchEvent(clickEvent);
+                  break;
+                  }else{
+                  break;
+                }
+              }else{
+                if (prevTR.classList.contains('d-none')){
+                  
+                  break;
+                  }else{
+                    element.dispatchEvent(clickEvent);
+                  break;
+                }
+              }
+  
+            }
+          }
+   
+      });
+      
+        })
 
       checkValuesMatch();
 
