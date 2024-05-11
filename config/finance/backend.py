@@ -4153,7 +4153,7 @@ def balance_sheet(school,year):
 
         for item in data_activitybs:
             Activity = item["Activity"]
-            print("Activity", item["obj"] , Activity)
+           
             for i in range(1, 13):
                 total_sum_i = sum(
                     float(entry[f"total_bal{i}"])
@@ -9396,19 +9396,19 @@ def school_status(request):
 
         
 
-        if os.path.exists(os.path.join(school_status_path, "school_data.json")):
-            with open(os.path.join(school_status_path, "school_data.json"), "r") as f:
-                school_data = json.load(f)
-            if school_data:
-                for school in school_data:
-                    if school.get("school_key") == key:
-                        last_update = school.get('last_update','')
+        # if os.path.exists(os.path.join(school_status_path, "school_data.json")):
+        #     with open(os.path.join(school_status_path, "school_data.json"), "r") as f:
+        #         school_data = json.load(f)
+        #     if school_data:
+        #         for school in school_data:
+        #             if school.get("school_key") == key:
+        #                 last_update = school.get('last_update','')
                    
-                        break
+        #                 break
 
             
-        else:
-            last_update = ""
+        # else:
+        #     last_update = ""
 
 
         with open(os.path.join(js_path, "data_expensebyobject.json"), "r") as f:
@@ -9556,6 +9556,7 @@ def school_status(request):
             update_status = ""
             log_message = ''
             active_status = ""
+            last_update = ""
             
             if row:
                 active_status = row[7]
@@ -9567,6 +9568,8 @@ def school_status(request):
                 if update_status == 'PASS':
                     last_update = log.split()[0]
                 else:
+                    last_update = log.split()[0]
+
                     error_message_parts =  log.split()[2:]
                     log_message = ' '.join(error_message_parts)
                 
