@@ -1370,15 +1370,43 @@
 
           }
         }
-
-       
-        
-        
-
-
-        
     });
 
+    doms.forEach(element => {
+      const clickEvent = new Event('click');
+      const parentTR = element.closest('tr'); 
+      let prevTR = parentTR
+      
+      while (prevTR = prevTR.previousElementSibling) {
+        if (prevTR.classList.contains('sub')) {
+          if ($('#toggleRow').is(':checked')){
+            if (prevTR.classList.contains('d-none')){
+              
+              element.dispatchEvent(clickEvent);
+              break;
+              }else{
+              break;
+            }
+          }else{
+            if (prevTR.classList.contains('d-none')){
+              
+              break;
+              }else{
+                element.dispatchEvent(clickEvent);
+              break;
+            }
+          }
+
+        }
+      }
+
+     
+      
+      
+
+
+      
+  });
     })
 
 
@@ -1396,13 +1424,14 @@
     // add bottom borders to table
     const domElements = document.querySelectorAll('.dom');
     domElements.forEach(element => {
+
         // Check if the previous sibling of 'main' has class 'sub'
         if (element.previousElementSibling && (element.previousElementSibling.classList.contains('sub') || element.previousElementSibling.classList.contains('dom')  )) {
             // Perform actions on the 'sub' element
             const cells = element.previousElementSibling.querySelectorAll('td')
             cells.forEach(cell => cell.style.paddingBottom = '1rem')
-            element.style.borderTop = '2px solid #e4e4e4';
-        }
+      element.style.borderTop = '2px solid #e4e4e4';
+       }
     });
 
 
