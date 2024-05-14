@@ -70,9 +70,9 @@ def update_fy(school,year):
         balance_sheet_asc(school,year)        
     school_status(school)
     run_all_monthly(school,year)
-    #excel(school,year)
-    print("DONE UPDATING")
 
+    print("DONE UPDATING")
+    # excel(school,year)
 
       
 def run_all_monthly_fy(school):
@@ -7675,22 +7675,29 @@ def charter_first(school):
             entry[expend_key]
             for entry in data3
             if entry["fund"] in ['420', '199']
-            and 6100 <= int(entry["obj"]) <= 6499
-            and 6600 <= int(entry["obj"]) <= 6699
+            and not (6500 <= int(entry["obj"]) < 6600)
             and entry['func'] == func_value
             and entry["AcctPer"] == key_month
         )
-
     def calculate_second_func(func_value):
         return sum(
             entry[expend_key]
             for entry in data3
             if entry["fund"] in ['420', '199','266','281','282','283']
-            and 6100 <= int(entry["obj"]) <= 6499
-            and 6600 <= int(entry["obj"]) <= 6699
+            and not (6500 <= int(entry["obj"]) < 6600)
             and entry['func'] == func_value
             and entry["AcctPer"] == key_month
         )
+
+    # def calculate_second_func(func_value):
+    #     return sum(
+    #         entry[expend_key]
+    #         for entry in data3
+    #         if entry["fund"] in ['420', '199','266','281','282','283']
+    #         and 6100 <= int(entry["obj"]) <= 6499 or 6600 <= int(entry["obj"]) <= 6699
+    #         and entry['func'] == func_value
+    #         and entry["AcctPer"] == key_month
+    #     )
 
     first_21 = calculate_first_func('21')
     first_41 = calculate_first_func('41')

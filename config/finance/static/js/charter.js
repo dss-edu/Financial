@@ -7,31 +7,35 @@ document.addEventListener("DOMContentLoaded", function() {
     StatusChecker();
     commaSeparator();
 
+    $("#ARselect").on("change", function() {
+        test("num14", num14Criteria);
+    });
 
 
 
 
     function StatusChecker() {
-        test("indicator", criteriaPassFail);
-        test("net-assets", projectionCriteriaNoPoints);
-        test("estimated-actual-ada", projectionCriteria2);
-        test("budget-vs-revenue", projectionCriteria);
-        test("reporting-peims", projectionCriteriaNoPoints);
-        test("annual-audit", projectionCriteria);
-        test("post-financial-info", projectionCriteria2); //projectionCriteria2 function maximum of 5 points 
+        // test("indicator", criteriaPassFail);
+        // test("net-assets", projectionCriteriaNoPoints);
+        // test("estimated-actual-ada", projectionCriteria2);
+        // test("budget-vs-revenue", projectionCriteria);
+        // test("reporting-peims", projectionCriteriaNoPoints);
+        // test("annual-audit", projectionCriteria);
+        // test("post-financial-info", projectionCriteria2); //projectionCriteria2 function maximum of 5 points 
        
-        test("ratio-student-teacher", measureCriteria);
-        test("approved-geo-boundaries", measureCriteriaNoPoints);
-        test("days-coh", cohCriteria);
-        test("current-assets", currAssetsCriteria);
-        test("net-earnings", netEarningsCriteria);
+        // test("ratio-student-teacher", measureCriteria);
+        // test("approved-geo-boundaries", measureCriteriaNoPoints);
+        // test("days-coh", cohCriteria);
+        // test("current-assets", currAssetsCriteria);
+        // test("net-earnings", netEarningsCriteria);
     
-        test("num11", num11Criteria);
-        test("num12", num12Criteria);
+        // test("num11", num11Criteria);
+        // test("num12", num12Criteria);
         test("num13", num13Criteria);
+        test("num14", num14Criteria);
 
 
-        test("estimated-first-rating", ratingCriteria); //should always be the last
+        //test("estimated-first-rating", ratingCriteria); //should always be the last
         
     }
 
@@ -53,13 +57,115 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         criteriaFunc(itemVal, statusTD, pointsTD);
+        
     }
+    function num14Criteria(value, statusTD, pointsTD) {
+    
+        let adasize = document.getElementById("ARselect").value;
+
+      
+        value = parseFloat(value.replace('%', ''));
+     
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (adasize == 'high'){
+            if (value <= 8.50) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 8.50 && value <= 9.75) {
+                points = 8;
+                status = "green-circle";
+            }
+            else if (value > 9.75 && value <= 11) {
+                points = 6;
+                status = "green-circle";
+            }
+            else if (value > 11 && value <= 12.25) {
+                points = 4;
+                status = "red-circle";
+            }
+            else if (value > 12.25 && value <= 13.50 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  13.50 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+
+            
+        }else if (adasize == 'mid'){
+            if (value <= 9) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 9 && value <= 10.25) {
+                points = 8;
+                status = "green-circle";
+            }
+            else if (value > 10.25 && value <= 11.5) {
+                points = 6;
+                status = "green-circle";
+            }
+            else if (value > 11.5 && value <= 12.75) {
+                points = 4;
+                status = "red-circle";
+            }
+            else if (value > 12.75 && value <= 14 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  14 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+        }else{
+            if (value <= 11.65) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 11.65 && value <= 12.9) {
+                points = 8;
+                status = "green-circle";
+            }
+            else if (value > 12.9 && value <= 14.15) {
+                points = 6;
+                status = "green-circle";
+            }
+            else if (value > 14.15 && value <= 15.40) {
+                points = 4;
+                status = "red-circle";
+            }
+            else if (value > 15.40 && value <= 16.65 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  16.65 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+        }
+
+     
+    
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
+    }
+
     function num13Criteria(value, statusTD, pointsTD) {
    
         
       
         value = parseFloat(value.replace('%', ''));
-        
+  
         const p = statusTD.querySelector("p");
         let status = "";
         if (value < 95) {
