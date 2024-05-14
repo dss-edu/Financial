@@ -82,6 +82,7 @@ def run_all_monthly_fy(school):
     last_month_number = month_number - 1
     month_number += 1
     month_number_string = str(month_number).zfill(2)
+   
     last_month_number_string = str(last_month_number).zfill(2)
     yr = []
     if school in schoolMonths["septemberSchool"]:
@@ -105,10 +106,12 @@ def run_all_monthly(school,year):
     current_date = datetime.now()
     month_number = current_date.month
     last_month_number = month_number - 1
-    month_number += 1
-    month_number_string = str(month_number).zfill(2)
+    next_month_number = month_number + 1
+    next_month_number_string = str(next_month_number).zfill(2)
+    current_month_number_string = str(month_number).zfill(2)
     last_month_number_string = str(last_month_number).zfill(2)
     yr = []
+    print(current_month_number_string)
     if school in schoolMonths["septemberSchool"]:
         yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
 
@@ -116,12 +119,12 @@ def run_all_monthly(school,year):
         yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
         
     for month in yr_complete:
-        if month == month_number_string:
+        if month == next_month_number_string:
             break
         else:
             yr.append(month)
             PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
-            if last_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+            if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
                 print("RUNNING THIS MONTH:" ,month)
                 profit_loss_monthly(school,year,yr)
                 balance_sheet_monthly(school,year,yr)
