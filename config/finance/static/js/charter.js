@@ -15,27 +15,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     function StatusChecker() {
-        // test("indicator", criteriaPassFail);
-        // test("net-assets", projectionCriteriaNoPoints);
-        // test("estimated-actual-ada", projectionCriteria2);
-        // test("budget-vs-revenue", projectionCriteria);
-        // test("reporting-peims", projectionCriteriaNoPoints);
-        // test("annual-audit", projectionCriteria);
-        // test("post-financial-info", projectionCriteria2); //projectionCriteria2 function maximum of 5 points 
+        test("indicator", criteriaPassFail);
+        test("net-assets", projectionCriteriaNoPoints);
+        test("estimated-actual-ada", projectionCriteria2);
+        test("budget-vs-revenue", projectionCriteria);
+        test("reporting-peims", projectionCriteriaNoPoints);
+        test("annual-audit", projectionCriteria);
+        test("post-financial-info", projectionCriteria2); //projectionCriteria2 function maximum of 5 points 
        
-        // test("ratio-student-teacher", measureCriteria);
-        // test("approved-geo-boundaries", measureCriteriaNoPoints);
-        // test("days-coh", cohCriteria);
-        // test("current-assets", currAssetsCriteria);
-        // test("net-earnings", netEarningsCriteria);
+        test("ratio-student-teacher", measureCriteria);
+        test("approved-geo-boundaries", measureCriteriaNoPoints);
+        test("days-coh", cohCriteria);
+        test("current-assets", currAssetsCriteria);
+        test("net-earnings", netEarningsCriteria);
     
-        // test("num11", num11Criteria);
-        // test("num12", num12Criteria);
+        test("num11", num11Criteria);
+        test("num12", num12Criteria);
         test("num13", num13Criteria);
         test("num14", num14Criteria);
 
 
-        //test("estimated-first-rating", ratingCriteria); //should always be the last
+        test("estimated-first-rating", ratingCriteria); //should always be the last
         
     }
 
