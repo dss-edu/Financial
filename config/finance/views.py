@@ -211,6 +211,17 @@ def users(request):
 
  
         
+    for row in user_data:
+        row["log"] = ""
+        query = ("SELECT TOP(1) * FROM [dbo].[Access_Logs] WHERE username = ? ORDER BY access_date DESC")
+        cursor.execute(query,row["username"])
+        result = cursor.fetchall()
+        if result:
+            row["log"] = result[0][4]
+
+
+  
+           
 
     roles = []
     for category_roles in schoolCategory.values():
@@ -219,7 +230,9 @@ def users(request):
     roles.append("admin")
     roles.append("all")
     roles.sort()
+    role = request.session.get('user_role')
     context ={
+        "role":role,
         "roles": roles,
         "users": user_data
     }
@@ -248,6 +261,8 @@ def view_user(request, username):
 
 def edit_user(request):
     if request.method == "POST":
+        print(request)
+        original_username = request.POST.get('edit-username2')
         username = request.POST.get('edit-username')
         password = request.POST.get('edit-password')
         role = request.POST.get('edit-role')
@@ -256,8 +271,8 @@ def edit_user(request):
         cursor = cnxn.cursor()
         try:
            # hashed_password = make_password(password)
-            query = ("UPDATE [dbo].[User] SET Role = ?  WHERE Username = ? ")
-            cursor.execute(query,(role,username))
+            query = ("UPDATE [dbo].[User] SET Role = ? , Username = ?  WHERE Username = ? ")
+            cursor.execute(query,(role,username,original_username))
             cnxn.commit()
 
             messages.success(request, 'User has been successfully updated.')

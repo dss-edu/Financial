@@ -148,6 +148,7 @@ Admin Homepage
             <tr class="rounded shadow headerNew">
               <th>Username</th>
               <th>Role</th>
+              <th>Access Date</th>
               <th>Action</th>
   
             </tr>
@@ -157,6 +158,7 @@ Admin Homepage
             <tr>
                 <td>{{data.username}}</td>
                 <td>{{data.role}}</td>
+                <td style="text-align: left;">{{data.log}}</td>
                 <td > 
               
                   <a href="#" title="Edit" onclick="openUserModal('{{data.username}}');"> <i class="far fa-edit "></i></a>
@@ -209,9 +211,13 @@ Admin Homepage
           <form id="edit-user-form" action="{% url 'edit_user'  %}" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label for="edit-username">Username:</label>
-                <input type="text" id="edit-username" name="edit-username" required readonly>
+             
+                <input type="text" id="edit-username2" name="edit-username2" required hidden>
             </div>
+            <div class="form-group">
+              <label for="edit-username2">Username:</label>
+              <input type="text" id="edit-username" name="edit-username" required>
+          </div>
             {% comment %} <div class="form-group">
                 <label for="edit-password">Password:</label>
                 <input type="password" id="edit-password" name="edit-password" required>
@@ -343,6 +349,7 @@ Admin Homepage
                  var roleValue = data.user_role;
            
                  $('#edit-username').val(data.username).trigger('change');
+                 $('#edit-username2').val(data.username).trigger('change');
                  $('#edit-password').val(data.password).trigger('change');
            
 
@@ -404,7 +411,7 @@ Admin Homepage
             pageLength: 50,
             searching: false,
             columnDefs: [
-                { targets: 2, orderable: false } // Disable sorting for the 3rd column (index 2)
+                { targets: 3, orderable: false } // Disable sorting for the 3rd column (index 2)
             ],
 
       

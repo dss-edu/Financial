@@ -57,19 +57,19 @@ def update_school(school):
     run_all_monthly_fy(school)
 
 def update_fy(school,year):    
-    writeCodes(school, db[school]['db'], year)
-    updateDescription(db[school]['db'], school)
-    profit_loss(school,year) 
+    # writeCodes(school, db[school]['db'], year)
+    # updateDescription(db[school]['db'], school)
+    # profit_loss(school,year) 
     balance_sheet(school,year)
-    cashflow(school,year)
-    charter_first(school)
-    updateGraphDB(school, True)
-    profit_loss_chart(school)
-    profit_loss_date(school)
-    if school in schoolCategory["ascender"]:
-        balance_sheet_asc(school,year)        
-    school_status(school)
-    run_all_monthly(school,year)
+    # cashflow(school,year)
+    # charter_first(school)
+    # updateGraphDB(school, True)
+    # profit_loss_chart(school)
+    # profit_loss_date(school)
+    # if school in schoolCategory["ascender"]:
+    #     balance_sheet_asc(school,year)        
+    # school_status(school)
+    # run_all_monthly(school,year)
 
     print("DONE UPDATING")
     # excel(school,year)
@@ -223,7 +223,7 @@ def profit_loss(school,year):
         
       
 
-          
+        print("TWASHERE") 
         cnxn = connect()
         cursor = cnxn.cursor()
         cursor.execute(f"SELECT  * FROM [dbo].[fundTitle];")
@@ -252,6 +252,7 @@ def profit_loss(school,year):
                     "school":row[5],
                 }
                 data.append(row_dict)
+        
         ytd_expenditure_data_revenue = data #also declare for ytd expenditure to use the data
         cursor.execute(f"SELECT  * FROM [dbo].{db[school]['function']};")
 
@@ -571,7 +572,7 @@ def profit_loss(school,year):
         # last_month_name = last_month.strftime("%B")
         # formatted_last_month = last_month.strftime('%B %d, %Y')
         # last_month_number = last_month.month
-
+        
         month_exception = abs(last_month_number) + 1 
         if month_exception == 13:
             month_exception = 1
@@ -739,12 +740,13 @@ def profit_loss(school,year):
             "total_ammended_fpr": 0,
         }
                 
-                
+        print("TWASHERE3")  
         for item in data:
             fund = item["fund"]
             obj = item["obj"]
             category = item["category"]
             ytd_total = 0
+           
 
             #PUT IT BACK WHEN YOU WANT TO GET THE GL FOR AMMENDED BUDGET FOR REVENUES
             if school in schoolCategory["skyward"]:
@@ -842,6 +844,7 @@ def profit_loss(school,year):
                         ytd_total_lr += (item[f"total_real{i}"])
                     
                 if category == 'State Program Revenue':
+                
                     total_spr[acct_per] += (item[f"total_real{i}"])
                     if i != month_exception:
                         ytd_total_spr += (item[f"total_real{i}"])
@@ -1153,7 +1156,7 @@ def profit_loss(school,year):
 
 
 
-
+        
         expensebyobject_list = data_activities
         unique_objcodes = []
         for fund_value in expend_fund.keys(): #total fund within each month
@@ -4176,7 +4179,7 @@ def balance_sheet(school,year):
             
             for item in data_activitybs:
                 Activity = item["Activity"]
-                
+
                 
                 if school in schoolMonths['septemberSchool']:
                     if Activity in unique_act:
@@ -4205,7 +4208,6 @@ def balance_sheet(school,year):
                     else:
                         item["total_bal7"] += item["activity_fye"] 
 
-                    #item["total_bal7"] += item["activity_fye"] 
                     item["total_bal8"] += item["total_bal7"]
                     item["total_bal9"] +=  item["total_bal8"]
                     item["total_bal10"] += item["total_bal9"]
