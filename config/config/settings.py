@@ -196,6 +196,7 @@ SCHOOLS = {
     "aama": "AAMA - George I. Sanchez Charter Schools",
     "ptaa-colorado": "Pioneer Technology & Arts Academy - Colorado",
     "nyos": "NYOS Charter School",
+    "prelude": "Prelude Preparatory Charter School",
 }
 
 db = {
@@ -524,15 +525,28 @@ db = {
         "bs_fye":"[BS_FYE]",
         "pl_chart":"[PLData]"
     },
+    "prelude": {
+        "object": "[PL_Definition_obj]",
+        "function": "[PL_Definition_func]",
+        "db": "[AscenderData_Prelude]",
+        "code": "[PL_ExpensesbyObjectCode]",
+        "activities": "[PL_Activities]",
+        "bs": "[AscenderData_Advantage_Balancesheet]",
+        "bs_activity": "[ActivityBS]",
+        "cashflow": "[AscenderData_Advantage_Cashflow]",
+        "adjustment": "[Adjustment]",
+        "bs_fye":"[BS_FYE]",
+        "pl_chart":"[PLData]"
+    },
 }
 
 schoolCategory = {
-    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori", "aacademy", "inspiredvision", "aama"],
+    "ascender": ["advantage", "manara", "leadership", "cumberland", "aca", "trivium", "pro-vision", "sa", "lonestar", "stmary", "goldenrule", "imagineinternational", "eastfortworthmontessori", "aacademy", "inspiredvision", "aama", "prelude"],
     "skyward": ["village-tech", "legacy", "cityscape", "ptaa", "ume", "trinitybasin", "winfree", "ptaa-colorado", "nyos"]
 }
 
 schoolMonths ={
-    "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational", "nyos"],
+    "julySchool": ["manara","leadership", "sa", "lonestar", "imagineinternational", "nyos", "prelude"],
     "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado"]
 }
 
