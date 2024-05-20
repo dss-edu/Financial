@@ -3830,7 +3830,7 @@ def balance_sheet(school,year):
                     }
 
                     data_balancesheet.append(row_dict)
-    
+        data_balancesheet = sorted(data_balancesheet, key=lambda x: x["Activity"])
         # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
         # rows = cursor.fetchall()
         #
@@ -5501,7 +5501,7 @@ def cashflow(school,year):
             else:
                 matching_entries = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
                 fye_value = matching_entries[0] if matching_entries else None
-                print("FYE",fye_value)
+            
                 if fye_value:
                     if isinstance(fye_value, str):
                         
@@ -7492,7 +7492,7 @@ def charter_first(school):
         if item["Activity"].strip().lower() == "cash" and item["Description"].strip().lower() == "cash and cash equivalents" and item["school"].strip().lower() == school:
             cash_equivalents = dollar_parser(item["last_month_difference"])
             break
-    
+  
  
 
     pl_activities_file_path = os.path.join( "profit-loss", school, "data_activities.json")
@@ -7525,7 +7525,8 @@ def charter_first(school):
     debt_services = dollar_parser(pl_totals["ytd_EOC_te"])
 
 
-    date_format = "%B %d, %Y"
+
+    date_format = "%B %d, %Y"   
     fy_curr = datetime.strptime(date_string, date_format)
   
 
@@ -7588,7 +7589,7 @@ def charter_first(school):
             
             break
 
-    
+
     try:
         deficitsurplus = dollar_parser(pl_totals["total_SBD"][key_month])
     except KeyError:
@@ -7733,7 +7734,6 @@ def charter_first(school):
     second_AR = round(second_AR, 2)
 
     administrative_ratio = str(first_AR) + '% /' + str(second_AR) + '%'
-    
 
 
 
