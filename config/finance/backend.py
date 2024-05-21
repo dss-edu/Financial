@@ -4200,7 +4200,7 @@ def balance_sheet(school,year):
 
 
       
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
             
             for item in data_activitybs:
                 Activity = item["Activity"]
@@ -4266,7 +4266,7 @@ def balance_sheet(school,year):
 
 
 
-            if school in schoolCategory["skyward"] or school in school_fye:
+            if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                 total_fye = sum(
                         entry["activity_fye"]
                         for entry in data_activitybs
@@ -4443,7 +4443,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
                 
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     FYE_value = row["total_fye"]
                     
                 # elif school =="goldenrule":
@@ -4673,7 +4673,7 @@ def balance_sheet(school,year):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
 
                 if subcategory == 'Current Assets':
@@ -4735,7 +4735,7 @@ def balance_sheet(school,year):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -4821,7 +4821,7 @@ def balance_sheet(school,year):
         for row in data_balancesheet:
             if row["school"] == school:
 
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     if row["Activity"] == 'Cash' or row["Activity"] == 'AP':
 
                         row["total_fye"] = format_value_dollars(row["total_fye"]) 
@@ -4937,7 +4937,7 @@ def balance_sheet(school,year):
 
       
         threshold = 0.50
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj :
             for row in data_activitybs:
                 Activity = row["Activity"]
 
@@ -4995,7 +4995,7 @@ def balance_sheet(school,year):
                 #         row[key] = "({:,.0f})".format(float(row[key]))
 
 
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
             for row in data_activitybs:
 
                 row["activity_fye"] = format_value(row["activity_fye"])
@@ -12254,7 +12254,7 @@ def balance_sheet_monthly(school,year,monthly):
 
 
       
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
             
             for item in data_activitybs:
                 Activity = item["Activity"]
@@ -12319,7 +12319,7 @@ def balance_sheet_monthly(school,year,monthly):
 
 
 
-            if school in schoolCategory["skyward"] or school in school_fye:
+            if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                 total_fye = sum(
                         entry["activity_fye"]
                         for entry in data_activitybs
@@ -12496,7 +12496,7 @@ def balance_sheet_monthly(school,year,monthly):
         for row in data_balancesheet:
             if row["school"] == school:
                 
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     FYE_value = row["total_fye"]
                     
                 # elif school =="goldenrule":
@@ -12722,7 +12722,7 @@ def balance_sheet_monthly(school,year,monthly):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
 
                 if subcategory == 'Current Assets':
@@ -12784,7 +12784,7 @@ def balance_sheet_monthly(school,year,monthly):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
                 if subcategory == 'Long Term Debt':
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -12805,7 +12805,7 @@ def balance_sheet_monthly(school,year,monthly):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
                     for i, acct_per in enumerate(acct_per_values,start = 1):
@@ -12870,7 +12870,7 @@ def balance_sheet_monthly(school,year,monthly):
         for row in data_balancesheet:
             if row["school"] == school:
 
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     if row["Activity"] == 'Cash' or row["Activity"] == 'AP':
 
                         row["total_fye"] = format_value_dollars(row["total_fye"]) 
@@ -12986,7 +12986,7 @@ def balance_sheet_monthly(school,year,monthly):
 
       
         threshold = 0.50
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
             for row in data_activitybs:
                 Activity = row["Activity"]
 
@@ -13044,7 +13044,7 @@ def balance_sheet_monthly(school,year,monthly):
                 #         row[key] = "({:,.0f})".format(float(row[key]))
 
 
-        if school in schoolCategory["skyward"] or school in school_fye:
+        if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
             for row in data_activitybs:
 
                 row["activity_fye"] = format_value(row["activity_fye"])
