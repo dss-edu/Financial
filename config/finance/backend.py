@@ -29,6 +29,7 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
 school_fye = settings.school_fye
+school_bs_fye_obj = settings.school_bs_fye_obj
 
 
 
@@ -3831,10 +3832,23 @@ def balance_sheet(school,year):
 
                     data_balancesheet.append(row_dict)
         data_balancesheet = sorted(data_balancesheet, key=lambda x: x["Activity"])
-        # cursor.execute(f"SELECT  * FROM [dbo].{db[school]['object']};")
-        # rows = cursor.fetchall()
-        #
-        # data = []
+       
+        cursor.execute(f"SELECT * FROM [dbo].[BS_FYE_OBJ] WHERE school = '{school}';")
+        rows = cursor.fetchall()
+
+        bs_fye_obj = []
+
+        for row in rows:
+            if str(FY_year_1) == row[3]:
+                row_dict = {
+                    "obj": row[0],
+                    "FYE": row[1],
+                    "school": row[2],
+                    "year": row[3],
+
+                }
+                bs_fye_obj.append(row_dict)
+    
         if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss", school)
         else:
@@ -4119,12 +4133,23 @@ def balance_sheet(school,year):
                         and entry["Bal"] is not None                   
                     )
                 
+           
+                if Activity in unique_act:
+                    item["activity_fye"] = -(activity_fye)
+                else:
+                    item["activity_fye"] = activity_fye
+            if school in school_bs_fye_obj:
+                activity_fye = sum(
+                        entry["FYE"]
+                        for entry in bs_fye_obj
+                        if entry["obj"] == obj
+                  
+                    )
                 
                 if Activity in unique_act:
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
-
 
             # if school == 'goldenrule':
 
@@ -8393,6 +8418,7 @@ def balance_sheet_asc(school,year):
 
                     data_balancesheet.append(row_dict)
 
+
         if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss", school)
         else:
@@ -11865,7 +11891,23 @@ def balance_sheet_monthly(school,year,monthly):
                     }
 
                     data_balancesheet.append(row_dict)
+        data_balancesheet = sorted(data_balancesheet, key=lambda x: x["Activity"])
+       
+        cursor.execute(f"SELECT * FROM [dbo].[BS_FYE_OBJ] WHERE school = '{school}';")
+        rows = cursor.fetchall()
 
+        bs_fye_obj = []
+
+        for row in rows:
+            if str(FY_year_1) == row[3]:
+                row_dict = {
+                    "obj": row[0],
+                    "FYE": row[1],
+                    "school": row[2],
+                    "year": row[3],
+
+                }
+                bs_fye_obj.append(row_dict)
 
         if FY_year_1 == present_year:
             relative_path = os.path.join("profit-loss-" + monthly_last, school)
@@ -12153,7 +12195,18 @@ def balance_sheet_monthly(school,year,monthly):
                     item["activity_fye"] = -(activity_fye)
                 else:
                     item["activity_fye"] = activity_fye
-
+            if school in school_bs_fye_obj:
+                activity_fye = sum(
+                        entry["FYE"]
+                        for entry in bs_fye_obj
+                        if entry["obj"] == obj
+                  
+                    )
+                
+                if Activity in unique_act:
+                    item["activity_fye"] = -(activity_fye)
+                else:
+                    item["activity_fye"] = activity_fye
             # if school == 'goldenrule':
 
             #     activity_fye = sum(
