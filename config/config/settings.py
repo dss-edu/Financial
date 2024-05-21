@@ -550,9 +550,9 @@ schoolMonths ={
     "septemberSchool" : ["advantage","cumberland","village-tech","legacy", "cityscape", "ptaa", "aca", "trivium", "pro-vision", "ume", "stmary", "goldenrule", "eastfortworthmontessori", "aacademy", "inspiredvision", "trinitybasin", "winfree", "aama", "ptaa-colorado"]
 }
 
-school_fye = ['aca','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
+school_fye = ['aca', 'advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
 
-school_bs_fye_obj = ['advantage','prelude']
+school_bs_fye_obj = [,'prelude']
 
 # filters must be a dictionary with key = column and value = "(string of values to filter)"
 # eg. "Type": "('value1', 'value2')"
