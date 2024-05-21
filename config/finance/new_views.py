@@ -25,6 +25,7 @@ db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
 school_fye = settings.school_fye
+school_bs_fye_obj = settings.school_bs_fye_obj
 media_root = settings.MEDIA_ROOT
 JSON_DIR = FileSystemStorage(location=media_root)
 
@@ -428,7 +429,7 @@ def balance_sheet(request, school, anchor_year=""):
     if school in schoolCategory["skyward"]:
         context["ascender"] = 'False'
     context["school_bs"] = "False"
-    if school in school_fye:
+    if school in school_fye or school in school_bs_fye_obj:
         context["school_bs"] = "True"
     context["school_bs_asc"] = ""
 
@@ -459,7 +460,7 @@ def balance_sheet_monthly(request, school, monthly):
         context["ascender"] = 'False'
 
     context["school_bs"] = "False"
-    if school in school_fye:
+    if school in school_fye or school in school_bs_fye_obj:
         context["school_bs"] = "True"
     context["school_bs_asc"] = ""
 
