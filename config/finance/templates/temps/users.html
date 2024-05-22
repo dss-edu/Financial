@@ -137,7 +137,7 @@ Admin Homepage
 
         </div>
         <div>
-            <button id="add-user-btn" class="btn btn-success" onclick="openUserModal('{{data.username}}');">Add User</button>
+            <button id="add-user-btn" class="btn btn-success" >Add User</button>
         </div>
     </div>
       
@@ -250,7 +250,7 @@ Admin Homepage
          
         </div>
         <div class="modal-body">
-            <form method="POST" action="{% url 'delete_user'  %}">
+            <form id="delete-user-form" method="POST" action="{% url 'delete_user'  %}">
                 {% csrf_token %}
       
                 <div>
@@ -282,7 +282,7 @@ Admin Homepage
          
         </div>
         <div class="modal-body">
-            <form method="POST" action="{% url 'add_user'  %}">
+            <form id="add-user-form" method="POST" action="{% url 'add_user'  %}">
                 {% csrf_token %}
       
                 <div class="form-group">
@@ -365,14 +365,17 @@ Admin Homepage
 
      function openDeleteModal(username){
         $.ajax({
+          
             type: "GET",
             url: `/view_user/${username}`,
+
             success: function (data) {
                 $('#delete-user-modal').modal('show');
                 $('#deleteusername').val(data.username);
                 $('#deleteuser').text(data.username);
     
-            }
+            },
+
         });
 
      }
@@ -385,6 +388,7 @@ Admin Homepage
 
     closeAdd.addEventListener('click', function() {
        $('#add-user-modal').modal('hide');
+       $('#add-user-form')[0].reset();
    });
    const closeMessage = document.getElementById('message-close')
 
@@ -403,9 +407,29 @@ Admin Homepage
     });
 
 </script>
+
+<script>
+  $(document).ready(function () {
+      $('#add-user-form').submit(function (event) {
+        $('#page-load-spinner').show(); 
+      });
+      $('#edit-user-form').submit(function (event) {
+        $('#page-load-spinner').show(); 
+      });
+      $('#delete-user-form').submit(function (event) {
+
+        $('#page-load-spinner').show();        
+
+      });
+
+
+  });
+
+</script>
+
 <script>
     $(document).ready(function() {
-
+      getMessage();
         $('#table-main').DataTable({
             lengthChange: false, // Disable the "Show x entries" dropdown
             pageLength: 50,
@@ -416,21 +440,23 @@ Admin Homepage
 
       
         });
-
+      
         // Trigger the modal when you have messages to display
-        if (messages.length > 0) {
-            $('#messageModal').modal('show');
-        }
-    
-        // Populate the modal content with the messages
-        var messageContent = $('#messageContent');
-        
-        // Clear existing content
-        messageContent.empty();
-        
-        messages.forEach(function(message) {
-            messageContent.append('<p>' + message + '</p>');
-        });
+  function getMessage(){
+      if (messages.length > 0) {
+          $('#messageModal').modal('show');
+      }
+
+      // Populate the modal content with the messages
+      var messageContent = $('#messageContent');
+
+      // Clear existing content
+      messageContent.empty();
+
+      messages.forEach(function(message) {
+          messageContent.append('<p>' + message + '</p>');
+      });
+  }
 
 
 
