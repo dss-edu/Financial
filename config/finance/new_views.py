@@ -48,7 +48,7 @@ def getStatusCode(school):
     cursor = cnxn.cursor()
     query = "SELECT * FROM [dbo].[AscenderDownloader] WHERE db = ?"
     cursor.execute(query,db_string)
-    print(db_string)
+
     row = cursor.fetchone()
     status = ""
     if row:
@@ -210,7 +210,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
 
     # turn int into month name
     # context["month"] = calendar.month_name[context["month"]]
-    print(context["anchor_year"])
+
     cursor.close()
     cnxn.close()
     
@@ -236,7 +236,7 @@ def dashboard(request, school, anchor_year="",anchor_month=""):
         with open(update_dir,"r") as f:
             update = json.load(f)
         
-    print("UP",update)
+
 
     context["dashboard_last_update"] = update
     # title="code : {{ iconStatusCode }}"
@@ -308,7 +308,7 @@ def profit_loss(request, school, anchor_year=""):
 @custom_login_required
 @permission_required
 def profit_loss_monthly(request, school, monthly):
-    print("MONTHLY",monthly)
+
     anchor_year=""
     context = modules.profit_loss_monthly(school, anchor_year, monthly)
 
@@ -949,7 +949,7 @@ def data_processing(request,school):
             "Date":row[7]
 
         }
-        print(row[0])
+
         side_data.append(doc)
 
 

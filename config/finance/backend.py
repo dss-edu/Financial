@@ -7741,13 +7741,27 @@ def charter_first(school):
     second_13 = calculate_second_func('13')
     second_31 = calculate_second_func('31')
 
-    first_denominator = first_11 + first_12 + first_13 + first_31
+    all_expend_fund = []
+    for item in data3:
+        func = item["func"]
+        if func != '00' and func not in all_expend_fund:
+            all_expend_fund.append(func)
+
+
+    first_denominator = 0
+    second_denominator = 0
+    for item in all_expend_fund:
+        first_denominator += calculate_first_func(item)
+    for item in all_expend_fund:
+        second_denominator += calculate_second_func(item)
+
+    #first_denominator = first_11 + first_12 + first_13 + first_31
     if first_denominator != 0:
         first_AR =  (first_21 + first_41) / (first_denominator) * 100    
     else: 
         first_AR = 0  
     
-    second_denominator = second_11 + second_12 + second_13 + second_31
+    #second_denominator = second_11 + second_12 + second_13 + second_31
     
     if second_denominator != 0:
         
