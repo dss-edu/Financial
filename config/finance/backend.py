@@ -8155,7 +8155,7 @@ def writeCodes(school, table, year):
 
 def assignedType(objectCode):
     if objectCode < 1200:
-        return ['default', 'CASH' ]
+        return ['default', 'Cash' ]
     elif objectCode < 1300:
         return ['default', 'REC']
     elif objectCode < 1400:
