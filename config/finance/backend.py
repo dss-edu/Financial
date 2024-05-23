@@ -4756,7 +4756,7 @@ def balance_sheet(school,year):
                 #     fye = float(row["FYE"])
                 # else:
                 fye =  float(row["FYE"].replace("$","").replace(",", "").replace("(", "-").replace(")", "")) if row["FYE"] else 0
-                if school in schoolCategory["skyward"] or school in school_fye:
+                if school in schoolCategory["skyward"] or school in school_fye or school in school_bs_fye_obj:
                     fye = row["total_fye"]
                 if  row["Category"] == "Net Assets":
                     for i, acct_per in enumerate(acct_per_values,start = 1):
