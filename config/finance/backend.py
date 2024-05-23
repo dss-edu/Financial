@@ -7702,8 +7702,8 @@ def charter_first(school):
         return sum(
             entry[expend_key]
             for entry in data3
-            if entry["fund"] in ['420', '199']
-            and not (6500 <= int(entry["obj"]) < 6600)
+            if entry["fund"] in ['420', '199','266','281','282','283']
+            and 6100 <= int(entry["obj"]) <= 6499
             and entry['func'] == func_value
             and entry["AcctPer"] == key_month
         )
@@ -7750,12 +7750,12 @@ def charter_first(school):
 
     first_denominator = 0
     second_denominator = 0
-    for item in all_expend_fund:
-        first_denominator += calculate_first_func(item)
+    # for item in all_expend_fund:
+    #     first_denominator += calculate_first_func(item)
     for item in all_expend_fund:
         second_denominator += calculate_second_func(item)
 
-    #first_denominator = first_11 + first_12 + first_13 + first_31
+    first_denominator = first_11 + first_12 + first_13 + first_31
     if first_denominator != 0:
         first_AR =  (first_21 + first_41) / (first_denominator) * 100    
     else: 
