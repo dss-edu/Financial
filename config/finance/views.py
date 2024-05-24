@@ -54,7 +54,7 @@ SCHOOLS = settings.SCHOOLS
 db = settings.db
 schoolCategory = settings.schoolCategory
 schoolMonths = settings.schoolMonths
-
+school_bs_fye_obj = settings.school_bs_fye_obj
 # Get the current date
 current_date = datetime.now()
 # Extract the month number from the current date
@@ -5555,6 +5555,10 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
     # school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
     school_fye = settings.school_fye
+
+    for item in school_bs_fye_obj:
+        if item not in school_fye:
+            school_fye.append(item)
     
     start_bs = 1
     bs_sheet[f'D{start_bs}'] = f'{school_name}\nFY{months["FY_year_1"]}-{months["FY_year_2"]} Balance Sheet as of {months["last_month"]}'
