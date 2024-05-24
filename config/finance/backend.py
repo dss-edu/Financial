@@ -204,8 +204,24 @@ def profit_loss(school,year):
         start_year = 2021
         current_date = datetime.today().date()   
         current_year = current_date.year
-        FY_year_current = current_year
+        if school in schoolMonths["septemberSchool"]:
+            if today_month <= 8:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
+
+            else: 
+                FY_year_current = current_year - 1 
+ 
+        else:
+            if today_month <= 6:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
         
+            else: 
+                FY_year_current = current_year - 1 
+            
+        
+
     while start_year <= FY_year_current:
         print(start_year)
         print(FY_year_current)
@@ -3733,7 +3749,21 @@ def balance_sheet(school,year):
         start_year = 2021
         current_date = datetime.today().date()   
         current_year = current_date.year
-        FY_year_current = current_year
+        if school in schoolMonths["septemberSchool"]:
+            if today_month <= 8:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
+
+            else: 
+                FY_year_current = current_year - 1 
+ 
+        else:
+            if today_month <= 6:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
+        
+            else: 
+                FY_year_current = current_year - 1 
 
     while start_year <= FY_year_current:
         print(start_year)
@@ -5252,8 +5282,20 @@ def cashflow(school,year):
         start_year = 2021
         current_date = datetime.today().date()   
         current_year = current_date.year
-        FY_year_current = current_year
+        if school in schoolMonths["septemberSchool"]:
+            if today_month <= 8:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
 
+            else: 
+                FY_year_current = current_year - 1 
+ 
+        else:
+            if today_month <= 6:
+                FY_year_current = current_year - 1
+                present_year = present_year - 1
+            else: 
+                FY_year_current = current_year - 1 
 
     while start_year <= FY_year_current:
         FY_year_1 = start_year
@@ -7747,7 +7789,6 @@ def charter_first(school):
         if func != '00' and func not in all_expend_fund:
             all_expend_fund.append(func)
 
-
     first_denominator = 0
     second_denominator = 0
     # for item in all_expend_fund:
@@ -9423,8 +9464,7 @@ def school_status(request):
     school_data = []
     BS_status=""
     for key,value in SCHOOLS.items():
-        print(key)
-        
+
    
         BS_status = ""
         pl_path = os.path.join("profit-loss", key)
