@@ -3861,7 +3861,49 @@ def balance_sheet(school,year):
                     }
 
                     data_balancesheet.append(row_dict)
-        data_balancesheet = sorted(data_balancesheet, key=lambda x: x["Activity"])
+        def custom_sort_order(activity):
+            order = {
+                    "Cash": 1, # START OF Current assets
+                    "Restr": 2,
+                    "DFS+F": 3, 
+                    "OTHR": 4,
+                    "REC": 5,
+                    "PPD": 6,
+                    "Inventory":7,
+                    "OCA": 8,
+                    "FA-L": 9, # START OF Non CUrrent assets
+                    "FA-BFE": 10,
+                    "FA-AD": 11,
+                    "Def-Exp": 12,
+                    "LI": 13,
+                    "FA-FE": 14,
+                    "RUA": 15,
+                    "LBE": 16,
+                    "OA": 17,
+                    "AP": 18, # START OF current Liabilites
+                    "OtherLiab": 19,
+                    "ACC-Int": 20,
+                    "Debt-C": 21,
+                    "LOC": 22,
+                    "PL": 23,
+                    "LLCP": 24,
+                    "BLC": 25,
+                    "RUL": 26,
+                    "IP": 27,
+                    "PRP": 28,
+                    "DOG": 29,
+                    "Acc-Exp": 30,
+                    "Debt-D": 31,
+                    "PRA": 32,
+                    "LP": 33, # START OF Noncurrent Liabilites
+                    "RULL": 34,
+                    "BLPL": 35,
+                    "OLTDP": 36,
+                    }
+            return order.get(activity, 40) 
+            #return order.get(activity, other_order.get(activity, 100))
+
+        data_balancesheet = sorted(data_balancesheet, key=lambda x: custom_sort_order(x["Activity"]))
        
         cursor.execute(f"SELECT * FROM [dbo].[BS_FYE_OBJ] WHERE school = '{school}';")
         rows = cursor.fetchall()
