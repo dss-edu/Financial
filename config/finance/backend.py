@@ -210,7 +210,7 @@ def profit_loss(school,year):
                 present_year = present_year - 1
 
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
  
         else:
             if today_month <= 6:
@@ -218,7 +218,7 @@ def profit_loss(school,year):
                 present_year = present_year - 1
         
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
             
         
 
@@ -3755,7 +3755,7 @@ def balance_sheet(school,year):
                 present_year = present_year - 1
 
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
  
         else:
             if today_month <= 6:
@@ -3763,7 +3763,7 @@ def balance_sheet(school,year):
                 present_year = present_year - 1
         
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
 
     while start_year <= FY_year_current:
         print(start_year)
@@ -5288,14 +5288,14 @@ def cashflow(school,year):
                 present_year = present_year - 1
 
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
  
         else:
             if today_month <= 6:
                 FY_year_current = current_year - 1
                 present_year = present_year - 1
             else: 
-                FY_year_current = current_year - 1 
+                FY_year_current = current_year 
 
     while start_year <= FY_year_current:
         FY_year_1 = start_year
