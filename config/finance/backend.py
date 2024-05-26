@@ -127,15 +127,15 @@ def run_all_monthly(school,year):
             if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
                 print("RUNNING THIS MONTH:" ,month)
                 profit_loss_monthly(school,year,yr)
-                balance_sheet_monthly(school,year,yr)
-                cashflow_monthly(school,year,yr)
+                # balance_sheet_monthly(school,year,yr)
+                # cashflow_monthly(school,year,yr)
             elif PL_DIR:
                 print("SKIP")
             else:
                 print("RUNNING NOT EXISTING")
                 profit_loss_monthly(school,year,yr)
-                balance_sheet_monthly(school,year,yr)
-                cashflow_monthly(school,year,yr)
+                # balance_sheet_monthly(school,year,yr)
+                # cashflow_monthly(school,year,yr)
 
 def profit_loss(school,year):
     school_fye = settings.school_fye
@@ -9867,18 +9867,15 @@ def school_status(request):
 def profit_loss_monthly(school,year,monthly):
 
     print("profit_loss_monthly")
-    print(monthly)
     monthly_last = monthly[-1]
     param_markers = ', '.join(['?' for _ in monthly])
-    print(monthly_last)
-    print(school)
-    print(year)
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
     today_month = today_date.month
     next_month = present_date + timedelta(days=30)
     last_update = today_date.strftime('%Y-%m-%d')
+    today_month_number =  str(today_month).zfill(2)
 
 
     #LAST UPDATE
@@ -10149,6 +10146,7 @@ def profit_loss_monthly(school,year,monthly):
   
         if FY_year_1 == present_year:
             print("current_month")
+
     
         else:
             if school in schoolMonths["julySchool"]:
@@ -10168,21 +10166,34 @@ def profit_loss_monthly(school,year,monthly):
         db_last_month = last_month.strftime("%Y-%m-%d")
         
   
-   
+        current_month_number = ""
+
         if present_year == FY_year_1:
+            
             first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
+            current_month_number = first_day_of_next_month.month
 
-            if current_month <= last_day_of_current_month:
-                current_month = current_month.replace(day=1) - timedelta(days=1)
-                last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
+            if today_month_number == monthly_last:
+                last_month = last_day_of_current_month
                 last_month_name = last_month.strftime("%B")
                 last_month_number = last_month.month
                 formatted_last_month = last_month.strftime('%B %d, %Y')  
                 db_last_month = last_month.strftime("%Y-%m-%d")
-   
+          
+            else:
+                if current_month <= last_day_of_current_month:
+                    current_month = current_month.replace(day=1) - timedelta(days=1)
+                    last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)      
+                    last_month_name = last_month.strftime("%B")
+                    last_month_number = last_month.month
+                    formatted_last_month = last_month.strftime('%B %d, %Y')  
+                    db_last_month = last_month.strftime("%Y-%m-%d")
+       
+    
 
 
+      
 
     
 
