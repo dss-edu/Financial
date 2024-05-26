@@ -51,12 +51,11 @@ def update_school(school):
     balance_sheet(school,anchor_year) #
     cashflow(school,anchor_year) #
     charter_first(school) #
-    # excel(school,anchor_year) #
     updateGraphDB(school, False)
     profit_loss_chart(school) #
     profit_loss_date(school)  # 
     run_all_monthly_fy(school)
-
+    # excel(school,anchor_year) #
 def update_fy(school,year):    
     writeCodes(school, db[school]['db'], year)
     updateDescription(db[school]['db'], school)
@@ -4045,11 +4044,24 @@ def balance_sheet(school,year):
         last_month = months["last_month"]
         last_month_number = months["last_month_number"]
         last_month_name = months["last_month_name"]
+
+        
    
         db_last_month = months["db_last_month"]
         month_exception = months["month_exception"]
         month_exception_str = months["month_exception_str"]
         
+
+        last_month_date = datetime.strptime(last_month, '%B %d, %Y')
+        new_last_month = last_month_date + timedelta(days=30)
+        new_last_month_name = new_last_month.strftime("%B")
+        new_last_month_number = new_last_month.month
+        if last_month_number == 12:
+            new_last_month = datetime(1, 31,FY_year_2)
+            new_last_month_name = new_last_month.strftime("%B")
+            new_last_month_number = new_last_month.month
+
+
 
      
         cursor.execute(f"SELECT * FROM [dbo].{db[school]['adjustment']} ")
@@ -4297,6 +4309,7 @@ def balance_sheet(school,year):
                     item["total_bal7"] += item["total_bal6"]
                     item["total_bal8"] += item["total_bal7"]
                     item["last_month_bal"] = item[f'total_bal{last_month_number}']
+                    item["new_last_month_bal"] = item[f'total_bal{new_last_month_number}']
 
                 else:
 
@@ -4317,7 +4330,8 @@ def balance_sheet(school,year):
                     item["total_bal5"] += item["total_bal4"]
                     item["total_bal6"] += item["total_bal5"]
                     item["last_month_bal"] = item[f'total_bal{last_month_number}']
-
+                    
+                    item["new_last_month_bal"] = item[f'total_bal{new_last_month_number}']
 
                     
 
@@ -4560,7 +4574,7 @@ def balance_sheet(school,year):
                     
                 
                     row["last_month_difference"] = row[f"difference_{last_month_number}"] 
-        
+                    row["new_last_month_difference"] = row[f"difference_{new_last_month_number}"]
                     
                         
 
@@ -4589,7 +4603,8 @@ def balance_sheet(school,year):
                     row["debt_6"] = (row["debt_5"]- total_sum6_value)
                     row["debt_7"] = (row["debt_6"] - total_sum7_value)
                     row["debt_8"] = (row["debt_7"] - total_sum8_value)
-                    row["last_month_debt"] = row[f"debt_{last_month_number}"] 
+                    row["last_month_debt"] = row[f"debt_{last_month_number}"]
+                    row["new_last_month_debt"] = row[f"debt_{new_last_month_number}"]
 
 
 
@@ -4617,6 +4632,7 @@ def balance_sheet(school,year):
                     row["net_assets7"] = (row["net_assets6"] + total_netsurplus["07"])
                     row["net_assets8"] = (row["net_assets7"] + total_netsurplus["08"])
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
+                    row["new_last_month_net_assets"] = row[f"net_assets{new_last_month_number}"]
                     
                 else:
                     
@@ -4634,7 +4650,8 @@ def balance_sheet(school,year):
                     row["difference_5"] = (row["difference_4"] + total_sum5_value )
                     row["difference_6"] = (row["difference_5"] + total_sum6_value )
                     
-                    row["last_month_difference"] = row[f"difference_{last_month_number}"] 
+                    row["last_month_difference"] = row[f"difference_{last_month_number}"]
+                    row["new_last_month_difference"] = row[f"difference_{new_last_month_number}"] 
 
 
          
@@ -4666,6 +4683,7 @@ def balance_sheet(school,year):
                     row["debt_5"] = (row["debt_4"]  - total_sum5_value )
                     row["debt_6"] = (row["debt_5"]- total_sum6_value)
                     row["last_month_debt"] = row[f"debt_{last_month_number}"] 
+                    row["new_last_month_debt"] = row[f"debt_{new_last_month_number}"] 
     
                     
                     if month_exception != "":
@@ -4691,13 +4709,14 @@ def balance_sheet(school,year):
                     row["net_assets5"] = (row["net_assets4"] + total_netsurplus["05"])
                     row["net_assets6"] = (row["net_assets5"]  + total_netsurplus["06"])
                     row["last_month_net_assets"] = row[f"net_assets{last_month_number}"]
-
+                    row["new_last_month_net_assets"] = row[f"net_assets{new_last_month_number}"]
 
 
         total_current_assets = {acct_per: 0 for acct_per in acct_per_values}
         total_current_assets_fye = 0
         total_current_assets_fytd = 0 
         last_month_current_assets = 0 
+        new_last_month_current_assets = 0
 
 
 
@@ -4705,26 +4724,31 @@ def balance_sheet(school,year):
         total_capital_assets_fye = 0
         total_capital_assets_fytd = 0 
         last_month_total_capital_assets = 0
+        new_last_month_total_capital_assets = 0
 
         total_current_liabilities = {acct_per: 0 for acct_per in acct_per_values}
         total_current_liabilities_fye = 0
         total_current_liabilities_fytd = 0
         last_month_total_current_liabilities = 0
+        new_last_month_total_current_liabilities = 0
 
         total_noncurrent_liabilities = {acct_per: 0 for acct_per in acct_per_values}
         total_noncurrent_liabilities_fye = 0
         total_noncurrent_liabilities_fytd = 0
         last_month_total_noncurrent_liabilities = 0
+        new_last_month_total_noncurrent_liabilities = 0
 
         total_liabilities = {acct_per: 0 for acct_per in acct_per_values}
         total_liabilities_fye = 0
         total_liabilities_fytd = 0
         last_month_total_liabilities = 0
+        new_last_month_total_liabilities = 0
 
         total_assets = {acct_per: 0 for acct_per in acct_per_values}
         total_assets_fye = 0
         total_assets_fye_fytd = 0
         last_month_total_assets = 0 
+        new_last_month_total_assets = 0
         
 
         total_LNA = {acct_per: 0 for acct_per in acct_per_values} # LIABILITES AND NET ASSETS 
@@ -4732,6 +4756,7 @@ def balance_sheet(school,year):
         total_LNA_fytd = 0
         total_net_assets_fytd = 0
         last_month_total_LNA = 0
+        new_last_month_total_LNA = 0 
 
         total_net_assets_fytd = totals["bs_ytd_netsurplus"]    #assign the value coming from profitloss totals
         
@@ -4752,7 +4777,9 @@ def balance_sheet(school,year):
                     for i, acct_per in enumerate(acct_per_values,start = 1):
                         total_current_assets[acct_per] += row[f"difference_{i}"]
                         if i == last_month_number:
-                            last_month_current_assets += row[f"difference_{i}"]                      
+                            last_month_current_assets += row[f"difference_{i}"]  
+                        if i == new_last_month_number:
+                            new_last_month_current_assets += row[f"difference_{i}"]                       
                     total_current_assets_fytd += row["fytd"]
 
                     total_current_assets_fye +=  fye
@@ -4761,6 +4788,8 @@ def balance_sheet(school,year):
                         total_capital_assets[acct_per] += row[f"difference_{i}"]
                         if i == last_month_number:
                             last_month_total_capital_assets += row[f"difference_{i}"]
+                        if i == new_last_month_number:
+                            new_last_month_total_capital_assets += row[f"difference_{i}"]
                     
                             
 
@@ -4773,6 +4802,8 @@ def balance_sheet(school,year):
                         total_current_liabilities[acct_per] += row[f"debt_{i}"]
                         if i == last_month_number:
                             last_month_total_current_liabilities += row[f"debt_{i}"]
+                        if i == new_last_month_number:
+                            new_last_month_total_current_liabilities += row[f"debt_{i}"]
                     total_current_liabilities_fytd += row["debt_fytd"]
                
                     total_current_liabilities_fye +=  fye
@@ -4787,6 +4818,8 @@ def balance_sheet(school,year):
 
                             if i == last_month_number:
                                 last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
+                            if i == new_last_month_number:
+                                new_last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
                         total_noncurrent_liabilities_fytd += row["debt_fytd"]
                         total_noncurrent_liabilities_fye +=  fye
                     else:
@@ -4794,6 +4827,8 @@ def balance_sheet(school,year):
                             total_noncurrent_liabilities[acct_per] += row[f"debt_{i}"]
                             if i == last_month_number:
                                 last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
+                            if i == new_last_month_number:
+                                new_last_month_total_noncurrent_liabilities += row[f"debt_{i}"]
                         total_noncurrent_liabilities_fytd += row["debt_fytd"]
                         total_noncurrent_liabilities_fye +=  fye
 
@@ -4814,6 +4849,8 @@ def balance_sheet(school,year):
                         total_liabilities[acct_per] += row[f"debt_{i}"] + total_current_liabilities[acct_per] + total_noncurrent_liabilities[acct_per]
                         if i == last_month_number:
                             last_month_total_liabilities += row[f"debt_{i}"] + total_current_liabilities[acct_per] + total_noncurrent_liabilities[acct_per]
+                        if i == new_last_month_number:
+                            new_last_month_total_liabilities += row[f"debt_{i}"] + total_current_liabilities[acct_per] + total_noncurrent_liabilities[acct_per]
                     total_liabilities_fytd_2 += row["debt_fytd"]
                     total_liabilities_fye +=   total_current_liabilities_fye + fye + total_noncurrent_liabilities_fye
 
@@ -4835,6 +4872,8 @@ def balance_sheet(school,year):
                         total_LNA[acct_per] += round( row[f"net_assets{i}"] + total_liabilities[acct_per],2)
                         if i == last_month_number:
                             last_month_total_LNA += row[f"net_assets{i}"] + total_liabilities[acct_per]
+                        if i == new_last_month_number:
+                            new_last_month_total_LNA += row[f"net_assets{i}"] + total_liabilities[acct_per]
 
                     total_LNA_fye += total_liabilities_fye + fye
         
@@ -4849,6 +4888,9 @@ def balance_sheet(school,year):
 
         last_month_number_str = f"{last_month_number:02}"  
         last_month_total_assets  = total_assets[last_month_number_str]
+
+        new_last_month_number_str = f"{new_last_month_number:02}"  
+        new_last_month_total_assets = total_assets[new_last_month_number_str]
 
         
 
@@ -4889,6 +4931,13 @@ def balance_sheet(school,year):
         last_month_total_liabilities = format_value(last_month_total_liabilities)
         last_month_total_LNA = format_value_dollars(last_month_total_LNA)
         
+        new_last_month_current_assets = format_value(new_last_month_current_assets)
+        new_last_month_total_capital_assets = format_value(new_last_month_total_capital_assets)
+        new_last_month_total_assets = format_value_dollars(new_last_month_total_assets)
+        new_last_month_total_current_liabilities = format_value(new_last_month_total_current_liabilities)
+        new_last_month_total_noncurrent_liabilities = format_value(new_last_month_total_noncurrent_liabilities)
+        new_last_month_total_liabilities = format_value(new_last_month_total_liabilities)
+        new_last_month_total_LNA = format_value_dollars(new_last_month_total_LNA)
     
         for row in data_balancesheet:
             if row["school"] == school:
@@ -4923,6 +4972,7 @@ def balance_sheet(school,year):
                     row["difference_8"] = format_value_dollars(row["difference_8"] )
                     
                     row["last_month_difference"] = format_value_dollars(row["last_month_difference"] )
+                    row["new_last_month_difference"] = format_value_dollars(row["new_last_month_difference"] )
                     row["fytd"] = format_value_dollars(row["fytd"])
                 else:
                     
@@ -4939,6 +4989,7 @@ def balance_sheet(school,year):
                     row["difference_7"] = format_value(row["difference_7"] )
                     row["difference_8"] = format_value(row["difference_8"] )
                     row["last_month_difference"] = format_value(row["last_month_difference"] )
+                    row["new_last_month_difference"] = format_value_dollars(row["new_last_month_difference"] )
                     row["fytd"] = format_value(row["fytd"])
                 
                 if row['Activity'] == 'AP':
@@ -4957,6 +5008,7 @@ def balance_sheet(school,year):
                     row["debt_8"] =  format_value_dollars(row["debt_8"] )
                     row["debt_fytd"]=format_value_dollars(row["debt_fytd"])
                     row["last_month_debt"] = format_value_dollars(row["last_month_debt"] )
+                    row["new_last_month_debt"] = format_value_dollars(row["new_last_month_debt"] )
 
                 else:
                     
@@ -4973,6 +5025,7 @@ def balance_sheet(school,year):
                     row["debt_7"] =  format_value(row["debt_7"] )
                     row["debt_8"] =  format_value(row["debt_8"] )
                     row["last_month_debt"] = format_value(row["last_month_debt"] )
+                    row["new_last_month_debt"] = format_value(row["new_last_month_debt"] )
                     row["debt_fytd"]=format_value(row["debt_fytd"])
         
 
@@ -4989,6 +5042,8 @@ def balance_sheet(school,year):
                 row["net_assets7"]  = format_value(row["net_assets7"])
                 row["net_assets8"]  = format_value(row["net_assets8"])
                 row["last_month_net_assets"] = format_value(row["last_month_net_assets"])
+                row["new_last_month_net_assets"] = format_value(row["new_last_month_net_assets"])
+                
 
         keys_to_check = [
             "total_bal1",
@@ -5016,6 +5071,7 @@ def balance_sheet(school,year):
                 if Activity in unique_act:
   
                     row["last_month_bal"] = format_negative(row["last_month_bal"])
+                    row["new_last_month_bal"] = format_negative(row["new_last_month_bal"])
                     for key in keys_to_check:
                         value = float(row[key])
                         
@@ -5031,7 +5087,7 @@ def balance_sheet(school,year):
                         # row[key] = format_value(row[key])
 
                 else:
-                    
+                    row["new_last_month_bal"] = format_value(row["new_last_month_bal"])
                     row["last_month_bal"] = format_value(row["last_month_bal"])
                     for key in keys_to_check:
                         value = float(row[key])
@@ -5157,6 +5213,7 @@ def balance_sheet(school,year):
             "last_month_name": last_month_name,
             "FY_year_1":FY_year_1,
             "FY_year_2":FY_year_2,
+            "new_last_month_name": new_last_month_name,
             "totals_bs":{
                 "total_current_assets":total_current_assets,
                 "total_current_assets_fye":total_current_assets_fye,
@@ -5187,6 +5244,13 @@ def balance_sheet(school,year):
                 "total_noncurrent_liabilities_fye":total_noncurrent_liabilities_fye,
                 "total_noncurrent_liabilities_fytd":total_noncurrent_liabilities_fytd,
                 "last_month_total_noncurrent_liabilities":last_month_total_noncurrent_liabilities,
+                "new_last_month_current_assets":new_last_month_current_assets,
+                "new_last_month_total_capital_assets":new_last_month_total_capital_assets,
+                "new_last_month_total_current_liabilities":new_last_month_total_current_liabilities,
+                "new_last_month_total_noncurrent_liabilities":new_last_month_total_noncurrent_liabilities,
+                "new_last_month_total_liabilities":new_last_month_total_liabilities,
+                "new_last_month_total_assets":new_last_month_total_assets,
+                "new_last_month_total_LNA":new_last_month_total_LNA,
 
 
         }

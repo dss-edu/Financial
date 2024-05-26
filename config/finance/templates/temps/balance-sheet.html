@@ -934,7 +934,11 @@ style="display:none;"
             <th class="collapsed" style="text-align: center;">June</th>
             {% endif %}
             <th style="text-align: center;">FYTD Activity</th>
+            {% if "monthly" in request.get_full_path %}
             <th style="text-align: center;">As of {{last_month_name}}</th>
+            {% else %}
+            <th style="text-align: center;">As of {{new_last_month_name}}</th>
+            {% endif %}
         </tr>
 
 
@@ -1019,7 +1023,11 @@ style="display:none;"
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
       {% endif %}
       <td class="right-align-td">{{item.fytd}}</td>
+      {% if "monthly" in request.get_full_path %}
       <td class="right-align-td">{{item.last_month_bal}}</td>
+      {% else %}
+      <td class="right-align-td">{{item.new_last_month_bal}}</td>
+      {% endif %}
       </tr>
 
 
@@ -1074,7 +1082,11 @@ style="display:none;"
       {% endif %}
 
       <td class="right-align-td">{{row.fytd}}</td>
+      {% if "monthly" in request.get_full_path %}
       <td class="right-align-td">{{row.last_month_difference}}</td>
+      {% else %}
+      <td class="right-align-td">{{row.new_last_month_difference}}</td>
+      {% endif %}
     </tr> 
 
 
@@ -1116,7 +1128,12 @@ style="display:none;"
         <td id="current-assets-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_current_assets.06}}</td>
         {% endif %}
         <td id="current-assets-total-16" class="right-align-td top-border" >{{totals_bs.total_current_assets_fytd}}</td>
-        <td id="current-assets-total-17" class="right-align-td top-border" >{{totals_bs.last_month_current_assets}}</td>        
+        {% if "monthly" in request.get_full_path %}
+        <td id="current-assets-total-17" class="right-align-td top-border" >{{totals_bs.last_month_current_assets}}</td>   
+        {% else %}
+        <td id="current-assets-total-17" class="right-align-td top-border" >{{totals_bs.new_last_month_current_assets}}</td>  
+        {% endif %}
+
     </tr>
 
     
@@ -1188,7 +1205,11 @@ style="display:none;"
       <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
       {% endif %}
       <td class="right-align-td">{{item.fytd}}</td>
+      {% if "monthly" in request.get_full_path %}
       <td class="right-align-td">{{item.last_month_bal}}</td>
+      {% else %}
+      <td class="right-align-td">{{item.new_last_month_bal}}</td>
+      {% endif %}
       </tr>
 
 
@@ -1243,7 +1264,11 @@ style="display:none;"
         {% endif %}
 
         <td class="right-align-td">{{row.fytd}}</td>
+        {% if "monthly" in request.get_full_path %}
         <td class="right-align-td">{{row.last_month_difference}}</td>
+        {% else %}
+        <td class="right-align-td">{{row.new_last_month_difference}}</td>
+        {% endif %}
       </tr>
 
       
@@ -1283,7 +1308,11 @@ style="display:none;"
             <td id="capital-assets-total-13" class="collapsed right-align-td top-border">{{totals_bs.total_capital_assets.06}}</td>
             {% endif %}
             <td id="capital-assets-total-16" class="right-align-td top-border">{{totals_bs.total_capital_assets_fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td id="capital-assets-total-17" class="right-align-td top-border">{{totals_bs.last_month_total_capital_assets}}</td>
+            {% else %}
+            <td id="capital-assets-total-17" class="right-align-td top-border">{{totals_bs.new_last_month_total_capital_assets}}</td>
+            {% endif %}
         </tr>
 
         <tr id="total-assets-total-row" class="ttl-lr-row">
@@ -1320,7 +1349,11 @@ style="display:none;"
           <td id="total-assets-total-13" class="collapsed right-align-td" >{{totals_bs.total_assets.06}}</td>
           {% endif %}
           <td id="total-assets-total-16" class="right-align-td">{{totals_bs.total_assets_fye_fytd}}</td>
+          {% if "monthly" in request.get_full_path %}
           <td id="total-assets-total-17" class="right-align-td">{{totals_bs.last_month_total_assets}}</td>
+          {% else %}
+          <td id="total-assets-total-17" class="right-align-td">{{totals_bs.new_last_month_total_assets}}</td>
+          {% endif %}
        
       </tr>
 
@@ -1401,7 +1434,11 @@ style="display:none;"
           <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
           {% endif %}
           <td class="right-align-td">{{item.fytd}}</td>
+          {% if "monthly" in request.get_full_path %}
           <td class="right-align-td">{{item.last_month_bal}}</td>
+          {% else %}
+          <td class="right-align-td">{{item.new_last_month_bal}}</td>
+          {% endif %}
         </tr>
 
     {% endif %}
@@ -1454,7 +1491,11 @@ style="display:none;"
           {% endif %}
 
           <td class="right-align-td">{{row.debt_fytd}}</td>
+          {% if "monthly" in request.get_full_path %}
           <td class="right-align-td">{{row.last_month_debt}}</td>
+          {% else %}
+          <td class="right-align-td">{{row.new_last_month_debt}}</td>
+          {% endif %}
 
         </tr>
 
@@ -1497,8 +1538,11 @@ style="display:none;"
      <td id="current-liabilities-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_current_liabilities.06}}</td>
      {% endif %}
      <td id="current-liabilities-total-16" class="right-align-td top-border">{{totals_bs.total_current_liabilities_fytd}}</td>
+     {% if "monthly" in request.get_full_path %}
      <td id="current-liabilities-total-17" class="right-align-td top-border">{{totals_bs.last_month_total_current_liabilities}}</td>
-     
+     {% else %}
+     <td id="current-liabilities-total-17" class="right-align-td top-border">{{totals_bs.new_last_month_total_current_liabilities}}</td>
+     {% endif %}
 </tr>
 
 
@@ -1542,7 +1586,11 @@ style="display:none;"
   <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ item.obj }}"  data-yr="06">{{item.total_bal6}}</td>
   {% endif %}
   <td class="right-align-td">{{item.fytd}} </td>
+  {% if "monthly" in request.get_full_path %}
   <td class="right-align-td">{{item.last_month_bal}}</td>
+  {% else %}
+  <td class="right-align-td">{{item.new_last_month_bal}}</td>
+  {% endif %}
 </tr>
 
 
@@ -1597,8 +1645,11 @@ style="display:none;"
         {% endif %}
 
         <td class="right-align-td">{{row.debt_fytd}}</td>
-       
+        {% if "monthly" in request.get_full_path %}
         <td class="right-align-td">{{row.last_month_debt}}</td>
+        {% else %}
+        <td class="right-align-td">{{row.new_last_month_debt}}</td>
+        {% endif %}
 
       </tr>
 
@@ -1640,8 +1691,11 @@ style="display:none;"
    <td id="current-liabilities-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_noncurrent_liabilities.06}}</td>
    {% endif %}
    <td id="current-liabilities-total-16" class="right-align-td top-border">{{totals_bs.total_noncurrent_liabilities_fytd}}</td>
+   {% if "monthly" in request.get_full_path %}
    <td id="current-liabilities-total-17" class="right-align-td top-border">{{totals_bs.last_month_total_noncurrent_liabilities}}</td>
-   
+   {% else %}
+   <td id="current-liabilities-total-17" class="right-align-td top-border">{{totals_bs.new_last_month_total_noncurrent_liabilities}}</td>
+   {% endif %}
 </tr>
 
     
@@ -1700,7 +1754,11 @@ style="display:none;"
         <td class="collapsed right-align-td"><a href="#" class="viewgl_activitybs-link" data-obj="{{ row.obj }}"  data-yr="06">{{row.total_bal6}}</td>
         {% endif %}
         <td class="right-align-td">{{row.fytd}}</td>
+        {% if "monthly" in request.get_full_path %}
         <td class="right-align-td">{{row.last_month_bal}}</td>
+        {% else %}
+        <td class="right-align-td">{{row.new_last_month_bal}}</td>
+        {% endif %}
       </tr>
       
       {% endif %}
@@ -1760,7 +1818,11 @@ style="display:none;"
 
               {% endif %}
               <td class="right-align-td">{{row.debt_fytd}}</td>
+              {% if "monthly" in request.get_full_path %}
               <td class="right-align-td">{{row.last_month_debt}}</td>
+              {% else %}
+              <td class="right-align-td">{{row.new_last_month_debt}}</td>
+              {% endif %}
             </tr>
             {% endif %}   
      
@@ -1804,7 +1866,11 @@ style="display:none;"
 
         {% endif %}
         <td id="total-liabilities-total-16" class="right-align-td">{{totals_bs.total_liabilities_fytd}}</td>
+        {% if "monthly" in request.get_full_path %}
         <td id="total-liabilities-total-17" class="right-align-td">{{totals_bs.last_month_total_liabilities}}</td>
+        {% else %}
+        <td id="total-liabilities-total-17" class="right-align-td">{{totals_bs.new_last_month_total_liabilities}}</td>
+        {% endif %}
 
 
        
@@ -1857,7 +1923,11 @@ style="display:none;"
               {% endif %}
 
               <td class="right-align-td">{{totals_bs.total_net_assets_fytd}}</td>
+              {% if "monthly" in request.get_full_path %}
               <td class="right-align-td">{{row.last_month_net_assets}}</td>
+              {% else %}
+              <td class="right-align-td">{{row.new_last_month_net_assets}}</td>
+              {% endif %}
             </tr>
             {% endif %}
             {% endif %}
@@ -1899,7 +1969,11 @@ style="display:none;"
           <td id="liabilitiesandnet-total-13" class="collapsed right-align-td top-border" >{{totals_bs.total_LNA.06}}</td>
           {% endif %}
           <td id="liabilitiesandnet-total-16" class="right-align-td top-border">{{totals_bs.total_LNA_fytd}}</td>
-          <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.last_month_total_LNA}}</td>         
+          {% if "monthly" in request.get_full_path %}
+          <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.last_month_total_LNA}}</td> 
+          {% else %}
+          <td id="liabilitiesandnet-total-17" class="right-align-td top-border">{{totals_bs.new_last_month_total_LNA}}</td> 
+          {% endif %}
       </tr>
 
    

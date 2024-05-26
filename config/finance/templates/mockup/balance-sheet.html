@@ -468,7 +468,11 @@
             </th>
             <th>
               <div class="net-section">
-                <div class="">As of {{last_month_name}}</div>
+                {% if "monthly" in request.get_full_path %}
+                <div class="">As of {{ last_month_name }}</div>
+                {% else %}
+                    <div class="">As of {{ new_last_month_name }}</div>
+                {% endif %}
                 <div class=""></div>
                 <div class=""></div>
               </div>
@@ -517,7 +521,11 @@
             {% endif %}
 
             <td>{{item.fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td>{{item.last_month_bal}}</td>
+            {% else %}
+            <td>{{item.new_last_month_bal}}</td>
+            {% endif %}
           </tr>
           {% endif %}
           {% endfor %}
@@ -557,7 +565,12 @@
 
 
             <td>{{row.fytd}}</td>
+      
+            {% if "monthly" in request.get_full_path %}
             <td>{{row.last_month_difference}}</td>
+            {% else %}
+            <td>{{row.new_last_month_difference}}</td>
+            {% endif %}
           </tr>
 
 
@@ -601,7 +614,12 @@
 
 
             <td>{{totals_bs.total_current_assets_fytd}}</td>
+   
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_current_assets}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_current_assets}}</td>
+            {% endif %}
           </tr>
           <!-- End of Total Current Assets  -->
 
@@ -646,7 +664,12 @@
             {% endif %}
 
             <td>{{item.fytd}}</td>
+      
+            {% if "monthly" in request.get_full_path %}
             <td>{{item.last_month_bal}}</td>
+            {% else %}
+            <td>{{item.new_last_month_bal}}</td>
+            {% endif %}
           </tr>
           {% endif %}
           {% endfor %}
@@ -685,7 +708,12 @@
 
 
             <td>{{row.fytd}}</td>
+      
+            {% if "monthly" in request.get_full_path %}
             <td>{{row.last_month_difference}}</td>
+            {% else %}
+            <td>{{row.new_last_month_difference}}</td>
+            {% endif %}
           </tr>
 
 
@@ -729,7 +757,12 @@
 
 
           <td>{{totals_bs.total_capital_assets_fytd}}</td>
+       
+          {% if "monthly" in request.get_full_path %}
           <td>{{totals_bs.last_month_total_capital_assets}}</td>
+          {% else %}
+          <td>{{totals_bs.new_last_month_total_capital_assets}}</td>
+          {% endif %}
         </tr>
   
      
@@ -770,7 +803,12 @@
 
 
             <td>{{totals_bs.total_assets_fye_fytd}}</td>
+   
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_total_assets}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_total_assets}}</td>
+            {% endif %}
           </tr>
           <!-- End of Assets  -->
 
@@ -815,7 +853,11 @@
             {% endif %}
 
             <td>{{item.fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td>{{item.last_month_bal}}</td>
+            {% else %}
+            <td>{{item.new_last_month_bal}}</td>
+            {% endif %}
    
           </tr>
 
@@ -856,7 +898,12 @@
 
 
             <td>{{row.debt_fytd}}</td>
+          
+            {% if "monthly" in request.get_full_path %}
             <td>{{row.last_month_debt}}</td>
+            {% else %}
+            <td>{{row.new_last_month_debt}}</td>
+            {% endif %}
           </tr>
 
          
@@ -904,7 +951,11 @@
 
 
             <td>{{totals_bs.total_current_liabilities_fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_total_current_liabilities}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_total_current_liabilities}}</td>
+            {% endif %}
           </tr>
 
 
@@ -947,7 +998,11 @@
             {% endif %}
 
             <td>{{item.fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td>{{item.last_month_bal}}</td>
+            {% else %}
+            <td>{{item.new_last_month_bal}}</td>
+            {% endif %}
    
           </tr>
           {% endif %}
@@ -988,6 +1043,11 @@
 
             <td>{{row.debt_fytd}}</td>
             <td>{{row.last_month_debt}}</td>
+            {% if "monthly" in request.get_full_path %}
+            <td>{{row.last_month_debt}}</td>
+            {% else %}
+            <td>{{row.new_last_month_debt}}</td>
+            {% endif %}
           </tr>
 
          
@@ -1034,7 +1094,12 @@
 
 
             <td>{{totals_bs.total_noncurrent_liabilities_fytd}}</td>
+       
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_total_noncurrent_liabilities}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_total_noncurrent_liabilities}}</td>
+            {% endif %}
           </tr>
           <!-- Total Liabilities  -->
 
@@ -1074,7 +1139,11 @@
             {% endif %}
 
             <td>{{row.fytd}}</td>
-            <td>{{row.last_month_bal}}</td>
+            {% if "monthly" in request.get_full_path %}
+            <td>{{item.last_month_bal}}</td>
+            {% else %}
+            <td>{{item.new_last_month_bal}}</td>
+            {% endif %}
    
           </tr>
           {% endif %}
@@ -1116,7 +1185,11 @@
 
 
             <td>{{row.debt_fytd}}</td>
+            {% if "monthly" in request.get_full_path %}
             <td>{{row.last_month_debt}}</td>
+            {% else %}
+            <td>{{row.new_last_month_debt}}</td>
+            {% endif %}
           </tr>
           {% endif %}
           {% endfor %}
@@ -1155,8 +1228,12 @@
             {% endif %}
 
 
-            <td>{{totals_bs.total_liabilities_fytd}}</td>
+            <td>{{totals_bs.total_liabilities_fytd}}</td>            
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_total_liabilities}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_total_liabilities}}</td>
+            {% endif %}
           </tr>
           <!-- End of Liabilities  -->
 
@@ -1200,7 +1277,13 @@
 
 
             <td>{{totals_bs.total_net_assets_fytd}}</td>
+            
+      
+            {% if "monthly" in request.get_full_path %}
             <td>{{row.last_month_net_assets}}</td>
+            {% else %}
+            <td>{{row.new_last_month_net_assets}}</td>
+            {% endif %}
           </tr>
           {% endif %}
           {% endfor %} 
@@ -1244,7 +1327,12 @@
 
 
             <td>{{totals_bs.total_LNA_fytd}}</td>
+
+            {% if "monthly" in request.get_full_path %}
             <td>{{totals_bs.last_month_total_LNA}}</td>
+            {% else %}
+            <td>{{totals_bs.new_last_month_total_LNA}}</td>
+            {% endif %}
           </tr>
           <!-- End of LNA  -->
         </tbody>
