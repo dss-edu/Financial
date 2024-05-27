@@ -7577,6 +7577,27 @@ def excel(school,year):
 
     
 def charter_first(school):
+
+
+    def stringParser(value):
+      
+        if value == "" or value == 0:
+            return 0
+        
+        if "(" in value:
+            
+            formatted = "".join(value.strip().replace("$", "").replace("(", "-").replace(")", "").split(","))
+            
+            if "." in formatted:
+              
+                return float(formatted)
+         
+            return int(formatted) 
+        
+        formatted = "".join(value.strip().replace("$", "").split(","))
+        if "." in formatted:
+            return float(formatted)
+        return int(formatted)
     context = {}
     # first check if previous month is in database already
     cnxn = connect()
@@ -7789,27 +7810,28 @@ def charter_first(school):
 
    
 
-
     ltd = 0
     equity = 0
     for item in balance_sheet:
-        if item["Activity"].strip().lower() == "ltd" and item["Subcategory"].strip().lower() == "long term debt" and item["Category"].strip().lower() == "debt" and item["school"].strip().lower() == school:
-            ltd = item[f"debt_{pl_lmn}"]
+        if  item["Subcategory"].strip().lower() == "noncurrent liabilities"  and item["school"].strip().lower() == school:
+            print("T",item[f"debt_{pl_lmn}"])
+            ltd += stringParser(item[f"debt_{pl_lmn}"])
         if item["Activity"].strip().lower() == "equity" and item["Category"].strip().lower() == "net assets" and item["school"].strip().lower() == school:
             equity = item[f"net_assets{pl_lmn}"]
 
     
-
+    print(pl_lmn)
     if equity:
         equity = dollar_parser(equity)
     else:
         equity = 0
 
-    if ltd:
-        ltd = dollar_parser(ltd)
-    else:
-        ltd = 0
+    # if ltd:
+    #     ltd = dollar_parser(ltd)
+    # else:
+    #     ltd = 0
 
+    print(ltd)
     # ltd/(ltd+equity) x100
     if ltd != 0:
         debt_capitalization = ltd/(ltd+equity)*100
@@ -7826,6 +7848,8 @@ def charter_first(school):
     except KeyError:
         total_assets = 0
     
+    print("LTD",ltd)
+    print("TA",total_assets)
     if total_assets != 0:
         lt_ratio = ltd / total_assets
     else:
