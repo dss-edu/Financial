@@ -875,10 +875,12 @@ style="display:none;"
         var last_month_number = parseInt("{{last_month_number}}", 10); // Parse it as an integer
          // Add 11 to it
         if (last_month_number <= 6 ) {
-          last_month_number += 10
+          last_month_number += 11
+      
       } 
       else {
           last_month_number -= 1;
+         
       }
         
         function hide17thColumn() {
