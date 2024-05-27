@@ -8110,7 +8110,6 @@ def download_csv(request,school):
 
                 
             if db_date == curr_fy:
-                if accper_str != row[12]:
                         
                     row_dict = {
                         "fund": row[0],
@@ -8155,7 +8154,7 @@ def download_csv(request,school):
             if school in schoolMonths["julySchool"]:
             
                 if date_checker >= july_date_start and date_checker <= july_date_end:
-                    if accper_str != row[10]:
+
                         row_dict = {
                             "fund": row[0],
                             "T":row[1],
@@ -8183,7 +8182,7 @@ def download_csv(request,school):
                         data3.append(row_dict)
             else:
                 if date_checker >= september_date_start and date_checker <= september_date_end:
-                    if accper_str != row[10]:
+
                         row_dict = {
                             "fund": row[0],
                             "T":row[1],
