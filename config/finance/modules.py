@@ -227,8 +227,14 @@ def charter_first(school,anchor_year,anchor_month):
         print("hello")
 
 
-    
-
+    ar = []
+    if row[13]:
+        ar = row[13].split("/")
+    else:
+        ar.append("")  
+        ar.append("")
+    print(ar[0])
+    print(ar[1])
     context = {
         "school": school,
         "school_name": SCHOOLS[school],
@@ -244,7 +250,8 @@ def charter_first(school,anchor_year,anchor_month):
         "total_assets": row[10],
         "debt_service": row[11],  ###
         "debt_capitalization": row[12],
-        "ratio_administrative": row[13],  ###
+        "ratio_administrative": ar[0], 
+        "new_ratio_administrative": ar[1], ###
         "ratio_student_teacher": row[14],
         "estimated_actual_ada": row[15],
         "reporting_peims": row[16],

@@ -390,7 +390,7 @@ td:nth-child(5)
                         </tr>
                         <tr id="num14">
                             <td>
-                                <strong>#14 - Administrative Ratio</strong>
+                                <strong>#14 - Current Administrative Ratio</strong>
                                 <p style="font-size: 12px;">(Function 21+41/11+12+13+31; Funds 199, 420 + ESSER)</p>
                                 <div class="d-flex flex-row  ml-1">
                                     ADA size: &nbsp;
@@ -403,6 +403,27 @@ td:nth-child(5)
                          
                             </td>
                             <td id="ratio-administrative" style="text-align:center;">{{ ratio_administrative }}</td>
+                            <td style="text-align:center;"></td>
+                            <td style="text-align:center;"><p></p></td>
+                            <td style="text-align:center;"> Target &lt;=15.61% <br>
+                                &lt;=26.45% if less than 500 students"
+                            </td>
+                        </tr>
+                        <tr id="new_num14">
+                            <td>
+                                <strong>#14 - Proposed Administrative Ratio</strong>
+                                <p style="font-size: 12px;">(Function 21+41/All Expense)</p>
+                                <div class="d-flex flex-row  ml-1">
+                                    ADA size: &nbsp;
+                                    <select class="d-flex" name="new_ARselect" id="new_ARselect">
+                                        <option value="high" selected> >1000 </option> 
+                                        <option value="mid">500-100 </option> 
+                                        <option value="low"><500 </option>
+                             
+                                    </select>
+                         
+                            </td>
+                            <td id="new_ratio-administrative" style="text-align:center;">{{ new_ratio_administrative }}</td>
                             <td style="text-align:center;"></td>
                             <td style="text-align:center;"><p></p></td>
                             <td style="text-align:center;"> Target &lt;=15.61% <br>

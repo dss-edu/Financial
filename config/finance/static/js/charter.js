@@ -11,7 +11,9 @@ document.addEventListener("DOMContentLoaded", function() {
         test("num14", num14Criteria);
     });
 
-
+    $("#new_ARselect").on("change", function() {
+        test("new_num14", num14Criteria);
+    });
 
 
     function StatusChecker() {
@@ -33,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
         test("num12", num12Criteria);
         test("num13", num13Criteria);
         test("num14", num14Criteria);
-
+        test("new_num14", num14Criteria);
 
         test("estimated-first-rating", ratingCriteria); //should always be the last
         
@@ -59,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function() {
         criteriaFunc(itemVal, statusTD, pointsTD);
         
     }
+   
     function num14Criteria(value, statusTD, pointsTD) {
     
         let adasize = document.getElementById("ARselect").value;
