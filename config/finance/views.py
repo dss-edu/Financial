@@ -3858,6 +3858,12 @@ def generate_excel(request,school,anchor_year,monthly=""):
     data_charterfirst = []
 
     if row is not None:
+            ar = []
+            if row[13]:
+                ar = row[13].split("/")
+            else:
+                ar.append("")
+                ar.append("")
             row_dict = {
                 "school": row[0],
                 "year": row[1],
@@ -3872,7 +3878,8 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 "total_assets": row[10],
                 "debt_service": row[11],
                 "debt_capitalization": row[12],
-                "ratio_administrative": row[13],
+                "ratio_administrative": ar[0],
+                "new_ratio_administrative": ar[1],
                 "ratio_student_teacher": row[14],
                 "estimated_actual_ada": row[15],
                 "reporting_peims": row[16],
@@ -4074,10 +4081,63 @@ def generate_excel(request,school,anchor_year,monthly=""):
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
             #static as of now
-            total_points += 10
-            first_sheet[f'C{first_start_row}'] ='10'
-            first_sheet.add_image(image_list_track[8],f'D{first_start_row}')
-          
+            first_ar = row['ratio_administrative'].replace("%","")
+
+            if float(first_ar) <= 9:
+                total_points += 10
+                first_sheet[f'C{first_start_row}'] ='10'
+                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
+            elif float(first_ar) > 9 and float(first_ar) <= 10.25:
+                total_points += 8
+                first_sheet[f'C{first_start_row}'] = '8'
+                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
+            elif float(first_ar) > 10.25 and float(first_ar) <= 11.5:
+                total_points += 6
+                first_sheet[f'C{first_start_row}'] = '6'
+                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')  
+            elif float(first_ar) > 11.5 and float(first_ar) <= 12.75:
+                total_points += 4
+                first_sheet[f'C{first_start_row}'] = '4'
+                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+            elif float(first_ar) > 12.75 and float(first_ar) <= 14:
+                total_points += 2
+                first_sheet[f'C{first_start_row}'] = '2'
+                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+            elif float(first_ar) > 14:
+                total_points += 0
+                first_sheet[f'C{first_start_row}'] = '0'
+                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+
+            # NEW NUM 14 CRITEIRA    
+            first_start_row += 1
+            first_sheet[f'B{first_start_row}'] = row['new_ratio_administrative']
+            #static as of now
+            second_ar = row['new_ratio_administrative'].replace("%","")
+
+            if float(second_ar) <= 9:
+                total_points += 10
+                first_sheet[f'C{first_start_row}'] ='10'
+                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')
+            elif float(second_ar) > 9 and float(second_ar) <= 10.25:
+                total_points += 8
+                first_sheet[f'C{first_start_row}'] = '8'
+                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')
+            elif float(second_ar) > 10.25 and float(second_ar) <= 11.5:
+                total_points += 6
+                first_sheet[f'C{first_start_row}'] = '6'
+                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')  
+            elif float(second_ar) > 11.5 and float(second_ar) <= 12.75:
+                total_points += 4
+                first_sheet[f'C{first_start_row}'] = '4'
+                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')  
+            elif float(second_ar) > 12.75 and float(second_ar) <= 14:
+                total_points += 2
+                first_sheet[f'C{first_start_row}'] = '2'
+                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')  
+            elif float(second_ar) > 14:
+                total_points += 0
+                first_sheet[f'C{first_start_row}'] = '0'
+                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')     
             #num 15 criteria
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_student_teacher']
