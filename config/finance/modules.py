@@ -415,10 +415,22 @@ def get_months_dict(school):
     else:
         yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
     for month in yr_complete:
-        if month == month_number_string:
-            break
+        if school in schoolMonths["septemberSchool"]:
+            if month_number_string == '09':
+                yr.append((month, months_dict[month]))
+            else:
+                if month == month_number_string:
+                    break
+                else:
+                    yr.append((month, months_dict[month])) 
         else:
-            yr.append((month, months_dict[month])) 
+            if month_number_string == '07':
+                yr.append((month, months_dict[month]))
+            else:
+                if month == month_number_string:
+                    break
+                else:
+                    yr.append((month, months_dict[month])) 
 
 
     return yr
