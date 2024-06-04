@@ -90,17 +90,41 @@ def run_all_monthly_fy(school):
 
     else:
         yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
+
         
     for month in yr_complete:
-        if month == month_number_string:
-            break
+        if school in schoolMonths["septemberSchool"]:
+            if month_number_string == '09':
+                yr.append(month)
+                profit_loss_monthly(school,year,yr)
+                balance_sheet_monthly(school,year,yr)
+                cashflow_monthly(school,year,yr)
+            else:
+                if month == month_number_string:
+                    break
+                else:
+                    yr.append(month)
+                    profit_loss_monthly(school,year,yr)
+                    balance_sheet_monthly(school,year,yr)
+                    cashflow_monthly(school,year,yr)
         else:
-            yr.append(month)
-            profit_loss_monthly(school,year,yr)
-            balance_sheet_monthly(school,year,yr)
-            cashflow_monthly(school,year,yr)
+            if month_number_string == '07':
+                print("monthly",month)
+                yr.append(month)
+                print(yr)
+                profit_loss_monthly(school,year,yr)
+                balance_sheet_monthly(school,year,yr)
+                cashflow_monthly(school,year,yr)
+            else:
+                if month == month_number_string:
+                    break
+                else:
+                    yr.append(month)
+                    profit_loss_monthly(school,year,yr)
+                    balance_sheet_monthly(school,year,yr)
+                    cashflow_monthly(school,year,yr)
     
-        
+       
 
 def run_all_monthly(school,year):
     current_date = datetime.now()
@@ -119,23 +143,74 @@ def run_all_monthly(school,year):
         yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
         
     for month in yr_complete:
-        if month == next_month_number_string:
-            break
-        else:
-            yr.append(month)
-            PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
-            if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
-                print("RUNNING THIS MONTH:" ,month)
-                profit_loss_monthly(school,year,yr)
-                # balance_sheet_monthly(school,year,yr)
-                # cashflow_monthly(school,year,yr)
-            elif PL_DIR:
-                print("SKIP")
+        if school in schoolMonths["septemberSchool"]:
+            if next_month_number_string == '09':
+                yr.append(month)
+                PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
+                if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                    print("RUNNING THIS MONTH:" ,month)
+                    profit_loss_monthly(school,year,yr)
+                    # balance_sheet_monthly(school,year,yr)
+                    # cashflow_monthly(school,year,yr)
+                elif PL_DIR:
+                    print("SKIP")
+                else:
+                    print("RUNNING NOT EXISTING")
+                    profit_loss_monthly(school,year,yr)
+                    # balance_sheet_monthly(school,year,yr)
+                    # cashflow_monthly(school,year,yr)
             else:
-                print("RUNNING NOT EXISTING")
-                profit_loss_monthly(school,year,yr)
-                # balance_sheet_monthly(school,year,yr)
-                # cashflow_monthly(school,year,yr)
+                if month == next_month_number_string:
+                    break
+                else:
+                    yr.append(month)
+                    PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
+                    if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                        print("RUNNING THIS MONTH:" ,month)
+                        profit_loss_monthly(school,year,yr)
+                        # balance_sheet_monthly(school,year,yr)
+                        # cashflow_monthly(school,year,yr)
+                    elif PL_DIR:
+                        print("SKIP")
+                    else:
+                        print("RUNNING NOT EXISTING")
+                        profit_loss_monthly(school,year,yr)
+                        # balance_sheet_monthly(school,year,yr)
+                        # cashflow_monthly(school,year,yr)
+        else:
+            if next_month_number_string == '07':
+                yr.append(month)
+                PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
+                if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                    print("RUNNING THIS MONTH:" ,month)
+                    profit_loss_monthly(school,year,yr)
+                    # balance_sheet_monthly(school,year,yr)
+                    # cashflow_monthly(school,year,yr)
+                elif PL_DIR:
+                    print("SKIP")
+                else:
+                    print("RUNNING NOT EXISTING")
+                    profit_loss_monthly(school,year,yr)
+                    # balance_sheet_monthly(school,year,yr)
+                    # cashflow_monthly(school,year,yr)
+            else:
+                if month == next_month_number_string:
+                    break
+                else:
+                    yr.append(month)
+                    PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
+                    if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                        print("RUNNING THIS MONTH:" ,month)
+                        profit_loss_monthly(school,year,yr)
+                        # balance_sheet_monthly(school,year,yr)
+                        # cashflow_monthly(school,year,yr)
+                    elif PL_DIR:
+                        print("SKIP")
+                    else:
+                        print("RUNNING NOT EXISTING")
+                        profit_loss_monthly(school,year,yr)
+                        # balance_sheet_monthly(school,year,yr)
+                        # cashflow_monthly(school,year,yr)
 
 def profit_loss(school,year):
     school_fye = settings.school_fye
@@ -9893,6 +9968,7 @@ def profit_loss_monthly(school,year,monthly):
     print("profit_loss_monthly")
     monthly_last = monthly[-1]
     param_markers = ', '.join(['?' for _ in monthly])
+    print("param_markers",monthly)
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
@@ -10011,6 +10087,7 @@ def profit_loss_monthly(school,year,monthly):
                 }
                 data2.append(row_dict)
 
+        print("START IN DATA")
         if school in schoolCategory["ascender"]:
             # cursor.execute(
             #     f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL%'"
@@ -10028,7 +10105,8 @@ def profit_loss_monthly(school,year,monthly):
         rows = cursor.fetchall()
 
         data3 = []
-
+        
+        print("END IN DATA")
        
         if school in schoolMonths["julySchool"]:
             current_month = july_date_start
@@ -10167,7 +10245,7 @@ def profit_loss_monthly(school,year,monthly):
 
                    
                         data3.append(row_dict)
-  
+        print("ALL DATA APPENDED")
         if FY_year_1 == present_year:
             print("current_month")
 
