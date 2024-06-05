@@ -474,7 +474,7 @@ def profit_loss(school,year):
                         if date_checker > current_month:
                             current_month = date_checker.replace(day=1)
 
-                        
+                      
                         row_dict = {
                             "fund": row[0],
                             "func": row[2],
@@ -525,9 +525,11 @@ def profit_loss(school,year):
                 current_month = july_date_end
             else:
                 current_month = september_date_end
-
+        current_month = datetime.now()
+      
         # last_month = (current_month.replace(day=1) + timedelta(days=32)).replace(day=1) - timedelta(days=1)                      
-        last_month = current_month.replace(day=1) - relativedelta(days=1)                      
+        last_month = current_month.replace(day=1) - relativedelta(days=1)     
+                    
         last_month_name = last_month.strftime("%B")
         last_month_number = last_month.month
         formatted_last_month = last_month.strftime('%B %d, %Y')
@@ -546,6 +548,7 @@ def profit_loss(school,year):
                 last_month_number = last_month.month
                 formatted_last_month = last_month.strftime('%B %d, %Y')  
                 db_last_month = last_month.strftime("%Y-%m-%d")
+                print(last_month_name)
    
 
 
