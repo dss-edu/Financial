@@ -119,6 +119,7 @@ def dashboard(school,anchor_year,anchor_month):
     for row in rows:
         charter_year = row[1]
         charter_month = row[2]
+      
    
 
         if charter_year not in charter_dict:
@@ -127,9 +128,17 @@ def dashboard(school,anchor_year,anchor_month):
         charter_month_name = calendar.month_name[charter_month]
 
         charter_dict[charter_year].append({"month_number": charter_month, "month_name": charter_month_name})
+    sorted_charter_dict = dict(sorted(charter_dict.items(), key=lambda item: (int(item[0]), [month['month_number'] for month in item[1]])))
 
-    context["charter_dict"] = charter_dict
-
+    # Function to sort months within a year
+    def sort_months(month_list):
+        return sorted(month_list, key=lambda x: x['month_number'])
+    
+    for year, months in sorted_charter_dict.items():
+        sorted_charter_dict[year] = sort_months(months)
+    print(sorted_charter_dict)
+    context["charter_dict"] = sorted_charter_dict
+   
 
 
     cursor.close()
