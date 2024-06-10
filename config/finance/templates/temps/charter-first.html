@@ -405,8 +405,10 @@ td:nth-child(5)
                             <td id="ratio-administrative" style="text-align:center;">{{ ratio_administrative }}</td>
                             <td style="text-align:center;"></td>
                             <td style="text-align:center;"><p></p></td>
-                            <td style="text-align:center;"> Target &lt;=15.61% <br>
-                                &lt;=26.45% if less than 500 students"
+                            <td style="text-align:center;">                   
+                                  {% with 'scale' as school %}
+                                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}"  alt="school logo" >
+                            {% endwith %}
                             </td>
                         </tr>
                         <tr id="new_num14">
@@ -426,8 +428,10 @@ td:nth-child(5)
                             <td id="new_ratio-administrative" style="text-align:center;">{{ new_ratio_administrative }}</td>
                             <td style="text-align:center;"></td>
                             <td style="text-align:center;"><p></p></td>
-                            <td style="text-align:center;"> Target &lt;=15.61% <br>
-                                &lt;=26.45% if less than 500 students"
+                            <td style="text-align:center;"> 
+                                {% with 'scale2' as school %}
+                                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}"  alt="school logo" >
+                            {% endwith %}
                             </td>
                         </tr>
                                     <tr id="ratio-student-teacher">

@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $("#ARselect").on("change", function() {
         test("num14", num14Criteria);
+        test("estimated-first-rating", ratingCriteria);
     });
 
     $("#new_ARselect").on("change", function() {
         test("new_num14", num14Criteria);
+        test("estimated-first-rating", ratingCriteria);
     });
 
 
@@ -79,15 +81,15 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
             else if (value > 8.50 && value <= 9.75) {
                 points = 8;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 9.75 && value <= 11) {
                 points = 6;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 11 && value <= 12.25) {
                 points = 4;
-                status = "red-circle";
+                status = "yellow-circle";
             }
             else if (value > 12.25 && value <= 13.50 ) {
                 points = 2;
@@ -108,15 +110,15 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
             else if (value > 9 && value <= 10.25) {
                 points = 8;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 10.25 && value <= 11.5) {
                 points = 6;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 11.5 && value <= 12.75) {
                 points = 4;
-                status = "red-circle";
+                status = "yellow-circle";
             }
             else if (value > 12.75 && value <= 14 ) {
                 points = 2;
@@ -135,15 +137,15 @@ document.addEventListener("DOMContentLoaded", function() {
             } 
             else if (value > 11.65 && value <= 12.9) {
                 points = 8;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 12.9 && value <= 14.15) {
                 points = 6;
-                status = "green-circle";
+                status = "yellow-circle";
             }
             else if (value > 14.15 && value <= 15.40) {
                 points = 4;
-                status = "red-circle";
+                status = "yellow-circle";
             }
             else if (value > 15.40 && value <= 16.65 ) {
                 points = 2;
@@ -156,8 +158,8 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-     
-    
+        const statusClasses = ["green-circle", "yellow-circle", "red-circle"];
+        statusClasses.forEach(cls => p.classList.remove(cls));
         pointsTD.textContent = points
         p.classList.toggle(status);
         p.textContent = circles[status];
@@ -328,10 +330,10 @@ document.addEventListener("DOMContentLoaded", function() {
             thirdColumnCells.forEach((cell) => {
                 
                 const cellContent = cell.textContent.trim();
-                console.log(cellContent)
+                
                     // Check if the content is a number
                     if (!isNaN(cellContent) && cellContent != '') {
-                       
+                        console.log(cellContent)
                         sum += parseFloat(cellContent);
                     }
                   
@@ -362,7 +364,8 @@ document.addEventListener("DOMContentLoaded", function() {
             grade.innerHTML = `${sum}<br>A - Superior`;
             status = "green-circle";
         }
-        
+        const statusClasses = ["green-circle", "yellow-circle", "red-circle"];
+        statusClasses.forEach(cls => p.classList.remove(cls));
         p.classList.toggle(status);
         p.textContent = circles[status];
     }
