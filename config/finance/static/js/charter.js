@@ -325,6 +325,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             // Select all the third column cells (index 2) in the table
             const thirdColumnCells = table.querySelectorAll("tr td:nth-child(3)");
+            console.log(thirdColumnCells)
         
             // Loop through the selected cells
             thirdColumnCells.forEach((cell) => {
@@ -333,8 +334,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                     // Check if the content is a number
                     if (!isNaN(cellContent) && cellContent != '') {
-                        console.log(cellContent)
-                        sum += parseFloat(cellContent);
+
+                        if (cell.id !== "new_num14") {
+                            sum += parseFloat(cellContent);
+                        }
+                        //sum += parseFloat(cellContent);
                     }
                   
                   

@@ -411,29 +411,7 @@ td:nth-child(5)
                             {% endwith %}
                             </td>
                         </tr>
-                        <tr id="new_num14">
-                            <td>
-                                <strong>#14 - Proposed Administrative Ratio</strong>
-                                <p style="font-size: 12px;">(Function 21+41/All Expense)</p>
-                                <div class="d-flex flex-row  ml-1">
-                                    ADA size: &nbsp;
-                                    <select class="d-flex" name="new_ARselect" id="new_ARselect">
-                                        <option value="high" selected> >1000 </option> 
-                                        <option value="mid">500-100 </option> 
-                                        <option value="low"><500 </option>
-                             
-                                    </select>
-                         
-                            </td>
-                            <td id="new_ratio-administrative" style="text-align:center;">{{ new_ratio_administrative }}</td>
-                            <td style="text-align:center;"></td>
-                            <td style="text-align:center;"><p></p></td>
-                            <td style="text-align:center;"> 
-                                {% with 'scale2' as school %}
-                                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}"  alt="school logo" >
-                            {% endwith %}
-                            </td>
-                        </tr>
+                        
                                     <tr id="ratio-student-teacher">
                                         <td><strong>#15 - Students to Staff Ratio 15% or declines over 3 years</strong></td>
                                         <td style="text-align:center;">{{ ratio_student_teacher }}</td>
@@ -497,7 +475,31 @@ td:nth-child(5)
                                                 A Superior > 90
                                             </td>
                                         </tr>
+                                        <tr id="new_num14">
+                                            <td>
+                                                <strong>#14 - Proposed Administrative Ratio</strong>
+                                                <p style="font-size: 12px;">(Function 21+41/All Expense)</p>
+                                                <div class="d-flex flex-row  ml-1">
+                                                    ADA size: &nbsp;
+                                                    <select class="d-flex" name="new_ARselect" id="new_ARselect">
+                                                        <option value="high" selected> >1000 </option> 
+                                                        <option value="mid">500-100 </option> 
+                                                        <option value="low"><500 </option>
+                                             
+                                                    </select>
+                                         
+                                            </td>
+                                            <td id="new_ratio-administrative" style="text-align:center;">{{ new_ratio_administrative }}</td>
+                                            <td style="text-align:center;"></td>
+                                            <td style="text-align:center;"><p></p></td>
+                                            <td style="text-align:center;"> 
+                                                {% with 'scale2' as school %}
+                                                <img class="logo" src="{% static 'logos/'|add:school|add:'.png' %}"  alt="school logo" >
+                                            {% endwith %}
+                                            </td>
+                                        </tr>
                {% comment %} <tr>
+                
                                             <td style="text-align:center;border-top:none;"><strong>2022-2023 School Year</strong></td>
                                             <td id="rating-grade" colspan="2" style="text-align:center; border-top:none;"></td>
                                         </tr>  {% endcomment %}
