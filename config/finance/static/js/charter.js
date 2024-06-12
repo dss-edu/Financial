@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
     commaSeparator();
 
     $("#ARselect").on("change", function() {
-        test("num14", num14Criteria);
+        test("num14", oldnum14Criteria);
         test("estimated-first-rating", ratingCriteria);
     });
 
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         test("num11", num11Criteria);
         test("num12", num12Criteria);
         test("num13", num13Criteria);
-        test("num14", num14Criteria);
+        test("num14", oldnum14Criteria);
         test("new_num14", num14Criteria);
 
         test("estimated-first-rating", ratingCriteria); //should always be the last
@@ -62,6 +62,106 @@ document.addEventListener("DOMContentLoaded", function() {
 
         criteriaFunc(itemVal, statusTD, pointsTD);
         
+    }
+    function oldnum14Criteria(value, statusTD, pointsTD) {
+    
+        let adasize = document.getElementById("ARselect").value;
+
+      
+        value = parseFloat(value.replace('%', ''));
+     
+        const p = statusTD.querySelector("p");
+        let status = "";
+        if (adasize == 'high'){
+            if (value <= 14.01) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 14.01 && value <= 16.51) {
+                points = 8;
+                status = "yellow-circle";
+            }
+            else if (value > 16.51 && value <= 19.01) {
+                points = 6;
+                status = "yellow-circle";
+            }
+            else if (value > 19.01 && value <= 21.51) {
+                points = 4;
+                status = "yellow-circle";
+            }
+            else if (value > 21.51 && value <= 24.01 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  24.01 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+
+            
+        }else if (adasize == 'mid'){
+            if (value <= 15.61) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 15.61 && value <= 18.11) {
+                points = 8;
+                status = "yellow-circle";
+            }
+            else if (value > 18.11 && value <= 20.61) {
+                points = 6;
+                status = "yellow-circle";
+            }
+            else if (value > 20.61 && value <= 23.11) {
+                points = 4;
+                status = "yellow-circle";
+            }
+            else if (value > 23.11 && value <= 25.61 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  25.61 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+        }else{
+            if (value <= 26.45) {
+                points = 10;
+                status = "green-circle";
+             
+            } 
+            else if (value > 26.45 && value <= 28.95) {
+                points = 8;
+                status = "yellow-circle";
+            }
+            else if (value > 28.95 && value <= 31.45) {
+                points = 6;
+                status = "yellow-circle";
+            }
+            else if (value > 31.45 && value <= 33.95) {
+                points = 4;
+                status = "yellow-circle";
+            }
+            else if (value > 33.95 && value <= 36.45 ) {
+                points = 2;
+                status = "red-circle";
+            }
+            else if (value >  36.45 ) {
+                points = 0;
+                status = "red-circle";
+                
+            }
+        }
+
+        const statusClasses = ["green-circle", "yellow-circle", "red-circle"];
+        statusClasses.forEach(cls => p.classList.remove(cls));
+        pointsTD.textContent = points
+        p.classList.toggle(status);
+        p.textContent = circles[status];
     }
    
     function num14Criteria(value, statusTD, pointsTD) {
@@ -335,10 +435,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     // Check if the content is a number
                     if (!isNaN(cellContent) && cellContent != '') {
 
-                        if (cell.id !== "new_num14") {
-                            sum += parseFloat(cellContent);
-                        }
-                        //sum += parseFloat(cellContent);
+       
+                        sum += parseFloat(cellContent);
                     }
                   
                   
