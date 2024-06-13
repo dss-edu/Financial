@@ -3897,7 +3897,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
             print("charterfirst")
             
   # Create a new Image object
-    
+            img_num = 0 
             first_sheet[f'A{start}'] = school_name
             start += 1
             first_sheet[f'A{start}'] = f'FY{months["FY_year_1"]}-{months["FY_year_2"]} Charter FIRST Forecasts of {months["last_month"]}'
@@ -3912,172 +3912,180 @@ def generate_excel(request,school,anchor_year,monthly=""):
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['indicators']
             if row['indicators'].upper() == 'PASS':
-                first_sheet.add_image(image_list_track[0],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
 
             else:
-                first_sheet.add_image(image_list_risk[0],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
-
+            img_num += 1
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['net_assets']
             if row['net_assets'].upper() == 'PROJECTED':
     
-                first_sheet.add_image(image_list_track[1],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
-                first_sheet.add_image(image_list_risk[1],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
     
             #num 7 criteria
+            img_num += 1
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['days_coh']
             if row['days_coh'] >= 60:
                 first_sheet[f'C{first_start_row}'] = '10'
                 total_points += 10
-                first_sheet.add_image(image_list_track[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif row['days_coh'] < 60 and row['days_coh'] >= 50:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif row['days_coh'] < 50 and row['days_coh'] >= 40:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_track[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif row['days_coh'] < 40 and row['days_coh'] >= 30:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_concern[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_concern[img_num],f'D{first_start_row}')
             elif row['days_coh'] < 30 and row['days_coh'] >= 20:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[2],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
                 
 
 
                 
             #num 8 criteria 
+            img_num += 1
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['current_assets']
             if row['current_assets'] >= 2:
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif row['current_assets'] < 2 and row['current_assets'] >= 1.75:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif row['current_assets'] < 1.75 and row['current_assets'] >= 1.5:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_concern[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_concern[img_num],f'D{first_start_row}')
             elif row['current_assets'] < 1.5 and row['current_assets'] >= 1.25:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_risk[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             elif row['current_assets'] < 1.25 and row['current_assets'] >= 1:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[3],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
             #num 9 criteria
+            img_num += 1
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['net_earnings']
             if row['days_coh'] > 40:
                 total_points += 5
                 first_sheet[f'C{first_start_row}'] = '5'
-                first_sheet.add_image(image_list_track[17],f'D{first_start_row}') 
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}') 
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}') 
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}') 
 
-            #num 10 criteria                
+            #num 10 criteria      
+            img_num += 1          
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['budget_vs_revenue']
             if row['budget_vs_revenue'].upper() == 'PROJECTED':
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[4],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[4],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             
 
             # num11 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['total_assets']
             if float(row['total_assets']) <= .60:
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['total_assets']) > .60 and float(row['total_assets']) <= .70:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['total_assets']) > .70 and float(row['total_assets']) <= .80:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_track[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['total_assets']) > .80 and float(row['total_assets']) <= .90:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             elif float(row['total_assets']) > .90 and float(row['total_assets']) <= 1.00:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             elif float(row['total_assets']) > 1.00:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[5],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
             
 
             # num12 criteria
             first_start_row += 1
+            img_num += 1 
             first_sheet[f'B{first_start_row}'] = row['debt_service']
             if float(row['debt_service']) >= 1.20:
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['debt_service']) < 1.20 and float(row['debt_service']) >= 1.15:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['debt_service']) < 1.15 and float(row['debt_service']) >= 1.10:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_track[6],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(row['debt_service']) < 1.10 and float(row['debt_service']) >= 1.05:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             elif float(row['debt_service']) < 1.05 and float(row['debt_service']) >= 1.00:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             elif float(row['debt_service']) < 1.00:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[6],f'D{first_start_row}') 
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}') 
             
 
             # num13 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['debt_capitalization'] / 100
             
             if row['debt_capitalization'] < 95:
                 total_points += 5
                 first_sheet[f'C{first_start_row}'] = '5'
-                first_sheet.add_image(image_list_track[7],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[7],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
             
            
 
-            #num 14 criteria            
+            #num 14 criteria       
+            img_num += 1      
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_administrative']
             #static as of now
@@ -4086,30 +4094,31 @@ def generate_excel(request,school,anchor_year,monthly=""):
             if float(first_ar) <= 9:
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] ='10'
-                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(first_ar) > 9 and float(first_ar) <= 10.25:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(first_ar) > 10.25 and float(first_ar) <= 11.5:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')  
             elif float(first_ar) > 11.5 and float(first_ar) <= 12.75:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')  
             elif float(first_ar) > 12.75 and float(first_ar) <= 14:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')  
             elif float(first_ar) > 14:
                 total_points += 0
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[16],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')  
 
             # NEW NUM 14 CRITEIRA    
             first_start_row += 1
+            img_num += 1 
             first_sheet[f'B{first_start_row}'] = row['new_ratio_administrative']
             #static as of now
             second_ar = row['new_ratio_administrative'].replace("%","")
@@ -4117,109 +4126,117 @@ def generate_excel(request,school,anchor_year,monthly=""):
             if float(second_ar) <= 9:
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] ='10'
-                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(second_ar) > 9 and float(second_ar) <= 10.25:
                 total_points += 8
                 first_sheet[f'C{first_start_row}'] = '8'
-                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             elif float(second_ar) > 10.25 and float(second_ar) <= 11.5:
                 total_points += 6
                 first_sheet[f'C{first_start_row}'] = '6'
-                first_sheet.add_image(image_list_track[17],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')  
             elif float(second_ar) > 11.5 and float(second_ar) <= 12.75:
                 total_points += 4
                 first_sheet[f'C{first_start_row}'] = '4'
-                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')  
             elif float(second_ar) > 12.75 and float(second_ar) <= 14:
                 total_points += 2
                 first_sheet[f'C{first_start_row}'] = '2'
-                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')  
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')  
             elif float(second_ar) > 14:
                 total_points += 0
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[17],f'D{first_start_row}')     
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')   
+                  
             #num 15 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['ratio_student_teacher']
             if row['ratio_student_teacher'].lower() == 'not measured by dss':
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[9],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] ='0'
-                first_sheet.add_image(image_list_risk[9],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
                 
             #num 16 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['estimated_actual_ada']
             if row['estimated_actual_ada'].upper() == 'PROJECTED':   
                 total_points += 5
                 first_sheet[f'C{first_start_row}'] = '5'
                 
-                first_sheet.add_image(image_list_track[10],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
                 
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[10],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
       
 
             #num 17 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['reporting_peims']
             if row['reporting_peims'].upper() == 'PROJECTED':   
-                first_sheet.add_image(image_list_track[11],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
-                first_sheet.add_image(image_list_risk[11],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
       
             #num 19 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['annual_audit']
             if row['annual_audit'].upper() == 'PROJECTED':   
                 total_points += 10
                 first_sheet[f'C{first_start_row}'] = '10'
-                first_sheet.add_image(image_list_track[12],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[12],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
             #num 20 criteria
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['post_financial_info']
             if row['post_financial_info'].upper() == 'PROJECTED':   
                 total_points += 5
                 first_sheet[f'C{first_start_row}'] = '5'
-                first_sheet.add_image(image_list_track[13],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
                 first_sheet[f'C{first_start_row}'] = '0'
-                first_sheet.add_image(image_list_risk[13],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
 
             #num 21 critiera
+            img_num += 1 
             first_start_row += 1
             first_sheet[f'B{first_start_row}'] = row['approved_geo_boundaries']
             if row['approved_geo_boundaries'].lower() == 'not measured by dss':
-                first_sheet.add_image(image_list_track[14],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
             else:
-                first_sheet.add_image(image_list_risk[14],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
 
 
-            first_start_row += 1         
+            first_start_row += 1       
+            img_num += 1   
             first_sheet[f'B{first_start_row}'] = total_points
             if total_points < 69:
-                first_sheet.add_image(image_list_risk[15],f'D{first_start_row}')
+                first_sheet.add_image(image_list_risk[img_num],f'D{first_start_row}')
                 first_start_row += 1
 
                 first_sheet[f'B{first_start_row}'] = 'F - Fail'
             elif total_points < 80:
-                first_sheet.add_image(image_list_concern[15],f'D{first_start_row}')
+                first_sheet.add_image(image_list_concern[img_num],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'C - Meets Standard'
             elif total_points < 90:
-                first_sheet.add_image(image_list_track[16],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'B - Above Standard'
             else:
-                first_sheet.add_image(image_list_track[15],f'D{first_start_row}')
+                first_sheet.add_image(image_list_track[img_num],f'D{first_start_row}')
                 first_start_row += 1
                 first_sheet[f'B{first_start_row}'] = 'A - Superior'
 
