@@ -5752,7 +5752,7 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         if monthly:
                             bs_sheet[f'U{start_row_bs}'] = item['last_month_bal']
                         else:
-                            bs_sheet[f'U{start_row_bs}'] = item['new_last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('new_last_month_bal', "")
 
                 start_row_bs += 1
         
@@ -5796,9 +5796,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 # last_month_row = f'difference_{months["last_month_number"]}'
                 # bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                 if monthly:
-                    bs_sheet[f'U{start_row_bs}'] = row['last_month_difference']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('last_month_difference',"")
                 else:
-                    bs_sheet[f'U{start_row_bs}'] = row['new_last_month_difference']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('new_last_month_difference',"")
 
                 cash_row_bs = start_row_bs
                 for col in range(last_number,19):
@@ -5869,9 +5869,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     
     #bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_assets"][acc_per]
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_current_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_current_assets","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_current_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_current_assets","")
     start_row_bs += 1
     bs_sheet[f'D{start_row_bs}'] = 'Noncurrent Assets'
     bs_sheet.row_dimensions[start_row_bs].height = 37 
@@ -5928,9 +5928,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         # last_month_row_bal =f'total_bal{months["last_month_number"]}'
                         # bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
                         if monthly:
-                            bs_sheet[f'U{start_row_bs}'] = item['last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('last_month_bal',"")
                         else:
-                            bs_sheet[f'U{start_row_bs}'] = item['new_last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('new_last_month_bal',"")
 
 
                 start_row_bs += 1
@@ -5975,9 +5975,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 # last_month_row = f'difference_{months["last_month_number"]}'
                 # bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                 if monthly:
-                    bs_sheet[f'U{start_row_bs}'] = row['last_month_difference']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('last_month_difference',"")
                 else:
-                    bs_sheet[f'U{start_row_bs}'] = row['new_last_month_difference']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('new_last_month_difference',"")
                 cash_row_bs = start_row_bs
                 for col in range(last_number,19):
                     col_letter = get_column_letter(col)
@@ -6043,9 +6043,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_capital_assets_fytd"]
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_capital_assets"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_capital_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_capital_assets","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_capital_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_capital_assets","")
     start_row_bs += 1
     for col in range(2, 22):  
         cell = bs_sheet.cell(row=start_row_bs, column=col)
@@ -6089,10 +6089,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_assets"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_assets","")
     else:
-        print("TEST",total_bs["new_last_month_total_current_liabilities"])
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_assets"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_assets","")
     start_row_bs += 1
     bs_sheet.row_dimensions[start_row_bs].height = 37 
     
@@ -6154,9 +6153,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         # last_month_row_bal =f'total_bal{months["last_month_number"]}'
                         # bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
                         if monthly:
-                            bs_sheet[f'U{start_row_bs}'] = item['last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('last_month_bal',"")
                         else:
-                            bs_sheet[f'U{start_row_bs}'] = item['new_last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('new_last_month_bal',"")
 
                 start_row_bs += 1
         
@@ -6200,9 +6199,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 # last_month_row = f'debt_{months["last_month_number"]}'
                 # bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                 if monthly:
-                    bs_sheet[f'U{start_row_bs}'] = row['last_month_debt']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('last_month_debt',"")
                 else:
-                    bs_sheet[f'U{start_row_bs}'] = row['new_last_month_debt']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('new_last_month_debt',"")
                 cash_row_bs = start_row_bs
                 for col in range(last_number,19):
                     col_letter = get_column_letter(col)
@@ -6271,9 +6270,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_current_liabilities_fytd"]
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_current_liabilities"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_current_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_current_liabilities","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_current_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_current_liabilities","")
     start_row_bs += 1 
     hide_row_bs_start = start_row_bs 
     hide_row_bs_end = None  
@@ -6328,9 +6327,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                         # last_month_row_bal =f'total_bal{months["last_month_number"]}'
                         # bs_sheet[f'U{start_row_bs}'] = item[last_month_row_bal]
                         if monthly:
-                            bs_sheet[f'U{start_row_bs}'] = item['last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('last_month_bal',"")
                         else:
-                            bs_sheet[f'U{start_row_bs}'] = item['new_last_month_bal']
+                            bs_sheet[f'U{start_row_bs}'] = item.get('new_last_month_bal',"")
 
                 start_row_bs += 1
         
@@ -6374,9 +6373,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
                 # last_month_row = f'debt_{months["last_month_number"]}'
                 # bs_sheet[f'U{start_row_bs}'] = row[last_month_row]
                 if monthly:
-                    bs_sheet[f'U{start_row_bs}'] = row['last_month_debt']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('last_month_debt',"")
                 else:
-                    bs_sheet[f'U{start_row_bs}'] = row['new_last_month_debt']
+                    bs_sheet[f'U{start_row_bs}'] = row.get('new_last_month_debt',"")
                 cash_row_bs = start_row_bs
                 for col in range(last_number,19):
                     col_letter = get_column_letter(col)
@@ -6447,9 +6446,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_noncurrent_liabilities_fytd"]
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_noncurrent_liabilities"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_noncurrent_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_noncurrent_liabilities","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_noncurrent_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_noncurrent_liabilities","")
 
     start_row_bs += 1
     total_liabilites_row_bs = start_row_bs
@@ -6493,9 +6492,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     bs_sheet[f'T{start_row_bs}'] = total_bs["total_liabilities_fytd"]
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_liabilities"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_liabilities","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_liabilities"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_liabilities","")
 
     start_row_bs += 1
     net_assets_row_bs = start_row_bs
@@ -6546,9 +6545,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
 
                     bs_sheet[f'T{start_row_bs}'] = total_bs["total_net_assets_fytd"]
                     if monthly:
-                        bs_sheet[f'U{start_row_bs}'] = row["last_month_net_assets"]
+                        bs_sheet[f'U{start_row_bs}'] = row.get("last_month_net_assets","")
                     else:
-                        bs_sheet[f'U{start_row_bs}'] = row["new_last_month_net_assets"] 
+                        bs_sheet[f'U{start_row_bs}'] = row.get("new_last_month_net_assets","")
   
     start_row_bs += 1    
     for col in range(2, 22):  
@@ -6595,9 +6594,9 @@ def generate_excel(request,school,anchor_year,monthly=""):
     
     # bs_sheet[f'U{start_row_bs}'] = total_bs["total_LNA"].get(acc_per,"")
     if monthly:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["last_month_total_LNA"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("last_month_total_LNA","")
     else:
-        bs_sheet[f'U{start_row_bs}'] = total_bs["new_last_month_total_LNA"]
+        bs_sheet[f'U{start_row_bs}'] = total_bs.get("new_last_month_total_LNA","")
 
 
     while start_bs_for_hiding <= start_row_bs:
@@ -8359,7 +8358,7 @@ def download_csv(request,school):
     if school in schoolCategory["ascender"]:
         csv_writer.writerow(['fund', 'func', 'obj' , 'sobj', 'org','fscl_yr', 'pgm', 'edSpan', 'projDtl', 'AcctDescr', 'Number', 'Date', 'AcctPer','Est', 'Real' , 'Appr', 'Encum', 'Expend', 'Bal','WorkDescr', 'Type'])  
         for row in data3:
-            print("data")
+ 
             csv_writer.writerow([row['fund'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['pgm'],row['edSpan'],row['projDtl'],row['AcctDescr'],row['Number'],row['Date'], row['AcctPer'], row['Est'],row['Real'],row['Appr'],row['Encum'],row['Expend'],row['Bal'],row['WorkDescr'],row['Type']])        
     else:
         csv_writer.writerow(['fund', 'T','func', 'obj' , 'sobj', 'org','fscl_yr', 'Pl','LOC','Date', 'AcctPer','Source','Subsource','Batch','Vendor','TransactionDescr','InvoiceDate','CheckNumber','CheckDate', 'Amount', 'Budget','BegBal'])  
@@ -8367,7 +8366,7 @@ def download_csv(request,school):
             csv_writer.writerow([row['fund'],row['T'], row['func'],row['obj'],row['sobj'],row['org'],row['fscl_yr'],row['Pl'],row['LOC'],row['Date'],row['AcctPer'],row['Source'],row['Subsource'],row['Batch'],row['Vendor'],row['TransactionDescr'],row['InvoiceDate'],row['CheckNumber'],row['CheckDate'],row['Amount'],row['Budget'],row['BegBal']])
     
 
-    print("done")
+
     return response
 
 
