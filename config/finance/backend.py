@@ -155,7 +155,7 @@ def run_all_monthly(school,year):
                 elif PL_DIR:
                     print("SKIP")
                 else:
-                    print("RUNNING NOT EXISTING")
+                   
                     profit_loss_monthly(school,year,yr)
                     balance_sheet_monthly(school,year,yr)
                     cashflow_monthly(school,year,yr)
@@ -173,7 +173,7 @@ def run_all_monthly(school,year):
                     elif PL_DIR:
                         print("SKIP")
                     else:
-                        print("RUNNING NOT EXISTING")
+                  
                         profit_loss_monthly(school,year,yr)
                         balance_sheet_monthly(school,year,yr)
                         cashflow_monthly(school,year,yr)
@@ -189,7 +189,7 @@ def run_all_monthly(school,year):
                 elif PL_DIR:
                     print("SKIP")
                 else:
-                    print("RUNNING NOT EXISTING")
+               
                     profit_loss_monthly(school,year,yr)
                     balance_sheet_monthly(school,year,yr)
                     cashflow_monthly(school,year,yr)
@@ -207,7 +207,7 @@ def run_all_monthly(school,year):
                     elif PL_DIR:
                         print("SKIP")
                     else:
-                        print("RUNNING NOT EXISTING")
+                   
                         profit_loss_monthly(school,year,yr)
                         balance_sheet_monthly(school,year,yr)
                         cashflow_monthly(school,year,yr)
@@ -512,8 +512,7 @@ def profit_loss(school,year):
                             "BegBal":row[21],
                             
                         }
-                        if row[20] != '0':
-                            print("BUDGET",row[20])
+
                         data3.append(row_dict)
 
         
@@ -621,6 +620,7 @@ def profit_loss(school,year):
 
                 data_activities.append(row_dict)
 
+        print("data_activites",data_activities)
         def format_value_dollars(value):
             value = round(value,2)
             if value > 0:
@@ -1627,6 +1627,7 @@ def profit_loss(school,year):
                 item["total_budget"] = -(total_budget_data_activities)
             
             item["ytd_budget"] =  item["total_budget"] * ytd_budget
+
             total_expense += item["total_budget"]  
             total_expense_ytd_budget += item[f"ytd_budget"]
             if category == "Payroll and Benefits":
@@ -1789,12 +1790,15 @@ def profit_loss(school,year):
         var_net_income = 0 
 
 
+
         budget_net_income = totals["total_ammended"] - total_expense
 
     
         ytd_budget_net_income = ytd_ammended_total - total_expense_ytd_budget
+
         ytd_net_income = ytd_total_revenue - total_expense_ytd
         variances_net_income = ytd_net_income - ytd_budget_net_income
+
         var_net_income = "{:d}%".format(round(abs(ytd_net_income / budget_net_income * 100))) if budget_net_income != 0 else "0%"
     
         
@@ -10090,7 +10094,7 @@ def profit_loss_monthly(school,year,monthly):
                 }
                 data2.append(row_dict)
 
-        print("START IN DATA")
+       
         if school in schoolCategory["ascender"]:
             # cursor.execute(
             #     f"SELECT * FROM [dbo].{db[school]['db']}  as AA where AA.Number != 'BEGBAL' and AA.Type != 'EN'  AND (UPPER(AA.WorkDescr) NOT LIKE '%BEG BAL%' AND UPPER(AA.WorkDescr) NOT LIKE '%BEGBAL%') AND UPPER(AA.WorkDescr) NOT LIKE '%BEGINNING BAL%'"
@@ -10108,8 +10112,7 @@ def profit_loss_monthly(school,year,monthly):
         rows = cursor.fetchall()
 
         data3 = []
-        
-        print("END IN DATA")
+    
        
         if school in schoolMonths["julySchool"]:
             current_month = july_date_start
@@ -10248,7 +10251,7 @@ def profit_loss_monthly(school,year,monthly):
 
                    
                         data3.append(row_dict)
-        print("ALL DATA APPENDED")
+        
         if FY_year_1 == present_year:
             print("current_month")
 
@@ -10271,21 +10274,20 @@ def profit_loss_monthly(school,year,monthly):
         db_last_month = last_month.strftime("%Y-%m-%d")
         
   
-        current_month_number = ""
-        
+ 
 
         if present_year == FY_year_1:
-            
-            first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
+      
+            first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12)
             last_day_of_current_month = first_day_of_next_month - timedelta(days=1)
 
             # for last monthly last 
-            monthly_first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 2)
+            monthly_first_day_of_next_month = current_month.replace(day=1, month=current_month.month%12 + 1)
             monthly_last_day_of_current_month = monthly_first_day_of_next_month - timedelta(days=1)
 
-            current_month_number = first_day_of_next_month.month
-
-                
+   
+          
+ 
             # if today_month_number == monthly_last:
             last_month = last_day_of_current_month
         
@@ -10293,14 +10295,16 @@ def profit_loss_monthly(school,year,monthly):
             last_month_number = last_month.month
             formatted_last_month = last_month.strftime('%B %d, %Y')  
             db_last_month = last_month.strftime("%Y-%m-%d")
+
             if today_month_number == monthly_last:
+
                 
                 last_month = monthly_last_day_of_current_month
                 last_month_name = last_month.strftime("%B")
                 last_month_number = last_month.month
                 formatted_last_month = last_month.strftime('%B %d, %Y')  
                 db_last_month = last_month.strftime("%Y-%m-%d")
-
+            print(last_month)
 
         
             # else:
