@@ -552,7 +552,7 @@ schoolMonths ={
 
 school_fye = ['aca', 'advantage','cumberland','pro-vision','manara','stmary','sa','aacademy', "aacademy", "inspiredvision", "aama"]
 
-school_bs_fye_obj = ['prelude']
+school_bs_fye_obj = ['prelude', 'aca']
 
 # filters must be a dictionary with key = column and value = "(string of values to filter)"
 # eg. "Type": "('value1', 'value2')"
