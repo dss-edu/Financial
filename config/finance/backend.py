@@ -74,6 +74,10 @@ def update_fy(school,year):
     print("DONE UPDATING")
     # excel(school,year)
 
+def run_all(school,year,yr):
+    profit_loss_monthly(school,year,yr)
+    balance_sheet_monthly(school,year,yr)
+    cashflow_monthly(school,year,yr)
       
 def run_all_monthly_fy(school):
     year = datetime.now().year
@@ -96,35 +100,28 @@ def run_all_monthly_fy(school):
         if school in schoolMonths["septemberSchool"]:
             if month_number_string == '09':
                 yr.append(month)
-                profit_loss_monthly(school,year,yr)
-                balance_sheet_monthly(school,year,yr)
-                cashflow_monthly(school,year,yr)
+                run_all(school,year,yr)
             else:
                 if month == month_number_string:
                     break
                 else:
                     yr.append(month)
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                    run_all(school,year,yr)
         else:
             if month_number_string == '07':
                 print("monthly",month)
                 yr.append(month)
-                print(yr)
-                profit_loss_monthly(school,year,yr)
-                balance_sheet_monthly(school,year,yr)
-                cashflow_monthly(school,year,yr)
+                run_all(school,year,yr)
             else:
                 if month == month_number_string:
                     break
                 else:
                     yr.append(month)
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                    run_all(school,year,yr)
     
        
+
+
 
 def run_all_monthly(school,year):
     current_date = datetime.now()
@@ -143,74 +140,47 @@ def run_all_monthly(school,year):
         yr_complete = ['07','08','09','10','11','12','01','02','03','04','05','06']
         
     for month in yr_complete:
+        PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
+        yr.append(month)
         if school in schoolMonths["septemberSchool"]:
             if next_month_number_string == '09':
-                yr.append(month)
-                PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
                 if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
                     print("RUNNING THIS MONTH:" ,month)
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                    run_all(school,year,yr)
                 elif PL_DIR:
                     print("SKIP")
                 else:
-                   
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                    run_all(school,year,yr)
             else:
                 if month == next_month_number_string:
                     break
-                else:
-                    yr.append(month)
-                    PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
-                    if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                else:                    
+                    if last_month_number_string == month or current_month_number_string == month: 
                         print("RUNNING THIS MONTH:" ,month)
-                        profit_loss_monthly(school,year,yr)
-                        balance_sheet_monthly(school,year,yr)
-                        cashflow_monthly(school,year,yr)
+                        run_all(school,year,yr)
                     elif PL_DIR:
                         print("SKIP")
                     else:
-                  
-                        profit_loss_monthly(school,year,yr)
-                        balance_sheet_monthly(school,year,yr)
-                        cashflow_monthly(school,year,yr)
+                        run_all(school,year,yr)
         else:
             if next_month_number_string == '07':
-                yr.append(month)
-                PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
-                if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
-                    print("RUNNING THIS MONTH:" ,month)
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                if last_month_number_string == month or current_month_number_string == month: 
+                    run_all(school,year,yr)
                 elif PL_DIR:
                     print("SKIP")
                 else:
-               
-                    profit_loss_monthly(school,year,yr)
-                    balance_sheet_monthly(school,year,yr)
-                    cashflow_monthly(school,year,yr)
+                    run_all(school,year,yr)
             else:
                 if month == next_month_number_string:
                     break
                 else:
-                    yr.append(month)
-                    PL_DIR = os.path.join(settings.BASE_DIR, "finance", "json", "profit-loss-" + month ,school)
-                    if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
+                    if last_month_number_string == month or current_month_number_string == month: 
                         print("RUNNING THIS MONTH:" ,month)
-                        profit_loss_monthly(school,year,yr)
-                        balance_sheet_monthly(school,year,yr)
-                        cashflow_monthly(school,year,yr)
+                        run_all(school,year,yr)
                     elif PL_DIR:
                         print("SKIP")
                     else:
-                   
-                        profit_loss_monthly(school,year,yr)
-                        balance_sheet_monthly(school,year,yr)
-                        cashflow_monthly(school,year,yr)
+                        run_all(school,year,yr)
 
 def profit_loss(school,year):
     school_fye = settings.school_fye
