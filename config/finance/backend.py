@@ -109,7 +109,7 @@ def run_all_monthly_fy(school):
                     run_all(school,year,yr)
         else:
             if month_number_string == '07':
-                print("monthly",month)
+
                 yr.append(month)
                 run_all(school,year,yr)
             else:
@@ -132,7 +132,7 @@ def run_all_monthly(school,year):
     current_month_number_string = str(month_number).zfill(2)
     last_month_number_string = str(last_month_number).zfill(2)
     yr = []
-    print(current_month_number_string)
+
     if school in schoolMonths["septemberSchool"]:
         yr_complete = ['09','10','11','12','01','02','03','04','05','06','07','08']
 
@@ -145,7 +145,7 @@ def run_all_monthly(school,year):
         if school in schoolMonths["septemberSchool"]:
             if next_month_number_string == '09':
                 if last_month_number_string == month or current_month_number_string == month:  #update if last_month. skip if existing and update if not exisitng
-                    print("RUNNING THIS MONTH:" ,month)
+
                     run_all(school,year,yr)
                 elif PL_DIR:
                     print("SKIP")
@@ -156,7 +156,7 @@ def run_all_monthly(school,year):
                     break
                 else:                    
                     if last_month_number_string == month or current_month_number_string == month: 
-                        print("RUNNING THIS MONTH:" ,month)
+                    
                         run_all(school,year,yr)
                     elif PL_DIR:
                         print("SKIP")
@@ -175,7 +175,7 @@ def run_all_monthly(school,year):
                     break
                 else:
                     if last_month_number_string == month or current_month_number_string == month: 
-                        print("RUNNING THIS MONTH:" ,month)
+                      
                         run_all(school,year,yr)
                     elif PL_DIR:
                         print("SKIP")
@@ -195,7 +195,7 @@ def profit_loss(school,year):
     next_month = present_date + timedelta(days=30)
     dashboard_last_update = today_date.strftime('%Y-%m-%d %H:%M:%S')
     last_update = today_date.strftime('%Y-%m-%d')
-    print("dashboard_last_update",dashboard_last_update)
+   
 
 
     #LAST UPDATE
@@ -284,7 +284,7 @@ def profit_loss(school,year):
         
       
 
-        print("TWASHERE") 
+
         cnxn = connect()
         cursor = cnxn.cursor()
         cursor.execute(f"SELECT  * FROM [dbo].[fundTitle];")
@@ -517,7 +517,7 @@ def profit_loss(school,year):
                 last_month_number = last_month.month
                 formatted_last_month = last_month.strftime('%B %d, %Y')  
                 db_last_month = last_month.strftime("%Y-%m-%d")
-                print(last_month_name)
+
    
 
 
@@ -590,7 +590,7 @@ def profit_loss(school,year):
 
                 data_activities.append(row_dict)
 
-        print("data_activites",data_activities)
+        
         def format_value_dollars(value):
             value = round(value,2)
             if value > 0:
@@ -804,7 +804,7 @@ def profit_loss(school,year):
             "total_ammended_fpr": 0,
         }
                 
-        print("TWASHERE3")  
+        
         for item in data:
             fund = item["fund"]
             obj = item["obj"]
@@ -3767,7 +3767,7 @@ def balance_sheet(school,year):
         year = int(year)
         if year == present_year:
             
-            print("year",year)
+
 
             if school in schoolMonths["septemberSchool"]:
                 if today_month <= 8:
@@ -5606,7 +5606,7 @@ def cashflow(school,year):
        
         dna_ytd_total = 0
         ytd_netsurplus =0
-        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
+        #school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
 
         if month_exception: 
@@ -5721,8 +5721,14 @@ def cashflow(school,year):
             
             if school in schoolCategory["skyward"] or school in school_fye:
                 fye_values = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
-                
+
+                # if fye_values:
+                #     if isinstance(fye_values, str):
+                        
+                        #fye_sum = stringParser(fye_values)
+                    # else:
                 fye_sum = sum(fye_values)
+                    
             else:
                 matching_entries = [entry[fye_key] for entry in data_balancesheet if entry["Activity"] == activity]
                 fye_value = matching_entries[0] if matching_entries else None
@@ -6052,8 +6058,7 @@ def excel(school,year):
     present_date = datetime.today().date()   
     present_year = present_date.year
     today_date = datetime.now()
-    print("today_date",today_date)
-    print("present_date",present_date)
+
     
     today_month = today_date.month
  
@@ -7866,13 +7871,13 @@ def charter_first(school):
     equity = 0
     for item in balance_sheet:
         if  item["Subcategory"].strip().lower() == "noncurrent liabilities"  and item["school"].strip().lower() == school:
-            print("T",item[f"debt_{pl_lmn}"])
+            
             ltd += stringParser(item[f"debt_{pl_lmn}"])
         if item["Activity"].strip().lower() == "equity" and item["Category"].strip().lower() == "net assets" and item["school"].strip().lower() == school:
             equity = item[f"net_assets{pl_lmn}"]
 
     
-    print(pl_lmn)
+    
     if equity:
         equity = dollar_parser(equity)
     else:
@@ -7883,7 +7888,7 @@ def charter_first(school):
     # else:
     #     ltd = 0
 
-    print(ltd)
+    
     # ltd/(ltd+equity) x100
     if ltd != 0:
         debt_capitalization = ltd/(ltd+equity)*100
@@ -7900,8 +7905,7 @@ def charter_first(school):
     except KeyError:
         total_assets = 0
     
-    print("LTD",ltd)
-    print("TA",total_assets)
+
     if total_assets != 0:
         lt_ratio = ltd / total_assets
     else:
@@ -8550,7 +8554,7 @@ def balance_sheet_asc(school,year):
         year = int(year)
         if year == present_year:
             
-            print("year",year)
+
 
             if school in schoolMonths["septemberSchool"]:
                 if today_month <= 8:
@@ -8586,7 +8590,7 @@ def balance_sheet_asc(school,year):
         FY_year_current = current_year
 
     while start_year <= FY_year_current:
-        print(start_year)
+
         FY_year_1 = start_year
         FY_year_2 = start_year + 1 
         start_year = FY_year_2
@@ -9784,7 +9788,7 @@ def school_status(request):
 
                
                 CF_status = "BALANCED" if all_zero else "NOT BALANCED"
-                print(key, CF_status)
+
             else:
                 CF_status = "NO DATA"
 
@@ -13706,7 +13710,7 @@ def cashflow_monthly(school,year,monthly):
        
         dna_ytd_total = 0
         ytd_netsurplus =0
-        school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
+        #school_fye = ['aca','advantage','cumberland','pro-vision','manara','stmary','sa']
 
         lm_ytd = ""
 
