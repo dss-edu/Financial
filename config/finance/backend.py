@@ -8326,7 +8326,7 @@ def writeCodes(school, table, year):
                             value = line[2] + ';' + description + ';Other Operating Costs;' + school
                         elif objCodes >= 6500 and objCodes < 6600:
                             value = line[2] + ';' + description + ';Debt Services;' + school
-                        elif objCodes >= 6600:
+                        elif objCodes >= 6600 and objCodes < 6700:
                             value = line[2] + ';' + description + ';Materials and Supplies;' + school
                         if value != '':
                             storeACT[key] = value
