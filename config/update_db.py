@@ -1,6 +1,7 @@
 from finance.connect import connect
 from finance.backend import update_fy
 from config.settings import SCHOOLS
+from config.settings import schoolMonths
 
 if __name__ == "__main__":
      # --- UPDATE ASCENDER CLIENTS ---
@@ -12,7 +13,8 @@ if __name__ == "__main__":
     #cnxn.commit()
         
     for school in SCHOOLS.keys():
-        update_fy(school, '2024')
+        if school in schoolMonths["septemberSchool"]:
+            update_fy(school, '2024')
 
     # --- UPDATE ASCENDER CLIENTS ---
     cursor.execute("update [dbo].[AscenderDownloader] set status = '1'")
